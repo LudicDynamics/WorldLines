@@ -12,7 +12,7 @@
 
 <p align="center"><em>YouTube トレーラー — 近日公開。</em></p>
 
-> ステータス: **v0.1.6 stable**（2026-04-25）· 次期: **v0.2.0**（計画中）
+> ステータス: **v0.1.7 stable**（2026-04-27）· 次期: **v0.2.0**（計画中）
 
 > *Agents for Role Play. Agents for Game. Agents as a Game.*
 > ファイル裏付け・イベントソーシングで、生きた世界を駆動するエンジンです。

@@ -12,7 +12,7 @@
 
 <p align="center"><em>YouTube trailer — coming soon.</em></p>
 
-> Status: **v0.1.6 stable** (2026-04-25) · next: **v0.2.0** (planned)
+> Status: **v0.1.7 stable** (2026-04-27) · next: **v0.2.0** (planned)
 
 > *Agents for Role Play. Agents for Game. Agents as a Game.*
 > A file-backed, event-sourced engine for living worlds.

@@ -12,7 +12,7 @@
 
 <p align="center"><em>YouTube 트레일러 — 곧 공개됩니다.</em></p>
 
-> 상태: **v0.1.6 stable** (2026-04-25) · 다음: **v0.2.0** (예정)
+> 상태: **v0.1.7 stable** (2026-04-27) · 다음: **v0.2.0** (예정)
 
 > *Agents for Role Play. Agents for Game. Agents as a Game.*
 > 파일 기반, 이벤트 소싱 방식으로 살아있는 세계를 구동하는 엔진입니다.

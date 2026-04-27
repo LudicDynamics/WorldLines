@@ -12,7 +12,7 @@
 
 <p align="center"><em>YouTube 预告片 — 即将上线。</em></p>
 
-> 状态：**v0.1.6 stable**（2026-04-25）· 下一站：**v0.2.0**（规划中）
+> 状态：**v0.1.7 stable**（2026-04-27）· 下一站：**v0.2.0**（规划中）
 
 > *Agents for Role Play. Agents for Game. Agents as a Game.*
 > 一个文件托底、事件溯源的活世界引擎。
