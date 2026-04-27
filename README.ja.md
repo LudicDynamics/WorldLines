@@ -6,25 +6,24 @@
   <img src="./assets/hero.png" alt="WorldLines — 生きた世界への扉" width="640" />
 </p>
 
-<p align="center">
-  <img src="./assets/helloworld.jpg" alt="WorldLines TUI 起動画面" width="720" />
-</p>
-
 <p align="center"><em>YouTube トレーラー — 近日公開。</em></p>
 
 <table align="center">
   <tr>
+    <td width="50%" align="center"><img src="./assets/helloworld.jpg" alt="WorldLines TUI 起動画面" /></td>
     <td width="50%" align="center"><img src="./assets/cards/D0%20Hero%20%28deck%20%C2%B7%20JA%29.png" alt="WorldLines — Hero" /></td>
-    <td width="50%" align="center"><img src="./assets/cards/D1%20%E3%83%9F%E3%83%A9%E3%81%AE%E3%83%84%E3%82%B1%20%28deck%20%C2%B7%20JA%29.png" alt="ミラのツケ · ストーリーカード" /></td>
   </tr>
   <tr>
+    <td align="center"><img src="./assets/cards/D1%20%E3%83%9F%E3%83%A9%E3%81%AE%E3%83%84%E3%82%B1%20%28deck%20%C2%B7%20JA%29.png" alt="ミラのツケ · ストーリーカード" /></td>
     <td align="center"><img src="./assets/cards/D2%20%E8%80%81%E3%82%A6%E3%82%A7%E3%82%A4%E3%81%AE%E8%AA%98%E3%81%84%20%28deck%20%C2%B7%20JA%29.png" alt="老ウェイの誘い · ストーリーカード" /></td>
+  </tr>
+  <tr>
     <td align="center"><img src="./assets/cards/D3%20%E3%82%B1%E3%82%99%E3%83%BC%E3%83%A0%E3%83%95%E3%82%9A%E3%83%AC%E3%82%A4%20%28deck%20%C2%B7%20JA%29.png" alt="ゲームプレイ" /></td>
     <td align="center"><img src="./assets/cards/D4%204%20%E3%81%A4%E3%81%AE%E4%B8%96%E7%95%8C%20%28deck%20%C2%B7%20JA%29.png" alt="4 つの世界" /></td>
   </tr>
 </table>
 
-> ステータス: **v0.1.7 stable**（2026-04-27）· 次期: **v0.2.0**（計画中）
+> ステータス: **v0.1.8 stable**（2026-04-27）· 次期: **v0.2.0**（計画中）
 
 > *Agents for Role Play. Agents for Game. Agents as a Game.*
 > ファイル裏付け・イベントソーシングで、生きた世界を駆動するエンジンです。

@@ -6,25 +6,24 @@
   <img src="./assets/hero.png" alt="WorldLines — 通往活世界的门" width="640" />
 </p>
 
-<p align="center">
-  <img src="./assets/helloworld.jpg" alt="WorldLines TUI 启动画面" width="720" />
-</p>
-
 <p align="center"><em>YouTube 预告片 — 即将上线。</em></p>
 
 <table align="center">
   <tr>
+    <td width="50%" align="center"><img src="./assets/helloworld.jpg" alt="WorldLines TUI 启动画面" /></td>
     <td width="50%" align="center"><img src="./assets/cards/D0%20Hero%20%28deck%20%C2%B7%20ZH%29.png" alt="WorldLines — Hero" /></td>
-    <td width="50%" align="center"><img src="./assets/cards/D1%20%E7%B1%B3%E6%8B%89%E8%B5%8A%E8%B4%A6%20%28deck%20%C2%B7%20ZH%29.png" alt="米拉赊账 · 故事卡" /></td>
   </tr>
   <tr>
+    <td align="center"><img src="./assets/cards/D1%20%E7%B1%B3%E6%8B%89%E8%B5%8A%E8%B4%A6%20%28deck%20%C2%B7%20ZH%29.png" alt="米拉赊账 · 故事卡" /></td>
     <td align="center"><img src="./assets/cards/D2%20%E8%80%81%E9%9F%A6%E7%BA%A6%E4%BD%A0%20%28deck%20%C2%B7%20ZH%29.png" alt="老韦约你 · 故事卡" /></td>
+  </tr>
+  <tr>
     <td align="center"><img src="./assets/cards/D3%20Gameplay%20%28deck%20%C2%B7%20ZH%29.png" alt="玩法循环" /></td>
     <td align="center"><img src="./assets/cards/D4%204%20Worlds%20%28deck%20%C2%B7%20ZH%29.png" alt="四个可玩世界" /></td>
   </tr>
 </table>
 
-> 状态：**v0.1.7 stable**（2026-04-27）· 下一站：**v0.2.0**（规划中）
+> 状态：**v0.1.8 stable**（2026-04-27）· 下一站：**v0.2.0**（规划中）
 
 > *Agents for Role Play. Agents for Game. Agents as a Game.*
 > 一个文件托底、事件溯源的活世界引擎。
