@@ -12,6 +12,18 @@
 
 <p align="center"><em>YouTube trailer — coming soon.</em></p>
 
+<table align="center">
+  <tr>
+    <td width="50%" align="center"><img src="./assets/cards/D0%20Hero%20%28deck%20%C2%B7%20EN%29.png" alt="WorldLines — Hero" /></td>
+    <td width="50%" align="center"><img src="./assets/cards/D1%20Mira%27s%20Tab%20%28deck%20%C2%B7%20EN%29.png" alt="Mira's Tab — story card" /></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="./assets/cards/D2%20Lao%20Wei%20Invite%20%28deck%20%C2%B7%20EN%29.png" alt="Lao Wei's Invite — story card" /></td>
+    <td align="center"><img src="./assets/cards/D3%20Gameplay%20%28deck%20%C2%B7%20EN%29.png" alt="Gameplay loop" /></td>
+    <td align="center"><img src="./assets/cards/D4%204%20Worlds%20%28deck%20%C2%B7%20EN%29.png" alt="Four playable worlds" /></td>
+  </tr>
+</table>
+
 > Status: **v0.1.7 stable** (2026-04-27) · next: **v0.2.0** (planned)
 
 > *Agents for Role Play. Agents for Game. Agents as a Game.*
