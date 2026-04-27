@@ -6,13 +6,24 @@
   <img src="./assets/hero.png" alt="WorldLines — The Door to Living Worlds" width="640" />
 </p>
 
-<p align="center">
-  <img src="./assets/helloworld.jpg" alt="WorldLines TUI launch screen" width="720" />
-</p>
-
 <p align="center"><em>YouTube trailer — coming soon.</em></p>
 
-> Status: **v0.1.6 stable** (2026-04-25) · next: **v0.2.0** (planned)
+<table align="center">
+  <tr>
+    <td width="50%" align="center"><img src="./assets/helloworld.jpg" alt="WorldLines TUI launch screen" /></td>
+    <td width="50%" align="center"><img src="./assets/cards/D0%20Hero%20%28deck%20%C2%B7%20EN%29.png" alt="WorldLines — Hero" /></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="./assets/cards/D1%20Mira%27s%20Tab%20%28deck%20%C2%B7%20EN%29.png" alt="Mira's Tab — story card" /></td>
+    <td align="center"><img src="./assets/cards/D2%20Lao%20Wei%20Invite%20%28deck%20%C2%B7%20EN%29.png" alt="Lao Wei's Invite — story card" /></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="./assets/cards/D3%20Gameplay%20%28deck%20%C2%B7%20EN%29.png" alt="Gameplay loop" /></td>
+    <td align="center"><img src="./assets/cards/D4%204%20Worlds%20%28deck%20%C2%B7%20EN%29.png" alt="Four playable worlds" /></td>
+  </tr>
+</table>
+
+> Status: **v0.1.8 stable** (2026-04-27) · next: **v0.2.0** (planned)
 
 > *Agents for Role Play. Agents for Game. Agents as a Game.*
 > A file-backed, event-sourced engine for living worlds.
@@ -206,6 +217,16 @@ Full docs are on the website — this repo keeps only the entry points.
 - [SECURITY.md](SECURITY.md) — How to report vulnerabilities
 - [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — Community expectations
 - [LICENSE](LICENSE) — Proprietary preview terms
+
+## Why AGPL · Contributor policy
+
+Our OSS surface (`templates/stoneford-worldlines/` etc.) is **AGPL-3.0**. Anything you create on top of stoneford — new worlds, templates, modules — enters the same open commons, and no one can quietly fork it into a closed-source product. For contributors:
+
+- 🪪 **You keep your copyright** — no copyright assignment required.
+- 🟢 **Default in-bound license = AGPL-3.0** — same as the rest of the OSS surface.
+- 🛡 **No silent re-licensing** — maintainers won't merge your code into a closed-source build without asking.
+
+Engine core (`neonrp`) is a proprietary preview — see [CONTRIBUTING.md → License Asymmetry](CONTRIBUTING.md#license-asymmetry).
 
 ## Community & Contact
 

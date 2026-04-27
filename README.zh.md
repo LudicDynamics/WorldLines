@@ -6,13 +6,24 @@
   <img src="./assets/hero.png" alt="WorldLines — 通往活世界的门" width="640" />
 </p>
 
-<p align="center">
-  <img src="./assets/helloworld.jpg" alt="WorldLines TUI 启动画面" width="720" />
-</p>
-
 <p align="center"><em>YouTube 预告片 — 即将上线。</em></p>
 
-> 状态：**v0.1.6 stable**（2026-04-25）· 下一站：**v0.2.0**（规划中）
+<table align="center">
+  <tr>
+    <td width="50%" align="center"><img src="./assets/helloworld.jpg" alt="WorldLines TUI 启动画面" /></td>
+    <td width="50%" align="center"><img src="./assets/cards/D0%20Hero%20%28deck%20%C2%B7%20ZH%29.png" alt="WorldLines — Hero" /></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="./assets/cards/D1%20%E7%B1%B3%E6%8B%89%E8%B5%8A%E8%B4%A6%20%28deck%20%C2%B7%20ZH%29.png" alt="米拉赊账 · 故事卡" /></td>
+    <td align="center"><img src="./assets/cards/D2%20%E8%80%81%E9%9F%A6%E7%BA%A6%E4%BD%A0%20%28deck%20%C2%B7%20ZH%29.png" alt="老韦约你 · 故事卡" /></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="./assets/cards/D3%20Gameplay%20%28deck%20%C2%B7%20ZH%29.png" alt="玩法循环" /></td>
+    <td align="center"><img src="./assets/cards/D4%204%20Worlds%20%28deck%20%C2%B7%20ZH%29.png" alt="四个可玩世界" /></td>
+  </tr>
+</table>
+
+> 状态：**v0.1.8 stable**（2026-04-27）· 下一站：**v0.2.0**（规划中）
 
 > *Agents for Role Play. Agents for Game. Agents as a Game.*
 > 一个文件托底、事件溯源的活世界引擎。
@@ -198,6 +209,16 @@ neonrp tui
 - [SECURITY.md](SECURITY.md) — 如何报告安全问题
 - [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — 社区行为预期
 - [LICENSE](LICENSE) — 闭源预览条款
+
+## 为什么用 AGPL · 贡献者政策
+
+我们的开源面（`templates/stoneford-worldlines/` 等）采用 **AGPL-3.0**。你在 stoneford 之上创作的一切 —— 新世界、新模板、新模组 —— 都进入同一个开源公地，没人能悄悄 fork 走拿去做闭源产品。对贡献者：
+
+- 🪪 **贡献者保留版权** —— 不要求 copyright assignment。
+- 🟢 **贡献默认按 AGPL-3.0 入库** —— 与其他开源部分一致。
+- 🛡 **不会偷偷改授权** —— 未获额外许可，维护者不会把你的代码并入闭源版本。
+
+引擎核心（`neonrp`）目前是 proprietary preview —— 详见 [CONTRIBUTING.md → License Asymmetry](CONTRIBUTING.md#license-asymmetry)。
 
 ## 社区与联系方式
 

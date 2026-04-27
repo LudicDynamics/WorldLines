@@ -6,13 +6,24 @@
   <img src="./assets/hero.png" alt="WorldLines — 살아있는 세계로 향하는 문" width="640" />
 </p>
 
-<p align="center">
-  <img src="./assets/helloworld.jpg" alt="WorldLines TUI 시작 화면" width="720" />
-</p>
-
 <p align="center"><em>YouTube 트레일러 — 곧 공개됩니다.</em></p>
 
-> 상태: **v0.1.6 stable** (2026-04-25) · 다음: **v0.2.0** (예정)
+<table align="center">
+  <tr>
+    <td width="50%" align="center"><img src="./assets/helloworld.jpg" alt="WorldLines TUI 시작 화면" /></td>
+    <td width="50%" align="center"><img src="./assets/cards/D0%20Hero%20%28deck%20%C2%B7%20KO%29.png" alt="WorldLines — Hero" /></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="./assets/cards/D1%20%E7%B1%B3%E1%84%85%E1%85%A1%E1%84%8B%E1%85%AC%E1%84%89%E1%85%A1%E1%86%BC%20%28deck%20%C2%B7%20KO%29.png" alt="미라 외상 · 스토리 카드" /></td>
+    <td align="center"><img src="./assets/cards/D2%20%E1%84%85%E1%85%A1%E1%84%8B%E1%85%A9%E1%84%8B%E1%85%B0%E1%84%8B%E1%85%B5%20%E1%84%8B%E1%85%A3%E1%86%A8%E1%84%89%E1%85%A9%E1%86%A8%20%28deck%20%C2%B7%20KO%29.png" alt="라오웨이 약속 · 스토리 카드" /></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="./assets/cards/D3%20Gameplay%20%28deck%20%C2%B7%20KO%29.png" alt="게임플레이" /></td>
+    <td align="center"><img src="./assets/cards/D4%204%20Worlds%20%28deck%20%C2%B7%20KO%29.png" alt="4 개의 세계" /></td>
+  </tr>
+</table>
+
+> 상태: **v0.1.8 stable** (2026-04-27) · 다음: **v0.2.0** (예정)
 
 > *Agents for Role Play. Agents for Game. Agents as a Game.*
 > 파일 기반, 이벤트 소싱 방식으로 살아있는 세계를 구동하는 엔진입니다.
@@ -211,6 +222,16 @@ agentic 턴입니다.
 - [SECURITY.md](SECURITY.md) — 보안 취약점 신고 방법
 - [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — 커뮤니티 기대 사항
 - [LICENSE](LICENSE) — 독점 프리뷰 조건
+
+## 왜 AGPL · 기여자 정책
+
+OSS 영역(`templates/stoneford-worldlines/` 등)은 **AGPL-3.0** 입니다. stoneford 위에 만드는 새 월드·템플릿·모듈은 같은 오픈 커먼즈에 들어가며, 누구도 몰래 fork 해서 클로즈드소스 제품으로 가져갈 수 없습니다. 기여자에게:
+
+- 🪪 **저작권은 유지됩니다** —— copyright assignment 요구 없음.
+- 🟢 **기본 in-bound 라이선스 = AGPL-3.0** —— 다른 OSS 영역과 동일.
+- 🛡 **몰래 재라이선싱하지 않습니다** —— 추가 허가 없이 클로즈드소스 버전에 병합하지 않습니다.
+
+엔진 코어(`neonrp`)는 proprietary preview —— [CONTRIBUTING.md → License Asymmetry](CONTRIBUTING.md#license-asymmetry) 참고.
 
 ## 커뮤니티 및 연락처
 
