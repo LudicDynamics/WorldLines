@@ -211,19 +211,15 @@ neonrp tui
 - [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — 社区行为预期
 - [LICENSE](LICENSE) — 闭源预览条款
 
-## 为什么用 AGPL —— 以及这对贡献者意味着什么
+## 为什么用 AGPL · 贡献者政策
 
-WorldLines 的开源面（例如 `templates/stoneford-worldlines/`）采用 **AGPL-3.0**。我们故意选了 AGPL：
+我们的开源面（`templates/stoneford-worldlines/` 等）采用 **AGPL-3.0**。你在 stoneford 之上创作的一切 —— 新世界、新模板、新模组 —— 都进入同一个开源公地，没人能悄悄 fork 走拿去做闭源产品。对贡献者：
 
-> AGPL 是常见 OSS 许可证里，唯一在「软件不再发行而是当作服务运行」的时代仍然有效的那一个。它让规则保持一致 —— 任何把改过的 WorldLines 当托管服务跑的人，跟我们承担同样的义务：公开源码。
+- 🪪 **贡献者保留版权** —— 不要求 copyright assignment。
+- 🟢 **贡献默认按 AGPL-3.0 入库** —— 与其他开源部分一致。
+- 🛡 **不会偷偷改授权** —— 未获额外许可，维护者不会把你的代码并入闭源版本。
 
-这对要发 PR 的人意味着：
-
-- 🪪 **贡献者保留其贡献的版权。** 我们不要求 copyright assignment，作者仍是作者。
-- 🟢 **贡献默认按 AGPL-3.0 进入开源项目。** 除非我们明确另谈，否则 PR 内容以 AGPL-3.0 入库，与其他开源部分一致。
-- 🛡 **维护者不会在未取得额外授权的情况下，将贡献者代码并入闭源版本。** 如果未来需要，我们会先单独征求贡献者同意。
-
-引擎核心（`neonrp`）目前是 proprietary preview —— 详见 [CONTRIBUTING.md → License Asymmetry](CONTRIBUTING.md#license-asymmetry)。以上政策只适用于 AGPL-3.0 那部分。
+引擎核心（`neonrp`）目前是 proprietary preview —— 详见 [CONTRIBUTING.md → License Asymmetry](CONTRIBUTING.md#license-asymmetry)。
 
 ## 社区与联系方式
 

@@ -224,19 +224,15 @@ agentic 턴입니다.
 - [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — 커뮤니티 기대 사항
 - [LICENSE](LICENSE) — 독점 프리뷰 조건
 
-## 왜 AGPL 인가 —— 기여자에게 의미하는 것
+## 왜 AGPL · 기여자 정책
 
-WorldLines 의 오픈소스 영역(예: `templates/stoneford-worldlines/`)은 **AGPL-3.0** 입니다. AGPL 을 의도적으로 선택했습니다:
+OSS 영역(`templates/stoneford-worldlines/` 등)은 **AGPL-3.0** 입니다. stoneford 위에 만드는 새 월드·템플릿·모듈은 같은 오픈 커먼즈에 들어가며, 누구도 몰래 fork 해서 클로즈드소스 제품으로 가져갈 수 없습니다. 기여자에게:
 
-> AGPL 은 "소프트웨어를 배포한다"에서 "서비스로 운영한다"로 시대가 넘어간 뒤에도 의미를 잃지 않는, 사실상 유일한 보편 OSS 라이선스입니다. 수정된 WorldLines 를 호스팅 서비스로 운영하는 누구에게나 우리와 동일한 의무 —— 소스 공개 의무를 부과합니다.
+- 🪪 **저작권은 유지됩니다** —— copyright assignment 요구 없음.
+- 🟢 **기본 in-bound 라이선스 = AGPL-3.0** —— 다른 OSS 영역과 동일.
+- 🛡 **몰래 재라이선싱하지 않습니다** —— 추가 허가 없이 클로즈드소스 버전에 병합하지 않습니다.
 
-PR 을 보내는 사람에게 의미:
-
-- 🪪 **기여자는 자신의 기여에 대한 저작권을 유지합니다.** copyright assignment 를 요구하지 않습니다.
-- 🟢 **기여는 기본적으로 AGPL-3.0 으로 OSS 프로젝트에 편입됩니다.** 별도 합의가 없는 한 다른 오픈소스 영역과 동일한 조건입니다.
-- 🛡 **추가 라이선스 허가 없이 기여자 코드를 클로즈드소스 버전에 병합하지 않습니다.** 필요한 경우 기여자에게 별도로 확인합니다.
-
-엔진 코어(`neonrp`)는 현재 proprietary preview 입니다 —— [CONTRIBUTING.md → License Asymmetry](CONTRIBUTING.md#license-asymmetry) 참고. 위 정책은 AGPL-3.0 영역에 적용됩니다.
+엔진 코어(`neonrp`)는 proprietary preview —— [CONTRIBUTING.md → License Asymmetry](CONTRIBUTING.md#license-asymmetry) 참고.
 
 ## 커뮤니티 및 연락처
 
