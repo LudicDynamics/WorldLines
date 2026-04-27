@@ -225,6 +225,20 @@ neonrp tui
 - [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — コミュニティの期待値
 - [LICENSE](LICENSE) — プロプライエタリプレビュー条件
 
+## なぜ AGPL なのか —— コントリビューターにとっての意味
+
+WorldLines の OSS 部分（例: `templates/stoneford-worldlines/`）は **AGPL-3.0** です。AGPL を意図的に選んでいます：
+
+> AGPL は、「ソフトウェアを配布する」から「サービスとして動かす」に時代がシフトしても通用する、数少ない一般的な OSS ライセンスです。改変した WorldLines をホスティングサービスとして提供する人にも、私たちと同じ義務 —— ソースを公開する義務を課します。
+
+PR を送る人にとっての意味：
+
+- 🪪 **コントリビューターは自身のコントリビューションの著作権を保持します。** copyright assignment は要求しません。
+- 🟢 **コントリビューションは既定で AGPL-3.0 として OSS プロジェクトに取り込まれます。** 別途合意がない限り、その他の OSS 部分と同じ条件です。
+- 🛡 **追加の許諾を得ずに、コントリビューターのコードをクローズドソース版に取り込むことはありません。** 必要が生じた場合は、その都度コントリビューターへ確認します。
+
+エンジンコア（`neonrp`）は現時点では proprietary preview です —— 詳細は [CONTRIBUTING.md → License Asymmetry](CONTRIBUTING.md#license-asymmetry)。上記の方針は AGPL-3.0 部分に適用されます。
+
 ## コミュニティと連絡先
 
 - Web: [worldlines.gg](https://worldlines.gg) · Docs: [docs.worldlines.gg](https://docs.worldlines.gg)

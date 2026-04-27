@@ -219,6 +219,20 @@ Full docs are on the website — this repo keeps only the entry points.
 - [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — Community expectations
 - [LICENSE](LICENSE) — Proprietary preview terms
 
+## Why AGPL — and what that means for contributors
+
+The open-source surface of WorldLines (e.g. `templates/stoneford-worldlines/`) is **AGPL-3.0**. We chose AGPL deliberately:
+
+> AGPL is the only common OSS license that still works when "shipping software" turns into "running it as a service." It keeps a level playing field — anyone who runs a modified WorldLines as a hosted service has the same obligation we do: publish the source.
+
+What this means in practice for anyone sending a PR:
+
+- 🪪 **You keep your copyright.** Every contribution stays attributed to its author. We do not require copyright assignment.
+- 🟢 **Default in-bound license = AGPL-3.0.** Unless we explicitly negotiate otherwise, your PR enters the project under AGPL-3.0 — the same terms the rest of the open-source surface uses.
+- 🛡 **No silent re-licensing into closed-source.** Maintainers will **not** merge contributor code into a proprietary / closed-source build of WorldLines without first obtaining additional permission from the contributor.
+
+The engine core (`neonrp`) is currently a proprietary preview — see [CONTRIBUTING.md → License Asymmetry](CONTRIBUTING.md#license-asymmetry). The policy above applies to the AGPL-3.0 surface.
+
 ## Community & Contact
 
 - Web: [worldlines.gg](https://worldlines.gg) · Docs: [docs.worldlines.gg](https://docs.worldlines.gg)

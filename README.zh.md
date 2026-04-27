@@ -211,6 +211,20 @@ neonrp tui
 - [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — 社区行为预期
 - [LICENSE](LICENSE) — 闭源预览条款
 
+## 为什么用 AGPL —— 以及这对贡献者意味着什么
+
+WorldLines 的开源面（例如 `templates/stoneford-worldlines/`）采用 **AGPL-3.0**。我们故意选了 AGPL：
+
+> AGPL 是常见 OSS 许可证里，唯一在「软件不再发行而是当作服务运行」的时代仍然有效的那一个。它让规则保持一致 —— 任何把改过的 WorldLines 当托管服务跑的人，跟我们承担同样的义务：公开源码。
+
+这对要发 PR 的人意味着：
+
+- 🪪 **贡献者保留其贡献的版权。** 我们不要求 copyright assignment，作者仍是作者。
+- 🟢 **贡献默认按 AGPL-3.0 进入开源项目。** 除非我们明确另谈，否则 PR 内容以 AGPL-3.0 入库，与其他开源部分一致。
+- 🛡 **维护者不会在未取得额外授权的情况下，将贡献者代码并入闭源版本。** 如果未来需要，我们会先单独征求贡献者同意。
+
+引擎核心（`neonrp`）目前是 proprietary preview —— 详见 [CONTRIBUTING.md → License Asymmetry](CONTRIBUTING.md#license-asymmetry)。以上政策只适用于 AGPL-3.0 那部分。
+
 ## 社区与联系方式
 
 - 官网：[worldlines.gg](https://worldlines.gg) · 文档：[docs.worldlines.gg](https://docs.worldlines.gg)
