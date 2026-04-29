@@ -2,11 +2,18 @@
 
 **Language:** [English](./README.md) · [简体中文](./README.zh.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md)
 
+> **オープンソーステンプレート（Claude Code 対応）** —— スターター世界：[LudicDynamics/stoneford-worldlines](https://github.com/LudicDynamics/stoneford-worldlines)。フォーク・改造・自分の世界を出荷。AGPL-3.0。
+
 <p align="center">
   <img src="./assets/hero.png" alt="WorldLines — 生きた世界への扉" width="640" />
 </p>
 
-<p align="center"><em>YouTube トレーラー — 近日公開。</em></p>
+<p align="center">
+  <a href="https://youtu.be/QARKAA8bXDk">
+    <img src="https://img.youtube.com/vi/QARKAA8bXDk/maxresdefault.jpg" alt="WorldLines · トレーラー" width="640"/>
+  </a>
+</p>
+<p align="center"><em>▶ YouTube でトレーラーを観る</em></p>
 
 <table align="center">
   <tr>
@@ -23,7 +30,7 @@
   </tr>
 </table>
 
-> ステータス: **v0.1.8 stable**（2026-04-27）· 次期: **v0.2.0**（計画中）
+> ステータス: **v0.1.9 stable**（2026-04-29）· 次期: **v0.2.0**（計画中）
 
 > *Agents for Role Play. Agents for Game. Agents as a Game.*
 > ファイル裏付け・イベントソーシングで、生きた世界を駆動するエンジンです。
@@ -214,11 +221,12 @@ neonrp tui
 | コア概念              | [docs.worldlines.gg/docs/core-concepts](https://docs.worldlines.gg/docs/core-concepts)（Worlds · キャラクター & Multi-Agent · Agents & オーケストレーション · エンジンモード · Sessions · 記憶システム） |
 | ガイド                | [docs.worldlines.gg/docs/guides](https://docs.worldlines.gg/docs/guides)（Launcher · ワールドライフサイクル · SillyTavern インポート · Discord チュートリアル） |
 | Q&A / 比較            | [docs.worldlines.gg/docs/qa](https://docs.worldlines.gg/docs/qa)（vs Character.AI · vs SillyTavern · vs Claude Code · vs LangGraph · vs OpenClaw） |
-| Changelog・ロードマップ | [docs.worldlines.gg/docs/changelog](https://docs.worldlines.gg/docs/changelog) |
+| ロードマップ        | [docs.worldlines.gg/docs/roadmap](https://docs.worldlines.gg/docs/roadmap) |
+| Changelog           | [docs.worldlines.gg/docs/changelog](https://docs.worldlines.gg/docs/changelog) |
 
 **このリポジトリ内:**
 
-- [templates/stoneford-worldlines/](templates/stoneford-worldlines) — サンプルワールドと Agents（submodule）
+- [LudicDynamics/stoneford-worldlines](https://github.com/LudicDynamics/stoneford-worldlines) — サンプルワールドと Agents（submodule）
 - [CONTRIBUTING.ja.md](CONTRIBUTING.ja.md) — コントリビュート方法
 - [SECURITY.md](SECURITY.md) — 脆弱性報告の方法
 - [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — コミュニティの期待値

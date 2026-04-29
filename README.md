@@ -2,11 +2,18 @@
 
 **Language:** [English](./README.md) · [简体中文](./README.zh.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md)
 
+> **Open Source Template (Claude Code Compatible)** — starter world: [LudicDynamics/stoneford-worldlines](https://github.com/LudicDynamics/stoneford-worldlines). Fork, mod, ship your own. AGPL-3.0.
+
 <p align="center">
   <img src="./assets/hero.png" alt="WorldLines — The Door to Living Worlds" width="640" />
 </p>
 
-<p align="center"><em>YouTube trailer — coming soon.</em></p>
+<p align="center">
+  <a href="https://youtu.be/QARKAA8bXDk">
+    <img src="https://img.youtube.com/vi/QARKAA8bXDk/maxresdefault.jpg" alt="WorldLines · Trailer" width="640"/>
+  </a>
+</p>
+<p align="center"><em>▶ Watch the trailer on YouTube</em></p>
 
 <table align="center">
   <tr>
@@ -23,7 +30,7 @@
   </tr>
 </table>
 
-> Status: **v0.1.8 stable** (2026-04-27) · next: **v0.2.0** (planned)
+> Status: **v0.1.9 stable** (2026-04-29) · next: **v0.2.0** (planned)
 
 > *Agents for Role Play. Agents for Game. Agents as a Game.*
 > A file-backed, event-sourced engine for living worlds.
@@ -208,11 +215,12 @@ Full docs are on the website — this repo keeps only the entry points.
 | Core concepts        | [docs.worldlines.gg/docs/core-concepts](https://docs.worldlines.gg/docs/core-concepts) (worlds · characters & multi-agent · agents & orchestration · engine modes · sessions · memory) |
 | Guides               | [docs.worldlines.gg/docs/guides](https://docs.worldlines.gg/docs/guides) (launcher · world lifecycle · SillyTavern import · Discord tutorial) |
 | Q&A / comparisons    | [docs.worldlines.gg/docs/qa](https://docs.worldlines.gg/docs/qa) (vs Character.AI · vs SillyTavern · vs Claude Code · vs LangGraph · vs OpenClaw) |
-| Changelog & roadmap  | [docs.worldlines.gg/docs/changelog](https://docs.worldlines.gg/docs/changelog) |
+| Roadmap              | [docs.worldlines.gg/docs/roadmap](https://docs.worldlines.gg/docs/roadmap) |
+| Changelog            | [docs.worldlines.gg/docs/changelog](https://docs.worldlines.gg/docs/changelog) |
 
 **In this repo:**
 
-- [templates/stoneford-worldlines/](templates/stoneford-worldlines) — Sample world & Agents (submodule)
+- [LudicDynamics/stoneford-worldlines](https://github.com/LudicDynamics/stoneford-worldlines) — Sample world & Agents (submodule)
 - [CONTRIBUTING.md](CONTRIBUTING.md) — How to contribute
 - [SECURITY.md](SECURITY.md) — How to report vulnerabilities
 - [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — Community expectations

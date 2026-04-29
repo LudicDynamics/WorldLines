@@ -2,11 +2,18 @@
 
 **Language:** [English](./README.md) · [简体中文](./README.zh.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md)
 
+> **开源模板（Claude Code 兼容）** —— 起步世界：[LudicDynamics/stoneford-worldlines](https://github.com/LudicDynamics/stoneford-worldlines)。fork、改、上线你自己的世界。AGPL-3.0。
+
 <p align="center">
   <img src="./assets/hero.png" alt="WorldLines — 通往活世界的门" width="640" />
 </p>
 
-<p align="center"><em>YouTube 预告片 — 即将上线。</em></p>
+<p align="center">
+  <a href="https://youtu.be/QARKAA8bXDk">
+    <img src="https://img.youtube.com/vi/QARKAA8bXDk/maxresdefault.jpg" alt="WorldLines · 预告片" width="640"/>
+  </a>
+</p>
+<p align="center"><em>▶ 在 YouTube 观看预告片</em></p>
 
 <table align="center">
   <tr>
@@ -23,7 +30,7 @@
   </tr>
 </table>
 
-> 状态：**v0.1.8 stable**（2026-04-27）· 下一站：**v0.2.0**（规划中）
+> 状态：**v0.1.9 stable**（2026-04-29）· 下一站：**v0.2.0**（规划中）
 
 > *Agents for Role Play. Agents for Game. Agents as a Game.*
 > 一个文件托底、事件溯源的活世界引擎。
@@ -200,11 +207,12 @@ neonrp tui
 | 核心概念            | [docs.worldlines.gg/docs/core-concepts](https://docs.worldlines.gg/docs/core-concepts)（Worlds · 角色 & Multi-Agent · Agents & 编排 · 引擎模式 · Sessions · 记忆系统） |
 | 指南                | [docs.worldlines.gg/docs/guides](https://docs.worldlines.gg/docs/guides)（Launcher · 世界生命周期 · SillyTavern 导入 · Discord 教程） |
 | Q&A / 对比          | [docs.worldlines.gg/docs/qa](https://docs.worldlines.gg/docs/qa)（vs Character.AI · vs SillyTavern · vs Claude Code · vs LangGraph · vs OpenClaw） |
-| 更新日志 & 路线图   | [docs.worldlines.gg/docs/changelog](https://docs.worldlines.gg/docs/changelog) |
+| 路线图              | [docs.worldlines.gg/docs/roadmap](https://docs.worldlines.gg/docs/roadmap) |
+| 更新日志            | [docs.worldlines.gg/docs/changelog](https://docs.worldlines.gg/docs/changelog) |
 
 **本仓库内：**
 
-- [templates/stoneford-worldlines/](templates/stoneford-worldlines) — 示例世界与 Agents（submodule）
+- [LudicDynamics/stoneford-worldlines](https://github.com/LudicDynamics/stoneford-worldlines) — 示例世界与 Agents（submodule）
 - [CONTRIBUTING.md](CONTRIBUTING.md) — 如何贡献
 - [SECURITY.md](SECURITY.md) — 如何报告安全问题
 - [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — 社区行为预期

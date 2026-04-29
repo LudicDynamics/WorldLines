@@ -2,11 +2,18 @@
 
 **Language:** [English](./README.md) · [简体中文](./README.zh.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md)
 
+> **오픈 소스 템플릿 (Claude Code 호환)** — 스타터 월드: [LudicDynamics/stoneford-worldlines](https://github.com/LudicDynamics/stoneford-worldlines). 포크하고, 수정하고, 자신의 세계를 출시. AGPL-3.0.
+
 <p align="center">
   <img src="./assets/hero.png" alt="WorldLines — 살아있는 세계로 향하는 문" width="640" />
 </p>
 
-<p align="center"><em>YouTube 트레일러 — 곧 공개됩니다.</em></p>
+<p align="center">
+  <a href="https://youtu.be/QARKAA8bXDk">
+    <img src="https://img.youtube.com/vi/QARKAA8bXDk/maxresdefault.jpg" alt="WorldLines · 트레일러" width="640"/>
+  </a>
+</p>
+<p align="center"><em>▶ YouTube에서 트레일러 보기</em></p>
 
 <table align="center">
   <tr>
@@ -23,7 +30,7 @@
   </tr>
 </table>
 
-> 상태: **v0.1.8 stable** (2026-04-27) · 다음: **v0.2.0** (예정)
+> 상태: **v0.1.9 stable** (2026-04-29) · 다음: **v0.2.0** (예정)
 
 > *Agents for Role Play. Agents for Game. Agents as a Game.*
 > 파일 기반, 이벤트 소싱 방식으로 살아있는 세계를 구동하는 엔진입니다.
@@ -213,11 +220,12 @@ agentic 턴입니다.
 | 핵심 개념          | [docs.worldlines.gg/docs/core-concepts](https://docs.worldlines.gg/docs/core-concepts)（Worlds · 캐릭터 & Multi-Agent · Agents & 오케스트레이션 · 엔진 모드 · Sessions · 메모리 시스템） |
 | 가이드             | [docs.worldlines.gg/docs/guides](https://docs.worldlines.gg/docs/guides)（Launcher · 월드 라이프사이클 · SillyTavern 임포트 · Discord 튜토리얼） |
 | Q&A / 비교         | [docs.worldlines.gg/docs/qa](https://docs.worldlines.gg/docs/qa)（vs Character.AI · vs SillyTavern · vs Claude Code · vs LangGraph · vs OpenClaw） |
-| Changelog・로드맵  | [docs.worldlines.gg/docs/changelog](https://docs.worldlines.gg/docs/changelog) |
+| 로드맵              | [docs.worldlines.gg/docs/roadmap](https://docs.worldlines.gg/docs/roadmap) |
+| Changelog           | [docs.worldlines.gg/docs/changelog](https://docs.worldlines.gg/docs/changelog) |
 
 **이 저장소 안:**
 
-- [templates/stoneford-worldlines/](templates/stoneford-worldlines) — 샘플 월드 및 Agents（submodule）
+- [LudicDynamics/stoneford-worldlines](https://github.com/LudicDynamics/stoneford-worldlines) — 샘플 월드 및 Agents（submodule）
 - [CONTRIBUTING.ko.md](CONTRIBUTING.ko.md) — 기여 방법
 - [SECURITY.md](SECURITY.md) — 보안 취약점 신고 방법
 - [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — 커뮤니티 기대 사항
