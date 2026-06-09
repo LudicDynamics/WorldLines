@@ -118,7 +118,7 @@ TUI가 실행됩니다. 여기서 새 월드 생성, 카탈로그 탐색, 저장
 | 월드 | 플레이 스타일 | 라이브 데모 |
 |---|---|---|
 | **Dark Train** | 오픈 월드 — 무엇을 하든 세계가 기억한다 | [플레이 →](https://hub.worldlines.gg/play/worlds/dark-train) |
-| **Goblin Ambush** | D&D 5e 전투 — 1회 인카운터 | [소스 →](./examples/goblin-ambush) |
+| **Goblin Ambush** | 3층 던전 — 3마리 고블린 보스 격파 | [소스 →](./examples/goblin-ambush) |
 | **Worldline** | 시간 표류 내러티브 — 과거에 문자 보내기 | [소스 →](./examples/worldline) |
 
 4개의 월드는 모두 [examples/](./examples/)에 있습니다 — 오픈소스(AGPL-3.0), 포크하여 자신의 세계를 공개할 수 있습니다.

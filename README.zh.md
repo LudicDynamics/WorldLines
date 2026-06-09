@@ -118,7 +118,7 @@ irm https://worldlines.gg/install.ps1 | iex
 | 世界 | 玩法 | 在线 |
 |---|---|---|
 | **暗夜列车** | 开放世界 —— 想做什么都行，世界都记着 | [游玩 →](https://hub.worldlines.gg/play/worlds/dark-train) |
-| **哥布林遭遇战** | D&D 5e 战斗 —— 一场遭遇 | [源码 →](./examples/goblin-ambush) |
+| **哥布林遭遇战** | 3 层地下城 —— 逐一击败 3 个哥布林 boss | [源码 →](./examples/goblin-ambush) |
 | **世界线收束** | 时间漂移叙事 —— 发短信到过去 | [源码 →](./examples/worldline) |
 
 四个世界都在 [examples/](./examples/) —— 开源（AGPL-3.0），fork 并发布你自己的。

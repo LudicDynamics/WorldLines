@@ -118,7 +118,7 @@ A grey-fog northern river port. Classic-fantasy TRPG · d20 dice · 10-agent orc
 | World | Play style | Live Demo |
 |---|---|---|
 | **Dark Train** | Open world — do anything, the world remembers | [Play →](https://hub.worldlines.gg/play/worlds/dark-train) |
-| **Goblin Ambush** | D&D 5e combat — one encounter | [Source →](./examples/goblin-ambush) |
+| **Goblin Ambush** | 3-layer dungeon — fight through 3 boss goblins | [Source →](./examples/goblin-ambush) |
 | **Worldline** | Time-drift narrative — text the past | [Source →](./examples/worldline) |
 
 All four worlds live in [examples/](./examples/) — open-source (AGPL-3.0), fork and ship your own.

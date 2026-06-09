@@ -118,7 +118,7 @@ TUI が起動します。ここから新規ワールドの作成、カタログ�
 | ワールド | プレイスタイル | ライブデモ |
 |---|---|---|
 | **Dark Train** | オープンワールド — 何をしても世界が覚えている | [遊ぶ →](https://hub.worldlines.gg/play/worlds/dark-train) |
-| **Goblin Ambush** | D&D 5e 戦闘 — 1 エンカウント | [ソース →](./examples/goblin-ambush) |
+| **Goblin Ambush** | 3 層ダンジョン — 3 体のゴブリンボスを倒せ | [ソース →](./examples/goblin-ambush) |
 | **Worldline** | 時間漂流ナラティブ — 過去にテキストを送る | [ソース →](./examples/worldline) |
 
 4 つのワールドはすべて [examples/](./examples/) にあります — オープンソース（AGPL-3.0）、フォークして自分の世界を公開できます。
