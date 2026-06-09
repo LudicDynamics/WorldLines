@@ -1,0 +1,33 @@
+{
+  "level": 1,
+  "hp": {
+    "current": 24,
+    "max": 24
+  },
+  "mp": {
+    "current": 8,
+    "max": 8
+  },
+  "attributes": {
+    "str": 6,
+    "dex": 6,
+    "int": 5,
+    "vit": 7,
+    "cha": 4
+  },
+  "skills": [
+    {
+      "id": "skill_slash",
+      "name": "斩击",
+      "rank": 1,
+      "desc": "命中后额外+1伤害（MVP）"
+    },
+    {
+      "id": "skill_guard",
+      "name": "格挡",
+      "rank": 1,
+      "desc": "本回合DEF+2（MVP）"
+    }
+  ],
+  "status_effects": []
+}

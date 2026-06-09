@@ -1,0 +1,17 @@
+{
+  "version": "0.2",
+  "created": "2026-04-15T10:24:59.937472+00:00",
+  "current_branch": "main",
+  "branches": {
+    "main": {
+      "head_event": 1,
+      "max_event": 1,
+      "created": "2026-04-15T10:24:59.937479+00:00",
+      "kind": "main",
+      "parent": null,
+      "fork_event": null,
+      "base_save": null
+    }
+  },
+  "entities": {}
+}

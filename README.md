@@ -2,106 +2,77 @@
 
 **Language:** [English](./README.md) · [简体中文](./README.zh.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md)
 
-> **Open Source Template (Claude Code Compatible)** — starter world: [LudicDynamics/stoneford-worldlines](https://github.com/LudicDynamics/stoneford-worldlines). Fork, mod, ship your own. AGPL-3.0.
+> **What's open:** example worlds, tools, and protocol in this repo — AGPL-3.0. Fork, modify, and ship your own worlds.
+> **What's not:** the engine core (`neonrp`). Free to play, not free to fork or redistribute. See [LICENSE](LICENSE).
+
+<p align="center">
+  <img alt="GitHub Stars" src="https://img.shields.io/github/stars/LudicDynamics/WorldLines?style=flat-square&color=8b5cf6" />
+  <img alt="Watchers" src="https://img.shields.io/github/watchers/LudicDynamics/WorldLines?style=flat-square&color=8b5cf6" />
+  <img alt="Forks" src="https://img.shields.io/github/forks/LudicDynamics/WorldLines?style=flat-square&color=8b5cf6" />
+  <img alt="Issues" src="https://img.shields.io/github/issues/LudicDynamics/WorldLines?style=flat-square&color=8b5cf6" />
+  <a href="https://hub.worldlines.gg"><img src="https://img.shields.io/badge/Live%20Demo-hub.worldlines.gg-8b5cf6?style=flat-square" /></a>
+  <img alt="License" src="https://img.shields.io/badge/License-AGPL--3.0%20(examples)-blue?style=flat-square" />
+  <img alt="LINUX DO" src="https://img.shields.io/badge/LINUX%20DO-WorldLines-8b5cf6?style=flat-square" />
+</p>
 
 <p align="center">
   <img src="./assets/hero.png" alt="WorldLines — The Door to Living Worlds" width="640" />
 </p>
 
+## Overview
+
+**What can you do with it?**
+
+Step into a world that remembers everything you do. Give siege orders in a grey-fog northern port. Explore every carriage of a train that never reaches the station. Sit across from an amnesiac healer who really remembers every word you say. Create a world in minutes — set its rules, its pace, its NPCs — or browse a public catalog and jump straight in. This is a multi-agent society running in real time: many AI souls and you, in one world, shaping it together.
+
+It is an agentic simulation engine. A world-agent connects to place-agents; each place-agent hosts soul-agents. Everyone here is an agent. You join through an avatar terminal. This is not a chatbot, not a scripted game.
+
+> Status: **v0.2.0 — Hub Launch** (2026-06) · [Play now →](https://hub.worldlines.gg)
+
+---
+
+## Team & Vision
+
+We are **Ludic Dynamics** — a cross-disciplinary team of PhDs and researchers from the **University of Tokyo** and **Nagoya University**, together with game industry practitioners. Our backgrounds span sociology, economics, computer graphics, AI agents, and virtual worlds.
+
+We grew up on TRPGs, galgames, and otome games. Long before AI became what it is today, we spent years volunteering in Japanese cultural translation, working deep in the tabletop and game-graphics-engine industry, and helping Japanese visual novels launch on Steam. When the pandemic hit, we fell into AI role-play and narrative games — every weekend, every late night, running sessions, building worlds, chasing the feeling of a story that *really breathes*.
+
+We have crossed time and space, adventuring across a dozen countries. We have explored the lost histories of other worlds, died and returned to a single day again and again to save someone precious, threaded through parallel timelines to find the one true world-line, and summoned the past to fight one last idealistic war.
+
+WorldLines is what came out of that obsession.
+
+> **Orchestrated Reality.** Through the Harness, we simulate worlds and AI souls — with physical consistency in the world, and cognitive consistency in every NPC. Don't code the agent. Use the agent to orchestrate the world.
+
+We built a harness that connects world-agents, place-agents, and soul-agents into one living simulation. We want this engine to power: **interactive-experience creation · multi-agent society experiments · agent-research advancement · personality-model and world-model benchmarks.**
+
+---
+
+## Demo & Video
+
 <p align="center">
-  <a href="https://youtu.be/QARKAA8bXDk">
-    <img src="https://img.youtube.com/vi/QARKAA8bXDk/maxresdefault.jpg" alt="WorldLines · Trailer" width="640"/>
+  <a href="https://youtu.be/M_0xX8OZMa0">
+    <img src="https://img.youtube.com/vi/M_0xX8OZMa0/maxresdefault.jpg" alt="WorldLines · Demo" width="640"/>
   </a>
 </p>
-<p align="center"><em>▶ Watch the trailer on YouTube</em></p>
-
-<table align="center">
-  <tr>
-    <td width="50%" align="center"><img src="./assets/helloworld.jpg" alt="WorldLines TUI launch screen" /></td>
-    <td width="50%" align="center"><img src="./assets/cards/D0%20Hero%20%28deck%20%C2%B7%20EN%29.png" alt="WorldLines — Hero" /></td>
-  </tr>
-  <tr>
-    <td align="center"><img src="./assets/cards/D1%20Mira%27s%20Tab%20%28deck%20%C2%B7%20EN%29.png" alt="Mira's Tab — story card" /></td>
-    <td align="center"><img src="./assets/cards/D2%20Lao%20Wei%20Invite%20%28deck%20%C2%B7%20EN%29.png" alt="Lao Wei's Invite — story card" /></td>
-  </tr>
-  <tr>
-    <td align="center"><img src="./assets/cards/D3%20Gameplay%20%28deck%20%C2%B7%20EN%29.png" alt="Gameplay loop" /></td>
-    <td align="center"><img src="./assets/cards/D4%204%20Worlds%20%28deck%20%C2%B7%20EN%29.png" alt="Four playable worlds" /></td>
-  </tr>
-</table>
-
-> Status: **v0.1.9 stable** (2026-04-29) · next: **v0.2.0** (planned)
-
-> *Agents for Role Play. Agents for Game. Agents as a Game.*
-> A file-backed, event-sourced engine for living worlds.
-
-> **Still early — we're building in the open.** WorldLines is in active
-> development. Expect a steady drumbeat of new gameplay, new
-> orchestration modes, and new modules. We'd rather ship early and
-> iterate with you than polish in silence.
-
-WorldLines is an Agentic AIRP engine (AI RolePlay engine) co-developed
-by **nikoloside** and **redoctober**, continuously advanced together
-with [Ludic Dynamics](https://ludicdynamics.com). The engine binary is
-codenamed `neonrp`; the release brand is **WorldLines**.
-
-It treats the game world as a versioned, file-backed state machine, so
-your playthroughs, your edits, and your Agents become reproducible
-artifacts — not ephemeral chat logs.
+<p align="center"><em>▶ Watch the demo on YouTube</em></p>
 
 ---
 
-## Why WorldLines
+## Quick Start
 
-Traditional "chat with an AI" interfaces lose everything the moment the
-context window fills. WorldLines gives you the guarantees of a real engine:
+### 🖥️ Download the launcher
 
-- **⭐ File-persisted memory & world state.** Everything — memory, saves,
-  NPCs, Agents — lives on disk as plain JSON and Markdown. No cloud,
-  no database, no hidden state. If you can open the folder, you own
-  the world.
-- **Auto-indexed context, auto-injected.** WorldLines builds a file
-  index and a local vector database automatically, and injects only
-  the relevant game data into each Agent's context per turn. No manual
-  lorebook juggling.
-- **Event-sourced state.** Every turn is an append-only Event; Snapshots
-  make rewind fast.
-- **Branch / Undo / Redo.** Explore narrative forks like git branches.
-- **Sandbox & Replay.** Run experiments in isolation; verify determinism.
-- **Orchestrator-driven multi-agent.** An Orchestrator routes to domain
-  Agents (town / dungeon / combat-referee / world-builder / rules-referee)
-  over one shared state.
-- **Plan → Diff → Apply.** LLMs emit structured file operations you can
-  review before they land.
-- **Rich TUI.** A Claude-Code-style conversational terminal for both
-  play and build.
-- **Local-first models.** GLM, OpenAI, LM Studio, or Ollama.
+Pick your platform. Double-click to install. No terminal needed.
 
-### How WorldLines compares
+| Platform | File | Download |
+|----------|------|----------|
+| macOS | `WorldLines.command` | [latest](https://worldlines.gg/WorldLines.command) |
+| Windows | `WorldLines.bat` | [latest](https://worldlines.gg/WorldLines.bat) |
+| Linux | `WorldLines.sh` | [latest](https://worldlines.gg/WorldLines.sh) |
 
-|                         | Character.AI        | SillyTavern              | Claude Code             | **WorldLines**                     |
-|-------------------------|---------------------|---------------------------|-------------------------|-------------------------------------|
-| Primary domain          | Character chat      | Prompt frontend           | Code editing            | Living game worlds                  |
-| Your world lives in     | Their service       | Prompt config + chat logs | Codebase on disk        | **Plain files + git**               |
-| Memory & retrieval      | Cloud / opaque      | Manual lorebook           | Codebase retrieval      | **Auto file index + vector DB**     |
-| Multi-agent             | —                   | —                         | Subagents per task      | Orchestrator + domain agents        |
-| Local-first LLM         | No                  | Bring your own            | API-only                | GLM / LM Studio / Ollama            |
-| Determinism / replay    | —                   | —                         | —                       | **Sandbox + Replay**                |
+macOS / Linux: `chmod +x` once, then drag to Desktop.
 
-If Claude Code is your IDE for code, WorldLines is your IDE for living
-worlds — with the memory, retrieval, and orchestration baked in.
-
-> Full per-tool write-ups live at
-> [docs.worldlines.gg/docs/qa](https://docs.worldlines.gg/docs/qa)
-> (vs Character.AI · vs SillyTavern · vs Claude Code · vs LangGraph · vs OpenClaw).
-
-> Note: WorldLines's harness is currently stricter than Claude Code's — it depends on complete context to orchestrate reliably. This is a deliberate tradeoff for higher determinism and easier debugging, not a deficiency.
-
----
-
-## Install
-
-### One-liner
+### ⌨️ Or install via terminal
 
 ```bash
 # macOS / Linux
@@ -111,153 +82,174 @@ curl -LsSf https://worldlines.gg/install.sh | sh
 irm https://worldlines.gg/install.ps1 | iex
 ```
 
-Installs `uv` (if missing) then `uv tool install worldlines`. Verify
-with `neonrp --help` or just `worldlines`.
-
-### Double-click launcher
-
-Prefer not to touch a terminal? Download a platform launcher and
-double-click it. Each opens a terminal window, runs the first-time
-install (or self-updates on subsequent launches), then hands off to the
-TUI:
-
-| Platform | File                 | Download |
-|----------|----------------------|----------|
-| macOS    | `WorldLines.command` | [latest](https://worldlines.gg/WorldLines.command) |
-| Windows  | `WorldLines.bat`     | [latest](https://worldlines.gg/WorldLines.bat)     |
-| Linux    | `WorldLines.sh`      | [latest](https://worldlines.gg/WorldLines.sh)      |
-
-After download (macOS / Linux), `chmod +x` once:
+Then:
 
 ```bash
-chmod +x ~/Downloads/WorldLines.command   # or WorldLines.sh
+./worldlines
 ```
 
-Then drag to Desktop / Dock and treat it like any other shortcut.
+This launches the TUI. From there you can start a new world, browse the catalog, or jump into a saved session.
 
-### Users in China
+> **First run walks you through API setup.** Keys save to `~/.neonrp/config.json`. [Full provider guide →](https://docs.worldlines.gg/docs/getting-started/quickstart)
 
-Some mainland networks throttle GitHub Releases and Cloudflare-fronted
-domains. If `curl https://worldlines.gg/install.sh` times out:
+### 🌐 Or just play online
 
-```bash
-# Direct GitHub fetch (sometimes faster than the Cloudflare redirect):
-curl -LsSf \
-  https://github.com/LudicDynamics/WorldLines/releases/latest/download/install.sh \
-  | sh
-
-# Or force uv to use a Tsinghua PyPI mirror:
-export UV_DEFAULT_INDEX=https://pypi.tuna.tsinghua.edu.cn/simple
-uv tool install worldlines
-
-# Or both at once:
-CHINA_MIRROR=1 curl -LsSf https://worldlines.gg/install.sh | sh
-```
-
-Auto-update (`neonrp self-update`) honors `UV_DEFAULT_INDEX`, so
-exporting it in your shell profile keeps future upgrades on the mirror.
-
-### Developers — editable install
-
-```bash
-uv tool install -e /path/to/worldlines
-neonrp --help
-```
-
-Full install options (wheel, source, alternate mirrors) live at
-[docs.worldlines.gg/docs/guides/launcher](https://docs.worldlines.gg/docs/guides/launcher).
+No install. Go to **[hub.worldlines.gg](https://hub.worldlines.gg)**, sign in, and play in the browser.
 
 ---
 
-## Quickstart
-
-```bash
-# Fresh directory — /init is enough to start in build mode
-mkdir my-world && cd my-world
-neonrp init
-
-# Or scaffold the stoneford starter for a headline sample
-neonrp game new --template stoneford
-
-# Launch the TUI
-neonrp tui
-```
-
-Fresh projects expose packaged builtin skills automatically; `/game new`
-is optional unless you want the starter world + play-agent scaffold
-immediately.
-
-> **First run walks you through API setup.** Pick **Claude Code (MCP)** if
-> you already have it, paste a key for **Anthropic / OpenAI / DeepSeek /
-> OpenRouter / [GLM free tier](https://zhipuai.cn)**, or point to a local
-> server via **Ollama / LM Studio**. Keys save to `~/.neonrp/config.json`;
-> change later via `[3] settings / api`.
-> [Full provider guide →](https://docs.worldlines.gg/docs/getting-started/quickstart)
-
-Type `look around` and press Enter. That is your first agentic turn.
+## Screenshots
 
 <p align="center">
-  <img src="./assets/gameplay.jpg" alt="WorldLines gameplay — arriving at Stoneford in the mist" width="720" />
+  <img src="./assets/gameplay.jpg" alt="Gameplay — arriving at Stoneford" width="720" />
 </p>
-
-A 10-minute walkthrough lives at
-[docs.worldlines.gg/docs/getting-started/quickstart](https://docs.worldlines.gg/docs/getting-started/quickstart).
+<p align="center"><em>Gameplay — arriving at Stoneford in the mist</em></p>
 
 ---
 
-## Documentation
+## Example Worlds
 
-Full docs are on the website — this repo keeps only the entry points.
+### ⛩ Stoneford — Starter World
 
-| Topic                | URL                                                                              |
-|----------------------|----------------------------------------------------------------------------------|
-| Getting started      | [docs.worldlines.gg/docs/getting-started](https://docs.worldlines.gg/docs/getting-started) |
-| Core concepts        | [docs.worldlines.gg/docs/core-concepts](https://docs.worldlines.gg/docs/core-concepts) (worlds · characters & multi-agent · agents & orchestration · engine modes · sessions · memory) |
-| Guides               | [docs.worldlines.gg/docs/guides](https://docs.worldlines.gg/docs/guides) (launcher · world lifecycle · SillyTavern import · Discord tutorial) |
-| Q&A / comparisons    | [docs.worldlines.gg/docs/qa](https://docs.worldlines.gg/docs/qa) (vs Character.AI · vs SillyTavern · vs Claude Code · vs LangGraph · vs OpenClaw) |
-| Roadmap              | [docs.worldlines.gg/docs/roadmap](https://docs.worldlines.gg/docs/roadmap) |
-| Changelog            | [docs.worldlines.gg/docs/changelog](https://docs.worldlines.gg/docs/changelog) |
+A grey-fog northern river port. Classic-fantasy TRPG · d20 dice · 10-agent orchestrator. The flagship example: a full town with NPCs, quests, a dungeon, and siege mechanics. **[Play online →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[Source & docs →](./examples/stoneford)**
 
-**In this repo:**
+### Three more
 
-- [LudicDynamics/stoneford-worldlines](https://github.com/LudicDynamics/stoneford-worldlines) — Sample world & Agents (submodule)
-- [CONTRIBUTING.md](CONTRIBUTING.md) — How to contribute
-- [SECURITY.md](SECURITY.md) — How to report vulnerabilities
-- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — Community expectations
-- [LICENSE](LICENSE) — Proprietary preview terms
+| World | Play style | Live Demo |
+|---|---|---|
+| **Dark Train** | Open world — do anything, the world remembers | [Play →](https://hub.worldlines.gg/play/worlds/dark-train) |
+| **Goblin Ambush** | D&D 5e combat — one encounter | [Source →](./examples/goblin-ambush) |
+| **Worldline** | Time-drift narrative — text the past | [Source →](./examples/worldline) |
 
-## Why AGPL · Contributor policy
+All four worlds live in [examples/](./examples/) — open-source (AGPL-3.0), fork and ship your own.
 
-Our OSS surface (`templates/stoneford-worldlines/` etc.) is **AGPL-3.0**. Anything you create on top of stoneford — new worlds, templates, modules — enters the same open commons, and no one can quietly fork it into a closed-source product. For contributors:
+---
 
-- 🪪 **You keep your copyright** — no copyright assignment required.
-- 🟢 **Default in-bound license = AGPL-3.0** — same as the rest of the OSS surface.
-- 🛡 **No silent re-licensing** — maintainers won't merge your code into a closed-source build without asking.
+## Other Projects Using This Engine
 
-Engine core (`neonrp`) is a proprietary preview — see [CONTRIBUTING.md → License Asymmetry](CONTRIBUTING.md#license-asymmetry).
+- **[Soul Talk](https://hub.worldlines.gg/play/souls/elena)** — character-agent dialogue scene. Elena remembers.
+- **[Worldline](./examples/worldline)** — time-drift narrative engine. Text the past, watch timelines rewrite.
+- **Coming: RP-Abyss** — TRPG expedition. DM + dice checks.
 
-## Community & Contact
+---
+
+## Who Is This For
+
+### 🎮 AI Role-Play Players
+
+You come from **Character.AI, SillyTavern, or AI Tavern**. You love deep character conversations — but the world always forgets.
+
+WorldLines gives you characters with **real memory**. They remember what you said three sessions ago. They have inner voices, intentions, goals. And they're not alone — they live in a world with other characters who also remember.
+
+→ [Play Elena (Soul Talk)](https://hub.worldlines.gg/play/souls/elena) · [Browse catalog](https://hub.worldlines.gg/souls)
+
+### 📖 Galgame & Visual Novel Fans
+
+You love **Ren'Py, TyranoBuilder, and branching narratives** — but you're tired of writing every route by hand. You want stories that *respond*, not just branch.
+
+WorldLines lets you set the characters, the world rules, and the tone — and the agents generate the story in real time. Every choice ripples. No two playthroughs are the same.
+
+→ [Create your first world](https://docs.worldlines.gg/docs/guides/creating-first-world) · [SillyTavern import →](https://docs.worldlines.gg/docs/guides/sillytavern-import)
+
+### ✍️ TRPG GMs & World Creators
+
+You run tabletop campaigns in **Foundry VTT, Discord, or pen-and-paper**. You spend more time prepping than playing.
+
+WorldLines is a GM's engine: you set the constraints — the rules, the NPCs, the tone — and the agents run the world for you. Auto-indexed lore, per-NPC memory, dice-referee agents.
+
+→ [Quickstart](https://docs.worldlines.gg/docs/getting-started/quickstart) · [Stoneford starter world](./examples/stoneford)
+
+### 🔬 Researchers — AI Personality · World Models · Multi-Agent
+
+You study personality models, world-model benchmarks, or multi-agent societies. You need a **reproducible sandbox** — not a black-box API.
+
+WorldLines is **file-backed, event-sourced, and git-diffable**. Every agent decision, every world-state change, is a plain-text event you can trace, replay, and measure. Run the same scenario with different models, compare outputs, publish the results.
+
+→ [Core concepts](https://docs.worldlines.gg/docs/core-concepts/agents-orchestration) · [How It Works](#how-it-works)
+
+### 🛠️ Developers
+
+You build with **Claude Code, LangGraph, or custom agent pipelines**. You want a protocol you can inspect, fork, and disagree with.
+
+WorldLines examples, tools, and protocol are **open-source (AGPL-3.0)**. Fork a world, mod an agent, ship your own. The engine binary is free to play — no API key for local use.
+
+→ [examples/](./examples/) · [Protocol docs](https://docs.worldlines.gg/docs/protocol/overview)
+
+---
+
+## How It Works
+
+WorldLines treats the game world as a file-backed, event-sourced state machine. Every turn is an append-only Event; Snapshots make rewind fast.
+
+**Agent architecture (3 layers):**
+
+```
+Layer 1: world-agent        — state · routing · narrative · archive
+Layer 2: town-agent          — NPCs, shops, navigation
+         dungeon-agent       — exploration
+         combat-referee      — d20 dice
+         world-builder       — map updates
+Layer 3: (future) dice/rules tool-agents
+```
+
+- **File-persisted memory & world state** — Everything lives on disk as plain JSON and Markdown.
+- **Auto-indexed context, auto-injected** — No manual lorebook juggling.
+- **Branch / Undo / Redo** — Explore narrative forks like git branches.
+- **Sandbox & Replay** — Verify determinism.
+- **Local-first models** — GLM, OpenAI, LM Studio, or Ollama.
+
+---
+
+## Tutorial
+
+Full documentation at **[docs.worldlines.gg](https://docs.worldlines.gg)**:
+
+| Topic | Link |
+|---|---|
+| Getting started | [docs.worldlines.gg/docs/getting-started](https://docs.worldlines.gg/docs/getting-started) |
+| Core concepts | [docs.worldlines.gg/docs/core-concepts](https://docs.worldlines.gg/docs/core-concepts) |
+| Guides | [docs.worldlines.gg/docs/guides](https://docs.worldlines.gg/docs/guides) |
+| Q&A / comparisons | [docs.worldlines.gg/docs/qa](https://docs.worldlines.gg/docs/qa) |
+
+---
+
+## Roadmap
+
+| Version | Status |
+|---|---|
+| **v0.1.9** — Engine (2026-04) | ✓ 10-agent orchestrator · Stoneford starter · Claude Code runtime |
+| **v0.2.0** — Hub Launch (2026-06) | ✓ WebHub · Hosted Play · Soul Talk · Create Studio · Stripe · Covers · Saves |
+| **v0.3.0** — Desktop (2026-06) | ◑ Tauri desktop app · Multi-agent society · Persistent worlds · Alipay/WeChat |
+| **v1.0** — Protocol | ○ Stable WORLD/SOUL protocol · Self-hostable web edition |
+
+Full roadmap: [docs.worldlines.gg/docs/roadmap](https://docs.worldlines.gg/docs/roadmap)
+
+---
+
+## License
+
+**Open-source (AGPL-3.0):** example worlds, character bundles, tools, and protocol in `examples/` and `tools/`.
+
+**Not open-source:** the engine core (`neonrp`). Proprietary preview — free to play, not free to fork.
+
+## Star History
+
+<p align="center">
+  <a href="https://star-history.com/#LudicDynamics/WorldLines&Date">
+    <img src="https://api.star-history.com/svg?repos=LudicDynamics/WorldLines&type=Date" alt="Star History Chart" width="640" />
+  </a>
+</p>
+
+---
+
+## Community
 
 - Web: [worldlines.gg](https://worldlines.gg) · Docs: [docs.worldlines.gg](https://docs.worldlines.gg)
-- Discord: [discord.gg/HJYWbdqWrE](https://discord.gg/HJYWbdqWrE) · Patreon: [patreon.com/cw/WorldLines](https://www.patreon.com/cw/WorldLines)
+- Discord: [discord.gg/HJYWbdqWrE](https://discord.gg/HJYWbdqWrE)
 - GitHub: [LudicDynamics/WorldLines](https://github.com/LudicDynamics/WorldLines)
 - Contact: `info@worldlines.gg`
 
 ---
 
-## Copyright & Acknowledgements
+Developed by **nikoloside** & **redoctober**, advanced by [Ludic Dynamics](https://ludicdynamics.com).
 
-Copyright © 2026 **nikoloside**, **redoctober**. All rights reserved.
-
-WorldLines is a proprietary engine released as preview for evaluation
-only. No license is granted for reuse, redistribution, or derivative
-works. See [LICENSE](LICENSE) for the full terms.
-
-Developed and maintained by **nikoloside** and **redoctober**,
-continuously operated, experimented with, and advanced by the Ludic
-Dynamics community. Special thanks to the early participants of the
-`llm-rpg-starter` predecessor (the Ludic Dynamics community) for their
-generous, heated discussions, exchanges, collaboration, and support:
-**Amber**, **琛琛**, **Claire**.
-
-*WorldLines and Ludic Dynamics are trademarks of Ludic Dynamics.*

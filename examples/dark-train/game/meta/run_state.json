@@ -1,0 +1,17 @@
+{
+  "id": "run_state",
+  "kind": "meta",
+  "session_id": "S0001",
+  "world_id": "dark-train",
+  "location": {
+    "scope": "carriage",
+    "node_id": "carriage-6",
+    "subnode_id": "aisle"
+  },
+  "tick_count": 0,
+  "turn_count": 0,
+  "last_action": "woke_up",
+  "last_event_id": null,
+  "pending_hooks": [],
+  "_schema_note": "location.node_id is the active carriage; in-carriage actions are resolved inline by world-agent. tick_count is Dark Train's abstract time unit (advanced inline by world-agent). pending_hooks holds deferred work the Keeper couldn't resolve this turn — drains on next turn entry."
+}

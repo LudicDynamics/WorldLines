@@ -2,101 +2,77 @@
 
 **Language:** [English](./README.md) · [简体中文](./README.zh.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md)
 
-> **开源模板（Claude Code 兼容）** —— 起步世界：[LudicDynamics/stoneford-worldlines](https://github.com/LudicDynamics/stoneford-worldlines)。fork、改、上线你自己的世界。AGPL-3.0。
+> **开源部分:** 本仓库中的示例世界、工具和协议 —— AGPL-3.0。可自由 fork、修改并发布你自己的世界。
+> **不开源部分:** 引擎核心(`neonrp`)。免费游玩,不可 fork 或再分发。见 [LICENSE](LICENSE)。
+
+<p align="center">
+  <img alt="GitHub Stars" src="https://img.shields.io/github/stars/LudicDynamics/WorldLines?style=flat-square&color=8b5cf6" />
+  <img alt="Watchers" src="https://img.shields.io/github/watchers/LudicDynamics/WorldLines?style=flat-square&color=8b5cf6" />
+  <img alt="Forks" src="https://img.shields.io/github/forks/LudicDynamics/WorldLines?style=flat-square&color=8b5cf6" />
+  <img alt="Issues" src="https://img.shields.io/github/issues/LudicDynamics/WorldLines?style=flat-square&color=8b5cf6" />
+  <a href="https://hub.worldlines.gg"><img src="https://img.shields.io/badge/Live%20Demo-hub.worldlines.gg-8b5cf6?style=flat-square" /></a>
+  <img alt="License" src="https://img.shields.io/badge/License-AGPL--3.0%20(examples)-blue?style=flat-square" />
+  <img alt="LINUX DO" src="https://img.shields.io/badge/LINUX%20DO-WorldLines-8b5cf6?style=flat-square" />
+</p>
 
 <p align="center">
   <img src="./assets/hero.png" alt="WorldLines — 通往活世界的门" width="640" />
 </p>
 
+## 概述
+
+**你能用它做什么？**
+
+进入一个会记住你一切行为的世界 —— 在灰雾弥漫的北境港口下达攻防指令，在一列永不停站的黑暗列车上探索每个车厢的秘密，与一位失忆却温柔的治愈师对坐长谈而她真的会记得你说过的每一句话。你可以在几分钟内创建一个世界，设定它的规则、节奏与 NPC，也可以从公开目录中挑选他人创作的世界直接进入。这是实时运行的多智能体社会 —— 不是一对一聊天，是许多 AI 灵魂与你同在一个世界里彼此影响、彼此记住。
+
+它是一台 agentic 模拟引擎。世界 agent 连着地点 agent；每个地点 agent 又连着住在那里的灵魂 agent。这里所有人都是 agent。你通过分身终端走进来。这不是聊天机器人，不是脚本游戏。
+
+> 状态：**v0.2.0 — Hub 上线**（2026-06）· [立即游玩 →](https://hub.worldlines.gg)
+
+---
+
+## 团队与愿景
+
+我们是一支由来自**东京大学、名古屋大学**的 PhD 和研究员，以及游戏从业者组成的跨专业（社会学、经济学、图形学、AI Agent、虚拟世界）团队 —— **Ludic Dynamics**。
+
+我们热爱 TRPG（跑团）、galgame 与乙女游戏。当 AI 还没有普及之前，我们长期从事日文文化翻译的志愿者工作，在各种桌面游戏以及游戏图形引擎行业深耕，并曾经协助日本视觉小说作品在 Steam 发行。疫情开始后，我们一头扎进了 AI 角色扮演与叙事类游戏 —— 每个周末、每一个深夜，跑团、搭建世界、追逐那种"故事真的在呼吸"的感觉。
+
+穿越时空在十多个国家之间辗转冒险，在异世界的世界里面探寻它过去的历史，一次一次死去重回某一天只为救回重视的人，辗转在平行时空中找到那唯一的世界线，召唤历史完成一次奔赴理想的战争。
+
+WorldLines 就是这种执念的产物。
+
+> Orchestrated Reality · 编排的真实。通过 Harness 模拟世界与 AI 灵魂 —— 世界具有物理一致性，NPC 具有心智一致性。不要为 agent 写代码。用 agent 来编排世界。
+
+我们通过 harness 构建了「多智能体 × 世界智能体 × 灵魂智能体」系统。我们希望利用这个引擎进行：互动体验创造 · 多智能体社会实验 · Agent 研究推进 · 人格模型与世界模型的 benchmark。
+
+---
+
+## 演示视频
+
 <p align="center">
-  <a href="https://youtu.be/QARKAA8bXDk">
-    <img src="https://img.youtube.com/vi/QARKAA8bXDk/maxresdefault.jpg" alt="WorldLines · 预告片" width="640"/>
+  <a href="https://youtu.be/oofuC8BSehE">
+    <img src="https://img.youtube.com/vi/oofuC8BSehE/maxresdefault.jpg" alt="WorldLines · 演示" width="640"/>
   </a>
 </p>
-<p align="center"><em>▶ 在 YouTube 观看预告片</em></p>
-
-<table align="center">
-  <tr>
-    <td width="50%" align="center"><img src="./assets/helloworld.jpg" alt="WorldLines TUI 启动画面" /></td>
-    <td width="50%" align="center"><img src="./assets/cards/D0%20Hero%20%28deck%20%C2%B7%20ZH%29.png" alt="WorldLines — Hero" /></td>
-  </tr>
-  <tr>
-    <td align="center"><img src="./assets/cards/D1%20%E7%B1%B3%E6%8B%89%E8%B5%8A%E8%B4%A6%20%28deck%20%C2%B7%20ZH%29.png" alt="米拉赊账 · 故事卡" /></td>
-    <td align="center"><img src="./assets/cards/D2%20%E8%80%81%E9%9F%A6%E7%BA%A6%E4%BD%A0%20%28deck%20%C2%B7%20ZH%29.png" alt="老韦约你 · 故事卡" /></td>
-  </tr>
-  <tr>
-    <td align="center"><img src="./assets/cards/D3%20Gameplay%20%28deck%20%C2%B7%20ZH%29.png" alt="玩法循环" /></td>
-    <td align="center"><img src="./assets/cards/D4%204%20Worlds%20%28deck%20%C2%B7%20ZH%29.png" alt="四个可玩世界" /></td>
-  </tr>
-</table>
-
-> 状态：**v0.1.9 stable**（2026-04-29）· 下一站：**v0.2.0**（规划中）
-
-> *Agents for Role Play. Agents for Game. Agents as a Game.*
-> 一个文件托底、事件溯源的活世界引擎。
-
-> **我们还非常早期——正在公开搭建中。** WorldLines 正在密集开发。
-> 我们会持续开发新的玩法，打磨新的 orchestrating 模式，创作新的模组。
-> 与其默默磨到完美，不如早点发出来，跟你一起迭代。
-
-WorldLines 是由 **nikoloside** 与 **redoctober** 共同开发，由
-[Ludic Dynamics](https://ludicdynamics.com) 持续推进共创的
-Agentic AIRP engine（AI RolePlay engine）。引擎可执行文件代号 `neonrp`，
-发行品牌名为 **WorldLines**。
-
-它把游戏世界当作一台带版本、以文件为后端的状态机——让你的每次游玩、
-每次编辑、每个 Agent 都变成可复现的产物，而不是转瞬即逝的聊天记录。
+<p align="center"><em>▶ 在 YouTube 观看演示</em></p>
 
 ---
 
-## 为什么是 WorldLines
+## 快速上手
 
-传统的"和 AI 聊天"界面会在 context window 填满的那一刻丢失一切。
-WorldLines 提供真正的引擎级保证：
+### 🖥️ 下载启动器
 
-- **⭐ 文件持久化的记忆与世界状态。** 记忆、存档、NPC、Agent 全部以
-  纯 JSON 和 Markdown 的形式落在磁盘上。没有云端，没有数据库，没有
-  隐藏状态。只要你能打开这个文件夹，这个世界就是你的。
-- **自动建索引、自动注入上下文。** WorldLines 会自动构建文件索引和
-  本地向量数据库，并在每一回合把相关的游戏数据自动注入到 Agent 的
-  上下文里。不需要手动维护 lorebook。
-- **Event-sourced state。** 每一回合都是 append-only 的 Events，
-  Snapshots 让回溯变快。
-- **Branch / Undo / Redo。** 像 git 分支那样探索叙事分叉。
-- **Sandbox & Replay。** 隔离环境中做实验；校验确定性。
-- **Orchestrator 驱动的 multi-agent。** Orchestrator 把路由分发给领域
-  Agents（town / dungeon / combat-referee / world-builder / rules-referee），
-  它们共享同一份状态。
-- **Plan → Diff → Apply。** LLM 输出结构化文件操作，落地前可审阅。
-- **Rich TUI。** Claude-Code 风格的对话式终端，游玩与构建共用。
-- **Local-first 模型。** GLM、OpenAI、LM Studio、Ollama 都支持。
+下载对应平台的启动器，双击即可安装。无需打开终端。
 
-### WorldLines 与同类产品的对比
+| 平台    | 文件                  | 下载 |
+|---------|-----------------------|------|
+| macOS   | `WorldLines.command`  | [最新版](https://worldlines.gg/WorldLines.command) |
+| Windows | `WorldLines.bat`      | [最新版](https://worldlines.gg/WorldLines.bat)     |
+| Linux   | `WorldLines.sh`       | [最新版](https://worldlines.gg/WorldLines.sh)      |
 
-|                    | Character.AI     | SillyTavern               | Claude Code             | **WorldLines**                     |
-|--------------------|-------------------|----------------------------|-------------------------|-------------------------------------|
-| 主要领域            | 角色聊天          | Prompt 前端                | 代码编辑                 | 活的游戏世界                         |
-| 世界存在于          | 他们的服务端      | Prompt 配置 + 聊天记录      | 磁盘上的代码库            | **纯文件 + git**                    |
-| 记忆与检索          | 云端 / 不透明     | 手动 lorebook              | 代码库检索               | **自动文件索引 + 向量数据库**        |
-| 多 agent           | —                 | —                          | 按任务启子 agent          | Orchestrator + 领域 agents           |
-| 本地优先的 LLM      | ✗                | 自行接入                    | 仅 API                  | GLM / LM Studio / Ollama             |
-| 确定性 / Replay    | —                 | —                          | —                       | **Sandbox + Replay**                 |
+macOS / Linux 上下载后 `chmod +x` 一次，然后拖到桌面即可。
 
-Claude Code 是你写代码的 IDE，WorldLines 就是你孕育活世界的 IDE
-——记忆、检索、orchestration 都已经内置好了。
-
-> 对每个竞品的完整比较文章见
-> [docs.worldlines.gg/docs/qa](https://docs.worldlines.gg/docs/qa)
-> （vs Character.AI · vs SillyTavern · vs Claude Code · vs LangGraph · vs OpenClaw）。
-
-> 说明：目前 WorldLines 的 harness 比 Claude Code 更严格——它依赖完整的上下文才能可靠地进行 orchestration。这是为了换取更高的确定性与更易调试的刻意取舍，而不是缺陷。
-
-
----
-
-## 安装
-
-### 一行命令
+### ⌨️ 或通过终端安装
 
 ```bash
 # macOS / Linux
@@ -106,134 +82,172 @@ curl -LsSf https://worldlines.gg/install.sh | sh
 irm https://worldlines.gg/install.ps1 | iex
 ```
 
-会先安装 `uv`（如未安装），再执行 `uv tool install worldlines`。
-安装完成后用 `neonrp --help` 或直接 `worldlines` 验证。
-
-### 双击启动器
-
-不想碰终端？下载对应平台的启动器，双击即可。每个启动器会打开一个
-终端窗口，执行首次安装（后续启动则自我更新），然后直接交给 TUI：
-
-| 平台    | 文件                  | 下载 |
-|---------|-----------------------|------|
-| macOS   | `WorldLines.command`  | [最新版](https://worldlines.gg/WorldLines.command) |
-| Windows | `WorldLines.bat`      | [最新版](https://worldlines.gg/WorldLines.bat)     |
-| Linux   | `WorldLines.sh`       | [最新版](https://worldlines.gg/WorldLines.sh)      |
-
-在 macOS / Linux 上下载后，先 `chmod +x` 一次：
+安装完成后：
 
 ```bash
-chmod +x ~/Downloads/WorldLines.command   # 或 WorldLines.sh
+./worldlines
 ```
 
-然后拖到桌面 / Dock，像使用任何其他快捷方式一样使用即可。
+启动 TUI 界面。从那里你可以创建新世界、浏览目录、或继续之前的存档。
 
-### 中国大陆用户
+> **首次运行会引导你设置 API。** 密钥保存在 `~/.neonrp/config.json`。[完整提供商指南 →](https://docs.worldlines.gg/docs/getting-started/quickstart)
 
-部分大陆网络会限速 GitHub Releases 与 Cloudflare 代理域名。
-如果 `curl https://worldlines.gg/install.sh` 超时，可尝试：
+### 🌐 或者直接在浏览器玩
 
-```bash
-# 直接从 GitHub 拉取（有时比 Cloudflare 跳转更快）：
-curl -LsSf \
-  https://github.com/LudicDynamics/WorldLines/releases/latest/download/install.sh \
-  | sh
-
-# 或强制 uv 使用清华 PyPI 镜像：
-export UV_DEFAULT_INDEX=https://pypi.tuna.tsinghua.edu.cn/simple
-uv tool install worldlines
-
-# 或一次性同时启用两者：
-CHINA_MIRROR=1 curl -LsSf https://worldlines.gg/install.sh | sh
-```
-
-自动更新（`neonrp self-update`）会遵循 `UV_DEFAULT_INDEX`，所以
-在 shell 配置里导出它，后续升级就会持续走镜像。
-
-### 开发者——可编辑安装
-
-```bash
-uv tool install -e /path/to/worldlines
-neonrp --help
-```
-
-全部安装选项（wheel、源码、替代镜像）见
-[docs.worldlines.gg/docs/guides/launcher](https://docs.worldlines.gg/docs/guides/launcher)。
+无需安装。打开 **[hub.worldlines.gg](https://hub.worldlines.gg)**，登录，在浏览器中游玩。
 
 ---
 
-## 快速上手
-
-```bash
-# 新建目录——只需 /init 就能进入 build 模式
-mkdir my-world && cd my-world
-neonrp init
-
-# 或者脚手架生成 stoneford 起步模板，直接上头牌样本
-neonrp game new --template stoneford
-
-# 启动 TUI
-neonrp tui
-```
-
-新建项目会自动暴露打包的 builtin skills；`/game new`
-是可选的——除非你希望立刻拿到起步世界 + play-agent 脚手架。
-
-> **第一次启动时 launcher 会带你走完整个 API 设置流程。** 已经装了
-> **Claude Code (MCP)** 的话直接选它；或为 **Anthropic / OpenAI /
-> DeepSeek / OpenRouter / [GLM 免费额度](https://zhipuai.cn)** 粘贴 key；
-> 或指向本地的 **Ollama / LM Studio**。key 会自动保存到
-> `~/.neonrp/config.json`，之后可随时从 `[3] settings / api` 修改。
-> [完整 provider 指南 →](https://docs.worldlines.gg/docs/getting-started/quickstart)
-
-输入 `look around` 并回车。这就是你的第一个 agentic 回合。
+## 截图
 
 <p align="center">
-  <img src="./assets/gameplay.jpg" alt="WorldLines 游玩画面 — 雾中抵达石津镇" width="720" />
+  <img src="./assets/gameplay.jpg" alt="游戏画面 — 抵达石津镇" width="720" />
 </p>
-
-10 分钟完整流程见
-[docs.worldlines.gg/docs/getting-started/quickstart](https://docs.worldlines.gg/docs/getting-started/quickstart)。
+<p align="center"><em>游戏画面 — 在雾中抵达石津镇</em></p>
 
 ---
 
-## 文档
+## 示例世界
 
-完整文档在官网——此仓库只保留入口。
+### ⛩ Stoneford — 起始世界
 
-| 主题                | URL                                                                              |
-|---------------------|----------------------------------------------------------------------------------|
-| 快速上手            | [docs.worldlines.gg/docs/getting-started](https://docs.worldlines.gg/docs/getting-started) |
-| 核心概念            | [docs.worldlines.gg/docs/core-concepts](https://docs.worldlines.gg/docs/core-concepts)（Worlds · 角色 & Multi-Agent · Agents & 编排 · 引擎模式 · Sessions · 记忆系统） |
-| 指南                | [docs.worldlines.gg/docs/guides](https://docs.worldlines.gg/docs/guides)（Launcher · 世界生命周期 · SillyTavern 导入 · Discord 教程） |
-| Q&A / 对比          | [docs.worldlines.gg/docs/qa](https://docs.worldlines.gg/docs/qa)（vs Character.AI · vs SillyTavern · vs Claude Code · vs LangGraph · vs OpenClaw） |
-| 路线图              | [docs.worldlines.gg/docs/roadmap](https://docs.worldlines.gg/docs/roadmap) |
-| 更新日志            | [docs.worldlines.gg/docs/changelog](https://docs.worldlines.gg/docs/changelog) |
+灰雾北境的河港小镇。经典奇幻 TRPG · d20 骰子 · 10-agent 编排。旗舰示例：完整的小镇，含 NPC、任务、地下城、攻防机制。**[在线游玩 →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[源码与文档 →](./examples/stoneford)**
 
-**本仓库内：**
+### 另外三个
 
-- [LudicDynamics/stoneford-worldlines](https://github.com/LudicDynamics/stoneford-worldlines) — 示例世界与 Agents（submodule）
-- [CONTRIBUTING.md](CONTRIBUTING.md) — 如何贡献
-- [SECURITY.md](SECURITY.md) — 如何报告安全问题
-- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — 社区行为预期
-- [LICENSE](LICENSE) — 闭源预览条款
+| 世界 | 玩法 | 在线 |
+|---|---|---|
+| **暗夜列车** | 开放世界 —— 想做什么都行，世界都记着 | [游玩 →](https://hub.worldlines.gg/play/worlds/dark-train) |
+| **哥布林遭遇战** | D&D 5e 战斗 —— 一场遭遇 | [源码 →](./examples/goblin-ambush) |
+| **世界线收束** | 时间漂移叙事 —— 发短信到过去 | [源码 →](./examples/worldline) |
 
-## 为什么用 AGPL · 贡献者政策
+四个世界都在 [examples/](./examples/) —— 开源（AGPL-3.0），fork 并发布你自己的。
 
-我们的开源面（`templates/stoneford-worldlines/` 等）采用 **AGPL-3.0**。你在 stoneford 之上创作的一切 —— 新世界、新模板、新模组 —— 都进入同一个开源公地，没人能悄悄 fork 走拿去做闭源产品。对贡献者：
+---
 
-- 🪪 **贡献者保留版权** —— 不要求 copyright assignment。
-- 🟢 **贡献默认按 AGPL-3.0 入库** —— 与其他开源部分一致。
-- 🛡 **不会偷偷改授权** —— 未获额外许可，维护者不会把你的代码并入闭源版本。
+## 使用此引擎的其他项目
 
-引擎核心（`neonrp`）目前是 proprietary preview —— 详见 [CONTRIBUTING.md → License Asymmetry](CONTRIBUTING.md#license-asymmetry)。
+- **[Soul Talk](https://hub.worldlines.gg/play/souls/elena)** — 角色对话场景。Elena 会记住你。
+- **[Worldline](./examples/worldline)** — 时间漂移叙事引擎。发短信到过去，看时间线重写。
+- **即将推出：RP-Abyss** — TRPG 远征。DM + 骰子检定。
 
-## 社区与联系方式
+---
+
+## 适合谁
+
+### 🎮 AI 角色扮演玩家
+
+你来自 **Character.AI、SillyTavern 或 AI 酒馆**。你喜欢深度的角色对话 —— 但世界总是忘掉你说过的话。
+
+WorldLines 给你有**真实记忆**的角色。她们记得你三天前说过的话。她们有内心独白、意图、目标。而且她们不孤单 —— 她们和其他角色一起活在一个世界里，彼此记住。
+
+→ [和 Elena 对话](https://hub.worldlines.gg/play/souls/elena) · [浏览角色目录](https://hub.worldlines.gg/souls)
+
+### 📖 Galgame · 视觉小说爱好者
+
+你喜欢 **Ren'Py、TyranoBuilder 和分支叙事** —— 但你厌倦了手写每一条路线。你想要故事*回应你*，而不是按预设路线走。
+
+WorldLines 让你设定角色、世界规则和基调 —— agent 会实时生成故事。每一个选择都会激起涟漪。没有两次游玩是一样的。
+
+→ [创建你的第一个世界](https://docs.worldlines.gg/docs/guides/creating-first-world) · [SillyTavern 导入 →](https://docs.worldlines.gg/docs/guides/sillytavern-import)
+
+### ✍️ TRPG 主持人 · 世界创作者
+
+你在 **Foundry VTT、Discord 或线下** 带团。你花在准备上的时间比实际游玩还多。
+
+WorldLines 是一个 GM 引擎：你设定约束 —— 规则、NPC、基调 —— agent 替你跑世界。自动索引的 lore、每个 NPC 独立的记忆、掷骰裁判 agent。
+
+→ [快速上手](https://docs.worldlines.gg/docs/getting-started/quickstart) · [Stoneford 起始世界](./examples/stoneford)
+
+### 🔬 研究者 —— AI 人格 · 世界模型 · Multi-Agent
+
+你研究人格模型、世界模型 benchmark 或多智能体社会。你需要一个**可复现的沙箱** —— 不是黑盒 API。
+
+WorldLines 是**文件支撑、事件溯源、git-diffable** 的。每个 agent 决策、每次世界状态变化，都是一条纯文本事件，可以追踪、回放、度量。用不同模型跑同一个场景，对比输出，发布结果。
+
+→ [核心概念](https://docs.worldlines.gg/docs/core-concepts/agents-orchestration) · [架构说明](#how-it-works)
+
+### 🛠️ 开发者
+
+你用 **Claude Code、LangGraph 或自定义 agent 管线**。你需要一个可以检查、fork、质疑的协议。
+
+WorldLines 的示例、工具和协议是**开源的（AGPL-3.0）**。fork 一个世界，修改一个 agent，发布你自己的。引擎二进制文件免费游玩 —— 本地使用不需要 API key。
+
+→ [examples/](./examples/) · [协议文档](https://docs.worldlines.gg/docs/protocol/overview)
+
+---
+
+## 工作原理
+
+WorldLines 把游戏世界当作文件支撑、事件溯源的状态机。每一回合都是只追加的事件；快照让回溯变得高效。
+
+**Agent 架构（3 层）:**
+
+```
+Layer 1: world-agent        — 状态 · 路由 · 叙事 · 归档
+Layer 2: town-agent          — NPC、商店、导航
+         dungeon-agent       — 探索
+         combat-referee      — d20 骰子
+         world-builder       — 地图更新
+Layer 3:（未来）骰子/规则工具 agent
+```
+
+- **文件持久化的记忆与世界状态** — 一切都以纯 JSON 和 Markdown 存在磁盘上。
+- **自动索引、自动注入上下文** — 无需手动维护 lorebook。
+- **分支 / 撤销 / 重做** — 像 git 分支一样探索叙事分叉。
+- **沙箱与回放** — 验证确定性。
+- **本地优先模型** — GLM、OpenAI、LM Studio、Ollama。
+
+---
+
+## 教程
+
+完整文档在 **[docs.worldlines.gg](https://docs.worldlines.gg)**：
+
+| 主题 | 链接 |
+|---|---|
+| 快速开始 | [docs.worldlines.gg/docs/getting-started](https://docs.worldlines.gg/docs/getting-started) |
+| 核心概念 | [docs.worldlines.gg/docs/core-concepts](https://docs.worldlines.gg/docs/core-concepts) |
+| 指南 | [docs.worldlines.gg/docs/guides](https://docs.worldlines.gg/docs/guides) |
+| Q&A / 对比 | [docs.worldlines.gg/docs/qa](https://docs.worldlines.gg/docs/qa) |
+
+---
+
+## 路线图
+
+| 版本 | 状态 |
+|---|---|
+| **v0.1.9** — 引擎 (2026-04) | ✓ 10-agent 编排器 · Stoneford 起始世界 · Claude Code 运行时 |
+| **v0.2.0** — Hub 上线 (2026-06) | ✓ WebHub · 在线游玩 · Soul Talk · 创作工坊 · Stripe · 封面 · 存档 |
+| **v0.3.0** — 桌面版 (2026-06) | ◑ Tauri 桌面应用 · 多智能体社会 · 常驻世界 · 支付宝/微信 |
+| **v1.0** — 协议 | ○ 稳定 WORLD/SOUL 协议 · 自托管 Web 版 |
+
+完整路线图：[docs.worldlines.gg/docs/roadmap](https://docs.worldlines.gg/docs/roadmap)
+
+---
+
+## 许可证
+
+**开源（AGPL-3.0）：** `examples/` 和 `tools/` 中的示例世界、角色包、工具和协议。
+
+**不开源：** 引擎核心（`neonrp`）。专有预览版 —— 免费游玩，不可 fork。
+
+## Star 历史
+
+<p align="center">
+  <a href="https://star-history.com/#LudicDynamics/WorldLines&Date">
+    <img src="https://api.star-history.com/svg?repos=LudicDynamics/WorldLines&type=Date" alt="Star History Chart" width="640" />
+  </a>
+</p>
+
+---
+
+## 社区
 
 - 官网：[worldlines.gg](https://worldlines.gg) · 文档：[docs.worldlines.gg](https://docs.worldlines.gg)
-- Discord：[discord.gg/HJYWbdqWrE](https://discord.gg/HJYWbdqWrE) · Patreon：[patreon.com/cw/WorldLines](https://www.patreon.com/cw/WorldLines) · QQ 群：扫描下方二维码
+- Discord：[discord.gg/HJYWbdqWrE](https://discord.gg/HJYWbdqWrE)
 - GitHub：[LudicDynamics/WorldLines](https://github.com/LudicDynamics/WorldLines)
-- 联系邮箱：`info@worldlines.gg`
+- 联系：`info@worldlines.gg`
 
 <p align="left">
   <img src="./assets/qrqq.png" alt="WorldLines QQ 群二维码" width="160" />
@@ -241,16 +255,6 @@ neonrp tui
 
 ---
 
-## 版权与鸣谢
+由 **nikoloside** 与 **redoctober** 开发，[Ludic Dynamics](https://ludicdynamics.com) 持续推进。
 
-Copyright © 2026 **nikoloside**, **redoctober**。保留所有权利。
-
-WorldLines 是一款闭源引擎，仅以预览形式发布供评估使用。未授予任何用于
-再利用、再分发或衍生作品的许可。完整条款见 [LICENSE](LICENSE)。
-
-由 **nikoloside** 与 **redoctober** 开发与维护，并由 Ludic Dynamics
-社区持续运营、实验与推进。特别感谢 `llm-rpg-starter` 前身的早期
-参与者（Ludic Dynamics 社区）的慷慨的激烈讨论、交流、合作和支持：
-**Amber**、**琛琛**、**Claire**。
-
-*WorldLines 与 Ludic Dynamics 是 Ludic Dynamics 的商标。*
+特别感谢 `llm-rpg-starter` 前身的早期参与者们：**Amber**、**琛琛**、**Claire**。

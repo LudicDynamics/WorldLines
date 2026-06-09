@@ -1,0 +1,7 @@
+{
+  "active_agent": "world-agent",
+  "reason": "startup entry agent from game-start.json",
+  "exit_condition": "router updates active-agent state after the first routed turn",
+  "updated_at": "2026-04-15T10:14:42.846971+00:00",
+  "updated_by": "world-agent"
+}

@@ -1,0 +1,77 @@
+{
+  "generated_by": "dark-train batch B (simplified to 3 agents)",
+  "version": "1.1",
+  "execution_mode": "orchestrator",
+  "note": "Token-lean roster: world-agent (Keeper) resolves in-carriage actions + tick/events inline and routes to just two specialists — character-agent (NPC minds) and referee (all CoC dice: skill / combat / SAN). Down from 7 agents; per-turn specialist spawns drop from up to 6 to 0-2.",
+  "agents": [
+    {
+      "id": "world-agent",
+      "name": "Keeper (Orchestrator)",
+      "agent_path": ".claude/agents/world-agent.md",
+      "role": "Layer 1 — 主控调度器 / 车厢与 tick 内联 / 散文叙述",
+      "description": "读取 run_state.json，内联处理车厢内动作(导航/探索/拾取/谜题)与 tick 时钟+环境/剧情事件；只路由对话给 character-agent、骰子给 referee；合并结构化返回，写入 location + lore + meta + flags + inventory，按 narrative.md 输出第二人称散文。",
+      "read_globs": ["game/**"],
+      "write_globs": [
+        "game/meta/run_state.json",
+        "game/location/*.json",
+        "game/lore/story.md",
+        "game/lore/notes.md",
+        "game/lore/rumors.md",
+        "game/player/journal.md",
+        "game/player/flags.json",
+        "game/player/inventory.json"
+      ]
+    },
+    {
+      "id": "character-agent",
+      "name": "Character Mind",
+      "agent_path": ".claude/agents/character-agent.md",
+      "role": "Layer 2 — 单 NPC 心智 / 对话 / 反应",
+      "description": "被召唤为某一个具名 NPC，从该 NPC 私密视角说话 / 行动 / 隐藏信息。返回 speaks + actions + inner_monologue + state_delta + withholds。绝不替别的 NPC 发言，绝不写场景全景。",
+      "read_globs": [
+        "game/npc/*.json",
+        "game/player/profile.json",
+        "game/player/flags.json",
+        "game/lore/*.md",
+        "game/rules/narrative.md",
+        "game/meta/run_state.json",
+        "game/meta/flag_aliases.json"
+      ],
+      "write_globs": []
+    },
+    {
+      "id": "referee",
+      "name": "Referee (CoC 7e)",
+      "agent_path": ".claude/agents/referee.md",
+      "role": "Layer 2 — 统一 CoC 7e 判定(技能 / 战斗 / SAN)",
+      "description": "单一规则裁判。check_type 分派:skill(1d100≤skill,Regular/Hard/Extreme,push/fumble/bonus&penalty/affliction 降阶)、combat(per-exchange opposed d100,伤害骰,major wound,uncanny→san_rider,HP0→pending_dispersal)、san(roll-under SAN + pass/fail loss,临时/不定性疯狂,Cthulhu Mythos,SAN0→pending_dispersal)。读对应 rules 文件,返回 ruling JSON,绝不写散文。合并了原 rules-referee + combat-referee + sanity-keeper。Temp 0.2。",
+      "read_globs": [
+        "game/player/stats.json",
+        "game/player/profile.json",
+        "game/player/equipment.json",
+        "game/player/inventory.json",
+        "game/player/flags.json",
+        "game/npc/*.json",
+        "game/rules/coc_skills.md",
+        "game/rules/combat_rules.md",
+        "game/rules/sanity_rules.md",
+        "game/meta/run_state.json"
+      ],
+      "write_globs": [
+        "game/player/stats.json",
+        "game/npc/*.json"
+      ]
+    }
+  ],
+  "routing_doctrine": {
+    "all_player_input_passes_through": "world-agent",
+    "no_specialist_writes_prose": true,
+    "specialists_return_json_keeper_composes": true,
+    "in_carriage_actions": "resolved inline by world-agent",
+    "tick_and_events": "resolved inline by world-agent",
+    "dialogue_routes_to": "character-agent",
+    "all_dice_route_to": "referee (check_type: skill | combat | san)",
+    "max_call_chain_depth_per_turn": 3,
+    "loop_detection": "stop on [A,B,A,B] or [A,A,A] or chain > 3"
+  }
+}

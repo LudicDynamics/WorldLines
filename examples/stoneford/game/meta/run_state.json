@@ -1,0 +1,16 @@
+{
+  "session_id": "S0001",
+  "world_id": "W001",
+  "location": {
+    "scope": "town",
+    "node_id": "T001",
+    "subnode_id": "gate_north"
+  },
+  "time": {
+    "day": 1,
+    "clock": "08:30"
+  },
+  "last_action": "arrived_at_stone_ford",
+  "pending": [],
+  "turn_count": 0
+}

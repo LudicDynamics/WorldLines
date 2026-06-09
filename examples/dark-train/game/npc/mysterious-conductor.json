@@ -1,0 +1,74 @@
+{
+  "id": "mysterious-conductor",
+  "kind": "npc",
+  "name": "The Conductor",
+  "tags": [
+    "npc",
+    "key-character",
+    "mysterious",
+    "uncanny"
+  ],
+  "summary": "Tall, uniformed, capped. He does not move when he is being watched. The cap shades the upper half of his face, and the upper half of his face is what he keeps.",
+  "location": "carriage-2",
+  "inventory": [
+    "conductors-cane",
+    "conductors-ledger"
+  ],
+  "voice": "Formal. Measured. Uses the verbs of journeys when other verbs would do. Says your name only once, and only when you have not earned it.",
+  "traits": [
+    "silhouette does not shift",
+    "speaks in metaphors of arrival",
+    "knows the manifest by hand",
+    "the cane is leaned against his chair, not in his hand",
+    "his uniform is from no era you can place"
+  ],
+  "state": {
+    "met": false,
+    "affection": 0,
+    "mood": "patient",
+    "inner_state": "He is not the Train. He works for the Train. He has been working for it longer than the word 'working' covers."
+  },
+  "memory": "He remembers every passenger this Train has ever carried, and he remembers which of them came up to Carriage 1 and which turned back. He will not tell you which of those you were last time.",
+  "coc_stats": {
+    "INT": 85,
+    "POW": 90,
+    "fighting": 60,
+    "dodge": 40,
+    "hp": 14,
+    "db": 0
+  },
+  "uncanny": true,
+  "attack": {
+    "dice": "1d8+1",
+    "weapon": "conductors-cane",
+    "san_rider": {
+      "trigger": "his face does not track with the swing",
+      "severity": "moderate"
+    }
+  },
+  "gate_conditions": {
+    "speaks_at_all": "flag:conductor-first-contact",
+    "names_the_train": "fragments_heard >= 2",
+    "opens_the_iron_door": "fragments_heard >= 3 AND (passed_check:Persuade_hard OR item:key-fragment)",
+    "shows_the_ledger": "affection >= 50 AND flag:read-cipher",
+    "lets_you_go_back": "never"
+  },
+  "psychology_reading": "He is not amused. He is bored, and the boredom is the kind that has been ground into a man over many runs. He has been polite to you before. He will be polite to you again. You will not be the same you both times.",
+  "fragments": [
+    {
+      "id": "frag-conductor-1",
+      "text": "The Train does not run on rails. The rails run with it.",
+      "gate": "flag:conductor-first-contact AND fragments_heard >= 1"
+    },
+    {
+      "id": "frag-conductor-2",
+      "text": "You bought a one-way ticket. You did not read the destination. Few of them do.",
+      "gate": "fragments_heard >= 2 AND item:torn-ticket"
+    },
+    {
+      "id": "frag-conductor-3",
+      "text": "The Fog is not outside. The Fog is what is left when the Train is not here.",
+      "gate": "fragments_heard >= 3 AND affection >= 30"
+    }
+  ]
+}

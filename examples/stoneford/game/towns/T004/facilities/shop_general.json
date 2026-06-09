@@ -1,0 +1,69 @@
+{
+  "facility_id": "shop_general_T004",
+  "name": "石锤杂货铺",
+  "price_index": 1.1,
+  "inventory": [
+    {
+      "id": "potion_small",
+      "name": "小治疗药水",
+      "price": 14,
+      "stock": 6
+    },
+    {
+      "id": "torch",
+      "name": "火把",
+      "price": 2,
+      "stock": 12
+    },
+    {
+      "id": "rope",
+      "name": "麻绳(10m)",
+      "price": 5,
+      "stock": 8
+    },
+    {
+      "id": "antidote",
+      "name": "解毒剂",
+      "price": 12,
+      "stock": 4
+    },
+    {
+      "id": "pickaxe",
+      "name": "镐头",
+      "price": 15,
+      "stock": 5
+    },
+    {
+      "id": "mining_helmet",
+      "name": "矿工头盔（带灯）",
+      "price": 20,
+      "stock": 3
+    },
+    {
+      "id": "blasting_powder",
+      "name": "爆破粉（小包）",
+      "price": 25,
+      "stock": 2,
+      "note": "需矿区许可证方可购买"
+    },
+    {
+      "id": "dry_rations",
+      "name": "干粮",
+      "price": 3,
+      "stock": 10
+    },
+    {
+      "id": "waterskin",
+      "name": "水袋",
+      "price": 4,
+      "stock": 6
+    },
+    {
+      "id": "chalk",
+      "name": "粉笔（标记用）",
+      "price": 1,
+      "stock": 15
+    }
+  ],
+  "buyback_rate": 0.5
+}

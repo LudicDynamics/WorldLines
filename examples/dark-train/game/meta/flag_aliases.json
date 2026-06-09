@@ -1,0 +1,19 @@
+{
+  "_comment": "Dark Train flag alias table. Maps canonical flag names (flag.<scope>_<slug>) to common short names emitted across NPCs / events. The world-agent consults this at gate-evaluation time; new work should emit canonical names directly.",
+  "_naming_convention": "flag.carriage_N_<slug> for carriage-internal; flag.npc_<id>_<slug> for NPC-emitted; flag.event_<id>_fired for scripted events.",
+  "aliases": {
+    "flag.carriage_6_torn_ticket_found": ["torn_ticket_found", "ticket_stub_in_hand"],
+    "flag.carriage_6_key_fragment_recognized": ["key_fragment_recognized", "metal_in_pocket_named"],
+    "flag.npc_nervous_woman_met": ["nervous_woman_met", "met_woman_with_knotted_hands"],
+    "flag.npc_nervous_woman_named_you": ["nervous_woman_named_you", "she_used_a_name_that_was_yours"],
+    "flag.npc_sleeping_old_man_breathes_twice": ["sleeping_old_man_breathes_twice", "old_man_uncanny_witnessed"],
+    "flag.npc_child_with_bear_bear_answered": ["bear_answered", "the_bear_spoke_first"],
+    "flag.npc_conductor_seen": ["conductor_seen", "saw_the_silhouette_in_door"],
+    "flag.npc_conductor_hand_touched": ["conductor_hand_touched", "touched_the_cold_glove"],
+    "flag.event_train_stops_shuddering_fired": ["rhythm_was_silent_once", "the_train_stopped_once"],
+    "flag.event_message_on_window_fired": ["window_named_you", "saw_your_name_in_condensation"],
+    "flag.event_child_answers_unasked_fired": ["the_child_answered_a_question_you_didnt_ask"],
+    "flag.event_conductor_first_contact_fired": ["conductor_first_contact"],
+    "flag.event_nervous_woman_forgets_you_fired": ["nervous_woman_forgot_you", "she_didnt_remember_meeting_you"]
+  }
+}

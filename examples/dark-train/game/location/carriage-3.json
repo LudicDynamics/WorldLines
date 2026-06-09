@@ -1,0 +1,85 @@
+{
+  "id": "carriage-3",
+  "kind": "location",
+  "name": "Carriage 3 — The Observation Deck",
+  "tags": [
+    "location",
+    "carriage",
+    "observation"
+  ],
+  "summary": "Glass on every side and overhead, and outside the glass the Fog has stopped pretending to move.",
+  "connections": [
+    "connector-passage"
+  ],
+  "npcs": [],
+  "details": {
+    "lighting": "reflected interior light against void",
+    "condition": "pristine glass, impossibly clean",
+    "notable_features": [
+      "The walls and ceiling are one continuous pane. Behind the glass the Fog is grey and motionless. It is not passing. It is hanging. The longer you watch it, the more certain you become that the Train is also not passing through it.",
+      "On the inside the glass is warm. On the outside, where your palm rests through it, the glass is warm too. There is no condensation. The temperature has decided to lie.",
+      "A brass telescope is bolted to the floor near the rear bench. Its barrel points outward at a slight upward angle, fixed; it cannot be panned. The eyepiece is polished from long use by hands that were not yours.",
+      "An intercom box is mounted on the wall by the forward door. Beige enamel, single black button, single brass speaker grille. It crackles at irregular intervals. Between crackles there are three numbers, given each time the Rhythm changes.",
+      "Out beyond the glass, when you stop looking directly, shapes move. They are large. They do not match the Fog's stillness. When you look back, the Fog is the same fog."
+    ]
+  },
+  "san_triggers": [
+    {
+      "id": "void-glimpse",
+      "trigger_text": "Outside the glass is not weather. You are looking at the place the Train cannot quite have left.",
+      "severity": "minor",
+      "auto_fire": true
+    },
+    {
+      "id": "long-stare-into-void",
+      "trigger_text": "You hold the look. The Fog holds back. Your sense of which side of the glass you are on goes slightly soft.",
+      "severity": "moderate",
+      "auto_fire": false
+    },
+    {
+      "id": "shapes-when-not-looking",
+      "trigger_text": "Something the size of a carriage moves in the Fog, but only when you have just stopped looking at it.",
+      "severity": "moderate",
+      "auto_fire": false
+    }
+  ],
+  "skill_check_hooks": [
+    {
+      "action_hint": "use the telescope when the intercom speaks",
+      "skill": "Spot Hidden",
+      "difficulty": "hard"
+    },
+    {
+      "action_hint": "listen for a pattern in the intercom's crackle",
+      "skill": "Listen",
+      "difficulty": "regular"
+    },
+    {
+      "action_hint": "time the shifts in the Rhythm against the numbers",
+      "skill": "Listen",
+      "difficulty": "hard"
+    },
+    {
+      "action_hint": "hold your nerve at the eyepiece",
+      "skill": "Psychology",
+      "difficulty": "regular"
+    }
+  ],
+  "puzzle": {
+    "type": "observation",
+    "description": "The intercom gives three numbers each time the Rhythm shifts. They are seconds. The telescope must be looked through during the right interval. Look on the wrong count and the carriage forwards is not the carriage forwards.",
+    "unlock_condition": "Player times the telescope viewing to a Listen (regular) on the intercom AND a Spot Hidden (hard) at the eyepiece, OR a single Listen (hard) extracts the full pattern from the intercom alone.",
+    "unlocks": "carriage-2"
+  },
+  "fog_level": 3,
+  "ambient_rate": 40,
+  "ambient_events": [
+    "fog-thickens",
+    "wheels-go-quiet",
+    "passenger-vanishes",
+    "whisper-through-door",
+    "passenger-mouths-words"
+  ],
+  "events_triggered": [],
+  "passenger_manifest": []
+}

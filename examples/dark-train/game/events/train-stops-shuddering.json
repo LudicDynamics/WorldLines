@@ -1,0 +1,43 @@
+{
+  "id": "train-stops-shuddering",
+  "kind": "scripted",
+  "name": "The Train Stops Shuddering",
+  "tags": ["uncanny", "high-impact"],
+  "summary": "The Rhythm of the wheels stops for three seconds. For those three seconds the Train is not moving and the Fog is not passing.",
+  "precondition": {
+    "min_tick": 5,
+    "requires_carriage": null,
+    "requires_flags": [],
+    "min_san_loss": 15,
+    "min_fragments_heard": 1
+  },
+  "fire_once": true,
+  "fired_at_tick": null,
+  "narrative_beats": [
+    "Every passenger in the carriage stops moving in the same instant.",
+    "The wheels under the floor go quiet.",
+    "The Train is still. The Fog outside is still.",
+    "Three seconds.",
+    "The wheels resume. The Rhythm is back, faster by a fraction you cannot quite name."
+  ],
+  "san_check": {
+    "trigger_id": "train-stops-shuddering",
+    "severity": "major",
+    "forced": true
+  },
+  "mythos_delta": 0,
+  "state_writes": [
+    {"path": "game/player/flags.json#train-stopped-once", "op": "set", "value": true},
+    {"path": "game/npc/nervous-woman.json#state.met_uncanny", "op": "set", "value": true},
+    {"path": "game/npc/nervous-woman.json#state.mood", "op": "set", "value": "shaken"},
+    {"path": "game/player/fragments_heard", "op": "inc", "value": 1}
+  ],
+  "consequences_if_passed": [
+    "Investigator can describe what they noticed; new fragments unlock with Ms. Harlow and Mr. Graves.",
+    "Mr. Graves may now wake; his third fragment becomes reachable."
+  ],
+  "consequences_if_failed": [
+    "Investigator's hands look strange to them for the next beat.",
+    "On a 5+ SAN loss, INT check for temporary insanity; on indefinite-insanity threshold, phonophobia or hodophobia are thematically apt."
+  ]
+}

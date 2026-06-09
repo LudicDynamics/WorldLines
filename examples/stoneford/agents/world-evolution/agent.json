@@ -1,0 +1,21 @@
+{
+  "id": "world-evolution",
+  "name": "World Evolution",
+  "description": "长期世界演变。提议派系 / 经济 / 路线漂移。",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "triggers": [],
+  "tags": ["simulation","faction","drift"],
+  "priority": 40,
+  "permissions": {
+    "read_globs": ["game/**"],
+    "write_globs": [],
+    "deny_globs": [".neonrp/**"],
+    "direct_write_globs": []
+  },
+  "defaults": {
+    "context_limit": 20,
+    "temperature": 0.5
+  }
+}

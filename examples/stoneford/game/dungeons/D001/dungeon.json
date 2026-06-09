@@ -1,0 +1,17 @@
+{
+  "id": "D001",
+  "name": "苔墓地穴",
+  "theme": "潮湿古墓/苔藓/低语",
+  "danger": 3,
+  "recommended_level": "1-2",
+  "entrance_from": "R002",
+  "boss": {
+    "id": "BOSS001",
+    "name": "低语棺",
+    "note": "会以交易与秘密诱惑玩家"
+  },
+  "state": {
+    "discovered": false,
+    "cleared": false
+  }
+}

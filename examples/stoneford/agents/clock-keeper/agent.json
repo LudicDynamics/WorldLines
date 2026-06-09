@@ -1,0 +1,32 @@
+{
+  "id": "clock-keeper",
+  "name": "Clock Keeper",
+  "description": "世界时钟 / 事件调度。仅 JSON 输出。",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "triggers": [],
+  "tags": [
+    "clock",
+    "schedule",
+    "simulation"
+  ],
+  "priority": 50,
+  "permissions": {
+    "read_globs": [
+      "game/**"
+    ],
+    "write_globs": [
+      "game/world/world_map.json",
+      "game/meta/schedule.json"
+    ],
+    "deny_globs": [
+      ".neonrp/**"
+    ],
+    "direct_write_globs": []
+  },
+  "defaults": {
+    "context_limit": 20,
+    "temperature": 0.5
+  }
+}

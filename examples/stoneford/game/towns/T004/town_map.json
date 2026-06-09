@@ -1,0 +1,97 @@
+{
+  "town_id": "T004",
+  "nodes": [
+    {
+      "id": "gate_west",
+      "name": "西门",
+      "type": "gate",
+      "description": "碧石镇的正门，面朝石津镇方向的驿道。门楼上刻着一块巨大的翡翠原石作为镇标。",
+      "pos": { "x": 100, "y": 300 },
+      "links": ["main_street"]
+    },
+    {
+      "id": "main_street",
+      "name": "矿工大道",
+      "type": "street",
+      "description": "碧石镇最宽阔的主街。矿车轨道嵌在路面中央，两旁是密集的店铺和摊位。人流不断，热闹非凡。",
+      "pos": { "x": 350, "y": 300 },
+      "links": ["gate_west", "guild", "tavern", "shop_general", "herb_shop", "appraiser", "east_street"]
+    },
+    {
+      "id": "guild",
+      "name": "冒险者公会（碧石分部）",
+      "type": "facility",
+      "facility_file": "facilities/guild.json",
+      "description": "公会分部比石津的大得多，常年挤满了接任务的冒险者。门口的告示板贴满了委托单。",
+      "pos": { "x": 280, "y": 180 },
+      "links": ["main_street"]
+    },
+    {
+      "id": "tavern",
+      "name": "翠晶酒馆",
+      "type": "facility",
+      "facility_file": "facilities/tavern.json",
+      "description": "碧石镇最大的酒馆兼旅店。门面以碎水晶装饰，夜晚在火光下闪闪发亮。二楼提供住宿。",
+      "pos": { "x": 450, "y": 200 },
+      "links": ["main_street"]
+    },
+    {
+      "id": "shop_general",
+      "name": "石锤杂货铺",
+      "type": "facility",
+      "facility_file": "facilities/shop_general.json",
+      "description": "矿工和冒险者的补给站。从绳索到炸药，从口粮到地图，应有尽有。",
+      "pos": { "x": 420, "y": 380 },
+      "links": ["main_street"]
+    },
+    {
+      "id": "herb_shop",
+      "name": "青苔草药铺",
+      "type": "facility",
+      "facility_file": "facilities/herb_shop.json",
+      "description": "一间被藤蔓缠绕的小店，空气中弥漫着草药的清苦香气。矿工受伤后常来这里买药。",
+      "pos": { "x": 250, "y": 400 },
+      "links": ["main_street"]
+    },
+    {
+      "id": "appraiser",
+      "name": "鸦目鉴定所",
+      "type": "facility",
+      "facility_file": "facilities/appraiser.json",
+      "description": "矿石鉴定师「鸦目」老范的店铺。据说他那双异色瞳孔能看穿任何矿石的本质。",
+      "pos": { "x": 500, "y": 320 },
+      "links": ["main_street"]
+    },
+    {
+      "id": "east_street",
+      "name": "东街",
+      "type": "street",
+      "description": "通往教堂和矿区入口的岔道。越往东走越安静，能听到远处矿洞里传出的叮当声。",
+      "pos": { "x": 600, "y": 280 },
+      "links": ["main_street", "chapel", "mine_entrance"]
+    },
+    {
+      "id": "chapel",
+      "name": "晨光小教堂",
+      "type": "facility",
+      "facility_file": "facilities/chapel.json",
+      "description": "供奉光明神的小教堂，白石砌成，在碧石镇的喧嚣中显得格外肃穆宁静。铁柱曾提起过这里。",
+      "pos": { "x": 700, "y": 200 },
+      "links": ["east_street"]
+    },
+    {
+      "id": "mine_entrance",
+      "name": "矿区入口",
+      "type": "gate",
+      "description": "通向地下矿道的巨大洞口。矿车轨道从这里延伸进黑暗中。入口旁有矿业公司的告示和安全警告。",
+      "pos": { "x": 750, "y": 350 },
+      "links": ["east_street"]
+    }
+  ],
+  "state": {
+    "discovered_nodes": [
+      "gate_west"
+    ]
+  },
+  "scale": 0.4
+}

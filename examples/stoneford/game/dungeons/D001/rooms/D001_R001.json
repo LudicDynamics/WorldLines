@@ -1,0 +1,13 @@
+{
+  "id": "D001_R001",
+  "name": "潮门前室",
+  "description": "石门半掩，潮气涌出。墙角有被拖拽的痕迹。",
+  "features": [
+    "可调查拖痕",
+    "可点燃火把降低雾影响"
+  ],
+  "state": {
+    "explored": false,
+    "cleared": false
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "town_id": "T001",
+  "nodes": [
+    {
+      "id": "gate_north",
+      "name": "北门",
+      "type": "gate",
+      "pos": {
+        "x": 236,
+        "y": 153
+      },
+      "links": [
+        "main_street"
+      ]
+    },
+    {
+      "id": "main_street",
+      "name": "主街",
+      "type": "street",
+      "pos": {
+        "x": 504,
+        "y": 316
+      },
+      "links": [
+        "guild",
+        "shop_general",
+        "inn",
+        "dock",
+        "townhall"
+      ]
+    },
+    {
+      "id": "guild",
+      "name": "冒险者公会",
+      "type": "facility",
+      "facility_file": "facilities/guild.json",
+      "pos": {
+        "x": 416,
+        "y": 191
+      },
+      "links": [
+        "main_street"
+      ]
+    },
+    {
+      "id": "shop_general",
+      "name": "杂货铺",
+      "type": "facility",
+      "facility_file": "facilities/shop_general.json",
+      "pos": {
+        "x": 512,
+        "y": 232
+      },
+      "links": [
+        "main_street"
+      ]
+    },
+    {
+      "id": "inn",
+      "name": "河灯旅店",
+      "type": "facility",
+      "facility_file": "facilities/inn.json",
+      "pos": {
+        "x": 621,
+        "y": 268
+      },
+      "links": [
+        "main_street"
+      ]
+    },
+    {
+      "id": "townhall",
+      "name": "镇署",
+      "type": "facility",
+      "facility_file": "facilities/townhall.json",
+      "pos": {
+        "x": 772,
+        "y": 315
+      },
+      "links": [
+        "main_street"
+      ]
+    },
+    {
+      "id": "dock",
+      "name": "码头",
+      "type": "dock",
+      "pos": {
+        "x": 411,
+        "y": 429
+      },
+      "links": [
+        "main_street"
+      ]
+    }
+  ],
+  "state": {
+    "discovered_nodes": [
+      "gate_north",
+      "main_street",
+      "guild",
+      "shop_general",
+      "inn"
+    ]
+  },
+  "scale": 0.4
+}

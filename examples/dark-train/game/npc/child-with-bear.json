@@ -1,0 +1,65 @@
+{
+  "id": "child-with-bear",
+  "kind": "npc",
+  "name": "Lily",
+  "tags": [
+    "npc",
+    "passenger",
+    "carriage-4",
+    "child",
+    "uncanny"
+  ],
+  "summary": "A small girl who has not put the bear down. She does not look at you when she answers; the bear does.",
+  "location": "carriage-4",
+  "inventory": [],
+  "voice": "Short. Matter-of-fact. As if she has explained this before to someone less patient.",
+  "traits": [
+    "head bowed over the bear",
+    "answers before she is asked",
+    "says terrible things as if they are weather",
+    "feet do not quite touch the floor",
+    "the bear's eyes do the looking"
+  ],
+  "state": {
+    "met": false,
+    "affection": 0,
+    "mood": "still",
+    "inner_state": "She has done this run before. She has been the one to leave the carriage and the one to stay in it. She does not mind either way."
+  },
+  "memory": "She remembers you from at least one earlier loop. She will not say which. The bear remembers more, and the bear is louder when it wants to be.",
+  "coc_stats": {
+    "INT": 60,
+    "POW": 75,
+    "fighting": 15,
+    "dodge": 35,
+    "hp": 7,
+    "db": -1
+  },
+  "uncanny": true,
+  "attack": null,
+  "gate_conditions": {
+    "speaks_at_all": "tick >= 4",
+    "lets_player_examine_bear": "affection >= 20 OR flag:child-asked-about-bear",
+    "shares_first_fragment": "tick >= 6 AND (passed_check:Psychology OR flag:child-has-spoken)",
+    "shares_second_fragment": "affection >= 40 AND item:torn-ticket",
+    "shares_third_fragment": "affection >= 60 AND flag:read-cipher"
+  },
+  "psychology_reading": "She is not frightened. She is sorry. She knows what is at the front of the Train and she knows you will go anyway.",
+  "fragments": [
+    {
+      "id": "frag-child-1",
+      "text": "The bear sleeps when the wheels are quiet. He has not slept in a long time.",
+      "gate": "tick >= 6 AND (passed_check:Psychology OR flag:child-has-spoken)"
+    },
+    {
+      "id": "frag-child-2",
+      "text": "You came past me last time too. You had the ticket then. The other half of it.",
+      "gate": "affection >= 40 AND item:torn-ticket"
+    },
+    {
+      "id": "frag-child-3",
+      "text": "The man at the front is not driving. He is being driven.",
+      "gate": "affection >= 60 AND flag:read-cipher"
+    }
+  ]
+}

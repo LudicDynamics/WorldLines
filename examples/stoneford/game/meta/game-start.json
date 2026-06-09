@@ -1,0 +1,39 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "Stone Ford Town — 游戏开始引导",
+  "tags": ["entrypoint", "start", "begin", "开始游戏", "开始冒险"],
+  "summary": "玩家说「开始游戏」时，orchestrator 先读取本文件。",
+  "startup": {
+    "read_first": [
+      "game/meta/game-start.json",
+      "game/meta/run_state.json",
+      "game/player/profile.json",
+      "game/player/stats.json",
+      "game/player/equipment.json",
+      "game/player/wallet.json",
+      "game/towns/T001/town.json",
+      "game/lore/story.md"
+    ],
+    "opening_scene": "你沿着驿路走了一整天。最后半个小时，雾从林子里漏出来——先是脚踝的高度，然后是腰，然后你连自己的手都看不清了。你不慌——驿路比人老，雾再重也不会让它偏。然后你看到一扇歪的木栅栏门，门上挂着褪色的木牌：「石津镇 · 欢迎来到灰雾北境」。一个穿皮背心的守卫靠在门柱上打瞌睡。",
+    "opening_choices": [
+      "和守卫说话",
+      "直接进镇",
+      "看看四周"
+    ]
+  },
+  "world_info": {
+    "world_name": "灰雾北境 Northvale",
+    "start_location": "T001 石津镇",
+    "start_scope": "town",
+    "start_time": { "day": 1, "clock": "08:30" },
+    "genre": "中世纪奇幻 TRPG",
+    "tone": "真实、沉重、有后果",
+    "rules": "d20 骰子判定 · 详见 game/rules/combat_rules.md"
+  },
+  "agent_routing": {
+    "entry_agent": "world-agent",
+    "router_type": "sticky",
+    "note": "所有玩家输入都先经过 orchestrator。orchestrator 读 run_state.json 后决定委托给哪个 domain agent。不要绕过 world-agent 直接进 domain agent。"
+  }
+}

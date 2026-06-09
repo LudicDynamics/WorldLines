@@ -1,0 +1,54 @@
+{
+  "dungeon_id": "D001",
+  "rooms": [
+    {
+      "id": "D001_R001",
+      "name": "潮门前室",
+      "type": "entry",
+      "links": [
+        "D001_R002"
+      ],
+      "state": {
+        "explored": false
+      }
+    },
+    {
+      "id": "D001_R002",
+      "name": "苔廊",
+      "type": "hall",
+      "links": [
+        "D001_R001",
+        "D001_R003",
+        "D001_R004"
+      ],
+      "state": {
+        "explored": false
+      }
+    },
+    {
+      "id": "D001_R003",
+      "name": "供台室",
+      "type": "chamber",
+      "links": [
+        "D001_R002"
+      ],
+      "state": {
+        "explored": false
+      }
+    },
+    {
+      "id": "D001_R004",
+      "name": "棺语内殿",
+      "type": "boss",
+      "links": [
+        "D001_R002"
+      ],
+      "state": {
+        "explored": false
+      }
+    }
+  ],
+  "state": {
+    "current_room": "D001_R001"
+  }
+}

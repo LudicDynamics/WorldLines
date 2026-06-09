@@ -1,0 +1,9 @@
+{
+  "events": [
+    { "id": "event.month_turn", "cadence": "monthly" },
+    { "id": "event.season_turn", "cadence": "seasonal" },
+    { "id": "event.caravan_arrival", "cadence": "weekly", "town_id": "T001" }
+  ],
+  "fired": [],
+  "missed": []
+}

@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "execution_mode": "orchestrator",
+  "note": "哥布林遭遇战 · 多 agent 编排。world-agent 是 Layer 1(DM):管回合、调 referee 掷骰、把结果写回 run_state + HP、替哥布林行动、叙述。referee 只掷骰返回 JSON,world-agent 负责落盘。",
+  "agents": [
+    {
+      "id": "world-agent",
+      "name": "Dungeon Master",
+      "agent_path": ".claude/agents/world-agent.md",
+      "role": "Layer 1 — DM:回合调度 + 写回 state + 叙述",
+      "description": "管理先攻顺序与回合,调 referee 掷骰(先攻/攻击/伤害),**把结果写回 run_state 的 initiative_order + party/npc 的 HP**,替哥布林按 tactics 行动,每个冒险者回合停下等玩家,叙述战斗。所有玩家输入先经过它。",
+      "read_globs": ["game/**"],
+      "write_globs": [
+        "game/meta/run_state.json",
+        "game/meta/active-agent.json",
+        "game/party/*.json",
+        "game/npc/*.json"
+      ]
+    },
+    {
+      "id": "referee",
+      "name": "Dice Referee (5e)",
+      "agent_path": ".claude/agents/referee.md",
+      "role": "Layer 2 — D&D 5e d20 判定",
+      "description": "掷先攻(d20+先攻调整)、攻击检定(d20+命中 vs AC,nat20 暴击翻倍,nat1 必失)、伤害骰。返回结构化 JSON,不写散文、不落盘(world-agent 写 HP/state)。Temp 0.2。",
+      "read_globs": [
+        "game/party/*.json",
+        "game/npc/*.json",
+        "game/rules/combat-5e.md",
+        "game/meta/run_state.json"
+      ],
+      "write_globs": []
+    }
+  ],
+  "routing_doctrine": {
+    "all_player_input_passes_through": "world-agent",
+    "all_dice_route_to": "referee",
+    "specialists_return_json_world_agent_persists": true,
+    "no_specialist_writes_prose": true,
+    "max_call_chain_depth_per_turn": 3
+  }
+}

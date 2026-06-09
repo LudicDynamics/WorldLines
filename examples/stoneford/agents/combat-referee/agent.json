@@ -1,0 +1,42 @@
+{
+  "id": "combat-referee",
+  "name": "Combat Referee",
+  "description": "RPG战斗裁判代理。执行回合制战斗规则、命中/伤害计算、状态效果处理、战斗结算。触发战斗遭遇时使用。",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "triggers": [],
+  "tags": [
+    "combat",
+    "battle",
+    "referee"
+  ],
+  "priority": 60,
+  "permissions": {
+    "read_globs": [
+      "game/rules/combat_rules.md",
+      "game/player/stats.json",
+      "game/player/equipment.json",
+      "game/player/inventory.json"
+    ],
+    "write_globs": [
+      "game/player/stats.json",
+      "game/player/inventory.json",
+      "game/player/wallet.json",
+      "game/lore/notes.md"
+    ],
+    "deny_globs": [
+      ".neonrp/**"
+    ],
+    "direct_write_globs": [
+      "game/player/stats.json",
+      "game/player/inventory.json",
+      "game/player/wallet.json",
+      "game/lore/notes.md"
+    ]
+  },
+  "defaults": {
+    "context_limit": 20,
+    "temperature": 0.8
+  }
+}

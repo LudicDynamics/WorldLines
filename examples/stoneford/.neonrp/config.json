@@ -1,0 +1,23 @@
+{
+  "_comment": "Stone Ford Town — NeonRP project config",
+  "llm": {
+    "_comment": "Set model_ref to select a model from user or project 'models' section."
+  },
+  "tui": {
+    "narrator_agent_id": "world-agent",
+    "auto_apply": true,
+    "session_max_turns": 50,
+    "show_diff_preview": false
+  },
+  "rules": {
+    "_comment": "Domain rules in game/rules/combat_rules.md"
+  },
+  "models": {
+    "stub": {
+      "provider": "stub",
+      "model": "stub"
+    }
+  },
+  "mcp_servers": {},
+  "max_sub_agent_depth": 3
+}

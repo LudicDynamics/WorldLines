@@ -1,0 +1,47 @@
+{
+  "id": "dungeon-agent",
+  "name": "Dungeon Agent",
+  "description": "RPG地下城代理。处理地下城探索、房间导航、遭遇触发、Boss战。scope=='dungeon'且玩家在地下城内活动时使用。",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "triggers": [],
+  "tags": [
+    "dungeon",
+    "exploration",
+    "encounter"
+  ],
+  "priority": 50,
+  "permissions": {
+    "read_globs": [
+      "game/dungeons/*/dungeon.json",
+      "game/dungeons/*/layout.json",
+      "game/dungeons/*/rooms/*.json",
+      "game/dungeons/*/encounter_tables.json",
+      "game/dungeons/*/loot_tables.json",
+      "game/player/stats.json",
+      "game/player/inventory.json",
+      "game/player/equipment.json",
+      "game/player/flags.json",
+      "game/rules/combat_rules.md"
+    ],
+    "write_globs": [
+      "game/dungeons/*/layout.json",
+      "game/dungeons/*/rooms/*.json",
+      "game/player/flags.json"
+    ],
+    "deny_globs": [
+      ".neonrp/**"
+    ],
+    "direct_write_globs": [
+      "game/dungeons/*/layout.json",
+      "game/dungeons/*/rooms/*.json",
+      "game/player/flags.json",
+      "game/world/world_map.json"
+    ]
+  },
+  "defaults": {
+    "context_limit": 20,
+    "temperature": 0.8
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "key-fragment",
+  "kind": "item",
+  "name": "Key Fragment",
+  "tags": [
+    "item",
+    "clue",
+    "key-item"
+  ],
+  "summary": "A broken piece of an ornate brass key. Found in the Library carriage. It feels warm to the touch.",
+  "price": 0,
+  "effect": {
+    "type": "clue",
+    "description": "Part of a larger key — may be needed to access the engine car"
+  }
+}

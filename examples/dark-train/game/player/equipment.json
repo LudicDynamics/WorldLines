@@ -1,0 +1,16 @@
+{
+  "id": "equipment",
+  "kind": "player",
+  "worn": {
+    "outer": "plain coat (worn-in, no markings)",
+    "lower": "plain trousers",
+    "footwear": "sensible shoes",
+    "headwear": null,
+    "gloves": null
+  },
+  "in_hand": null,
+  "ready_slot": null,
+  "weapons_known": [],
+  "armor": null,
+  "_schema_note": "Equipment is what's physically on the investigator. Weapons appear in `in_hand` only when explicitly grabbed (a broken bottle, a lantern, the Conductor's dropped cane). The investigator starts unarmed. Improvised weapons grant +1 damage and -10 Fighting per combat_rules.md."
+}

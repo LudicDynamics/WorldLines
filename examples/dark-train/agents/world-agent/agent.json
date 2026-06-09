@@ -1,0 +1,47 @@
+{
+  "id": "world-agent",
+  "name": "World Agent (Keeper)",
+  "description": "Dark Train Keeper / orchestrator. Reads run_state.json, resolves in-carriage actions and tick/events inline, routes dialogue to character-agent and all dice (skill/combat/san) to referee, merges structured results, updates game state, and composes second-person prose by the strict rules in game/rules/narrative.md. All player input enters here first.",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 30,
+  "triggers": [".*"],
+  "tags": ["world-agent", "keeper", "orchestrator", "narrative", "state", "dark-train"],
+  "priority": 100,
+  "permissions": {
+    "read_globs": [
+      "game/**",
+      ".neonrp/**"
+    ],
+    "write_globs": [
+      "game/meta/run_state.json",
+      "game/location/*.json",
+      "game/lore/**",
+      "game/player/journal.md",
+      "game/player/flags.json",
+      "game/player/inventory.json"
+    ],
+    "deny_globs": [],
+    "direct_write_globs": [
+      "game/meta/run_state.json",
+      "game/location/*.json",
+      "game/lore/notes.md",
+      "game/lore/story.md",
+      "game/lore/rumors.md",
+      "game/player/journal.md",
+      "game/player/flags.json",
+      "game/player/inventory.json"
+    ]
+  },
+  "defaults": {
+    "context_limit": 30,
+    "temperature": 0.7
+  },
+  "presentation_roles": {
+    "en": "Keeper",
+    "zh": "守密人",
+    "ja": "守人",
+    "ko": "수호자"
+  },
+  "presentation_hidden": false
+}

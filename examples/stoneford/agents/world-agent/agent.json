@@ -1,0 +1,41 @@
+{
+  "id": "world-agent",
+  "name": "World Agent",
+  "description": "主控调度器。读取 run_state.json，根据 location.scope 路由到子代理，合并结果，更新游戏状态，生成最终叙事。",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 30,
+  "triggers": [
+    ".*"
+  ],
+  "tags": [
+    "world-agent",
+    "routing",
+    "narrative",
+    "state"
+  ],
+  "priority": 100,
+  "permissions": {
+    "read_globs": [
+      "game/**",
+      ".neonrp/**"
+    ],
+    "write_globs": [
+      "game/meta/run_state.json",
+      "game/lore/**",
+      "game/player/journal.md"
+    ],
+    "deny_globs": [],
+    "direct_write_globs": [
+      "game/meta/run_state.json",
+      "game/lore/notes.md",
+      "game/lore/story.md",
+      "game/lore/rumors.md",
+      "game/player/journal.md"
+    ]
+  },
+  "defaults": {
+    "context_limit": 30,
+    "temperature": 0.7
+  }
+}

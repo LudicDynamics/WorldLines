@@ -1,0 +1,21 @@
+{
+  "id": "character-agent",
+  "name": "NPC Mind",
+  "description": "单体 NPC 独立心智。化身具名 NPC 并从其视角反应。",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "triggers": [],
+  "tags": ["npc","dialogue","mind"],
+  "priority": 60,
+  "permissions": {
+    "read_globs": ["game/**"],
+    "write_globs": [],
+    "deny_globs": [".neonrp/**"],
+    "direct_write_globs": []
+  },
+  "defaults": {
+    "context_limit": 20,
+    "temperature": 0.5
+  }
+}

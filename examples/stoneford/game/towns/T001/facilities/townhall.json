@@ -1,0 +1,12 @@
+{
+  "facility_id": "townhall_T001",
+  "name": "镇署",
+  "services": [
+    "武器封存/解封",
+    "通行证",
+    "报案"
+  ],
+  "state": {
+    "weapon_peace_bond_required": true
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "story-narrative",
+  "name": "Story Narrative",
+  "description": "漂移兜底叙事。玩家进入未创作内容时薄描。",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "triggers": [],
+  "tags": ["narrative","fallback"],
+  "priority": 55,
+  "permissions": {
+    "read_globs": ["game/**"],
+    "write_globs": [],
+    "deny_globs": [".neonrp/**"],
+    "direct_write_globs": []
+  },
+  "defaults": {
+    "context_limit": 20,
+    "temperature": 0.5
+  }
+}

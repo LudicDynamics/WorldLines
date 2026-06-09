@@ -1,0 +1,32 @@
+{
+  "facility_id": "shop_general_T001",
+  "name": "老苇杂货",
+  "price_index": 1.0,
+  "inventory": [
+    {
+      "id": "potion_small",
+      "name": "小治疗药水",
+      "price": 12,
+      "stock": 4
+    },
+    {
+      "id": "torch",
+      "name": "火把",
+      "price": 2,
+      "stock": 8
+    },
+    {
+      "id": "rope",
+      "name": "麻绳(10m)",
+      "price": 4,
+      "stock": 6
+    },
+    {
+      "id": "antidote",
+      "name": "解毒剂",
+      "price": 10,
+      "stock": 3
+    }
+  ],
+  "buyback_rate": 0.5
+}

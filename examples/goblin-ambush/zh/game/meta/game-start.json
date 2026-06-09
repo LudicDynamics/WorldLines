@@ -1,0 +1,28 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "哥布林遭遇战 · D&D 5e",
+  "summary": "黄昏林道,一只哥布林从灌木里跳出来。你指挥三名冒险者,按 D&D 5e 规则把它放倒。",
+  "startup": {
+    "read_first": [
+      "{{DATA_DIR}}/meta/run_state.json",
+      "{{DATA_DIR}}/location/forest-path.json",
+      "{{DATA_DIR}}/party/aldric.json",
+      "{{DATA_DIR}}/party/bree.json",
+      "{{DATA_DIR}}/party/merrin.json",
+      "{{DATA_DIR}}/npc/goblin.json",
+      "{{DATA_DIR}}/rules/combat-5e.md"
+    ],
+    "start_location": "forest-path",
+    "agent_routing": {
+      "entry_agent": "world-agent",
+      "router_type": "sticky"
+    },
+    "opening_scene": "【哥布林遭遇战 · D&D 5e】\n\n黄昏的林道。你带着三名冒险者——奥德里克(战士)、布丽(游荡者)、梅林(法师)——正穿过这片树林。\n\n灌木一阵晃动。一只哥布林举着弯刀跳了出来,黄眼睛在暗处发亮。\n\n这是一场遭遇战:你指挥这三人,按 D&D 5e 规则战斗——掷先攻、d20 命中、骰伤害,把哥布林放倒。它只有一只,但别大意:哥布林滑不溜手,见势不妙会逃。\n\n先攻开始。",
+    "opening_choices": [
+      "掷先攻,开始战斗",
+      "先看看三名冒险者的状态",
+      "查看哥布林"
+    ]
+  }
+}

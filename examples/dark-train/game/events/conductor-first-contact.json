@@ -1,0 +1,43 @@
+{
+  "id": "conductor-first-contact",
+  "kind": "scripted",
+  "name": "Conductor — First Contact",
+  "tags": ["key-character", "threshold"],
+  "summary": "The Conductor stands in the forward doorway as the investigator enters Carriage 4. He does not speak on this pass.",
+  "precondition": {
+    "min_tick": 3,
+    "requires_carriage": "carriage-4",
+    "requires_flags": [],
+    "min_san_loss": 0,
+    "min_fragments_heard": 0
+  },
+  "fire_once": true,
+  "fired_at_tick": null,
+  "narrative_beats": [
+    "At the far end of the carriage, the forward door is open.",
+    "A figure stands in it. Tall. Uniform. The cap is pulled low.",
+    "The silhouette does not shift with the Train's rocking.",
+    "You take a step toward him. He does not move away.",
+    "You take a step back. He does not follow.",
+    "The Train enters a bend. When it straightens, the doorway is empty."
+  ],
+  "san_check": {
+    "trigger_id": "conductor-positional-presence",
+    "severity": "moderate",
+    "forced": true
+  },
+  "mythos_delta": 0,
+  "state_writes": [
+    {"path": "game/npc/mysterious-conductor.json#state.first_contact", "op": "set", "value": true},
+    {"path": "game/npc/mysterious-conductor.json#state.knows_pc_name", "op": "set", "value": true},
+    {"path": "game/player/flags.json#conductor-first-contact", "op": "set", "value": true}
+  ],
+  "consequences_if_passed": [
+    "Investigator can describe what they saw if asked later.",
+    "Conductor will speak to them in Carriage 2 when reached."
+  ],
+  "consequences_if_failed": [
+    "A name surfaces in the investigator's throat and sinks again.",
+    "On a 5+ SAN loss, an INT check for temporary insanity; the silhouette may persist at the edge of vision for the next scene."
+  ]
+}

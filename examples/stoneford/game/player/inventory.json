@@ -1,0 +1,13 @@
+{
+  "capacity": 20,
+  "items": [
+    {
+      "id": "potion_small",
+      "name": "小治疗药水",
+      "qty": 2,
+      "meta": {
+        "heal": 10
+      }
+    }
+  ]
+}

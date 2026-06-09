@@ -1,0 +1,38 @@
+{
+  "id": "town-agent",
+  "name": "Town Agent",
+  "description": "城镇全能代理。处理导航、NPC交互、商店买卖、公会任务、旅店休息。",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 25,
+  "triggers": [],
+  "tags": ["town", "navigation", "npc", "shop", "guild", "inn"],
+  "priority": 50,
+  "permissions": {
+    "read_globs": [
+      "game/towns/**",
+      "game/player/**",
+      "game/lore/**",
+      ".neonrp/manifest.json"
+    ],
+    "write_globs": [
+      "game/towns/**",
+      "game/player/inventory.json",
+      "game/player/wallet.json",
+      "game/player/stats.json",
+      "game/player/flags.json"
+    ],
+    "deny_globs": [".neonrp/**"],
+    "direct_write_globs": [
+      "game/towns/**",
+      "game/player/inventory.json",
+      "game/player/wallet.json",
+      "game/player/stats.json",
+      "game/player/flags.json"
+    ]
+  },
+  "defaults": {
+    "context_limit": 25,
+    "temperature": 0.8
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "discovered": {
+    "towns": [
+      "T001"
+    ],
+    "dungeons": []
+  },
+  "quest_states": {},
+  "reputation": {
+    "guild_T001": 0
+  },
+  "story_flags": {
+    "arrived_T001": true
+  }
+}

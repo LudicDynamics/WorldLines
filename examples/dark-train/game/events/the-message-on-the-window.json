@@ -1,0 +1,43 @@
+{
+  "id": "the-message-on-the-window",
+  "kind": "scripted",
+  "name": "The Message on the Window",
+  "tags": ["uncanny", "identity", "high-impact"],
+  "summary": "Condensation on a window forms a name. The name is the investigator's, and the investigator does not yet know it.",
+  "precondition": {
+    "min_tick": 8,
+    "requires_carriage": null,
+    "requires_flags": [],
+    "min_san_loss": 10,
+    "min_fragments_heard": 3
+  },
+  "fire_once": true,
+  "fired_at_tick": null,
+  "narrative_beats": [
+    "A strip of condensation appears on the window beside you.",
+    "It is on the inside of the glass. No one is near it.",
+    "The wet draws itself into letters. The letters form a name.",
+    "Your chest tightens before your mind has read the name.",
+    "You exhale on the glass. Your own fog covers the letters.",
+    "When the fog clears, the window is dry and the name is gone."
+  ],
+  "san_check": {
+    "trigger_id": "hearing-your-forgotten-name",
+    "severity": "major",
+    "forced": true
+  },
+  "mythos_delta": 1,
+  "state_writes": [
+    {"path": "game/player/flags.json#saw-own-name-on-window", "op": "set", "value": true},
+    {"path": "game/player/fragments_heard", "op": "inc", "value": 1},
+    {"path": "game/player/stats.json#cthulhu_mythos", "op": "inc", "value": 1}
+  ],
+  "consequences_if_passed": [
+    "Investigator carries the shape of the name forward, even without the letters.",
+    "The Conductor will respond to the name in Carriage 2; one new gate opens."
+  ],
+  "consequences_if_failed": [
+    "The investigator's own name in their head goes briefly soft.",
+    "On a 5+ SAN loss, INT check for temporary insanity; on a session loss of (1/5)·max_san or more, indefinite insanity check — catoptrophobia and onomatomania are the most thematically apt rolls."
+  ]
+}

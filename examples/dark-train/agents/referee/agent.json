@@ -1,0 +1,48 @@
+{
+  "id": "referee",
+  "name": "Referee (CoC 7e)",
+  "description": "Unified CoC-7e arbiter. One agent for all three adjudications — skill checks (d100 vs skill), combat (per-exchange opposed d100), and SAN (roll-under SAN + insanity). The Keeper calls it with check_type and inputs; it reads the matching rules file, rolls, and returns one JSON ruling. Never narrates. Replaces rules-referee + combat-referee + sanity-keeper.",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 12,
+  "triggers": [],
+  "tags": ["referee", "coc", "rules", "combat", "sanity", "dark-train"],
+  "priority": 80,
+  "permissions": {
+    "read_globs": [
+      "game/player/stats.json",
+      "game/player/profile.json",
+      "game/player/equipment.json",
+      "game/player/inventory.json",
+      "game/player/flags.json",
+      "game/npc/*.json",
+      "game/rules/coc_skills.md",
+      "game/rules/combat_rules.md",
+      "game/rules/sanity_rules.md",
+      "game/meta/run_state.json"
+    ],
+    "write_globs": [
+      "game/player/stats.json",
+      "game/npc/*.json"
+    ],
+    "deny_globs": [
+      "game/lore/*.md",
+      "game/location/*.json"
+    ],
+    "direct_write_globs": [
+      "game/player/stats.json",
+      "game/npc/*.json"
+    ]
+  },
+  "defaults": {
+    "context_limit": 12,
+    "temperature": 0.2
+  },
+  "presentation_roles": {
+    "en": "Referee",
+    "zh": "裁判",
+    "ja": "判定",
+    "ko": "심판"
+  },
+  "presentation_hidden": true
+}
