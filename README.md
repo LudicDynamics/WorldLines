@@ -124,6 +124,31 @@ A grey-fog northern river port. Classic-fantasy TRPG · d20 dice · 10-agent orc
 
 All worlds live in [examples/](./examples/) — open-source (AGPL-3.0), fork and ship your own.
 
+### Quick run
+
+```bash
+neonrp play examples/dark-train/zh       # open world
+neonrp play examples/stoneford/zh        # siege TRPG
+neonrp play examples/goblin-ambush/zh    # 3-layer dungeon
+neonrp play examples/sakura-hallway/zh   # school-life narrative
+```
+
+Or play online: [Dark Train](https://hub.worldlines.gg/play/worlds/dark-train) · [Stoneford](https://hub.worldlines.gg/play/worlds/stoneford)
+
+### Claude Code / MCP
+
+Open Claude Code inside any world directory and the agents are there:
+
+```
+cd examples/dark-train
+claude
+@world-agent 开始游戏
+```
+
+WorldLines exposes its agents as MCP tools. Claude Code discovers them
+automatically — no extra setup. Each example ships with `.claude/agents/`
+pre-configured.
+
 ---
 
 ## Other Projects Using This Engine
@@ -236,8 +261,12 @@ Full roadmap: [docs.worldlines.gg/docs/roadmap](https://docs.worldlines.gg/docs/
 ## Star History
 
 <p align="center">
-  <a href="https://star-history.com/#LudicDynamics/WorldLines&Date">
-    <img src="https://api.star-history.com/svg?repos=LudicDynamics/WorldLines&type=Date" alt="Star History Chart" width="640" />
+  <a href="https://www.star-history.com/?type=date&repos=LudicDynamics%2FWorldLines">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=LudicDynamics/WorldLines&type=date&theme=dark&legend=top-left" />
+      <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=LudicDynamics/WorldLines&type=date&legend=top-left" />
+      <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=LudicDynamics/WorldLines&type=date&legend=top-left" />
+    </picture>
   </a>
 </p>
 
