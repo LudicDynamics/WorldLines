@@ -113,15 +113,16 @@ No install. Go to **[hub.worldlines.gg](https://hub.worldlines.gg)**, sign in, a
 
 A grey-fog northern river port. Classic-fantasy TRPG · d20 dice · 10-agent orchestrator. The flagship example: a full town with NPCs, quests, a dungeon, and siege mechanics. **[Play online →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[Source & docs →](./examples/stoneford)**
 
-### Three more
+### More worlds
 
 | World | Play style | Live Demo |
 |---|---|---|
 | **Dark Train** | Open world — do anything, the world remembers | [Play →](https://hub.worldlines.gg/play/worlds/dark-train) |
 | **Goblin Ambush** | 3-layer dungeon — fight through 3 boss goblins | [Source →](./examples/goblin-ambush) |
 | **Worldline** | Time-drift narrative — text the past | [Source →](./examples/worldline) |
+| **Sakura Hallway** | Clannad-style school-life · emotional narrative | [Source →](./examples/sakura-hallway) |
 
-All four worlds live in [examples/](./examples/) — open-source (AGPL-3.0), fork and ship your own.
+All worlds live in [examples/](./examples/) — open-source (AGPL-3.0), fork and ship your own.
 
 ---
 

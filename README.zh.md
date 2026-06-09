@@ -113,15 +113,16 @@ irm https://worldlines.gg/install.ps1 | iex
 
 灰雾北境的河港小镇。经典奇幻 TRPG · d20 骰子 · 10-agent 编排。旗舰示例：完整的小镇，含 NPC、任务、地下城、攻防机制。**[在线游玩 →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[源码与文档 →](./examples/stoneford)**
 
-### 另外三个
+### 更多世界
 
 | 世界 | 玩法 | 在线 |
 |---|---|---|
 | **暗夜列车** | 开放世界 —— 想做什么都行，世界都记着 | [游玩 →](https://hub.worldlines.gg/play/worlds/dark-train) |
 | **哥布林遭遇战** | 3 层地下城 —— 逐一击败 3 个哥布林 boss | [源码 →](./examples/goblin-ambush) |
 | **世界线收束** | 时间漂移叙事 —— 发短信到过去 | [源码 →](./examples/worldline) |
+| **樱坂走廊** | Clannad 式校园 · 情感叙事 | [源码 →](./examples/sakura-hallway) |
 
-四个世界都在 [examples/](./examples/) —— 开源（AGPL-3.0），fork 并发布你自己的。
+所有世界都在 [examples/](./examples/) —— 开源（AGPL-3.0），fork 并发布你自己的。
 
 ---
 

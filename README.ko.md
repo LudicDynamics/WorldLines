@@ -113,15 +113,16 @@ TUI가 실행됩니다. 여기서 새 월드 생성, 카탈로그 탐색, 저장
 
 잿빛 안개의 북쪽 강변 항구. 클래식 판타지 TRPG · d20 주사위 · 10-agent 오케스트레이터. NPC, 퀘스트, 던전, 공성전을 갖춘 대표 예제. **[온라인 플레이 →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[소스 & 문서 →](./examples/stoneford)**
 
-### 그 외 3개
+### 그 외 월드
 
 | 월드 | 플레이 스타일 | 라이브 데모 |
 |---|---|---|
 | **Dark Train** | 오픈 월드 — 무엇을 하든 세계가 기억한다 | [플레이 →](https://hub.worldlines.gg/play/worlds/dark-train) |
 | **Goblin Ambush** | 3층 던전 — 3마리 고블린 보스 격파 | [소스 →](./examples/goblin-ambush) |
 | **Worldline** | 시간 표류 내러티브 — 과거에 문자 보내기 | [소스 →](./examples/worldline) |
+| **Sakura Hallway** | Clannad 풍 · 학원 감성叙事 | [소스 →](./examples/sakura-hallway) |
 
-4개의 월드는 모두 [examples/](./examples/)에 있습니다 — 오픈소스(AGPL-3.0), 포크하여 자신의 세계를 공개할 수 있습니다.
+모든 월드는 [examples/](./examples/)에 있습니다 — 오픈소스(AGPL-3.0).
 
 ---
 

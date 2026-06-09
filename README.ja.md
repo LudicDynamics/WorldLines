@@ -113,15 +113,16 @@ TUI が起動します。ここから新規ワールドの作成、カタログ�
 
 灰霧の北の河港。クラシックファンタジー TRPG · d20 ダイス · 10-agent オーケストレーター。NPC、クエスト、ダンジョン、攻城戦を備えた旗艦サンプル。**[オンラインで遊ぶ →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[ソース & ドキュメント →](./examples/stoneford)**
 
-### その他 3 つ
+### その他のワールド
 
 | ワールド | プレイスタイル | ライブデモ |
 |---|---|---|
 | **Dark Train** | オープンワールド — 何をしても世界が覚えている | [遊ぶ →](https://hub.worldlines.gg/play/worlds/dark-train) |
 | **Goblin Ambush** | 3 層ダンジョン — 3 体のゴブリンボスを倒せ | [ソース →](./examples/goblin-ambush) |
 | **Worldline** | 時間漂流ナラティブ — 過去にテキストを送る | [ソース →](./examples/worldline) |
+| **Sakura Hallway** | Clannad 風 · 学園情感叙事 | [ソース →](./examples/sakura-hallway) |
 
-4 つのワールドはすべて [examples/](./examples/) にあります — オープンソース（AGPL-3.0）、フォークして自分の世界を公開できます。
+すべてのワールドは [examples/](./examples/) にあります — オープンソース（AGPL-3.0）。
 
 ---
 

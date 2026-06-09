@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "worldlines": {
+      "type": "sse",
+      "url": "http://127.0.0.1:8099/sse",
+      "description": "WorldLines MCP server — validate entities, read game state, semantic search. Start with: neonrp tui --mcp"
+    }
+  }
+}
