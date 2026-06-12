@@ -24,7 +24,7 @@
 ## 怎么玩
 NeonRP TUI:
 ```
-neonrp play examples/goblin-ambush/zh
+neonrp tui --from examples/goblin-ambush/zh
 ```
 Claude Code / MCP:在该目录里 `@world-agent 掷先攻,开始战斗`。
 

@@ -27,7 +27,7 @@
 ## 怎么玩
 NeonRP TUI:
 ```
-neonrp play examples/worldline/zh
+neonrp tui --from examples/worldline/zh
 ```
 Claude Code / MCP:在该目录里 `@world-agent 开始游戏`。
 

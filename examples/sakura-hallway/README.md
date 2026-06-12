@@ -39,7 +39,7 @@
 ## 怎么玩
 
 ```
-neonrp play examples/sakura-hallway/zh
+neonrp tui --from examples/sakura-hallway/zh
 ```
 
 或导入 hub 游玩。每次进入都可能触发不同的季节和时间线。

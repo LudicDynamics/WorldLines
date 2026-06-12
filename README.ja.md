@@ -85,7 +85,7 @@ irm https://worldlines.gg/install.ps1 | iex
 インストール後：
 
 ```bash
-./worldlines
+worldlines
 ```
 
 TUI が起動します。ここから新規ワールドの作成、カタログの閲覧、保存済みセッションの続行が可能です。
@@ -234,8 +234,12 @@ Layer 3: (将来) ダイス/ルール ツールエージェント
 ## スター履歴
 
 <p align="center">
-  <a href="https://star-history.com/#LudicDynamics/WorldLines&Date">
-    <img src="https://api.star-history.com/svg?repos=LudicDynamics/WorldLines&type=Date" alt="Star History Chart" width="640" />
+  <a href="https://www.star-history.com/?type=date&repos=LudicDynamics%2FWorldLines">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=LudicDynamics/WorldLines&type=date&theme=dark&legend=top-left" />
+      <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=LudicDynamics/WorldLines&type=date&legend=top-left" />
+      <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=LudicDynamics/WorldLines&type=date&legend=top-left" />
+    </picture>
   </a>
 </p>
 

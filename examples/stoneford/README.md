@@ -5,8 +5,7 @@
 ## Quick Start
 
 ```bash
-cd NeonRP/examples/stone-ford-town
-neonrp play .
+neonrp tui --from examples/stoneford
 ```
 
 ## 来源

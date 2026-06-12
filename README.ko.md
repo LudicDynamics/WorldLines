@@ -85,7 +85,7 @@ irm https://worldlines.gg/install.ps1 | iex
 설치 후:
 
 ```bash
-./worldlines
+worldlines
 ```
 
 TUI가 실행됩니다. 여기서 새 월드 생성, 카탈로그 탐색, 저장된 세션 이어하기가 가능합니다.
@@ -234,8 +234,12 @@ Layer 3: (향후) 주사위/규칙 도구 에이전트
 ## 스타 히스토리
 
 <p align="center">
-  <a href="https://star-history.com/#LudicDynamics/WorldLines&Date">
-    <img src="https://api.star-history.com/svg?repos=LudicDynamics/WorldLines&type=Date" alt="Star History Chart" width="640" />
+  <a href="https://www.star-history.com/?type=date&repos=LudicDynamics%2FWorldLines">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=LudicDynamics/WorldLines&type=date&theme=dark&legend=top-left" />
+      <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=LudicDynamics/WorldLines&type=date&legend=top-left" />
+      <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=LudicDynamics/WorldLines&type=date&legend=top-left" />
+    </picture>
   </a>
 </p>
 

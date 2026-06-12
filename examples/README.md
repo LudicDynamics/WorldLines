@@ -4,7 +4,7 @@ Four playable worlds that ship with WorldLines. Each is a complete,
 self-contained game world showing a different kind of play. All four are
 open-source (AGPL-3.0) — fork, mod, and ship your own.
 
-They work with the local **CLI / TUI** (`neonrp play examples/<world>/zh`)
+They work with the local **CLI / TUI** (`neonrp tui --from examples/<world>`)
 or with **Claude Code / MCP**. Most also have online demos on the
 [WebHub](https://hub.worldlines.gg).
 
@@ -24,13 +24,13 @@ Each world has four language variants: **zh** (中文) · **en** (English) ·
 
 ```bash
 # Install WorldLines
-pip install worldlines
+curl -LsSf https://worldlines.gg/install.sh | sh
 
 # Play any world
-neonrp play examples/dark-train/zh
-neonrp play examples/stoneford/zh
-neonrp play examples/goblin-ambush/zh
-neonrp play examples/worldline/zh
+neonrp tui --from examples/dark-train
+neonrp tui --from examples/stoneford
+neonrp tui --from examples/goblin-ambush/zh
+neonrp tui --from examples/worldline/zh
 ```
 
 ### Local (Claude Code / MCP)
