@@ -32,7 +32,7 @@ play offers `fast` + `orch`.
 | [Dark Train](./dark-train) | Open world — do anything, the world remembers | orch | [Play →](https://hub.worldlines.gg/play/worlds/dark-train) |
 | [Goblin Ambush](./goblin-ambush) | 3-layer dungeon — fight 3 boss goblins | fast / orch | — |
 | [Worldline](./worldline) | Time-drift — text the past, watch timelines rewrite | orch | — |
-| [Sakura Hallway](./sakura-hallway) | Clannad-style school-life · emotional narrative | orch | — |
+| [Sakura Hallway](./sakura-hallway) | A school love story · emotional narrative | orch | — |
 
 ### 👥 multi-agent — independent souls in one world
 

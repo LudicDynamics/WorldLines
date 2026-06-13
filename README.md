@@ -135,7 +135,7 @@ A grey-fog northern river port. Classic-fantasy TRPG · d20 dice · **10-agent o
 | **Dark Train** | Open world — do anything, the world remembers | [Play →](https://hub.worldlines.gg/play/worlds/dark-train) |
 | **Goblin Ambush** | 3-layer dungeon — fight through 3 boss goblins | [Source →](./examples/goblin-ambush) |
 | **Worldline** | Time-drift narrative — text the past | [Source →](./examples/worldline) |
-| **Sakura Hallway** | Clannad-style school-life · emotional narrative | [Source →](./examples/sakura-hallway) |
+| **Sakura Hallway** | A school love story · emotional narrative | [Source →](./examples/sakura-hallway) |
 
 All worlds live in [examples/](./examples/) — open-source (AGPL-3.0), fork and ship your own.
 

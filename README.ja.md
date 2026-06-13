@@ -135,7 +135,7 @@ WorldLines は世界を **3 つのエンジンモード**のいずれかで動�
 | **Dark Train** | オープンワールド — 何をしても世界が覚えている | [遊ぶ →](https://hub.worldlines.gg/play/worlds/dark-train) |
 | **Goblin Ambush** | 3 層ダンジョン — 3 体のゴブリンボスを倒せ | [ソース →](./examples/goblin-ambush) |
 | **Worldline** | 時間漂流ナラティブ — 過去にテキストを送る | [ソース →](./examples/worldline) |
-| **Sakura Hallway** | Clannad 風 · 学園情感叙事 | [ソース →](./examples/sakura-hallway) |
+| **Sakura Hallway** | 学園ラブストーリー · 感情叙事 | [ソース →](./examples/sakura-hallway) |
 
 すべてのワールドは [examples/](./examples/) にあります — オープンソース（AGPL-3.0）。
 
