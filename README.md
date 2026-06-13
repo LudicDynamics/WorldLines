@@ -33,7 +33,7 @@ It is an agentic simulation engine. A world-agent connects to place-agents; each
 
 ## Team & Vision
 
-We are **Ludic Dynamics** — a cross-disciplinary team of PhDs and researchers from the **University of Tokyo** and **Nagoya University**, together with game industry practitioners. Our backgrounds span sociology, economics, computer graphics, AI agents, and virtual worlds.
+We are **Ludic Dynamics** — a cross-disciplinary team of PhDs and researchers from the **University of Tokyo**, together with game industry practitioners. Our backgrounds span sociology, economics, computer graphics, AI agents, and virtual worlds.
 
 We grew up on TRPGs, galgames, and otome games. Long before AI became what it is today, we spent years volunteering in Japanese cultural translation, working deep in the tabletop and game-graphics-engine industry, and helping Japanese visual novels launch on Steam. When the pandemic hit, we fell into AI role-play and narrative games — every weekend, every late night, running sessions, building worlds, chasing the feeling of a story that *really breathes*.
 
@@ -109,9 +109,9 @@ No install. Go to **[hub.worldlines.gg](https://hub.worldlines.gg)**, sign in, a
 
 ## Example Worlds
 
-### ⛩ Stoneford — Starter World
+### ⛩ Stoneford — Flagship multi-agent village
 
-A grey-fog northern river port. Classic-fantasy TRPG · d20 dice · 10-agent orchestrator. The flagship example: a full town with NPCs, quests, a dungeon, and siege mechanics. **[Play online →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[Source & docs →](./examples/stoneford)**
+A grey-fog northern river port. Classic-fantasy TRPG · d20 dice · **10-agent multi-agent village** — a world-agent at the centre orchestrating town, dungeon, combat, story, and NPC-mind agents. A full town with NPCs, quests, a dungeon, and siege mechanics. **[Play online →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[Source & docs →](./examples/stoneford)**
 
 ### More worlds
 
