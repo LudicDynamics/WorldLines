@@ -209,17 +209,28 @@ WorldLines is a GM's engine: you set the constraints — the rules, the NPCs, th
 
 You study personality models, world-model benchmarks, or multi-agent societies. You need a **reproducible sandbox** — not a black-box API.
 
-WorldLines is **file-backed, event-sourced, and git-diffable**. Every agent decision, every world-state change, is a plain-text event you can trace, replay, and measure. Run the same scenario with different models, compare outputs, publish the results.
+WorldLines is **file-backed, event-sourced, and git-diffable**. Every agent decision, every world-state change, is a plain-text event you can trace, replay, and measure.
 
-→ [Core concepts](https://docs.worldlines.gg/docs/core-concepts/agents-orchestration) · [How It Works](#how-it-works)
+Large many-player co-op isn't ready yet — but the **multi-agent village** is the substrate today: a society of independent souls you can run, script, and reproduce. `neonrp play` is the dedicated multi-agent runner, with scriptable JSON + trace output:
+
+```bash
+neonrp play --project examples/multi-agent/kagura-island                 # interactive REPL
+neonrp play "..." --project examples/multi-agent/kagura-island --json --trace   # one-shot, scriptable
+```
+
+A multi-agent tutorial is coming. **Have a research need? [Open an issue](https://github.com/LudicDynamics/WorldLines/issues) or email `info@worldlines.gg` — we'll work with your experiment.**
+
+→ [Multi-agent mode](https://docs.worldlines.gg/docs/core-concepts/engine-modes#multi-agent) · [Core concepts](https://docs.worldlines.gg/docs/core-concepts/agents-orchestration) · [How It Works](#how-it-works)
 
 ### 🛠️ Developers
 
-You build with **Claude Code, LangGraph, or custom agent pipelines**. You want a protocol you can inspect, fork, and disagree with.
+You build with **Claude Code, LangGraph, or custom agent pipelines**. You're curious how a world-agent, soul-agents, and a player-agent actually fit together.
 
-WorldLines examples, tools, and protocol are **open-source (AGPL-3.0)**. Fork a world, mod an agent, ship your own. The engine binary is free to play — no API key for local use.
+We haven't open-sourced the protocol yet — the **world-agent · soul-agent · player-agent** architecture is still being iterated. We don't think there's one perfect answer; we're actively researching a cleaner design. The example worlds *are* open (AGPL-3.0) — fork a world, mod an agent, study how it's wired.
 
-→ [examples/](./examples/) · [Protocol docs](https://docs.worldlines.gg/docs/protocol/overview)
+If this is your kind of problem, **[join our Discord](https://discord.gg/HJYWbdqWrE)** and shape the architecture with us.
+
+→ [examples/](./examples/) · [How It Works](#how-it-works)
 
 ---
 

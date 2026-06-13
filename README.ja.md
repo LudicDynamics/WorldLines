@@ -179,17 +179,28 @@ WorldLines は GM のエンジンです：制約を設定すれば —— ルー
 
 人格モデル、世界モデルベンチマーク、マルチエージェント社会を研究している。**再現可能なサンドボックス**が必要 —— ブラックボックス API ではなく。
 
-WorldLines は**ファイルベース、イベントソース、git-diffable**。すべてのエージェントの意思決定、すべての世界状態の変化がプレーンテキストのイベントとして追跡・再生・測定可能です。異なるモデルで同じシナリオを実行し、出力を比較し、結果を公開できます。
+WorldLines は**ファイルベース、イベントソース、git-diffable**。すべてのエージェントの意思決定、すべての世界状態の変化がプレーンテキストのイベントとして追跡・再生・測定可能です。
 
-→ [コアコンセプト](https://docs.worldlines.gg/docs/core-concepts/agents-orchestration) · [仕組み](#how-it-works)
+多人数の同時プレイはまだ準備中 —— ですが**マルチエージェントの村**が今日の基盤です:実行・スクリプト化・再現が可能な、独立したソウルの社会。`neonrp play` がマルチエージェント専用ランナーで、スクリプト可能な JSON + trace 出力に対応:
+
+```bash
+neonrp play --project examples/multi-agent/kagura-island                 # インタラクティブ REPL
+neonrp play "..." --project examples/multi-agent/kagura-island --json --trace   # ワンショット、スクリプト可
+```
+
+マルチエージェントのチュートリアルは近日公開。**研究ニーズがありますか?[Issue を立てる](https://github.com/LudicDynamics/WorldLines/issues) か `info@worldlines.gg` へ —— あなたの実験に協力します。**
+
+→ [マルチエージェントモード](https://docs.worldlines.gg/docs/core-concepts/engine-modes#multi-agent) · [コアコンセプト](https://docs.worldlines.gg/docs/core-concepts/agents-orchestration) · [仕組み](#how-it-works)
 
 ### 🛠️ 開発者
 
-**Claude Code、LangGraph、またはカスタムエージェントパイプライン**で構築している。検査、フォーク、異議を唱えられるプロトコルが必要。
+**Claude Code、LangGraph、またはカスタムエージェントパイプライン**で構築している。world-agent・soul-agent・player-agent が実際どう噛み合うのかに興味がある。
 
-WorldLines のサンプル、ツール、プロトコルは**オープンソース（AGPL-3.0）**。ワールドをフォークし、エージェントを改造し、自分のものを公開できます。エンジンバイナリは無料でプレイ可能 —— ローカル使用に API キー不要。
+私たちは**まだプロトコルをオープンソース化していません** —— **world-agent · soul-agent · player-agent** のアーキテクチャはまだ反復中です。唯一の完璧な答えがあるとは考えておらず、より洗練された設計を能動的に研究しています。サンプルワールドは**オープン**（AGPL-3.0）—— ワールドをフォークし、エージェントを改造し、どう配線されているか調べてください。
 
-→ [examples/](./examples/) · [プロトコルドキュメント](https://docs.worldlines.gg/docs/protocol/overview)
+これがあなたの取り組みたい問題なら、**[Discord に参加](https://discord.gg/HJYWbdqWrE)** して一緒にアーキテクチャを形づくりましょう。
+
+→ [examples/](./examples/) · [仕組み](#how-it-works)
 
 ## 仕組み
 

@@ -179,17 +179,28 @@ WorldLines 是一个 GM 引擎：你设定约束 —— 规则、NPC、基调 �
 
 你研究人格模型、世界模型 benchmark 或多智能体社会。你需要一个**可复现的沙箱** —— 不是黑盒 API。
 
-WorldLines 是**文件支撑、事件溯源、git-diffable** 的。每个 agent 决策、每次世界状态变化，都是一条纯文本事件，可以追踪、回放、度量。用不同模型跑同一个场景，对比输出，发布结果。
+WorldLines 是**文件支撑、事件溯源、git-diffable** 的。每个 agent 决策、每次世界状态变化，都是一条纯文本事件，可以追踪、回放、度量。
 
-→ [核心概念](https://docs.worldlines.gg/docs/core-concepts/agents-orchestration) · [架构说明](#how-it-works)
+多人同时游玩还没就绪 —— 但**多智能体村庄**今天就是这个底座:一群可运行、可脚本化、可复现的独立灵魂。`neonrp play` 是 multi-agent 专用运行器,支持脚本化的 JSON + trace 输出:
+
+```bash
+neonrp play --project examples/multi-agent/kagura-island                 # 交互式 REPL
+neonrp play "..." --project examples/multi-agent/kagura-island --json --trace   # 单次,可脚本化
+```
+
+multi-agent 教程即将推出。**有研究需求?[开一个 issue](https://github.com/LudicDynamics/WorldLines/issues) 或邮件 `info@worldlines.gg` —— 我们会配合你的实验。**
+
+→ [Multi-agent 模式](https://docs.worldlines.gg/docs/core-concepts/engine-modes#multi-agent) · [核心概念](https://docs.worldlines.gg/docs/core-concepts/agents-orchestration) · [架构说明](#how-it-works)
 
 ### 🛠️ 开发者
 
-你用 **Claude Code、LangGraph 或自定义 agent 管线**。你需要一个可以检查、fork、质疑的协议。
+你用 **Claude Code、LangGraph 或自定义 agent 管线**。你好奇 world-agent、soul-agent、player-agent 到底是怎么拼到一起的。
 
-WorldLines 的示例、工具和协议是**开源的（AGPL-3.0）**。fork 一个世界，修改一个 agent，发布你自己的。引擎二进制文件免费游玩 —— 本地使用不需要 API key。
+我们**还没有把协议开源** —— **world-agent · soul-agent · player-agent** 的架构还在不断迭代。我们不认为有一个完美的答案,正在持续研究更合理的设计。示例世界**是**开源的(AGPL-3.0)—— fork 一个世界、改一个 agent、研究它是怎么接起来的。
 
-→ [examples/](./examples/) · [协议文档](https://docs.worldlines.gg/docs/protocol/overview)
+如果这正是你感兴趣的问题,**[加入我们的 Discord](https://discord.gg/HJYWbdqWrE)**,和我们一起塑造这个架构。
+
+→ [examples/](./examples/) · [架构说明](#how-it-works)
 
 ---
 

@@ -179,17 +179,28 @@ WorldLines는 GM의 엔진: 제약을 설정하면 — 규칙, NPC, 톤 — 에�
 
 성격 모델, 세계 모델 벤치마크, 멀티에이전트 사회를 연구합니다. **재현 가능한 샌드박스**가 필요합니다 — 블랙박스 API가 아니라.
 
-WorldLines는 **파일 기반, 이벤트 소싱, git-diffable**입니다. 모든 에이전트 결정, 모든 세계 상태 변화가 추적·재생·측정 가능한 평문 이벤트입니다. 다른 모델로 같은 시나리오를 실행하고 출력을 비교하며 결과를 발표할 수 있습니다.
+WorldLines는 **파일 기반, 이벤트 소싱, git-diffable**입니다. 모든 에이전트 결정, 모든 세계 상태 변화가 추적·재생·측정 가능한 평문 이벤트입니다.
 
-→ [핵심 개념](https://docs.worldlines.gg/docs/core-concepts/agents-orchestration) · [작동 방식](#how-it-works)
+다수 동시 플레이는 아직 준비되지 않았습니다 —— 하지만 **멀티에이전트 마을**이 오늘의 기반입니다: 실행·스크립트화·재현이 가능한 독립 소울 사회. `neonrp play` 는 멀티에이전트 전용 러너로, 스크립트 가능한 JSON + trace 출력을 지원합니다:
+
+```bash
+neonrp play --project examples/multi-agent/kagura-island                 # 인터랙티브 REPL
+neonrp play "..." --project examples/multi-agent/kagura-island --json --trace   # 원샷, 스크립트 가능
+```
+
+멀티에이전트 튜토리얼이 곧 공개됩니다. **연구 니즈가 있나요? [이슈를 열거나](https://github.com/LudicDynamics/WorldLines/issues) `info@worldlines.gg` 로 연락 —— 당신의 실험에 협력하겠습니다.**
+
+→ [멀티에이전트 모드](https://docs.worldlines.gg/docs/core-concepts/engine-modes#multi-agent) · [핵심 개념](https://docs.worldlines.gg/docs/core-concepts/agents-orchestration) · [작동 방식](#how-it-works)
 
 ### 🛠️ 개발자
 
-**Claude Code, LangGraph, 또는 커스텀 에이전트 파이프라인**으로 구축 중입니다. 검사하고, 포크하고, 이의를 제기할 수 있는 프로토콜이 필요합니다.
+**Claude Code, LangGraph, 또는 커스텀 에이전트 파이프라인**으로 구축 중입니다. world-agent, soul-agent, player-agent가 실제로 어떻게 맞물리는지 궁금합니다.
 
-WorldLines의 예제, 도구, 프로토콜은 **오픈소스(AGPL-3.0)** 입니다. 월드를 포크하고, 에이전트를 수정하고, 자신의 것을 출시하세요. 엔진 바이너리는 무료 플레이 — 로컬 사용에 API 키 불필요.
+우리는 **아직 프로토콜을 오픈소스화하지 않았습니다** —— **world-agent · soul-agent · player-agent** 아키텍처는 여전히 반복 중입니다. 하나의 완벽한 답이 있다고 생각하지 않으며, 더 합리적인 설계를 능동적으로 연구하고 있습니다. 예제 월드는 **오픈**(AGPL-3.0) —— 월드를 포크하고, 에이전트를 수정하고, 어떻게 연결되는지 살펴보세요.
 
-→ [examples/](./examples/) · [프로토콜 문서](https://docs.worldlines.gg/docs/protocol/overview)
+이것이 당신이 관심 있는 문제라면, **[Discord에 참여](https://discord.gg/HJYWbdqWrE)** 하여 함께 아키텍처를 만들어가요.
+
+→ [examples/](./examples/) · [작동 방식](#how-it-works)
 
 ## 작동 방식
 
