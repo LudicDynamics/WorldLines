@@ -1,0 +1,7 @@
+{
+  "id": "player",
+  "kind": "player",
+  "name": "지휘관",
+  "summary": "너는 알드릭, 브리, 메린 세 명의 모험가를 지휘한다. 직접 싸우지 않고, 각자의 행동을 명령한다.",
+  "location": "forest-path"
+}

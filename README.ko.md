@@ -121,21 +121,21 @@ WorldLines는 세계를 **세 가지 엔진 모드** 중 하나로 구동합니�
 
 | 월드 | 소울 | 실행 |
 |---|---|---|
-| **[神楽島 Kagura Island](./examples/kagura-island)** | **7명** —— 鏡子 · 羽 · 真琴 · 宮司 · 白 · 翼 · 悠人. 일본풍 미스터리, 타임 루프, CoC 판정. 가장 풍부한 멀티에이전트 사회. | [소스 →](./examples/kagura-island) |
-| **[Stoneford · Elena](./examples/stoneford-elena)** | **2명** —— Elena(기억하는 치유사) + Rowan. Stoneford 세계에 살아있는 소울이 깃든다. | [소스 →](./examples/stoneford-elena) · [Elena와 대화(호스티드)](https://hub.worldlines.gg/play/souls/elena) |
+| **[神楽島 Kagura Island](./examples/multi-agent/kagura-island)** | **7명** —— 鏡子 · 羽 · 真琴 · 宮司 · 白 · 翼 · 悠人. 일본풍 미스터리, 타임 루프, CoC 판정. 가장 풍부한 멀티에이전트 사회. | [소스 →](./examples/multi-agent/kagura-island) |
+| **[Stoneford · Elena](./examples/multi-agent/stoneford-elena)** | **2명** —— Elena(기억하는 치유사) + Rowan. Stoneford 세계에 살아있는 소울이 깃든다. | [소스 →](./examples/multi-agent/stoneford-elena) · [Elena와 대화(호스티드)](https://hub.worldlines.gg/play/souls/elena) |
 
 ### ⛩ Stoneford — 플래그십 orch 월드
 
-잿빛 안개의 북쪽 강변 항구. 클래식 판타지 TRPG · d20 주사위 · **10-agent 편성 마을** —— 중심의 world-agent가 마을·던전·전투·스토리·NPC agent로 라우팅. **[온라인 플레이 →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[소스 & 문서 →](./examples/stoneford)**
+잿빛 안개의 북쪽 강변 항구. 클래식 판타지 TRPG · d20 주사위 · **10-agent 편성 마을** —— 중심의 world-agent가 마을·던전·전투·스토리·NPC agent로 라우팅. **[온라인 플레이 →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[소스 & 문서 →](./examples/orch/stoneford)**
 
 ### 그 외 월드
 
 | 월드 | 플레이 스타일 | 라이브 데모 |
 |---|---|---|
 | **Dark Train** | 오픈 월드 — 무엇을 하든 세계가 기억한다 | [플레이 →](https://hub.worldlines.gg/play/worlds/dark-train) |
-| **Goblin Ambush** | 3층 던전 — 3마리 고블린 보스 격파 | [소스 →](./examples/goblin-ambush) |
-| **Worldline** | 시간 표류 내러티브 — 과거에 문자 보내기 | [소스 →](./examples/worldline) |
-| **Sakura Hallway** | 학원 러브 스토리 · 감성 서사 | [소스 →](./examples/sakura-hallway) |
+| **Goblin Ambush** | 3층 던전 — 3마리 고블린 보스 격파 | [소스 →](./examples/orch/goblin-ambush) |
+| **Worldline** | 시간 표류 내러티브 — 과거에 문자 보내기 | [소스 →](./examples/orch/worldline) |
+| **Sakura Hallway** | 학원 러브 스토리 · 감성 서사 | [소스 →](./examples/orch/sakura-hallway) |
 
 모든 월드는 [examples/](./examples/)에 있습니다 — 오픈소스(AGPL-3.0).
 
@@ -144,7 +144,7 @@ WorldLines는 세계를 **세 가지 엔진 모드** 중 하나로 구동합니�
 ## 이 엔진을 사용한 다른 프로젝트
 
 - **[Soul Talk](https://hub.worldlines.gg/play/souls/elena)** — 캐릭터 에이전트 대화 씬. Elena는 기억합니다.
-- **[Worldline](./examples/worldline)** — 시간 표류 내러티브 엔진. 과거에 문자를 보내고 시간선이 다시 쓰이는 것을 지켜보세요.
+- **[Worldline](./examples/orch/worldline)** — 시간 표류 내러티브 엔진. 과거에 문자를 보내고 시간선이 다시 쓰이는 것을 지켜보세요.
 - **Coming: RP-Abyss** — TRPG 원정. DM + 주사위 판정.
 
 ---
@@ -173,7 +173,7 @@ WorldLines에서는 캐릭터, 세계 규칙, 톤을 설정하면 에이전트�
 
 WorldLines는 GM의 엔진: 제약을 설정하면 — 규칙, NPC, 톤 — 에이전트가 세계를 운영합니다. 자동 인덱싱된 로어, NPC별 기억, 주사위 심판 에이전트.
 
-→ [빠른 시작](https://docs.worldlines.gg/docs/getting-started/quickstart) · [Stoneford 스타터 월드](./examples/stoneford)
+→ [빠른 시작](https://docs.worldlines.gg/docs/getting-started/quickstart) · [Stoneford 스타터 월드](./examples/orch/stoneford)
 
 ### 🔬 연구자 — AI 성격 · 세계 모델 · 멀티에이전트
 

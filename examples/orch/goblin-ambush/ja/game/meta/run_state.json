@@ -1,0 +1,13 @@
+{
+  "id": "run_state",
+  "kind": "meta",
+  "name": "Run State",
+  "world_id": "goblin-ambush",
+  "location": "forest-path",
+  "turn_count": 0,
+  "round": 0,
+  "initiative_order": [],
+  "current_actor": null,
+  "last_action": "ambush",
+  "combat_over": false
+}

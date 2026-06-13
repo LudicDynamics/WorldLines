@@ -1,0 +1,28 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "Goblin Ambush · D&D 5e",
+  "summary": "A dusk forest path; a goblin leaps from the shrubs. You command three adventurers and take it down by D&D 5e rules.",
+  "startup": {
+    "read_first": [
+      "{{DATA_DIR}}/meta/run_state.json",
+      "{{DATA_DIR}}/location/forest-path.json",
+      "{{DATA_DIR}}/party/aldric.json",
+      "{{DATA_DIR}}/party/bree.json",
+      "{{DATA_DIR}}/party/merrin.json",
+      "{{DATA_DIR}}/npc/goblin.json",
+      "{{DATA_DIR}}/rules/combat-5e.md"
+    ],
+    "start_location": "forest-path",
+    "agent_routing": {
+      "entry_agent": "world-agent",
+      "router_type": "sticky"
+    },
+    "opening_scene": "[Goblin Ambush · D&D 5e]\n\nA forest path at dusk. You lead three adventurers — Aldric (Fighter), Bree (Rogue), Merrin (Wizard) — through the woods.\n\nThe shrubs shudder. A goblin springs out brandishing a scimitar, yellow eyes glinting in the gloom.\n\nThis is an encounter: you command these three and fight by D&D 5e rules — roll initiative, d20 to hit, roll damage, and put the goblin down. There's only one, but don't get careless: goblins are slippery and will flee when the tide turns.\n\nInitiative begins.",
+    "opening_choices": [
+      "Roll initiative, start combat",
+      "First, check the three adventurers' status",
+      "Inspect the goblin"
+    ]
+  }
+}

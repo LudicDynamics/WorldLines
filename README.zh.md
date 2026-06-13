@@ -121,21 +121,21 @@ WorldLines 用三种**引擎模式**之一运行世界 —— 它们**不能混�
 
 | 世界 | 灵魂 | 运行 |
 |---|---|---|
-| **[神楽島 Kagura Island](./examples/kagura-island)** | **7 个** —— 镜子 · 羽 · 真琴 · 宫司 · 白 · 翼 · 悠人。和风悬疑、时间循环、CoC 判定。最丰富的多智能体社会。 | [源码 →](./examples/kagura-island) |
-| **[石津镇 · 艾莲娜](./examples/stoneford-elena)** | **2 个** —— Elena(会记住的治愈师)+ Rowan。石津镇世界,住进了活的灵魂。 | [源码 →](./examples/stoneford-elena) · [和 Elena 对话(在线)](https://hub.worldlines.gg/play/souls/elena) |
+| **[神楽島 Kagura Island](./examples/multi-agent/kagura-island)** | **7 个** —— 镜子 · 羽 · 真琴 · 宫司 · 白 · 翼 · 悠人。和风悬疑、时间循环、CoC 判定。最丰富的多智能体社会。 | [源码 →](./examples/multi-agent/kagura-island) |
+| **[石津镇 · 艾莲娜](./examples/multi-agent/stoneford-elena)** | **2 个** —— Elena(会记住的治愈师)+ Rowan。石津镇世界,住进了活的灵魂。 | [源码 →](./examples/multi-agent/stoneford-elena) · [和 Elena 对话(在线)](https://hub.worldlines.gg/play/souls/elena) |
 
 ### ⛩ Stoneford — 旗舰 orch 世界
 
-灰雾北境的河港小镇。经典奇幻 TRPG · d20 骰子 · **10-agent 编排村庄** —— 中心一个 world-agent 路由到城镇、地下城、战斗、故事、NPC agent。**[在线游玩 →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[源码与文档 →](./examples/stoneford)**
+灰雾北境的河港小镇。经典奇幻 TRPG · d20 骰子 · **10-agent 编排村庄** —— 中心一个 world-agent 路由到城镇、地下城、战斗、故事、NPC agent。**[在线游玩 →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[源码与文档 →](./examples/orch/stoneford)**
 
 ### 更多世界
 
 | 世界 | 玩法 | 在线 |
 |---|---|---|
 | **暗夜列车** | 开放世界 —— 想做什么都行，世界都记着 | [游玩 →](https://hub.worldlines.gg/play/worlds/dark-train) |
-| **哥布林遭遇战** | 3 层地下城 —— 逐一击败 3 个哥布林 boss | [源码 →](./examples/goblin-ambush) |
-| **世界线收束** | 时间漂移叙事 —— 发短信到过去 | [源码 →](./examples/worldline) |
-| **樱坂走廊** | 校园恋爱故事 · 情感叙事 | [源码 →](./examples/sakura-hallway) |
+| **哥布林遭遇战** | 3 层地下城 —— 逐一击败 3 个哥布林 boss | [源码 →](./examples/orch/goblin-ambush) |
+| **世界线收束** | 时间漂移叙事 —— 发短信到过去 | [源码 →](./examples/orch/worldline) |
+| **樱坂走廊** | 校园恋爱故事 · 情感叙事 | [源码 →](./examples/orch/sakura-hallway) |
 
 所有世界都在 [examples/](./examples/) —— 开源（AGPL-3.0），fork 并发布你自己的。
 
@@ -144,7 +144,7 @@ WorldLines 用三种**引擎模式**之一运行世界 —— 它们**不能混�
 ## 使用此引擎的其他项目
 
 - **[Soul Talk](https://hub.worldlines.gg/play/souls/elena)** — 角色对话场景。Elena 会记住你。
-- **[Worldline](./examples/worldline)** — 时间漂移叙事引擎。发短信到过去，看时间线重写。
+- **[Worldline](./examples/orch/worldline)** — 时间漂移叙事引擎。发短信到过去，看时间线重写。
 - **即将推出：RP-Abyss** — TRPG 远征。DM + 骰子检定。
 
 ---
@@ -173,7 +173,7 @@ WorldLines 让你设定角色、世界规则和基调 —— agent 会实时生�
 
 WorldLines 是一个 GM 引擎：你设定约束 —— 规则、NPC、基调 —— agent 替你跑世界。自动索引的 lore、每个 NPC 独立的记忆、掷骰裁判 agent。
 
-→ [快速上手](https://docs.worldlines.gg/docs/getting-started/quickstart) · [Stoneford 起始世界](./examples/stoneford)
+→ [快速上手](https://docs.worldlines.gg/docs/getting-started/quickstart) · [Stoneford 起始世界](./examples/orch/stoneford)
 
 ### 🔬 研究者 —— AI 人格 · 世界模型 · Multi-Agent
 

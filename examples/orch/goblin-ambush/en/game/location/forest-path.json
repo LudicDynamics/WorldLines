@@ -1,0 +1,15 @@
+{
+  "id": "forest-path",
+  "kind": "location",
+  "name": "Dusk Forest Path",
+  "summary": "A narrow path through the woods, flanked by waist-high shrubs and tall firs. The light is fading.",
+  "npcs": ["goblin"],
+  "details": {
+    "terrain": "A single narrow path; the shrubs on either side give half cover (+2 AC), good for hiding and flanking.",
+    "lighting": "Faint dusk light, soon to go full dark.",
+    "features": [
+      "A large fallen boulder on the right you can clamber over for cover.",
+      "Something stirs deep in the shrubs on the left — maybe just the wind, maybe more than one."
+    ]
+  }
+}

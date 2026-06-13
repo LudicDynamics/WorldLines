@@ -1,0 +1,38 @@
+{
+  "id": "world-agent",
+  "name": "Dungeon Master",
+  "description": "Sole agent for a single goblin encounter (D&D 5e, fast mode). Rolls its own dice (initiative / attack / damage), persists combat state to run_state + party/npc HP each turn, drives the goblin by its tactics, pauses for the player each adventurer turn, and narrates. No specialists.",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "triggers": [".*"],
+  "tags": ["world-agent", "dm", "5e", "combat", "goblin-ambush"],
+  "priority": 100,
+  "permissions": {
+    "read_globs": ["game/**"],
+    "write_globs": [
+      "game/meta/run_state.json",
+      "game/meta/active-agent.json",
+      "game/party/*.json",
+      "game/npc/*.json"
+    ],
+    "deny_globs": [],
+    "direct_write_globs": [
+      "game/meta/run_state.json",
+      "game/meta/active-agent.json",
+      "game/party/*.json",
+      "game/npc/*.json"
+    ]
+  },
+  "defaults": {
+    "context_limit": 20,
+    "temperature": 0.6
+  },
+  "presentation_roles": {
+    "en": "DM",
+    "zh": "地下城主",
+    "ja": "DM",
+    "ko": "DM"
+  },
+  "presentation_hidden": false
+}

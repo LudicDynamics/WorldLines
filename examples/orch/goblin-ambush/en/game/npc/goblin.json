@@ -1,0 +1,28 @@
+{
+  "id": "goblin",
+  "kind": "npc",
+  "name": "Goblin",
+  "ac": 15,
+  "hp": 7,
+  "hp_max": 7,
+  "initiative_mod": 2,
+  "attacks": [
+    {
+      "name": "Scimitar",
+      "to_hit": 4,
+      "damage": "1d6+2",
+      "range": "Melee"
+    },
+    {
+      "name": "Shortbow",
+      "to_hit": 4,
+      "damage": "1d6+2",
+      "range": "Ranged"
+    }
+  ],
+  "traits": [
+    "Nimble Escape: can take the Dash or Disengage action to leave combat without provoking opportunity attacks"
+  ],
+  "tactics": "Cowardly and slippery. Opens by lunging at the nearest target. Once HP drops to half (≤3) or below it wants to open up the distance, harass with the shortbow, or just Nimble Escape into the woods. When surrounded by all three it goes for the weakest, Merrin.",
+  "note": "Standard 5e goblin (MM). CR 1/4."
+}

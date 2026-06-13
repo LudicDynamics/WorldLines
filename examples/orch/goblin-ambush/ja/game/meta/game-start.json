@@ -1,0 +1,28 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "ゴブリン遭遇戦 · D&D 5e",
+  "summary": "黄昏の林道、一体のゴブリンが茂みから飛び出す。あなたは三人の冒険者を指揮し、D&D 5e のルールに従ってそれを倒す。",
+  "startup": {
+    "read_first": [
+      "{{DATA_DIR}}/meta/run_state.json",
+      "{{DATA_DIR}}/location/forest-path.json",
+      "{{DATA_DIR}}/party/aldric.json",
+      "{{DATA_DIR}}/party/bree.json",
+      "{{DATA_DIR}}/party/merrin.json",
+      "{{DATA_DIR}}/npc/goblin.json",
+      "{{DATA_DIR}}/rules/combat-5e.md"
+    ],
+    "start_location": "forest-path",
+    "agent_routing": {
+      "entry_agent": "world-agent",
+      "router_type": "sticky"
+    },
+    "opening_scene": "【ゴブリン遭遇戦 · D&D 5e】\n\n黄昏の林道。あなたは三人の冒険者——アルドリック(ファイター(戦士))、ブリー(ローグ(盗賊))、メリン(ウィザード(魔法使い))——を率いてこの森を抜けようとしている。\n\n茂みが一瞬揺れる。一体のゴブリンが曲刀を掲げて飛び出し、黄色い目が暗がりで光る。\n\nこれは遭遇戦だ:あなたはこの三人を指揮し、D&D 5e のルールに従って戦う——イニシアチブを振り、d20 で命中させ、ダメージを振り、ゴブリンを倒す。一体だけだが油断するな:ゴブリンはすばしこく、形勢が悪くなれば逃げる。\n\nイニシアチブ、開始。",
+    "opening_choices": [
+      "イニシアチブを振って戦闘開始",
+      "まず三人の冒険者の状態を見る",
+      "ゴブリンを確認する"
+    ]
+  }
+}

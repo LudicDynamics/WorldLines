@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "execution_mode": "orchestrator",
+  "note": "ゴブリン遭遇戦 · マルチ agent オーケストレーション。world-agent が Layer 1(DM):ターンを管理し、referee を呼んでダイスを振り、結果を run_state + HP に書き戻し、ゴブリンを行動させ、叙述する。referee はダイスを振って JSON を返すだけ、保存は world-agent が担当。",
+  "agents": [
+    {
+      "id": "world-agent",
+      "name": "Dungeon Master",
+      "agent_path": ".claude/agents/world-agent.md",
+      "role": "Layer 1 — DM:ターン管理 + state 書き戻し + 叙述",
+      "description": "イニシアチブ順とターンを管理し、referee を呼んでダイスを振り(イニシアチブ/攻撃/ダメージ)、**結果を run_state の initiative_order + party/npc の HP に書き戻し**、tactics に従ってゴブリンを行動させ、各冒険者のターンで止まってプレイヤーを待ち、戦闘を叙述する。すべてのプレイヤー入力はまずこれを通る。",
+      "read_globs": ["game/**"],
+      "write_globs": [
+        "game/meta/run_state.json",
+        "game/meta/active-agent.json",
+        "game/party/*.json",
+        "game/npc/*.json"
+      ]
+    },
+    {
+      "id": "referee",
+      "name": "Dice Referee (5e)",
+      "agent_path": ".claude/agents/referee.md",
+      "role": "Layer 2 — D&D 5e d20 判定",
+      "description": "イニシアチブ(d20+イニシアチブ修正)、攻撃判定(d20+命中 vs AC、nat20 はクリティカルで倍、nat1 は必中失敗)、ダメージダイスを振る。構造化された JSON を返し、散文は書かず、保存もしない(HP/state は world-agent が書く)。Temp 0.2。",
+      "read_globs": [
+        "game/party/*.json",
+        "game/npc/*.json",
+        "game/rules/combat-5e.md",
+        "game/meta/run_state.json"
+      ],
+      "write_globs": []
+    }
+  ],
+  "routing_doctrine": {
+    "all_player_input_passes_through": "world-agent",
+    "all_dice_route_to": "referee",
+    "specialists_return_json_world_agent_persists": true,
+    "no_specialist_writes_prose": true,
+    "max_call_chain_depth_per_turn": 3
+  }
+}

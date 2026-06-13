@@ -1,0 +1,28 @@
+{
+  "id": "bree",
+  "kind": "party",
+  "name": "브리",
+  "class": "로그 (Rogue)",
+  "ac": 14,
+  "hp": 9,
+  "hp_max": 9,
+  "initiative_mod": 3,
+  "attacks": [
+    {
+      "name": "단궁",
+      "to_hit": 5,
+      "damage": "1d6+3",
+      "range": "원거리"
+    },
+    {
+      "name": "단검",
+      "to_hit": 5,
+      "damage": "1d4+3",
+      "range": "근접"
+    }
+  ],
+  "traits": [
+    "기습: 어드밴티지가 있거나 아군이 대상 곁에 있으면, 명중 시 추가 +2d6 피해(턴당 한 번)"
+  ],
+  "note": "하플링 로그, 단궁을 즐겨 쓴다. 측면으로 돌아 빈틈을 노리는 것을 좋아한다."
+}

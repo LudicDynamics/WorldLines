@@ -121,21 +121,21 @@ WorldLines は世界を **3 つのエンジンモード**のいずれかで動�
 
 | ワールド | ソウル | 実行 |
 |---|---|---|
-| **[神楽島 Kagura Island](./examples/kagura-island)** | **7 体** —— 鏡子 · 羽 · 真琴 · 宮司 · 白 · 翼 · 悠人。和風ミステリー、タイムループ、CoC 判定。最も豊かなマルチエージェント社会。 | [ソース →](./examples/kagura-island) |
-| **[Stoneford · Elena](./examples/stoneford-elena)** | **2 体** —— Elena（覚えている癒し手）+ Rowan。Stoneford の世界に生きたソウルが宿る。 | [ソース →](./examples/stoneford-elena) · [Elena と話す（ホスト）](https://hub.worldlines.gg/play/souls/elena) |
+| **[神楽島 Kagura Island](./examples/multi-agent/kagura-island)** | **7 体** —— 鏡子 · 羽 · 真琴 · 宮司 · 白 · 翼 · 悠人。和風ミステリー、タイムループ、CoC 判定。最も豊かなマルチエージェント社会。 | [ソース →](./examples/multi-agent/kagura-island) |
+| **[Stoneford · Elena](./examples/multi-agent/stoneford-elena)** | **2 体** —— Elena（覚えている癒し手）+ Rowan。Stoneford の世界に生きたソウルが宿る。 | [ソース →](./examples/multi-agent/stoneford-elena) · [Elena と話す（ホスト）](https://hub.worldlines.gg/play/souls/elena) |
 
 ### ⛩ Stoneford — 旗艦 orch ワールド
 
-灰霧の北の河港。クラシックファンタジー TRPG · d20 ダイス · **10-agent 編成の村** —— 中心の world-agent が町・ダンジョン・戦闘・物語・NPC agent にルーティング。**[オンラインで遊ぶ →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[ソース & ドキュメント →](./examples/stoneford)**
+灰霧の北の河港。クラシックファンタジー TRPG · d20 ダイス · **10-agent 編成の村** —— 中心の world-agent が町・ダンジョン・戦闘・物語・NPC agent にルーティング。**[オンラインで遊ぶ →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[ソース & ドキュメント →](./examples/orch/stoneford)**
 
 ### その他のワールド
 
 | ワールド | プレイスタイル | ライブデモ |
 |---|---|---|
 | **Dark Train** | オープンワールド — 何をしても世界が覚えている | [遊ぶ →](https://hub.worldlines.gg/play/worlds/dark-train) |
-| **Goblin Ambush** | 3 層ダンジョン — 3 体のゴブリンボスを倒せ | [ソース →](./examples/goblin-ambush) |
-| **Worldline** | 時間漂流ナラティブ — 過去にテキストを送る | [ソース →](./examples/worldline) |
-| **Sakura Hallway** | 学園ラブストーリー · 感情叙事 | [ソース →](./examples/sakura-hallway) |
+| **Goblin Ambush** | 3 層ダンジョン — 3 体のゴブリンボスを倒せ | [ソース →](./examples/orch/goblin-ambush) |
+| **Worldline** | 時間漂流ナラティブ — 過去にテキストを送る | [ソース →](./examples/orch/worldline) |
+| **Sakura Hallway** | 学園ラブストーリー · 感情叙事 | [ソース →](./examples/orch/sakura-hallway) |
 
 すべてのワールドは [examples/](./examples/) にあります — オープンソース（AGPL-3.0）。
 
@@ -144,7 +144,7 @@ WorldLines は世界を **3 つのエンジンモード**のいずれかで動�
 ## このエンジンを使った他のプロジェクト
 
 - **[Soul Talk](https://hub.worldlines.gg/play/souls/elena)** — キャラクターエージェント対話シーン。Elena は覚えている。
-- **[Worldline](./examples/worldline)** — 時間漂流ナラティブエンジン。過去にテキストを送り、時間線の書き換えを見る。
+- **[Worldline](./examples/orch/worldline)** — 時間漂流ナラティブエンジン。過去にテキストを送り、時間線の書き換えを見る。
 - **Coming: RP-Abyss** — TRPG 遠征。DM + ダイス判定。
 
 ---
@@ -173,7 +173,7 @@ WorldLines ではキャラクター、世界のルール、トーンを設定す
 
 WorldLines は GM のエンジンです：制約を設定すれば —— ルール、NPC、トーン —— エージェントが世界を動かします。自動インデックス化されたロア、NPC ごとの記憶、ダイスレフェリーエージェント。
 
-→ [クイックスタート](https://docs.worldlines.gg/docs/getting-started/quickstart) · [Stoneford スターターワールド](./examples/stoneford)
+→ [クイックスタート](https://docs.worldlines.gg/docs/getting-started/quickstart) · [Stoneford スターターワールド](./examples/orch/stoneford)
 
 ### 🔬 研究者 — AI パーソナリティ · 世界モデル · マルチエージェント
 

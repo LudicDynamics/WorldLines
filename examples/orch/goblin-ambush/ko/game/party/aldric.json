@@ -1,0 +1,19 @@
+{
+  "id": "aldric",
+  "kind": "party",
+  "name": "알드릭",
+  "class": "파이터 (Fighter)",
+  "ac": 16,
+  "hp": 12,
+  "hp_max": 12,
+  "initiative_mod": 1,
+  "attacks": [
+    {
+      "name": "롱소드",
+      "to_hit": 5,
+      "damage": "1d8+3",
+      "range": "근접"
+    }
+  ],
+  "note": "인간 파이터, 사슬 갑옷을 입고 롱소드를 든다. 맨 앞에 서서 동료 대신 칼을 막는다."
+}

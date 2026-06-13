@@ -121,21 +121,21 @@ WorldLines runs a world in one of **three engine modes** — and they are *not* 
 
 | World | Souls | Run |
 |---|---|---|
-| **[Kagura Island](./examples/kagura-island)** | **7** — Kagami · Hane · Makoto · Miyaji · Shiro · Tsubasa · Yuto. Japanese-folk mystery, time loop, CoC checks. The richest multi-agent society. | [Source →](./examples/kagura-island) |
-| **[Stoneford · Elena](./examples/stoneford-elena)** | **2** — Elena (the healer who remembers) + Rowan. The Stoneford world, now inhabited by living souls. | [Source →](./examples/stoneford-elena) · [Talk to Elena (hosted)](https://hub.worldlines.gg/play/souls/elena) |
+| **[Kagura Island](./examples/multi-agent/kagura-island)** | **7** — Kagami · Hane · Makoto · Miyaji · Shiro · Tsubasa · Yuto. Japanese-folk mystery, time loop, CoC checks. The richest multi-agent society. | [Source →](./examples/multi-agent/kagura-island) |
+| **[Stoneford · Elena](./examples/multi-agent/stoneford-elena)** | **2** — Elena (the healer who remembers) + Rowan. The Stoneford world, now inhabited by living souls. | [Source →](./examples/multi-agent/stoneford-elena) · [Talk to Elena (hosted)](https://hub.worldlines.gg/play/souls/elena) |
 
 ### ⛩ Stoneford — Flagship orch world
 
-A grey-fog northern river port. Classic-fantasy TRPG · d20 dice · **10-agent orchestrated village** — a world-agent at the centre routing to town, dungeon, combat, story, and NPC agents. **[Play online →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[Source & docs →](./examples/stoneford)**
+A grey-fog northern river port. Classic-fantasy TRPG · d20 dice · **10-agent orchestrated village** — a world-agent at the centre routing to town, dungeon, combat, story, and NPC agents. **[Play online →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[Source & docs →](./examples/orch/stoneford)**
 
 ### More worlds
 
 | World | Play style | Live Demo |
 |---|---|---|
 | **Dark Train** | Open world — do anything, the world remembers | [Play →](https://hub.worldlines.gg/play/worlds/dark-train) |
-| **Goblin Ambush** | 3-layer dungeon — fight through 3 boss goblins | [Source →](./examples/goblin-ambush) |
-| **Worldline** | Time-drift narrative — text the past | [Source →](./examples/worldline) |
-| **Sakura Hallway** | A school love story · emotional narrative | [Source →](./examples/sakura-hallway) |
+| **Goblin Ambush** | 3-layer dungeon — fight through 3 boss goblins | [Source →](./examples/orch/goblin-ambush) |
+| **Worldline** | Time-drift narrative — text the past | [Source →](./examples/orch/worldline) |
+| **Sakura Hallway** | A school love story · emotional narrative | [Source →](./examples/orch/sakura-hallway) |
 
 All worlds live in [examples/](./examples/) — open-source (AGPL-3.0), fork and ship your own.
 
@@ -143,14 +143,14 @@ All worlds live in [examples/](./examples/) — open-source (AGPL-3.0), fork and
 
 ```bash
 # multi-agent (souls/ engages the soul wrapper)
-neonrp tui --from examples/kagura-island       # 7 souls — Japanese-folk mystery
-neonrp tui --from examples/stoneford-elena     # 2 souls — Elena & Rowan
+neonrp tui --from examples/multi-agent/kagura-island       # 7 souls — Japanese-folk mystery
+neonrp tui --from examples/multi-agent/stoneford-elena     # 2 souls — Elena & Rowan
 
 # orch
-neonrp tui --from examples/stoneford           # flagship siege TRPG
-neonrp tui --from examples/dark-train          # open world
-neonrp tui --from examples/goblin-ambush/zh    # 3-layer dungeon
-neonrp tui --from examples/sakura-hallway/zh   # school-life narrative
+neonrp tui --from examples/orch/stoneford           # flagship siege TRPG
+neonrp tui --from examples/orch/dark-train          # open world
+neonrp tui --from examples/orch/goblin-ambush/zh    # 3-layer dungeon
+neonrp tui --from examples/orch/sakura-hallway/zh   # school-life narrative
 ```
 
 Play online (hosted `fast`/`orch`): [Stoneford](https://hub.worldlines.gg/play/worlds/stoneford) · [Dark Train](https://hub.worldlines.gg/play/worlds/dark-train) · [Talk to Elena](https://hub.worldlines.gg/play/souls/elena). Multi-agent worlds (Kagura, Stoneford·Elena) run locally.
@@ -160,7 +160,7 @@ Play online (hosted `fast`/`orch`): [Stoneford](https://hub.worldlines.gg/play/w
 Open Claude Code inside any world directory and the agents are there:
 
 ```
-cd examples/dark-train
+cd examples/orch/dark-train
 claude
 @world-agent 开始游戏
 ```
@@ -174,7 +174,7 @@ pre-configured.
 ## Other Projects Using This Engine
 
 - **[Soul Talk](https://hub.worldlines.gg/play/souls/elena)** — character-agent dialogue scene. Elena remembers.
-- **[Worldline](./examples/worldline)** — time-drift narrative engine. Text the past, watch timelines rewrite.
+- **[Worldline](./examples/orch/worldline)** — time-drift narrative engine. Text the past, watch timelines rewrite.
 - **Coming: RP-Abyss** — TRPG expedition. DM + dice checks.
 
 ---
@@ -203,7 +203,7 @@ You run tabletop campaigns in **Foundry VTT, Discord, or pen-and-paper**. You sp
 
 WorldLines is a GM's engine: you set the constraints — the rules, the NPCs, the tone — and the agents run the world for you. Auto-indexed lore, per-NPC memory, dice-referee agents.
 
-→ [Quickstart](https://docs.worldlines.gg/docs/getting-started/quickstart) · [Stoneford starter world](./examples/stoneford)
+→ [Quickstart](https://docs.worldlines.gg/docs/getting-started/quickstart) · [Stoneford starter world](./examples/orch/stoneford)
 
 ### 🔬 Researchers — AI Personality · World Models · Multi-Agent
 

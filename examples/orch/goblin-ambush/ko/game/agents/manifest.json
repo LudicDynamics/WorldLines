@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "execution_mode": "orchestrator",
+  "note": "고블린 매복전 · 멀티 agent 오케스트레이션. world-agent는 Layer 1(DM): 턴 관리, referee 호출로 주사위 굴림, 결과를 run_state + HP에 기록, 고블린 행동, 서술. referee는 주사위만 굴려 JSON을 반환하고, world-agent가 기록을 담당한다.",
+  "agents": [
+    {
+      "id": "world-agent",
+      "name": "Dungeon Master",
+      "agent_path": ".claude/agents/world-agent.md",
+      "role": "Layer 1 — DM: 턴 관리 + state 기록 + 서술",
+      "description": "우선권 순서와 턴을 관리하고, referee를 호출해 주사위를 굴리며(우선권/공격/피해), **결과를 run_state의 initiative_order + party/npc의 HP에 기록**하고, tactics에 따라 고블린을 행동시키며, 모험가 턴마다 멈춰 플레이어를 기다리고, 전투를 서술한다. 모든 플레이어 입력은 먼저 이것을 거친다.",
+      "read_globs": ["game/**"],
+      "write_globs": [
+        "game/meta/run_state.json",
+        "game/meta/active-agent.json",
+        "game/party/*.json",
+        "game/npc/*.json"
+      ]
+    },
+    {
+      "id": "referee",
+      "name": "Dice Referee (5e)",
+      "agent_path": ".claude/agents/referee.md",
+      "role": "Layer 2 — D&D 5e d20 판정",
+      "description": "우선권 굴림(d20+우선권 조정), 공격 판정(d20+명중 vs AC, nat20 크리티컬 두 배, nat1 자동 빗나감), 피해 주사위. 구조화된 JSON을 반환하며, 산문을 쓰지 않고 기록도 하지 않는다(world-agent가 HP/state 기록). Temp 0.2.",
+      "read_globs": [
+        "game/party/*.json",
+        "game/npc/*.json",
+        "game/rules/combat-5e.md",
+        "game/meta/run_state.json"
+      ],
+      "write_globs": []
+    }
+  ],
+  "routing_doctrine": {
+    "all_player_input_passes_through": "world-agent",
+    "all_dice_route_to": "referee",
+    "specialists_return_json_world_agent_persists": true,
+    "no_specialist_writes_prose": true,
+    "max_call_chain_depth_per_turn": 3
+  }
+}
