@@ -2,7 +2,7 @@
 
 **Language:** [English](./README.md) · [简体中文](./README.zh.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md)
 
-> **What's open:** example worlds, tools, and protocol in this repo — AGPL-3.0. Fork, modify, and ship your own worlds.
+> **What's open:** the example worlds and tools in this repo — AGPL-3.0. Fork, modify, and ship your own worlds.
 > **What's not:** the engine core (`neonrp`). Free to play, not free to fork or redistribute. See [LICENSE](LICENSE).
 
 <p align="center">
@@ -285,7 +285,7 @@ Full roadmap: [docs.worldlines.gg/docs/roadmap](https://docs.worldlines.gg/docs/
 
 ## License
 
-**Open-source (AGPL-3.0):** example worlds, character bundles, tools, and protocol in `examples/` and `tools/`.
+**Open-source (AGPL-3.0):** the example worlds, character bundles, and tools in `examples/` and `tools/`. (The agent protocol/architecture is still being iterated and not open-sourced yet — see Developers above.)
 
 **Not open-source:** the engine core (`neonrp`). Proprietary preview — free to play, not free to fork.
 

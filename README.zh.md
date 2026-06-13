@@ -2,7 +2,7 @@
 
 **Language:** [English](./README.md) · [简体中文](./README.zh.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md)
 
-> **开源部分:** 本仓库中的示例世界、工具和协议 —— AGPL-3.0。可自由 fork、修改并发布你自己的世界。
+> **开源部分:** 本仓库中的示例世界与工具 —— AGPL-3.0。可自由 fork、修改并发布你自己的世界。
 > **不开源部分:** 引擎核心(`neonrp`)。免费游玩,不可 fork 或再分发。见 [LICENSE](LICENSE)。
 
 <p align="center">
@@ -255,7 +255,7 @@ Layer 3:（未来）骰子/规则工具 agent
 
 ## 许可证
 
-**开源（AGPL-3.0）：** `examples/` 和 `tools/` 中的示例世界、角色包、工具和协议。
+**开源（AGPL-3.0）：** `examples/` 和 `tools/` 中的示例世界、角色包和工具。（agent 协议/架构还在迭代,尚未开源 —— 见上文「开发者」。）
 
 **不开源：** 引擎核心（`neonrp`）。专有预览版 —— 免费游玩，不可 fork。
 
