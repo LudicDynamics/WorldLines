@@ -195,7 +195,7 @@ You love **Ren'Py, TyranoBuilder, and branching narratives** — but you're tire
 
 WorldLines lets you set the characters, the world rules, and the tone — and the agents generate the story in real time. Every choice ripples. No two playthroughs are the same.
 
-→ [Create your first world](https://docs.worldlines.gg/docs/guides/creating-first-world) · [SillyTavern import →](https://docs.worldlines.gg/docs/guides/sillytavern-import)
+→ [Create your first world](https://hub.worldlines.gg/create/world) · *a dedicated visual-novel open-source project — coming soon*
 
 ### ✍️ TRPG GMs & World Creators
 

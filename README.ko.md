@@ -165,7 +165,7 @@ WorldLines는 **진짜 기억**을 가진 캐릭터를 제공합니다. 3세션 
 
 WorldLines에서는 캐릭터, 세계 규칙, 톤을 설정하면 에이전트가 실시간으로 이야기를 생성합니다. 모든 선택이 파문을 일으킵니다. 같은 플레이스루는 두 번 없습니다.
 
-→ [첫 세계 만들기](https://docs.worldlines.gg/docs/guides/creating-first-world) · [SillyTavern 가져오기 →](https://docs.worldlines.gg/docs/guides/sillytavern-import)
+→ [첫 세계 만들기](https://hub.worldlines.gg/create/world) · *비주얼 노벨 전용 오픈소스 프로젝트 —— 곧 공개*
 
 ### ✍️ TRPG GM & 월드 크리에이터
 

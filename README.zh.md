@@ -165,7 +165,7 @@ WorldLines 给你有**真实记忆**的角色。她们记得你三天前说过�
 
 WorldLines 让你设定角色、世界规则和基调 —— agent 会实时生成故事。每一个选择都会激起涟漪。没有两次游玩是一样的。
 
-→ [创建你的第一个世界](https://docs.worldlines.gg/docs/guides/creating-first-world) · [SillyTavern 导入 →](https://docs.worldlines.gg/docs/guides/sillytavern-import)
+→ [创建你的第一个世界](https://hub.worldlines.gg/create/world) · *专门的视觉小说开源项目 —— 敬请期待*
 
 ### ✍️ TRPG 主持人 · 世界创作者
 

@@ -165,7 +165,7 @@ WorldLines は**本当の記憶**を持つキャラクターを提供します�
 
 WorldLines ではキャラクター、世界のルール、トーンを設定すれば、エージェントがリアルタイムでストーリーを生成します。すべての選択が波紋を広げます。同じプレイスルーは二度とありません。
 
-→ [初めての世界を作る](https://docs.worldlines.gg/docs/guides/creating-first-world) · [SillyTavern インポート →](https://docs.worldlines.gg/docs/guides/sillytavern-import)
+→ [初めての世界を作る](https://hub.worldlines.gg/create/world) · *ビジュアルノベル専用のオープンソースプロジェクト —— 近日公開*
 
 ### ✍️ TRPG GM & ワールドクリエイター
 
