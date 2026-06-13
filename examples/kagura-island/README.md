@@ -4,7 +4,7 @@
 
 > Engine mode: **multi-agent**. Japanese-folk mystery · time loop · Yith mythos. **Seven living souls** on one island — WorldLines' richest multi-agent society. CoC-style checks (not d20 combat).
 
-**[▶ Play online →](https://hub.worldlines.gg/play/worlds/kagura-island)**
+> **Runs locally** (TUI / CLI) — multi-agent is not on hosted play. `neonrp tui --from examples/kagura-island`
 
 ## What makes this multi-agent
 

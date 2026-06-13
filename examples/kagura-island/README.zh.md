@@ -4,7 +4,7 @@
 
 > 引擎模式:**multi-agent**。和风悬疑 · 时间循环 · Yith 神话。一座岛上**七个活的灵魂** —— WorldLines 最丰富的多智能体社会。CoC 式判定(非 d20 战斗)。
 
-**[▶ 在线游玩 →](https://hub.worldlines.gg/play/worlds/kagura-island)**
+> **本地运行**(TUI / CLI)—— multi-agent 暂未上 hosted play。`neonrp tui --from examples/kagura-island`
 
 ## 为什么这是 multi-agent
 

@@ -117,10 +117,12 @@ WorldLines runs a world in one of **three engine modes** — and they are *not* 
 
 ### 👥 multi-agent — independent souls in one world
 
-| World | Souls | Live Demo |
+> **Runs locally** (TUI / CLI). Multi-agent is not on hosted play yet — hosted play offers `fast` + `orch`. Clone the repo and run with `neonrp tui --from examples/<world>`.
+
+| World | Souls | Run |
 |---|---|---|
-| **[Kagura Island](./examples/kagura-island)** | **7** — Kagami · Hane · Makoto · Miyaji · Shiro · Tsubasa · Yuto. Japanese-folk mystery, time loop, CoC checks. The richest multi-agent society. | [Play →](https://hub.worldlines.gg/play/worlds/kagura-island) |
-| **[Stoneford · Elena](./examples/stoneford-elena)** | **2** — Elena (the healer who remembers) + Rowan. The Stoneford world, now inhabited by living souls. | [Play →](https://hub.worldlines.gg/play/worlds/stoneford-elena) |
+| **[Kagura Island](./examples/kagura-island)** | **7** — Kagami · Hane · Makoto · Miyaji · Shiro · Tsubasa · Yuto. Japanese-folk mystery, time loop, CoC checks. The richest multi-agent society. | [Source →](./examples/kagura-island) |
+| **[Stoneford · Elena](./examples/stoneford-elena)** | **2** — Elena (the healer who remembers) + Rowan. The Stoneford world, now inhabited by living souls. | [Source →](./examples/stoneford-elena) · [Talk to Elena (hosted)](https://hub.worldlines.gg/play/souls/elena) |
 
 ### ⛩ Stoneford — Flagship orch world
 
@@ -151,7 +153,7 @@ neonrp tui --from examples/goblin-ambush/zh    # 3-layer dungeon
 neonrp tui --from examples/sakura-hallway/zh   # school-life narrative
 ```
 
-Or play online: [Kagura Island](https://hub.worldlines.gg/play/worlds/kagura-island) · [Stoneford · Elena](https://hub.worldlines.gg/play/worlds/stoneford-elena) · [Stoneford](https://hub.worldlines.gg/play/worlds/stoneford) · [Dark Train](https://hub.worldlines.gg/play/worlds/dark-train)
+Play online (hosted `fast`/`orch`): [Stoneford](https://hub.worldlines.gg/play/worlds/stoneford) · [Dark Train](https://hub.worldlines.gg/play/worlds/dark-train) · [Talk to Elena](https://hub.worldlines.gg/play/souls/elena). Multi-agent worlds (Kagura, Stoneford·Elena) run locally.
 
 ### Claude Code / MCP
 

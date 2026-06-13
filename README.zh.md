@@ -117,10 +117,12 @@ WorldLines 用三种**引擎模式**之一运行世界 —— 它们**不能混�
 
 ### 👥 multi-agent —— 多个独立灵魂同处一个世界
 
-| 世界 | 灵魂 | 在线 |
+> **本地运行**(TUI / CLI)。multi-agent 暂未上 hosted play —— 在线只支持 `fast` + `orch`。clone 仓库后用 `neonrp tui --from examples/<world>` 运行。
+
+| 世界 | 灵魂 | 运行 |
 |---|---|---|
-| **[神楽島 Kagura Island](./examples/kagura-island)** | **7 个** —— 镜子 · 羽 · 真琴 · 宫司 · 白 · 翼 · 悠人。和风悬疑、时间循环、CoC 判定。最丰富的多智能体社会。 | [游玩 →](https://hub.worldlines.gg/play/worlds/kagura-island) |
-| **[石津镇 · 艾莲娜](./examples/stoneford-elena)** | **2 个** —— Elena(会记住的治愈师)+ Rowan。石津镇世界,住进了活的灵魂。 | [游玩 →](https://hub.worldlines.gg/play/worlds/stoneford-elena) |
+| **[神楽島 Kagura Island](./examples/kagura-island)** | **7 个** —— 镜子 · 羽 · 真琴 · 宫司 · 白 · 翼 · 悠人。和风悬疑、时间循环、CoC 判定。最丰富的多智能体社会。 | [源码 →](./examples/kagura-island) |
+| **[石津镇 · 艾莲娜](./examples/stoneford-elena)** | **2 个** —— Elena(会记住的治愈师)+ Rowan。石津镇世界,住进了活的灵魂。 | [源码 →](./examples/stoneford-elena) · [和 Elena 对话(在线)](https://hub.worldlines.gg/play/souls/elena) |
 
 ### ⛩ Stoneford — 旗舰 orch 世界
 

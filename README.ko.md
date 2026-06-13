@@ -117,10 +117,12 @@ WorldLines는 세계를 **세 가지 엔진 모드** 중 하나로 구동합니�
 
 ### 👥 multi-agent —— 독립된 소울들이 한 세계에
 
-| 월드 | 소울 | 라이브 데모 |
+> **로컬 실행**(TUI / CLI). multi-agent는 아직 호스티드 플레이 미지원 —— 온라인은 `fast` + `orch`만. 저장소를 clone 후 `neonrp tui --from examples/<world>` 로 실행.
+
+| 월드 | 소울 | 실행 |
 |---|---|---|
-| **[神楽島 Kagura Island](./examples/kagura-island)** | **7명** —— 鏡子 · 羽 · 真琴 · 宮司 · 白 · 翼 · 悠人. 일본풍 미스터리, 타임 루프, CoC 판정. 가장 풍부한 멀티에이전트 사회. | [플레이 →](https://hub.worldlines.gg/play/worlds/kagura-island) |
-| **[Stoneford · Elena](./examples/stoneford-elena)** | **2명** —— Elena(기억하는 치유사) + Rowan. Stoneford 세계에 살아있는 소울이 깃든다. | [플레이 →](https://hub.worldlines.gg/play/worlds/stoneford-elena) |
+| **[神楽島 Kagura Island](./examples/kagura-island)** | **7명** —— 鏡子 · 羽 · 真琴 · 宮司 · 白 · 翼 · 悠人. 일본풍 미스터리, 타임 루프, CoC 판정. 가장 풍부한 멀티에이전트 사회. | [소스 →](./examples/kagura-island) |
+| **[Stoneford · Elena](./examples/stoneford-elena)** | **2명** —— Elena(기억하는 치유사) + Rowan. Stoneford 세계에 살아있는 소울이 깃든다. | [소스 →](./examples/stoneford-elena) · [Elena와 대화(호스티드)](https://hub.worldlines.gg/play/souls/elena) |
 
 ### ⛩ Stoneford — 플래그십 orch 월드
 

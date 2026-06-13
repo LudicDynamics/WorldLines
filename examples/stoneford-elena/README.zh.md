@@ -4,7 +4,7 @@
 
 > 引擎模式:**multi-agent**。石津镇世界,现在住进了活的灵魂 —— **Elena**(艾莲娜)和 **Rowan**(罗恩)—— 她们自己思考、记忆、行动。
 
-**[▶ 在线游玩 →](https://hub.worldlines.gg/play/worlds/stoneford-elena)** · **[和 Elena 对话 →](https://hub.worldlines.gg/play/souls/elena)**
+> **本地运行**(TUI / CLI):`neonrp tui --from examples/stoneford-elena`。Elena 另有在线 soul 对话:**[和 Elena 对话 →](https://hub.worldlines.gg/play/souls/elena)**
 
 ## 为什么这是 multi-agent
 

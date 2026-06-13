@@ -4,7 +4,7 @@
 
 > 엔진 모드: **multi-agent**. Stoneford 세계에 살아있는 소울 —— **Elena** 와 **Rowan** —— 이 깃든다. 그들은 스스로 생각하고, 기억하고, 행동한다.
 
-**[▶ 온라인 플레이 →](https://hub.worldlines.gg/play/worlds/stoneford-elena)** · **[Elena와 대화 →](https://hub.worldlines.gg/play/souls/elena)**
+> **로컬 실행**(TUI / CLI):`neonrp tui --from examples/stoneford-elena`. Elena는 호스티드 소울 대화 데모도 있습니다:**[Elena와 대화 →](https://hub.worldlines.gg/play/souls/elena)**
 
 ## 왜 multi-agent인가
 

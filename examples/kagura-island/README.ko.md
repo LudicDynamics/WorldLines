@@ -4,7 +4,7 @@
 
 > 엔진 모드: **multi-agent**. 일본풍 미스터리 · 타임 루프 · 이스 신화. 한 섬에 **일곱 살아있는 소울** —— WorldLines에서 가장 풍부한 멀티에이전트 사회. CoC 식 판정(d20 전투 아님).
 
-**[▶ 온라인 플레이 →](https://hub.worldlines.gg/play/worlds/kagura-island)**
+> **로컬 실행**(TUI / CLI)—— multi-agent는 호스티드 플레이 미지원. `neonrp tui --from examples/kagura-island`
 
 ## 왜 multi-agent인가
 

@@ -4,7 +4,7 @@
 
 > Engine mode: **multi-agent**. The Stoneford world, now inhabited by living souls — **Elena** and **Rowan** — who think, remember, and act on their own.
 
-**[▶ Play online →](https://hub.worldlines.gg/play/worlds/stoneford-elena)** · **[Talk to Elena →](https://hub.worldlines.gg/play/souls/elena)**
+> **Runs locally** (TUI / CLI): `neonrp tui --from examples/stoneford-elena`. Elena also has a hosted soul-talk demo: **[Talk to Elena →](https://hub.worldlines.gg/play/souls/elena)**
 
 ## What makes this multi-agent
 

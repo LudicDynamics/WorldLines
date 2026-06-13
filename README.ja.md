@@ -117,10 +117,12 @@ WorldLines は世界を **3 つのエンジンモード**のいずれかで動�
 
 ### 👥 multi-agent —— 独立したソウルが一つの世界に
 
-| ワールド | ソウル | ライブデモ |
+> **ローカル実行**（TUI / CLI）。multi-agent はまだホストプレイ非対応 —— オンラインは `fast` + `orch` のみ。リポジトリを clone して `neonrp tui --from examples/<world>` で実行。
+
+| ワールド | ソウル | 実行 |
 |---|---|---|
-| **[神楽島 Kagura Island](./examples/kagura-island)** | **7 体** —— 鏡子 · 羽 · 真琴 · 宮司 · 白 · 翼 · 悠人。和風ミステリー、タイムループ、CoC 判定。最も豊かなマルチエージェント社会。 | [遊ぶ →](https://hub.worldlines.gg/play/worlds/kagura-island) |
-| **[Stoneford · Elena](./examples/stoneford-elena)** | **2 体** —— Elena（覚えている癒し手）+ Rowan。Stoneford の世界に生きたソウルが宿る。 | [遊ぶ →](https://hub.worldlines.gg/play/worlds/stoneford-elena) |
+| **[神楽島 Kagura Island](./examples/kagura-island)** | **7 体** —— 鏡子 · 羽 · 真琴 · 宮司 · 白 · 翼 · 悠人。和風ミステリー、タイムループ、CoC 判定。最も豊かなマルチエージェント社会。 | [ソース →](./examples/kagura-island) |
+| **[Stoneford · Elena](./examples/stoneford-elena)** | **2 体** —— Elena（覚えている癒し手）+ Rowan。Stoneford の世界に生きたソウルが宿る。 | [ソース →](./examples/stoneford-elena) · [Elena と話す（ホスト）](https://hub.worldlines.gg/play/souls/elena) |
 
 ### ⛩ Stoneford — 旗艦 orch ワールド
 

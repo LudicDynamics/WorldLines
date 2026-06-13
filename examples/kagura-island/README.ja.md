@@ -4,7 +4,7 @@
 
 > エンジンモード:**multi-agent**。和風ミステリー · タイムループ · イスの神話。一つの島に**七つの生きたソウル** —— WorldLines 最も豊かなマルチエージェント社会。CoC 式判定（d20 戦闘ではない）。
 
-**[▶ オンラインで遊ぶ →](https://hub.worldlines.gg/play/worlds/kagura-island)**
+> **ローカル実行**（TUI / CLI）—— multi-agent はホストプレイ非対応。`neonrp tui --from examples/kagura-island`
 
 ## なぜ multi-agent なのか
 

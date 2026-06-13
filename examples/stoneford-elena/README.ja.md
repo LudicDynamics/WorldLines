@@ -4,7 +4,7 @@
 
 > エンジンモード:**multi-agent**。Stoneford の世界に、生きたソウル —— **Elena** と **Rowan** —— が宿る。彼らは自ら考え、覚え、行動する。
 
-**[▶ オンラインで遊ぶ →](https://hub.worldlines.gg/play/worlds/stoneford-elena)** · **[Elena と話す →](https://hub.worldlines.gg/play/souls/elena)**
+> **ローカル実行**（TUI / CLI）:`neonrp tui --from examples/stoneford-elena`。Elena にはホスト版の soul 会話デモもあります:**[Elena と話す →](https://hub.worldlines.gg/play/souls/elena)**
 
 ## なぜ multi-agent なのか
 
