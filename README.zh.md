@@ -157,7 +157,7 @@ WorldLines 用三种**引擎模式**之一运行世界 —— 它们**不能混�
 
 WorldLines 给你有**真实记忆**的角色。她们记得你三天前说过的话。她们有内心独白、意图、目标。而且她们不孤单 —— 她们和其他角色一起活在一个世界里，彼此记住。
 
-→ [和 Elena 对话](https://hub.worldlines.gg/play/souls/elena) · [浏览角色目录](https://hub.worldlines.gg/souls)
+→ [玩 Soul Talk](https://hub.worldlines.gg/play/souls/elena) · [把 AI 角色卡带进世界](https://docs.worldlines.gg/docs/guides/sillytavern-import)
 
 ### 📖 Galgame · 视觉小说爱好者
 

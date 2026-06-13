@@ -157,7 +157,7 @@ WorldLines는 세계를 **세 가지 엔진 모드** 중 하나로 구동합니�
 
 WorldLines는 **진짜 기억**을 가진 캐릭터를 제공합니다. 3세션 전에 당신이 한 말을 기억합니다. 내면의 목소리, 의도, 목표를 가지고 있습니다. 그리고 혼자가 아닙니다 — 다른 캐릭터와 함께 세계에 살며 서로를 기억합니다.
 
-→ [Elena와 대화하기 (Soul Talk)](https://hub.worldlines.gg/play/souls/elena) · [카탈로그 보기](https://hub.worldlines.gg/souls)
+→ [Soul Talk 플레이](https://hub.worldlines.gg/play/souls/elena) · [AI 캐릭터 카드를 세계로 가져오기](https://docs.worldlines.gg/docs/guides/sillytavern-import)
 
 ### 📖 갤게임 & 비주얼 노벨 팬
 

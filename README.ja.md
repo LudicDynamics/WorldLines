@@ -157,7 +157,7 @@ WorldLines は世界を **3 つのエンジンモード**のいずれかで動�
 
 WorldLines は**本当の記憶**を持つキャラクターを提供します。3 セッション前のあなたの言葉を覚えています。内なる声、意図、目標を持っています。そして彼らは孤独ではありません —— 他のキャラクターと共に世界に生き、互いに覚えています。
 
-→ [Elena と話す (Soul Talk)](https://hub.worldlines.gg/play/souls/elena) · [カタログを見る](https://hub.worldlines.gg/souls)
+→ [Soul Talk をプレイ](https://hub.worldlines.gg/play/souls/elena) · [AI キャラクターカードを世界に持ち込む](https://docs.worldlines.gg/docs/guides/sillytavern-import)
 
 ### 📖 ギャルゲー & ビジュアルノベルファン
 

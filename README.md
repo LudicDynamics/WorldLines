@@ -187,7 +187,7 @@ You come from **Character.AI, SillyTavern, or AI Tavern**. You love deep charact
 
 WorldLines gives you characters with **real memory**. They remember what you said three sessions ago. They have inner voices, intentions, goals. And they're not alone — they live in a world with other characters who also remember.
 
-→ [Play Elena (Soul Talk)](https://hub.worldlines.gg/play/souls/elena) · [Browse catalog](https://hub.worldlines.gg/souls)
+→ [Play Soul Talk](https://hub.worldlines.gg/play/souls/elena) · [Bring an AI character card into a world](https://docs.worldlines.gg/docs/guides/sillytavern-import)
 
 ### 📖 Galgame & Visual Novel Fans
 
