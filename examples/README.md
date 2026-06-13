@@ -36,10 +36,12 @@ play offers `fast` + `orch`.
 
 ### 👥 multi-agent — independent souls in one world
 
-| World | Souls | Mode | Online |
+> Multi-agent runs **locally** (TUI / CLI) — not on hosted play yet. `neonrp tui --from examples/<world>`.
+
+| World | Souls | Mode | Run |
 |---|---|---|---|
-| [Stoneford · Elena](./stoneford-elena) | **2** — Elena, Rowan | **multi-agent** | [Play →](https://hub.worldlines.gg/play/worlds/stoneford-elena) |
-| [Kagura Island](./kagura-island) | **7** — Kagami, Hane, Makoto, Miyaji, Shiro, Tsubasa, Yuto | **multi-agent** | [Play →](https://hub.worldlines.gg/play/worlds/kagura-island) |
+| [Kagura Island](./kagura-island) | **7** — Kagami, Hane, Makoto, Miyaji, Shiro, Tsubasa, Yuto | **multi-agent** | [Source →](./kagura-island) |
+| [Stoneford · Elena](./stoneford-elena) | **2** — Elena, Rowan | **multi-agent** | [Source →](./stoneford-elena) · [Elena soul (hosted)](https://hub.worldlines.gg/play/souls/elena) |
 
 Each world has four language READMEs: **en** · **zh** (中文) · **ja** (日本語) · **ko** (한국어).
 
