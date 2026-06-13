@@ -1,0 +1,14 @@
+{
+  "sid": "kagami",
+  "display_name": "Kagami",
+  "name_local": "鏡子",
+  "age": 34,
+  "role": "npc",
+  "tags": [
+    "waen-family",
+    "white-hair",
+    "cafe-owner",
+    "orphanage"
+  ],
+  "summary": "白髪長ポニーテール。咖啡馆老板。和渊家の当代。孤児院を守るために島に残った。真琴の変化を12年間追っているが、Yithの存在は知らない。"
+}

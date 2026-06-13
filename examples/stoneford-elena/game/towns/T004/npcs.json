@@ -1,0 +1,77 @@
+{
+  "town_id": "T004",
+  "npcs": [
+    {
+      "id": "NPC_T004_01",
+      "name": "卡萨(公会分部长)",
+      "role": "guildmaster",
+      "location": "guild",
+      "traits": ["豪爽", "实战派", "酒量惊人"],
+      "description": "年约四十的壮硕女性，左脸有一道旧刀疤。曾是A级冒险者，退役后管理碧石分部。对新人严格但公正。",
+      "state": { "met": false }
+    },
+    {
+      "id": "NPC_T004_02",
+      "name": "铁柱(矿工头领)",
+      "role": "mine_foreman",
+      "location": "mine_entrance",
+      "traits": ["憨厚", "力大无穷", "虔诚"],
+      "description": "身材如铁塔般魁梧的中年矿工。管理矿区日常作业，同时也是晨光教堂的忠实信徒。商队路上遇到的熟面孔。",
+      "state": { "met": true }
+    },
+    {
+      "id": "NPC_T004_03",
+      "name": "鸦目老范(矿石鉴定师)",
+      "role": "appraiser",
+      "location": "appraiser",
+      "traits": ["沉默寡言", "洞察力极强", "收藏癖"],
+      "description": "瘦削的老人，左眼金色右眼黑色——据说这是某种古老血统的遗存。碧石镇最权威的矿石鉴定师，没有他看不透的石头。",
+      "state": { "met": false }
+    },
+    {
+      "id": "NPC_T004_04",
+      "name": "小翠(酒馆老板娘)",
+      "role": "innkeeper",
+      "location": "tavern",
+      "traits": ["爽朗", "消息灵通", "厨艺一流"],
+      "description": "二十多岁的年轻女性，嗓门大，笑声爽朗。翠晶酒馆是她从父亲手里继承的。对镇上的八卦无所不知。",
+      "state": { "met": false }
+    },
+    {
+      "id": "NPC_T004_05",
+      "name": "格林婆婆(草药师)",
+      "role": "herbalist",
+      "location": "herb_shop",
+      "traits": ["慈祥", "啰嗦", "博学"],
+      "description": "驼背的白发老妇人，永远在店里磨草药。认识山中每一种植物，矿工们受伤都来找她。对年轻姑娘格外友善。",
+      "state": { "met": false }
+    },
+    {
+      "id": "NPC_T004_06",
+      "name": "锤子达蒙(杂货商)",
+      "role": "shopkeeper",
+      "location": "shop_general",
+      "traits": ["精明", "话多", "前矿工"],
+      "description": "矮壮的中年男子，左手少了两根手指——矿难留下的纪念。转行做杂货生意后赚得盆满钵满，货品齐全价格公道。",
+      "state": { "met": false }
+    },
+    {
+      "id": "NPC_T004_07",
+      "name": "塞拉斯神父(教堂牧师)",
+      "role": "priest",
+      "location": "chapel",
+      "traits": ["温和", "学识渊博", "有秘密"],
+      "description": "中年神父，面容清瘦但目光温暖。从雾湖城的大教堂被派来碧石镇已有十年。除了布道，还免费为穷人治疗。",
+      "state": { "met": false }
+    },
+    {
+      "id": "NPC_T004_SOUL_01",
+      "name": "罗文·派克",
+      "role": "scout",
+      "location": "tavern",
+      "traits": ["机警", "不甘平庸", "痴迷传说"],
+      "description": "二十多岁的年轻冒险者，在碧石镇混得不上不下，一直想抓住一条足以改变命运的大线索。最近他盯上了北境“世界边界”的地者传说：据说那里有一个深不见底的洞穴，会不断挖出不知时代的宝具与带着奇妙功能的珍稀道具。",
+      "state": { "met": false, "soul_ref": "rowan-si-rowan0001" }
+    }
+  ]
+}

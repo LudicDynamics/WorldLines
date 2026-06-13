@@ -1,0 +1,19 @@
+{
+  "id": "museum",
+  "kind": "location",
+  "name": "博物馆",
+  "tags": [
+    "museum",
+    "info",
+    "magatama"
+  ],
+  "summary": "展示岛的历史和神乐祭的由来。有古代祭器、地图、照片。某些年代的记录被跳过了。非公开保管库里有黒色勾玉。",
+  "connections": [
+    "town"
+  ],
+  "npcs_default": [],
+  "items": [
+    "magatama-past"
+  ],
+  "discovery_condition": "図書館利用成功 → 非公開エリア発見"
+}

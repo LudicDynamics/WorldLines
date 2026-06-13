@@ -1,0 +1,10 @@
+{
+  "sid": "elena",
+  "relationships": {
+    "rowan": {
+      "disposition": "not_met",
+      "known": false,
+      "truth": "罗文是碧石镇的另一条活跃 soul 线，但艾莲娜目前并不认识他"
+    }
+  }
+}

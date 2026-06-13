@@ -1,0 +1,39 @@
+{
+  "session_id": "S0001",
+  "world_id": "kagura-island",
+  "turn_count": 0,
+  "location": {
+    "scope": "island",
+    "node": "south-shore",
+    "zone": "beach",
+    "display": "神楽島·南岸·砂浜"
+  },
+  "time": {
+    "cycle_day": 1,
+    "period": "夜",
+    "loop_count": 0,
+    "actions_this_period": 0
+  },
+  "last_action": "awakened_on_shore",
+  "pending": [
+    "查看身边的人",
+    "走向远处倒下的人影"
+  ],
+  "party": {
+    "player": {
+      "pid": "player",
+      "state_path": "game/player",
+      "location": "south-shore",
+      "memory": "amnesia"
+    }
+  },
+  "world_flags": {
+    "dream1_opened": true,
+    "loop_active": true,
+    "tsubasa_found": false,
+    "tsubasa_rescued": false,
+    "yuto_woke_first": false
+  },
+  "npc_met": [],
+  "npc_mentioned_not_met": []
+}

@@ -1,0 +1,52 @@
+{
+  "id": "world-agent",
+  "name": "World Agent",
+  "description": "神楽島 world-agent。它拥有世界状态、回合收口和最终叙事；运行时会先 fan-out 到 active souls，再由它整合并关闭本回合。",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 30,
+  "triggers": [
+    ".*"
+  ],
+  "tags": [
+    "world-agent",
+    "orchestrator",
+    "routing",
+    "narrative",
+    "loop",
+    "owner-directed"
+  ],
+  "priority": 100,
+  "permissions": {
+    "read_globs": [
+      "game/**",
+      ".neonrp/playthrough.json",
+      ".neonrp/manifest.json"
+    ],
+    "write_globs": [
+      "game/meta/run_state.json",
+      "game/timeline/*.json",
+      "game/locations/*.json",
+      "game/lore/notes.md",
+      "game/lore/gm-truth.md",
+      "game/lore/story.md",
+      "game/player/*.json"
+    ],
+    "deny_globs": [
+      "souls/**",
+      ".neonrp/commits/**"
+    ],
+    "direct_write_globs": [
+      "game/meta/run_state.json",
+      "game/timeline/*.json",
+      "game/lore/notes.md",
+      "game/lore/story.md",
+      "game/player/*.json",
+      "game/locations/*.json"
+    ]
+  },
+  "defaults": {
+    "context_limit": 30,
+    "temperature": 0.6
+  }
+}

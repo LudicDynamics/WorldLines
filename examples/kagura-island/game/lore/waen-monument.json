@@ -1,0 +1,8 @@
+{
+  "id": "waen-monument",
+  "kind": "lore",
+  "name": "《和渊碑》",
+  "location": "monument",
+  "content": "和渊居此三十六年，不識郷音，不返中土。所識星斗火光，風雀海魚。故立此記。",
+  "extended": "task-storywriting/assets/kagura-island/lore-volcano-history.md 参照"
+}

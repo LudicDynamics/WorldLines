@@ -1,0 +1,9 @@
+{
+  "sid": "miyaji",
+  "memory": "yith_memory",
+  "mood": "calm_immovable",
+  "flags": {
+    "yith_state": "fully_possessed",
+    "trust_initial": 10
+  }
+}

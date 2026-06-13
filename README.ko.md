@@ -33,7 +33,7 @@
 
 ## 팀 & 비전
 
-우리는 **도쿄대학, 나고야대학**의 PhD 및 연구자, 그리고 게임 실무자로 구성된 학제적 팀(사회학, 경제학, 컴퓨터그래픽스, AI 에이전트, 가상세계) — **Ludic Dynamics** 입니다.
+우리는 **도쿄대학**의 PhD 및 연구자, 그리고 게임 실무자로 구성된 학제적 팀(사회학, 경제학, 컴퓨터그래픽스, AI 에이전트, 가상세계) — **Ludic Dynamics** 입니다.
 
 TRPG, 갤게임, 오토메 게임을 사랑합니다. AI가 지금처럼 보편화되기 훨씬 이전부터, 오랜 세월 일본어 문화 번역 자원봉사에 힘써왔고, 테이블탑 및 게임 그래픽스 엔진 업계에서 깊이 있게 활동해왔으며, 일본 비주얼 노벨의 Steam 출시를 도왔습니다. 팬데믹 이후 우리는 AI 롤플레이와 내러티브 게임에 빠져들었습니다 — 주말마다, 밤늦게까지 세션을 달리고, 세계를 구축하며, "이야기가 진짜로 숨쉬는" 감각을 좇아왔습니다.
 
@@ -109,9 +109,22 @@ TUI가 실행됩니다. 여기서 새 월드 생성, 카탈로그 탐색, 저장
 
 ## 예제 월드
 
-### ⛩ Stoneford — 스타터 월드
+WorldLines는 세계를 **세 가지 엔진 모드** 중 하나로 구동합니다 —— 이들은 **혼용할 수 없습니다**:
 
-잿빛 안개의 북쪽 강변 항구. 클래식 판타지 TRPG · d20 주사위 · 10-agent 오케스트레이터. NPC, 퀘스트, 던전, 공성전을 갖춘 대표 예제. **[온라인 플레이 →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[소스 & 문서 →](./examples/stoneford)**
+- **fast** —— 하나의 빠른 agent, 단일 목소리.
+- **orch** —— world-agent가 도메인 agent(마을 / 던전 / 전투 / 스토리)를 편성; NPC는 데이터.
+- **multi-agent** —— world-agent가 **독립된 소울**을 감쌉니다. 각 소울은 고유한 마음·기억·속셈을 가진 캐릭터 agent. 표식은 `souls/` 폴더. *이번 신규 릴리스.*
+
+### 👥 multi-agent —— 독립된 소울들이 한 세계에
+
+| 월드 | 소울 | 라이브 데모 |
+|---|---|---|
+| **[神楽島 Kagura Island](./examples/kagura-island)** | **7명** —— 鏡子 · 羽 · 真琴 · 宮司 · 白 · 翼 · 悠人. 일본풍 미스터리, 타임 루프, CoC 판정. 가장 풍부한 멀티에이전트 사회. | [플레이 →](https://hub.worldlines.gg/play/worlds/kagura-island) |
+| **[Stoneford · Elena](./examples/stoneford-elena)** | **2명** —— Elena(기억하는 치유사) + Rowan. Stoneford 세계에 살아있는 소울이 깃든다. | [플레이 →](https://hub.worldlines.gg/play/worlds/stoneford-elena) |
+
+### ⛩ Stoneford — 플래그십 orch 월드
+
+잿빛 안개의 북쪽 강변 항구. 클래식 판타지 TRPG · d20 주사위 · **10-agent 편성 마을** —— 중심의 world-agent가 마을·던전·전투·스토리·NPC agent로 라우팅. **[온라인 플레이 →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[소스 & 문서 →](./examples/stoneford)**
 
 ### 그 외 월드
 

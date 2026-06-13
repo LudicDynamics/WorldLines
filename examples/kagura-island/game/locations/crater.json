@@ -1,0 +1,22 @@
+{
+  "id": "crater",
+  "kind": "location",
+  "name": "火山口",
+  "tags": [
+    "crater",
+    "danger",
+    "forbidden"
+  ],
+  "summary": "岛の最高点。活火山の火山口。禁地。围栏の一部が切断されている。異常な光と音。",
+  "connections": [
+    "shrine",
+    "crater-internal"
+  ],
+  "taboo": {
+    "solo_entry": {
+      "id": 4,
+      "description": "独自で火山口に行ってはならない",
+      "penalty": "即座に危険イベント発生"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "riverlamp-inn",
+  "kind": "location",
+  "name": "河灯旅店",
+  "tags": ["town", "inn", "mira"],
+  "summary": "临河的小旅店，木窗总比别处更早亮起。这里适合听消息、找热汤，也适合第一次看清一座雾镇的呼吸。",
+  "connections": ["market-square"],
+  "notes": "Stone Ford fallback inn scene."
+}

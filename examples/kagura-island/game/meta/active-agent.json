@@ -1,0 +1,5 @@
+{
+  "active_agent": "narrator",
+  "since_turn": 0,
+  "note": "Multi-agent mode: narrator is the player-facing world-agent voice; the M18 runtime fans out to soul instances each turn."
+}

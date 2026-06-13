@@ -1,0 +1,11 @@
+{
+  "id": "magatama-present",
+  "kind": "item",
+  "name": "現在の勾玉",
+  "color": "black",
+  "owner": "tsubasa",
+  "location": "islet-ledge",
+  "power": "翼の時代（6年前）へ穿越可能。真結局の鍵。",
+  "era_link": "6年前",
+  "note": "翼が持っている。翼を発見し急救しないと入手不能"
+}

@@ -109,9 +109,22 @@ No install. Go to **[hub.worldlines.gg](https://hub.worldlines.gg)**, sign in, a
 
 ## Example Worlds
 
-### ⛩ Stoneford — Flagship multi-agent village
+WorldLines runs a world in one of **three engine modes** — and they are *not* interchangeable:
 
-A grey-fog northern river port. Classic-fantasy TRPG · d20 dice · **10-agent multi-agent village** — a world-agent at the centre orchestrating town, dungeon, combat, story, and NPC-mind agents. A full town with NPCs, quests, a dungeon, and siege mechanics. **[Play online →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[Source & docs →](./examples/stoneford)**
+- **fast** — one quick agent, single voice.
+- **orch** — a world-agent orchestrating domain agents (town / dungeon / combat / story); NPCs are data.
+- **multi-agent** — a world-agent wrapping **independent souls**, each a character-agent with its own mind, memory, and agenda. The tell-tale sign is a `souls/` folder. *This is the new release.*
+
+### 👥 multi-agent — independent souls in one world
+
+| World | Souls | Live Demo |
+|---|---|---|
+| **[Kagura Island](./examples/kagura-island)** | **7** — Kagami · Hane · Makoto · Miyaji · Shiro · Tsubasa · Yuto. Japanese-folk mystery, time loop, CoC checks. The richest multi-agent society. | [Play →](https://hub.worldlines.gg/play/worlds/kagura-island) |
+| **[Stoneford · Elena](./examples/stoneford-elena)** | **2** — Elena (the healer who remembers) + Rowan. The Stoneford world, now inhabited by living souls. | [Play →](https://hub.worldlines.gg/play/worlds/stoneford-elena) |
+
+### ⛩ Stoneford — Flagship orch world
+
+A grey-fog northern river port. Classic-fantasy TRPG · d20 dice · **10-agent orchestrated village** — a world-agent at the centre routing to town, dungeon, combat, story, and NPC agents. **[Play online →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[Source & docs →](./examples/stoneford)**
 
 ### More worlds
 
@@ -127,13 +140,18 @@ All worlds live in [examples/](./examples/) — open-source (AGPL-3.0), fork and
 ### Quick run
 
 ```bash
+# multi-agent (souls/ engages the soul wrapper)
+neonrp tui --from examples/kagura-island       # 7 souls — Japanese-folk mystery
+neonrp tui --from examples/stoneford-elena     # 2 souls — Elena & Rowan
+
+# orch
+neonrp tui --from examples/stoneford           # flagship siege TRPG
 neonrp tui --from examples/dark-train          # open world
-neonrp tui --from examples/stoneford           # siege TRPG
 neonrp tui --from examples/goblin-ambush/zh    # 3-layer dungeon
 neonrp tui --from examples/sakura-hallway/zh   # school-life narrative
 ```
 
-Or play online: [Dark Train](https://hub.worldlines.gg/play/worlds/dark-train) · [Stoneford](https://hub.worldlines.gg/play/worlds/stoneford)
+Or play online: [Kagura Island](https://hub.worldlines.gg/play/worlds/kagura-island) · [Stoneford · Elena](https://hub.worldlines.gg/play/worlds/stoneford-elena) · [Stoneford](https://hub.worldlines.gg/play/worlds/stoneford) · [Dark Train](https://hub.worldlines.gg/play/worlds/dark-train)
 
 ### Claude Code / MCP
 

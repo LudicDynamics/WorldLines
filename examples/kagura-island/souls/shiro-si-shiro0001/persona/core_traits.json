@@ -1,0 +1,10 @@
+{
+  "sid": "shiro",
+  "traits": {
+    "drive": 1.0,
+    "mobility": 1.0,
+    "resolve": 0.95,
+    "loneliness": 0.6,
+    "ingenuity": 0.9
+  }
+}

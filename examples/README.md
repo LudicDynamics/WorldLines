@@ -1,22 +1,47 @@
 # Example Worlds
 
-Four playable worlds that ship with WorldLines. Each is a complete,
-self-contained game world showing a different kind of play. All four are
-open-source (AGPL-3.0) — fork, mod, and ship your own.
+The playable worlds that ship with WorldLines. Each is a complete,
+self-contained game world, open-source (AGPL-3.0) — fork, mod, and ship
+your own. They run with the local **CLI / TUI**
+(`neonrp tui --from examples/<world>`), with **Claude Code / MCP**, and
+most have online demos on the [WebHub](https://hub.worldlines.gg).
 
-They work with the local **CLI / TUI** (`neonrp tui --from examples/<world>`)
-or with **Claude Code / MCP**. Most also have online demos on the
-[WebHub](https://hub.worldlines.gg).
+## Engine modes — these are distinct, not interchangeable
 
-| World | Play style | Agents | Online |
+WorldLines runs a world in one of **three engine modes**. A world is
+authored for a specific mode; `fast`, `orch`, and `multi-agent` do **not**
+share the same structure.
+
+| Mode | What it is | Structure |
+|---|---|---|
+| **fast** | one quick agent — minimal latency, single voice | world-agent only |
+| **orch** | a world-agent **orchestrating domain agents** (town / dungeon / combat / story…). NPCs are data the orchestrator voices. | `agents/` + `game/` |
+| **multi-agent** | a world-agent **wrapping independent souls** — each a character-agent with its own mind, memory, and agenda. The society. | `agents/` + `game/` + **`souls/`** + `playthrough.json` |
+
+The tell-tale sign of a multi-agent world is a **`souls/` folder**: each
+soul thinks for itself. `multi-agent` runs locally (TUI / CLI); hosted
+play offers `fast` + `orch`.
+
+## Worlds
+
+### 🌐 orch & single-world
+
+| World | Play style | Mode | Online |
 |---|---|---|---|
-| [Dark Train](./dark-train) | Open world — do anything, the world remembers | World-agent + sub-agents | [Play →](https://hub.worldlines.gg/play/worlds/dark-train) |
-| [Stoneford](./stoneford) | Siege — give orders, pay the cost | World-agent + NPC agents | [Play →](https://hub.worldlines.gg/play/worlds/stoneford) |
-| [Goblin Ambush](./goblin-ambush) | D&D 5e combat — one encounter, three adventurers | World-agent (DM) + Referee (dice) | — |
-| [Worldline](./worldline) | Time-drift — text the past, watch timelines rewrite | World-agent + Worldline-agent + Drift-agent | — |
+| [Stoneford](./stoneford) | Flagship siege TRPG — 10-agent orchestrated village | **orch** | [Play →](https://hub.worldlines.gg/play/worlds/stoneford) |
+| [Dark Train](./dark-train) | Open world — do anything, the world remembers | orch | [Play →](https://hub.worldlines.gg/play/worlds/dark-train) |
+| [Goblin Ambush](./goblin-ambush) | 3-layer dungeon — fight 3 boss goblins | fast / orch | — |
+| [Worldline](./worldline) | Time-drift — text the past, watch timelines rewrite | orch | — |
+| [Sakura Hallway](./sakura-hallway) | Clannad-style school-life · emotional narrative | orch | — |
 
-Each world has four language variants: **zh** (中文) · **en** (English) ·
-**ja** (日本語) · **ko** (한국어).
+### 👥 multi-agent — independent souls in one world
+
+| World | Souls | Mode | Online |
+|---|---|---|---|
+| [Stoneford · Elena](./stoneford-elena) | **2** — Elena, Rowan | **multi-agent** | [Play →](https://hub.worldlines.gg/play/worlds/stoneford-elena) |
+| [Kagura Island](./kagura-island) | **7** — Kagami, Hane, Makoto, Miyaji, Shiro, Tsubasa, Yuto | **multi-agent** | [Play →](https://hub.worldlines.gg/play/worlds/kagura-island) |
+
+Each world has four language READMEs: **en** · **zh** (中文) · **ja** (日本語) · **ko** (한국어).
 
 ## How to play
 
@@ -26,11 +51,12 @@ Each world has four language variants: **zh** (中文) · **en** (English) ·
 # Install WorldLines
 curl -LsSf https://worldlines.gg/install.sh | sh
 
-# Play any world
-neonrp tui --from examples/dark-train
+# orch world
 neonrp tui --from examples/stoneford
-neonrp tui --from examples/goblin-ambush/zh
-neonrp tui --from examples/worldline/zh
+
+# multi-agent world (souls/ engages the soul wrapper)
+neonrp tui --from examples/kagura-island
+neonrp tui --from examples/stoneford-elena
 ```
 
 ### Local (Claude Code / MCP)
@@ -44,12 +70,13 @@ Open Claude Code inside the world directory and start playing:
 ### Online (WebHub)
 
 No install. Go to [hub.worldlines.gg](https://hub.worldlines.gg), sign in,
-and play directly in the browser.
+and play in the browser. (Hosted play offers `fast` + `orch`; run
+`multi-agent` locally.)
 
 ## Want more worlds?
 
-Check the [WorldHub catalog](https://hub.worldlines.gg/worlds) — browse,
-download, and play worlds the community has published.
+Browse the [WorldHub catalog](https://hub.worldlines.gg/worlds) — download
+and play worlds the community has published.
 
 ## License
 

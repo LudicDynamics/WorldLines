@@ -1,0 +1,13 @@
+{
+  "sid": "miyaji",
+  "relationships": {
+    "makoto": {
+      "disposition": "shrine_child_now_yith",
+      "known": true
+    },
+    "kagami": {
+      "disposition": "rival_ideology_waen",
+      "known": true
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "agents": [
+    {
+      "id": "soul-orchestrator",
+      "role": "dispatcher",
+      "system_prompt": ".claude/agents/soul-orchestrator.md",
+      "write_globs": [
+        "run_state.json",
+        "trajectory/**"
+      ]
+    },
+    {
+      "id": "soul-mind",
+      "role": "cognition",
+      "system_prompt": ".claude/agents/soul-mind.md",
+      "write_globs": []
+    },
+    {
+      "id": "soul-memory",
+      "role": "retention",
+      "system_prompt": ".claude/agents/soul-memory.md",
+      "write_globs": [
+        "short-term-memo/**",
+        "long-term-memo/**"
+      ]
+    },
+    {
+      "id": "soul-action",
+      "role": "execution",
+      "system_prompt": ".claude/agents/soul-action.md",
+      "write_globs": [
+        "character/**",
+        "trajectory/**",
+        "run_state.json"
+      ]
+    },
+    {
+      "id": "soul-dialogue",
+      "role": "speech",
+      "system_prompt": ".claude/agents/soul-dialogue.md",
+      "write_globs": [
+        "short-term-memo/conversation_cache.json"
+      ]
+    },
+    {
+      "id": "soul-narrative",
+      "role": "story-iface",
+      "system_prompt": ".claude/agents/soul-narrative.md",
+      "write_globs": [
+        "run_state.json"
+      ]
+    }
+  ]
+}

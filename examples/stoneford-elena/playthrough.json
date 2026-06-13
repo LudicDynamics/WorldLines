@@ -1,0 +1,52 @@
+{
+  "schema_version": 2,
+  "playthrough_id": "pt-stoneford-elena-001",
+  "world": {
+    "wid": "stoneford-elena",
+    "instance_id": "wi-stoneford-elena0001",
+    "version_hash": "stonefordelena001",
+    "head_commit": "seed-world-0001"
+  },
+  "world_agent_team": {
+    "seeded_from": "game/agents/manifest.json@stonefordelena001",
+    "agents": [
+      { "id": "world-agent", "role": "orchestrator", "singleton": true },
+      { "id": "town-agent", "role": "functional-sub-agent", "singleton": false },
+      { "id": "dungeon-agent", "role": "functional-sub-agent", "singleton": false },
+      { "id": "combat-referee", "role": "functional-sub-agent", "singleton": false },
+      { "id": "rules-referee", "role": "functional-sub-agent", "singleton": false },
+      { "id": "world-builder", "role": "functional-sub-agent", "singleton": false },
+      { "id": "world-evolution", "role": "functional-sub-agent", "singleton": false },
+      { "id": "clock-keeper", "role": "functional-sub-agent", "singleton": false },
+      { "id": "story-narrative", "role": "functional-sub-agent", "singleton": false }
+    ]
+  },
+  "players": [
+    {
+      "pid": "player",
+      "name": "Player",
+      "state_path": "game/player",
+      "kind": "human"
+    }
+  ],
+  "souls": [
+    {
+      "sid": "elena",
+      "instance_id": "si-elena0001",
+      "version_hash": "stonefordelena001",
+      "head_commit": "seed-soul-elena-0001",
+      "role": "npc"
+    },
+    {
+      "sid": "rowan",
+      "instance_id": "si-rowan0001",
+      "version_hash": "stonefordelena001",
+      "head_commit": "seed-soul-rowan-0001",
+      "role": "npc"
+    }
+  ],
+  "created_at": "2026-05-17T00:00:00Z",
+  "active_souls": [
+    "si-elena0001"
+  ]
+}

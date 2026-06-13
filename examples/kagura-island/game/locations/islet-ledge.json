@@ -1,0 +1,19 @@
+{
+  "id": "islet-ledge",
+  "kind": "location",
+  "name": "離島・岩棚",
+  "tags": [
+    "islet",
+    "hidden",
+    "tsubasa"
+  ],
+  "summary": "祭壇下方の岩棚。灌木に隠されている。翼がここで流血している。侦查判定で発見可能。",
+  "connections": [
+    "islet-surface",
+    "islet-dock"
+  ],
+  "npcs_default": [
+    "tsubasa"
+  ],
+  "discovery_condition": "侦查成功。灌木の奥に血痕 → 小路 → 岩棚"
+}

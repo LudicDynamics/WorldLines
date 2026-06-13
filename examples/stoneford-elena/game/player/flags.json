@@ -1,0 +1,18 @@
+{
+  "discovered": {
+    "towns": [
+      "T001"
+    ],
+    "dungeons": []
+  },
+  "quest_states": {},
+  "reputation": {
+    "guild_T001": 0
+  },
+  "story_flags": {
+    "arrived_T001": true,
+    "heroine.elena_arrived": true,
+    "heroine.rowan_rumor_pending": true,
+    "heroine.first_contract_taken": false
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "ancient-base",
+  "kind": "location",
+  "name": "基地",
+  "tags": [
+    "underground",
+    "yith",
+    "ritual"
+  ],
+  "summary": "地道深处の巨大な人工空間。古代島民とYithが共同建造した。Yithの機器がある。壁に隠された歴史が記されている。",
+  "connections": [
+    "shrine-underground",
+    "crater-internal"
+  ]
+}

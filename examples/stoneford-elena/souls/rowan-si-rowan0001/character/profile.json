@@ -1,0 +1,14 @@
+{
+  "sid": "rowan",
+  "display_name": "Rowan Pike",
+  "name_local": "罗文",
+  "age": 24,
+  "role": "npc",
+  "tags": [
+    "npc",
+    "bro",
+    "scout",
+    "bishi-town"
+  ],
+  "summary": "24岁，轻装冒险者，在碧石镇混得不上不下。别人觉得他差一点运气，他自己觉得只是还没摸到那条真正的大传说。"
+}

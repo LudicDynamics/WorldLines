@@ -1,0 +1,18 @@
+{
+  "sid": "yuto",
+  "instance_id": "si-yuto0001",
+  "location": "south-shore",
+  "status": {
+    "hp": 90,
+    "max_hp": 100,
+    "memory": "amnesia",
+    "blackening_stage": "reset",
+    "mood": "blank_then_violent"
+  },
+  "turn_count": 0,
+  "loop_state": {
+    "has_memory": false,
+    "total_loops": 67,
+    "current_state": "reset_by_counter_kill"
+  }
+}

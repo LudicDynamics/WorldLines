@@ -1,0 +1,9 @@
+{
+  "sid": "tsubasa",
+  "memory": "amnesia",
+  "mood": "afraid",
+  "flags": {
+    "bleed_rate": "fatal_within_hours",
+    "yith_state": "half_possessed"
+  }
+}

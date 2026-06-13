@@ -1,0 +1,20 @@
+{
+  "id": "islet-dock",
+  "kind": "location",
+  "name": "離島・秘密船坞",
+  "tags": [
+    "islet",
+    "dock",
+    "hidden",
+    "path-a"
+  ],
+  "summary": "懸崖の内部を掘り抜いた巨大な隠し港。白の造船基地。海底通道と繋がっている。ここから過去篇に入ると白に会う。",
+  "connections": [
+    "undersea-tunnel",
+    "islet-surface"
+  ],
+  "npcs_possible": [
+    "shiro"
+  ],
+  "notes": "路径A入口。白の火铳と図面がある"
+}

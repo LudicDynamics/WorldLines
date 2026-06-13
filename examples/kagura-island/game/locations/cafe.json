@@ -1,0 +1,21 @@
+{
+  "id": "cafe",
+  "kind": "location",
+  "name": "咖啡馆",
+  "tags": [
+    "cafe",
+    "info",
+    "kagami"
+  ],
+  "summary": "白发马尾的镜子小姐经营的老式咖啡馆。阳光透过窗户洒在木桌上。碗碟的声音。表面慵懒，实际上镜子在这里观察所有人。",
+  "connections": [
+    "town",
+    "cafe-basement"
+  ],
+  "npcs_default": [
+    "kagami"
+  ],
+  "hidden": {
+    "basement": "cafe-basement"
+  }
+}

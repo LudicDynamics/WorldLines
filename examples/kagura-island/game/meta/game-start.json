@@ -1,0 +1,45 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "神楽島 — Dream 1",
+  "version": "0.1",
+  "wid": "kagura-island",
+  "agent_routing": {
+    "entry_agent": "narrator",
+    "router_type": "sticky"
+  },
+  "setting": {
+    "era": "modern",
+    "year": 2025,
+    "month": 8,
+    "day": 7,
+    "time": "night",
+    "weather": "clear"
+  },
+  "startup": {
+    "read_first": [
+      "game/meta/roster.json",
+      "game/locations/south-shore.json",
+      "game/locations/town.json",
+      "game/timeline/current.json"
+    ],
+    "opening_scene": "伴随烟花在空中散开，恍惚间，你发现你站在海滨沙滩上。\n\n眼前映入的是海，和花火，以及倒影在一片漆黑里的光亮。\n\n此刻你意识到海边的气息扑面而来，随之而来各项感官开始恢复。\n\n你的脚踩在沙子上。海风带着盐味和硫磺味。\n远处的山上有微弱的白烟。\n\n你身边还有几个人。他们也刚刚醒来。\n\n没有人记得自己是谁。\n\n稍远处，还有一个人影倒在沙滩上。",
+    "opening_choices": [
+      "查看身边的人",
+      "检查自己的口袋和身上的物品",
+      "走向远处倒下的人影",
+      "观察周围的环境"
+    ]
+  },
+  "loop": {
+    "cycle_days": 3,
+    "time_periods": ["朝", "昼", "夕", "夜"],
+    "actions_per_period": 2,
+    "reset_rules": {
+      "body": "reset_to_entry_state",
+      "memory": "conditional_inherit",
+      "physical_objects": "persist",
+      "wall_writings": "persist"
+    }
+  }
+}

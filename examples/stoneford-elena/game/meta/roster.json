@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "kind": "meta",
+  "id": "roster",
+  "name": "Stoneford Elena Roster",
+  "player": { "pid": "player", "kind": "human", "state_path": "game/player" },
+  "note": "M20 ontology: the human player is a first-class NON-soul entity (game/player/ is its own master, the N=1 alias). Elena and Rowan are INDEPENDENT NPC soul-agents the player meets — neither is the player's avatar. The player never role-plays a soul; no soul speaks or acts for the player. Rowan is currently in T004 Bishi Town and can be activated later.",
+  "cast": [
+    { "sid": "elena", "name": "Elena Vale", "name_local": "艾莲娜", "role": "npc" },
+    { "sid": "rowan", "name": "Rowan Pike", "name_local": "罗文", "role": "npc" }
+  ]
+}

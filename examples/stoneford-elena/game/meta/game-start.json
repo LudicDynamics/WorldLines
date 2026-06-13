@@ -1,0 +1,43 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "Stoneford Elena — 游戏开始引导",
+  "tags": ["entrypoint", "start", "begin", "开始游戏", "开始冒险"],
+  "summary": "玩家说「开始游戏」时，orchestrator 先读取本文件。",
+  "startup": {
+    "read_first": [
+      "game/meta/game-start.json",
+      "game/meta/run_state.json",
+      "game/meta/roster.json",
+      "game/timeline/current.json",
+      "game/player/controller.json",
+      "game/player/profile.json",
+      "game/player/stats.json",
+      "game/player/equipment.json",
+      "game/player/wallet.json",
+      "game/towns/T001/town.json",
+      "game/lore/story.md"
+    ],
+    "opening_scene": "黎明前的雾像湿布一样压在驿路上。你披着旅行斗篷，靴子沾满泥水，终于看见一扇歪斜的木栅门，门上挂着褪色的牌子：「石津镇 · 欢迎来到灰雾北境」。镇子还没有真正醒来，只有远处旅店窗里漏出一点橙色灯光。你想不起自己是谁——名字、来历、为什么会在这里、该去找谁，都像被雾吃掉了一样。只有身体还记得怎么握剑。",
+    "opening_choices": [
+      "自由行动",
+      "和守门人说话",
+      "直接走向镇中央",
+      "先观察雾中的街道和旅店灯光"
+    ]
+  },
+  "world_info": {
+    "world_name": "灰雾北境 Northvale",
+    "start_location": "T001 石津镇",
+    "start_scope": "town",
+    "start_time": { "day": 1, "clock": "08:30" },
+    "genre": "中世纪奇幻 TRPG / heroine-led migration demo",
+    "tone": "真实、潮湿、克制、有后果",
+    "rules": "d20 骰子判定 · 详见 game/rules/combat_rules.md"
+  },
+  "agent_routing": {
+    "entry_agent": "world-agent",
+    "router_type": "sticky",
+    "note": "所有玩家输入都先经过 orchestrator。orchestrator 读 run_state.json 后决定委托给哪个 domain agent。不要绕过 world-agent 直接进 domain agent。"
+  }
+}

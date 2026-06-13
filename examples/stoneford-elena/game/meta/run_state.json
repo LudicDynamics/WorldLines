@@ -1,0 +1,34 @@
+{
+  "session_id": "S0001",
+  "world_id": "W001",
+  "location": {
+    "scope": "town",
+    "node_id": "T001",
+    "subnode_id": "gate_north",
+    "node": "gate_north",
+    "display": "石津镇·北门"
+  },
+  "time": {
+    "day": 1,
+    "clock": "08:30"
+  },
+  "last_action": "elena_arrived_at_stone_ford",
+  "pending": [],
+  "turn_count": 0,
+  "party": {
+    "player": {
+      "pid": "player",
+      "state_path": "game/player",
+      "location": "north-gate",
+      "memory": "amnesia"
+    },
+    "souls": {
+      "elena": {
+        "instance_id": "si-elena0001",
+        "state_file": "souls/elena-si-elena0001/run_state.json",
+        "location": "north-gate",
+        "available_for_interaction": true
+      }
+    }
+  }
+}

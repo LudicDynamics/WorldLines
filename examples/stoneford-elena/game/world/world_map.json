@@ -1,0 +1,240 @@
+{
+  "world_id": "W001",
+  "name": "灰雾北境",
+  "parent_territory": "灰鸦领",
+  "seed": 123456,
+  "foreign_lands": [
+    {
+      "id": "FL001",
+      "name": "霜狼王国",
+      "direction": "north",
+      "description": "断脊山脉以北的寒冷王国，居民高大如熊，常年与兽人部落争斗",
+      "access": "哭泣隘口（仅夏季可通行）",
+      "relation": "neutral",
+      "discovered_via": "米拉的传闻"
+    },
+    {
+      "id": "FL002",
+      "name": "翡翠联盟",
+      "direction": "far_east",
+      "description": "东境精灵废墟更远处的城邦联合体，商人偶尔前来贸易",
+      "access": "穿越东境废墟",
+      "relation": "trade",
+      "discovered_via": "米拉的传闻"
+    },
+    {
+      "id": "FL003",
+      "name": "灰海",
+      "direction": "south",
+      "description": "南方无尽的灰蒙海域，据说航行十天十夜仍是灰雾，有去无回",
+      "access": "unknown",
+      "relation": "unknown",
+      "discovered_via": "米拉的传闻"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "T001",
+      "type": "town",
+      "name": "石津镇",
+      "region": "Northvale",
+      "pos": [
+        12,
+        7
+      ],
+      "summary": "河港贸易小镇，雾常年不散。",
+      "links": [
+        "R001",
+        "R002"
+      ],
+      "state": {
+        "discovered": true,
+        "danger_nearby": 2
+      }
+    },
+    {
+      "id": "T002",
+      "type": "town",
+      "name": "风栈堡",
+      "region": "Northvale",
+      "pos": [
+        5,
+        10
+      ],
+      "summary": "驿路要塞，巡逻队驻扎，规矩森严。",
+      "links": [
+        "R001"
+      ],
+      "state": {
+        "discovered": false,
+        "danger_nearby": 1
+      }
+    },
+    {
+      "id": "D001",
+      "type": "dungeon",
+      "name": "苔墓地穴",
+      "region": "Northvale",
+      "pos": [
+        14,
+        8
+      ],
+      "summary": "被苔藓吞噬的古墓，传闻有会说话的棺木。",
+      "links": [
+        "R002"
+      ],
+      "state": {
+        "discovered": true,
+        "cleared": false,
+        "danger": 5
+      },
+      "lore": {
+        "source": "米拉的传闻",
+        "legends": [
+          "原是一座祭司塔，供奉被遗忘的神明",
+          "一夜之间沉入地下，只留入口",
+          "传说有『沉睡的女人』在等待某人或某物",
+          "上次有人活着出来是20多年前，那人疯了"
+        ],
+        "player_knowledge": [
+          "内有会说话的狼群",
+          "深处有一个与艾琳娜相貌一致的神秘女人",
+          "女人声称艾琳娜是她的『灵魂碎片』"
+        ]
+      }
+    },
+    {
+      "id": "T003",
+      "type": "town",
+      "name": "狼牙关",
+      "region": "Northvale",
+      "pos": [
+        10,
+        3
+      ],
+      "summary": "北方边境要塞，防御兽人和霜狼王国的第一道防线。",
+      "links": [],
+      "state": {
+        "discovered": false,
+        "danger_nearby": 3
+      },
+      "travel_info": {
+        "from_T001": "2天路程，向北"
+      }
+    },
+    {
+      "id": "T004",
+      "type": "town",
+      "name": "碧石镇",
+      "region": "Northvale",
+      "pos": [
+        18,
+        4
+      ],
+      "summary": "矿业小镇，盛产翡翠和水晶，冒险者聚集地。",
+      "links": ["R004"],
+      "state": {
+        "discovered": true,
+        "danger_nearby": 2
+      },
+      "travel_info": {
+        "from_T001": "3天路程，向东北",
+        "recommendation": "适合新手冒险者"
+      },
+      "locations": {
+        "冒险者公会碧石分部": {"discovered": true, "note": "比石津镇大两倍"},
+        "翠晶酒馆": {"discovered": true, "note": "今晚集合点"},
+        "矿工大道": {"discovered": true, "note": "主街，碧绿石材"},
+        "晨光小教堂": {"discovered": true, "note": "东街，艾琳娜将独自前往"},
+        "矿石铺": {"discovered": true},
+        "草药铺": {"discovered": true},
+        "铁匠铺": {"discovered": true},
+        "矿区入口": {"discovered": false}
+      }
+    },
+    {
+      "id": "T005",
+      "type": "city",
+      "name": "雾湖城",
+      "region": "Northvale",
+      "pos": [
+        8,
+        15
+      ],
+      "summary": "灰雾北境的首府，领主府邸所在，繁华的贸易中心。",
+      "links": [],
+      "state": {
+        "discovered": false,
+        "danger_nearby": 1
+      },
+      "travel_info": {
+        "from_T001": "5-6天路程"
+      }
+    },
+    {
+      "id": "R003",
+      "type": "region",
+      "name": "东境",
+      "region": "Eastlands",
+      "pos": [
+        22,
+        8
+      ],
+      "summary": "精灵废墟遍布的神秘区域，据说有古代遗迹和宝藏。",
+      "links": [],
+      "state": {
+        "discovered": false,
+        "danger_nearby": 4
+      },
+      "travel_info": {
+        "from_T001": "4-5天路程，向东"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "id": "R001",
+      "from": "T001",
+      "to": "T002",
+      "kind": "road",
+      "distance": 18,
+      "tags": [
+        "trade",
+        "patrolled"
+      ],
+      "state": {
+        "blocked": false
+      }
+    },
+    {
+      "id": "R002",
+      "from": "T001",
+      "to": "D001",
+      "kind": "trail",
+      "distance": 6,
+      "tags": [
+        "foggy",
+        "beasts"
+      ],
+      "state": {
+        "blocked": false
+      }
+    },
+    {
+      "id": "R004",
+      "from": "T001",
+      "to": "T004",
+      "kind": "road",
+      "distance": 45,
+      "tags": ["trade", "bandit_risk"],
+      "state": {
+        "blocked": false
+      },
+      "note": "途经矮丘林地，有山贼'独眼虎'约20人活跃"
+    }
+  ],
+  "time": {
+    "day": 3,
+    "clock": "17:15"
+  }
+}

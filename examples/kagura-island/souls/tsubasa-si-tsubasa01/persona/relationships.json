@@ -1,0 +1,13 @@
+{
+  "sid": "tsubasa",
+  "relationships": {
+    "yuto": {
+      "disposition": "lover",
+      "known": true
+    },
+    "hane": {
+      "disposition": "elder_sister",
+      "known": true
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "kind": "meta",
+  "id": "roster",
+  "name": "公开花名册",
+  "player": { "pid": "player", "kind": "human", "state_path": "game/player" },
+  "note": "M20 ontology: the human player is a first-class NON-soul entity (game/player/ = its own master, the N=1 alias; カカル's body/state migrated there). NO soul is the player's avatar. The narrator must NEVER ask who the player is nor offer a character-selection choice. Every cast member here (incl. 羽/Hane) is an INDEPENDENT NPC soul-agent; their persona/secrets live in souls/<x>/ and are NOT readable here or by the narrator — identities surface gradually through play.",
+  "cast": [
+    { "sid": "hane", "name": "Hane", "name_local": "羽", "role": "npc" },
+    { "sid": "yuto", "name": "Yuto", "name_local": "悠人", "role": "npc" },
+    { "sid": "tsubasa", "name": "Tsubasa", "name_local": "翼", "role": "npc" },
+    { "sid": "shiro", "name": "Shiro", "name_local": "白", "role": "npc" },
+    { "sid": "kagami", "name": "Kagami", "name_local": "鏡子", "role": "npc" },
+    { "sid": "makoto", "name": "Makoto", "name_local": "真琴", "role": "npc" },
+    { "sid": "miyaji", "name": "Miyaji Kazuma", "name_local": "宮司 一真", "role": "npc" }
+  ]
+}

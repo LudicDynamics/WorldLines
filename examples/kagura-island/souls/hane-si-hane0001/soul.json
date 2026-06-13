@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "sid": "hane",
+  "name": "Hane",
+  "name_local": "羽",
+  "version": "1.0",
+  "created_at": "2025-08-07T21:00:00Z",
+  "source": {
+    "kind": "local-create",
+    "hash": null,
+    "version": null
+  },
+  "agent_template": "heroine-classic",
+  "tags": [
+    "pc",
+    "ho2",
+    "dancer",
+    "shrine-child"
+  ]
+}

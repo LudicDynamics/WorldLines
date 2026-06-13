@@ -1,0 +1,78 @@
+{
+  "facility_id": "guild_T001",
+  "name": "石津公会",
+  "hours": "09:00-19:00",
+  "reputation_rules": {
+    "complete_job": 1,
+    "fail_job": -1
+  },
+  "quest_board": [
+    {
+      "qid": "Q001",
+      "title": "雾中失踪者",
+      "tier": 1,
+      "summary": "码头区有人在雾里失踪。找回遗物或线索。",
+      "reward": {
+        "gold": 25
+      },
+      "hooks": [
+        "dock"
+      ],
+      "state": "available"
+    },
+    {
+      "qid": "Q002",
+      "title": "苔墓前的狼嚎",
+      "tier": 1,
+      "summary": "通往苔墓的小径上出现野兽。清理 3 次遭遇。",
+      "reward": {
+        "gold": 30,
+        "item": {
+          "id": "potion_small",
+          "name": "小治疗药水",
+          "qty": 1
+        }
+      },
+      "hooks": [
+        "R002"
+      ],
+      "unlocks": [
+        {
+          "discover_dungeon": "D001"
+        }
+      ],
+      "state": "in_progress"
+    },
+    {
+      "qid": "Q003",
+      "title": "会说话的棺木（调查）",
+      "tier": 2,
+      "summary": "深入苔墓地穴，确认传闻真伪，带回证据。",
+      "reward": {
+        "gold": 80
+      },
+      "requires": [
+        "D001_discovered"
+      ],
+      "state": "locked"
+    },
+    {
+      "qid": "Q004",
+      "title": "商队护卫：碧石镇",
+      "tier": 2,
+      "type": "escort",
+      "summary": "护送布鲁诺商队前往碧石镇，预计3天路程。",
+      "reward": {
+        "gold_per_day": "5-10",
+        "estimated_total": "15-30"
+      },
+      "destination": "T002",
+      "duration_days": 3,
+      "employer": "布鲁诺商会",
+      "state": "accepted"
+    }
+  ],
+  "state": {
+    "last_refresh_day": 2
+  }
+}

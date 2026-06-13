@@ -1,0 +1,20 @@
+{
+  "id": "school",
+  "kind": "location",
+  "name": "学校",
+  "tags": [
+    "school",
+    "info",
+    "archive"
+  ],
+  "summary": "半废弃的岛上小学。空教室里只有两张桌子。地下室有旧档案室。真琴老师在这里。",
+  "connections": [
+    "town"
+  ],
+  "npcs_default": [
+    "makoto"
+  ],
+  "hidden": {
+    "archive": "school-archive"
+  }
+}

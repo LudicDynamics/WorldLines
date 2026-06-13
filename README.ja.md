@@ -33,7 +33,7 @@
 
 ## チームとビジョン
 
-私たちは**東京大学、名古屋大学**の PhD および研究者、そしてゲーム実務者からなる学際的チーム（社会学、経済学、コンピュータグラフィックス、AIエージェント、仮想世界）— **Ludic Dynamics** です。
+私たちは**東京大学**の PhD および研究者、そしてゲーム実務者からなる学際的チーム（社会学、経済学、コンピュータグラフィックス、AIエージェント、仮想世界）— **Ludic Dynamics** です。
 
 TRPG、ギャルゲー、乙女ゲームに育ちました。AI が今のように普及する以前から、長年にわたり日本語文化翻訳のボランティア活動を続け、テーブルトークやゲームグラフィックスエンジンの世界に深く携わり、日本のビジュアルノベルの Steam 展開を支援してきました。パンデミック以降、私たちは AI ロールプレイとナラティブゲームの世界に没頭しました——週末のたびに、深夜までセッションを走らせ、世界を構築し、「物語が本当に息づく」感覚を追い続けてきました。
 
@@ -109,9 +109,22 @@ TUI が起動します。ここから新規ワールドの作成、カタログ�
 
 ## サンプルワールド
 
-### ⛩ Stoneford — スターターワールド
+WorldLines は世界を **3 つのエンジンモード**のいずれかで動かします —— これらは**混用できません**:
 
-灰霧の北の河港。クラシックファンタジー TRPG · d20 ダイス · 10-agent オーケストレーター。NPC、クエスト、ダンジョン、攻城戦を備えた旗艦サンプル。**[オンラインで遊ぶ →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[ソース & ドキュメント →](./examples/stoneford)**
+- **fast** —— 一つの高速 agent、単一の声。
+- **orch** —— world-agent がドメイン agent（町 / ダンジョン / 戦闘 / 物語）を編成;NPC はデータ。
+- **multi-agent** —— world-agent が**独立したソウル**を包む。各ソウルは固有の心・記憶・思惑を持つキャラクター agent。目印は `souls/` フォルダ。*今回の新リリース。*
+
+### 👥 multi-agent —— 独立したソウルが一つの世界に
+
+| ワールド | ソウル | ライブデモ |
+|---|---|---|
+| **[神楽島 Kagura Island](./examples/kagura-island)** | **7 体** —— 鏡子 · 羽 · 真琴 · 宮司 · 白 · 翼 · 悠人。和風ミステリー、タイムループ、CoC 判定。最も豊かなマルチエージェント社会。 | [遊ぶ →](https://hub.worldlines.gg/play/worlds/kagura-island) |
+| **[Stoneford · Elena](./examples/stoneford-elena)** | **2 体** —— Elena（覚えている癒し手）+ Rowan。Stoneford の世界に生きたソウルが宿る。 | [遊ぶ →](https://hub.worldlines.gg/play/worlds/stoneford-elena) |
+
+### ⛩ Stoneford — 旗艦 orch ワールド
+
+灰霧の北の河港。クラシックファンタジー TRPG · d20 ダイス · **10-agent 編成の村** —— 中心の world-agent が町・ダンジョン・戦闘・物語・NPC agent にルーティング。**[オンラインで遊ぶ →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[ソース & ドキュメント →](./examples/stoneford)**
 
 ### その他のワールド
 

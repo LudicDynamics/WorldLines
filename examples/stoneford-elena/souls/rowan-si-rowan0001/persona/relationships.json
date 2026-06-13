@@ -1,0 +1,10 @@
+{
+  "sid": "rowan",
+  "relationships": {
+    "elena": {
+      "disposition": "unmet_newcomer",
+      "known": false,
+      "truth": "艾莲娜和罗文尚未相识；他们只是同一世界中的两条活跃线"
+    }
+  }
+}

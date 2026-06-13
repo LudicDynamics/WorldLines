@@ -1,0 +1,18 @@
+{
+  "sid": "tsubasa",
+  "instance_id": "si-tsubasa01",
+  "location": "islet-ledge",
+  "status": {
+    "hp": 15,
+    "max_hp": 100,
+    "memory": "amnesia",
+    "bleed_rate": "fatal_within_hours",
+    "yith_state": "half_possessed",
+    "mood": "afraid"
+  },
+  "turn_count": 0,
+  "loop_state": {
+    "has_memory": false,
+    "reason": "dies_day1_every_cycle"
+  }
+}

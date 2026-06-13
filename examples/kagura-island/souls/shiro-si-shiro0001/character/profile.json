@@ -1,0 +1,14 @@
+{
+  "sid": "shiro",
+  "display_name": "Shiro",
+  "name_local": "白髪の少女・白",
+  "age": 19,
+  "role": "npc",
+  "tags": [
+    "ancient",
+    "amnesia",
+    "uncatchable",
+    "gun-wielder"
+  ],
+  "summary": "白髪。失忆。行動力極高。火铳を持っている。里世界で無数の循環を経ているが毎回記憶を失う。壁に刻字を残す。悠人には捕まらない。真実=和渊之女・白（戦国時代）。"
+}

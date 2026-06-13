@@ -1,0 +1,10 @@
+{
+  "sid": "rowan",
+  "traits": {
+    "loyalty": 0.84,
+    "humor": 0.62,
+    "wariness": 0.76,
+    "mobility": 0.82,
+    "restlessness": 0.68
+  }
+}

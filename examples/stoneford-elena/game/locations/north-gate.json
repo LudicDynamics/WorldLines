@@ -1,0 +1,9 @@
+{
+  "id": "north-gate",
+  "kind": "location",
+  "name": "石津镇·北门",
+  "tags": ["town", "entry", "fog"],
+  "summary": "歪斜的木栅门，湿冷的晨雾，刚醒来的守门人与尚未热起来的石板路。",
+  "connections": ["market-square", "old-road"],
+  "notes": "Stoneford Elena opening scene."
+}

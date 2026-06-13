@@ -1,0 +1,42 @@
+{
+  "id": "rules-referee",
+  "name": "Rules Referee",
+  "description": "规则裁判。处理非战斗骰子判定、常识检查、行为合规判定。当玩家做不确定的事或脱离常识时被 world-agent 调用。",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 15,
+  "triggers": [],
+  "tags": [
+    "rules",
+    "dice",
+    "sanity",
+    "skill-check"
+  ],
+  "priority": 70,
+  "permissions": {
+    "read_globs": [
+      "game/player/stats.json",
+      "game/player/profile.json",
+      "game/player/equipment.json",
+      "game/player/flags.json",
+      "game/rules/**",
+      "game/meta/run_state.json"
+    ],
+    "write_globs": [],
+    "deny_globs": [
+      ".neonrp/**"
+    ],
+    "direct_write_globs": []
+  },
+  "defaults": {
+    "context_limit": 15,
+    "temperature": 0.3
+  },
+  "presentation_roles": {
+    "en": "Rules",
+    "zh": "规则",
+    "ja": "ルール",
+    "ko": "규칙"
+  },
+  "presentation_hidden": false
+}

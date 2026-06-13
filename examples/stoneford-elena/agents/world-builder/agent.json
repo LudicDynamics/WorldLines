@@ -1,0 +1,45 @@
+{
+  "id": "world-builder",
+  "name": "World Builder",
+  "description": "RPG世界构建代理。管理世界地图结构，扩展新区域，更新节点的discovered/cleared/danger状态。发现新地点或更新世界地图时使用。",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "triggers": [],
+  "tags": [
+    "world",
+    "map",
+    "builder"
+  ],
+  "priority": 30,
+  "permissions": {
+    "read_globs": [
+      "game/world/world_map.json",
+      "game/lore/story.md",
+      "game/lore/notes.md",
+      "game/meta/run_state.json"
+    ],
+    "write_globs": [
+      "game/world/world_map.json"
+    ],
+    "deny_globs": [
+      ".neonrp/**"
+    ],
+    "direct_write_globs": [
+      "game/world/world_map.json",
+      "game/world/regions.json",
+      "game/world/factions.json"
+    ]
+  },
+  "defaults": {
+    "context_limit": 20,
+    "temperature": 0.8
+  },
+  "presentation_roles": {
+    "en": "System",
+    "zh": "系统",
+    "ja": "システム",
+    "ko": "시스템"
+  },
+  "presentation_hidden": false
+}

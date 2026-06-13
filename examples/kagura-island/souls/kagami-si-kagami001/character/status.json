@@ -1,0 +1,8 @@
+{
+  "sid": "kagami",
+  "memory": "normal",
+  "mood": "guarded_warm",
+  "flags": {
+    "trust_initial": 20
+  }
+}

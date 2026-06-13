@@ -1,0 +1,36 @@
+{
+  "id": "clock-keeper",
+  "name": "Clock Keeper",
+  "description": "时段叙事 / 事件提示。只读，仅 JSON 输出。",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "triggers": [],
+  "tags": [
+    "clock",
+    "schedule",
+    "simulation"
+  ],
+  "priority": 50,
+  "permissions": {
+    "read_globs": [
+      "game/**"
+    ],
+    "write_globs": [],
+    "deny_globs": [
+      ".neonrp/**"
+    ],
+    "direct_write_globs": []
+  },
+  "defaults": {
+    "context_limit": 20,
+    "temperature": 0.5
+  },
+  "presentation_roles": {
+    "en": "System",
+    "zh": "系统",
+    "ja": "システム",
+    "ko": "시스템"
+  },
+  "presentation_hidden": false
+}

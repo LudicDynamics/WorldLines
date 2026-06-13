@@ -1,0 +1,17 @@
+{
+  "id": "cafe-basement",
+  "kind": "location",
+  "name": "咖啡馆地下室",
+  "tags": [
+    "underground",
+    "hidden",
+    "forge"
+  ],
+  "summary": "咖啡馆地下。过去是私塾的审讯室/火铳制造场。现在堆满了旧物。有一条通向海底的隐藏通道。",
+  "connections": [
+    "cafe",
+    "undersea-tunnel"
+  ],
+  "npcs_default": [],
+  "discovery_condition": "侦查成功 or 镜子信任值60+告知"
+}

@@ -1,0 +1,13 @@
+{
+  "sid": "makoto",
+  "display_name": "Makoto",
+  "name_local": "真琴",
+  "age": 28,
+  "role": "npc",
+  "tags": [
+    "shrine-family",
+    "yith-host",
+    "teacher"
+  ],
+  "summary": "黒髪短髪。学校の先生。12年前（16歳時）にYithに完全寄宿された。外見は変わらないが中身はYith。人間のフリをしている。微笑むが目が笑わない。"
+}

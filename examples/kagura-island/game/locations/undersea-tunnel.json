@@ -1,0 +1,15 @@
+{
+  "id": "undersea-tunnel",
+  "kind": "location",
+  "name": "海底通道",
+  "tags": [
+    "underground",
+    "hidden",
+    "path-a"
+  ],
+  "summary": "从咖啡馆地下通向离岛船坞的海底隧道。石壁上有古代的壁画。空气潮湿，温度逐渐升高。",
+  "connections": [
+    "cafe-basement",
+    "islet-dock"
+  ]
+}

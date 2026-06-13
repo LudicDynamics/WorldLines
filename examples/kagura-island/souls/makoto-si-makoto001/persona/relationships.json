@@ -1,0 +1,13 @@
+{
+  "sid": "makoto",
+  "relationships": {
+    "kagami": {
+      "disposition": "former_friend_now_observed",
+      "known": true
+    },
+    "miyaji": {
+      "disposition": "shrine_authority",
+      "known": true
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "data_dir": "game",
+  "router": {
+    "agent_id": "world-agent",
+    "execution_mode": "orchestrator",
+    "state_file": "meta/active-agent.json",
+    "startup_file": "meta/game-start.json"
+  },
+  "routing": {
+    "location_source": {
+      "entity_id": "player",
+      "field": "location"
+    },
+    "fallback_agent": "world-agent"
+  },
+  "context_pack": {
+    "seed_entity_ids": ["south-shore", "town", "current"],
+    "max_entities": 6
+  }
+}

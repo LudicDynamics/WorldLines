@@ -1,0 +1,11 @@
+{
+  "id": "magatama-future",
+  "kind": "item",
+  "name": "未来の勾玉",
+  "color": "white",
+  "owner": "hane",
+  "location": "on_person",
+  "power": "離島内で記憶保持。里世界から脱出可能（一般結局）。",
+  "era_link": "現代",
+  "note": "羽が身につけている。白のまま = まだYith降臨していない"
+}

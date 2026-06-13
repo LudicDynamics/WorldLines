@@ -1,0 +1,17 @@
+{
+  "id": "islet-surface",
+  "kind": "location",
+  "name": "離島・地上",
+  "tags": [
+    "islet",
+    "ritual",
+    "path-b"
+  ],
+  "summary": "退潮時に南岸から涉水で到達。地上には祭壇（Yith時間機器）がある。勾玉放入口。祭壇の横に下への小路がある。",
+  "connections": [
+    "south-shore",
+    "islet-dock",
+    "islet-ledge"
+  ],
+  "notes": "路径B入口。ここから過去篇に入ると黒に会う"
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "kind": "player-controller",
+  "owner": "human-player",
+  "language_hint": "auto",
+  "policy": {
+    "source_of_action_truth": "human_input",
+    "avatar_soul_role": "continuity_and_inner_pressure",
+    "world_agent_role": "consequence_and_integration",
+    "ask_user_owner": "world-agent",
+    "autopilot_player_avatar": false
+  },
+  "style": {
+    "default_pace": "grounded",
+    "choice_surface": "suggestive_not_menu_locked",
+    "protect_player_agency": true
+  }
+}

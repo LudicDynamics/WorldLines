@@ -1,0 +1,9 @@
+{
+  "id": "market-square",
+  "kind": "location",
+  "name": "石津镇·集市广场",
+  "tags": ["town", "market", "social"],
+  "summary": "晨市尚未完全铺开，铺着湿布的摊位、沉默的马车、正在冒热气的面包摊。",
+  "connections": ["north-gate", "riverlamp-inn", "guildhall"],
+  "notes": "Most town-facing scenes can fan through here."
+}

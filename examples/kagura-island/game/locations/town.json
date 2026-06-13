@@ -1,0 +1,23 @@
+{
+  "id": "town",
+  "kind": "location",
+  "name": "城镇",
+  "tags": [
+    "town",
+    "hub",
+    "safe"
+  ],
+  "summary": "约30户的聚落。渔港、商店街、民宿。三势力混居。祭典的提灯已经张好了。",
+  "connections": [
+    "south-shore",
+    "cafe",
+    "school",
+    "museum",
+    "shrine-path",
+    "monument"
+  ],
+  "npcs_default": [
+    "kagami",
+    "miyaji"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "town_id": "T001",
+  "npcs": [
+    {
+      "id": "NPC001",
+      "name": "赫伦(公会管事)",
+      "role": "guildmaster",
+      "traits": [
+        "谨慎",
+        "重契约"
+      ],
+      "state": {
+        "met": true
+      }
+    },
+    {
+      "id": "NPC002",
+      "name": "老苇(杂货商)",
+      "role": "shopkeeper",
+      "traits": [
+        "嘴碎",
+        "眼尖"
+      ],
+      "state": {
+        "met": false
+      }
+    },
+    {
+      "id": "NPC003",
+      "name": "米拉(旅店老板娘)",
+      "role": "innkeeper",
+      "traits": [
+        "热情",
+        "消息灵通"
+      ],
+      "state": {
+        "met": false
+      }
+    }
+  ]
+}

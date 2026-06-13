@@ -1,0 +1,34 @@
+{
+  "id": "T004",
+  "name": "碧石镇",
+  "region": "Northvale",
+  "overview": "矿业小镇，盛产翡翠和水晶。冒险者公会分部活跃，矿工与冒险者混居，比周边城镇更热闹喧嚣。东边的小教堂是镇上为数不多的安静去处，而矿区入口通向延伸至山腹深处的地下矿道。",
+  "entry_points": [
+    "gate_west"
+  ],
+  "tags": [
+    "mining",
+    "gems",
+    "adventurers",
+    "lively"
+  ],
+  "economy": {
+    "price_index": 1.1,
+    "specialties": [
+      "翡翠",
+      "水晶",
+      "矿石"
+    ]
+  },
+  "laws": {
+    "weapon_policy": "open_carry_allowed"
+  },
+  "atmosphere": {
+    "noise_level": "busy",
+    "description": "街道上到处是扛着镐头的矿工和佩着武器的冒险者。矿车轨道从镇中心一路延伸到东北方的矿区入口。空气中弥漫着碎石粉尘和酒馆飘出的麦酒香气。"
+  },
+  "state": {
+    "alert": 0,
+    "recent_events": []
+  }
+}

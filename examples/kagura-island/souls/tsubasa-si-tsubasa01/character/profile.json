@@ -1,0 +1,13 @@
+{
+  "sid": "tsubasa",
+  "display_name": "Tsubasa",
+  "name_local": "翼",
+  "age": 22,
+  "role": "npc",
+  "tags": [
+    "shrine-child",
+    "dying",
+    "half-yith"
+  ],
+  "summary": "黒長髪。羽の姉。6年前の降臨儀式中に腹部を負傷し里世界に入った。每循環Day1で失血死。半寄宿状態でYithの二重人格が発作する。"
+}

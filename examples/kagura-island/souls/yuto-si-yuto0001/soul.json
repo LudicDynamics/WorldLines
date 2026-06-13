@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "sid": "yuto",
+  "name": "Yuto",
+  "name_local": "悠人",
+  "version": "1.0",
+  "created_at": "2025-08-07T21:00:00Z",
+  "source": {
+    "kind": "local-create",
+    "hash": null,
+    "version": null
+  },
+  "agent_template": "heroine-classic",
+  "tags": [
+    "special",
+    "dangerous",
+    "loop-veteran"
+  ]
+}

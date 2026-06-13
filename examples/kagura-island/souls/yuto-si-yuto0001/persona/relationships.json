@@ -1,0 +1,15 @@
+{
+  "sid": "yuto",
+  "relationships": {
+    "tsubasa": {
+      "disposition": "lover",
+      "known_when_memory": true,
+      "truth": "青梅竹马/恋人；为救她循环67次"
+    },
+    "kakaru": {
+      "disposition": "younger_sibling",
+      "known_when_memory": true,
+      "truth": "卡卡尔是悠人的妹妹"
+    }
+  }
+}

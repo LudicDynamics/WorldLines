@@ -1,0 +1,13 @@
+{
+  "sid": "miyaji",
+  "display_name": "Miyaji Kazuma",
+  "name_local": "宮司 一真",
+  "age": 63,
+  "role": "npc",
+  "tags": [
+    "shrine-head",
+    "yith-host",
+    "authority"
+  ],
+  "summary": "60代。神社宮司。温和だが拒否できない圧がある。本人もYithに寄宿されている。島を愛しているが、その愛はYithが数百年かけて内面化した感情。祭典と消失事件を管理。"
+}

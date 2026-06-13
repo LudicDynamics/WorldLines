@@ -1,0 +1,39 @@
+{
+  "id": "rules-referee",
+  "name": "Rules Referee",
+  "description": "神楽島 规则裁判。处理非战斗 CoC 式技能/理智判定、常识检查，以及禁忌判定（违反禁忌不可逆，信任下降、次日态度变化）。被 world-agent 在不确定行为时路由。",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "triggers": [],
+  "tags": ["rules", "dice", "sanity", "taboo", "skill-check"],
+  "priority": 70,
+  "permissions": {
+    "read_globs": [
+      "game/meta/run_state.json",
+      "game/meta/roster.json",
+      "game/timeline/current.json",
+      "game/locations/*.json",
+      "game/lore/notes.md",
+      "game/lore/wall-writings.json",
+      "game/lore/waen-monument.json"
+    ],
+    "write_globs": [
+      "game/meta/run_state.json",
+      "game/lore/notes.md"
+    ],
+    "deny_globs": [
+      ".neonrp/**",
+      "souls/**",
+      "game/lore/gm-truth.md"
+    ],
+    "direct_write_globs": [
+      "game/meta/run_state.json",
+      "game/lore/notes.md"
+    ]
+  },
+  "defaults": {
+    "context_limit": 20,
+    "temperature": 0.6
+  }
+}

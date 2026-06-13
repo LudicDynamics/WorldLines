@@ -1,0 +1,16 @@
+{
+  "id": "shrine-underground",
+  "kind": "location",
+  "name": "地道",
+  "tags": [
+    "underground",
+    "hidden",
+    "yith"
+  ],
+  "summary": "神社の地板下方の古代地下通道。壁画が描かれている。通道は下に延び、温度が上がる。基地へ通じる。",
+  "connections": [
+    "shrine",
+    "ancient-base"
+  ],
+  "discovery_condition": "神社夜間侵入 → 床板の違和感発見 or 宮司を尾行"
+}

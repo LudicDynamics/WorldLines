@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "sid": "kagami",
+  "name": "Kagami",
+  "name_local": "鏡子",
+  "version": "1.0",
+  "created_at": "2025-08-07T21:00:00Z",
+  "source": {
+    "kind": "local-create",
+    "hash": null,
+    "version": null
+  },
+  "agent_template": "heroine-classic",
+  "tags": [
+    "waen-family",
+    "white-hair",
+    "cafe-owner",
+    "orphanage"
+  ]
+}

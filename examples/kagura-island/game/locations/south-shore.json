@@ -1,0 +1,17 @@
+{
+  "id": "south-shore",
+  "kind": "location",
+  "name": "南岸・砂浜",
+  "tags": [
+    "shore",
+    "start",
+    "open"
+  ],
+  "summary": "岛的南端。沙滩与断崖交替。烟花的残烬散落在沙子上。夜间海面偶有怪光。退潮時可涉水前往離島。",
+  "connections": [
+    "town",
+    "islet-surface"
+  ],
+  "npcs_default": [],
+  "notes": "Dream 1 开场地点。退潮時間：早朝〜午前中"
+}

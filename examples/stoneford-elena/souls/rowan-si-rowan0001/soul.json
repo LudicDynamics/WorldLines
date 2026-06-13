@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "sid": "rowan",
+  "name": "Rowan Pike",
+  "name_local": "罗文",
+  "version": "1.0",
+  "created_at": "2026-05-17T00:00:00Z",
+  "source": {
+    "kind": "builtin",
+    "hash": "stonefordelena001",
+    "version": "1.0"
+  },
+  "agent_template": "heroine-classic",
+  "tags": [
+    "npc",
+    "bro",
+    "scout",
+    "bishi-town"
+  ]
+}

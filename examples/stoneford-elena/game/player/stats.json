@@ -1,0 +1,33 @@
+{
+  "level": 1,
+  "hp": {
+    "current": 24,
+    "max": 24
+  },
+  "mp": {
+    "current": 0,
+    "max": 0
+  },
+  "attributes": {
+    "str": 5,
+    "dex": 7,
+    "int": 5,
+    "vit": 6,
+    "cha": 5
+  },
+  "skills": [
+    {
+      "id": "skill_quick_slash",
+      "name": "快斩",
+      "rank": 1,
+      "desc": "先手贴近时更容易命中。"
+    },
+    {
+      "id": "skill_hold_ground",
+      "name": "立定招架",
+      "rank": 1,
+      "desc": "在狭窄地形中更容易稳住防线。"
+    }
+  ],
+  "status_effects": []
+}

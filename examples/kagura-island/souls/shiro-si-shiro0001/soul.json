@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "sid": "shiro",
+  "name": "Shiro",
+  "name_local": "白髪の少女・白",
+  "version": "1.0",
+  "created_at": "2025-08-07T21:00:00Z",
+  "source": {
+    "kind": "local-create",
+    "hash": null,
+    "version": null
+  },
+  "agent_template": "heroine-classic",
+  "tags": [
+    "ancient",
+    "amnesia",
+    "uncatchable",
+    "gun-wielder"
+  ]
+}

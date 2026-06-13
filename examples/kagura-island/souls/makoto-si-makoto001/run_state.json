@@ -1,0 +1,17 @@
+{
+  "sid": "makoto",
+  "instance_id": "si-makoto001",
+  "location": "school",
+  "status": {
+    "hp": 100,
+    "max_hp": 100,
+    "memory": "yith_memory",
+    "yith_state": "fully_possessed",
+    "mood": "serene_inhuman"
+  },
+  "turn_count": 0,
+  "loop_state": {
+    "has_memory": true,
+    "reason": "yith_memory_persists"
+  }
+}

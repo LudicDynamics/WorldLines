@@ -33,7 +33,7 @@
 
 ## 团队与愿景
 
-我们是一支由来自**东京大学、名古屋大学**的 PhD 和研究员，以及游戏从业者组成的跨专业（社会学、经济学、图形学、AI Agent、虚拟世界）团队 —— **Ludic Dynamics**。
+我们是一支由来自**东京大学**的 PhD 和研究员，以及游戏从业者组成的跨专业（社会学、经济学、图形学、AI Agent、虚拟世界）团队 —— **Ludic Dynamics**。
 
 我们热爱 TRPG（跑团）、galgame 与乙女游戏。当 AI 还没有普及之前，我们长期从事日文文化翻译的志愿者工作，在各种桌面游戏以及游戏图形引擎行业深耕，并曾经协助日本视觉小说作品在 Steam 发行。疫情开始后，我们一头扎进了 AI 角色扮演与叙事类游戏 —— 每个周末、每一个深夜，跑团、搭建世界、追逐那种"故事真的在呼吸"的感觉。
 
@@ -109,9 +109,22 @@ worldlines
 
 ## 示例世界
 
-### ⛩ Stoneford — 起始世界
+WorldLines 用三种**引擎模式**之一运行世界 —— 它们**不能混用**:
 
-灰雾北境的河港小镇。经典奇幻 TRPG · d20 骰子 · 10-agent 编排。旗舰示例：完整的小镇，含 NPC、任务、地下城、攻防机制。**[在线游玩 →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[源码与文档 →](./examples/stoneford)**
+- **fast** —— 一个快速 agent,单一声音。
+- **orch** —— 一个 world-agent 编排 domain agent(城镇 / 地下城 / 战斗 / 故事);NPC 是数据。
+- **multi-agent** —— 一个 world-agent 包装**独立的灵魂**,每个灵魂是有自己心智、记忆、盘算的角色 agent。标志是有 `souls/` 文件夹。*这是这次的新发布。*
+
+### 👥 multi-agent —— 多个独立灵魂同处一个世界
+
+| 世界 | 灵魂 | 在线 |
+|---|---|---|
+| **[神楽島 Kagura Island](./examples/kagura-island)** | **7 个** —— 镜子 · 羽 · 真琴 · 宫司 · 白 · 翼 · 悠人。和风悬疑、时间循环、CoC 判定。最丰富的多智能体社会。 | [游玩 →](https://hub.worldlines.gg/play/worlds/kagura-island) |
+| **[石津镇 · 艾莲娜](./examples/stoneford-elena)** | **2 个** —— Elena(会记住的治愈师)+ Rowan。石津镇世界,住进了活的灵魂。 | [游玩 →](https://hub.worldlines.gg/play/worlds/stoneford-elena) |
+
+### ⛩ Stoneford — 旗舰 orch 世界
+
+灰雾北境的河港小镇。经典奇幻 TRPG · d20 骰子 · **10-agent 编排村庄** —— 中心一个 world-agent 路由到城镇、地下城、战斗、故事、NPC agent。**[在线游玩 →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[源码与文档 →](./examples/stoneford)**
 
 ### 更多世界
 

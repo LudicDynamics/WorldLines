@@ -1,0 +1,5 @@
+{
+  "router": {
+    "execution_mode": "multi-agent"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "id": "monument",
+  "kind": "location",
+  "name": "碑",
+  "tags": [
+    "lore",
+    "monument"
+  ],
+  "summary": "古代石碑。《和渊碑》がある。「和渊居此三十六年，不識郷音，不返中土。」日中に読むことで情報を得られる。",
+  "connections": [
+    "town",
+    "shrine"
+  ]
+}

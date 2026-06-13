@@ -1,0 +1,13 @@
+{
+  "id": "D001_R002",
+  "name": "苔廊",
+  "description": "长廊两侧苔藓像呼吸一样起伏，偶尔传来细小的耳语。",
+  "features": [
+    "岔路",
+    "可能遭遇雾牙狼"
+  ],
+  "state": {
+    "explored": false,
+    "cleared": false
+  }
+}

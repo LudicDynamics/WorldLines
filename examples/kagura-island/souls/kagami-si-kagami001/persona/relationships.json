@@ -1,0 +1,14 @@
+{
+  "sid": "kagami",
+  "relationships": {
+    "makoto": {
+      "disposition": "lost_dear_friend",
+      "known": true,
+      "truth": "12年前挚友被Yith寄宿，不知如何救回"
+    },
+    "shiro": {
+      "disposition": "ancestral_kin",
+      "known": false
+    }
+  }
+}

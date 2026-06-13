@@ -1,0 +1,10 @@
+{
+  "sid": "shiro",
+  "relationships": {
+    "kagami": {
+      "disposition": "bloodline_kin",
+      "known": false,
+      "truth": "和渊家血脉；镜子是当代和渊家"
+    }
+  }
+}

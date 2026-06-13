@@ -1,0 +1,41 @@
+{
+  "id": "town-agent",
+  "name": "Town Agent",
+  "description": "神楽島 城镇/潮待ち茶屋代理。处理岛上聚落与场所的导航、店铺、信息获取、临时互动。被 world-agent 按 scope 路由。具名角色由 soul 团队自治，此代理不扮演 soul。",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "triggers": [],
+  "tags": ["town", "navigation", "cafe", "info", "shop"],
+  "priority": 50,
+  "permissions": {
+    "read_globs": [
+      "game/locations/*.json",
+      "game/items/*.json",
+      "game/meta/run_state.json",
+      "game/meta/roster.json",
+      "game/timeline/current.json",
+      "game/lore/notes.md",
+      ".neonrp/manifest.json"
+    ],
+    "write_globs": [
+      "game/locations/*.json",
+      "game/meta/run_state.json",
+      "game/lore/notes.md"
+    ],
+    "deny_globs": [
+      ".neonrp/**",
+      "souls/**",
+      "game/lore/gm-truth.md"
+    ],
+    "direct_write_globs": [
+      "game/locations/*.json",
+      "game/meta/run_state.json",
+      "game/lore/notes.md"
+    ]
+  },
+  "defaults": {
+    "context_limit": 20,
+    "temperature": 0.75
+  }
+}

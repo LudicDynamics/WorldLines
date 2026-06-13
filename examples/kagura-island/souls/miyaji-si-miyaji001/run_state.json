@@ -1,0 +1,18 @@
+{
+  "sid": "miyaji",
+  "instance_id": "si-miyaji001",
+  "location": "shrine",
+  "status": {
+    "hp": 100,
+    "max_hp": 100,
+    "memory": "yith_memory",
+    "yith_state": "fully_possessed",
+    "trust_initial": 10,
+    "mood": "calm_immovable"
+  },
+  "turn_count": 0,
+  "loop_state": {
+    "has_memory": true,
+    "reason": "yith_memory_persists"
+  }
+}

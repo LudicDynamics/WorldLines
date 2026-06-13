@@ -1,0 +1,12 @@
+{
+  "id": "magatama-past",
+  "kind": "item",
+  "name": "過去の勾玉",
+  "color": "black",
+  "owner": null,
+  "location": "museum_hidden",
+  "power": "戦国時代へ穿越可能。白の遺物。",
+  "era_link": "戦国時代",
+  "note": "博物館の非公開保管庫。旧絹の布に包まれている。布に白のメッセージあり",
+  "discovery": "図書館利用成功 → 非公開エリア → 禁忌6違反"
+}

@@ -1,0 +1,34 @@
+{
+  "id": "current",
+  "kind": "timeline",
+  "name": "神楽島 循環タイムライン",
+  "cycle": {
+    "day": 1,
+    "period": "夜",
+    "loop_count": 0,
+    "batch": 2,
+    "batch_history": [
+      { "batch": 1, "entered": ["tsubasa", "yuto"], "note": "6年前。翼の降臨儀式失敗 + 悠人追跡" },
+      { "batch": 2, "entered": ["kakaru", "hane"], "note": "現在。姉/兄を探しに来た" }
+    ]
+  },
+  "memory_inherit": {
+    "yuto": { "has_memory": false, "total_loops_with_memory": 67, "current_state": "reset_by_counter_kill" },
+    "tsubasa": { "has_memory": false, "reason": "dies_day1_every_cycle" },
+    "shiro": { "has_memory": false, "reason": "no_magatama_no_inherit" },
+    "kakaru": { "has_memory": false, "residual": "body_fear_of_yuto" },
+    "hane": { "has_memory": false, "residual": "none" }
+  },
+  "disappearance_queue": [],
+  "taboo_violations": [],
+  "magatama_tracker": {
+    "future": { "owner": "hane", "color": "white", "location": "on_person" },
+    "past": { "owner": null, "color": "black", "location": "museum_hidden" },
+    "present": { "owner": "tsubasa", "color": "black", "location": "islet-ledge" }
+  },
+  "key_rules": {
+    "memory_range": "離島内のみ記憶保持可能。離島を離れると記憶が徐々に消失",
+    "causality": "里世界→表世界：影響なし。表世界→里世界：前提条件が変化",
+    "cycle_reset": "3日終了時リセット。肉体リセット。精神は条件付き継承"
+  }
+}

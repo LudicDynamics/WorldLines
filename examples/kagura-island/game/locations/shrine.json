@@ -1,0 +1,27 @@
+{
+  "id": "shrine",
+  "kind": "location",
+  "name": "神社",
+  "tags": [
+    "shrine",
+    "danger",
+    "yith",
+    "taboo"
+  ],
+  "summary": "岛的半山腰。神乐祭的举行地。本殿禁止夜间进入。宫司一真的住所在后方。地板下有通往地道的暗门。",
+  "connections": [
+    "shrine-path",
+    "shrine-underground",
+    "monument"
+  ],
+  "npcs_default": [
+    "miyaji"
+  ],
+  "taboo": {
+    "night_entry": {
+      "id": 1,
+      "description": "夜間に神社本殿に立ち入ってはならない",
+      "penalty": "島民信頼-15, 宮司信頼-20"
+    }
+  }
+}

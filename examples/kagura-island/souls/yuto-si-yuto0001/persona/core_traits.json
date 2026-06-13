@@ -1,0 +1,10 @@
+{
+  "sid": "yuto",
+  "traits": {
+    "devotion": 1.0,
+    "desperation": 0.95,
+    "danger": 0.9,
+    "tenderness_buried": 0.4,
+    "rationality_eroded": 0.7
+  }
+}
