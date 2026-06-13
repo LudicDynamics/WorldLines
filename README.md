@@ -189,13 +189,13 @@ WorldLines gives you characters with **real memory**. They remember what you sai
 
 → [Play Soul Talk](https://hub.worldlines.gg/play/souls/elena) · [Bring an AI character card into a world](https://docs.worldlines.gg/docs/guides/sillytavern-import)
 
-### 📖 Galgame & Visual Novel Fans
+### 📖 Galgame · Otome · Visual Novel Fans
 
 You love **Ren'Py, TyranoBuilder, and branching narratives** — but you're tired of writing every route by hand. You want stories that *respond*, not just branch.
 
 WorldLines lets you set the characters, the world rules, and the tone — and the agents generate the story in real time. Every choice ripples. No two playthroughs are the same.
 
-→ [Create your first world](https://hub.worldlines.gg/create/world) · *a dedicated visual-novel open-source project — coming soon*
+→ [Play Sakura Hallway](./examples/orch/sakura-hallway) (a school love story) · [Create your first world](https://hub.worldlines.gg/create/world) · *a dedicated visual-novel open-source project — coming soon*
 
 ### ✍️ TRPG GMs & World Creators
 

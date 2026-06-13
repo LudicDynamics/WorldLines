@@ -159,13 +159,13 @@ WorldLines 给你有**真实记忆**的角色。她们记得你三天前说过�
 
 → [玩 Soul Talk](https://hub.worldlines.gg/play/souls/elena) · [把 AI 角色卡带进世界](https://docs.worldlines.gg/docs/guides/sillytavern-import)
 
-### 📖 Galgame · 视觉小说爱好者
+### 📖 Galgame · 乙女游戏 · 视觉小说爱好者
 
 你喜欢 **Ren'Py、TyranoBuilder 和分支叙事** —— 但你厌倦了手写每一条路线。你想要故事*回应你*，而不是按预设路线走。
 
 WorldLines 让你设定角色、世界规则和基调 —— agent 会实时生成故事。每一个选择都会激起涟漪。没有两次游玩是一样的。
 
-→ [创建你的第一个世界](https://hub.worldlines.gg/create/world) · *专门的视觉小说开源项目 —— 敬请期待*
+→ [玩樱坂走廊](./examples/orch/sakura-hallway)(一个校园恋爱故事)· [创建你的第一个世界](https://hub.worldlines.gg/create/world) · *专门的视觉小说开源项目 —— 敬请期待*
 
 ### ✍️ TRPG 主持人 · 世界创作者
 

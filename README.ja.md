@@ -159,13 +159,13 @@ WorldLines は**本当の記憶**を持つキャラクターを提供します�
 
 → [Soul Talk をプレイ](https://hub.worldlines.gg/play/souls/elena) · [AI キャラクターカードを世界に持ち込む](https://docs.worldlines.gg/docs/guides/sillytavern-import)
 
-### 📖 ギャルゲー & ビジュアルノベルファン
+### 📖 ギャルゲー · 乙女ゲーム · ビジュアルノベルファン
 
 **Ren'Py、TyranoBuilder、分岐ナラティブ**が好き —— でもすべてのルートを手書きするのに疲れた。応答する物語が欲しい、分岐するだけじゃなく。
 
 WorldLines ではキャラクター、世界のルール、トーンを設定すれば、エージェントがリアルタイムでストーリーを生成します。すべての選択が波紋を広げます。同じプレイスルーは二度とありません。
 
-→ [初めての世界を作る](https://hub.worldlines.gg/create/world) · *ビジュアルノベル専用のオープンソースプロジェクト —— 近日公開*
+→ [Sakura Hallway をプレイ](./examples/orch/sakura-hallway)（学園ラブストーリー）· [初めての世界を作る](https://hub.worldlines.gg/create/world) · *ビジュアルノベル専用のオープンソースプロジェクト —— 近日公開*
 
 ### ✍️ TRPG GM & ワールドクリエイター
 

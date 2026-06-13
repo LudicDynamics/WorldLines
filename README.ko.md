@@ -159,13 +159,13 @@ WorldLines는 **진짜 기억**을 가진 캐릭터를 제공합니다. 3세션 
 
 → [Soul Talk 플레이](https://hub.worldlines.gg/play/souls/elena) · [AI 캐릭터 카드를 세계로 가져오기](https://docs.worldlines.gg/docs/guides/sillytavern-import)
 
-### 📖 갤게임 & 비주얼 노벨 팬
+### 📖 갤게임 · 오토메 게임 · 비주얼 노벨 팬
 
 **Ren'Py, TyranoBuilder, 분기 내러티브**를 좋아하지만 — 모든 루트를 손으로 쓰는 데 지쳤습니다. *응답하는* 이야기를 원합니다, 단순히 분기하는 것이 아니라.
 
 WorldLines에서는 캐릭터, 세계 규칙, 톤을 설정하면 에이전트가 실시간으로 이야기를 생성합니다. 모든 선택이 파문을 일으킵니다. 같은 플레이스루는 두 번 없습니다.
 
-→ [첫 세계 만들기](https://hub.worldlines.gg/create/world) · *비주얼 노벨 전용 오픈소스 프로젝트 —— 곧 공개*
+→ [Sakura Hallway 플레이](./examples/orch/sakura-hallway)(학원 러브 스토리)· [첫 세계 만들기](https://hub.worldlines.gg/create/world) · *비주얼 노벨 전용 오픈소스 프로젝트 —— 곧 공개*
 
 ### ✍️ TRPG GM & 월드 크리에이터
 
