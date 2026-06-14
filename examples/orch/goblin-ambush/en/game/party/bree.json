@@ -1,0 +1,28 @@
+{
+  "id": "bree",
+  "kind": "party",
+  "name": "Bree",
+  "class": "Rogue",
+  "ac": 14,
+  "hp": 9,
+  "hp_max": 9,
+  "initiative_mod": 3,
+  "attacks": [
+    {
+      "name": "Shortbow",
+      "to_hit": 5,
+      "damage": "1d6+3",
+      "range": "Ranged"
+    },
+    {
+      "name": "Dagger",
+      "to_hit": 5,
+      "damage": "1d4+3",
+      "range": "Melee"
+    }
+  ],
+  "traits": [
+    "Sneak Attack: with advantage or an ally next to the target, deal an extra +2d6 damage on a hit (once per turn)"
+  ],
+  "note": "Halfling rogue who favors the shortbow. Likes to flank and find openings."
+}

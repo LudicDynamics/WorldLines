@@ -1,0 +1,29 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "引魂灯·盛世缘 · Lamp of Souls",
+  "summary": "天启年间,大胤王朝鼎盛。你是入宫首夜的清贫女官,误入禁苑点亮了传说中的引魂灯,从此被四位风华绝代的皇子缠绕。在灯火燃尽之前,在权谋与情丝里,你能否为自己择一条生路、择一个人?",
+  "startup": {
+    "read_first": [
+      "{{DATA_DIR}}/meta/run_state.json",
+      "{{DATA_DIR}}/location/gyoen-pavilion.json",
+      "{{DATA_DIR}}/npc/crown-prince.json",
+      "{{DATA_DIR}}/npc/second-prince.json",
+      "{{DATA_DIR}}/npc/third-prince.json",
+      "{{DATA_DIR}}/npc/fourth-prince.json",
+      "{{DATA_DIR}}/rules/affection.md",
+      "{{DATA_DIR}}/rules/endings.md"
+    ],
+    "start_location": "gyoen-pavilion",
+    "agent_routing": {
+      "entry_agent": "world-agent",
+      "router_type": "sticky"
+    },
+    "opening_scene": "【引魂灯·盛世缘】\n\n天启三年,孟春。入宫的第一夜,你这名出身寒微的女官还没睡熟,窗纸上忽然浮起一线幽蓝的光。\n\n那光像有灵性,引着你穿过空无一人的回廊,推开禁苑的角门——御花园深处的凉亭里,一盏古旧的铜灯正自顾自地亮着,蓝焰无风自动。\n\n你刚走近,灯火骤然一盛,亭中四道身影同时回过头来。太子萧景琰、二皇子萧景桓、三皇子萧景瑜、五皇子萧景玥——大胤最尊贵的四位皇子,此刻正围着这盏灯而立,神色各异地看着你。\n\n灯,认了你。\n\n(这里没有战斗,没有掷骰。只有灯火渐弱的时辰,和四个各怀心思的人。灯灭之前,你要弄清这盏灯,也要在这座宫里,为自己择一条路。)",
+    "opening_choices": [
+      "上前一步,问这盏灯究竟是什么",
+      "敛衽行礼,先探四位皇子的神色",
+      "假装没看清,悄悄退回回廊"
+    ]
+  }
+}

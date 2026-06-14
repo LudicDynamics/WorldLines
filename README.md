@@ -2,7 +2,7 @@
 
 **Language:** [English](./README.md) · [简体中文](./README.zh.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md)
 
-> **What's open:** example worlds, tools, and protocol in this repo — AGPL-3.0. Fork, modify, and ship your own worlds.
+> **What's open:** the example worlds and tools in this repo — AGPL-3.0. Fork, modify, and ship your own worlds.
 > **What's not:** the engine core (`neonrp`). Free to play, not free to fork or redistribute. See [LICENSE](LICENSE).
 
 <p align="center">
@@ -117,23 +117,26 @@ WorldLines runs a world in one of **three engine modes** — and they are *not* 
 
 ### 👥 multi-agent — independent souls in one world
 
-| World | Souls | Live Demo |
+> **Runs locally** (TUI / CLI). Multi-agent is not on hosted play yet — hosted play offers `fast` + `orch`. Clone the repo and run with `neonrp tui --from examples/<world>`.
+
+| World | Souls | Run |
 |---|---|---|
-| **[Kagura Island](./examples/kagura-island)** | **7** — Kagami · Hane · Makoto · Miyaji · Shiro · Tsubasa · Yuto. Japanese-folk mystery, time loop, CoC checks. The richest multi-agent society. | [Play →](https://hub.worldlines.gg/play/worlds/kagura-island) |
-| **[Stoneford · Elena](./examples/stoneford-elena)** | **2** — Elena (the healer who remembers) + Rowan. The Stoneford world, now inhabited by living souls. | [Play →](https://hub.worldlines.gg/play/worlds/stoneford-elena) |
+| **[Kagura Island](./examples/multi-agent/kagura-island)** | **7** — Kagami · Hane · Makoto · Miyaji · Shiro · Tsubasa · Yuto. Japanese-folk mystery, time loop, CoC checks. The richest multi-agent society. | [Source →](./examples/multi-agent/kagura-island) |
+| **[Stoneford · Elena](./examples/multi-agent/stoneford-elena)** | **2** — Elena (the healer who remembers) + Rowan. The Stoneford world, now inhabited by living souls. | [Source →](./examples/multi-agent/stoneford-elena) · [Talk to Elena (hosted)](https://hub.worldlines.gg/play/souls/elena) |
 
 ### ⛩ Stoneford — Flagship orch world
 
-A grey-fog northern river port. Classic-fantasy TRPG · d20 dice · **10-agent orchestrated village** — a world-agent at the centre routing to town, dungeon, combat, story, and NPC agents. **[Play online →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[Source & docs →](./examples/stoneford)**
+A grey-fog northern river port. Classic-fantasy TRPG · d20 dice · **10-agent orchestrated village** — a world-agent at the centre routing to town, dungeon, combat, story, and NPC agents. **[Play online →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[Source & docs →](./examples/orch/stoneford)**
 
 ### More worlds
 
 | World | Play style | Live Demo |
 |---|---|---|
 | **Dark Train** | Open world — do anything, the world remembers | [Play →](https://hub.worldlines.gg/play/worlds/dark-train) |
-| **Goblin Ambush** | 3-layer dungeon — fight through 3 boss goblins | [Source →](./examples/goblin-ambush) |
-| **Worldline** | Time-drift narrative — text the past | [Source →](./examples/worldline) |
-| **Sakura Hallway** | Clannad-style school-life · emotional narrative | [Source →](./examples/sakura-hallway) |
+| **Goblin Ambush** | 3-layer dungeon — fight through 3 boss goblins | [Source →](./examples/orch/goblin-ambush) |
+| **Worldline** | Time-drift narrative — text the past | [Source →](./examples/orch/worldline) |
+| **Sakura Hallway** | A school love story · emotional narrative | [Source →](./examples/orch/sakura-hallway) |
+| **Lamp of Souls** (引魂灯·盛世缘) | 国风 otome court romance · 4 princes, a soul-lamp, 8 endings · zh | [Source →](./examples/orch/otome-lamp) |
 
 All worlds live in [examples/](./examples/) — open-source (AGPL-3.0), fork and ship your own.
 
@@ -141,24 +144,24 @@ All worlds live in [examples/](./examples/) — open-source (AGPL-3.0), fork and
 
 ```bash
 # multi-agent (souls/ engages the soul wrapper)
-neonrp tui --from examples/kagura-island       # 7 souls — Japanese-folk mystery
-neonrp tui --from examples/stoneford-elena     # 2 souls — Elena & Rowan
+neonrp tui --from examples/multi-agent/kagura-island       # 7 souls — Japanese-folk mystery
+neonrp tui --from examples/multi-agent/stoneford-elena     # 2 souls — Elena & Rowan
 
 # orch
-neonrp tui --from examples/stoneford           # flagship siege TRPG
-neonrp tui --from examples/dark-train          # open world
-neonrp tui --from examples/goblin-ambush/zh    # 3-layer dungeon
-neonrp tui --from examples/sakura-hallway/zh   # school-life narrative
+neonrp tui --from examples/orch/stoneford           # flagship siege TRPG
+neonrp tui --from examples/orch/dark-train          # open world
+neonrp tui --from examples/orch/goblin-ambush/zh    # 3-layer dungeon
+neonrp tui --from examples/orch/sakura-hallway/zh   # school-life narrative
 ```
 
-Or play online: [Kagura Island](https://hub.worldlines.gg/play/worlds/kagura-island) · [Stoneford · Elena](https://hub.worldlines.gg/play/worlds/stoneford-elena) · [Stoneford](https://hub.worldlines.gg/play/worlds/stoneford) · [Dark Train](https://hub.worldlines.gg/play/worlds/dark-train)
+Play online (hosted `fast`/`orch`): [Stoneford](https://hub.worldlines.gg/play/worlds/stoneford) · [Dark Train](https://hub.worldlines.gg/play/worlds/dark-train) · [Talk to Elena](https://hub.worldlines.gg/play/souls/elena). Multi-agent worlds (Kagura, Stoneford·Elena) run locally.
 
 ### Claude Code / MCP
 
 Open Claude Code inside any world directory and the agents are there:
 
 ```
-cd examples/dark-train
+cd examples/orch/dark-train
 claude
 @world-agent 开始游戏
 ```
@@ -172,7 +175,7 @@ pre-configured.
 ## Other Projects Using This Engine
 
 - **[Soul Talk](https://hub.worldlines.gg/play/souls/elena)** — character-agent dialogue scene. Elena remembers.
-- **[Worldline](./examples/worldline)** — time-drift narrative engine. Text the past, watch timelines rewrite.
+- **[Worldline](./examples/orch/worldline)** — time-drift narrative engine. Text the past, watch timelines rewrite.
 - **Coming: RP-Abyss** — TRPG expedition. DM + dice checks.
 
 ---
@@ -185,15 +188,15 @@ You come from **Character.AI, SillyTavern, or AI Tavern**. You love deep charact
 
 WorldLines gives you characters with **real memory**. They remember what you said three sessions ago. They have inner voices, intentions, goals. And they're not alone — they live in a world with other characters who also remember.
 
-→ [Play Elena (Soul Talk)](https://hub.worldlines.gg/play/souls/elena) · [Browse catalog](https://hub.worldlines.gg/souls)
+→ [Play Soul Talk](https://hub.worldlines.gg/play/souls/elena) · [Bring an AI character card into a world](https://docs.worldlines.gg/docs/guides/sillytavern-import)
 
-### 📖 Galgame & Visual Novel Fans
+### 📖 Galgame · Otome · Visual Novel Fans
 
 You love **Ren'Py, TyranoBuilder, and branching narratives** — but you're tired of writing every route by hand. You want stories that *respond*, not just branch.
 
 WorldLines lets you set the characters, the world rules, and the tone — and the agents generate the story in real time. Every choice ripples. No two playthroughs are the same.
 
-→ [Create your first world](https://docs.worldlines.gg/docs/guides/creating-first-world) · [SillyTavern import →](https://docs.worldlines.gg/docs/guides/sillytavern-import)
+→ [Play Sakura Hallway](./examples/orch/sakura-hallway) (a school love story) · [Play Lamp of Souls](./examples/orch/otome-lamp) (a 国风 otome court romance) · [Create your first world](https://hub.worldlines.gg/create/world) · *a dedicated visual-novel open-source project — coming soon*
 
 ### ✍️ TRPG GMs & World Creators
 
@@ -201,23 +204,36 @@ You run tabletop campaigns in **Foundry VTT, Discord, or pen-and-paper**. You sp
 
 WorldLines is a GM's engine: you set the constraints — the rules, the NPCs, the tone — and the agents run the world for you. Auto-indexed lore, per-NPC memory, dice-referee agents.
 
-→ [Quickstart](https://docs.worldlines.gg/docs/getting-started/quickstart) · [Stoneford starter world](./examples/stoneford)
+→ [Quickstart](https://docs.worldlines.gg/docs/getting-started/quickstart) · [Stoneford starter world](./examples/orch/stoneford)
 
 ### 🔬 Researchers — AI Personality · World Models · Multi-Agent
 
 You study personality models, world-model benchmarks, or multi-agent societies. You need a **reproducible sandbox** — not a black-box API.
 
-WorldLines is **file-backed, event-sourced, and git-diffable**. Every agent decision, every world-state change, is a plain-text event you can trace, replay, and measure. Run the same scenario with different models, compare outputs, publish the results.
+WorldLines is **file-backed, event-sourced, and git-diffable**. Every agent decision, every world-state change, is a plain-text event you can trace, replay, and measure.
 
-→ [Core concepts](https://docs.worldlines.gg/docs/core-concepts/agents-orchestration) · [How It Works](#how-it-works)
+Large many-player co-op isn't ready yet — but the **multi-agent village** is the substrate today: a society of independent souls you can run, script, and reproduce. `neonrp play` is the dedicated multi-agent runner, with scriptable JSON + trace output:
+
+```bash
+neonrp play --project examples/multi-agent/kagura-island                 # interactive REPL
+neonrp play "..." --project examples/multi-agent/kagura-island --json --trace   # one-shot, scriptable
+```
+
+A multi-agent tutorial is coming. **Have a research need? [Open an issue](https://github.com/LudicDynamics/WorldLines/issues) or email `info@worldlines.gg` — we'll work with your experiment.**
+
+→ [Multi-agent mode](https://docs.worldlines.gg/docs/core-concepts/engine-modes#multi-agent) · [Core concepts](https://docs.worldlines.gg/docs/core-concepts/agents-orchestration) · [How It Works](#how-it-works)
 
 ### 🛠️ Developers
 
-You build with **Claude Code, LangGraph, or custom agent pipelines**. You want a protocol you can inspect, fork, and disagree with.
+You build with **Claude Code, LangGraph, or custom agent pipelines**. You're curious how a world-agent, soul-agents, and a player-agent actually fit together.
 
-WorldLines examples, tools, and protocol are **open-source (AGPL-3.0)**. Fork a world, mod an agent, ship your own. The engine binary is free to play — no API key for local use.
+We haven't open-sourced the protocol yet — the **world-agent · soul-agent · player-agent** architecture is still being iterated. We don't think there's one perfect answer; we're actively researching a cleaner design. The example worlds *are* open (AGPL-3.0) — fork a world, mod an agent, study how it's wired.
 
-→ [examples/](./examples/) · [Protocol docs](https://docs.worldlines.gg/docs/protocol/overview)
+If this is your kind of problem, **[join our Discord](https://discord.gg/HJYWbdqWrE)** and shape the architecture with us.
+
+The repo itself is an authoring workbench: clone it, open it in Claude Code / Codex, and the creation skills in `.claude/skills/` auto-load — see **[tutorials/](./tutorials/)** to make character cards / worlds / souls.
+
+→ [tutorials/](./tutorials/) · [examples/](./examples/) · [How It Works](#how-it-works)
 
 ---
 
@@ -246,6 +262,15 @@ Layer 3: (future) dice/rules tool-agents
 
 ## Tutorial
 
+**Create with Claude Code / Codex (in this repo, skills auto-load) — [tutorials/](./tutorials/)** *(zh)*:
+
+| I want to make | Tutorial |
+|---|---|
+| A character card (tavern-compatible) | [01 · Character Card](./tutorials/01-character-card.md) |
+| A world card / lorebook | [02 · World Card](./tutorials/02-world-card.md) |
+| A full orch world from scratch (like Sakura Hallway / Lamp of Souls) | [03 · Full World](./tutorials/03-game-world.md) |
+| A soul with its own mind + a multi-agent world | [04 · Soul & Multi-agent](./tutorials/04-soul-multi-agent.md) |
+
 Full documentation at **[docs.worldlines.gg](https://docs.worldlines.gg)**:
 
 | Topic | Link |
@@ -272,7 +297,7 @@ Full roadmap: [docs.worldlines.gg/docs/roadmap](https://docs.worldlines.gg/docs/
 
 ## License
 
-**Open-source (AGPL-3.0):** example worlds, character bundles, tools, and protocol in `examples/` and `tools/`.
+**Open-source (AGPL-3.0):** the example worlds, character bundles, and tools in `examples/` and `tools/`. (The agent protocol/architecture is still being iterated and not open-sourced yet — see Developers above.)
 
 **Not open-source:** the engine core (`neonrp`). Proprietary preview — free to play, not free to fork.
 

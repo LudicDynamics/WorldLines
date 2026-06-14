@@ -1,0 +1,28 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "고블린 매복전 · D&D 5e",
+  "summary": "황혼의 숲길, 고블린 한 마리가 덤불에서 튀어나온다. 너는 세 명의 모험가를 지휘해, D&D 5e 규칙에 따라 그것을 쓰러뜨린다.",
+  "startup": {
+    "read_first": [
+      "{{DATA_DIR}}/meta/run_state.json",
+      "{{DATA_DIR}}/location/forest-path.json",
+      "{{DATA_DIR}}/party/aldric.json",
+      "{{DATA_DIR}}/party/bree.json",
+      "{{DATA_DIR}}/party/merrin.json",
+      "{{DATA_DIR}}/npc/goblin.json",
+      "{{DATA_DIR}}/rules/combat-5e.md"
+    ],
+    "start_location": "forest-path",
+    "agent_routing": {
+      "entry_agent": "world-agent",
+      "router_type": "sticky"
+    },
+    "opening_scene": "【고블린 매복전 · D&D 5e】\n\n황혼의 숲길. 너는 세 명의 모험가——알드릭(파이터), 브리(로그), 메린(위저드)——를 이끌고 이 숲을 가로지르고 있다.\n\n덤불이 한 차례 흔들린다. 고블린 한 마리가 곡도를 치켜들고 튀어나온다, 노란 눈이 어둠 속에서 번뜩인다.\n\n이것은 매복전이다: 너는 이 셋을 지휘해 D&D 5e 규칙에 따라 싸운다——우선권을 굴리고, d20으로 명중을 따지고, 피해를 굴려 고블린을 쓰러뜨린다. 한 마리뿐이지만 방심하지 마라: 고블린은 약삭빠르고, 형세가 불리하면 도망친다.\n\n우선권 시작.",
+    "opening_choices": [
+      "우선권을 굴려 전투 시작",
+      "먼저 세 모험가의 상태를 살펴본다",
+      "고블린을 살펴본다"
+    ]
+  }
+}

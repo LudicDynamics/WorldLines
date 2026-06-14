@@ -1,0 +1,9 @@
+{
+  "id": "player",
+  "kind": "player",
+  "name": "你",
+  "summary": "天启年间初入宫的清贫女官,出身寒微却心思剔透。入宫第一夜误入禁苑,点亮了认你为主的引魂灯,从此被四位皇子的情与谋一同缠上。你说什么、信谁、为谁犯险,这盏灯都看在眼里。",
+  "identity": "清贫女官",
+  "location": "gyoen-pavilion",
+  "portrait": "../../assets/protagonist.png"
+}

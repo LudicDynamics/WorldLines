@@ -1,0 +1,19 @@
+{
+  "id": "aldric",
+  "kind": "party",
+  "name": "Aldric",
+  "class": "Fighter",
+  "ac": 16,
+  "hp": 12,
+  "hp_max": 12,
+  "initiative_mod": 1,
+  "attacks": [
+    {
+      "name": "Longsword",
+      "to_hit": 5,
+      "damage": "1d8+3",
+      "range": "Melee"
+    }
+  ],
+  "note": "Human fighter in chain mail with a longsword. Charges to the front to take hits for his companions."
+}

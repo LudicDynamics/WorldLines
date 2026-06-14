@@ -28,18 +28,21 @@ play offers `fast` + `orch`.
 
 | World | Play style | Mode | Online |
 |---|---|---|---|
-| [Stoneford](./stoneford) | Flagship siege TRPG — 10-agent orchestrated village | **orch** | [Play →](https://hub.worldlines.gg/play/worlds/stoneford) |
-| [Dark Train](./dark-train) | Open world — do anything, the world remembers | orch | [Play →](https://hub.worldlines.gg/play/worlds/dark-train) |
-| [Goblin Ambush](./goblin-ambush) | 3-layer dungeon — fight 3 boss goblins | fast / orch | — |
-| [Worldline](./worldline) | Time-drift — text the past, watch timelines rewrite | orch | — |
-| [Sakura Hallway](./sakura-hallway) | Clannad-style school-life · emotional narrative | orch | — |
+| [Stoneford](./orch/stoneford) | Flagship siege TRPG — 10-agent orchestrated village | **orch** | [Play →](https://hub.worldlines.gg/play/worlds/stoneford) |
+| [Dark Train](./orch/dark-train) | Open world — do anything, the world remembers | orch | [Play →](https://hub.worldlines.gg/play/worlds/dark-train) |
+| [Goblin Ambush](./orch/goblin-ambush) | 3-layer dungeon — fight 3 boss goblins | fast / orch | — |
+| [Worldline](./orch/worldline) | Time-drift — text the past, watch timelines rewrite | orch | — |
+| [Sakura Hallway](./orch/sakura-hallway) | A school love story · emotional narrative | orch | — |
+| [Lamp of Souls](./orch/otome-lamp) | 国风乙女 court romance · 4 princes, a soul-lamp, 8 endings | orch | — |
 
 ### 👥 multi-agent — independent souls in one world
 
-| World | Souls | Mode | Online |
+> Multi-agent runs **locally** (TUI / CLI) — not on hosted play yet. `neonrp tui --from examples/<world>`.
+
+| World | Souls | Mode | Run |
 |---|---|---|---|
-| [Stoneford · Elena](./stoneford-elena) | **2** — Elena, Rowan | **multi-agent** | [Play →](https://hub.worldlines.gg/play/worlds/stoneford-elena) |
-| [Kagura Island](./kagura-island) | **7** — Kagami, Hane, Makoto, Miyaji, Shiro, Tsubasa, Yuto | **multi-agent** | [Play →](https://hub.worldlines.gg/play/worlds/kagura-island) |
+| [Kagura Island](./multi-agent/kagura-island) | **7** — Kagami, Hane, Makoto, Miyaji, Shiro, Tsubasa, Yuto | **multi-agent** | [Source →](./multi-agent/kagura-island) |
+| [Stoneford · Elena](./multi-agent/stoneford-elena) | **2** — Elena, Rowan | **multi-agent** | [Source →](./multi-agent/stoneford-elena) · [Elena soul (hosted)](https://hub.worldlines.gg/play/souls/elena) |
 
 Each world has four language READMEs: **en** · **zh** (中文) · **ja** (日本語) · **ko** (한국어).
 
@@ -52,11 +55,11 @@ Each world has four language READMEs: **en** · **zh** (中文) · **ja** (日�
 curl -LsSf https://worldlines.gg/install.sh | sh
 
 # orch world
-neonrp tui --from examples/stoneford
+neonrp tui --from examples/orch/stoneford
 
 # multi-agent world (souls/ engages the soul wrapper)
-neonrp tui --from examples/kagura-island
-neonrp tui --from examples/stoneford-elena
+neonrp tui --from examples/multi-agent/kagura-island
+neonrp tui --from examples/multi-agent/stoneford-elena
 ```
 
 ### Local (Claude Code / MCP)

@@ -1,0 +1,19 @@
+{
+  "id": "aldric",
+  "kind": "party",
+  "name": "アルドリック",
+  "class": "ファイター（戦士） (Fighter)",
+  "ac": 16,
+  "hp": 12,
+  "hp_max": 12,
+  "initiative_mod": 1,
+  "attacks": [
+    {
+      "name": "ロングソード",
+      "to_hit": 5,
+      "damage": "1d8+3",
+      "range": "近接"
+    }
+  ],
+  "note": "人間のファイター、チェインメイルを着てロングソードを構える。最前線に出て仲間の盾になる。"
+}

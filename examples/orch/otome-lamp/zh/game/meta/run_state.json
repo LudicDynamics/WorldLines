@@ -1,0 +1,22 @@
+{
+  "id": "run_state",
+  "kind": "meta",
+  "name": "Run State",
+  "world_id": "otome-lamp",
+  "location": "gyoen-pavilion",
+  "turn_count": 0,
+  "day": 1,
+  "season": "天启三年 · 孟春",
+  "lamp_remaining": 100,
+  "focus_character": null,
+  "timeline": "first-night",
+  "last_beat": "lamp-recognizes-you",
+  "pivot_flags": [],
+  "vq": {
+    "忠诚_背叛": 0.0,
+    "坦诚_欺瞒": 0.0,
+    "奉献_索取": 0.0,
+    "信任_猜疑": 0.0
+  },
+  "story_over": false
+}

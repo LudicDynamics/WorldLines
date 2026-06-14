@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "execution_mode": "orchestrator",
+  "note": "Goblin ambush · multi-agent orchestration. world-agent is Layer 1 (DM): manages turns, calls referee for dice, writes results back to run_state + HP, acts for the goblin, narrates. referee only rolls dice and returns JSON; world-agent persists.",
+  "agents": [
+    {
+      "id": "world-agent",
+      "name": "Dungeon Master",
+      "agent_path": ".claude/agents/world-agent.md",
+      "role": "Layer 1 — DM: turn scheduling + write state back + narration",
+      "description": "Manages initiative order and turns, calls referee for dice (initiative/attack/damage), **writes results back to run_state's initiative_order + party/npc HP**, acts for the goblin per its tactics, stops on each adventurer turn to wait for the player, narrates combat. All player input passes through it.",
+      "read_globs": ["game/**"],
+      "write_globs": [
+        "game/meta/run_state.json",
+        "game/meta/active-agent.json",
+        "game/party/*.json",
+        "game/npc/*.json"
+      ]
+    },
+    {
+      "id": "referee",
+      "name": "Dice Referee (5e)",
+      "agent_path": ".claude/agents/referee.md",
+      "role": "Layer 2 — D&D 5e d20 rulings",
+      "description": "Rolls initiative (d20+initiative mod), attack rolls (d20+to_hit vs AC, nat20 crit doubles, nat1 auto-miss), damage dice. Returns structured JSON, never writes prose, never persists (world-agent writes HP/state). Temp 0.2.",
+      "read_globs": [
+        "game/party/*.json",
+        "game/npc/*.json",
+        "game/rules/combat-5e.md",
+        "game/meta/run_state.json"
+      ],
+      "write_globs": []
+    }
+  ],
+  "routing_doctrine": {
+    "all_player_input_passes_through": "world-agent",
+    "all_dice_route_to": "referee",
+    "specialists_return_json_world_agent_persists": true,
+    "no_specialist_writes_prose": true,
+    "max_call_chain_depth_per_turn": 3
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "_comment": "Single-agent (fast) world. world-agent is the sole narrator/router; it rolls its own dice and persists combat state to run_state. Self-contained so it runs even without a global config. Key via DEEPSEEK_API_KEY env — never stored here.",
+  "llm": {
+    "model_ref": "deepseek",
+    "max_retries": 3,
+    "max_context_chars": 100000
+  },
+  "tui": {
+    "narrator_agent_id": "world-agent"
+  },
+  "rules": {
+    "enable_resolve_action": false
+  },
+  "models": {
+    "stub": {
+      "provider": "stub",
+      "model": "stub"
+    },
+    "deepseek": {
+      "provider": "openai",
+      "model": "deepseek-v4-pro",
+      "base_url": "https://api.deepseek.com/v1",
+      "api_key_env": "DEEPSEEK_API_KEY"
+    }
+  }
+}
