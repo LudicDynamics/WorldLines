@@ -21,6 +21,8 @@
 
 ## Overview
 
+> Most AI role-play gives you a *character to chat with*. WorldLines gives you a **world where every AI genuinely lives** — a real-time multi-agent simulation you step into, where each soul has its own mind, memory, and agenda. Not a chat. A world.
+
 **What can you do with it?**
 
 Step into a world that remembers everything you do. Give siege orders in a grey-fog northern port. Explore every carriage of a train that never reaches the station. Sit across from an amnesiac healer who really remembers every word you say. Create a world in minutes — set its rules, its pace, its NPCs — or browse a public catalog and jump straight in. This is a multi-agent society running in real time: many AI souls and you, in one world, shaping it together.
@@ -44,6 +46,8 @@ WorldLines is what came out of that obsession.
 > **Orchestrated Reality.** Through the Harness, we simulate worlds and AI souls — with physical consistency in the world, and cognitive consistency in every NPC. Don't code the agent. Use the agent to orchestrate the world.
 
 We built a harness that connects world-agents, place-agents, and soul-agents into one living simulation. We want this engine to power: **interactive-experience creation · multi-agent society experiments · agent-research advancement · personality-model and world-model benchmarks.**
+
+> **Agent Role Play.** People already role-play directly inside Claude Code and Codex — letting an agentic system drive characters and scenes. That's a new paradigm beyond prompt-based chat, and it's the one we're building for. WorldLines takes that same agentic muscle and makes it **faster, model-agnostic (run it on DeepSeek / OpenRouter / local / free models), and multi-agent at scale** — turning it into a living, playable world where the souls actually come alive.
 
 ---
 
@@ -101,9 +105,14 @@ No install. Go to **[hub.worldlines.gg](https://hub.worldlines.gg)**, sign in, a
 ## Screenshots
 
 <p align="center">
+  <img src="./assets/web-multi-agent.png" alt="WorldLines — the multi-agent village, live" width="860" />
+</p>
+<p align="center"><em>The multi-agent village, live (Stoneford · Elena) — Elena and Rowan each perceive, think, and act on their own, the world-agent narrates, and the agent map tracks who's where.</em></p>
+
+<p align="center">
   <img src="./assets/gameplay.jpg" alt="Gameplay — arriving at Stoneford" width="720" />
 </p>
-<p align="center"><em>Gameplay — arriving at Stoneford in the mist</em></p>
+<p align="center"><em>Arriving at Stoneford in the mist.</em></p>
 
 ---
 
@@ -117,7 +126,7 @@ WorldLines runs a world in one of **three engine modes** — and they are *not* 
 
 ### 👥 multi-agent — independent souls in one world
 
-> **Runs locally** (TUI / CLI). Multi-agent is not on hosted play yet — hosted play offers `fast` + `orch`. Clone the repo and run with `neonrp tui --from examples/<world>`.
+> **Runs locally** (TUI / CLI). Multi-agent is not on hosted play yet — hosted play offers `fast` + `orch`. Clone the repo and run with `neonrp play --project examples/multi-agent/<world>` (`neonrp play` is the dedicated village runner). **New here? Start with Stoneford · Elena** — the gentlest taste of the village.
 
 | World | Souls | Run |
 |---|---|---|
@@ -143,11 +152,11 @@ All worlds live in [examples/](./examples/) — open-source (AGPL-3.0), fork and
 ### Quick run
 
 ```bash
-# multi-agent (souls/ engages the soul wrapper)
-neonrp tui --from examples/multi-agent/kagura-island       # 7 souls — Japanese-folk mystery
-neonrp tui --from examples/multi-agent/stoneford-elena     # 2 souls — Elena & Rowan
+# multi-agent — the village (neonrp play is the dedicated runner)
+neonrp play --project examples/multi-agent/stoneford-elena   # 2 souls — Elena & Rowan  ← start here
+neonrp play --project examples/multi-agent/kagura-island     # 7 souls — Japanese-folk mystery
 
-# orch
+# orch (neonrp tui)
 neonrp tui --from examples/orch/stoneford           # flagship siege TRPG
 neonrp tui --from examples/orch/dark-train          # open world
 neonrp tui --from examples/orch/goblin-ambush/zh    # 3-layer dungeon
@@ -288,7 +297,8 @@ Full documentation at **[docs.worldlines.gg](https://docs.worldlines.gg)**:
 |---|---|
 | **v0.1.9** — Engine (2026-04) | ✓ 10-agent orchestrator · Stoneford starter · Claude Code runtime |
 | **v0.2.0** — Hub Launch (2026-06) | ✓ WebHub · Hosted Play · Soul Talk · Create Studio · Stripe · Covers · Saves |
-| **v0.3.0** — Desktop (2026-06) | ◑ Tauri desktop app · Multi-agent society · Persistent worlds · Alipay/WeChat |
+| **v0.2.3** — Multi-Agent Village (2026-06) | ✓ The village: a world-agent wrapping independent souls · Kagura Island · Stoneford · Elena · runs locally |
+| **v0.3.0** — Desktop (2026-07) | ◑ Tauri desktop app · Persistent worlds · Alipay/WeChat · Self-hostable web |
 | **v1.0** — Protocol | ○ Stable WORLD/SOUL protocol · Self-hostable web edition |
 
 Full roadmap: [docs.worldlines.gg/docs/roadmap](https://docs.worldlines.gg/docs/roadmap)
