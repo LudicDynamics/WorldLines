@@ -126,7 +126,7 @@ WorldLines runs a world in one of **three engine modes** — and they are *not* 
 
 ### 👥 multi-agent — independent souls in one world
 
-> **Runs locally** (TUI / CLI). Multi-agent is not on hosted play yet — hosted play offers `fast` + `orch`. Clone the repo and run with `neonrp play --project examples/multi-agent/<world>` (`neonrp play` is the dedicated village runner). **New here? Start with Stoneford · Elena** — the gentlest taste of the village.
+> **Runs locally.** Multi-agent isn't on hosted play yet (hosted play offers `fast` + `orch`). Play it in the **Launcher** (New game → pick the world → **Browser · Web**) or `neonrp web --project examples/multi-agent/<world>` — multi-agent plays best in the browser, where you watch every soul live. **New here? Start with Stoneford · Elena.** (For scripting / research, `neonrp play --project … --json --trace`.)
 
 | World | Souls | Run |
 |---|---|---|
@@ -152,9 +152,9 @@ All worlds live in [examples/](./examples/) — open-source (AGPL-3.0), fork and
 ### Quick run
 
 ```bash
-# multi-agent — the village (neonrp play is the dedicated runner)
-neonrp play --project examples/multi-agent/stoneford-elena   # 2 souls — Elena & Rowan  ← start here
-neonrp play --project examples/multi-agent/kagura-island     # 7 souls — Japanese-folk mystery
+# multi-agent — the village (play in the browser: neonrp web)
+neonrp web --project examples/multi-agent/stoneford-elena   # 2 souls — Elena & Rowan  ← start here
+neonrp web --project examples/multi-agent/kagura-island     # 7 souls — Japanese-folk mystery
 
 # orch (neonrp tui)
 neonrp tui --from examples/orch/stoneford           # flagship siege TRPG

@@ -4,7 +4,12 @@
 
 > Engine mode: **multi-agent**. The Stoneford world, now inhabited by living souls — **Elena** and **Rowan** — who think, remember, and act on their own.
 
-> **Runs locally** (TUI / CLI): `neonrp tui --from examples/orch/stoneford-elena`. Elena also has a hosted soul-talk demo: **[Talk to Elena →](https://hub.worldlines.gg/play/souls/elena)**
+> **Play it (recommended):** open the **WorldLines Launcher** → **New game** → pick **Stoneford · Elena** → choose your characters → **Browser · Web** — and watch every soul live in your browser. From the CLI: `neonrp web --project examples/multi-agent/stoneford-elena`. **Multi-agent plays best in the browser (`neonrp web`), not the TUI.** Elena also has a hosted soul-talk demo: **[Talk to Elena →](https://hub.worldlines.gg/play/souls/elena)**
+
+<p align="center">
+  <img src="./assets/web-play.png" alt="Stoneford · Elena — multi-agent web play" width="860" />
+</p>
+<p align="center"><em>Browser play (<code>neonrp web</code>) — the world-agent narrates, Elena and Rowan each perceive, move, and act on their own, and the agent map shows who's where.</em></p>
 
 ## What makes this multi-agent
 
@@ -21,7 +26,7 @@ world-agent  →  active souls (Elena, Rowan)  →  world-agent
 Souls are isolated actors — they don't share folders or own world state. Elena remembers what you said three sessions ago; Rowan pursues his own agenda whether you're there or not. This is the **village / society** model in practice.
 
 ```bash
-neonrp tui --from examples/orch/stoneford-elena
+neonrp web --project examples/multi-agent/stoneford-elena
 ```
 
 ## The souls

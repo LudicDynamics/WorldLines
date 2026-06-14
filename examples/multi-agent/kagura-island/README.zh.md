@@ -4,7 +4,7 @@
 
 > 引擎模式:**multi-agent**。和风悬疑 · 时间循环 · Yith 神话。一座岛上**七个活的灵魂** —— WorldLines 最丰富的多智能体社会。CoC 式判定(非 d20 战斗)。
 
-> **本地运行**(TUI / CLI)—— multi-agent 暂未上 hosted play。`neonrp tui --from examples/multi-agent/kagura-island`
+> **本地运行**(TUI / CLI)—— multi-agent 暂未上 hosted play。`neonrp web --project examples/multi-agent/kagura-island`
 
 ## 为什么这是 multi-agent
 
@@ -19,7 +19,7 @@ world-agent  →  active souls (本回合的 actor)  →  world-agent
 `playthrough.json` 声明每回合哪些 soul 激活。Soul 是隔离的 actor —— 不是对等网,而是 world-agent **主导的 actor 集合**,只有一个世界收口边界。岛会记住;循环转动;每个 soul 带着自己的秘密穿过它。
 
 ```bash
-neonrp tui --from examples/multi-agent/kagura-island
+neonrp web --project examples/multi-agent/kagura-island
 ```
 
 ## 七个灵魂

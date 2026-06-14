@@ -4,7 +4,12 @@
 
 > エンジンモード:**multi-agent**。Stoneford の世界に、生きたソウル —— **Elena** と **Rowan** —— が宿る。彼らは自ら考え、覚え、行動する。
 
-> **ローカル実行**（TUI / CLI）:`neonrp tui --from examples/orch/stoneford-elena`。Elena にはホスト版の soul 会話デモもあります:**[Elena と話す →](https://hub.worldlines.gg/play/souls/elena)**
+> **遊び方（推奨）:** **WorldLines Launcher** を開く → **新規ゲーム** → **Stoneford · Elena** を選ぶ → キャラクターを選ぶ → **ブラウザ · Web** —— ブラウザで一人ひとりのソウルが同時に生きる様子を見られます。CLI なら `neonrp web --project examples/multi-agent/stoneford-elena`。**multi-agent はブラウザ（`neonrp web`）が一番。TUI は使わないでください。** Elena にはホスト版の soul 会話デモもあります:**[Elena と話す →](https://hub.worldlines.gg/play/souls/elena)**
+
+<p align="center">
+  <img src="./assets/web-play.png" alt="Stoneford · Elena — マルチエージェント Web プレイ" width="860" />
+</p>
+<p align="center"><em>ブラウザプレイ（<code>neonrp web</code>）—— world-agent が語り、Elena と Rowan がそれぞれ知覚・移動・行動し、エージェントマップが誰がどこにいるかを示す。</em></p>
 
 ## なぜ multi-agent なのか
 
@@ -21,7 +26,7 @@ world-agent  →  active souls (Elena, Rowan)  →  world-agent
 ソウルは隔離されたアクター —— フォルダを共有せず、世界状態を所有しません。Elena は3セッション前のあなたの言葉を覚えており、Rowan はあなたがいてもいなくても自分の目的を追います。これが**村 / 社会**モデルの実践です。
 
 ```bash
-neonrp tui --from examples/orch/stoneford-elena
+neonrp web --project examples/multi-agent/stoneford-elena
 ```
 
 ## ソウル

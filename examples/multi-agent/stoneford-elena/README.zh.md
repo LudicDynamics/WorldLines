@@ -4,7 +4,12 @@
 
 > 引擎模式:**multi-agent**。石津镇世界,现在住进了活的灵魂 —— **Elena**(艾莲娜)和 **Rowan**(罗恩)—— 她们自己思考、记忆、行动。
 
-> **本地运行**(TUI / CLI):`neonrp tui --from examples/orch/stoneford-elena`。Elena 另有在线 soul 对话:**[和 Elena 对话 →](https://hub.worldlines.gg/play/souls/elena)**
+> **怎么玩(推荐):** 打开 **WorldLines Launcher** → **新游戏** → 选 **石津镇 · 艾莲娜** → 选好角色 → **浏览器 · Web** —— 在浏览器里看每个灵魂同时活着。命令行:`neonrp web --project examples/multi-agent/stoneford-elena`。**multi-agent 在浏览器(`neonrp web`)里体验最好,不要用 TUI。** Elena 另有在线 soul 对话:**[和 Elena 对话 →](https://hub.worldlines.gg/play/souls/elena)**
+
+<p align="center">
+  <img src="./assets/web-play.png" alt="石津镇 · 艾莲娜 — 多智能体 Web 游玩" width="860" />
+</p>
+<p align="center"><em>浏览器游玩(<code>neonrp web</code>)—— world-agent 负责叙事,艾莲娜与罗文各自感知、移动、行动,智能体地图标出谁在哪里。</em></p>
 
 ## 为什么这是 multi-agent
 
@@ -21,7 +26,7 @@ world-agent  →  active souls (Elena, Rowan)  →  world-agent
 Soul 是隔离的 actor —— 不共享文件夹,也不拥有世界状态。Elena 记得你三天前说过的话;Rowan 追逐自己的目的,不管你在不在。这就是**村庄/社会**模型的实践。
 
 ```bash
-neonrp tui --from examples/orch/stoneford-elena
+neonrp web --project examples/multi-agent/stoneford-elena
 ```
 
 ## 灵魂

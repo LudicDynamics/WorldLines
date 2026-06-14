@@ -4,7 +4,7 @@
 
 > エンジンモード:**multi-agent**。和風ミステリー · タイムループ · イスの神話。一つの島に**七つの生きたソウル** —— WorldLines 最も豊かなマルチエージェント社会。CoC 式判定（d20 戦闘ではない）。
 
-> **ローカル実行**（TUI / CLI）—— multi-agent はホストプレイ非対応。`neonrp tui --from examples/multi-agent/kagura-island`
+> **ローカル実行**（TUI / CLI）—— multi-agent はホストプレイ非対応。`neonrp web --project examples/multi-agent/kagura-island`
 
 ## なぜ multi-agent なのか
 
@@ -19,7 +19,7 @@ world-agent  →  active souls (このターンのアクター)  →  world-agen
 `playthrough.json` が毎ターンどのソウルがアクティブかを宣言します。ソウルは隔離されたアクター —— ピアメッシュではなく、world-agent が**主導するアクター集合**で、世界クローズ境界は一つだけ。島は覚えており、ループは回り、各ソウルが自分の秘密を抱えてそれを通り抜けます。
 
 ```bash
-neonrp tui --from examples/multi-agent/kagura-island
+neonrp web --project examples/multi-agent/kagura-island
 ```
 
 ## 七つのソウル

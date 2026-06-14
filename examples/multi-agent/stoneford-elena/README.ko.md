@@ -4,7 +4,12 @@
 
 > 엔진 모드: **multi-agent**. Stoneford 세계에 살아있는 소울 —— **Elena** 와 **Rowan** —— 이 깃든다. 그들은 스스로 생각하고, 기억하고, 행동한다.
 
-> **로컬 실행**(TUI / CLI):`neonrp tui --from examples/orch/stoneford-elena`. Elena는 호스티드 소울 대화 데모도 있습니다:**[Elena와 대화 →](https://hub.worldlines.gg/play/souls/elena)**
+> **플레이 방법(권장):** **WorldLines Launcher** 열기 → **새 게임** → **Stoneford · Elena** 선택 → 캐릭터 선택 → **브라우저 · Web** —— 브라우저에서 모든 소울이 동시에 살아 움직이는 모습을 보세요. CLI는 `neonrp web --project examples/multi-agent/stoneford-elena`. **multi-agent는 브라우저(`neonrp web`)가 가장 좋습니다. TUI는 쓰지 마세요.** Elena는 호스티드 소울 대화 데모도 있습니다:**[Elena와 대화 →](https://hub.worldlines.gg/play/souls/elena)**
+
+<p align="center">
+  <img src="./assets/web-play.png" alt="Stoneford · Elena — 멀티에이전트 Web 플레이" width="860" />
+</p>
+<p align="center"><em>브라우저 플레이(<code>neonrp web</code>) —— world-agent가 서술하고, Elena와 Rowan이 각자 인지·이동·행동하며, 에이전트 맵이 누가 어디 있는지 보여준다.</em></p>
 
 ## 왜 multi-agent인가
 
@@ -21,7 +26,7 @@ world-agent  →  active souls (Elena, Rowan)  →  world-agent
 소울은 격리된 액터 —— 폴더를 공유하지 않고 세계 상태를 소유하지 않습니다. Elena는 3세션 전 당신의 말을 기억하고, Rowan은 당신이 있든 없든 자신의 목적을 추구합니다. 이것이 **마을 / 사회** 모델의 실천입니다.
 
 ```bash
-neonrp tui --from examples/orch/stoneford-elena
+neonrp web --project examples/multi-agent/stoneford-elena
 ```
 
 ## 소울

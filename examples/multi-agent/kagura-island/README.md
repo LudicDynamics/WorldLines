@@ -4,7 +4,7 @@
 
 > Engine mode: **multi-agent**. Japanese-folk mystery · time loop · Yith mythos. **Seven living souls** on one island — WorldLines' richest multi-agent society. CoC-style checks (not d20 combat).
 
-> **Runs locally** (TUI / CLI) — multi-agent is not on hosted play. `neonrp tui --from examples/multi-agent/kagura-island`
+> **Runs locally** (TUI / CLI) — multi-agent is not on hosted play. `neonrp web --project examples/multi-agent/kagura-island`
 
 ## What makes this multi-agent
 
@@ -19,7 +19,7 @@ world-agent  →  active souls (this turn's actors)  →  world-agent
 `playthrough.json` declares which souls are active each turn. Souls are isolated actors — not a peer mesh, but an **owner-directed actor set** with one world-close boundary. The island remembers; the loop turns; each soul carries its own secrets through it.
 
 ```bash
-neonrp tui --from examples/multi-agent/kagura-island
+neonrp web --project examples/multi-agent/kagura-island
 ```
 
 ## The seven souls

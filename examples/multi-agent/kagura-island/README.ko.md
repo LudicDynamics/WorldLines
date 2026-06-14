@@ -4,7 +4,7 @@
 
 > 엔진 모드: **multi-agent**. 일본풍 미스터리 · 타임 루프 · 이스 신화. 한 섬에 **일곱 살아있는 소울** —— WorldLines에서 가장 풍부한 멀티에이전트 사회. CoC 식 판정(d20 전투 아님).
 
-> **로컬 실행**(TUI / CLI)—— multi-agent는 호스티드 플레이 미지원. `neonrp tui --from examples/multi-agent/kagura-island`
+> **로컬 실행**(TUI / CLI)—— multi-agent는 호스티드 플레이 미지원. `neonrp web --project examples/multi-agent/kagura-island`
 
 ## 왜 multi-agent인가
 
@@ -19,7 +19,7 @@ world-agent  →  active souls (이번 턴의 액터)  →  world-agent
 `playthrough.json` 이 매 턴 어떤 소울이 활성인지 선언합니다. 소울은 격리된 액터 —— 피어 메시가 아니라 world-agent가 **주도하는 액터 집합**으로, 세계 클로즈 경계는 하나뿐입니다. 섬은 기억하고, 루프는 돌고, 각 소울은 자신의 비밀을 안고 그것을 통과합니다.
 
 ```bash
-neonrp tui --from examples/multi-agent/kagura-island
+neonrp web --project examples/multi-agent/kagura-island
 ```
 
 ## 일곱 소울
