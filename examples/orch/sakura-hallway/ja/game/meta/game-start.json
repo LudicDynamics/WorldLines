@@ -1,0 +1,27 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "桜坂の廊下 · Sakura Hallway",
+  "summary": "四月、桜満開の坂道。一人の女の子が坂の中ほどに立って、桜を見上げている。桜がすべて散る前に、旧校舎の廊下である人に本心を伝えれば——その願いは叶うという。",
+  "startup": {
+    "read_first": [
+      "{{DATA_DIR}}/meta/run_state.json",
+      "{{DATA_DIR}}/location/sakura-slope.json",
+      "{{DATA_DIR}}/npc/saya.json",
+      "{{DATA_DIR}}/npc/fumi.json",
+      "{{DATA_DIR}}/npc/senpai.json",
+      "{{DATA_DIR}}/rules/affection.md"
+    ],
+    "start_location": "sakura-slope",
+    "agent_routing": {
+      "entry_agent": "world-agent",
+      "router_type": "sticky"
+    },
+    "opening_scene": "【桜坂の廊下】\n\n四月。始業式の朝、きみは桜の植わったあの坂道を上っていく。風が吹くと、花びらが雪のように落ちてくる。\n\n坂の中ほどに一人の女の子が立っている。鞄を背負い、桜を見上げていて、鞄の横ポケットからは角の折れたスケッチブックが半分のぞいている。予鈴はもう鳴ったのに、彼女は行く気配がない。\n\n花びらが彼女の肩に落ちたとき、彼女はふいに振り返ってきみを見た。何か言いかけて——風が強くて、聞き取れなかった。\n\n(ここには戦闘も、クエストもない。あるのは、あと少しで言えそうで言えなかった言葉だけ。桜が散りきる前に、きみは誰に本心を伝えたい?)",
+    "opening_choices": [
+      "歩み寄って、今なんて言ったのか訊く",
+      "何も言わず、一緒に桜を見上げる",
+      "先に坂を上って教室へ、気づかなかったふりをする"
+    ]
+  }
+}

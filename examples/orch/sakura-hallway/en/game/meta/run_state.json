@@ -1,0 +1,15 @@
+{
+  "id": "run_state",
+  "kind": "meta",
+  "name": "Run State",
+  "world_id": "sakura-hallway",
+  "location": "sakura-slope",
+  "turn_count": 0,
+  "day": 1,
+  "season": "April · Cherry Blossoms in Full Bloom",
+  "petals_remaining": 100,
+  "focus_character": null,
+  "timeline": "first-meeting",
+  "last_beat": "arrival",
+  "story_over": false
+}

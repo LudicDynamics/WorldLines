@@ -1,0 +1,27 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "樱坂走廊 · Sakura Hallway",
+  "summary": "四月,樱花满开的坡道。一个女孩站在坂道中央抬头望着樱花。在樱花全部散落之前,在旧校舍走廊向一个人说出真心话——据说那个愿望就会实现。",
+  "startup": {
+    "read_first": [
+      "{{DATA_DIR}}/meta/run_state.json",
+      "{{DATA_DIR}}/location/sakura-slope.json",
+      "{{DATA_DIR}}/npc/saya.json",
+      "{{DATA_DIR}}/npc/fumi.json",
+      "{{DATA_DIR}}/npc/senpai.json",
+      "{{DATA_DIR}}/rules/affection.md"
+    ],
+    "start_location": "sakura-slope",
+    "agent_routing": {
+      "entry_agent": "world-agent",
+      "router_type": "sticky"
+    },
+    "opening_scene": "【樱坂走廊】\n\n四月。开学第一天的早晨,你走上那条种满樱花的坡道。风一吹,花瓣像下雪一样落下来。\n\n坡道中央站着一个女孩。她背着书包,抬头望着樱花,书包侧袋里露出半本卷了角的素描本。预备铃已经响过了,她却没有要走的意思。\n\n花瓣落在她肩上的时候,她忽然转过头看你,像是要说什么——风太大,你没能听清。\n\n(这里没有战斗,没有任务。只有那些差点说出口的话。樱花散尽之前,你想对谁说出真心话?)",
+    "opening_choices": [
+      "走过去,问她刚才说了什么",
+      "什么都不说,和她一起抬头看樱花",
+      "先上坡去教室,假装没注意到"
+    ]
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "version": "1.0",
+  "execution_mode": "orchestrator",
+  "note": "引魂灯·盛世缘 · 国风乙女情感叙事编排。world-agent 是 Layer 1(叙事主控):推进宫廷场景与引魂灯灯火、替四位皇子发声、按时点燃三处抉择(pivot)、调 heart 判定情丝、把情丝/心迹(vq 四轴)/记忆写回 npc + run_state。heart 只做「情丝」判定返回 JSON,world-agent 负责落盘。没有战斗、没有掷骰。",
+  "agents": [
+    {
+      "id": "world-agent",
+      "name": "Narrator",
+      "agent_path": ".claude/agents/world-agent.md",
+      "role": "Layer 1 — 叙事主控:场景/灯火推进 + 写回情丝/心迹/记忆 + 替皇子发声 + 点燃抉择",
+      "description": "推进盛世宫廷的时间线(引魂灯灯火渐弱),替萧景琰/萧景桓/萧景瑜/萧景玥发声,在第 2/4/7 夜抛出三处命运抉择,每个有分量的玩家言行调 heart 判定情丝增减,**把新情丝、四轴心迹与这句话写回 game/npc/<id>.json,并更新 run_state(夜数/剩余灯火/焦点皇子/pivot_flags/vq)**,一拍一停等玩家。所有玩家输入先经过它。",
+      "read_globs": [
+        "game/**"
+      ],
+      "write_globs": [
+        "game/meta/run_state.json",
+        "game/meta/active-agent.json",
+        "game/npc/*.json"
+      ]
+    },
+    {
+      "id": "heart",
+      "name": "Heart (情丝判定)",
+      "agent_path": ".claude/agents/heart.md",
+      "role": "Layer 2 — 情丝/心迹判定",
+      "description": "给定一句玩家言行与对象皇子,结合该皇子性格、隐秘与当前情丝,返回一个结构化「情丝」判定 JSON:情丝增减(delta)、是否触达里程碑、四轴心迹的微小偏移、一句内部理由。绝不写散文、绝不写文件(world-agent 落盘情丝/心迹/记忆)。Temp 0.4。",
+      "read_globs": [
+        "game/npc/*.json",
+        "game/rules/affection.md",
+        "game/rules/endings.md",
+        "game/meta/run_state.json"
+      ],
+      "write_globs": []
+    }
+  ],
+  "routing_doctrine": {
+    "all_player_input_passes_through": "world-agent",
+    "all_affection_checks_route_to": "heart",
+    "specialists_return_json_world_agent_persists": true,
+    "no_specialist_writes_prose": true,
+    "max_call_chain_depth_per_turn": 3
+  }
+}

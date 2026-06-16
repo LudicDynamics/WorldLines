@@ -1,1 +1,4 @@
 .DS_Store
+
+# Per-world runtime config (machine-local; never commit, keys via *_API_KEY env)
+**/.neonrp/config.json

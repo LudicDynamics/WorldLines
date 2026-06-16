@@ -1,0 +1,27 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "Sakura Hallway",
+  "summary": "April, a slope where the cherry blossoms are in full bloom. A girl stands in the middle of the slope, looking up at the blossoms. Before all the petals have fallen, speak your true feelings to someone in the old school hallway — and they say that wish will come true.",
+  "startup": {
+    "read_first": [
+      "{{DATA_DIR}}/meta/run_state.json",
+      "{{DATA_DIR}}/location/sakura-slope.json",
+      "{{DATA_DIR}}/npc/saya.json",
+      "{{DATA_DIR}}/npc/fumi.json",
+      "{{DATA_DIR}}/npc/senpai.json",
+      "{{DATA_DIR}}/rules/affection.md"
+    ],
+    "start_location": "sakura-slope",
+    "agent_routing": {
+      "entry_agent": "world-agent",
+      "router_type": "sticky"
+    },
+    "opening_scene": "【Sakura Hallway】\n\nApril. On the first morning of the new term, you walk up the slope lined with cherry trees. One gust of wind, and the petals fall like snow.\n\nIn the middle of the slope stands a girl. Her schoolbag on her back, she looks up at the blossoms; from the side pocket of her bag, half a dog-eared sketchbook peeks out. The warning bell has already rung, yet she shows no sign of leaving.\n\nWhen a petal lands on her shoulder, she suddenly turns to look at you, as if about to say something — the wind is too strong, and you don't catch it.\n\n(There is no combat here, no quests. Only the words that almost get said. Before the blossoms have all fallen, to whom do you want to speak your true feelings?)",
+    "opening_choices": [
+      "Walk over and ask her what she just said",
+      "Say nothing, and look up at the blossoms together with her",
+      "Head up the slope to class, pretending you didn't notice"
+    ]
+  }
+}

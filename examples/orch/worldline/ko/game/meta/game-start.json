@@ -1,0 +1,27 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "世界线收束 · Worldline",
+  "summary": "深夜,一台能发短信到过去的旧手机。你的朋友昏迷不醒。改一条短信,过去重写,世界线漂移——但有些事会收束回来,有些代价你想不到。",
+  "startup": {
+    "read_first": [
+      "{{DATA_DIR}}/meta/run_state.json",
+      "{{DATA_DIR}}/meta/worldline_state.json",
+      "{{DATA_DIR}}/meta/timeline.json",
+      "{{DATA_DIR}}/location/your-room.json",
+      "{{DATA_DIR}}/item/old-phone.json"
+    ],
+    "start_location": "your-room",
+    "agent_routing": {
+      "entry_agent": "world-agent",
+      "router_type": "sticky"
+    },
+    "opening_scene": "凌晨一点。\n\n你刚从医院回来。澄还躺在那张床上,呼吸机的节奏数着你听不懂的拍子。三天了。\n\n桌上那台旧翻盖手机又亮了。它早该是块废铁——可它收得到信号,而且能发短信。不是发给现在的谁,是发给『那一天』的人。\n\n你只要写下一条短信,过去就会按它改写,现在……会变成另一条世界线。\n\n屏幕角落有一行小字:\n\n  当前分歧率 0.337 · α(原线)\n\n你能改的不多。那辆货车的刹车是坏的,这个改不了。但澄为什么会留在路口、你为什么会迟到——这些,也许能。",
+    "opening_choices": [
+      "看看现在的时间线(事件数据库)",
+      "查看这台手机的规则",
+      "给三天前的澄发短信:别在路口等,去街角便利店等我",
+      "给三天前的自己发短信:别加班,早点走"
+    ]
+  }
+}

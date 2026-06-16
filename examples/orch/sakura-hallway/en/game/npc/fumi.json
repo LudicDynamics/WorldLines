@@ -1,0 +1,19 @@
+{
+  "kind": "npc",
+  "affection": 0,
+  "affection_level": "Stranger",
+  "mood": "Waiting for someone who can talk about that novel with no ending.",
+  "memory": [],
+  "id": "fumi",
+  "name": "Fumi",
+  "age": "second year",
+  "summary": "A regular at the library. Quiet, but once she starts talking about a book she loves she can't stop. She is reading a novel with no ending — they say the author stopped writing halfway through.",
+  "personality": "Introverted, sensitive, precise with words; she hides everything she never said inside the name on a lending card.",
+  "tells": "When she doesn't know what to say she looks down and turns a page; when she truly cares she falls silent for a long time instead.",
+  "likes": [
+    "quiet",
+    "stories with no ending",
+    "being understood"
+  ],
+  "cares_about": "the ending of that novel — and someone willing to imagine the ending with her."
+}

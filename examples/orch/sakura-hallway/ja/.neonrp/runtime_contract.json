@@ -1,0 +1,34 @@
+{
+  "data_dir": "{{DATA_DIR}}",
+  "router": {
+    "agent_id": "world-agent",
+    "state_file": "meta/active-agent.json",
+    "startup_file": "meta/game-start.json",
+    "execution_mode": "orchestrator"
+  },
+  "routing": {
+    "location_source": {
+      "entity_id": "player",
+      "field": "location"
+    },
+    "domain_agent_map": {
+      "sakura-slope": "world-agent",
+      "old-hallway": "world-agent",
+      "library": "world-agent"
+    },
+    "fallback_agent": "world-agent"
+  },
+  "context_pack": {
+    "seed_entity_ids": [
+      "player",
+      "run_state",
+      "active-agent",
+      "game-start",
+      "sakura-slope",
+      "saya",
+      "fumi",
+      "senpai"
+    ],
+    "max_entities": 12
+  }
+}

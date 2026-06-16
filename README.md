@@ -26,7 +26,7 @@
 
 **What can you do with it?**
 
-Step into a world that remembers everything you do. Give siege orders in a grey-fog northern port. Explore every carriage of a train that never reaches the station. Sit across from an amnesiac healer who really remembers every word you say. Create a world in minutes — set its rules, its pace, its NPCs — or browse a public catalog and jump straight in. This is a multi-agent society running in real time: many AI souls and you, in one world, shaping it together.
+Step into a world that remembers everything you do. Give siege orders in a grey-fog northern port. Sit across from an amnesiac healer who really remembers every word you say. Create a world in minutes — set its rules, its pace, its NPCs — or browse a public catalog and jump straight in. This is a multi-agent society running in real time: many AI souls and you, in one world, shaping it together.
 
 It is an agentic simulation engine. A world-agent connects to place-agents; each place-agent hosts soul-agents. Everyone here is an agent. You join through an avatar terminal. This is not a chatbot, not a scripted game.
 
@@ -142,7 +142,6 @@ A grey-fog northern river port. Classic-fantasy TRPG · d20 dice · **10-agent o
 
 | World | Play style | Live Demo |
 |---|---|---|
-| **Dark Train** | Open world — do anything, the world remembers | [Play →](https://hub.worldlines.gg/play/worlds/dark-train) |
 | **Goblin Ambush** | 3-layer dungeon — fight through 3 boss goblins | [Source →](./examples/orch/goblin-ambush) |
 | **Worldline** | Time-drift narrative — text the past | [Source →](./examples/orch/worldline) |
 | **Sakura Hallway** | A school love story · emotional narrative | [Source →](./examples/orch/sakura-hallway) |
@@ -159,19 +158,18 @@ neonrp web --project examples/multi-agent/kagura-island     # 7 souls — Japane
 
 # orch (neonrp tui)
 neonrp tui --from examples/orch/stoneford           # flagship siege TRPG
-neonrp tui --from examples/orch/dark-train          # open world
 neonrp tui --from examples/orch/goblin-ambush/zh    # 3-layer dungeon
 neonrp tui --from examples/orch/sakura-hallway/zh   # school-life narrative
 ```
 
-Play online (hosted `fast`/`orch`): [Stoneford](https://hub.worldlines.gg/play/worlds/stoneford) · [Dark Train](https://hub.worldlines.gg/play/worlds/dark-train) · [Talk to Elena](https://hub.worldlines.gg/play/souls/elena). Multi-agent worlds (Kagura, Stoneford·Elena) run locally.
+Play online (hosted `fast`/`orch`): [Stoneford](https://hub.worldlines.gg/play/worlds/stoneford) · [Talk to Elena](https://hub.worldlines.gg/play/souls/elena). Multi-agent worlds (Kagura, Stoneford·Elena) run locally.
 
 ### Claude Code / MCP
 
 Open Claude Code inside any world directory and the agents are there:
 
 ```
-cd examples/orch/dark-train
+cd examples/orch/stoneford
 claude
 @world-agent 开始游戏
 ```

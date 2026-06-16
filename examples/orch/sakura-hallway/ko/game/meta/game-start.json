@@ -1,0 +1,27 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "벚꽃 비탈 복도 · Sakura Hallway",
+  "summary": "사월, 벚꽃이 만개한 비탈. 한 소녀가 비탈 한가운데 서서 고개를 들어 벚꽃을 바라본다. 벚꽃이 모두 지기 전에, 구 교사 복도에서 한 사람에게 진심을 말하면 —— 그 소원이 이루어진다고 한다.",
+  "startup": {
+    "read_first": [
+      "{{DATA_DIR}}/meta/run_state.json",
+      "{{DATA_DIR}}/location/sakura-slope.json",
+      "{{DATA_DIR}}/npc/saya.json",
+      "{{DATA_DIR}}/npc/fumi.json",
+      "{{DATA_DIR}}/npc/senpai.json",
+      "{{DATA_DIR}}/rules/affection.md"
+    ],
+    "start_location": "sakura-slope",
+    "agent_routing": {
+      "entry_agent": "world-agent",
+      "router_type": "sticky"
+    },
+    "opening_scene": "【벚꽃 비탈 복도】\n\n사월. 개학 첫날 아침, 너는 벚나무가 가득 심긴 그 비탈을 오른다. 바람이 한 번 불자, 꽃잎이 눈처럼 떨어진다.\n\n비탈 한가운데에 한 소녀가 서 있다. 가방을 메고 고개를 들어 벚꽃을 바라보는데, 가방 옆주머니로 귀퉁이가 말린 스케치북이 반쯤 비어져 나와 있다. 예비종은 이미 울렸는데도, 그녀는 갈 생각이 없어 보인다.\n\n꽃잎이 그녀의 어깨에 내려앉을 때, 그녀가 문득 고개를 돌려 너를 본다, 무언가 말하려는 듯이 —— 바람이 너무 세서, 너는 알아듣지 못했다.\n\n(여기에는 전투도, 임무도 없다. 오직 끝내 입 밖으로 내지 못한 말들이 있을 뿐. 벚꽃이 다 지기 전에, 너는 누구에게 진심을 말하고 싶은가?)",
+    "opening_choices": [
+      "다가가서, 방금 무슨 말을 했는지 묻는다",
+      "아무 말도 하지 않고, 그녀와 함께 고개를 들어 벚꽃을 본다",
+      "먼저 비탈을 올라 교실로 가며, 못 본 척한다"
+    ]
+  }
+}

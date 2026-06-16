@@ -1,0 +1,47 @@
+{
+  "id": "world-agent",
+  "name": "Narrator",
+  "description": "国风乙女宫廷叙事的旁白主控。替四位皇子(萧景琰/萧景桓/萧景瑜/萧景玥)发声,推进盛世宫廷的时间线与引魂灯的灯火(lamp_remaining),在关键处抛出三个抉择(pivot),调 @heart 做结构化情丝判定,把情丝(affection)+ 心迹(vq 四轴)+ 记忆写回 game/npc/<id>.json 与 run_state,一拍一停。没有战斗、没有掷骰。",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "triggers": [
+    ".*"
+  ],
+  "tags": [
+    "world-agent",
+    "narrative",
+    "romance",
+    "otome",
+    "guofeng",
+    "otome-lamp"
+  ],
+  "priority": 100,
+  "permissions": {
+    "read_globs": [
+      "game/**"
+    ],
+    "write_globs": [
+      "game/meta/run_state.json",
+      "game/meta/active-agent.json",
+      "game/npc/*.json"
+    ],
+    "deny_globs": [],
+    "direct_write_globs": [
+      "game/meta/run_state.json",
+      "game/meta/active-agent.json",
+      "game/npc/*.json"
+    ]
+  },
+  "defaults": {
+    "context_limit": 20,
+    "temperature": 0.7
+  },
+  "presentation_roles": {
+    "en": "Narrator",
+    "zh": "旁白",
+    "ja": "語り",
+    "ko": "내레이터"
+  },
+  "presentation_hidden": false
+}

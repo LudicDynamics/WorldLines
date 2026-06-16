@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "execution_mode": "orchestrator",
+  "note": "樱坂走廊 · 情感叙事编排。world-agent 是 Layer 1(叙事主控):推进场景与时间线、替小夜/文/前辈发声、调 heart 判定好感、把好感与记忆写回 npc + run_state。heart 只做「心动」判定返回 JSON,world-agent 负责落盘。没有战斗、没有掷骰。",
+  "agents": [
+    {
+      "id": "world-agent",
+      "name": "Narrator",
+      "agent_path": ".claude/agents/world-agent.md",
+      "role": "Layer 1 — 叙事主控:场景/时间线推进 + 写回好感与记忆 + 替角色发声",
+      "description": "推进樱花季的时间线(樱花飘落的速度),替小夜、文、前辈发声,每个有意义的玩家言行调 heart 判定好感增减,**把新好感与这句话写回 game/npc/<id>.json,并更新 run_state(天数/剩余花瓣/焦点角色)**,一拍一停等玩家。所有玩家输入先经过它。",
+      "read_globs": [
+        "game/**"
+      ],
+      "write_globs": [
+        "game/meta/run_state.json",
+        "game/meta/active-agent.json",
+        "game/npc/*.json"
+      ]
+    },
+    {
+      "id": "heart",
+      "name": "Heart (心动判定)",
+      "agent_path": ".claude/agents/heart.md",
+      "role": "Layer 2 — 好感/心动判定",
+      "description": "给定一句玩家言行与对象角色,结合该角色性格与当前好感,返回一个结构化「心动」判定 JSON:好感增减(delta)、是否触达里程碑、一句内部理由。绝不写散文、绝不写文件(world-agent 落盘好感/记忆)。Temp 0.4。",
+      "read_globs": [
+        "game/npc/*.json",
+        "game/rules/affection.md",
+        "game/meta/run_state.json"
+      ],
+      "write_globs": []
+    }
+  ],
+  "routing_doctrine": {
+    "all_player_input_passes_through": "world-agent",
+    "all_affection_checks_route_to": "heart",
+    "specialists_return_json_world_agent_persists": true,
+    "no_specialist_writes_prose": true,
+    "max_call_chain_depth_per_turn": 3
+  }
+}

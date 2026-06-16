@@ -1,0 +1,19 @@
+{
+  "kind": "npc",
+  "affection": 0,
+  "affection_level": "Stranger",
+  "mood": "Before the blossoms fall and graduation takes them away, waiting for one chance to finish saying it.",
+  "memory": [],
+  "id": "senpai",
+  "name": "Senpai",
+  "age": "third year · about to graduate",
+  "summary": "A third-year about to graduate. After class they often stand alone by the window at the end of the old school hallway. About to leave this school, with one line that never got said in time.",
+  "personality": "Gentle, restrained, turns what's on their mind into a joke; the more important the words, the more lightly they say them.",
+  "tells": "When they want to speak their true feelings, they first look out at that cherry-blossom slope; then they swallow the words back and smile.",
+  "likes": [
+    "dusk in the hallway",
+    "not being pressed for answers",
+    "being remembered"
+  ],
+  "cares_about": "the one line never said — once the blossoms fall, there will never be a chance to say it again."
+}

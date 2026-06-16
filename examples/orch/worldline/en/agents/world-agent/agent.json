@@ -1,0 +1,38 @@
+{
+  "id": "world-agent",
+  "name": "Narrator",
+  "description": "Sole agent for the worldline-shift scene (fast mode). Reads timeline + worldline_state, parses the player's text-to-the-past into a concrete timeline change, computes drift + new divergence + attractor band ITSELF, persists timeline + worldline_state each turn, narrates the shifted worldline, and offers the next message. No specialists.",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "triggers": [".*"],
+  "tags": ["world-agent", "worldline", "timeline", "narrative"],
+  "priority": 100,
+  "permissions": {
+    "read_globs": ["game/**"],
+    "write_globs": [
+      "game/meta/run_state.json",
+      "game/meta/active-agent.json",
+      "game/meta/timeline.json",
+      "game/meta/worldline_state.json"
+    ],
+    "deny_globs": [],
+    "direct_write_globs": [
+      "game/meta/run_state.json",
+      "game/meta/active-agent.json",
+      "game/meta/timeline.json",
+      "game/meta/worldline_state.json"
+    ]
+  },
+  "defaults": {
+    "context_limit": 20,
+    "temperature": 0.7
+  },
+  "presentation_roles": {
+    "en": "Narrator",
+    "zh": "叙述者",
+    "ja": "語り手",
+    "ko": "내레이터"
+  },
+  "presentation_hidden": false
+}

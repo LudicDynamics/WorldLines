@@ -1,0 +1,17 @@
+{
+  "id": "old-hallway",
+  "kind": "location",
+  "name": "Old School Hallway",
+  "summary": "The second-floor hallway of the old school building, where no one comes after class. The wooden floor creaks, the setting sun slants in through a row of old windows, and at the far end is a window that is always half open.",
+  "npcs": [
+    "senpai"
+  ],
+  "details": {
+    "mood": "Sunset, dust drifting in the light, the sounds of the distant field never reaching this far. Footsteps echo down the empty hallway.",
+    "features": [
+      "Someone once carved a small line of words into the windowsill with a pencil, now almost too faint to read.",
+      "The half-open window at the end of the hallway faces that cherry-blossom slope.",
+      "This is the very place where, legend says, 'if you speak your true feelings, your wish will come true'."
+    ]
+  }
+}

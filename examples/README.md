@@ -29,7 +29,6 @@ play offers `fast` + `orch`.
 | World | Play style | Mode | Online |
 |---|---|---|---|
 | [Stoneford](./orch/stoneford) | Flagship siege TRPG — 10-agent orchestrated village | **orch** | [Play →](https://hub.worldlines.gg/play/worlds/stoneford) |
-| [Dark Train](./orch/dark-train) | Open world — do anything, the world remembers | orch | [Play →](https://hub.worldlines.gg/play/worlds/dark-train) |
 | [Goblin Ambush](./orch/goblin-ambush) | 3-layer dungeon — fight 3 boss goblins | fast / orch | — |
 | [Worldline](./orch/worldline) | Time-drift — text the past, watch timelines rewrite | orch | — |
 | [Sakura Hallway](./orch/sakura-hallway) | A school love story · emotional narrative | orch | — |

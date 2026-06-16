@@ -1,0 +1,35 @@
+{
+  "data_dir": "{{DATA_DIR}}",
+  "router": {
+    "agent_id": "world-agent",
+    "state_file": "meta/active-agent.json",
+    "startup_file": "meta/game-start.json",
+    "execution_mode": "orchestrator"
+  },
+  "routing": {
+    "location_source": {
+      "entity_id": "player",
+      "field": "location"
+    },
+    "domain_agent_map": {
+      "gyoen-pavilion": "world-agent",
+      "lamp-pavilion": "world-agent",
+      "donggong-study": "world-agent"
+    },
+    "fallback_agent": "world-agent"
+  },
+  "context_pack": {
+    "seed_entity_ids": [
+      "player",
+      "run_state",
+      "active-agent",
+      "game-start",
+      "gyoen-pavilion",
+      "crown-prince",
+      "second-prince",
+      "third-prince",
+      "fourth-prince"
+    ],
+    "max_entities": 14
+  }
+}

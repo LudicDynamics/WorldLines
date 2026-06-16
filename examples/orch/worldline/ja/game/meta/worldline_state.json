@@ -1,0 +1,15 @@
+{
+  "id": "worldline_state",
+  "kind": "meta",
+  "name": "Worldline State",
+  "divergence": 0.337,
+  "attractor": "α",
+  "attractor_name": "原线",
+  "history": [],
+  "bands": {
+    "α": "0.000 – 0.999 · 原线:澄昏迷,灰色的日常。",
+    "β": "1.000 – 1.999 · 澄醒了,但那天街角起了一场不该有的火,另一个人因此出事。",
+    "γ": "≥ 2.000 · 谁都没事——代价是你不再被任何人记得。"
+  },
+  "_note": "divergence < 1.0 = α 域;1.0–1.999 = β 域;≥2.0 = γ 域。worldline-agent 重算 divergence 与所属域;drift-agent 在每次改动后给出 delta。"
+}

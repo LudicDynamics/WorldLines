@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "execution_mode": "orchestrator",
+  "note": "벚꽃 비탈 복도 · 감정 내러티브 편성. world-agent는 Layer 1(내러티브 주제어): 장면과 타임라인을 진행하고, 사야/후미/선배를 대신해 발화하며, heart를 호출해 호감을 판정하고, 호감과 기억을 npc + run_state에 기록한다. heart는 「설렘」 판정만 하여 JSON을 반환하고, world-agent가 저장을 담당한다. 전투도, 주사위도 없다.",
+  "agents": [
+    {
+      "id": "world-agent",
+      "name": "Narrator",
+      "agent_path": ".claude/agents/world-agent.md",
+      "role": "Layer 1 — 내러티브 주제어: 장면/타임라인 진행 + 호감과 기억 기록 + 캐릭터 대신 발화",
+      "description": "벚꽃 시즌의 타임라인(벚꽃이 지는 속도)을 진행하고, 사야, 후미, 선배를 대신해 발화하며, 의미 있는 모든 플레이어의 말과 행동마다 heart를 호출해 호감 증감을 판정하고, **새 호감과 이 말을 game/npc/<id>.json에 기록하며, run_state(날짜/남은 꽃잎/포커스 캐릭터)를 갱신하고**, 한 박자에 한 번 멈춰 플레이어를 기다린다. 모든 플레이어 입력은 먼저 이것을 거친다.",
+      "read_globs": [
+        "game/**"
+      ],
+      "write_globs": [
+        "game/meta/run_state.json",
+        "game/meta/active-agent.json",
+        "game/npc/*.json"
+      ]
+    },
+    {
+      "id": "heart",
+      "name": "Heart (설렘 판정)",
+      "agent_path": ".claude/agents/heart.md",
+      "role": "Layer 2 — 호감/설렘 판정",
+      "description": "플레이어의 한마디 말과 행동, 그리고 대상 캐릭터를 받아, 해당 캐릭터의 성격과 현재 호감도를 결합해, 구조화된 「설렘」 판정 JSON을 반환한다: 호감 증감(delta), 마일스톤 도달 여부, 한 줄 내부 이유. 절대 산문을 쓰지 않고, 절대 파일을 쓰지 않는다(world-agent가 호감/기억을 저장한다). Temp 0.4.",
+      "read_globs": [
+        "game/npc/*.json",
+        "game/rules/affection.md",
+        "game/meta/run_state.json"
+      ],
+      "write_globs": []
+    }
+  ],
+  "routing_doctrine": {
+    "all_player_input_passes_through": "world-agent",
+    "all_affection_checks_route_to": "heart",
+    "specialists_return_json_world_agent_persists": true,
+    "no_specialist_writes_prose": true,
+    "max_call_chain_depth_per_turn": 3
+  }
+}

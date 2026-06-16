@@ -1,0 +1,11 @@
+{
+  "id": "run_state",
+  "kind": "meta",
+  "name": "Run State",
+  "world_id": "worldline",
+  "location": "your-room",
+  "turn_count": 0,
+  "messages_sent": 0,
+  "last_action": "returned_from_hospital",
+  "pending_drift": null
+}
