@@ -269,6 +269,27 @@ Layer 3: (future) dice/rules tool-agents
 
 ---
 
+## Paper & Citation
+
+The framework behind WorldLines — **Orchestrated Reality** — formalizes an LLM-driven game world for a human player as a *Parameterized-Action POMDP*, with a Plan–Diff–Validate–Apply pipeline that commits schema-validated JSON deltas.
+
+> **[Orchestrated Reality: From Role-Play to Living, Playable Game Worlds](https://arxiv.org/abs/2606.16014)**
+> Yuhang Huang, Chenmiao Li, Chaowei Fang. arXiv:2606.16014 (2026).
+
+```bibtex
+@misc{huang2026orchestrated,
+  title         = {Orchestrated Reality: From Role-Play to Living, Playable Game Worlds},
+  author        = {Huang, Yuhang and Li, Chenmiao and Fang, Chaowei},
+  year          = {2026},
+  eprint        = {2606.16014},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.AI},
+  url           = {https://arxiv.org/abs/2606.16014}
+}
+```
+
+---
+
 ## Tutorial
 
 **Create with Claude Code / Codex (in this repo, skills auto-load) — [tutorials/](./tutorials/)** *(zh)*:

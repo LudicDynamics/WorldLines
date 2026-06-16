@@ -248,6 +248,27 @@ Layer 3: (将来) ダイス/ルール ツールエージェント
 
 ---
 
+## 論文と引用
+
+WorldLines を支えるフレームワーク **Orchestrated Reality** は、人間プレイヤーのための LLM 駆動ゲーム世界を *Parameterized-Action POMDP* として定式化し、Plan–Diff–Validate–Apply パイプラインでスキーマ検証済みの JSON 差分をコミットします。
+
+> **[Orchestrated Reality: From Role-Play to Living, Playable Game Worlds](https://arxiv.org/abs/2606.16014)**
+> Yuhang Huang, Chenmiao Li, Chaowei Fang. arXiv:2606.16014 (2026).
+
+```bibtex
+@misc{huang2026orchestrated,
+  title         = {Orchestrated Reality: From Role-Play to Living, Playable Game Worlds},
+  author        = {Huang, Yuhang and Li, Chenmiao and Fang, Chaowei},
+  year          = {2026},
+  eprint        = {2606.16014},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.AI},
+  url           = {https://arxiv.org/abs/2606.16014}
+}
+```
+
+---
+
 ## チュートリアル
 
 完全なドキュメントは **[docs.worldlines.gg](https://docs.worldlines.gg)** に：

@@ -248,6 +248,27 @@ Layer 3: (향후) 주사위/규칙 도구 에이전트
 
 ---
 
+## 논문 및 인용
+
+WorldLines를 떠받치는 프레임워크 **Orchestrated Reality**는 인간 플레이어를 위한 LLM 기반 게임 월드를 *Parameterized-Action POMDP*로 정식화하고, Plan–Diff–Validate–Apply 파이프라인으로 스키마 검증된 JSON 델타를 커밋합니다.
+
+> **[Orchestrated Reality: From Role-Play to Living, Playable Game Worlds](https://arxiv.org/abs/2606.16014)**
+> Yuhang Huang, Chenmiao Li, Chaowei Fang. arXiv:2606.16014 (2026).
+
+```bibtex
+@misc{huang2026orchestrated,
+  title         = {Orchestrated Reality: From Role-Play to Living, Playable Game Worlds},
+  author        = {Huang, Yuhang and Li, Chenmiao and Fang, Chaowei},
+  year          = {2026},
+  eprint        = {2606.16014},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.AI},
+  url           = {https://arxiv.org/abs/2606.16014}
+}
+```
+
+---
+
 ## 튜토리얼
 
 전체 문서는 **[docs.worldlines.gg](https://docs.worldlines.gg)** 에:

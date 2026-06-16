@@ -253,6 +253,27 @@ Layer 3:（未来）骰子/规则工具 agent
 
 ---
 
+## 论文与引用
+
+WorldLines 背后的框架 —— **Orchestrated Reality（编排现实）** —— 把"供人类玩家游玩的 LLM 驱动游戏世界"形式化为一个 *参数化动作 POMDP（Parameterized-Action POMDP）*，并用 Plan–Diff–Validate–Apply 流水线提交经 schema 校验的 JSON 增量。
+
+> **[Orchestrated Reality: From Role-Play to Living, Playable Game Worlds](https://arxiv.org/abs/2606.16014)**
+> Yuhang Huang, Chenmiao Li, Chaowei Fang. arXiv:2606.16014 (2026)。
+
+```bibtex
+@misc{huang2026orchestrated,
+  title         = {Orchestrated Reality: From Role-Play to Living, Playable Game Worlds},
+  author        = {Huang, Yuhang and Li, Chenmiao and Fang, Chaowei},
+  year          = {2026},
+  eprint        = {2606.16014},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.AI},
+  url           = {https://arxiv.org/abs/2606.16014}
+}
+```
+
+---
+
 ## 教程
 
 **用 Claude Code / Codex 创作（本仓库内,skill 自动加载）—— [tutorials/](./tutorials/)：**
