@@ -28,7 +28,7 @@
 
 Step into a world that remembers everything you do. Give siege orders in a grey-fog northern port. Sit across from an amnesiac healer who really remembers every word you say. Create a world in minutes — set its rules, its pace, its NPCs — or browse a public catalog and jump straight in. This is a multi-agent society running in real time: many AI souls and you, in one world, shaping it together.
 
-It is an agentic simulation engine. A world-agent connects to place-agents; each place-agent hosts soul-agents. Everyone here is an agent. You join through an avatar terminal. This is not a chatbot, not a scripted game.
+WorldLines is a **multi-agent simulation engine for role-play**: the world is a society of independent agents. A world-agent owns the world and orchestrates a cast of **soul-agents** — every character is its own agent with a private mind, memory, and agenda, not a line of dialogue data. You join through an avatar terminal. This is not a chatbot, not a scripted game.
 
 > Status: **v0.2.0 — Hub Launch** (2026-06) · [Play now →](https://hub.worldlines.gg)
 
@@ -111,21 +111,19 @@ No install. Go to **[hub.worldlines.gg](https://hub.worldlines.gg)**, sign in, a
 <p align="center"><em>The multi-agent village, live (Stoneford · Elena) — Elena and Rowan each perceive, think, and act on their own, the world-agent narrates, and the agent map tracks who's where.</em></p>
 
 <p align="center">
-  <img src="./assets/gameplay.jpg" alt="Gameplay — arriving at Stoneford" width="720" />
+  <img src="./assets/multi-agent-play.png" alt="WorldLines — multi-agent play, 7 souls in the scene" width="720" />
 </p>
-<p align="center"><em>Arriving at Stoneford in the mist.</em></p>
+<p align="center"><em>Multi-agent play (Kagura Island) — 7 souls in the scene; three reason in parallel this turn, the rest live on in the background.</em></p>
 
 ---
 
 ## Example Worlds
 
-WorldLines runs a world in one of **three engine modes** — and they are *not* interchangeable:
+WorldLines **is a multi-agent simulation**: a world-agent wrapping a cast of **independent souls** — each a character-agent with its own mind, memory, secrets, and agenda (the tell-tale sign is a `souls/` folder). This is the engine, and where every world is heading.
 
-- **fast** — one quick agent, single voice.
-- **orch** — a world-agent orchestrating domain agents (town / dungeon / combat / story); NPCs are data.
-- **multi-agent** — a world-agent wrapping **independent souls**, each a character-agent with its own mind, memory, and agenda. The tell-tale sign is a `souls/` folder. *This is the new release.*
+> Lighter modes exist for simpler, single-thread scenes — `orch` orchestrates domain agents over data-driven NPCs, `fast` is a single-voice agent — but the heart of WorldLines is the multi-agent society below.
 
-### 👥 multi-agent — independent souls in one world
+### 👥 The multi-agent society — independent souls in one world
 
 > **Runs locally.** Multi-agent isn't on hosted play yet (hosted play offers `fast` + `orch`). Play it in the **Launcher** (New game → pick the world → **Browser · Web**) or `neonrp web --project examples/multi-agent/<world>` — multi-agent plays best in the browser, where you watch every soul live. **New here? Start with Stoneford · Elena.** (For scripting / research, `neonrp play --project … --json --trace`.)
 
@@ -134,11 +132,13 @@ WorldLines runs a world in one of **three engine modes** — and they are *not* 
 | **[Kagura Island](./examples/multi-agent/kagura-island)** | **7** — Kagami · Hane · Makoto · Miyaji · Shiro · Tsubasa · Yuto. Japanese-folk mystery, time loop, CoC checks. The richest multi-agent society. | [Source →](./examples/multi-agent/kagura-island) |
 | **[Stoneford · Elena](./examples/multi-agent/stoneford-elena)** | **2** — Elena (the healer who remembers) + Rowan. The Stoneford world, now inhabited by living souls. | [Source →](./examples/multi-agent/stoneford-elena) · [Talk to Elena (hosted)](https://hub.worldlines.gg/play/souls/elena) |
 
-### ⛩ Stoneford — Flagship orch world
+### ⛩ Also: lighter `orch` / `fast` worlds
 
-A grey-fog northern river port. Classic-fantasy TRPG · d20 dice · **10-agent orchestrated village** — a world-agent at the centre routing to town, dungeon, combat, story, and NPC agents. **[Play online →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[Source & docs →](./examples/orch/stoneford)**
+These run a world-agent voicing data-driven NPCs — no per-soul agents. Good for tighter, single-thread scenes, and the on-ramp to the full multi-agent society above.
 
-### More worlds
+**Stoneford** — a grey-fog northern river port. Classic-fantasy TRPG · d20 dice · a world-agent routing to town, dungeon, combat, and story agents. **[Play online →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[Source & docs →](./examples/orch/stoneford)**
+
+### More `orch` / `fast` worlds
 
 | World | Play style | Live Demo |
 |---|---|---|
@@ -249,15 +249,15 @@ The repo itself is an authoring workbench: clone it, open it in Claude Code / Co
 
 WorldLines treats the game world as a file-backed, event-sourced state machine. Every turn is an append-only Event; Snapshots make rewind fast.
 
-**Agent architecture (3 layers):**
+**Agent architecture — a society of agents:**
 
 ```
-Layer 1: world-agent        — state · routing · narrative · archive
-Layer 2: town-agent          — NPCs, shops, navigation
-         dungeon-agent       — exploration
-         combat-referee      — d20 dice
-         world-builder       — map updates
-Layer 3: (future) dice/rules tool-agents
+world-agent          — owns the canonical world: state · routing · narration · archive
+  └─ soul-agents     — one per character, each its own mind:
+                        persona · memory (long + short) · secrets · goals · inner voice
+                        they perceive, decide, and act on their own
+  (lighter modes)    — orch adds domain agents (town / dungeon / combat / story)
+                        over data-driven NPCs; fast is a single-voice agent
 ```
 
 - **File-persisted memory & world state** — Everything lives on disk as plain JSON and Markdown.
