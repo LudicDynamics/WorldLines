@@ -11,7 +11,8 @@
   <img alt="Forks" src="https://img.shields.io/github/forks/LudicDynamics/WorldLines?style=flat-square&color=8b5cf6" />
   <img alt="Issues" src="https://img.shields.io/github/issues/LudicDynamics/WorldLines?style=flat-square&color=8b5cf6" />
   <a href="https://hub.worldlines.gg"><img src="https://img.shields.io/badge/Live%20Demo-hub.worldlines.gg-8b5cf6?style=flat-square" /></a>
-  <a href="https://arxiv.org/abs/2606.16014"><img alt="Paper" src="https://img.shields.io/badge/Paper-arXiv%3A2606.16014-b31b1b?style=flat-square" /></a>
+  <a href="https://doi.org/10.1145/3800965.3834285"><img alt="Paper" src="https://img.shields.io/badge/Paper-CHI%20PLAY%20Companion%20%2726-b31b1b?style=flat-square" /></a>
+  <a href="https://arxiv.org/abs/2606.16014"><img alt="arXiv" src="https://img.shields.io/badge/arXiv-2606.16014-8b5cf6?style=flat-square" /></a>
   <img alt="License" src="https://img.shields.io/badge/License-AGPL--3.0%20(examples)-blue?style=flat-square" />
   <img alt="LINUX DO" src="https://img.shields.io/badge/LINUX%20DO-WorldLines-8b5cf6?style=flat-square" />
 </p>
@@ -257,18 +258,20 @@ world-agent          — 拥有规范世界：状态 · 路由 · 叙事 · 归�
 
 WorldLines 背后的框架 —— **Orchestrated Reality（编排现实）** —— 把"供人类玩家游玩的 LLM 驱动游戏世界"形式化为一个 *参数化动作 POMDP（Parameterized-Action POMDP）*，并用 Plan–Diff–Validate–Apply 流水线提交经 schema 校验的 JSON 增量。
 
-> **[Orchestrated Reality: From Role-Play to Living, Playable Game Worlds](https://arxiv.org/abs/2606.16014)**
-> Yuhang Huang, Chenmiao Li, Chaowei Fang. arXiv:2606.16014 (2026)。
+> **[From Character Role-Play to Orchestrated Reality: LLM-Driven Game World Simulation as a Parameterized-Action POMDP](https://doi.org/10.1145/3800965.3834285)**
+> Yuhang Huang, Chenmiao Li, Chaowei Fang. *CHI PLAY Companion '26*, ACM。DOI: 10.1145/3800965.3834285 · [arXiv:2606.16014](https://arxiv.org/abs/2606.16014)
 
 ```bibtex
-@misc{huang2026orchestrated,
-  title         = {Orchestrated Reality: From Role-Play to Living, Playable Game Worlds},
-  author        = {Huang, Yuhang and Li, Chenmiao and Fang, Chaowei},
-  year          = {2026},
-  eprint        = {2606.16014},
-  archivePrefix = {arXiv},
-  primaryClass  = {cs.AI},
-  url           = {https://arxiv.org/abs/2606.16014}
+@inproceedings{huang2026orchestrated,
+  title     = {From Character Role-Play to Orchestrated Reality: LLM-Driven
+               Game World Simulation as a Parameterized-Action POMDP},
+  author    = {Huang, Yuhang and Li, Chenmiao and Fang, Chaowei},
+  booktitle = {Companion Proceedings of the Annual Symposium on
+               Computer-Human Interaction in Play (CHI PLAY Companion '26)},
+  publisher = {Association for Computing Machinery},
+  year      = {2026},
+  doi       = {10.1145/3800965.3834285},
+  url       = {https://doi.org/10.1145/3800965.3834285}
 }
 ```
 
