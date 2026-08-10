@@ -1,0 +1,59 @@
+name: Desktop
+
+# MANUAL ONLY, AND DELIBERATELY UNSIGNED.
+#
+# This workflow is workflow_dispatch-only and stops at an unsigned local
+# build. Signing and publishing stay OFF pending an explicit release GO:
+#   - no Apple Developer ID / notarization (macOS)
+#   - no Authenticode certificate (Windows)
+#   - no GitHub Release, no tag creation, no artifact publication
+#
+# It exists so the Tauri shell keeps compiling on both targets while the
+# Tauri-vs-Electron decision is open (see desktop/README.md). Do not add
+# signing secrets or a release step here without that GO — an unsigned
+# artifact that merely *looks* published is worse than none.
+#
+# Note the shell does not bundle an engine: it resolves an installed
+# `neonrp` at runtime (installed-first). So this build needs no engine.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: ${{ matrix.label }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            label: macOS (Apple silicon)
+          - os: windows-latest
+            label: Windows (x64)
+
+    defaults:
+      run:
+        working-directory: desktop/tauri
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: desktop/tauri
+
+      - name: Check
+        run: cargo check --release
+
+      - name: Build (unsigned)
+        run: cargo build --release
+
+      # No upload-artifact and no release step on purpose — see header.
+      - name: Signing status
+        shell: bash
+        run: echo "Built unsigned. Signing/publishing intentionally disabled pending release GO."

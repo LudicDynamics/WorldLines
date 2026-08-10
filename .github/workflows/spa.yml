@@ -1,0 +1,56 @@
+name: SPA
+
+# The web shell (ui/) builds standalone — it talks to the NeonRP engine
+# only over HTTP, so CI needs no engine and no secrets. The e2e suite is
+# deliberately NOT run here: it boots a real engine, which is proprietary
+# and not available to this repo.
+on:
+  push:
+    branches: [master, main]
+    paths:
+      - 'ui/**'
+      - 'scripts/package-spa.sh'
+      - '.github/workflows/spa.yml'
+  pull_request:
+    paths:
+      - 'ui/**'
+      - 'scripts/package-spa.sh'
+      - '.github/workflows/spa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ui
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: ui/package-lock.json
+
+      - name: Install
+        run: npm ci --no-audit --no-fund
+
+      - name: Typecheck
+        run: npx tsc -b --force
+
+      - name: Build
+        # Same-origin bundle: blank is meaningful (relative-path fetches),
+        # which is what the engine-served build needs. See package-spa.sh.
+        run: VITE_CREATE_ENDPOINT= VITE_PLAY_ENDPOINT= npm run build:local
+
+      - name: Upload SPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: worldlines-spa
+          path: ui/dist-local
+          if-no-files-found: error
