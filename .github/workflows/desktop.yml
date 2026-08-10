@@ -8,8 +8,7 @@ name: Desktop
 #   - no Authenticode certificate (Windows)
 #   - no GitHub Release, no tag creation, no artifact publication
 #
-# It exists so the Tauri shell keeps compiling on both targets while the
-# Tauri-vs-Electron decision is open (see desktop/README.md). Do not add
+# It exists so the Tauri shell keeps compiling on both targets. Do not add
 # signing secrets or a release step here without that GO — an unsigned
 # artifact that merely *looks* published is worse than none.
 #

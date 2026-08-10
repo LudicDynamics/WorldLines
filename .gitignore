@@ -19,9 +19,7 @@ ui/.vite/
 ui/test-results/
 ui/playwright-report/
 
-# Desktop shells (desktop/)
-desktop/electron/node_modules/
-desktop/electron/dist/
+# Desktop shell (desktop/)
 desktop/tauri/target/
 desktop/tauri/gen/
 

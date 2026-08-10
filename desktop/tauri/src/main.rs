@@ -1,7 +1,7 @@
-// WorldLines 桌面壳(Tauri 候选)— docs/WEBUI-UNIFICATION.md §7.5 LP2/LP3。
+// WorldLines 桌面壳 — docs/WEBUI-UNIFICATION.md §7.5 LP2/LP3。
 //
-// 与 desktop/electron 完全同构的薄壳,不含产品逻辑
-// (SoT = neonrp web + 本仓 ui/ 的 LocalShell):
+// 唯一的桌面壳(niko 2026-08-10 拍板 Tauri,Electron 候选整目录删除)。
+// 薄壳,不含产品逻辑(SoT = neonrp web + 本仓 ui/ 的 LocalShell):
 //   1. 起引擎:装机 = 已安装 neonrp;开发机 = uv run neonrp web
 //      (cwd = WORLDLINES_ENGINE_REPO 指到的引擎签出)
 //   2. 等就绪:轮询 /api/v1/meta 到 200(裸 TCP HTTP,不引 reqwest)
