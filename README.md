@@ -335,6 +335,8 @@ Full roadmap: [docs.worldlines.gg/docs/roadmap](https://docs.worldlines.gg/docs/
 
 **Open-source (AGPL-3.0):** the example worlds, character bundles, and tools in `examples/` and `tools/`. (The agent protocol/architecture is still being iterated and not open-sourced yet — see Developers above.)
 
+**Open-source (AGPL-3.0) — the WorldLines shell:** the web UI (`ui/`) and desktop shells (`desktop/`); the NeonRP engine they talk to over HTTP stays proprietary and is distributed separately.
+
 **Not open-source:** the engine core (`neonrp`). Proprietary preview — free to play, not free to fork.
 
 ## Star History

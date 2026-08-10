@@ -317,6 +317,8 @@ WorldLines 背后的框架 —— **Orchestrated Reality（编排现实）** —
 
 **开源（AGPL-3.0）：** `examples/` 和 `tools/` 中的示例世界、角色包和工具。（agent 协议/架构还在迭代,尚未开源 —— 见上文「开发者」。）
 
+**开源（AGPL-3.0）—— WorldLines 壳：** 网页界面（`ui/`）与桌面壳（`desktop/`）；它们经 HTTP 对接的 NeonRP 引擎仍是专有的，单独分发。
+
 **不开源：** 引擎核心（`neonrp`）。专有预览版 —— 免费游玩，不可 fork。
 
 ## Star 历史
