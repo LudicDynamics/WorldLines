@@ -1,88 +1,133 @@
-# rp-hub/web — Distribution Hub frontend
+# ui/ — the WorldLines web shell
 
-Catalog UI for WorldHub + SoulHub. Reads `worlds/index.json` and
-`souls/index.json` directly from S3 over public-read; no backend of
-its own. Visually a continuation of [worldlines.gg](https://worldlines.gg/) —
-same colour tokens, same typography, same dark-mode card treatment.
+The React SPA half of the WorldLines shell. It is the interface you see when
+you run `neonrp web` and open `/local`, and the same codebase builds the
+hosted storefront.
 
-## Stack
+**This repository contains no engine.** The shell is AGPL-3.0; the NeonRP
+engine it drives is proprietary and ships separately. The two talk over
+HTTP and nothing else — there is no shared module, no import that reaches
+outside `ui/`, and no engine source to build against. That boundary is the
+point: you can develop, typecheck, and build this SPA with the engine
+absent, and CI does exactly that.
 
-- Vite 7 + React 19 + Tailwind 4
-- `react-router-dom` for `/worlds`, `/worlds/:slug`, `/souls`,
-  `/souls/:slug`
-- `lucide-react` for icons
-- No i18n yet — easy to bolt on (see worldlines.gg/www for the
-  pattern). Catalog labels are short enough that single-language
-  works for v0.1.
+## The engine boundary
+
+Every call goes to one of the three surfaces named in the engine's
+`ENGINE-API-CONTRACT` (that document lives in the engine repo and is the
+authority; the summary here is orientation, not a spec):
+
+| Surface | Routes | What it covers |
+|---|---|---|
+| `CONTRACT-PLAY` | `/api/v1/play/*`, `/api/v1/meta` | sessions, turns, the SSE event stream, traces, rollback, portraits |
+| `CONTRACT-CREATE` | `/api/v1/create/*` | the authoring workshop |
+| `CONTRACT-LOCAL` | `/api/v1/local/*` | local library, settings, import, hub bridge |
+
+These surfaces are permanent and live in the engine repo. If you find
+yourself wanting something the contract does not expose, that is an engine
+change, not a shell workaround.
+
+## Layout
+
+```
+src/
+  shared/   chrome and cross-cutting concerns (auth, i18n, identity,
+            registry, analytics) used by both entry points
+  play/     the play surface — playClient + stage/ (transcript, input,
+            map, agent lanes, replay). Shared by local and hub.
+  local/    the LocalShell product: library, studio, import, settings
+  hub/      the hosted storefront: catalog, detail, account, pricing
+  main-local.tsx / main-hub.tsx    the two entry points
+e2e/        Playwright specs — see the caveat below
+```
+
+`index.html` is shared; a Vite plugin swaps the entry script per target so
+each build tree-shakes the other product's pages out.
 
 ## Develop
 
 ```bash
-cd rp-hub/web
 npm install
-npm run dev
+
+# Point at a local engine and start the dev server.
+VITE_PLAY_ENDPOINT=http://127.0.0.1:8787 npm run dev
+
+# The hosted storefront entry instead:
+npm run dev:hub
 ```
 
-The dev server reads the **live** S3 registries, so what you see
-locally is what production sees. To work offline, mock `fetchRegistry`
-in `src/lib/registry.ts`.
+`8787` is the port `neonrp web` listens on by default, so start the engine
+first and the SPA will find it. Every `VITE_*` variable is optional — the
+source carries localhost defaults, so a bare `npm run dev` still comes up.
+`.env.example` documents all ten; copy it to `.env.development` to persist
+your own. Never put a secret in one: Vite inlines every `VITE_*` value into
+the shipped bundle.
 
-## Build + deploy
+## Build
+
+Two product lines out of one source tree:
 
 ```bash
-npm run build          # → dist/
-../aws/deploy-web.sh s3://<bucket> [<cloudfront-distribution-id>]
+npm run build:local   # → dist-local/   LocalShell (shared + play + local)
+npm run build:hub     # → dist-hub/     storefront (shared + play + hub)
 ```
 
-`deploy-web.sh` handles `aws s3 sync` + cache-control headers
-(short TTL on `index.html`, immutable on Vite's hashed `assets/*`)
-and CloudFront invalidation if a distribution id is provided.
+`npm run build` is an alias for `build:local`.
 
-## Routes
+### The empty-string trap
 
-| Route | Page |
+`VITE_PLAY_ENDPOINT` is three-state, and the middle state is the one that
+bites:
+
+| Value | Meaning |
 |---|---|
-| `/` | redirects to `/worlds` |
-| `/worlds` | catalog (filtered to worlds) |
-| `/worlds/:slug` | detail + version history |
-| `/souls` | catalog (filtered to souls) |
-| `/souls/:slug` | detail + version history |
+| unset | fall back to the localhost dev default |
+| **empty string** | **same-origin — fetch by relative path** |
+| a URL | use it as-is |
 
-## Design notes
+Empty is not "unset". The engine serves the SPA from its own origin, so an
+engine-bound build must pass `VITE_PLAY_ENDPOINT=` explicitly. Merely
+leaving it unset lets an `.env.production` bake hosted URLs into a bundle
+that was supposed to talk to localhost.
 
-- **Colours** follow worldlines.gg — accent `#8B5CF6`. Worlds use the
-  cyan world-agent colour `#06B6D4`; souls use the pink character
-  colour `#EC4899`. This carries the same accent meaning the main
-  site established for "world" vs. "character/soul" content.
-- **Typography** matches: Young Serif for display, Inter for body,
-  Space Mono for hash and CLI commands.
-- **No marketing copy.** This is a catalog. The chrome is borrowed
-  from worldlines.gg (Header / Footer / Logo) so it feels like the
-  same site, but the body is data-first. Marketing pages live at
-  `rp-loadingpage/worldlines.gg/www/` and stay there.
+## Packaging for the engine
 
-## Boundary with `rp-loadingpage/`
+`../scripts/package-spa.sh` builds the LocalShell in same-origin mode and
+produces `dist/worldlines-spa.zip`, with the built files at the archive
+root so unzipping yields a directory the engine can serve directly:
 
-`rp-loadingpage/worldlines.gg/www/` is the marketing site. It
-*talks about* WorldLines and links here for downloads.
+```bash
+../scripts/package-spa.sh
+unzip -d /tmp/worldlines-spa ../dist/worldlines-spa.zip
+NEONRP_SPA_DIR=/tmp/worldlines-spa neonrp web
+```
 
-`rp-hub/web/` is the catalog. It *talks to* the live S3 registries
-and updates the moment a new build is uploaded.
+The engine resolves its shell in this order: `NEONRP_SPA_DIR` first (an
+unpacked dist directory — this is the seam, and it always wins), then a
+build packaged inside the wheel at `neonrp/webui/spa` (transition compat
+for pre-split installs), and finally nothing — in which case the engine
+runs API-only and `/local/*` returns 404 with a pointer here. A directory
+without an `index.html` is ignored rather than trusted, so a half-built
+`NEONRP_SPA_DIR` falls through instead of serving a broken shell.
 
-The split lets the marketing site stay handcrafted (with hero
-animations, scroll-snap sections, i18n) while the catalog stays
-boring and fast.
+## Tests
 
-## Integrating into worldlines.gg
+`npx tsc -b` is clean and is what CI gates on, together with the build.
 
-When ready to mount under `worldlines.gg/hub/`, two options:
+`npm run lint` currently exits non-zero: 16 errors and 26 warnings, carried
+over verbatim from the engine repo (mostly `setState` inside effects and
+refs touched during render, plus two unused bindings). They are pre-existing
+rather than anything the repo split introduced, so CI does not gate on lint
+yet. Don't let a green typecheck fool you into thinking lint is clean; if
+you clear them, do it as its own change rather than inside a feature PR.
 
-1. **Static iframe** — deploy this app to its own bucket, embed via
-   `<iframe>` on a `worldlines.gg/hub` route. Cleanest separation,
-   no shared state.
-2. **Subpath build** — set Vite's `base: '/hub/'` and deploy the
-   `dist/` into the same bucket as worldlines.gg under `/hub/`.
-   Shared chrome, single deploy.
+The Playwright suite in `e2e/` **cannot run from this repository**. Its
+`webServer` boots a real engine via a script in the engine repo, so the
+specs need a NeonRP checkout that this repo deliberately does not have.
+They are kept here because they test shell behaviour and should move with
+the shell; CI runs typecheck and build only. To run them you need an engine
+checkout and its `scripts/e2e-server.sh`.
 
-Pick when there's actually content to mount — until then, dev under
-the standalone `vite` host.
+## License
+
+AGPL-3.0-or-later, like the rest of this repository. See `../LICENSE`.
