@@ -1,0 +1,16 @@
+[package]
+name = "worldlines-desktop"
+version = "0.3.0"
+edition = "2021"
+description = "WorldLines desktop shell (Tauri candidate) — thin wrapper over `neonrp web`"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+
+[profile.release]
+strip = true
+lto = true
+codegen-units = 1
