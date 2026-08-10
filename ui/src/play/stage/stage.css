@@ -1,0 +1,913 @@
+/* PlayStage — the classic `neonrp web` play surface, reborn in the SPA.
+   Every colour is a LocalShell --lc-* token (provided by the outer LocalApp),
+   so the stage tracks the black/white theme toggle for free. Full-bleed via
+   position:fixed; custom properties still inherit through the DOM. */
+
+.lc-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  background: var(--lc-panel, #0b0b12);
+  color: var(--lc-text, #e8e6f4);
+  font: 14px/1.6 'Inter', -apple-system, 'PingFang SC', sans-serif;
+}
+
+.lc-head {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--lc-line);
+  position: relative;
+  flex: 0 0 auto;
+}
+.lc-head .lc-title {
+  color: var(--lc-candle);
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+.lc-head .lc-meta {
+  color: var(--lc-dim);
+  font-size: 12px;
+}
+.lc-head a.lc-link {
+  color: var(--lc-text);
+  font-size: 12.5px;
+  text-decoration: none;
+  border: 1px solid var(--lc-line);
+  border-radius: 8px;
+  padding: 4px 12px;
+  background: var(--lc-panel);
+  white-space: nowrap;
+}
+.lc-head a.lc-link:hover {
+  opacity: 1;
+  color: var(--lc-candle);
+}
+.lc-head button {
+  background: var(--lc-panel2);
+  color: var(--lc-live);
+  border: 1px solid var(--lc-line);
+  border-radius: 6px;
+  font: inherit;
+  font-size: 12px;
+  padding: 2px 10px;
+  cursor: pointer;
+}
+.lc-head button:hover {
+  border-color: var(--lc-live);
+}
+
+.lc-body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  min-width: 0;
+}
+.lc-left {
+  flex: 1.2 1 0;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--lc-line);
+  min-width: 320px;
+  position: relative;
+}
+.lc-feed {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 18px;
+  position: relative;
+}
+.lc-hud {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 8px 18px;
+  border-bottom: 1px solid var(--lc-line);
+  background: var(--lc-panel2);
+  font-size: 13px;
+}
+.lc-hud .hud-name {
+  color: var(--lc-candle);
+  font-weight: 700;
+}
+.lc-hud .hud-place {
+  color: var(--lc-dim);
+}
+.lc-hud .hud-hp {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--lc-live);
+}
+.lc-hud .hud-bar {
+  width: 70px;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--lc-panel);
+  overflow: hidden;
+}
+.lc-hud .hud-fill {
+  display: block;
+  height: 100%;
+  background: var(--lc-live);
+  border-radius: 3px;
+}
+
+.lc-turn {
+  margin-bottom: 18px;
+}
+.lc-you {
+  color: var(--lc-live);
+  margin-bottom: 6px;
+}
+.lc-you::before {
+  content: '▸ ';
+}
+.lc-narration {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.lc-narration .lc-speech,
+.lc-narr .lc-speech {
+  color: var(--lc-live);
+}
+.lc-narration .lc-think {
+  color: var(--lc-dim);
+  font-style: italic;
+}
+.lc-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0 10px;
+  opacity: 0.72;
+  font-style: italic;
+  font-size: 0.92em;
+}
+.lc-status .lc-spin {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--lc-candle);
+  animation: lc-pulse 1s infinite;
+  flex: 0 0 auto;
+}
+.lc-rb-inline {
+  display: inline-block;
+  margin-top: 6px;
+  background: transparent;
+  border: 1px solid var(--lc-line);
+  color: var(--lc-dim);
+  border-radius: 6px;
+  font-size: 12px;
+  padding: 1px 9px;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.15s, color 0.15s, border-color 0.15s;
+}
+.lc-rb-inline:hover {
+  opacity: 1;
+  color: var(--lc-live);
+  border-color: var(--lc-live);
+}
+@keyframes lc-pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.lc-clue {
+  margin: 6px 0 2px;
+  font-size: 12px;
+  border: 1px solid var(--lc-line);
+  border-radius: 6px;
+  padding: 3px 8px;
+  background: var(--lc-panel2);
+}
+.lc-clue summary {
+  cursor: pointer;
+  color: var(--lc-live);
+}
+.lc-clue pre {
+  white-space: pre-wrap;
+  margin: 6px 0 2px;
+  font-size: 11px;
+  color: var(--lc-dim);
+}
+
+.lc-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 14px;
+  border-top: 1px dashed var(--lc-line);
+}
+.lc-choices button {
+  background: var(--lc-panel2);
+  color: var(--lc-live);
+  border: 1px solid var(--lc-line);
+  border-radius: 14px;
+  font: inherit;
+  font-size: 12px;
+  padding: 3px 12px;
+  cursor: pointer;
+}
+.lc-choices button:hover {
+  border-color: var(--lc-live);
+}
+
+.lc-inputbar {
+  display: flex;
+  border-top: 1px solid var(--lc-line);
+  flex: 0 0 auto;
+}
+.lc-inputbar input {
+  flex: 1;
+  background: var(--lc-panel);
+  color: var(--lc-text);
+  border: 0;
+  padding: 12px 16px;
+  font: inherit;
+  outline: none;
+}
+.lc-inputbar button {
+  background: var(--lc-panel2);
+  color: var(--lc-candle);
+  border: 0;
+  border-left: 1px solid var(--lc-line);
+  padding: 0 22px;
+  font: inherit;
+  cursor: pointer;
+}
+.lc-inputbar button:disabled {
+  color: var(--lc-dim);
+  cursor: wait;
+}
+
+/* right column: agent lanes */
+.lc-right {
+  flex: 1 1 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 12px;
+  background: var(--lc-panel);
+  min-width: 300px;
+  max-width: 460px;
+}
+.lc-lanes-intro {
+  font-size: 12px;
+  color: var(--lc-dim);
+  line-height: 1.6;
+  padding: 2px 2px 10px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--lc-line);
+}
+.lc-lane {
+  background: var(--lc-panel2);
+  border: 1px solid var(--lc-line);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  padding: 10px 12px;
+}
+.lc-lane h3 {
+  margin: 0 0 6px 0;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.lc-lane h3 .lc-role {
+  color: var(--lc-dim);
+  font-weight: normal;
+  font-size: 11px;
+  flex-basis: 100%;
+}
+.lc-portrait {
+  width: 40px;
+  height: 52px;
+  border-radius: 8px;
+  object-fit: cover;
+  object-position: top center;
+  flex: none;
+  border: 1px solid var(--lc-line);
+  background: var(--lc-panel);
+}
+.lc-portrait.noimg {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: var(--lc-text);
+}
+.lc-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--lc-dim);
+  display: inline-block;
+  flex: none;
+}
+.lc-dot.running {
+  background: var(--lc-candle);
+  animation: lc-pulse 1s infinite;
+}
+.lc-dot.completed {
+  background: var(--lc-live);
+}
+.lc-dot.degraded {
+  background: #ff6b8a;
+}
+.lc-dot.background,
+.lc-dot.inactive {
+  background: var(--lc-faint);
+}
+.lc-log {
+  font-size: 12px;
+  color: var(--lc-dim);
+  max-height: 180px;
+  overflow-y: auto;
+}
+.lc-log > div {
+  margin-top: 3px;
+}
+.lc-log .lc-speech {
+  color: var(--lc-text);
+}
+.lc-log .lc-move {
+  color: var(--lc-live);
+}
+.lc-err {
+  color: #ff6b8a;
+}
+.lc-warn {
+  color: var(--lc-candle);
+}
+
+.lc-psyche {
+  margin: 8px 0 2px;
+  padding: 8px 10px;
+  border: 1px solid var(--lc-line);
+  border-radius: 6px;
+  background: var(--lc-candle-soft);
+  font-size: 12px;
+}
+.lc-psyche .lc-chip {
+  display: inline-block;
+  font-size: 10px;
+  padding: 1px 7px;
+  border-radius: 10px;
+  border: 1px solid var(--lc-line);
+  color: var(--lc-dim);
+  margin-bottom: 6px;
+}
+.lc-psyche .voice {
+  font-style: italic;
+  color: var(--lc-text);
+  line-height: 1.55;
+  margin: 2px 0 6px;
+}
+.lc-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+.lc-bar .lbl {
+  color: var(--lc-dim);
+  font-size: 10px;
+  flex: 0 0 52px;
+}
+.lc-bar .track {
+  flex: 1;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--lc-panel);
+  overflow: hidden;
+}
+.lc-bar .fill {
+  display: block;
+  height: 100%;
+  min-width: 2px;
+  border-radius: 3px;
+  background: var(--lc-candle);
+}
+.lc-bar.urgency .fill {
+  background: #ffd166;
+}
+.lc-bar .pct {
+  color: var(--lc-dim);
+  font-size: 10px;
+  flex: 0 0 30px;
+  text-align: right;
+}
+.lc-memory {
+  margin: 4px 0 2px;
+  font-size: 11px;
+  color: var(--lc-dim);
+}
+.lc-memory .mitem::before {
+  content: '· ';
+  color: var(--lc-candle);
+}
+
+/* replay + resume blocks */
+.lc-replay {
+  border-left: 3px solid var(--lc-live);
+  background: var(--lc-candle-soft);
+  padding: 8px 12px;
+  margin-bottom: 16px;
+}
+.lc-replay.resume {
+  border-left-color: var(--lc-candle);
+}
+.lc-rphead {
+  color: var(--lc-live);
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+.lc-agentline {
+  color: var(--lc-dim);
+  font-size: 12px;
+  margin-top: 4px;
+}
+.lc-agentline b {
+  color: var(--lc-text);
+  font-weight: normal;
+}
+.lc-locnarr {
+  color: var(--lc-dim);
+  font-size: 12px;
+  margin-top: 6px;
+  border-top: 1px dashed var(--lc-line);
+  padding-top: 6px;
+}
+
+/* replay bar + settings popover */
+.lc-pop {
+  position: absolute;
+  top: 44px;
+  right: 16px;
+  z-index: 30;
+  width: 280px;
+  background: var(--lc-panel);
+  border: 1px solid var(--lc-line);
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+  padding: 10px 12px;
+}
+.lc-pop .ptitle {
+  color: var(--lc-candle);
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+.lc-pop label {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 6px 0;
+  cursor: pointer;
+}
+.lc-pop .plabel {
+  color: var(--lc-text);
+  font-size: 13px;
+}
+.lc-pop .pdesc {
+  color: var(--lc-dim);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+/* simplified map panel */
+.lc-map {
+  position: fixed;
+  right: 14px;
+  bottom: 60px;
+  width: 260px;
+  max-width: calc(100vw - 28px);
+  background: var(--lc-panel2);
+  border: 1px solid var(--lc-line);
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+  z-index: 25;
+  overflow: hidden;
+}
+.lc-map h4 {
+  margin: 0;
+  padding: 7px 12px;
+  font-size: 11px;
+  color: var(--lc-dim);
+  border-bottom: 1px solid var(--lc-line);
+  font-weight: normal;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.lc-map h4 button {
+  background: transparent;
+  border: 0;
+  color: var(--lc-dim);
+  cursor: pointer;
+  font-size: 14px;
+}
+.lc-map .legrow {
+  font-size: 11px;
+  color: var(--lc-text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 12px;
+}
+.lc-map .legdot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.lc-map .legplace {
+  color: var(--lc-dim);
+}
+.lc-map svg {
+  display: block;
+  width: 100%;
+  height: 130px;
+}
+
+.lc-timeline {
+  border-top: 1px solid var(--lc-line);
+  padding: 6px 16px;
+  font-size: 12px;
+  color: var(--lc-dim);
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+.lc-timeline .t {
+  color: var(--lc-candle);
+}
+
+/* boot theater overlay */
+.lc-boot {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 32px;
+  text-align: center;
+  background: var(--lc-panel);
+  transition: opacity 0.6s ease;
+}
+.lc-boot.leaving {
+  opacity: 0;
+  pointer-events: none;
+}
+.lc-boot .boot-world {
+  font-size: 20px;
+  letter-spacing: 3px;
+  color: var(--lc-candle);
+  font-weight: 700;
+}
+.lc-boot .boot-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--lc-faint);
+  transition: color 0.4s ease;
+}
+.lc-boot .boot-step.on {
+  color: var(--lc-text);
+}
+.lc-boot .boot-step .mark {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--lc-faint);
+  transition: background 0.4s ease;
+}
+.lc-boot .boot-step.on .mark {
+  background: var(--lc-candle);
+}
+.lc-boot .boot-souls {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.lc-boot .boot-soul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: 64px;
+  opacity: 0.35;
+  filter: grayscale(1);
+  transition: opacity 0.5s ease, filter 0.5s ease;
+}
+.lc-boot .boot-soul.lit {
+  opacity: 1;
+  filter: none;
+}
+.lc-boot .boot-soul .avatar {
+  width: 44px;
+  height: 56px;
+  border-radius: 8px;
+  object-fit: cover;
+  object-position: top center;
+  border: 1px solid var(--lc-line);
+  background: var(--lc-panel2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: var(--lc-text);
+}
+.lc-boot .boot-soul .sname {
+  font-size: 11px;
+  color: var(--lc-dim);
+  max-width: 64px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.lc-boot .boot-preview {
+  max-width: 520px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--lc-text);
+  white-space: pre-wrap;
+  min-height: 1.7em;
+}
+.lc-boot .boot-caret {
+  display: inline-block;
+  width: 7px;
+  background: var(--lc-candle);
+  margin-left: 2px;
+  animation: lc-pulse 1s infinite;
+}
+
+@media (max-width: 760px) {
+  .lc-body {
+    flex-direction: column;
+  }
+  .lc-left {
+    min-width: 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--lc-line);
+    flex: 1 1 auto;
+    min-height: 220px;
+  }
+  .lc-right {
+    min-width: 0;
+    max-width: none;
+    flex: 0 0 auto;
+    max-height: 38vh;
+  }
+  .lc-map {
+    width: 180px;
+    bottom: 66px;
+  }
+}
+
+.lc-mapzoom {
+  width: 22px; height: 22px; line-height: 1; cursor: pointer;
+  border: 1px solid var(--lc-line); border-radius: 6px;
+  background: var(--lc-panel); color: var(--lc-dim); font-size: 13px;
+}
+.lc-mapzoom:hover { color: var(--lc-candle); border-color: var(--lc-candle); }
+
+/* ── 回合过程轨(DESIGN-TOKENS §三,pencil 定稿)─────────────────────────
+   accent-soft 底 + accent 描边;阶段点 ✓/脉冲/待办;连线随完成点亮;
+   soul 芯片带立绘头像;思考尾巴 mono 斜体单行。 */
+.lc-rail {
+  background: var(--lc-candle-soft);
+  border: 1px solid var(--lc-candle);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: stageFade 0.3s ease-out;
+}
+.lc-rail-head { display: flex; justify-content: space-between; align-items: center; }
+.lc-rail-title {
+  font-family: var(--font-mono, ui-monospace);
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--lc-candle);
+}
+.lc-rail-time { font-family: var(--font-mono, ui-monospace); font-size: 10px; color: var(--lc-faint); }
+.lc-rail-stages { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.lc-rail-seg { display: inline-flex; align-items: center; gap: 6px; }
+.lc-rail-dot {
+  width: 16px; height: 16px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 9px; flex: none;
+  background: var(--lc-panel); border: 1px solid var(--lc-line); color: transparent;
+}
+.lc-rail-dot.done { background: var(--lc-candle); border-color: var(--lc-candle); color: var(--lc-on-accent); }
+.lc-rail-dot.active {
+  background: var(--lc-candle-soft);
+  border-color: var(--lc-candle);
+  /* niko 实测:6px 内点在 soft 底上看不出"活着" — 整个点位一起呼吸 */
+  animation: lc-pulse 1s infinite;
+  box-shadow: 0 0 0 3px var(--lc-candle-soft);
+}
+.lc-rail-dot.active .pulse {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--lc-candle);
+  animation: lc-pulse 1s infinite;
+}
+.lc-rail-name { font-size: 12px; color: var(--lc-faint); }
+.lc-rail-name.active { color: var(--lc-text); font-weight: 600; }
+.lc-rail-name.done { color: var(--lc-dim); }
+.lc-rail-link { width: 22px; height: 2px; border-radius: 1px; background: var(--lc-line); flex: none; }
+.lc-rail-link.lit { background: var(--lc-candle); }
+.lc-rail-souls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.lc-rail-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 10px; border-radius: 20px; font-size: 11px;
+  background: var(--lc-panel); border: 1px solid var(--lc-line); color: var(--lc-dim);
+}
+.lc-rail-chip.running { background: var(--lc-candle-soft); border-color: var(--lc-candle); color: var(--lc-candle); }
+.lc-rail-chip.rest { color: var(--lc-faint); }
+.lc-rail-chip .av { width: 16px; height: 16px; border-radius: 50%; object-fit: cover; object-position: top; }
+.lc-rail-tease {
+  font-family: var(--font-mono, ui-monospace);
+  font-style: italic; font-size: 11.5px; line-height: 1.6;
+  color: var(--lc-dim);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.lc-rail-summary {
+  display: flex; align-items: center; gap: 8px;
+  margin-top: 8px; padding: 6px 12px;
+  background: var(--lc-panel); border: 1px solid var(--lc-line); border-radius: 10px;
+  font-family: var(--font-mono, ui-monospace); font-size: 11px; color: var(--lc-faint);
+  cursor: pointer; user-select: none;
+}
+.lc-rail-summary .chev { margin-left: auto; }
+.lc-rail-summary-detail { color: var(--lc-dim); }
+
+/* ── 立绘自适应(画布「变体·soul卡 竖横立绘」)──────────────────────────
+   竖图:3:4 英雄块,object-position:top 保脸,左下位置角标;
+   横/方图:banner 条 + 名行小圆头像(.lc-portrait.mini)。 */
+.lc-portrait-hero { position: relative; margin-bottom: 8px; }
+.lc-portrait-hero img {
+  display: block; width: 100%; aspect-ratio: 3 / 4;
+  object-fit: cover; object-position: top;
+  border-radius: 8px; border: 1px solid var(--lc-line); background: var(--lc-panel);
+}
+.lc-portrait-badge {
+  position: absolute; left: 8px; bottom: 8px;
+  padding: 2px 9px; border-radius: 14px;
+  background: rgba(0, 0, 0, 0.55); color: #fff; font-size: 10px;
+}
+.lc-portrait-banner { margin-bottom: 8px; }
+.lc-portrait-banner img {
+  display: block; width: 100%; height: 96px;
+  object-fit: cover; object-position: top;
+  border-radius: 8px; border: 1px solid var(--lc-line); background: var(--lc-panel);
+}
+.lc-portrait.mini { width: 22px; height: 22px; border-radius: 50%; }
+
+/* ── 对话拍(T1)— 幕间直聊抽屉:IM 语法,与叙事舞台视觉分离 ───────── */
+.lc-body { position: relative; }
+.lc-chat-btn {
+  margin-left: auto;
+  background: transparent;
+  border: 1px solid var(--lc-line);
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1;
+  padding: 3px 8px;
+  cursor: pointer;
+  opacity: 0.65;
+}
+.lc-chat-btn:hover { opacity: 1; border-color: var(--lc-candle); }
+.lc-chat-drawer {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  bottom: 8px;
+  width: min(360px, 86vw);
+  display: flex;
+  flex-direction: column;
+  background: var(--lc-panel);
+  border: 1px solid var(--lc-line);
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  z-index: 40;
+  animation: stageFade 0.18s ease-out;
+}
+.lc-chat-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--lc-line);
+}
+.lc-chat-name { font-weight: 700; }
+.lc-chat-sub { font-size: 11px; color: var(--lc-faint); }
+.lc-chat-close {
+  background: transparent;
+  border: none;
+  color: var(--lc-dim);
+  cursor: pointer;
+  font-size: 13px;
+}
+.lc-chat-close:hover { color: var(--lc-live); }
+.lc-chat-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.lc-chat-offsite {
+  color: var(--lc-faint);
+  font-size: 12.5px;
+  text-align: center;
+  padding: 18px 8px;
+}
+.lc-chat-msg { display: flex; flex-direction: column; max-width: 86%; }
+.lc-chat-msg.me { align-self: flex-end; align-items: flex-end; }
+.lc-chat-msg.her { align-self: flex-start; align-items: flex-start; }
+.lc-chat-msg .who { font-size: 10.5px; color: var(--lc-faint); margin: 0 4px 2px; }
+.lc-chat-msg .bubble {
+  padding: 7px 11px;
+  border-radius: 14px;
+  font-size: 13px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+  border: 1px solid var(--lc-line);
+  background: var(--lc-panel2);
+}
+.lc-chat-msg.me .bubble {
+  background: var(--lc-candle-soft, var(--lc-panel2));
+  border-color: var(--lc-candle);
+}
+.lc-chat-msg .bubble.typing { display: inline-flex; align-items: center; gap: 7px; color: var(--lc-dim); }
+.lc-chat-err { color: var(--lc-err, #c66); font-size: 12px; padding: 2px 6px; }
+.lc-chat-input {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  border-top: 1px solid var(--lc-line);
+}
+.lc-chat-input input {
+  flex: 1;
+  background: var(--lc-panel2);
+  border: 1px solid var(--lc-line);
+  border-radius: 10px;
+  color: var(--lc-text);
+  font: inherit;
+  font-size: 13px;
+  padding: 8px 12px;
+  outline: none;
+}
+.lc-chat-input input:focus { border-color: var(--lc-candle); }
+.lc-chat-input button {
+  background: var(--lc-panel2);
+  color: var(--lc-live);
+  border: 1px solid var(--lc-line);
+  border-radius: 10px;
+  font: inherit;
+  font-size: 12.5px;
+  padding: 6px 14px;
+  cursor: pointer;
+}
+.lc-chat-input button:disabled { opacity: 0.5; cursor: default; }
+.lc-room-btn { margin-left: 8px; font-size: 11px; }
+.lc-lanes-intro { display: flex; align-items: center; }
+.lc-chat-listening {
+  font-size: 11.5px;
+  color: var(--lc-faint);
+  text-align: center;
+  padding: 2px 0;
+}
+.lc-chat-intent { display: flex; justify-content: center; padding: 2px 0; }
+.lc-chat-intent button {
+  background: var(--lc-candle-soft, var(--lc-panel2));
+  color: var(--lc-candle);
+  border: 1px solid var(--lc-candle);
+  border-radius: 14px;
+  font: inherit;
+  font-size: 12.5px;
+  padding: 4px 14px;
+  cursor: pointer;
+  animation: lc-pulse 2s infinite;
+}
+.lc-chat-intent button:hover { animation: none; }

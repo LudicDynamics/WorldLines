@@ -2,3 +2,28 @@
 
 # Per-world runtime config (machine-local; never commit, keys via *_API_KEY env)
 **/.neonrp/config.json
+
+# Build-time config. Vite inlines every VITE_* value into the shipped
+# bundle, so these stay machine-local; ui/.env.example documents them.
+.env
+.env.*
+!.env.example
+
+# SPA (ui/)
+ui/node_modules/
+ui/dist/
+ui/dist-local/
+ui/dist-hub/
+ui/*.tsbuildinfo
+ui/.vite/
+ui/test-results/
+ui/playwright-report/
+
+# Desktop shells (desktop/)
+desktop/electron/node_modules/
+desktop/electron/dist/
+desktop/tauri/target/
+desktop/tauri/gen/
+
+# Release staging (scripts/package-spa.sh)
+/dist/

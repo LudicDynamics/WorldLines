@@ -1,0 +1,190 @@
+@import "tailwindcss";
+
+@theme {
+  /* 对齐 www(docs/DESIGN-TOKENS.md):sans = Aeonik 栈(未自托管时落 Inter),
+     mono = JetBrains Mono(www + 经典游玩页的真身,替换 hub 旧的 Space Mono)。 */
+  --font-sans: "Aeonik", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Space Mono", ui-monospace, monospace;
+  --font-display: "Young Serif", ui-serif, serif;
+}
+
+:root {
+  /* 统一暗阶 + 烛绿(docs/DESIGN-TOKENS.md,niko: 强制新设计)。
+     Hub 紫 #8B5CF6 正式退役;accent 底上的深字(#0A0A0A)对比度不受影响。 */
+  --color-bg: #0B0B0D;
+  --color-bg-card: #101014;
+  --color-bg-card-inner: #15151A;
+
+  --color-accent: #34E879;
+  --color-accent-dim: #34E87980;
+  --color-accent-subtle: #34E87950;
+  --color-accent-faint: #34E87930;
+  --color-accent-ghost: #34E87920;
+  --color-accent-trace: #34E87915;
+  --color-accent-10: #34E87910;
+
+  /* Souls take the character pink; worlds take the world-agent cyan */
+  --color-soul: #EC4899;
+  --color-soul-dim: #EC489980;
+  --color-soul-faint: #EC489930;
+  --color-world: #06B6D4;
+  --color-world-dim: #06B6D480;
+  --color-world-faint: #06B6D430;
+  --color-command: #27C93F;
+
+  --color-text-primary: #F5F5F7;
+  --color-text-secondary: #A2A2AB;
+  --color-text-tertiary: #6C6C75;
+  --color-text-muted: #47474F;
+
+  --color-border: #26262C;
+  --color-border-light: #2E2E36;
+
+  --section-top-offset: 64px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--section-top-offset);
+  }
+  html, body {
+    height: 100%;
+    font-family: var(--font-sans);
+    background: var(--color-bg);
+    color: var(--color-text-primary);
+  }
+}
+
+/* Hover treatments — keep parity with worldlines.gg/www */
+.hover-card {
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.hover-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-border-light);
+  box-shadow: 0 8px 32px -8px rgba(52, 232, 121, 0.12);
+}
+
+.hover-link {
+  position: relative;
+  transition: color 0.2s ease;
+}
+.hover-link:hover { color: var(--color-text-primary) !important; }
+.hover-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1px;
+  background: var(--color-text-primary);
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hover-link:hover::after { width: 100%; }
+
+.hover-btn {
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease, border-color 0.2s ease;
+}
+.hover-btn:hover { transform: translateY(-1px); }
+.hover-btn:active { transform: translateY(0) scale(0.98); }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.page-enter { animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+
+@keyframes stageFade {
+  from { opacity: 0; transform: translateY(2px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.stage-fade { animation: stageFade 0.4s ease-out; }
+
+/* ── React Flow 控件跟随 LocalShell 主题(工坊画布)─────────────────────
+   默认皮肤是纯白(按钮/小地图/attribution),黑主题下像两块白色故障区
+   (niko 实测「以为是 error」)。--lc-* 由 LocalApp 注入,黑白都对。 */
+.react-flow__controls {
+  box-shadow: none;
+  border: 1px solid var(--lc-line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.react-flow__controls button {
+  background: var(--lc-panel);
+  border-bottom: 1px solid var(--lc-line);
+  color: var(--lc-text);
+}
+.react-flow__controls button:hover { background: var(--lc-panel2); }
+.react-flow__controls button svg { fill: currentColor; }
+.react-flow__minimap {
+  background: var(--lc-panel2);
+  border: 1px solid var(--lc-line);
+  border-radius: 8px;
+}
+/* v12 的 minimap svg 用自己的 CSS 变量画底色 —— 不设仍是纯白 */
+.react-flow {
+  --xy-minimap-background-color: var(--lc-panel2);
+  --xy-minimap-background-color-props: var(--lc-panel2);
+  --xy-controls-button-background-color: var(--lc-panel);
+  --xy-controls-button-background-color-hover: var(--lc-panel2);
+  --xy-controls-button-color: var(--lc-text);
+  --xy-controls-button-border-color: var(--lc-line);
+}
+.react-flow__minimap svg { background: var(--lc-panel2); }
+/* 节点可交互提示:hover 抬起 + 光圈(双击可编辑的暗示) */
+.react-flow__node {
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.react-flow__node:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 0 3px var(--lc-candle-soft), 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+.react-flow__minimap-mask { fill: var(--lc-panel); fill-opacity: 0.72; }
+.react-flow__minimap-node { fill: var(--lc-candle); fill-opacity: 0.55; stroke: none; }
+.react-flow__attribution { display: none; }
+.react-flow__background { background: var(--lc-panel); }
+.react-flow__background pattern circle { fill: var(--lc-line); }
+.react-flow__edge-text { fill: var(--lc-dim); }
+.react-flow__edge-textbg { fill: var(--lc-panel); }
+
+.lc-spin {
+  border: 2px solid var(--lc-line);
+  border-top-color: var(--lc-candle);
+  border-radius: 50%;
+  animation: lcSpin 0.8s linear infinite;
+}
+@keyframes lcSpin { to { transform: rotate(360deg); } }
+
+/* Observatory 第一层选择卡:hover 点亮(层阶入口的可点性,niko 反馈存档要好点) */
+.obs-save-card { transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s; }
+.obs-save-card:hover {
+  border-color: var(--lc-candle) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.18);
+}
+
+/* 频道玻璃(M24 §7):把全屏组件驯化进中栏 —— 作用域覆盖,不动组件本体 */
+.obs-embed { position: relative; height: 100%; }
+.obs-embed .lc-stage { position: absolute; inset: 0; z-index: 1; }
+/* 嵌入时藏 PlayStage 自带的右侧泳道栏(右栏「在场」已接管该职能) */
+.obs-embed .lc-right { display: none; }
+/* 头条收敛:嵌进频道玻璃后左栏已有世界名,字标多余 —— 藏 .lc-title、
+   压紧高度;右侧「回书房 / 设置 / ReplayBar」原样保留 */
+.obs-embed .lc-head { padding: 4px 12px; gap: 10px; }
+.obs-embed .lc-head .lc-title { display: none; }
+.obs-chan { position: relative; height: 100%; }
+.obs-chan .lc-chat-drawer {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: var(--lc-panel2);
+}
