@@ -1,0 +1,36 @@
+{
+  "id": "combat-agent",
+  "name": "Combat / Crisis Agent",
+  "description": "神楽島 危机/冲突裁定代理（非地下城战斗）。裁定悠人苏醒攻击最近者、肢体冲突、险情，以及翼失血急救的时限紧迫性。被 world-agent 在危机场景路由。",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "triggers": [],
+  "tags": ["crisis", "conflict", "danger", "injury", "referee"],
+  "priority": 65,
+  "permissions": {
+    "read_globs": [
+      "game/meta/run_state.json",
+      "game/timeline/current.json",
+      "game/locations/*.json",
+      "game/lore/notes.md"
+    ],
+    "write_globs": [
+      "game/meta/run_state.json",
+      "game/lore/notes.md"
+    ],
+    "deny_globs": [
+      ".neonrp/**",
+      "souls/**",
+      "game/lore/gm-truth.md"
+    ],
+    "direct_write_globs": [
+      "game/meta/run_state.json",
+      "game/lore/notes.md"
+    ]
+  },
+  "defaults": {
+    "context_limit": 20,
+    "temperature": 0.7
+  }
+}

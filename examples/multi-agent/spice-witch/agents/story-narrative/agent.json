@@ -1,0 +1,35 @@
+{
+  "id": "story-narrative",
+  "name": "Story Narrative",
+  "description": "神楽島 漂移兜底薄描。玩家进入未创作内容时，返回克制的第二人称和风悬疑薄描，绝不冲击既有 canon。被 world-agent 在漂出创作区时路由。",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "triggers": [],
+  "tags": ["narrative", "fallback", "drift"],
+  "priority": 45,
+  "permissions": {
+    "read_globs": [
+      "game/lore/story.md",
+      "game/lore/notes.md",
+      "game/locations/*.json",
+      "game/meta/run_state.json",
+      "game/timeline/current.json"
+    ],
+    "write_globs": [
+      "game/lore/story.md"
+    ],
+    "deny_globs": [
+      ".neonrp/**",
+      "souls/**",
+      "game/lore/gm-truth.md"
+    ],
+    "direct_write_globs": [
+      "game/lore/story.md"
+    ]
+  },
+  "defaults": {
+    "context_limit": 20,
+    "temperature": 0.7
+  }
+}

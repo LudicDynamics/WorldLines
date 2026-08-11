@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "sid": "maestro",
+  "name": "The Maestro",
+  "name_local": "乐师",
+  "version": "1.0",
+  "created_at": "2026-06-22T00:00:00Z",
+  "source": { "kind": "local-create", "hash": null, "version": null },
+  "agent_template": "heroine-classic",
+  "tags": ["npc", "companion", "spirit", "violin"]
+}

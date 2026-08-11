@@ -1,0 +1,35 @@
+{
+  "id": "world-builder",
+  "name": "World Builder",
+  "description": "神楽島 岛屿地图代理。管理 15 个岛上节点的 discovered/danger/状态，扩展或更新岛屿地理与节点连接。被 world-agent 在地图变化时路由。",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "triggers": [],
+  "tags": ["world", "map", "island", "builder"],
+  "priority": 55,
+  "permissions": {
+    "read_globs": [
+      "game/locations/*.json",
+      "game/meta/run_state.json",
+      "game/timeline/current.json",
+      "game/lore/notes.md",
+      "game/lore/story.md"
+    ],
+    "write_globs": [
+      "game/locations/*.json"
+    ],
+    "deny_globs": [
+      ".neonrp/**",
+      "souls/**",
+      "game/lore/gm-truth.md"
+    ],
+    "direct_write_globs": [
+      "game/locations/*.json"
+    ]
+  },
+  "defaults": {
+    "context_limit": 20,
+    "temperature": 0.7
+  }
+}

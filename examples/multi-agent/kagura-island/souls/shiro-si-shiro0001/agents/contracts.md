@@ -1,12 +1,14 @@
-# Soul-agent IO contracts (6 specialists)
+# Soul-agent contract (M30 · 1 soul = 1 agent)
 
-| Agent | Role | Input | Output | Writes |
-|---|---|---|---|---|
-| soul-orchestrator | dispatcher | turn context, world cue | dispatch plan | run_state.json, trajectory/** |
-| soul-mind | cognition | persona+memo+context | intent/appraisal | (none — read-only reasoner) |
-| soul-memory | retention | events this turn | consolidated memory | short-term-memo/**, long-term-memo/** |
-| soul-action | execution | chosen intent | RPG state delta | character/**, trajectory/**, run_state.json |
-| soul-dialogue | speech | scene + interlocutor | spoken lines | short-term-memo/conversation_cache.json |
-| soul-narrative | story-iface | turn outcome | story-facing summary | run_state.json |
+一个 soul = 一个 agent。它只改**自己的 context**（记忆/心境/状态），对世界**只读**；
+写世界状态一律由 world-agent 经 ontology 工具落地。soul 有 `escalate()` 主权上报「这事世界该知道」。
 
-Immutable post-creation: persona/, background/, rules/ (no writer).
+| | 范围 |
+|---|---|
+| **Writes**（仅本 soul 目录内） | `run_state.json` · `trajectory/**` · `short-term-memo/**` · `long-term-memo/**` · `character/**` |
+| **Immutable**（创建后无 writer） | `soul.md` · `persona/` · `background/` · `rules/` |
+| **Reads** | 本 soul 全部 + 世界只读（经感知投递 / `game/meta/run_state.json` · `game/timeline/**` · `game/locations/**`） |
+| **绝不** | 直接写世界状态、跨 soul、替玩家决定/发言 |
+
+> prompt 不在此包内：由引擎注入（可 override 的 runtime 契约 + 本 soul 的 `soul.md` + `persona`）。
+> 旧的 6 路分解（orchestrator/mind/memory/action/dialogue/narrative）与 `.claude/agents/soul-*.md` 已按 M30 废弃。

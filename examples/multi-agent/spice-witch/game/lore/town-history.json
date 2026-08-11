@@ -1,0 +1,32 @@
+{
+  "id": "town-history",
+  "kind": "lore",
+  "name": "A History of Glockmund",
+  "summary": "The town's past. The player pieces it together from the market notice board, tavern rumors, chapel confessions, and a noble's library.",
+  "events": [
+    {
+      "id": "the-last-burning",
+      "when": "about eleven years ago, at the Harvest Feast",
+      "title": "The Last Burning",
+      "content": "Eleven years ago, at the Harvest Feast, the town burned a 'witch' — a lone herb-and-spice woman, accused of making a neighbor's cow miscarry and the well water turn bitter. A young priest led the trial. The old folk only lower their voices now: 'She smiled the whole way to the stake, and said she had done nothing at all.'",
+      "hook": "The name of that young priest who led the trial matches the inquisitor, Severin. The hand on the new wanted notice looks like the same hand too.",
+      "discover_via": ["market-square notice board", "Margot's drink-loosened talk", "listening in at the chapel"]
+    },
+    {
+      "id": "spice-guild-rise-fall",
+      "when": "the last thirty years",
+      "title": "Rise and Fall of the Spice Guild",
+      "content": "Glockmund once grew rich on spice, set where two trade roads crossed; the guild could sway the town council. Then the eastern road shifted, the guild declined, and only House Walzer still buys rare goods, keeping its fixation on 'the scent of far places.' Half of Ode the taxman's harshness is that the town coffers truly are empty.",
+      "hook": "The Count's high prices and his fixation on old instruments are rooted in this decline — he is buying back a vanished prosperity.",
+      "discover_via": ["the Count at the manor", "an old vendor in the market"]
+    },
+    {
+      "id": "the-bitter-year",
+      "when": "about seven years ago",
+      "title": "The Bitter Year",
+      "content": "Seven years ago a fever swept Glockmund and killed near a third of its people. The church grew on it, calling the plague a judgment on the town for 'harboring something unclean.' Ever since, outsiders, the masked, and those who do not sleep at night are watched the closest.",
+      "hook": "This is why Garen remembers every face, and why a masked cloak is conspicuous — this town has been trained by fear.",
+      "discover_via": ["the names of the dead carved at the chapel", "Margot"]
+    }
+  ]
+}

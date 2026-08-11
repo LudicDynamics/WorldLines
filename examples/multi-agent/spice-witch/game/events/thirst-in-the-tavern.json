@@ -1,0 +1,29 @@
+{
+  "id": "thirst-in-the-tavern",
+  "kind": "scripted",
+  "name": "Tavern Night · Thirst",
+  "tags": ["tavern", "thirst", "blood", "self-control", "high-stakes"],
+  "summary": "The Night-Owl is full of warm throats. After dark your thirst slips its leash; the sound of blood moving under every skin rises like a tide.",
+  "precondition": {
+    "requires_location": "tavern",
+    "requires_time": "night",
+    "min_thirst": 7
+  },
+  "fire_once": false,
+  "narrative_beats": [
+    "Hearth-fire, sweat, ale. And that sound — blood moving under skin, thin, like countless streams.",
+    "The throat of the drunk at the next table rises and falls. You realize you have been staring too long.",
+    "The one in the case, almost a whisper: \"Your eyes. Pull the hood down. Now.\""
+  ],
+  "player_options": [
+    "Rise and leave, ride out to the wagon and endure it alone (safe, but thirst remains; tomorrow night is worse)",
+    "Follow a stray drunk into an alley (zeroes thirst, but almost surely leaves a corpse and rumors → suspicion spikes)",
+    "Ask Margot for a room that locks, grit it out (costs coins; pass the check and thirst eases a little, no suspicion rise)"
+  ],
+  "state_writes": [],
+  "consequences": [
+    "Restraint: once more you harmed no one. Thirst doesn't zero, but you remain 'the safe one.'",
+    "Indulgence: thirst zeroes, but a body is found in town next day — suspicion spikes, the inquisitor comes, and this town is one you can likely only flee.",
+    "Caught losing control: eyes and fangs seen by another is the same as public exposure."
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "noble-soiree",
+  "kind": "scripted",
+  "name": "The Count's Soiree",
+  "tags": ["noble", "manor", "trade", "violin", "intrigue"],
+  "summary": "Count Walzer holds a soiree, ostensibly to taste spice, truly to hear your violin — he wants to buy it.",
+  "precondition": {
+    "requires_location": "noble-manor",
+    "min_qin_trust": 0,
+    "requires_flags": ["met_noble"]
+  },
+  "fire_once": true,
+  "narrative_beats": [
+    "Candlelight, silver, warm voices. The Count pours your wine himself, but his talk circles the case in your arms.",
+    "'I have collected the finest instruments in the town,' he says, 'but never one that chooses its own listener. Name a price.'",
+    "The one in the case, languidly: \"If you sell me to a noble with a carriage, I might carry you off — indirectly.\" He is waiting to hear how you answer."
+  ],
+  "player_options": [
+    "Sell spice in bulk at a high price, never mention the violin (coins++, safe)",
+    "Let him hear a passage, raise your worth but don't sell (risky: he grows more fixed, may pull strings to check you)",
+    "Seriously consider selling the violin for the carriage and pass (a major choice: lose the spirit-companion for a shortcut out)"
+  ],
+  "state_writes": [
+    {"path": "game/state/current.json#flags.noble_soiree_done", "op": "set", "value": true}
+  ],
+  "consequences": [
+    "Sell spice: a big purse, enough for many legs of the road.",
+    "Sell the violin: never again that voice that punctures your self-deception and saves you money. The world goes quiet, and lonely — one ending of the the-vessel long game.",
+    "Dangle and refuse: the Count's fixation may turn into another danger — a man of wealth and power finds it easy to look into an out-of-town woman."
+  ]
+}

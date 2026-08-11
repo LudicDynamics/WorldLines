@@ -1,0 +1,31 @@
+{
+  "schema_version": 2,
+  "playthrough_id": "pt-spicewitch-glockmund1",
+  "world": {
+    "wid": "spice-witch",
+    "instance_id": "wi-spicewitch01",
+    "version_hash": "spicewitch00",
+    "head_commit": "5p1ce0000001"
+  },
+  "world_agent_team": {
+    "seeded_from": "game/agents/manifest.json@spicewitch00",
+    "agents": [
+      { "id": "world-agent", "role": "orchestrator", "singleton": true },
+      { "id": "town-agent", "role": "functional-sub-agent", "singleton": false },
+      { "id": "combat-agent", "role": "functional-sub-agent", "singleton": false },
+      { "id": "rules-referee", "role": "functional-sub-agent", "singleton": false },
+      { "id": "world-builder", "role": "functional-sub-agent", "singleton": false },
+      { "id": "npc-builder", "role": "functional-sub-agent", "singleton": false },
+      { "id": "story-narrative", "role": "functional-sub-agent", "singleton": false }
+    ]
+  },
+  "players": [
+    { "pid": "player", "name": "Eliane", "state_path": "game/player", "kind": "human" }
+  ],
+  "souls": [
+    { "sid": "maestro", "instance_id": "si-maestro01", "version_hash": "spicewitch00", "head_commit": "5p1cema35001", "role": "npc" },
+    { "sid": "severin", "instance_id": "si-severin1", "version_hash": "spicewitch00", "head_commit": "5p1cesev1001", "role": "npc" }
+  ],
+  "created_at": "2026-06-22T00:00:00Z",
+  "active_souls": ["si-maestro01", "si-severin1"]
+}

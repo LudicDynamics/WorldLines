@@ -1,0 +1,9 @@
+{
+  "sid": "severin",
+  "display_name": "Severin",
+  "name_local": "塞维林",
+  "age": 44,
+  "role": "npc",
+  "tags": ["npc", "inquisitor", "hunter", "church"],
+  "summary": "教会派来的猎巫者。不喊叫、不动用刑具——只是坐在礼拜堂里,听每一次告解,记下每一处不对,然后等对方露出破绽。他追查一个跨越数十年的传闻:一个永远十六七岁、从一个镇游荡到下一个镇的少女。他不需要证据,只需要她失足。"
+}

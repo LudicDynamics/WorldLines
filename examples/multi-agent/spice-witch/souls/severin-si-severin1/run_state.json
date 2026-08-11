@@ -1,0 +1,8 @@
+{
+  "sid": "severin",
+  "instance_id": "si-severin1",
+  "location": "church",
+  "status": { "hp": 100, "max_hp": 100, "memory": "intact", "mood": "patient" },
+  "turn_count": 0,
+  "loop_state": { "has_memory": true, "residual": "none" }
+}

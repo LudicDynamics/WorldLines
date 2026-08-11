@@ -1,0 +1,32 @@
+{
+  "id": "current",
+  "kind": "state",
+  "name": "Glockmund · Stay State",
+  "clock": {
+    "day": 1,
+    "time": "dusk",
+    "time_periods": ["morning", "noon", "dusk", "night"],
+    "actions_per_period": 2,
+    "leave_town_by": "Must leave before sundown of day 3 — the longer you stay, the more people remember this face that never ages"
+  },
+  "meters": {
+    "coins": 18,
+    "suspicion": 0,
+    "thirst": 2,
+    "qin_trust": 60
+  },
+  "meter_rules": {
+    "suspicion": "0–100. Contradictory cover claims, public use of the spirit, lingering in the church by day, flaunting wealth, a glimpse of red eyes all raise it. ≥70 triggers the inquisitor's intervention; =100 means exposure.",
+    "thirst": "0–10. +1 each night. ≥7: the eyes can't hold back the dark red and checks fail more easily; feeding zeroes it but spikes suspicion and may leave a corpse.",
+    "qin_trust": "0–100. The spirit is counsel and conscience; high trust, he'll act (a frightening note); low trust, he only watches.",
+    "coins": "Silver. Toll, lodging, bribes all cost; earned by selling spice. Zero leaves you stranded."
+  },
+  "cover_active": null,
+  "cover_claims": [],
+  "flags": {
+    "gate_passed": false,
+    "tax_settled": false,
+    "alley_blood_investigated": false,
+    "inquisitor_alerted": false
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "npc-builder",
+  "name": "NPC Builder",
+  "description": "神楽島 临时/路人 NPC 生成代理。仅生成无名背景人物（渔夫、祭典帮工、孩子等）。具名 cast 由 soul 团队自治，此代理绝不触碰。被 world-agent 在需要背景人物时路由。",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "triggers": [],
+  "tags": ["npc", "incidental", "background", "builder"],
+  "priority": 50,
+  "permissions": {
+    "read_globs": [
+      "game/locations/*.json",
+      "game/meta/run_state.json",
+      "game/meta/roster.json",
+      "game/timeline/current.json",
+      "game/lore/notes.md"
+    ],
+    "write_globs": [
+      "game/lore/notes.md",
+      "game/locations/*.json"
+    ],
+    "deny_globs": [
+      ".neonrp/**",
+      "souls/**",
+      "game/lore/gm-truth.md"
+    ],
+    "direct_write_globs": [
+      "game/lore/notes.md",
+      "game/locations/*.json"
+    ]
+  },
+  "defaults": {
+    "context_limit": 20,
+    "temperature": 0.8
+  }
+}

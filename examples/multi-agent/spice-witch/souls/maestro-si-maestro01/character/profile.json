@@ -1,0 +1,9 @@
+{
+  "sid": "maestro",
+  "display_name": "The Maestro",
+  "name_local": "乐师",
+  "age": null,
+  "role": "npc",
+  "tags": ["npc", "companion", "spirit", "violin"],
+  "summary": "住在艾莲娜琴盒里的乐器之灵。慵懒、优雅、舌尖带刺的男声。比她年长,知道得也比她多——却从不说出真名,也不说自己如何成了一把小提琴。她唯一的同伴与忠告者:编排掩护的说辞,在关键一刻拉出令人胆寒的一弦,偶尔也戳破她对自己的欺瞒。始终在场。"
+}

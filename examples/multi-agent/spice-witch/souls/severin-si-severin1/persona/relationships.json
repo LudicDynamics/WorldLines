@@ -1,0 +1,14 @@
+{
+  "sid": "hane",
+  "relationships": {
+    "tsubasa": {
+      "disposition": "younger_sister",
+      "known": false,
+      "truth": "翼是她姐姐；姐妹命运将在她身上重演"
+    },
+    "kakaru": {
+      "disposition": "fellow_awakened",
+      "known": false
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "taxman-shakedown",
+  "kind": "scripted",
+  "name": "The Taxman's Shakedown",
+  "tags": ["taxman", "market", "economy", "low-stakes"],
+  "summary": "You flashed wealth in the open market, and Ode the tax-collector, scenting coin, has latched on.",
+  "precondition": {
+    "requires_location": "market-square",
+    "requires_flags": ["flaunted_wealth"],
+    "min_suspicion": 0
+  },
+  "fire_once": false,
+  "narrative_beats": [
+    "A hand settles on your stall cloth. It is Ode, his silver buckle bright in the dusk.",
+    "'Madam, from so far away — saffron is no common ware.' He smiles gently. 'The town coffers have been a little empty of late.'"
+  ],
+  "player_options": [
+    "Bribe him (coins-, no suspicion rise; he'll be harder next time)",
+    "Argue the price down (success cuts the loss; failure raises suspicion)",
+    "Let the Maestro draw a frightening note (instant escape, but bystanders stare → quiet suspicion rise)"
+  ],
+  "state_writes": [
+    {"path": "game/state/current.json#flags.tax_settled", "op": "set", "value": true}
+  ],
+  "consequences": [
+    "Bribe: coins drop; Ode marks you as 'one who pays' and turns up more often.",
+    "Use the spirit: no tax this time, but suspicion creeps up, and the inquisitor's men may hear of 'strange doings in the market.'"
+  ]
+}

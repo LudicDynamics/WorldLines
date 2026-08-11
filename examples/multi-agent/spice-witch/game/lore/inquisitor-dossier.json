@@ -1,0 +1,25 @@
+{
+  "id": "inquisitor-dossier",
+  "kind": "lore",
+  "name": "Inquisitor Severin's Dossier",
+  "summary": "Severin's leather-bound notebook. It records the rumor he has chased for over a decade — a girl forever sixteen or seventeen, drifting town to town. If the player glimpses it (sneaking into the chapel / stealing it / catching sight during a high-suspicion interview), they understand why he is so patient.",
+  "entries": [
+    {
+      "town": "Glockmund (eleven years ago)",
+      "note": "The first 'witch' I burned with my own hands. To the last she said she had done nothing. Then I believed justice had been served. Only later did I understand — the real one was in town that year too, watching me burn the wrong woman, and then quietly leaving."
+    },
+    {
+      "town": "Frosthaven (eight years ago)",
+      "note": "Customs record: an 'Eastern spice woman,' paid her toll in full, gone in three days. Two sailors who saw her swore she was the same face, just as young, as one who had come seven years before."
+    },
+    {
+      "town": "Wheatvale (four years ago)",
+      "note": "A widowed traveling merchant, fine cloth, a violin in her arms. The chapel's holy water left her 'unwell.' We laid a trap; she vanished the night before the hunt, as if someone had played her a note no one could quite hear."
+    },
+    {
+      "town": "(blank page)",
+      "note": "She stays only three days in each town. She thinks a change of name will keep me from knowing her. But the years leave no mark on her face — and that is exactly how I know her. Next time, I will not be hasty. I will wait for her to slip."
+    }
+  ],
+  "hook": "The dossier records every past alias Eliane has used (Eastern spice merchant / widowed merchant), and 'only stays three days' / 'fears holy water' / 'escapes by a note.' Any old line the player reuses this run may land straight on a page he already wrote."
+}

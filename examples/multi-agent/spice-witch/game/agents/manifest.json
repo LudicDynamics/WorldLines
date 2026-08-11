@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "generated_by": "kagura-island-orchestrator",
+  "version": "2.0",
+  "note": "Creator-versioned world-agent roster. world-agent is the sole world sovereign: it owns the functional sub-agents below and closes every turn. The cast under souls/ are full M16 soul bundles bound by playthrough.json. Runtime may fan out to active souls concurrently, but world truth still closes through world-agent. No standalone narrator — world-agent integrates and narrates; story-narrative is only a drift fallback.",
+  "agents": [
+    {
+      "id": "world-agent",
+      "name": "World Agent",
+      "role": "orchestrator",
+      "singleton": true,
+      "agent_path": "agents/world-agent/system.md",
+      "description": "Layer-1 主控调度器/team-leader:管理 soul 团队(并行+sticky)、按 scope 串行路由 functional 子代理、合并、推进循环/勾玉/消失/禁忌、直接产出叙事。",
+      "read_globs": ["game/**", ".neonrp/playthrough.json", ".neonrp/manifest.json"],
+      "write_globs": ["game/meta/run_state.json", "game/timeline/*.json", "game/locations/*.json", "game/lore/notes.md", "game/lore/story.md", "game/lore/gm-truth.md"]
+    },
+    {
+      "id": "town-agent",
+      "name": "Town Agent",
+      "role": "functional-sub-agent",
+      "singleton": false,
+      "agent_path": "agents/town-agent/system.md",
+      "description": "潮待ち茶屋/城镇:导航、场所、NPC 互动、信息线索。"
+    },
+    {
+      "id": "combat-agent",
+      "name": "Combat Agent",
+      "role": "functional-sub-agent",
+      "singleton": false,
+      "agent_path": "agents/combat-agent/system.md",
+      "description": "危机/冲突裁定:悠人苏醒反射攻击、险情、肢体冲突分级。"
+    },
+    {
+      "id": "rules-referee",
+      "name": "Rules Referee",
+      "role": "functional-sub-agent",
+      "singleton": false,
+      "agent_path": "agents/rules-referee/system.md",
+      "description": "非战斗判定/常识检查/不可逆禁忌判定。"
+    },
+    {
+      "id": "world-builder",
+      "name": "World Builder",
+      "role": "functional-sub-agent",
+      "singleton": false,
+      "agent_path": "agents/world-builder/system.md",
+      "description": "岛屿地图/区域 discovered/danger/连接/退潮可达性。"
+    },
+    {
+      "id": "npc-builder",
+      "name": "NPC Builder",
+      "role": "functional-sub-agent",
+      "singleton": false,
+      "agent_path": "agents/npc-builder/system.md",
+      "description": "无名路人 NPC 生成(具名 cast 由 soul 自治)。"
+    },
+    {
+      "id": "story-narrative",
+      "name": "Story Narrative",
+      "role": "functional-sub-agent",
+      "singleton": false,
+      "agent_path": "agents/story-narrative/system.md",
+      "description": "玩家进入未创作内容时的兜底第二人称薄描。"
+    }
+  ],
+  "soul_team": {
+    "note": "Named cast = isolated soul actors bound by .neonrp/playthrough.json souls[]/active_souls. Each soul is authored as an internal six-specialist contract, but current runtime resolves it as one consolidated soul-agent. world-agent never reads souls/** — souls return results to it."
+  },
+  "routing_rules": {
+    "every_turn": {
+      "description": "world-agent owns the turn; active souls react in parallel; functional sub-agents are routed as needed; world-agent integrates and closes the player-facing narration.",
+      "layer1": "world-agent",
+      "soul_team": "parallel+sticky (playthrough active_souls)",
+      "functional": ["town-agent", "combat-agent", "rules-referee", "world-builder", "npc-builder", "story-narrative"]
+    }
+  }
+}

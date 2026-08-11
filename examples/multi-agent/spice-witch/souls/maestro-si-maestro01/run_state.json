@@ -1,0 +1,8 @@
+{
+  "sid": "maestro",
+  "instance_id": "si-maestro01",
+  "location": "city-gate",
+  "status": { "hp": 100, "max_hp": 100, "memory": "intact", "mood": "amused" },
+  "turn_count": 0,
+  "loop_state": { "has_memory": true, "residual": "none" }
+}

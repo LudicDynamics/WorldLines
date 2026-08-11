@@ -1,0 +1,25 @@
+{
+  "session_id": "S0001",
+  "world_id": "spice-witch",
+  "turn_count": 0,
+  "location": {
+    "scope": "town",
+    "node": "city-gate",
+    "zone": "gate",
+    "display": "Glockmund · 城门"
+  },
+  "time": { "cycle_day": 1, "period": "dusk", "loop_count": 0, "actions_this_period": 0 },
+  "last_action": "approached_the_gate_at_dusk",
+  "pending": ["决定今晚的掩护身份", "进城门,过税卡"],
+  "party": {
+    "player": { "pid": "player", "state_path": "game/player", "location": "city-gate", "memory": "intact" }
+  },
+  "world_flags": {
+    "gate_passed": false,
+    "tax_settled": false,
+    "alley_blood_investigated": false,
+    "inquisitor_alerted": false
+  },
+  "npc_met": [],
+  "npc_mentioned_not_met": []
+}

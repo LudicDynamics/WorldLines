@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "sid": "severin",
+  "name": "Severin",
+  "name_local": "塞维林",
+  "version": "1.0",
+  "created_at": "2026-06-22T00:00:00Z",
+  "source": { "kind": "local-create", "hash": null, "version": null },
+  "agent_template": "heroine-classic",
+  "tags": ["npc", "inquisitor", "hunter", "church"]
+}

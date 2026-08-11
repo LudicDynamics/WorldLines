@@ -1,0 +1,24 @@
+{
+  "id": "eliane-wanderings",
+  "kind": "lore",
+  "name": "Eliane's Wanderings",
+  "summary": "Things Eliane remembers but rarely speaks of. This is her 'history,' and the reason she stays only three days in each town. Narrative may use it to weight her choices, but never dump it on the player at once.",
+  "fragments": [
+    {
+      "title": "Why only three days",
+      "content": "She tried to stay, once. She stopped a whole winter in some town, opened a shop, almost let herself believe she could live as others do. But by the third month the neighbors began counting the days against her — 'how is it you haven't changed at all?' Three days is the safe line she worked out: long enough to finish a trade, too short for anyone to remember a face that doesn't age."
+    },
+    {
+      "title": "The first time she was called a witch",
+      "content": "It was in the village where she was born. Her peers grew into adults, the adults into old folk, the old folk into graves behind the church, and she was still a girl. Her mother's last look at her was not hatred — it was fear. She took that look onto the road and never turned back."
+    },
+    {
+      "title": "How she met the Maestro",
+      "content": "Left open. She says only 'he has always been there,' and turns the question aside if pressed. The dossier, the rumors, even the Maestro himself, will only let slip fragments that contradict each other. (A mutual hook with lore/the-vessel.json; released as qin_trust rises.)"
+    },
+    {
+      "title": "Has she fed",
+      "content": "Left open. She holds back hard, but behind 'holds back hard' lie losses of control, corpses, rumors that chased her to the next town. She won't volunteer it; the player can pry the truth loose in a high-thirst dilemma."
+    }
+  ]
+}

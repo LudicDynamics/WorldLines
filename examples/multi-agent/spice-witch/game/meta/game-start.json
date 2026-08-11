@@ -1,0 +1,49 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "Spice & Witch — Dusk at Glockmund",
+  "version": "0.2",
+  "language": "en",
+  "language_note": "Source authored in English; agents render prose in the player's language at runtime.",
+  "setting": {
+    "era": "medieval",
+    "region": "Glockmund, a mid-world market town",
+    "season": "late autumn",
+    "time": "dusk",
+    "weather": "just after rain"
+  },
+  "player": {
+    "id": "eliane",
+    "note": "The player is Eliane, an ageless being disguised as a spice merchant. See player/eliane.json."
+  },
+  "startup": {
+    "read_first": [
+      "player/eliane.json",
+      "npc/garen.json",
+      "npc/taxman.json",
+      "npc/tavernkeeper.json",
+      "npc/noble.json",
+      "npc/stranger.json",
+      "locations/highway.json",
+      "locations/city-gate.json",
+      "locations/market-square.json",
+      "state/current.json",
+      "item/spice-pouch.json",
+      "item/violin.json"
+    ],
+    "opening_scene": "Dusk runs down between the steep roofs of Glockmund, and the cobblestones shine, washed by the rain.\n\nYou hold the violin case tighter and pull the hood of your cloak a little lower. Your wagon waits at the edge of the road outside the walls, carrying everything you own — cinnamon, clove, pepper, and a small pinch of saffron worth more than a peasant's life.\n\nFar off, the church bell falls like a heavy copper coin into the thin mist. The torches at the gate sway in the wind; two guards are stopping everyone who hopes to get in before the locks come down.\n\nFrom inside the case, a man's languid voice: \"And what will you be tonight — a merchant, or … something else?\"\n\nYou look down at the case. The gate is getting closer. Time to settle on a story.",
+    "opening_choices": [
+      "Walk straight to the gate and claim to be \"a spice merchant from the East\"",
+      "Sort your spices and coins outside the walls first, and plan your line",
+      "Murmur to the one in the case — \"Tell me, what do I look like tonight?\"",
+      "Slip into the shadow of the wall and look for a way in that skips the toll"
+    ]
+  },
+  "themes": [
+    "Disguise: each town means inventing an identity; the more lies, the easier to slip",
+    "Thirst: at night you can hear blood moving under skin; restraint and indulgence both have a price",
+    "Exposure: bells, holy water, daylight, witch-hunters — this age leaves no room for a girl who never ages",
+    "The spirit: the violin in your arms is your only companion, and the one thing you can't sell"
+  ],
+  "design_north_star": "An ageless being disguised as a merchant, in each town she only stays three days, must turn spice into silver while no one discovers she never grows old and never lingers in the daytime church."
+}

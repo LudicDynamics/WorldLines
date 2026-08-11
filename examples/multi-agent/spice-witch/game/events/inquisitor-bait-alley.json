@@ -1,0 +1,31 @@
+{
+  "id": "inquisitor-bait-alley",
+  "kind": "scripted",
+  "name": "The Bait in the Alley",
+  "tags": ["inquisitor", "alley", "blood", "trap", "high-stakes"],
+  "summary": "The bleeding stranger in the alley is the inquisitor's trap — set for whatever smells blood and comes to it.",
+  "precondition": {
+    "requires_location": "dark-alley",
+    "requires_stranger_identity": "bait",
+    "min_suspicion": 40
+  },
+  "fire_once": true,
+  "narrative_beats": [
+    "You bend toward the spilled blood. It is too fresh — unnaturally so, no sign of struggle, as if poured here with care.",
+    "A very soft step at the mouth of the alley. Not fleeing — confirming. 'See,' a gentle voice says, 'she came after all.'",
+    "The one in the case drops his tone at once: \"It's a trap. Don't let your eyes change color.\""
+  ],
+  "player_options": [
+    "Crush the thirst down and walk out as if nothing (a hard check at high thirst)",
+    "Play along, act the ordinary woman frightened by blood (your acting against his watching)",
+    "Have the Maestro play a note to scatter the scene and slip away (escape, but confirms 'strange doings')"
+  ],
+  "state_writes": [
+    {"path": "game/state/current.json#flags.inquisitor_alerted", "op": "set", "value": true},
+    {"path": "game/state/current.json#flags.alley_blood_investigated", "op": "set", "value": true}
+  ],
+  "consequences": [
+    "Either way, the inquisitor has confirmed you 'react to blood' — suspicion rises sharply, escalation reaches at least the 40–70 band.",
+    "If your eyes redden and are 'witnessed' on the spot: suspicion jumps to ≥70, and the next step is a formal interview."
+  ]
+}

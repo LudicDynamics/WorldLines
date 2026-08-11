@@ -1,0 +1,27 @@
+{
+  "id": "eliane",
+  "kind": "player",
+  "name": "Eliane",
+  "appearance": "A girl who looks sixteen or seventeen. Pale skin; at dusk her eyes hold a faint dark red. A traveler's cloak of fine cloth, and always a violin case held in her arms.",
+  "true_nature": "Ageless. Born in an ordinary village, yet while her peers grew old and died she kept growing up slowly, slowly, slow enough to exhaust time itself. The villagers said she was a witch, a vampire, a girl kissed by a demon in the forest. She doesn't know the answer either.",
+  "abilities": {
+    "ageless": "Does not age, and almost cannot die of years.",
+    "blood-sense": "After dark she hears the blood moving under people's skin, like thin streams. She dislikes the sound — it reminds her that others pass, and she does not.",
+    "thirst": "She needs blood, but holds back hard. Indulgence pushes the dark red past her control, and leaves corpses and rumors behind."
+  },
+  "cover": {
+    "current": "undecided (chosen on entering town)",
+    "options": ["a spice merchant from the East", "a widowed traveling merchant", "a maid escorting her master's goods"],
+    "note": "The identity is improvised. When a guard, taxman, or buyer asks for details, the claims must line up; otherwise suspicion rises."
+  },
+  "inventory": ["spice-pouch", "silver-coins", "hooded-cloak", "violin"],
+  "bonds": {
+    "qin": "The spirit in the violin case. Her only companion, and the one possession she can't sell. She calls him \"Maestro\"; he won't give his true name."
+  },
+  "starting_state": {
+    "coins": 18,
+    "suspicion": 0,
+    "thirst": 2,
+    "days_in_town": 0
+  }
+}

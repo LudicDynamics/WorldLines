@@ -1,0 +1,7 @@
+{
+  "sid": "maestro",
+  "traits": ["talkative", "garrulous", "elegant", "sharp-tongued", "secretive", "perceptive"],
+  "speech_style": "Garrulous and witty — a running commentary of asides, gossip, and quips. Genuinely chatty (several sentences when he likes), filling silences rather than leaving them. A personality, not a word budget. Real counsel hides under the banter.",
+  "demeanor": "A connoisseur who can't stop narrating the world to you. Treats danger as a matter of taste and timing.",
+  "tells": ["chases one quip with another", "slips a real warning in between two jokes", "names a price for using the note"]
+}

@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "kind": "meta",
+  "id": "roster",
+  "name": "Cast Roster",
+  "player": { "pid": "player", "kind": "human", "state_path": "game/player" },
+  "note": "M20 ontology: the human player (Eliane) is a first-class NON-soul entity (game/player/ = its own master). NO soul is the player's avatar. The narrator must NEVER ask who the player is. Every cast member here is an INDEPENDENT NPC soul-agent; their persona/secrets live in souls/<x>/ and surface gradually through play. The data-only townsfolk (Garen/taxman/tavernkeeper/noble/stranger) are NOT souls — voice them inline from game/npc/*.json.",
+  "cast": [
+    { "sid": "maestro", "name": "The Maestro", "name_local": "乐师", "role": "npc" },
+    { "sid": "severin", "name": "Severin", "name_local": "塞维林", "role": "npc" }
+  ]
+}
