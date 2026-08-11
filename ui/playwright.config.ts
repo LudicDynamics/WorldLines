@@ -6,6 +6,15 @@ import { defineConfig } from '@playwright/test'
 const PORT = process.env.E2E_PORT || '8799'
 const BASE = `http://127.0.0.1:${PORT}`
 
+// 起引擎的脚本住在引擎仓(专有,不在本仓)。引擎的 scripts/e2e.sh 会
+// export NEONRP_E2E_SERVER 指到它自己的 e2e-server.sh —— 这条缝让引擎
+// 去壳(删掉自带 ui/)之后仍能跨仓跑全套 Playwright。
+// 没设时回退到旧的相对路径,即壳还住在引擎仓里时的布局。
+const E2E_SERVER = process.env.NEONRP_E2E_SERVER
+const SERVER_COMMAND = E2E_SERVER
+  ? `bash ${E2E_SERVER}`
+  : 'bash ../scripts/e2e-server.sh'
+
 export default defineConfig({
   testDir: './e2e',
   timeout: 45_000,
@@ -19,7 +28,7 @@ export default defineConfig({
     trace: 'retain-on-failure',
   },
   webServer: {
-    command: 'bash ../scripts/e2e-server.sh',
+    command: SERVER_COMMAND,
     url: `${BASE}/api/v1/meta`,
     reuseExistingServer: false,
     timeout: 60_000,
