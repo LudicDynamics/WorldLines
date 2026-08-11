@@ -40,7 +40,7 @@ export function LocalWorldDetail() {
     [world, worldId],
   )
 
-  function enter(slug: string, _label: string) {
+  function enter(slug: string) {
     // 经进场页(PrePlay);存档带 resume=1,世界 id 走新开
     const resume = slug !== worldId ? '?resume=1' : ''
     nav(`/local/preplay/${encodeURIComponent(slug)}${resume}`)
@@ -93,7 +93,7 @@ export function LocalWorldDetail() {
           )}
           <div className="mt-4 flex gap-3 flex-wrap">
             <button
-              onClick={() => enter(worldId, 'new')}
+              onClick={() => enter(worldId)}
               disabled={busy !== ''}
               className="text-[13px] font-semibold rounded-lg px-5 py-2 cursor-pointer border-0"
               style={{ background: 'var(--lc-candle)', color: 'var(--lc-on-accent)' }}
@@ -146,7 +146,7 @@ export function LocalWorldDetail() {
                 )}
               </div>
               <button
-                onClick={() => enter(s.session_id, s.session_id)}
+                onClick={() => enter(s.session_id)}
                 disabled={busy !== ''}
                 className="flex-none text-[12.5px] rounded-lg px-4 py-1.5 cursor-pointer border"
                 style={{ borderColor: 'var(--lc-candle)', color: 'var(--lc-candle)', background: 'transparent' }}

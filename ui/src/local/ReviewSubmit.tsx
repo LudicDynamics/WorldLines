@@ -19,14 +19,19 @@ export function ReviewSubmit({ worldId, worldName }: { worldId: string; worldNam
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState('')
 
-  const refresh = useCallback(async () => {
-    try {
-      const subs = await mySubmissions()
-      setLatest(subs.find((s) => s.slug === worldId || s.name === worldName) || null)
-    } catch {
-      /* 路由面不可达(纯本地)— 卡片本就不显示 */
-    }
-  }, [worldId, worldName])
+  // Promise-chain form so react-hooks/set-state-in-effect can see that the
+  // setState happens in the async continuation (it does not model await).
+  const refresh = useCallback(
+    () =>
+      mySubmissions()
+        .then((subs) => {
+          setLatest(subs.find((s) => s.slug === worldId || s.name === worldName) || null)
+        })
+        .catch(() => {
+          /* 路由面不可达(纯本地)— 卡片本就不显示 */
+        }),
+    [worldId, worldName],
+  )
 
   useEffect(() => {
     if (hosted && worldId) void refresh()

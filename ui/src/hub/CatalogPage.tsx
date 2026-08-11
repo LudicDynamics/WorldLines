@@ -29,24 +29,31 @@ const TABS: { kind: Kind; labelKey: string }[] = [
 
 export function CatalogPage({ kind }: { kind: Kind }) {
   const { t } = useI18n()
-  const [stories, setStories] = useState<Story[] | null>(null)
-  const [error, setError] = useState<string | null>(null)
+  // The load result carries the kind it belongs to, so switching kinds reads
+  // as "loading" by derivation instead of a synchronous reset inside the
+  // effect (react-hooks/set-state-in-effect) — one render pass fewer, same
+  // visible sequence.
+  const [loaded, setLoaded] = useState<{
+    kind: Kind
+    stories: Story[]
+    error: string | null
+  } | null>(null)
+  const current = loaded && loaded.kind === kind ? loaded : null
+  const stories = current ? current.stories : null
+  const error = current ? current.error : null
   const copy = COPY[kind]
 
   useEffect(() => {
-    setStories(null)
-    setError(null)
     let cancelled = false
     fetchRegistry(kind)
       .then((reg) => {
         if (cancelled) return
         const list = (reg[kind] ?? []) as NonNullable<typeof reg.worlds>
-        setStories(groupBySlug(list))
+        setLoaded({ kind, stories: groupBySlug(list), error: null })
       })
       .catch((err) => {
         if (cancelled) return
-        setError(err.message)
-        setStories([])
+        setLoaded({ kind, stories: [], error: err.message })
       })
     return () => {
       cancelled = true

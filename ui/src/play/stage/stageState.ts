@@ -429,7 +429,7 @@ function applyEvent(s: StageState, ev: EngineEvent, t: T, dev: boolean, ts: numb
             s,
             String(p.instance_id),
             `👁 ${esc(t('narr.perceived'))}: ${esc(String(p.scene_label || '?'))}` +
-              (ln ? `<br>　${esc(t('narr.last_world'))}: ${esc(ln.slice(0, 120))}…` : ''),
+              (ln ? `<br>\u3000${esc(t('narr.last_world'))}: ${esc(ln.slice(0, 120))}…` : ''),
           )
         }
         if (topic.endsWith('/response')) {

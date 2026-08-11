@@ -345,7 +345,6 @@ function ImageSlot({
         style={{ borderColor: 'var(--color-border-light)' }}
       >
         {url ? (
-          // eslint-disable-next-line jsx-a11y/img-redundant-alt
           <img src={url} alt={label} className="absolute inset-0 w-full h-full object-cover" />
         ) : (
           <span className="flex flex-col items-center gap-1 text-[11px] text-[var(--color-text-muted)]">

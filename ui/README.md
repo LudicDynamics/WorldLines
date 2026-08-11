@@ -112,14 +112,19 @@ without an `index.html` is ignored rather than trusted, so a half-built
 
 ## Tests
 
-`npx tsc -b` is clean and is what CI gates on, together with the build.
+`npm run lint` and `npx tsc -b` are both clean, and CI gates on both plus the
+build — a lint error fails the PR.
 
-`npm run lint` currently exits non-zero: 16 errors and 26 warnings, carried
-over verbatim from the engine repo (mostly `setState` inside effects and
-refs touched during render, plus two unused bindings). They are pre-existing
-rather than anything the repo split introduced, so CI does not gate on lint
-yet. Don't let a green typecheck fool you into thinking lint is clean; if
-you clear them, do it as its own change rather than inside a feature PR.
+Lint still reports warnings, which are not gated: mostly
+`react-refresh/only-export-components` (files that export a component
+alongside its helpers) and a few deliberate `exhaustive-deps` omissions where
+the effect is meant to run once. Clear them if you are already in the file;
+don't bundle a sweep into an unrelated PR.
+
+There is exactly one `eslint-disable` for `react-hooks/set-state-in-effect`,
+in `play/boot/BootTheater.tsx`, with the reasoning written at the site. If
+you add another, expect to justify it in review — the rest of the package
+satisfies the rule structurally.
 
 The Playwright suite in `e2e/` **cannot run from this repository**. Its
 `webServer` boots a real engine via a script in the engine repo, so the

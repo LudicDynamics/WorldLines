@@ -48,6 +48,20 @@ export function BootTheater({
 }) {
   // Keep the theater mounted for one fade after `active` flips off so the
   // cross-fade to the stage actually plays.
+  //
+  // The reset below stays synchronous on purpose, and is the one place in this
+  // package that keeps a set-state-in-effect exemption. This is a transition
+  // machine: `gone` has to be cleared exactly when a NEW boot starts, and the
+  // only signal for "new boot" is `active` flipping back to true. Deriving it
+  // needs the previous value of `active`, which lives in a ref — and reading a
+  // ref during render is itself forbidden (react-hooks/refs), so the two rules
+  // together leave no derived formulation. Rewriting it properly means moving
+  // the leave timing into the stageState boot machine, where the rest of the
+  // phase transitions already live (see this file's header).
+  //
+  // Not attempted here because it is a purely visual cross-fade and this repo
+  // cannot run the Playwright suite (it needs the proprietary engine), so a
+  // regression would not be caught by typecheck or build. Left behaviour-identical.
   const [leaving, setLeaving] = useState(false)
   const [gone, setGone] = useState(false)
   const wasActive = useRef(boot.active)
@@ -59,6 +73,7 @@ export function BootTheater({
     }
     wasActive.current = boot.active
     if (boot.active) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- see above
       setLeaving(false)
       setGone(false)
     }

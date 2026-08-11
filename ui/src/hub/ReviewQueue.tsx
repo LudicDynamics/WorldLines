@@ -36,20 +36,25 @@ export function ReviewQueue() {
   const [busy, setBusy] = useState('')
   const [forbidden, setForbidden] = useState(false)
 
-  const refresh = useCallback(async () => {
-    try {
-      const d = await jfetch<{ submissions: SubmissionMeta[] }>(
-        `${API}/submissions?status=${status}`,
-      )
-      setSubs(d.submissions || [])
-      setErr('')
-      setForbidden(false)
-    } catch (e) {
-      const msg = String(e)
-      if (msg.includes('403')) setForbidden(true)
-      else setErr(msg.slice(0, 200))
-    }
-  }, [status])
+  // Written as an explicit promise chain rather than async/await: every
+  // setState here already happens in the async continuation, and the .then
+  // form is what makes that visible to react-hooks/set-state-in-effect, which
+  // does not model the await boundary. Same requests, same ordering.
+  const refresh = useCallback(
+    () =>
+      jfetch<{ submissions: SubmissionMeta[] }>(`${API}/submissions?status=${status}`)
+        .then((d) => {
+          setSubs(d.submissions || [])
+          setErr('')
+          setForbidden(false)
+        })
+        .catch((e) => {
+          const msg = String(e)
+          if (msg.includes('403')) setForbidden(true)
+          else setErr(msg.slice(0, 200))
+        }),
+    [status],
+  )
 
   useEffect(() => {
     void refresh()

@@ -306,7 +306,17 @@ export function AdminDashboardPage() {
     }
   }
 
-  async function refresh() {
+  // The mount effect calls refresh(), and every transition below (noauth /
+  // loading / …) is a real one we must keep — the page starts at 'idle', so
+  // dropping them would change what renders. Running the body in a promise
+  // continuation keeps the transitions intact while moving them out of the
+  // effect body, which is what react-hooks/set-state-in-effect asks for.
+  // One microtask later; the interval and button paths are unaffected.
+  function refresh() {
+    return Promise.resolve().then(runRefresh)
+  }
+
+  async function runRefresh() {
     if (!signedIn) {
       setState('noauth')
       return

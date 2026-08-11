@@ -221,7 +221,7 @@ export function sendTurnStream(
           signal: controller.signal,
         },
       )
-    } catch (e) {
+    } catch {
       const err = new PlayError(
         0,
         `Can't reach the play gateway at ${ENDPOINT}. Is it running?`,

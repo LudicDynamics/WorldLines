@@ -40,6 +40,10 @@ jobs:
       - name: Install
         run: npm ci --no-audit --no-fund
 
+      - name: Lint
+        # Errors fail the build; warnings are still allowed through.
+        run: npm run lint
+
       - name: Typecheck
         run: npx tsc -b --force
 

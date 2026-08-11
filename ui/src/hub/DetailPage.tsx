@@ -61,9 +61,17 @@ export function DetailPage({ kind }: { kind: Kind }) {
   const { t } = useI18n()
   const { signedIn } = useAuth()
   const navigate = useNavigate()
-  const [story, setStory] = useState<Story | null | undefined>(undefined)
-  const [owned, setOwned] = useState(false)
-  const [coverOverride, setCoverOverride] = useState<string | null>(null)
+  // Loaded data and the cover override both carry the entry they belong to,
+  // so navigating to another slug reads as "loading" / "no override" by
+  // derivation rather than a synchronous reset inside the effect
+  // (react-hooks/set-state-in-effect).
+  const entryKey = `${kind}/${slug ?? ''}`
+  const [loaded, setLoaded] = useState<{ key: string; story: Story | null } | null>(null)
+  const story: Story | null | undefined =
+    loaded && loaded.key === entryKey ? loaded.story : undefined
+  const [ownedKey, setOwnedKey] = useState<string | null>(null)
+  const [coverEdit, setCoverEdit] = useState<{ key: string; url: string } | null>(null)
+  const coverOverride = coverEdit && coverEdit.key === entryKey ? coverEdit.url : null
   const [ownerBusy, setOwnerBusy] = useState(false)
   const [ownerErr, setOwnerErr] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
@@ -73,18 +81,17 @@ export function DetailPage({ kind }: { kind: Kind }) {
 
   useEffect(() => {
     if (!slug) return
-    setStory(undefined)
-    setCoverOverride(null)
     let cancelled = false
+    const key = `${kind}/${slug}`
     fetchRegistry(kind)
       .then((reg) => {
         if (cancelled) return
         const list = (reg[kind] ?? []) as NonNullable<typeof reg.worlds>
         const stories = groupBySlug(list)
         const match = stories.find((s) => s.slug === slug)
-        setStory(match ?? null)
+        setLoaded({ key, story: match ?? null })
       })
-      .catch(() => setStory(null))
+      .catch(() => setLoaded({ key, story: null }))
     return () => {
       cancelled = true
     }
@@ -92,23 +99,20 @@ export function DetailPage({ kind }: { kind: Kind }) {
 
   // Owner detection: the signed-in caller owns this slug iff it's in
   // their /me published list. Drives the owner edit toolbar below.
+  const owned = !!slug && signedIn && ownedKey === `${singularKind}/${slug}`
   useEffect(() => {
-    if (!slug || !signedIn) {
-      setOwned(false)
-      return
-    }
+    if (!slug || !signedIn) return
     let cancelled = false
     me()
       .then((m) => {
         if (cancelled) return
-        setOwned(
-          (m.published ?? []).some(
-            (p) => p.id === slug && p.kind === singularKind,
-          ),
+        const isOwner = (m.published ?? []).some(
+          (p) => p.id === slug && p.kind === singularKind,
         )
+        setOwnedKey(isOwner ? `${singularKind}/${slug}` : null)
       })
       .catch(() => {
-        if (!cancelled) setOwned(false)
+        if (!cancelled) setOwnedKey(null)
       })
     return () => {
       cancelled = true
@@ -123,7 +127,7 @@ export function DetailPage({ kind }: { kind: Kind }) {
     setOwnerErr(null)
     try {
       const res = await uploadCover(singularKind, slug, f)
-      setCoverOverride(res.cover_url)
+      setCoverEdit({ key: `${kind}/${slug}`, url: res.cover_url })
     } catch (err) {
       setOwnerErr(err instanceof Error ? err.message : String(err))
     } finally {

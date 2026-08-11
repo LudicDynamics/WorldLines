@@ -51,12 +51,17 @@ export function usePlayStage(): PlayStageApi {
   }>({ open: false, idx: -1, total: 0, rows: [], block: null })
 
   // Refs so the once-mounted EventSource handler reads live t / dev / places.
+  // Written after commit rather than during render (react-hooks/refs): every
+  // reader is an async callback or event handler, so a post-commit write is
+  // the same value they would have seen — and useRef seeds the first one.
   const tRef = useRef(t)
-  tRef.current = t
   const devRef = useRef(dev)
-  devRef.current = dev
   const placesRef = useRef(state.places)
-  placesRef.current = state.places
+  useEffect(() => {
+    tRef.current = t
+    devRef.current = dev
+    placesRef.current = state.places
+  })
 
   // ── 事件流(local=EventSource /events;hosted=网关流适配)────────────────
   useEffect(() => {
@@ -131,12 +136,10 @@ export function usePlayStage(): PlayStageApi {
     const r = await backend.postCmd(clean)
     if (r.busy) {
       dispatch({ type: 'busy', v: false })
-      // eslint-disable-next-line no-alert
       alert(tRef.current('turn.in_progress'))
     } else if (!r.ok && r.error) {
       // 后端边界错误(hosted 路由的 429 配额墙等):明说,不留转圈。
       dispatch({ type: 'busy', v: false })
-      // eslint-disable-next-line no-alert
       alert(r.error)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -144,11 +147,9 @@ export function usePlayStage(): PlayStageApi {
 
   const rollback = useCallback(async (commit: string, turnSeq?: number) => {
     if (!commit) return
-    // eslint-disable-next-line no-alert
     if (!confirm(tRef.current('rollback.confirm', { turn: turnSeq ?? '?' }))) return
     const r = await backend.postRollback(commit)
     if (!r.ok) {
-      // eslint-disable-next-line no-alert
       alert(tRef.current('rollback.failed') + (r.error || ''))
       return
     }
@@ -159,7 +160,6 @@ export function usePlayStage(): PlayStageApi {
   const openReplay = useCallback(async () => {
     const rows = await backend.getTraces()
     if (!rows.length) {
-      // eslint-disable-next-line no-alert
       alert(tRef.current('replay.none'))
       return
     }

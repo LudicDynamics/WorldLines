@@ -79,10 +79,13 @@ function StageInner() {
   // 跳秒计时:回合真在生成(rail.running)时每秒刷新,给"生成中"提示条一个
   // 活着的信号 —— 治慢模型(如 Kimi 多智能体)下 boot 剧场 12→30s 消失后
   // world-agent 仍在生成、屏幕却空白、看着像卡死(niko 实测)。
+  // No synchronous seed inside the effect (react-hooks/set-state-in-effect):
+  // a stale `now` from an earlier run is always older than the new startedAt,
+  // so the clamp below reads 0 until the first tick — which is exactly what
+  // the seeded version showed during that first second anyway.
   const [now, setNow] = useState(0)
   useEffect(() => {
     if (!state.rail.running) return
-    setNow(Date.now())
     const id = setInterval(() => setNow(Date.now()), 1000)
     return () => clearInterval(id)
   }, [state.rail.running])

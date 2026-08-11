@@ -49,29 +49,40 @@ export function AdminPage() {
 
   const defaultJson = JSON.stringify(GENRE_TREE, null, 2)
 
-  const load = useCallback(async () => {
+  // `load` no longer sets the loading state synchronously: on mount the state
+  // already starts at 'loading' with an empty error, so the reset was a no-op
+  // there, and doing it inside the effect is what tripped
+  // react-hooks/set-state-in-effect. The manual re-read below still resets
+  // first, via `reload`.
+  const load = useCallback(
+    () =>
+      fetch(`${CREATE_ENDPOINT}/api/v1/admin/genre_tree`, { headers: headers() })
+        .then((r) => {
+          if (!r.ok) throw new Error(`${r.status}`)
+          return r.json()
+        })
+        .then((d) => {
+          const ov = (d.override || '').trim()
+          const initial = ov || defaultJson
+          setText(initial)
+          setOriginal(initial)
+          setStatus('idle')
+        })
+        .catch((e) => {
+          setStatus('error')
+          setError(String(e))
+        }),
+    [defaultJson],
+  )
+
+  const reload = useCallback(() => {
     setStatus('loading')
     setError('')
-    try {
-      const r = await fetch(
-        `${CREATE_ENDPOINT}/api/v1/admin/genre_tree`,
-        { headers: headers() },
-      )
-      if (!r.ok) throw new Error(`${r.status}`)
-      const d = await r.json()
-      const ov = (d.override || '').trim()
-      const initial = ov || defaultJson
-      setText(initial)
-      setOriginal(initial)
-      setStatus('idle')
-    } catch (e) {
-      setStatus('error')
-      setError(String(e))
-    }
-  }, [defaultJson])
+    void load()
+  }, [load])
 
   useEffect(() => {
-    load()
+    void load()
   }, [load])
 
   let jsonErr = ''
@@ -169,7 +180,7 @@ export function AdminPage() {
           onChange={(e) => setTokState(e.target.value)}
           onBlur={() => {
             setTok(tok)
-            load()
+            reload()
           }}
           placeholder="HUB_ADMIN_TOKEN (or empty for dev)"
           className="flex-1 bg-transparent border border-[var(--color-border)] rounded-md px-3 py-1.5 font-mono text-[12px] text-[var(--color-text-primary)] outline-none focus:border-[var(--color-accent-dim)]"
