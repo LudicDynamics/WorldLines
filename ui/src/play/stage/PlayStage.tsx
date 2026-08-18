@@ -18,6 +18,7 @@ import { ReplayBar, SettingsPopover } from './ReplayBar'
 import { Transcript } from './Transcript'
 import { usePlayStage } from './usePlayStage'
 import { StageBackendProvider, localBackend, type StageBackend } from './backend'
+import { computeOrigin } from '../playClient'
 import './stage.css'
 
 // 外壳:注入后端(默认同源 local),内核组件树一份代码两后端(D3/D5)。
@@ -46,8 +47,9 @@ function StageInner() {
       const tr = text.trim()
       if (/^[@@##]/.test(tr)) {
         try {
-          const r = await fetch('/api/v1/play/say', {
+          const r = await fetch(`${computeOrigin()}/api/v1/play/say`, {
             method: 'POST',
+            credentials: 'include',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify({ text: tr }),
           })

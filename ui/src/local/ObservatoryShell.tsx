@@ -20,6 +20,7 @@ import {
   type LocalSave,
 } from './localClient'
 import { getTraces, getTrace } from '../play/stage/stageClient'
+import { computeOrigin } from '../play/playClient'
 import type { TraceSummaryRow, TraceRecord } from '../play/stage/events'
 import { PlayStage } from '../play/stage/PlayStage'
 import { ChatDrawer, RoomChatDrawer } from '../play/stage/ChatDrawer'
@@ -144,7 +145,7 @@ export function ObservatoryShell() {
       const iid = String(s.instance_id || '')
       if (!iid || askedNames.current.has(iid)) continue
       askedNames.current.add(iid)
-      fetch(`/api/v1/play/chat/${encodeURIComponent(iid)}`)
+      fetch(`${computeOrigin()}/api/v1/play/chat/${encodeURIComponent(iid)}`, { credentials: 'include' })
         .then((r) => r.json())
         .then((d: { name?: string | null }) => {
           if (d?.name) setSoulNames((m) => ({ ...m, [iid]: String(d.name) }))

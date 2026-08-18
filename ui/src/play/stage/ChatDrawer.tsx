@@ -6,6 +6,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { T } from './strings'
+import { computeOrigin } from '../playClient'
 
 type ChatRow = { role: string; text: string; ts?: string }
 type RoomRow = { who: string; text: string; ts?: string }
@@ -47,7 +48,7 @@ export function ChatDrawer({
     let dead = false
     ;(async () => {
       try {
-        const r = await fetch(`/api/v1/play/chat/${encodeURIComponent(iid)}`)
+        const r = await fetch(`${computeOrigin()}/api/v1/play/chat/${encodeURIComponent(iid)}`, { credentials: 'include' })
         const d = (await r.json()) as {
           ok?: boolean
           co_located?: boolean
@@ -80,8 +81,9 @@ export function ChatDrawer({
     setThread((p) => [...p, { role: 'player', text }])
     scrollEnd()
     try {
-      const r = await fetch('/api/v1/play/chat', {
+      const r = await fetch(`${computeOrigin()}/api/v1/play/chat`, {
         method: 'POST',
+        credentials: 'include',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ iid, text }),
       })
@@ -201,7 +203,7 @@ export function RoomChatDrawer({
     let dead = false
     ;(async () => {
       try {
-        const r = await fetch('/api/v1/play/chat-room')
+        const r = await fetch(`${computeOrigin()}/api/v1/play/chat-room`, { credentials: 'include' })
         const d = (await r.json()) as {
           ok?: boolean
           participants?: { iid: string; name: string }[]
@@ -230,8 +232,9 @@ export function RoomChatDrawer({
     setThread((p) => [...p, { who: t('chat.you'), text }])
     scrollEnd()
     try {
-      const r = await fetch('/api/v1/play/chat-room', {
+      const r = await fetch(`${computeOrigin()}/api/v1/play/chat-room`, {
         method: 'POST',
+        credentials: 'include',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ text }),
       })
