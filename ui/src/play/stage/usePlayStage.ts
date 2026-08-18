@@ -155,7 +155,7 @@ export function usePlayStage(): PlayStageApi {
     }
     // Rolled back onto a fresh branch — reload to re-sync the whole surface.
     location.reload()
-  }, [])
+  }, [backend])
 
   const openReplay = useCallback(async () => {
     const rows = await backend.getTraces()
@@ -171,7 +171,7 @@ export function usePlayStage(): PlayStageApi {
       idx: 0,
       block: tr ? renderReplayTurn(tr, {}, tRef.current, placesRef.current) : null,
     }))
-  }, [])
+  }, [backend])
 
   const stepReplay = useCallback(async (delta: number) => {
     setReplay((r) => {
@@ -186,7 +186,7 @@ export function usePlayStage(): PlayStageApi {
       )
       return { ...r, idx }
     })
-  }, [])
+  }, [backend])
 
   const closeReplay = useCallback(() => setReplay((r) => ({ ...r, open: false, block: null })), [])
 
