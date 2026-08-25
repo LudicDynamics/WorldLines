@@ -24,6 +24,7 @@ import { computeOrigin } from '../play/playClient'
 import type { TraceSummaryRow, TraceRecord } from '../play/stage/events'
 import { PlayStage } from '../play/stage/PlayStage'
 import { ChatDrawer, RoomChatDrawer } from '../play/stage/ChatDrawer'
+import { WorldMapCanvas } from './WorldMapCanvas'
 import { useStageStrings } from '../play/stage/strings'
 
 // 从 trace 的 bus_messages 挖 world/scene 的 scene_label(世界此刻标题)。
@@ -546,39 +547,11 @@ function ModuleStage({ active, data }: { active: ModuleKey; data: WorldData }) {
     if (!data.latest) return <Placeholder text="当前会话还没有回合 —— 地图会显示谁在哪。" />
     const acts = data.latest.souls || []
     const playerLoc = (data.latest.world_location || data.latest.location || '').split('/').pop() || ''
-    const byLoc: Record<string, typeof acts> = {}
-    for (const s of acts) {
-      const loc = soulLoc(s.reason) || '未知'
-      ;(byLoc[loc] ||= []).push(s)
-    }
-    const locs = Object.keys(byLoc)
-    if (playerLoc && !locs.includes(playerLoc)) locs.unshift(playerLoc)
     return (
       <div className="stage-fade">
         <ModuleTitle cn="地图" en="MAP" />
-        <div style={{ fontSize: 11, color: 'var(--lc-faint)', marginTop: 4 }}>抽象地图 · 谁在哪(world_map 底图待接)</div>
-        <div style={{ position: 'relative', height: 360, marginTop: 16, borderRadius: 14, border: '1px solid var(--lc-line)', background: 'radial-gradient(circle at 42% 40%, #16191f, #0e1014)', overflow: 'hidden' }}>
-          {locs.map((loc, i) => {
-            const angle = (i / Math.max(locs.length, 1)) * Math.PI * 2 - Math.PI / 2
-            const cx = 50 + Math.cos(angle) * (locs.length > 1 ? 30 : 0)
-            const cy = 50 + Math.sin(angle) * (locs.length > 1 ? 30 : 0)
-            const here = byLoc[loc] || []
-            const isPlayer = loc === playerLoc
-            return (
-              <div key={loc} style={{ position: 'absolute', left: `${cx}%`, top: `${cy}%`, transform: 'translate(-50%,-50%)', textAlign: 'center' }}>
-                <div style={{ width: 14, height: 14, borderRadius: '50%', margin: '0 auto 6px', background: isPlayer ? 'var(--lc-candle)' : 'var(--lc-panel2)', border: `2px solid ${isPlayer ? 'var(--lc-candle)' : 'var(--lc-line)'}`, boxShadow: isPlayer ? '0 0 12px var(--lc-candle)' : 'none' }} />
-                <div style={{ fontSize: 12, color: isPlayer ? 'var(--lc-candle)' : 'var(--lc-text)', fontWeight: 600 }}>{loc}{isPlayer ? ' · 你' : ''}</div>
-                {here.length ? (
-                  <div style={{ display: 'flex', gap: 4, justifyContent: 'center', flexWrap: 'wrap', marginTop: 4 }}>
-                    {here.map((s) => (
-                      <span key={s.instance_id} style={{ width: 22, height: 22, borderRadius: '50%', background: '#ec489922', color: '#ec4899', display: 'grid', placeItems: 'center', fontSize: 10, fontWeight: 700 }}>{(s.sid || '?').slice(0, 1).toUpperCase()}</span>
-                    ))}
-                  </div>
-                ) : null}
-              </div>
-            )
-          })}
-        </div>
+        <div style={{ fontSize: 11, color: 'var(--lc-faint)', marginTop: 4 }}>世界大地图 · 谁在哪(可拖拽缩放 · 点节点看详情 · world_map 底图待接)</div>
+        <WorldMapCanvas souls={acts} playerLoc={playerLoc} />
       </div>
     )
   }
