@@ -47,3 +47,37 @@
 - 分支开发（`feature/web-observatory-map`），**不发布**。
 - `build:local` + `lint` + e2e 全绿。
 - 大地图能显示某世界的地点 + souls 落位 + 点节点看详情。
+
+---
+
+## 6. Play ↔ Observe 合并计划（niko 2026-08-27）
+
+**现状**：play 存在**两处** → 重复。
+- ① `/observe` 的 **◉世界频道已内嵌 PlayStage**（`ObservatoryShell.tsx:490`，下场游玩、时钟走）；@/#/镜头 = 幕间观察（时钟停）。
+- ② 独立老路 `/local/play` → `/preplay/:slug` → `/stage`（LocalPlayGate/LocalPrePlay/PlayStage standalone）。
+- nav 里「👁 观察」「游玩」是**两个入口**（`LocalApp.tsx:134-135`）。
+
+**目标**：`/observe` = **唯一的 play+watch 同一块玻璃**。◉世界=下场游玩；幕间=观察。退役独立 play 路由。
+
+**阶段（U 系列）**：
+- **U1 · 入口统一**（最大一块）：observe 首层「选内容」从「只选存档」扩成「**选世界(开新局)** + 选存档(续/看)」。选世界 → 起新 session → 进 observe、◉世界激活=游玩。（observe 现只 handle 存档 trace，要补「起新局」链路，可复用 preplay 逻辑。）
+- **U2 · ◉世界 = 完整 play**：确认内嵌 PlayStage 的输入/生图/状态栏完整；开局设置（preplay）内化进 observe 首层。
+- **U3 · 退役 standalone**：`/local/play`、`/local/stage`、`/local/preplay` → 重定向进 observe（保留深链兼容一版）；nav「游玩」+「观察」合成一个入口。
+- **U4 · 保活**：PlayStage 现有游玩零回归；lint/build/e2e 绿；分支不发布。
+
+**三态收口（大图）**：**build 生成**（造世界/角色/CG，Nodesign 式画布，见 §7）· **play 游玩**（并入 observe）· **observe 观察**（宿主面）。→ observe = play+watch 统一；build = 生成画布，另一条大轨。
+
+## 7. Build/生成画布 — 参考 Nodesign（agent 驱动的生成式画布）
+
+> niko：无限画布不止「看 souls 移动」——是 **agent 通过画布生成图片/角色/逻辑**（很仔细的功能）。参考 `~/Workspaces/worldlines/worldlines-design/Nodesign`。
+
+**Nodesign 是什么**：Agent-native、建在 real files 上的无限画布，holds 整个 **生成 → 审阅 → 圈选 → 修订** 闭环。你跟 agent 说要什么 → 它在画布上生成 artifacts(HTML/图/文档，真文件) → 你圈选/评论「this」→ agent 改背后真文件 → 回画布。
+
+**可迁移的关键机制**（WorldLines 造世界/角色/CG 直接照搬）：
+- **agent ↔ 画布 = in-process MCP 工具**：感知(`screenshot_canvas`/`list_pages`/`query_elements`) · 控制(`navigate`/`highlight`/`expose_tweaks`/写盘) · 反馈(`get/clear_pending_changes` 拿用户圈选评论)。WorldLines 已有 NeonRP agent + `mcp_client`/`mcp_pool`，同模式可复用。
+- **数据模型 file-first**：`spec.json`(画布布局) + `pending-changes.json`(用户直改 buffer) + **元素 anchor schema**(跨 patch 稳定查找，像我们 manifest 的 anchor)。WorldLines 的 souls/worlds 本就是 real files，天然契合。
+- **选区上下文随消息走**：用户当前视图 + 选中 + 圈选区 → agent 知道「this」指谁 → 改对应真文件。
+- **图片生成内建**（Canvas.md §6.6 3-角色模型 + 7 页型）——正对我们「生成 CG / 立绘」。
+- **画布库不同**：Nodesign 自研(react-rnd 拖拽卡片 + zustand，artifacts=HTML iframe)；我们 observe 用 xyflow(节点图)。两种画布**用途不同**：xyflow=世界地图/souls(空间关系)；Nodesign 式=生成审阅 artifacts。生成画布复用 xyflow 还是学 Nodesign 卡片式，待设计。
+
+**定位**：= M31「build 模式 coding-agent 建 agent」的**可视化前端**——TUI 侧 build 是命令行，web 侧 build 是这块生成画布。**独立大轨**（不阻塞 observe/play 合并）。要专门立 spec，深挖 Nodesign 的 `server/`(agent loop) + `Canvas.md` §5 交互链路 + §6 数据模型。
