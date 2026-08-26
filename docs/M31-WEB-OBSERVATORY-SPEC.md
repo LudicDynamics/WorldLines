@@ -17,7 +17,8 @@
 - **数据面** `localClient.ts`：`/api/v1/local/{worlds,souls,saves,...}`；trace 走 `play/stage/stageClient`（`getTraces`/`getTrace`）。
 
 ## 2. 目标态（差距 = 扩展 Observatory，非重建）
-> **niko 2026-08-26 补（核心愿景）**：Observatory 的心脏是一块**无限画布**——角色在游玩/自动推进时**在画布上行动、移动**，看得见谁从哪走到哪。**比 Obsidian 的静态 vault 活得多**。Obsidian 仍是 file-first 长时段/著述视图(M26 §6)，但「**一边跑一边看**」的现场体验 = 这块画布。
+> **niko 2026-08-26 补（现场观察）**：这块画布让角色在游玩/推进时**在画布上移动**，看得见谁从哪走到哪，比 Obsidian 静态 vault 活。
+> **⚠️ 澄清（08-27）**：这块 = **世界地图 / 观察视图**（xyflow，P1-P3），**不是** niko 说的那块「无限画布」。真·**生成式无限画布**（agent 在画布造角色/地图/实体、扔骰子、素材直呈、可画图）是另一件更大的自研工程 → 见 **`M31-WEB-GENERATIVE-CANVAS-SPEC.md`**，尚未开工。本 spec 的画布只做观察，别混。
 
 1. **无限画布世界图（centerpiece）**：xyflow 无限画布(pan/zoom)——地点为节点、souls 落位其上、点节点看详情。✅ **P1 已落**（`WorldMapCanvas`，build 绿）。
 2. **角色在画布上活动**：世界推进时 souls 位置**实时更新/移动**（谁从哪走到哪，画布上看得见）。

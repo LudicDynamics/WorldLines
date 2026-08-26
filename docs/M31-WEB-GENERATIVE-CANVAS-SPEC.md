@@ -6,6 +6,23 @@
 
 ---
 
+## 0. 澄清 + niko 完整愿景（2026-08-27，最高口径）
+
+**先认账**：当前 web **没有**这块无限画布。observe 里的 P1-P3（`WorldMapCanvas` xyflow）只是**世界地图 / 观察视图**（souls 落位、移动、replay），**不是**这块生成画布——之前把它叫「无限画布」是过度命名。**真·无限画布 = 下面这套自研的生成式 RP 画布，是之后的大事，尚未开工。**
+
+**niko 完整愿景（这条 spec 的北极星）**：
+- **画布内容 = 我们的真素材**：角色素材（生成的立绘/头像）+ RP 的 markdown（soul.md/persona/story）**都直接作为画布内容可视化**；并且**能在画布上直接画图**。
+- **multi-agent 活在画布上**：画布里有**实体**、有**光标**；各 agent **分头行动**——自己**走位、把自己拖到合适位置、各自扔骰子**。
+- **角色头像 = profile**，能在地图里**走动/移动**（自己挪到合适的位置）。
+- **骰子 → 实体 → 文档**：agent 在画布里扔骰子 → 结果**变成一个实体** → 点开实体 = 里面有这次结果的**具体结果文档**。
+- **全靠生成驱动**：生图 + 生文 + 推理 + 自动地图逻辑 → 生成整个 RP。
+- **自研一整套**：这套没有现成的，要自己造；Nodesign 是**参考**（借它的闭环/MCP/数据模型思路），不是直接用。
+- **模型选型**：agent 优先 **Deepseek Flash**，可能上 **Minimax**；**生图** Deepseek 没有 → 得挑**便宜的生图**方案（待调研）。
+
+**节奏**：Play 体验**暂保持现状**（observe/play 已并 = U1+U3）。无限画布是**更好的体验但排在之后**，先把这套想清楚、自研，不急着替换 Play。
+
+---
+
 ## 1. 一句话
 不是「把 AI 输出摆到画布上」，是**画布 holds 整个闭环**：你跟 build-agent 说要什么 → 它在画布上生成 artifacts（soul / 世界 / 地点 / CG，**真文件**）→ 你在画布上**圈选/评论「this」**→ agent 改背后真文件 → 回画布。跟 WorldLines file-first 天然同构（souls/worlds 本就是 real files）。
 
@@ -57,6 +74,9 @@ Nodesign 一个 `canvas.html`；WorldLines 是**多个 real-file artifacts**：
 - **G2 · build-agent MCP 工具面**：NeonRP 侧起 in-process MCP(镜像 §3 工具);agent 能 list/read/write artifact + generate_cg。
 - **G3 · 圈选→pending-changes→agent 修订闭环**：前端圈选/评论落 buffer;turn 组装注入 system;agent 拿 context 改真文件;anchor 稳定定位。
 - **G4 · tweaks/参数固化 + 反向 highlight**：agent expose 可调项;navigate/highlight 反向操作画布。
+- **G5 · 角色头像在画布上走位（自主移动）**:avatar=profile,agent 自己把头像**拖到合适位置**、在地图里移动(接 §4 highlight/navigate 的反向操作 + soul 位置)。
+- **G6 · 骰子 → 实体 → 文档**:agent 在画布里扔骰子(接 NeonRP `dice.py`/`roll_check`) → 结果落成一个**画布实体** → 点开=结果文档(真文件);各 agent **分头**扔、各有光标/实体。
+- **G7 · 在画布上画图 + 素材直呈**:角色立绘/CG 生成后直接摆上画布;RP markdown(soul.md/story)作为卡片可视化;用户能在画布上手绘标注。
 - 每步:lint/build 绿、不破坏 observe/play、分支不发布。
 
 ## 6. 开放问题
@@ -65,6 +85,8 @@ Nodesign 一个 `canvas.html`；WorldLines 是**多个 real-file artifacts**：
 3. **build-agent 落哪**：复用 NeonRP build 模式 agent + 加 MCP 工具面,还是新起一个 web-build service。
 4. **出图管线**:接现有 `/api/v1/local/settings/image` + soul 立绘出图,复用不重造。
 5. **与 Obsidian**:生成画布是 web 富前端;Obsidian 仍是 file-first 长时段视图,两不冲突。
+6. **模型选型（niko 定方向，待落地）**:agent 优先 **Deepseek Flash**,可能 **Minimax**;**生图** Deepseek 无 → 挑**便宜生图**(候选待调研:如 seedream/SD/便宜 API)。骰子/推理走文本模型;地图逻辑=确定性代码 + agent 提案。
+7. **自研 vs 复用 Nodesign**:Nodesign 是**参考**(闭环/MCP/数据模型/anchor 思路),不直接 fork——因为我们的 artifact 是 soul/地图/实体/文档而非 HTML deck,且要 multi-agent 实体+骰子,形态差异大。倾向**自研**,借它的架构骨架。
 
 ## 7. 参考锚（深挖清单）
 - `Nodesign/Canvas.md`(30KB,全)：§2 架构 · §4 MCP 工具 · §5 交互链路 · §6 数据模型 · §8 怎么扩展 · §9 设计决策
