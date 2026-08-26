@@ -99,7 +99,7 @@ export function LocalHome() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {[
           {
-            to: '/local/play',
+            to: '/local/observe',
             icon: '▶',
             title: t('home.playTitle'),
             desc: t('home.playDesc'),

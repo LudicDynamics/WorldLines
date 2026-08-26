@@ -135,6 +135,25 @@ export function ObservatoryShell() {
       .catch((e) => setDataErr('绑定存档出错 —— ' + String(e).slice(0, 80)))
   }
 
+  // U1:选世界 → 起新局 → 直接进 observe 的 ◉世界(下场游玩)。复用 bindPlaySession(worldId)。
+  const startWorld = async (w: LocalWorld) => {
+    setDataErr('')
+    setLatest(null)
+    setTraces([])
+    askedNames.current = new Set()
+    setSoulNames({})
+    setActive('pulse')
+    try {
+      const slug = await bindPlaySession(w.id)
+      setSelectedId(w.id)
+      setSaveId(slug)
+      setChan({ kind: 'world' })
+      loadTraces()
+    } catch (e) {
+      setDataErr('开局出错 —— ' + String(e).slice(0, 80))
+    }
+  }
+
   useEffect(() => {
     // 层阶第一层:只备数据,不自动绑——进门先选(niko 定稿的入口体验)。
     listLocalWorlds()
@@ -223,8 +242,34 @@ export function ObservatoryShell() {
           选一个世界回去
         </h1>
         <p style={{ fontSize: 13, color: 'var(--lc-faint)', marginTop: 8, marginBottom: 24 }}>
-          观察是隔着看 —— 进去之后,随时可以附身下场。
+          观察是隔着看 —— 挑个世界开新局,或回到一段旧的;进去随时可附身下场。
         </p>
+
+        {/* U1:开新局 —— 选世界起新局,直接进 observe 的 ◉世界(下场游玩) */}
+        <div style={{ fontSize: 11, letterSpacing: 1.5, textTransform: 'uppercase', color: 'var(--lc-faint)', marginBottom: 10 }}>开新局 · 选个世界</div>
+        {worlds.filter((w) => !w.hidden).length ? (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 12, marginBottom: 30 }}>
+            {worlds.filter((w) => !w.hidden).slice(0, 18).map((w) => (
+              <button
+                key={w.id}
+                onClick={() => startWorld(w)}
+                className="obs-world-card"
+                style={{ display: 'flex', flexDirection: 'column', gap: 6, padding: '14px 16px', borderRadius: 12, cursor: 'pointer', textAlign: 'left', border: '1px solid var(--lc-line)', background: 'var(--lc-panel)' }}
+              >
+                <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--lc-text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {w.display_name || w.name_local || w.name}
+                </span>
+                {w.desc ? (
+                  <span style={{ fontSize: 12, color: 'var(--lc-dim)', lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{w.desc}</span>
+                ) : (
+                  <span style={{ fontSize: 11, color: 'var(--lc-faint)' }}>开一局,下场看它活起来。</span>
+                )}
+              </button>
+            ))}
+          </div>
+        ) : null}
+
+        <div style={{ fontSize: 11, letterSpacing: 1.5, textTransform: 'uppercase', color: 'var(--lc-faint)', marginBottom: 10 }}>回到存档 · 续一段</div>
         {saves.length ? (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 14 }}>
             {saves.slice(0, 24).map((s) => (
@@ -267,7 +312,7 @@ export function ObservatoryShell() {
           </div>
         ) : (
           <div style={{ padding: 60, textAlign: 'center', color: 'var(--lc-faint)', fontSize: 13, border: '1px dashed var(--lc-line)', borderRadius: 14 }}>
-            还没有可观察的存档 —— 先去「游玩」开一局。
+            还没有存档 —— 从上面挑个世界开一局。
           </div>
         )}
       </div>
