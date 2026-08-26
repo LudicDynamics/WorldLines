@@ -83,6 +83,10 @@ export function ObservatoryShell() {
   const [traces, setTraces] = useState<TraceSummaryRow[]>([])
   const [latest, setLatest] = useState<TraceRecord | null>(null)
   const [active, setActive] = useState<ModuleKey>('pulse')
+  // P2a 挂机/tick:开启后按 tickSec 定时重拉 trace,画布/各镜头随世界推进实时更新。
+  // 真·后台自动推进(引擎 auto-tick)待接;现阶段=观察刷新。
+  const [autoRun, setAutoRun] = useState(false)
+  const [tickSec, setTickSec] = useState(15)
   // 频道玻璃(M24 §7):中栏由「当前频道」决定 —— 镜头=观察,◉世界=下场
   // (时钟走),@soul=直聊,#=房间。看↔玩=切频道,同一块玻璃。
   const [chan, setChan] = useState<
@@ -139,6 +143,21 @@ export function ObservatoryShell() {
       .then(setSaves)
       .catch((e) => setDataErr('存档列表读取出错 —— ' + String(e).slice(0, 80)))
   }, [])
+
+  // P2a 挂机轮询:autoRun 且已绑存档时,定时重拉 trace → latest 变 → 画布/镜头实时刷新。
+  useEffect(() => {
+    if (!autoRun || !saveId) return
+    const id = setInterval(() => {
+      getTraces()
+        .then((rows) => {
+          setTraces(rows)
+          const last = rows[rows.length - 1]
+          if (last) getTrace(last.i).then(setLatest).catch(() => {})
+        })
+        .catch(() => {})
+    }, Math.max(3, tickSec) * 1000)
+    return () => clearInterval(id)
+  }, [autoRun, tickSec, saveId])
 
   // roster 名字本地化:latest trace 里出现的每个 iid,问一次聊天端点拿展示名。
   useEffect(() => {
@@ -291,6 +310,38 @@ export function ObservatoryShell() {
               {nameOf(world)}
             </div>
           </div>
+
+          {saveId ? (
+            <div style={{ padding: 10, borderRadius: 10, border: '1px solid var(--lc-line)', background: 'var(--lc-panel2, #0e1116)', display: 'flex', flexDirection: 'column', gap: 8 }} data-testid="tick-bar">
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontSize: 9, letterSpacing: 1.5, textTransform: 'uppercase', color: 'var(--lc-faint)' }}>挂机 · Watch</span>
+                <span style={{ fontSize: 11, color: 'var(--lc-dim)' }}>回合 {traces.length}</span>
+              </div>
+              <button
+                onClick={() => setAutoRun((v) => !v)}
+                data-testid="tick-toggle"
+                style={{ fontSize: 12, fontWeight: 600, padding: '6px 8px', borderRadius: 8, cursor: 'pointer', border: `1px solid ${autoRun ? 'var(--lc-candle, #e8b45a)' : 'var(--lc-line)'}`, background: autoRun ? 'rgba(232,180,90,0.13)' : 'transparent', color: autoRun ? 'var(--lc-candle, #e8b45a)' : 'var(--lc-text)' }}
+              >
+                {autoRun ? `▮▮ 挂机中 · 每 ${tickSec}s` : '▶ 挂机(自动刷新)'}
+              </button>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span style={{ fontSize: 10, color: 'var(--lc-faint)' }}>间隔</span>
+                <select
+                  value={tickSec}
+                  onChange={(e) => setTickSec(Number(e.target.value))}
+                  style={{ flex: 1, fontSize: 11, padding: '3px 4px', borderRadius: 6, background: 'var(--lc-panel)', color: 'var(--lc-text)', border: '1px solid var(--lc-line)' }}
+                >
+                  <option value={5}>5 秒</option>
+                  <option value={15}>15 秒</option>
+                  <option value={30}>30 秒</option>
+                  <option value={60}>1 分</option>
+                  <option value={300}>5 分</option>
+                </select>
+                <button onClick={loadTraces} title="手动刷新一次" style={{ fontSize: 12, padding: '3px 8px', borderRadius: 6, cursor: 'pointer', border: '1px solid var(--lc-line)', background: 'transparent', color: 'var(--lc-dim)' }}>↻</button>
+              </div>
+              <div style={{ fontSize: 9, color: 'var(--lc-faint)', lineHeight: 1.5 }}>后台自动推进(引擎 auto-tick)待接;现为观察刷新。</div>
+            </div>
+          ) : null}
 
           <div>
             <div style={{ fontSize: 9, letterSpacing: 1.5, textTransform: 'uppercase', color: 'var(--lc-faint)', marginBottom: 4 }}>频道 · Channels</div>
