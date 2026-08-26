@@ -29,10 +29,12 @@
 
 ## 3. 分层落地（先富 /observe，再桌面）
 - **P1 · 无限画布世界图** ✅ **已落**：`map` 镜头 → `WorldMapCanvas`(xyflow)，地点节点 + souls 落位 + 点节点详情。读现有 trace 数据，纯加法，`build:local` 绿。
-- **P2 · 角色画布上活动 + 可设 tick + 挂机**：souls 位置随世界推进实时更新（画布上移动）；`/observe` 加「挂机/自动」态——设定每 N 分钟一步、后台自推、时钟流逝。引擎侧 auto-advance 就绪时接（先做可视化壳 + 手动步进兜底）。
-- **P3 · 回看 replay**：挂机时段的 trace 存下，回来回放 souls 移动 + 事件流（trace 已有，补回放 UI）。
+- **P2a · 挂机/tick 控制 + 自动刷新** ✅ **已落**：左栏「挂机·Watch」——开关自动刷新、间隔(5s~5min)、回合数、手动刷新；开启后画布/镜头随世界推进实时更新。
+- **P2b · 角色在画布上平滑移动** ✅ **已落**：souls 升级成各自节点，落在所在地点周围、稳定配色 + 真名；换地点时 CSS transition 平滑滑行（画布上"活着"地移动）。
+- **P3 · 回看 replay** ✅ **已落**：左栏「时间轴·Replay」——拖时间轴/▶回放，重看这段每回合 souls 的移动；回放自动暂停挂机，「⏭现在」回到 live。
 - **P4（后置） · CG / 出图**：画布节点挂 CG，点击出图（接 `/api/v1/local/settings/image`）。
 - **P5（后置） · Tauri 桌面常驻窗**：`desktop/tauri` 常驻桌面观察窗（白板 A）。
+- **⏳ 待引擎** · 真·后台自动推进（auto-tick）：隔壁 NeonRP 域；就绪后接进挂机的「每 N 分钟一步」，届时挂机=真自动演进 + replay 回看。
 
 ## 4. 第一刀（P1）工作分解
 - **T1 · 读世界地图数据**：`localClient` 加/复用取某世界 `locations`（节点）+ 关系（edges）；souls 当前落位（`ObservatoryShell` 已有 `soulLoc`/`nearPlayer`）。纯读。

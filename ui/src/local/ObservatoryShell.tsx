@@ -87,6 +87,10 @@ export function ObservatoryShell() {
   // 真·后台自动推进(引擎 auto-tick)待接;现阶段=观察刷新。
   const [autoRun, setAutoRun] = useState(false)
   const [tickSec, setTickSec] = useState(15)
+  // P3 replay:replayIdx=null 跟随 latest(现在);非空=回放到该回合。displayed = replayRec ?? latest。
+  const [replayIdx, setReplayIdx] = useState<number | null>(null)
+  const [replayRec, setReplayRec] = useState<TraceRecord | null>(null)
+  const [replayPlaying, setReplayPlaying] = useState(false)
   // 频道玻璃(M24 §7):中栏由「当前频道」决定 —— 镜头=观察,◉世界=下场
   // (时钟走),@soul=直聊,#=房间。看↔玩=切频道,同一块玻璃。
   const [chan, setChan] = useState<
@@ -159,6 +163,30 @@ export function ObservatoryShell() {
     return () => clearInterval(id)
   }, [autoRun, tickSec, saveId])
 
+  // P3:回放索引变 → 载入该回合 trace 作显示;null=回到现在(跟随 latest)。
+  useEffect(() => {
+    if (replayIdx === null) return
+    const row = traces[replayIdx]
+    if (!row) return
+    getTrace(row.i).then(setReplayRec).catch(() => {})
+  }, [replayIdx, traces])
+
+  // P3:回放播放 → 定时前进一回合,到末尾回到"现在"(live)。
+  useEffect(() => {
+    if (!replayPlaying) return
+    const id = setInterval(() => {
+      setReplayIdx((k) => {
+        const cur = k ?? 0
+        if (cur >= traces.length - 1) {
+          setReplayPlaying(false)
+          return null
+        }
+        return cur + 1
+      })
+    }, 1300)
+    return () => clearInterval(id)
+  }, [replayPlaying, traces.length])
+
   // roster 名字本地化:latest trace 里出现的每个 iid,问一次聊天端点拿展示名。
   useEffect(() => {
     for (const s of latest?.souls || []) {
@@ -175,7 +203,8 @@ export function ObservatoryShell() {
   }, [latest])
 
   const world = useMemo(() => worlds.find((w) => w.id === selectedId) ?? null, [worlds, selectedId])
-  const data: WorldData = { world, souls, traces, latest }
+  const displayed = replayIdx !== null ? (replayRec ?? latest) : latest
+  const data: WorldData = { world, souls, traces, latest: displayed }
   const modules = MODULES.filter((m) => m.has(data))
   const curSave = saves.find((s) => s.session_id === saveId) ?? null
 
@@ -343,6 +372,52 @@ export function ObservatoryShell() {
             </div>
           ) : null}
 
+          {saveId && traces.length > 1 ? (
+            <div style={{ padding: 10, borderRadius: 10, border: '1px solid var(--lc-line)', background: 'var(--lc-panel2, #0e1116)', display: 'flex', flexDirection: 'column', gap: 8 }} data-testid="replay-bar">
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontSize: 9, letterSpacing: 1.5, textTransform: 'uppercase', color: 'var(--lc-faint)' }}>时间轴 · Replay</span>
+                <span style={{ fontSize: 11, color: replayIdx === null ? 'var(--lc-candle, #e8b45a)' : 'var(--lc-dim)' }}>
+                  回合 {(replayIdx ?? traces.length - 1) + 1}/{traces.length}{replayIdx === null ? ' · 现在' : ''}
+                </span>
+              </div>
+              <input
+                type="range"
+                min={0}
+                max={traces.length - 1}
+                value={replayIdx ?? traces.length - 1}
+                onChange={(e) => {
+                  const v = Number(e.target.value)
+                  setAutoRun(false)
+                  setReplayIdx(v >= traces.length - 1 ? null : v)
+                }}
+                data-testid="replay-scrub"
+                style={{ width: '100%', accentColor: 'var(--lc-candle, #e8b45a)' }}
+              />
+              <div style={{ display: 'flex', gap: 6 }}>
+                <button
+                  onClick={() => {
+                    if (!replayPlaying) {
+                      setAutoRun(false)
+                      if (replayIdx === null) setReplayIdx(0)
+                    }
+                    setReplayPlaying((v) => !v)
+                  }}
+                  data-testid="replay-play"
+                  style={{ flex: 1, fontSize: 12, fontWeight: 600, padding: '5px 8px', borderRadius: 8, cursor: 'pointer', border: `1px solid ${replayPlaying ? 'var(--lc-candle, #e8b45a)' : 'var(--lc-line)'}`, background: replayPlaying ? 'rgba(232,180,90,0.13)' : 'transparent', color: replayPlaying ? 'var(--lc-candle, #e8b45a)' : 'var(--lc-text)' }}
+                >
+                  {replayPlaying ? '⏸ 回放中' : '▶ 回放'}
+                </button>
+                <button
+                  onClick={() => { setReplayPlaying(false); setReplayIdx(null) }}
+                  title="回到现在"
+                  style={{ fontSize: 11, padding: '5px 8px', borderRadius: 8, cursor: 'pointer', border: '1px solid var(--lc-line)', background: 'transparent', color: 'var(--lc-dim)' }}
+                >
+                  ⏭ 现在
+                </button>
+              </div>
+            </div>
+          ) : null}
+
           <div>
             <div style={{ fontSize: 9, letterSpacing: 1.5, textTransform: 'uppercase', color: 'var(--lc-faint)', marginBottom: 4 }}>频道 · Channels</div>
             <nav style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -409,7 +484,7 @@ export function ObservatoryShell() {
             position: 'relative',
           }}
         >
-          {chan.kind === 'lens' ? <ModuleStage active={active} data={data} /> : null}
+          {chan.kind === 'lens' ? <ModuleStage active={active} data={data} names={soulNames} /> : null}
           {chan.kind === 'world' ? (
             <div className="obs-embed" data-testid="chan-world-stage">
               <PlayStage />
@@ -463,7 +538,7 @@ export function ObservatoryShell() {
   )
 }
 
-function ModuleStage({ active, data }: { active: ModuleKey; data: WorldData }) {
+function ModuleStage({ active, data, names = {} }: { active: ModuleKey; data: WorldData; names?: Record<string, string> }) {
   const { world } = data
 
   if (!world && !data.latest) return <Placeholder text="没有世界可观察。先在书房导入 / 创建一个世界。" />
@@ -602,7 +677,7 @@ function ModuleStage({ active, data }: { active: ModuleKey; data: WorldData }) {
       <div className="stage-fade">
         <ModuleTitle cn="地图" en="MAP" />
         <div style={{ fontSize: 11, color: 'var(--lc-faint)', marginTop: 4 }}>世界大地图 · 谁在哪(可拖拽缩放 · 点节点看详情 · world_map 底图待接)</div>
-        <WorldMapCanvas souls={acts} playerLoc={playerLoc} />
+        <WorldMapCanvas souls={acts} playerLoc={playerLoc} names={names} />
       </div>
     )
   }
