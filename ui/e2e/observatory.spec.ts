@@ -2,12 +2,24 @@
 // 内嵌舞台 → 房间抽屉。全程不依赖 LLM(不发回合,只走导航/绑定/静态渲染)。
 import { test, expect, type Page } from '@playwright/test'
 
-async function welcomed(page: Page) {
-  await page.addInitScript(() => {
+async function welcomed(page: Page, lang: 'ja' | 'zh' = 'ja') {
+  await page.addInitScript((selectedLang) => {
     sessionStorage.setItem('wl-local-welcomed', '1')
-    localStorage.setItem('wl-local-lang', 'ja')
-  })
+    localStorage.setItem('wl-local-lang', selectedLang)
+  }, lang)
 }
+
+test('観測画面: 日本語と中文を相互に切り替えられる', async ({ page }) => {
+  await welcomed(page)
+  await page.goto('/local/observe')
+  await expect(page.getByText('戻るワールドを選ぶ')).toBeVisible()
+  await expect(page.getByText('选一个世界回去')).toHaveCount(0)
+
+  await page.evaluate(() => localStorage.setItem('wl-local-lang', 'zh'))
+  await page.reload()
+  await expect(page.getByText('选一个世界回去')).toBeVisible()
+  await expect(page.getByText('戻るワールドを選ぶ')).toHaveCount(0)
+})
 
 test('観測画面: 最初にワールド選択を表示する', async ({ page }) => {
   await welcomed(page)
