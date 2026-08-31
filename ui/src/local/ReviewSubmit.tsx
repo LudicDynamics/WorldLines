@@ -6,10 +6,10 @@ import { mySubmissions, submitForReview, type SubmissionMeta } from './localClie
 import { useHostedChrome } from './hostedChrome'
 import { useLocalT } from './i18n'
 
-const STATUS_STYLE: Record<string, { label: string; color: string }> = {
-  pending: { label: '审查中', color: '#F5C453' },
-  approved: { label: '已上架', color: 'var(--lc-candle)' },
-  rejected: { label: '已退回', color: '#F87171' },
+const STATUS_STYLE: Record<string, { labelKey: string; color: string }> = {
+  pending: { labelKey: 'studio.reviewPending', color: '#F5C453' },
+  approved: { labelKey: 'studio.reviewApproved', color: 'var(--lc-candle)' },
+  rejected: { labelKey: 'studio.reviewRejected', color: '#F87171' },
 }
 
 export function ReviewSubmit({ worldId, worldName }: { worldId: string; worldName: string }) {
@@ -74,7 +74,7 @@ export function ReviewSubmit({ worldId, worldName }: { worldId: string; worldNam
             style={{ color: st.color, borderColor: st.color }}
             title={latest.submitted_at}
           >
-            ● {st.label}
+            ● {t(st.labelKey)}
           </span>
         )}
         <button
@@ -101,7 +101,10 @@ export function ReviewSubmit({ worldId, worldName }: { worldId: string; worldNam
       {latest?.precheck && (
         <div className="mt-2 text-[11.5px] font-mono" style={{ color: 'var(--lc-faint)' }}>
           {latest.precheck.playable ? '✓' : '✗'} {t('studio.reviewPrecheck')} ·{' '}
-          {latest.precheck.blockers_count || 0} 阻断 · {latest.precheck.warnings_count || 0} 提醒
+          {t('studio.reviewCounts', {
+            blockers: latest.precheck.blockers_count || 0,
+            warnings: latest.precheck.warnings_count || 0,
+          })}
         </div>
       )}
       {err && (

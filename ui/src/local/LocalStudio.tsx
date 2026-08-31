@@ -884,7 +884,7 @@ export function StructuredPreview({ path, text, filename, hint }: { path: string
           onClick={() => setWrap((w) => !w)}
           className="ml-auto shrink-0 text-[10.5px] font-mono px-2 py-0.5 rounded cursor-pointer border"
           style={{ borderColor: 'var(--lc-line)', color: wrap ? 'var(--lc-candle)' : 'var(--lc-dim)', background: 'transparent' }}
-          title="切换长行折行 / 不折行"
+          title={t('studio.toggleWrap')}
         >
           {wrap ? '↩ 折行' : '⇥ 不折行'}
         </button>

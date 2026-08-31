@@ -296,7 +296,7 @@ export function SettingsBody() {
         </label>
         <label className="mt-2 block text-[11px]" style={{ color: 'var(--lc-dim)' }}>
           {t('lib.customKey')}
-          <input value={custom.api_key} onChange={(e) => setC('api_key', e.target.value)} type="password" placeholder="sk-… (Ollama/LM Studio 可留空)"
+          <input value={custom.api_key} onChange={(e) => setC('api_key', e.target.value)} type="password" placeholder={t('ma.keyOptionalPlaceholder')}
             className="mt-1 w-full rounded-lg border px-3 py-2 text-[12.5px] font-mono outline-none"
             style={{ background: 'var(--lc-panel2)', borderColor: 'var(--lc-line)', color: 'var(--lc-text)' }} />
         </label>
@@ -469,4 +469,3 @@ export function SettingsBody() {
     </div>
   )
 }
-
