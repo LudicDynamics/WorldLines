@@ -408,7 +408,7 @@ export function SettingsBody() {
               <div className="flex flex-col gap-2 rounded-lg border p-3" style={{ borderColor: 'var(--lc-line)' }}>
                 <p className="m-0 text-[11px]" style={{ color: 'var(--lc-faint)' }}>{t('lib.imgAdvancedDesc')}</p>
                 <label className="text-[11px]" style={{ color: 'var(--lc-dim)' }}>
-                  workflow(API JSON 路径或内联;{t('lib.imgEmptyDefault')})
+                  {t('lib.imgWorkflowLabel')} ({t('lib.imgEmptyDefault')})
                   <textarea value={imgForm.comfyui_workflow || ''} onChange={(e) => setImg('comfyui_workflow', e.target.value)}
                     rows={2}
                     className="mt-1 w-full rounded-lg border px-3 py-2 text-[11.5px] font-mono outline-none resize-y"

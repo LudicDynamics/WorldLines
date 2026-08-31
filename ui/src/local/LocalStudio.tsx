@@ -886,7 +886,7 @@ export function StructuredPreview({ path, text, filename, hint }: { path: string
           style={{ borderColor: 'var(--lc-line)', color: wrap ? 'var(--lc-candle)' : 'var(--lc-dim)', background: 'transparent' }}
           title={t('studio.toggleWrap')}
         >
-          {wrap ? '↩ 折行' : '⇥ 不折行'}
+          {wrap ? `↩ ${t('studio.wrap')}` : `⇥ ${t('studio.noWrap')}`}
         </button>
       </div>
       <div className="flex-1 overflow-auto">

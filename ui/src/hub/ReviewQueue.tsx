@@ -5,6 +5,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import type { SubmissionMeta } from '../local/localClient'
 import { computeOrigin } from '../play/playClient'
+import { useI18n } from '../shared/i18n'
 
 const API = `${computeOrigin()}/api/v1/play/review`
 
@@ -14,14 +15,14 @@ async function jfetch<T>(url: string, init?: RequestInit): Promise<T> {
   return (await r.json()) as T
 }
 
-function Precheck({ m }: { m: SubmissionMeta }) {
+function Precheck({ m, t }: { m: SubmissionMeta; t: (key: string) => string }) {
   const p = m.precheck
   if (!p) return null
   const bad = !p.playable || (p.blockers_count || 0) > 0
   return (
     <div className="text-[11.5px] font-mono mt-1" style={{ color: bad ? '#F87171' : '#4ADE80' }}>
-      {p.playable ? '✓ 可玩' : '✗ 不可玩'} · {p.flavor || '?'} · {p.blockers_count || 0} 阻断 ·{' '}
-      {p.warnings_count || 0} 提醒
+      {p.playable ? `✓ ${t('review.playable')}` : `✗ ${t('review.notPlayable')}`} · {p.flavor || '?'} ·{' '}
+      {p.blockers_count || 0} {t('review.blockers')} · {p.warnings_count || 0} {t('review.warnings')}
       {bad && (p.blockers || []).slice(0, 3).map((b, i) => (
         <div key={i} className="mt-0.5 opacity-80">— {b.summary || ''}</div>
       ))}
@@ -30,6 +31,7 @@ function Precheck({ m }: { m: SubmissionMeta }) {
 }
 
 export function ReviewQueue() {
+  const { t } = useI18n()
   const [subs, setSubs] = useState<SubmissionMeta[]>([])
   const [status, setStatus] = useState<'pending' | 'approved' | 'rejected'>('pending')
   const [err, setErr] = useState('')
@@ -63,7 +65,7 @@ export function ReviewQueue() {
   async function act(m: SubmissionMeta, action: 'approve' | 'reject') {
     let note = ''
     if (action === 'reject') {
-      note = window.prompt('退回留言(创作者可见,必填):') || ''
+      note = window.prompt(t('review.rejectPrompt')) || ''
       if (!note.trim()) return
     }
     setBusy(`${m.slug}/${m.stamp}`)
@@ -87,7 +89,7 @@ export function ReviewQueue() {
     <section className="mt-10" data-testid="review-queue">
       <div className="flex items-center gap-3">
         <h2 className="m-0 text-[16px] font-bold" style={{ color: 'var(--color-text-primary)' }}>
-          审查队列
+          {t('review.title')}
         </h2>
         {(['pending', 'approved', 'rejected'] as const).map((s) => (
           <button
@@ -100,7 +102,7 @@ export function ReviewQueue() {
                 : { borderColor: 'var(--color-border)', color: 'var(--color-text-secondary)', background: 'transparent' }
             }
           >
-            {s === 'pending' ? '待审' : s === 'approved' ? '已上架' : '已退回'}
+            {t(`review.status.${s}`)}
           </button>
         ))}
         <button
@@ -108,13 +110,13 @@ export function ReviewQueue() {
           className="ml-auto text-[12px] px-2.5 py-1 rounded-lg border cursor-pointer"
           style={{ borderColor: 'var(--color-border)', color: 'var(--color-text-secondary)', background: 'transparent' }}
         >
-          ⟳ 刷新
+          ⟳ {t('review.refresh')}
         </button>
       </div>
       {err && <div className="mt-2 text-[12px]" style={{ color: '#F87171' }}>{err}</div>}
       {subs.length === 0 && (
         <p className="mt-3 text-[13px]" style={{ color: 'var(--color-text-tertiary)' }}>
-          {status === 'pending' ? '队列空 — 没有等待审查的提交。' : '暂无记录。'}
+          {status === 'pending' ? t('review.emptyPending') : t('review.empty')}
         </p>
       )}
       <div className="mt-3 grid gap-3" style={{ gridTemplateColumns: 'repeat(auto-fill,minmax(340px,1fr))' }}>
@@ -149,9 +151,9 @@ export function ReviewQueue() {
                     {m.summary}
                   </div>
                 )}
-                <Precheck m={m} />
+                <Precheck m={m} t={t} />
                 {m.status === 'rejected' && m.review_note && (
-                  <div className="text-[11.5px] mt-1" style={{ color: '#F5C453' }}>留言:{m.review_note}</div>
+                  <div className="text-[11.5px] mt-1" style={{ color: '#F5C453' }}>{t('review.note')}: {m.review_note}</div>
                 )}
                 <div className="mt-2 flex items-center gap-2">
                   {m.status === 'pending' && (
@@ -162,7 +164,7 @@ export function ReviewQueue() {
                         className="text-[12px] px-3 py-1.5 rounded-lg border-0 cursor-pointer font-semibold"
                         style={{ background: 'var(--color-accent)', color: '#0A0A0A', opacity: busy === key ? 0.5 : 1 }}
                       >
-                        通过
+                        {t('review.approve')}
                       </button>
                       <button
                         onClick={() => act(m, 'reject')}
@@ -170,7 +172,7 @@ export function ReviewQueue() {
                         className="text-[12px] px-3 py-1.5 rounded-lg border cursor-pointer"
                         style={{ borderColor: '#F87171', color: '#F87171', background: 'transparent', opacity: busy === key ? 0.5 : 1 }}
                       >
-                        退回
+                        {t('review.reject')}
                       </button>
                     </>
                   )}
@@ -179,7 +181,7 @@ export function ReviewQueue() {
                     className="text-[11.5px] ml-auto"
                     style={{ color: 'var(--color-text-tertiary)' }}
                   >
-                    ↓ zip 细查
+                    ↓ {t('review.inspectZip')}
                   </a>
                 </div>
               </div>
