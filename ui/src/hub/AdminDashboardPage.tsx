@@ -485,12 +485,12 @@ export function AdminDashboardPage() {
 
           <div>
             <h2 className="font-mono text-[10px] tracking-[0.16em] uppercase text-[var(--color-text-tertiary)] mb-3">
-              Signup targets (三圈)
+              Signup targets
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <CircleInput label="内圈 (Inner)" />
-              <CircleInput label="中圈 (Mid)" />
-              <CircleInput label="外圈 (Outer)" />
+              <CircleInput label="Inner" />
+              <CircleInput label="Middle" />
+              <CircleInput label="Outer" />
             </div>
           </div>
 

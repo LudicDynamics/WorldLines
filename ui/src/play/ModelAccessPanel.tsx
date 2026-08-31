@@ -182,7 +182,7 @@ export function ModelAccessPanel({ onState }: { onState: (s: ModelAccessState) =
             value={custom.api_key}
             onChange={(e) => setC('api_key', e.target.value)}
             type="password"
-            placeholder="sk-… (Ollama/LM Studio 可留空)"
+            placeholder={t('ma.keyOptionalPlaceholder')}
             className="mt-2 w-full rounded-lg border px-3 py-2 text-[12.5px] font-mono outline-none"
             style={{ background: 'var(--lc-panel2)', borderColor: 'var(--lc-line)', color: 'var(--lc-text)' }}
           />

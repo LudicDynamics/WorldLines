@@ -26,6 +26,7 @@ import { PlayStage } from '../play/stage/PlayStage'
 import { ChatDrawer, RoomChatDrawer } from '../play/stage/ChatDrawer'
 import { WorldMapCanvas } from './WorldMapCanvas'
 import { useStageStrings } from '../play/stage/strings'
+import { translate, useLocalT, type T } from './i18n'
 
 // 从 trace 的 bus_messages 挖 world/scene 的 scene_label(世界此刻标题)。
 function sceneLabel(trace: TraceRecord | null): string {
@@ -58,17 +59,17 @@ type WorldData = {
 // 模块注册表 —— 每个镜头声明 has(data) 谓词,有数据才进左栏导航。
 const MODULES: {
   key: ModuleKey
-  cn: string
+  labelKey: string
   en: string
   ico: string
   has: (d: WorldData) => boolean
 }[] = [
-  { key: 'pulse', cn: '世界此刻', en: 'NOW', ico: '◔', has: (d) => !!d.latest },
-  { key: 'feed', cn: '世界动态', en: 'WORLD FEED', ico: '✷', has: () => true },
-  { key: 'map', cn: '地图', en: 'MAP', ico: '⌖', has: () => true },
-  { key: 'chars', cn: '角色', en: 'CHARACTERS', ico: '✦', has: (d) => d.souls.length > 0 },
-  { key: 'places', cn: '地点', en: 'PLACES', ico: '❧', has: () => true },
-  { key: 'debug', cn: 'Debug', en: '4TH · RAW', ico: '⚙', has: (d) => !!d.latest },
+  { key: 'pulse', labelKey: 'observe.module.now', en: 'NOW', ico: '◔', has: (d) => !!d.latest },
+  { key: 'feed', labelKey: 'observe.module.feed', en: 'WORLD FEED', ico: '✷', has: () => true },
+  { key: 'map', labelKey: 'observe.module.map', en: 'MAP', ico: '⌖', has: () => true },
+  { key: 'chars', labelKey: 'observe.module.characters', en: 'CHARACTERS', ico: '✦', has: (d) => d.souls.length > 0 },
+  { key: 'places', labelKey: 'observe.module.places', en: 'PLACES', ico: '❧', has: () => true },
+  { key: 'debug', labelKey: 'observe.module.debug', en: '4TH · RAW', ico: '⚙', has: (d) => !!d.latest },
 ]
 
 const nameOf = (w: LocalWorld | null) =>
@@ -107,6 +108,7 @@ export function ObservatoryShell() {
   const askedNames = useRef<Set<string>>(new Set())
   const navigate = useNavigate()
   const { t: stageT } = useStageStrings()
+  const { lang, t } = useLocalT()
 
   // observe 的数据源 = 一个**存档**的 trace(B 方案:选有内容的存档观察,而非
   // 空的当前 session)。读某存档 = bind 它 → getTraces 就读那个存档的 root。
@@ -117,7 +119,7 @@ export function ObservatoryShell() {
         const last = rows[rows.length - 1]
         if (last) getTrace(last.i).then(setLatest).catch(() => {})
       })
-      .catch((e) => setDataErr('trace 读取出错 —— ' + String(e).slice(0, 80)))
+      .catch((e) => setDataErr(t('observe.error.traces', { error: String(e).slice(0, 80) })))
   }
   const observeSave = (s: LocalSave) => {
     setSaveId(s.session_id)
@@ -132,7 +134,7 @@ export function ObservatoryShell() {
     setChan({ kind: 'lens' })
     bindPlaySession(s.session_id)
       .then(loadTraces)
-      .catch((e) => setDataErr('绑定存档出错 —— ' + String(e).slice(0, 80)))
+      .catch((e) => setDataErr(t('observe.error.bindSave', { error: String(e).slice(0, 80) })))
   }
 
   // U1:选世界 → 起新局 → 直接进 observe 的 ◉世界(下场游玩)。复用 bindPlaySession(worldId)。
@@ -150,7 +152,7 @@ export function ObservatoryShell() {
       setChan({ kind: 'world' })
       loadTraces()
     } catch (e) {
-      setDataErr('开局出错 —— ' + String(e).slice(0, 80))
+      setDataErr(t('observe.error.start', { error: String(e).slice(0, 80) }))
     }
   }
 
@@ -164,8 +166,8 @@ export function ObservatoryShell() {
       .catch(() => {})
     listLocalSaves()
       .then(setSaves)
-      .catch((e) => setDataErr('存档列表读取出错 —— ' + String(e).slice(0, 80)))
-  }, [])
+      .catch((e) => setDataErr(translate(lang, 'observe.error.saves', { error: String(e).slice(0, 80) })))
+  }, [lang])
 
   // P2a 挂机轮询:autoRun 且已绑存档时,定时重拉 trace → latest 变 → 画布/镜头实时刷新。
   useEffect(() => {
@@ -229,7 +231,7 @@ export function ObservatoryShell() {
 
   const errBanner = dataErr ? (
     <div style={{ marginBottom: 12, padding: '10px 14px', borderRadius: 10, border: '1px solid #FF6B8A44', background: '#FF6B8A11', color: '#FF6B8A', fontSize: 12.5 }}>
-      ⚠ {dataErr}(仍显示能读到的部分,不崩)
+      ⚠ {dataErr} {t('observe.error.partial')}
     </div>
   ) : null
 
@@ -239,14 +241,14 @@ export function ObservatoryShell() {
       <div className="page-enter" style={{ paddingTop: 24, maxWidth: 980, margin: '0 auto' }}>
         {errBanner}
         <h1 style={{ fontFamily: 'var(--font-display, serif)', fontSize: 30, margin: 0, color: 'var(--lc-text)' }}>
-          选一个世界回去
+          {t('observe.choose.title')}
         </h1>
         <p style={{ fontSize: 13, color: 'var(--lc-faint)', marginTop: 8, marginBottom: 24 }}>
-          观察是隔着看 —— 挑个世界开新局,或回到一段旧的;进去随时可附身下场。
+          {t('observe.choose.description')}
         </p>
 
         {/* U1:开新局 —— 选世界起新局,直接进 observe 的 ◉世界(下场游玩) */}
-        <div style={{ fontSize: 11, letterSpacing: 1.5, textTransform: 'uppercase', color: 'var(--lc-faint)', marginBottom: 10 }}>开新局 · 选个世界</div>
+        <div style={{ fontSize: 11, letterSpacing: 1.5, textTransform: 'uppercase', color: 'var(--lc-faint)', marginBottom: 10 }}>{t('observe.choose.new')}</div>
         {worlds.filter((w) => !w.hidden).length ? (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 12, marginBottom: 30 }}>
             {worlds.filter((w) => !w.hidden).slice(0, 18).map((w) => (
@@ -262,14 +264,14 @@ export function ObservatoryShell() {
                 {w.desc ? (
                   <span style={{ fontSize: 12, color: 'var(--lc-dim)', lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{w.desc}</span>
                 ) : (
-                  <span style={{ fontSize: 11, color: 'var(--lc-faint)' }}>开一局,下场看它活起来。</span>
+                  <span style={{ fontSize: 11, color: 'var(--lc-faint)' }}>{t('observe.choose.worldHint')}</span>
                 )}
               </button>
             ))}
           </div>
         ) : null}
 
-        <div style={{ fontSize: 11, letterSpacing: 1.5, textTransform: 'uppercase', color: 'var(--lc-faint)', marginBottom: 10 }}>回到存档 · 续一段</div>
+        <div style={{ fontSize: 11, letterSpacing: 1.5, textTransform: 'uppercase', color: 'var(--lc-faint)', marginBottom: 10 }}>{t('observe.choose.resume')}</div>
         {saves.length ? (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 14 }}>
             {saves.slice(0, 24).map((s) => (
@@ -301,18 +303,18 @@ export function ObservatoryShell() {
                 </span>
                 {s.feed_tease ? (
                   <span style={{ fontSize: 12.5, color: 'var(--lc-dim)', lineHeight: 1.6, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                    {s.feed_time ? `上次 ${s.feed_time} · ` : ''}
+                    {s.feed_time ? `${t('observe.choose.last', { time: s.feed_time })} · ` : ''}
                     {s.feed_tease}
                   </span>
                 ) : (
-                  <span style={{ fontSize: 12, color: 'var(--lc-faint)' }}>还没有故事 —— 进去开始。</span>
+                  <span style={{ fontSize: 12, color: 'var(--lc-faint)' }}>{t('observe.choose.noStory')}</span>
                 )}
               </button>
             ))}
           </div>
         ) : (
           <div style={{ padding: 60, textAlign: 'center', color: 'var(--lc-faint)', fontSize: 13, border: '1px dashed var(--lc-line)', borderRadius: 14 }}>
-            还没有存档 —— 从上面挑个世界开一局。
+            {t('observe.choose.noSaves')}
           </div>
         )}
       </div>
@@ -374,7 +376,7 @@ export function ObservatoryShell() {
             }}
             style={{ alignSelf: 'flex-start', background: 'transparent', border: 'none', color: 'var(--lc-faint)', fontSize: 12, cursor: 'pointer', padding: 0 }}
           >
-            ← 换一个世界
+            ← {t('observe.changeWorld')}
           </button>
           <div>
             <div style={{ fontFamily: 'var(--font-display, serif)', fontSize: 18, fontWeight: 700, color: 'var(--lc-text)' }}>
@@ -388,41 +390,41 @@ export function ObservatoryShell() {
           {saveId ? (
             <div style={{ padding: 10, borderRadius: 10, border: '1px solid var(--lc-line)', background: 'var(--lc-panel2, #0e1116)', display: 'flex', flexDirection: 'column', gap: 8 }} data-testid="tick-bar">
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: 9, letterSpacing: 1.5, textTransform: 'uppercase', color: 'var(--lc-faint)' }}>挂机 · Watch</span>
-                <span style={{ fontSize: 11, color: 'var(--lc-dim)' }}>回合 {traces.length}</span>
+                <span style={{ fontSize: 9, letterSpacing: 1.5, textTransform: 'uppercase', color: 'var(--lc-faint)' }}>{t('observe.watch.title')}</span>
+                <span style={{ fontSize: 11, color: 'var(--lc-dim)' }}>{t('observe.turnCount', { count: traces.length })}</span>
               </div>
               <button
                 onClick={() => setAutoRun((v) => !v)}
                 data-testid="tick-toggle"
                 style={{ fontSize: 12, fontWeight: 600, padding: '6px 8px', borderRadius: 8, cursor: 'pointer', border: `1px solid ${autoRun ? 'var(--lc-candle, #e8b45a)' : 'var(--lc-line)'}`, background: autoRun ? 'rgba(232,180,90,0.13)' : 'transparent', color: autoRun ? 'var(--lc-candle, #e8b45a)' : 'var(--lc-text)' }}
               >
-                {autoRun ? `▮▮ 挂机中 · 每 ${tickSec}s` : '▶ 挂机(自动刷新)'}
+                {autoRun ? `▮▮ ${t('observe.watch.active', { seconds: tickSec })}` : `▶ ${t('observe.watch.start')}`}
               </button>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <span style={{ fontSize: 10, color: 'var(--lc-faint)' }}>间隔</span>
+                <span style={{ fontSize: 10, color: 'var(--lc-faint)' }}>{t('observe.watch.interval')}</span>
                 <select
                   value={tickSec}
                   onChange={(e) => setTickSec(Number(e.target.value))}
                   style={{ flex: 1, fontSize: 11, padding: '3px 4px', borderRadius: 6, background: 'var(--lc-panel)', color: 'var(--lc-text)', border: '1px solid var(--lc-line)' }}
                 >
-                  <option value={5}>5 秒</option>
-                  <option value={15}>15 秒</option>
-                  <option value={30}>30 秒</option>
-                  <option value={60}>1 分</option>
-                  <option value={300}>5 分</option>
+                  <option value={5}>{t('observe.seconds', { count: 5 })}</option>
+                  <option value={15}>{t('observe.seconds', { count: 15 })}</option>
+                  <option value={30}>{t('observe.seconds', { count: 30 })}</option>
+                  <option value={60}>{t('observe.minutes', { count: 1 })}</option>
+                  <option value={300}>{t('observe.minutes', { count: 5 })}</option>
                 </select>
-                <button onClick={loadTraces} title="手动刷新一次" style={{ fontSize: 12, padding: '3px 8px', borderRadius: 6, cursor: 'pointer', border: '1px solid var(--lc-line)', background: 'transparent', color: 'var(--lc-dim)' }}>↻</button>
+                <button onClick={loadTraces} title={t('observe.watch.refresh')} style={{ fontSize: 12, padding: '3px 8px', borderRadius: 6, cursor: 'pointer', border: '1px solid var(--lc-line)', background: 'transparent', color: 'var(--lc-dim)' }}>↻</button>
               </div>
-              <div style={{ fontSize: 9, color: 'var(--lc-faint)', lineHeight: 1.5 }}>后台自动推进(引擎 auto-tick)待接;现为观察刷新。</div>
+              <div style={{ fontSize: 9, color: 'var(--lc-faint)', lineHeight: 1.5 }}>{t('observe.watch.note')}</div>
             </div>
           ) : null}
 
           {saveId && traces.length > 1 ? (
             <div style={{ padding: 10, borderRadius: 10, border: '1px solid var(--lc-line)', background: 'var(--lc-panel2, #0e1116)', display: 'flex', flexDirection: 'column', gap: 8 }} data-testid="replay-bar">
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: 9, letterSpacing: 1.5, textTransform: 'uppercase', color: 'var(--lc-faint)' }}>时间轴 · Replay</span>
+                <span style={{ fontSize: 9, letterSpacing: 1.5, textTransform: 'uppercase', color: 'var(--lc-faint)' }}>{t('observe.replay.title')}</span>
                 <span style={{ fontSize: 11, color: replayIdx === null ? 'var(--lc-candle, #e8b45a)' : 'var(--lc-dim)' }}>
-                  回合 {(replayIdx ?? traces.length - 1) + 1}/{traces.length}{replayIdx === null ? ' · 现在' : ''}
+                  {t('observe.replay.position', { current: (replayIdx ?? traces.length - 1) + 1, total: traces.length })}{replayIdx === null ? ` · ${t('observe.now')}` : ''}
                 </span>
               </div>
               <input
@@ -450,31 +452,31 @@ export function ObservatoryShell() {
                   data-testid="replay-play"
                   style={{ flex: 1, fontSize: 12, fontWeight: 600, padding: '5px 8px', borderRadius: 8, cursor: 'pointer', border: `1px solid ${replayPlaying ? 'var(--lc-candle, #e8b45a)' : 'var(--lc-line)'}`, background: replayPlaying ? 'rgba(232,180,90,0.13)' : 'transparent', color: replayPlaying ? 'var(--lc-candle, #e8b45a)' : 'var(--lc-text)' }}
                 >
-                  {replayPlaying ? '⏸ 回放中' : '▶ 回放'}
+                  {replayPlaying ? `⏸ ${t('observe.replay.playing')}` : `▶ ${t('observe.replay.play')}`}
                 </button>
                 <button
                   onClick={() => { setReplayPlaying(false); setReplayIdx(null) }}
-                  title="回到现在"
+                  title={t('observe.replay.returnNow')}
                   style={{ fontSize: 11, padding: '5px 8px', borderRadius: 8, cursor: 'pointer', border: '1px solid var(--lc-line)', background: 'transparent', color: 'var(--lc-dim)' }}
                 >
-                  ⏭ 现在
+                  ⏭ {t('observe.now')}
                 </button>
               </div>
             </div>
           ) : null}
 
           <div>
-            <div style={{ fontSize: 9, letterSpacing: 1.5, textTransform: 'uppercase', color: 'var(--lc-faint)', marginBottom: 4 }}>频道 · Channels</div>
+            <div style={{ fontSize: 9, letterSpacing: 1.5, textTransform: 'uppercase', color: 'var(--lc-faint)', marginBottom: 4 }}>{t('observe.channels')}</div>
             <nav style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               <button onClick={() => setChan({ kind: 'world' })} style={chanBtn(chan.kind === 'world')} data-testid="chan-world">
                 <span style={{ width: 16 }}>◉</span>
-                <span>世界</span>
-                <span style={{ marginLeft: 'auto', fontSize: 9, color: 'var(--lc-faint)' }}>下场·时钟走</span>
+                <span>{t('observe.channel.world')}</span>
+                <span style={{ marginLeft: 'auto', fontSize: 9, color: 'var(--lc-faint)' }}>{t('observe.channel.play')}</span>
               </button>
               <button onClick={() => setChan({ kind: 'room' })} style={chanBtn(chan.kind === 'room')} data-testid="chan-room">
                 <span style={{ width: 16 }}>#</span>
-                <span>此地</span>
-                <span style={{ marginLeft: 'auto', fontSize: 9, color: 'var(--lc-faint)' }}>幕间</span>
+                <span>{t('observe.channel.here')}</span>
+                <span style={{ marginLeft: 'auto', fontSize: 9, color: 'var(--lc-faint)' }}>{t('observe.channel.interlude')}</span>
               </button>
               {rosterSouls.map((s) => (
                 <button
@@ -485,7 +487,7 @@ export function ObservatoryShell() {
                   <span style={{ width: 16 }}>@</span>
                   <span>{s.name}</span>
                   <span style={{ marginLeft: 'auto', fontSize: 9, color: s.near ? 'var(--lc-candle)' : 'var(--lc-faint)' }}>
-                    {s.near ? '同场' : s.loc || '在别处'}
+                    {s.near ? t('observe.sameScene') : s.loc || t('observe.elsewhere')}
                   </span>
                 </button>
               ))}
@@ -493,7 +495,7 @@ export function ObservatoryShell() {
           </div>
 
           <div>
-            <div style={{ fontSize: 9, letterSpacing: 1.5, textTransform: 'uppercase', color: 'var(--lc-faint)', marginBottom: 4 }}>镜头 · Lenses</div>
+            <div style={{ fontSize: 9, letterSpacing: 1.5, textTransform: 'uppercase', color: 'var(--lc-faint)', marginBottom: 4 }}>{t('observe.lenses')}</div>
             <nav style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               {modules.map((m) => (
                 <button
@@ -505,7 +507,7 @@ export function ObservatoryShell() {
                   style={chanBtn(chan.kind === 'lens' && active === m.key)}
                 >
                   <span style={{ width: 16 }}>{m.ico}</span>
-                  <span>{m.cn}</span>
+                  <span>{t(m.labelKey)}</span>
                   <span style={{ marginLeft: 'auto', fontSize: 9, letterSpacing: 1.5, color: 'var(--lc-faint)' }}>{m.en}</span>
                 </button>
               ))}
@@ -513,9 +515,9 @@ export function ObservatoryShell() {
           </div>
 
           <span style={{ marginTop: 'auto', fontSize: 10, color: 'var(--lc-faint)', lineHeight: 1.7 }}>
-            ◉ 世界=下场(时钟走)· @/#/镜头=幕间(时钟停)。旧全屏舞台:
+            {t('observe.channel.help')}
             <button onClick={() => navigate('/local/stage')} style={{ background: 'none', border: 'none', color: 'var(--lc-dim)', cursor: 'pointer', fontSize: 10, textDecoration: 'underline', padding: 0 }}>
-              打开
+              {t('observe.open')}
             </button>
           </span>
         </aside>
@@ -529,7 +531,7 @@ export function ObservatoryShell() {
             position: 'relative',
           }}
         >
-          {chan.kind === 'lens' ? <ModuleStage active={active} data={data} names={soulNames} /> : null}
+          {chan.kind === 'lens' ? <ModuleStage active={active} data={data} names={soulNames} t={t} /> : null}
           {chan.kind === 'world' ? (
             <div className="obs-embed" data-testid="chan-world-stage">
               <PlayStage />
@@ -549,7 +551,7 @@ export function ObservatoryShell() {
 
         {/* 右栏:在场(此刻谁在这;点=开 @ 频道) */}
         <aside style={{ background: 'var(--lc-panel)', padding: 16, overflowY: 'auto' }}>
-          <div style={{ fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', color: 'var(--lc-faint)', marginBottom: 8 }}>在场 · Present</div>
+          <div style={{ fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', color: 'var(--lc-faint)', marginBottom: 8 }}>{t('observe.present')}</div>
           {data.latest ? (
             <div style={{ fontSize: 11.5, color: 'var(--lc-dim)', lineHeight: 1.6, marginBottom: 12, paddingBottom: 10, borderBottom: '1px dotted var(--lc-line)' }}>
               {sceneLabel(data.latest) || '——'}
@@ -569,13 +571,13 @@ export function ObservatoryShell() {
                 <span style={{ display: 'flex', flexDirection: 'column' }}>
                   <span style={{ fontSize: 12.5, color: 'var(--lc-text)' }}>{s.name}</span>
                   <span style={{ fontSize: 10, color: s.near ? 'var(--lc-candle)' : 'var(--lc-faint)' }}>
-                    {s.near ? '● 与你同场' : `○ ${s.loc || '在别处'}`}
+                    {s.near ? `● ${t('observe.withYou')}` : `○ ${s.loc || t('observe.elsewhere')}`}
                   </span>
                 </span>
               </button>
             ))
           ) : (
-            <div style={{ fontSize: 11.5, color: 'var(--lc-faint)' }}>(走一回合后,这里显示谁在场)</div>
+            <div style={{ fontSize: 11.5, color: 'var(--lc-faint)' }}>{t('observe.present.empty')}</div>
           )}
         </aside>
       </div>
@@ -583,15 +585,15 @@ export function ObservatoryShell() {
   )
 }
 
-function ModuleStage({ active, data, names = {} }: { active: ModuleKey; data: WorldData; names?: Record<string, string> }) {
+function ModuleStage({ active, data, names = {}, t }: { active: ModuleKey; data: WorldData; names?: Record<string, string>; t: T }) {
   const { world } = data
 
-  if (!world && !data.latest) return <Placeholder text="没有世界可观察。先在书房导入 / 创建一个世界。" />
+  if (!world && !data.latest) return <Placeholder text={t('observe.empty.noWorld')} />
 
   if (active === 'chars') {
     return (
       <div className="stage-fade">
-        <ModuleTitle cn="角色" en="CHARACTERS" />
+        <ModuleTitle label={t('observe.module.characters')} en="CHARACTERS" />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(170px,1fr))', gap: 12, marginTop: 18 }}>
           {data.souls.map((s, i) => (
             <div key={i} style={{ padding: 14, borderRadius: 12, border: '1px solid var(--lc-line)', background: 'var(--lc-panel)' }}>
@@ -608,12 +610,12 @@ function ModuleStage({ active, data, names = {} }: { active: ModuleKey; data: Wo
 
   if (active === 'feed') {
     if (!data.traces.length) {
-      return <Placeholder text="当前会话还没有回合 —— 先玩一个世界,它的逐回合动态会在这里流动。" />
+      return <Placeholder text={t('observe.empty.feed')} />
     }
     return (
       <div className="stage-fade">
-        <ModuleTitle cn="世界动态" en="WORLD FEED" />
-        <div style={{ fontSize: 11, color: 'var(--lc-faint)', marginTop: 4 }}>观察:当前会话 · {data.traces.length} 回合</div>
+        <ModuleTitle label={t('observe.module.feed')} en="WORLD FEED" />
+        <div style={{ fontSize: 11, color: 'var(--lc-faint)', marginTop: 4 }}>{t('observe.feed.summary', { count: data.traces.length })}</div>
         <div style={{ marginTop: 18, borderLeft: '2px solid var(--lc-line)', paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 16 }}>
           {data.traces.map((tr) => {
             const loc = (tr.location || tr.world_location || '').replace(/^loc:/, '')
@@ -634,12 +636,12 @@ function ModuleStage({ active, data, names = {} }: { active: ModuleKey; data: Wo
   }
 
   if (active === 'pulse') {
-    if (!data.latest) return <Placeholder text="当前会话还没有回合 —— 世界此刻会显示在这里。" />
+    if (!data.latest) return <Placeholder text={t('observe.empty.now')} />
     const label = sceneLabel(data.latest)
     const activeSouls = data.latest.souls || []
     return (
       <div className="stage-fade">
-        <ModuleTitle cn="世界此刻" en="NOW" />
+        <ModuleTitle label={t('observe.module.now')} en="NOW" />
         {label ? (
           <div style={{ fontFamily: 'var(--font-display, serif)', fontSize: 21, marginTop: 12, color: 'var(--lc-text)' }}>{label}</div>
         ) : null}
@@ -660,7 +662,7 @@ function ModuleStage({ active, data, names = {} }: { active: ModuleKey; data: Wo
                 </div>
                 <div style={{ fontSize: 12, color: 'var(--lc-dim)', marginTop: 10 }}>
                   📍 {loc || '—'}
-                  {near ? <span style={{ color: 'var(--lc-candle)' }}> · 与你同处</span> : <span style={{ color: 'var(--lc-faint)' }}> · 在别处</span>}
+                  {near ? <span style={{ color: 'var(--lc-candle)' }}> · {t('observe.withYou')}</span> : <span style={{ color: 'var(--lc-faint)' }}> · {t('observe.elsewhere')}</span>}
                 </div>
                 {s.speech ? <div style={{ fontSize: 12, color: 'var(--lc-dim)', marginTop: 6, fontStyle: 'italic' }}>「{s.speech}」</div> : null}
               </div>
@@ -672,19 +674,19 @@ function ModuleStage({ active, data, names = {} }: { active: ModuleKey; data: Wo
   }
 
   if (active === 'places') {
-    if (!data.latest) return <Placeholder text="当前会话还没有回合 —— 地点与占用者会显示在这里。" />
+    if (!data.latest) return <Placeholder text={t('observe.empty.places')} />
     const acts = data.latest.souls || []
     const playerLoc = (data.latest.world_location || data.latest.location || '').split('/').pop() || ''
     const byLoc: Record<string, typeof acts> = {}
     for (const s of acts) {
-      const loc = soulLoc(s.reason) || '未知'
+      const loc = soulLoc(s.reason) || t('observe.unknown')
       ;(byLoc[loc] ||= []).push(s)
     }
     const locs = Object.keys(byLoc)
     if (playerLoc && !locs.includes(playerLoc)) locs.unshift(playerLoc)
     return (
       <div className="stage-fade">
-        <ModuleTitle cn="地点" en="PLACES" />
+        <ModuleTitle label={t('observe.module.places')} en="PLACES" />
         <div style={{ marginTop: 18, display: 'flex', flexDirection: 'column', gap: 10 }}>
           {locs.map((loc) => {
             const here = byLoc[loc] || []
@@ -693,7 +695,7 @@ function ModuleStage({ active, data, names = {} }: { active: ModuleKey; data: Wo
               <div key={loc} style={{ padding: 14, borderRadius: 12, border: `1px solid ${isPlayerHere ? 'var(--lc-candle)' : 'var(--lc-line)'}`, background: 'var(--lc-panel)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--lc-text)' }}>📍 {loc}</span>
-                  {isPlayerHere ? <span style={{ fontSize: 11, color: 'var(--lc-candle)' }}>· 你在这里</span> : null}
+                  {isPlayerHere ? <span style={{ fontSize: 11, color: 'var(--lc-candle)' }}>· {t('observe.youAreHere')}</span> : null}
                 </div>
                 {here.length ? (
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 8 }}>
@@ -704,7 +706,7 @@ function ModuleStage({ active, data, names = {} }: { active: ModuleKey; data: Wo
                     ))}
                   </div>
                 ) : (
-                  <div style={{ fontSize: 11.5, color: 'var(--lc-faint)', marginTop: 6 }}>（此刻无人）</div>
+                  <div style={{ fontSize: 11.5, color: 'var(--lc-faint)', marginTop: 6 }}>{t('observe.place.empty')}</div>
                 )}
               </div>
             )
@@ -715,13 +717,13 @@ function ModuleStage({ active, data, names = {} }: { active: ModuleKey; data: Wo
   }
 
   if (active === 'map') {
-    if (!data.latest) return <Placeholder text="当前会话还没有回合 —— 地图会显示谁在哪。" />
+    if (!data.latest) return <Placeholder text={t('observe.empty.map')} />
     const acts = data.latest.souls || []
     const playerLoc = (data.latest.world_location || data.latest.location || '').split('/').pop() || ''
     return (
       <div className="stage-fade">
-        <ModuleTitle cn="地图" en="MAP" />
-        <div style={{ fontSize: 11, color: 'var(--lc-faint)', marginTop: 4 }}>世界大地图 · 谁在哪(可拖拽缩放 · 点节点看详情 · world_map 底图待接)</div>
+        <ModuleTitle label={t('observe.module.map')} en="MAP" />
+        <div style={{ fontSize: 11, color: 'var(--lc-faint)', marginTop: 4 }}>{t('observe.map.help')}</div>
         <WorldMapCanvas souls={acts} playerLoc={playerLoc} names={names} />
       </div>
     )
@@ -730,24 +732,24 @@ function ModuleStage({ active, data, names = {} }: { active: ModuleKey; data: Wo
   if (active === 'debug') {
     return (
       <div className="stage-fade">
-        <ModuleTitle cn="Debug" en="4TH · RAW" />
+        <ModuleTitle label={t('observe.module.debug')} en="4TH · RAW" />
         <div style={{ fontSize: 12, color: 'var(--lc-faint)', marginTop: 4, lineHeight: 1.7 }}>
-          第四镜头 —— 现酒馆式游玩界面 + 原始 trace 收进这里(SIMULATION-PLATFORM:Debug 第四页)。仅 player 看。
+          {t('observe.debug.description')}
         </div>
         <pre style={{ marginTop: 16, padding: 16, borderRadius: 12, border: '1px solid var(--lc-line)', background: 'var(--lc-panel)', fontSize: 11, lineHeight: 1.6, color: 'var(--lc-dim)', overflow: 'auto', maxHeight: 460, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-          {data.latest ? JSON.stringify(data.latest, null, 2).slice(0, 8000) : '(当前会话无 trace)'}
+          {data.latest ? JSON.stringify(data.latest, null, 2).slice(0, 8000) : t('observe.debug.noTrace')}
         </pre>
       </div>
     )
   }
 
-  return <Placeholder text="待接数据。" />
+  return <Placeholder text={t('observe.empty.pending')} />
 }
 
-function ModuleTitle({ cn, en }: { cn: string; en: string }) {
+function ModuleTitle({ label, en }: { label: string; en: string }) {
   return (
     <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
-      <span style={{ fontFamily: 'var(--font-display, serif)', fontSize: 22, color: 'var(--lc-text)' }}>{cn}</span>
+      <span style={{ fontFamily: 'var(--font-display, serif)', fontSize: 22, color: 'var(--lc-text)' }}>{label}</span>
       <span style={{ fontSize: 11, letterSpacing: 2, textTransform: 'uppercase', color: 'var(--lc-faint)' }}>{en}</span>
     </div>
   )

@@ -28,6 +28,23 @@ type Dict = Record<string, Partial<Record<Lang, string>> & { en: string }>
 // tracked separately (see docs/TASKS.md) to keep translation quality
 // high rather than machine-rough.
 const STRINGS: Dict = {
+  'header.localTestAccount': { en: 'local test account', zh: '本地测试账户', ja: 'ローカルテストアカウント', ko: '로컬 테스트 계정' },
+  'review.playable': { en: 'playable', zh: '可玩', ja: 'プレイ可能', ko: '플레이 가능' },
+  'review.notPlayable': { en: 'not playable', zh: '不可玩', ja: 'プレイ不可', ko: '플레이 불가' },
+  'review.blockers': { en: 'blockers', zh: '阻断', ja: 'ブロッカー', ko: '차단' },
+  'review.warnings': { en: 'warnings', zh: '提醒', ja: '警告', ko: '경고' },
+  'review.rejectPrompt': { en: 'Return note (visible to the creator, required):', zh: '退回留言(创作者可见,必填):', ja: '差し戻し理由（作成者に表示・必須）:', ko: '반려 사유(제작자에게 표시, 필수):' },
+  'review.title': { en: 'Review queue', zh: '审查队列', ja: '審査キュー', ko: '심사 대기열' },
+  'review.status.pending': { en: 'Pending', zh: '待审', ja: '審査待ち', ko: '심사 대기' },
+  'review.status.approved': { en: 'Published', zh: '已上架', ja: '公開済み', ko: '게시됨' },
+  'review.status.rejected': { en: 'Returned', zh: '已退回', ja: '差し戻し', ko: '반려됨' },
+  'review.refresh': { en: 'Refresh', zh: '刷新', ja: '更新', ko: '새로고침' },
+  'review.emptyPending': { en: 'The queue is empty — no submissions are waiting for review.', zh: '队列空 — 没有等待审查的提交。', ja: 'キューは空です — 審査待ちの提出はありません。', ko: '대기열이 비었습니다 — 심사 대기 제출물이 없습니다.' },
+  'review.empty': { en: 'No records.', zh: '暂无记录。', ja: '記録はありません。', ko: '기록이 없습니다.' },
+  'review.note': { en: 'Note', zh: '留言', ja: 'コメント', ko: '메모' },
+  'review.approve': { en: 'Approve', zh: '通过', ja: '承認', ko: '승인' },
+  'review.reject': { en: 'Return', zh: '退回', ja: '差し戻す', ko: '반려' },
+  'review.inspectZip': { en: 'Inspect zip', zh: 'zip 细查', ja: 'zipを確認', ko: 'zip 검사' },
   'nav.worlds': { en: 'Worlds', zh: '世界', ja: 'ワールド', ko: '월드' },
   'nav.souls': { en: 'Souls', zh: '灵魂', ja: 'ソウル', ko: '소울' },
   'nav.create': { en: 'Create', zh: '创作', ja: '創作', ko: '창작' },

@@ -76,6 +76,7 @@ const BOOT: Record<string, Partial<Record<Lang, string>> & { en: string }> = {
   'chat.typing': { en: 'typing…', zh: '正在输入…', ja: '入力中…', ko: '입력 중…' },
   'chat.send': { en: 'Send', zh: '发送', ja: '送信', ko: '보내기' },
   'chat.you': { en: 'You', zh: '你', ja: 'あなた', ko: '나' },
+  'chat.messageMedium': { en: 'message', zh: '讯息', ja: 'メッセージ', ko: '메시지' },
   'chat.room_open': { en: '💬 Talk to the room', zh: '💬 此地闲聊', ja: '💬 この場で話す', ko: '💬 이곳에서 대화' },
   'chat.room_title': { en: 'Here', zh: '此地', ja: 'この場', ko: '이곳' },
   'chat.room_placeholder': {
