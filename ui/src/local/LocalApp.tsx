@@ -131,7 +131,7 @@ export function LocalApp() {
             {(
               [
                 ['/local', t('nav.home')],
-                ['/local/observe', '▶ 游玩 · 观察'],
+                ['/local/observe', '▶ ' + t('nav.observe')],
                 ['/local/create', t('nav.create')],
                 ['/local/library', t('nav.library')],
                 ['/local/settings', '⚙ ' + t('nav.settings')],

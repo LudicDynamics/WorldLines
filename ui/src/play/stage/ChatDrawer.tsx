@@ -59,7 +59,7 @@ export function ChatDrawer({
         }
         if (dead) return
         setCoLocated(!!d.co_located)
-        setMedium(d.remote ? d.medium || '讯息' : null)
+        setMedium(d.remote ? d.medium || t('chat.messageMedium') : null)
         if (d.name) setName(d.name)
         setThread(Array.isArray(d.thread) ? d.thread : [])
         scrollEnd()

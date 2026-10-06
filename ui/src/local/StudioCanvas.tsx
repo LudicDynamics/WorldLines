@@ -436,11 +436,11 @@ export function StudioCanvas({
       {dlgNode && kind === 'relation' && (
         <div className={dlgWrap} style={dlgStyle}>
           <div className="text-[13px] font-semibold">
-            {String((dlgNode.data as Record<string, unknown>).label || dlgNode.id)} · 关系
+            {String((dlgNode.data as Record<string, unknown>).label || dlgNode.id)} · {t('canvas.relation')}
           </div>
           {relationships.filter((r) => r.source === dlgNode.id || r.target === dlgNode.id).length === 0 && (
             <p className="text-[12px] m-0" style={{ color: 'var(--lc-faint)' }}>
-              还没有关系 —— 拖这个节点边缘的圆点连到另一个角色即可建立。
+              {t('canvas.relationEmpty')}
             </p>
           )}
           {relationships
@@ -461,14 +461,14 @@ export function StudioCanvas({
                   className="text-[11px] rounded px-2 py-0.5 cursor-pointer border"
                   style={{ borderColor: 'var(--lc-line)', color: 'var(--lc-candle)', background: 'transparent' }}
                 >
-                  编辑
+                  {t('canvas.edit')}
                 </button>
                 <button
                   onClick={() => deleteEdge(r.id)}
                   className="text-[11px] rounded px-2 py-0.5 cursor-pointer border"
                   style={{ borderColor: 'var(--lc-line)', color: '#FF6B8A', background: 'transparent' }}
                 >
-                  删
+                  {t('canvas.delete')}
                 </button>
               </div>
             ))}
@@ -477,7 +477,7 @@ export function StudioCanvas({
             className="text-[12.5px] rounded-lg px-3 py-1.5 cursor-pointer border mt-1"
             style={{ borderColor: 'var(--lc-line)', color: 'var(--lc-dim)', background: 'transparent' }}
           >
-            关闭
+            {t('canvas.close')}
           </button>
         </div>
       )}

@@ -7,6 +7,7 @@
 import { useMemo, useState } from 'react'
 import { ReactFlow, Background, Controls, type Node } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
+import { useLocalT } from './i18n'
 
 export type SoulAct = { sid?: string; instance_id?: string; reason?: string }
 
@@ -34,12 +35,13 @@ export function WorldMapCanvas({
   playerLoc: string
   names?: Record<string, string>
 }) {
+  const { t } = useLocalT()
   const [selPlace, setSelPlace] = useState<string | null>(null)
 
   const { nodes, byLoc } = useMemo(() => {
     const byLoc: Record<string, SoulAct[]> = {}
     for (const s of souls) {
-      const loc = soulLoc(s.reason) || '未知'
+      const loc = soulLoc(s.reason) || t('observe.unknown')
       ;(byLoc[loc] ||= []).push(s)
     }
     const locs = Object.keys(byLoc)
@@ -64,7 +66,7 @@ export function WorldMapCanvas({
           label: (
             <div style={{ textAlign: 'center', pointerEvents: 'none' }}>
               <div style={{ fontSize: 12, fontWeight: 700, color: isPlayer ? 'var(--lc-candle, #e8b45a)' : 'var(--lc-dim, #9aa0aa)' }}>
-                {loc}{isPlayer ? ' · 你' : ''}
+                {loc}{isPlayer ? ` · ${t('worldMap.you')}` : ''}
               </div>
             </div>
           ),
@@ -114,7 +116,7 @@ export function WorldMapCanvas({
       })
     }
     return { nodes, byLoc }
-  }, [souls, playerLoc, names])
+  }, [souls, playerLoc, names, t])
 
   const here = selPlace ? byLoc[selPlace] || [] : []
 
@@ -142,13 +144,13 @@ export function WorldMapCanvas({
       </ReactFlow>
       {selPlace ? (
         <div style={{ position: 'absolute', right: 10, top: 10, width: 210, maxHeight: 340, overflow: 'auto', padding: 12, borderRadius: 12, border: '1px solid var(--lc-line)', background: 'var(--lc-panel, #14171d)', boxShadow: '0 6px 24px #0008' }}>
-          <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--lc-candle, #e8b45a)', marginBottom: 8 }}>{selPlace}{selPlace === playerLoc ? ' · 你在此' : ''}</div>
+          <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--lc-candle, #e8b45a)', marginBottom: 8 }}>{selPlace}{selPlace === playerLoc ? ` · ${t('worldMap.youAreHere')}` : ''}</div>
           {here.length ? here.map((s) => (
             <div key={s.instance_id || s.sid} style={{ fontSize: 11, color: 'var(--lc-dim, #9aa0aa)', lineHeight: 1.6, marginBottom: 6 }}>
               <span style={{ color: 'var(--lc-text, #e7e2d6)', fontWeight: 600 }}>{names[String(s.instance_id || '')] || s.sid}</span>
               {s.reason ? <div style={{ color: 'var(--lc-faint, #6b7280)' }}>{s.reason}</div> : null}
             </div>
-          )) : <div style={{ fontSize: 11, color: 'var(--lc-faint)' }}>此地暂无角色。</div>}
+          )) : <div style={{ fontSize: 11, color: 'var(--lc-faint)' }}>{t('worldMap.noCharacters')}</div>}
         </div>
       ) : null}
     </div>

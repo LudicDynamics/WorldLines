@@ -2,24 +2,36 @@
 // 内嵌舞台 → 房间抽屉。全程不依赖 LLM(不发回合,只走导航/绑定/静态渲染)。
 import { test, expect, type Page } from '@playwright/test'
 
-async function welcomed(page: Page) {
-  await page.addInitScript(() => {
+async function welcomed(page: Page, lang: 'ja' | 'zh' = 'ja') {
+  await page.addInitScript((selectedLang) => {
     sessionStorage.setItem('wl-local-welcomed', '1')
-    localStorage.setItem('wl-local-lang', 'zh')
-  })
+    localStorage.setItem('wl-local-lang', selectedLang)
+  }, lang)
 }
 
-test('观察窗层阶:第一层永远是「选世界」入口(空态或大卡,顺序无关)', async ({ page }) => {
+test('観測画面: 日本語と中文を相互に切り替えられる', async ({ page }) => {
   await welcomed(page)
   await page.goto('/local/observe')
+  await expect(page.getByText('戻るワールドを選ぶ')).toBeVisible()
+  await expect(page.getByText('选一个世界回去')).toHaveCount(0)
+
+  await page.evaluate(() => localStorage.setItem('wl-local-lang', 'zh'))
+  await page.reload()
   await expect(page.getByText('选一个世界回去')).toBeVisible()
+  await expect(page.getByText('戻るワールドを選ぶ')).toHaveCount(0)
+})
+
+test('観測画面: 最初にワールド選択を表示する', async ({ page }) => {
+  await welcomed(page)
+  await page.goto('/local/observe')
+  await expect(page.getByText('戻るワールドを選ぶ')).toBeVisible()
   // 套件内其他 spec 可能已造存档 —— 空态文案与存档卡二者必居其一。
-  const empty = page.getByText('还没有可观察的存档')
+  const empty = page.getByText('セーブデータはまだありません — 上からワールドを選んで始めましょう。')
   const card = page.locator('.obs-save-card').first()
   await expect(empty.or(card)).toBeVisible()
 })
 
-test('频道玻璃全动线:绑世界 → 选卡 → 频道/镜头/在场 → ◉世界内嵌舞台 → #房间', async ({
+test('観測画面: チャンネル、レンズ、登場中からプレイとチャットへ移動できる', async ({
   page,
   request,
 }) => {
@@ -32,7 +44,7 @@ test('频道玻璃全动线:绑世界 → 选卡 → 频道/镜头/在场 → �
   await welcomed(page)
   await page.goto('/local/observe')
   // 第一层:存档大卡出现
-  await expect(page.getByText('选一个世界回去')).toBeVisible()
+  await expect(page.getByText('戻るワールドを選ぶ')).toBeVisible()
   const card = page.locator('.obs-save-card').first()
   await expect(card).toBeVisible()
   await card.click()
@@ -40,9 +52,9 @@ test('频道玻璃全动线:绑世界 → 选卡 → 频道/镜头/在场 → �
   // 第二层:频道玻璃 —— 频道段 + 镜头段 + 右栏「在场」
   await expect(page.getByTestId('chan-world')).toBeVisible()
   await expect(page.getByTestId('chan-room')).toBeVisible()
-  await expect(page.getByText('频道 · Channels')).toBeVisible()
-  await expect(page.getByText('镜头 · Lenses')).toBeVisible()
-  await expect(page.getByText('在场 · Present')).toBeVisible()
+  await expect(page.getByText('チャンネル · Channels')).toBeVisible()
+  await expect(page.getByText('レンズ · Lenses')).toBeVisible()
+  await expect(page.getByText('登場中 · Present')).toBeVisible()
 
   // ◉ 世界频道 = 内嵌完整游玩舞台(时钟走的那一档)
   await page.getByTestId('chan-world').click()
@@ -54,6 +66,6 @@ test('频道玻璃全动线:绑世界 → 选卡 → 频道/镜头/在场 → �
   await expect(page.getByTestId('room-drawer')).toBeVisible()
 
   // 回镜头(观察)
-  await page.getByText('世界动态').click()
+  await page.getByText('ワールドフィード').click()
   await expect(page.getByText('WORLD FEED')).toBeVisible()
 })

@@ -7,7 +7,7 @@
 // 一一对应,改节点实时重写记忆文档。立绘:ComfyUI 生成 / 手动上传。
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import { useLocalT } from './i18n'
+import { useLocalT, type T } from './i18n'
 import {
   getEditTree,
   getImportStatus,
@@ -43,11 +43,11 @@ async function putFile(path: string, content: string): Promise<void> {
 }
 
 // 弧线 → 记忆文档(trajectory/story.md):一一对应的人话渲染
-function arcToStoryMd(arc: ArcState, typeLabel: (k: string) => string): string {
-  const lines = ['# 人生轨迹(与 trajectory/arc.json 一一对应,画布修改会实时重写本文件)', '']
+function arcToStoryMd(arc: ArcState, typeLabel: (k: string) => string, t: T): string {
+  const lines = [`# ${t('soul.arcDocumentTitle')}`, '']
   for (const n of arc.nodes) {
     const d = n.data as Record<string, unknown>
-    lines.push(`## ${String(d.label || '未命名')} — ${typeLabel(String(d.arc_type || 'memory'))}`)
+    lines.push(`## ${String(d.label || t('soul.untitled'))} — ${typeLabel(String(d.arc_type || 'memory'))}`)
     if (d.text) lines.push(String(d.text))
     lines.push('')
   }
@@ -402,7 +402,7 @@ export function SoulStudio() {
                   await putFile('trajectory/arc.json', json)
                   await putFile(
                     'trajectory/story.md',
-                    arcToStoryMd(parseArc(json), (k) => t(`arc.type.${k}`)),
+                    arcToStoryMd(parseArc(json), (k) => t(`arc.type.${k}`), t),
                   )
                 }}
               />

@@ -97,7 +97,7 @@ function AuthControl() {
         }}
         title="HUB_AUTH_REQUIRED=0"
       >
-        <User className="w-3 h-3" /> {handle} · 本地测试账户
+        <User className="w-3 h-3" /> {handle} · {t('header.localTestAccount')}
       </span>
     )
 
