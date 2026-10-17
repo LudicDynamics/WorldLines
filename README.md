@@ -339,6 +339,8 @@ Full roadmap: [docs.worldlines.gg/docs/roadmap](https://docs.worldlines.gg/docs/
 
 **Not open-source:** the engine core (`neonrp`). Proprietary preview — free to play, not free to fork.
 
+**Contributing:** on your first pull request you'll be asked to sign the [Contributor License Agreement](.github/CLA.md) (one signature covers all Ludic Dynamics projects). See [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## Star History
 
 <p align="center">

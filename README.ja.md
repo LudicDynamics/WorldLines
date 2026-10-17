@@ -308,6 +308,8 @@ WorldLines を支えるフレームワーク **Orchestrated Reality** は、人�
 
 **オープンソースではない:** エンジンコア（`neonrp`）。プロプライエタリプレビュー — プレイは自由、フォークは不可。
 
+**コントリビュート:** 最初の PR で[コントリビュータライセンス契約（CLA）](.github/CLA.md)への署名をお願いします（一度の署名で Ludic Dynamics の全プロジェクトに適用）。詳しくは [CONTRIBUTING.ja.md](CONTRIBUTING.ja.md) を参照。
+
 ## スター履歴
 
 <p align="center">

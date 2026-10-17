@@ -321,6 +321,8 @@ WorldLines 背后的框架 —— **Orchestrated Reality（编排现实）** —
 
 **不开源：** 引擎核心（`neonrp`）。专有预览版 —— 免费游玩，不可 fork。
 
+**贡献：** 第一次提 PR 时会请你签署[贡献者许可协议（CLA）](.github/CLA.md)（签一次覆盖所有 Ludic Dynamics 项目）。详见 [CONTRIBUTING.zh.md](CONTRIBUTING.zh.md)。
+
 ## Star 历史
 
 <p align="center">

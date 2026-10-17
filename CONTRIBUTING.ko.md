@@ -63,10 +63,15 @@ WorldLines 는 엔진과 데이터 사이에 의도적인 분리를 둡니다:
 - `stoneford-worldlines` 에 대한 기여는 AGPL-3.0 하에 라이선스됩니다.
 - 기여는 엔진 코어에 대한 어떠한 권리도 부여하지 **않습니다**.
 - stoneford 템플릿에 PR 을 제출하기 전에, 기여자는 자신의 작업을 AGPL-3.0 으로 라이선스할 수 있는지 확인해야 합니다.
+- stoneford 템플릿에 대한 기여에도 CLA 가 적용됩니다 (아래 「라이선스」 참조).
 
 ## 라이선스
 
-기여를 제출함으로써 해당 기여가 [LICENSE](LICENSE) 조건 하에 배포될 수 있음에 동의합니다.
+첫 PR 을 올리면 CLA Assistant 봇이
+[기여자 라이선스 계약 (CLA)](.github/CLA.md) 서명을 요청합니다. 한 번만 서명하면 모든 Ludic Dynamics 프로젝트에 대한 기여에 적용됩니다.
+
+- 기여의 저작권은 기여자 본인이 보유합니다.
+- 이 저장소는 AGPL-3.0 으로 공개됩니다 ([LICENSE](LICENSE) 참조). CLA 는 여기에 더해 Ludic Dynamics 가 기여를 다른 라이선스로도 사용할 수 있도록 허용합니다.
 
 ## Acknowledgements (감사의 말)
 

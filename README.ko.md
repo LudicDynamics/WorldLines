@@ -308,6 +308,8 @@ WorldLines를 떠받치는 프레임워크 **Orchestrated Reality**는 인간 �
 
 **오픈소스가 아닌 것:** 엔진 코어 (`neonrp`). 독점 프리뷰 — 무료 플레이, 포크 불가.
 
+**기여:** 첫 PR 에서 [기여자 라이선스 계약 (CLA)](.github/CLA.md) 서명을 요청합니다 (한 번 서명으로 모든 Ludic Dynamics 프로젝트에 적용). 자세한 내용은 [CONTRIBUTING.ko.md](CONTRIBUTING.ko.md) 참조.
+
 ## 스타 히스토리
 
 <p align="center">

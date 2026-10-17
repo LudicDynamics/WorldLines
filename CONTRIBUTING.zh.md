@@ -63,10 +63,15 @@ WorldLines 在引擎与数据之间刻意做了拆分：
 - 对 `stoneford-worldlines` 的贡献按 AGPL-3.0 授权。
 - 贡献**不**授予对引擎核心的任何权利。
 - 向 stoneford 模板提交 PR 前，贡献者需确保自己有权以 AGPL-3.0 授权其作品。
+- 对 stoneford 模板的贡献同样适用 CLA（见下方「许可」）。
 
 ## 许可
 
-提交贡献即表示你同意其按 [LICENSE](LICENSE) 条款分发。
+第一次提 PR 时，CLA Assistant 机器人会请你签署我们的
+[贡献者许可协议（CLA）](.github/CLA.md)。只需签一次，就覆盖你对所有 Ludic Dynamics 项目的贡献。
+
+- 你保留自己贡献的版权。
+- 本仓库以 AGPL-3.0 发布（见 [LICENSE](LICENSE)）。CLA 另外允许 Ludic Dynamics 在其他协议下使用你的贡献。
 
 ## Acknowledgements（鸣谢）
 

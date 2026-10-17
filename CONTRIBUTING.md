@@ -72,11 +72,19 @@ WorldLines has an intentional split between engine and data:
 - Contributions do **not** grant any rights to the engine core.
 - Contributors should ensure they can license their work under AGPL-3.0
   before submitting PRs to the stoneford template.
+- Contributions to the stoneford template are covered by the CLA too
+  (see Licensing below).
 
 ## Licensing
 
-By submitting a contribution you agree it may be distributed under the
-terms of [LICENSE](LICENSE).
+On your first pull request, the CLA Assistant bot will ask you to sign our
+[Contributor License Agreement](.github/CLA.md). You sign it once, and it
+covers your contributions to every Ludic Dynamics project.
+
+- You keep the copyright in your contributions.
+- This repository is released under AGPL-3.0 (see [LICENSE](LICENSE)). The
+  CLA additionally lets Ludic Dynamics use your contributions under other
+  licences.
 
 ## Acknowledgements
 
