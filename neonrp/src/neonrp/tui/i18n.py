@@ -766,7 +766,7 @@ _MESSAGES: dict[str, dict[str, str]] = {
         "judge.quota": "Jev 额度用完 —— 暂时按规则",
         "judge.login": "/login 打开 Jev",
         "judge.own": "由你的模型判断谈没谈妥(每拍多几秒)",
-        "judge.own_hint": "Jev 没开 —— 商量谈没谈妥由你的模型判断(每拍多几秒)。/login 登录后 Jev 一秒内判;说「定」或 @dm 可直接行动。",
+        "judge.own_hint": "Jev 没开 —— 这一轮谈没谈妥由你的模型判断(每拍多几秒)。/login 登录后 Jev 一秒内判;说「定」或 @dm 可直接行动。",
         "judge.off_hint": "没有判断器 —— 说「定」/「就这么办」或 @dm 才会行动。/login 可打开 Jev。",
         "pc.account.title": "Worldlines 账号",
         "pc.account.in": "已登录",
