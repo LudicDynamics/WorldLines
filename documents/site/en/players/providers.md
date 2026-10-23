@@ -8,7 +8,7 @@ description: "WorldLines needs an LLM. The first run walks you through it; keys 
 
 > **Status: ships with 1.0**
 
-**Claude Code (MCP)** — if you already have Claude Code installed, pick it; no extra API key needed.
+**A Worldlines account** — `/login` inside the game: the model relay and the Jev judge, no key of your own. (The Claude Code preset of 0.4.x is gone since 1.0.3.)
 
 **A third-party provider + API key**:
 

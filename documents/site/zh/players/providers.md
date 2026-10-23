@@ -8,7 +8,7 @@ description: "WorldLines 需要一个 LLM。首次运行会引导你设置,密�
 
 > **状态:随 1.0 发布**
 
-**Claude Code(MCP)** —— 已经装了 Claude Code 的话,选它即可,不需要另外的 API key。
+**Worldlines 账号** —— 进游戏后 `/login`:模型中转和 Jev 判官都有,不用自己的 key。(0.4.x 的 Claude Code 预设自 1.0.3 起去掉了。)
 
 **第三方 provider + API key**:
 

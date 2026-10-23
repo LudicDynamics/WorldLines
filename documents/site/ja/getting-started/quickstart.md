@@ -63,9 +63,9 @@ Hub は現在 **fast** と **orchestrator** の世界を動かします。完全
 
 WorldLines は LLM の上で動作し、接続方法は **3 つ** あります。どれを選んでもランチャーが案内してくれる——`config.json` を手で編集する必要はありません。
 
-### Option 1: Claude Code (MCP) —— API キー不要
+### Option 1: Worldlines アカウント —— API キー不要
 
-すでに [Claude Code](https://claude.com/claude-code) をインストール済みなら、WorldLines は MCP 経由でそれを駆動できます。別の API キーも別の課金も不要。ランチャーでプロバイダを訊かれたら **「Claude Code」** を選ぶだけ——完了です。
+ゲーム内で `/login`(またはランチャーの設定からサインイン):ターンは Worldlines のモデルリレーを通り、相談がまとまったかは Jev が判定します。自分のキーは不要。0.4.x の Claude Code(MCP)プリセットは 1.0.3 で廃止されました。
 
 ### Option 2: API キー付きのサードパーティプロバイダ
 

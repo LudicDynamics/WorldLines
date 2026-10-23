@@ -63,9 +63,9 @@ The multi-agent villages run **locally** (Web UI or TUI). For a zero-install tas
 
 WorldLines runs on top of an LLM, and there are **three ways** to wire one up. The launcher walks you through whichever you pick — you don't have to edit `config.json` by hand.
 
-### Option 1: Claude Code (MCP) — zero API key
+### Option 1: a Worldlines account — zero API key
 
-If you already have [Claude Code](https://claude.com/claude-code) installed, WorldLines can drive it over MCP. No separate API key, no separate billing. Pick **"Claude Code"** when the launcher asks for a provider — done.
+Sign in with `/login` inside the game (or in the launcher's settings): your turns go through the Worldlines model relay and the Jev judge decides when a planning talk is settled, with no key of your own. The Claude Code (MCP) preset of 0.4.x is gone since 1.0.3.
 
 ### Option 2: a third-party provider with an API key
 

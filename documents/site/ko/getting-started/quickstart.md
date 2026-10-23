@@ -63,9 +63,9 @@ Hub는 현재 **fast**와 **orchestrator** 월드를 실행합니다. 완전한 
 
 WorldLines는 LLM 위에서 동작하며, 연결 방법은 **세 가지**가 있습니다. 어떤 방식을 선택하든 런처가 과정을 안내하므로 `config.json`을 직접 편집할 필요는 없습니다.
 
-### 옵션 1: Claude Code (MCP) — API 키 불필요
+### 옵션 1: Worldlines 계정 — API 키 불필요
 
-[Claude Code](https://claude.com/claude-code)가 이미 설치되어 있다면, WorldLines는 MCP를 통해 Claude Code를 구동할 수 있습니다. 별도의 API 키도, 별도의 결제도 필요 없습니다. 런처가 프로바이더를 물을 때 **"Claude Code"**를 선택하면 끝입니다.
+게임 안에서 `/login`(또는 런처 설정에서 로그인): 턴은 Worldlines 모델 릴레이를 거치고, 상의가 합의됐는지는 Jev 판단기가 결정합니다. 자신의 키는 필요 없습니다. 0.4.x 의 Claude Code(MCP) 프리셋은 1.0.3 부터 제거되었습니다.
 
 ### 옵션 2: API 키를 사용하는 서드파티 프로바이더
 

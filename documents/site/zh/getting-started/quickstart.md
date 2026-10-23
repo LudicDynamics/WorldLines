@@ -63,9 +63,9 @@ Hub 目前运行 **fast** 与 **orchestrator** 世界。完整的**多智能体�
 
 WorldLines 运行在 LLM 之上,接入方式有**三种**。launcher 会根据你的选择一步步引导,不需要手动编辑 `config.json`。
 
-### 方式一:Claude Code(MCP)—— 零 API key
+### 方式一:Worldlines 账号 —— 零 API key
 
-如果你已经安装了 [Claude Code](https://claude.com/claude-code),WorldLines 可以通过 MCP 直接驱动它。无需额外的 API key,也无需另外计费。在 launcher 询问 provider 时选择 **"Claude Code"** 即可。
+进游戏后 `/login`(或在启动器的设置里登录):回合走 Worldlines 的模型中转,商量谈没谈妥由 Jev 判官判断,不用自己的 key。0.4.x 的 Claude Code(MCP)预设自 1.0.3 起去掉了。
 
 ### 方式二:第三方 provider + API key
 
