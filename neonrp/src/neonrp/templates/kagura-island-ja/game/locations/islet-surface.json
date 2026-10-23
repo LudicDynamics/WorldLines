@@ -1,0 +1,17 @@
+{
+  "id": "islet-surface",
+  "kind": "location",
+  "name": "離島・地上",
+  "tags": [
+    "islet",
+    "ritual",
+    "path-b"
+  ],
+  "summary": "引き潮のとき南岸から徒渉で到達する。地上には祭壇(Yith の時間機械)がある。勾玉の投入口。祭壇の脇に下へ降りる小道がある。",
+  "connections": [
+    "south-shore",
+    "islet-dock",
+    "islet-ledge"
+  ],
+  "notes": "経路B入口。ここから過去篇に入ると黒に会う"
+}

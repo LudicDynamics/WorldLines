@@ -1,0 +1,32 @@
+{
+  "entries": [
+    {
+      "id": "town_attitude",
+      "text": "Stone Ford is cold to newcomers, but remembers those who pay their tab and keep their word.",
+      "when": "always"
+    },
+    {
+      "id": "rowan_legend",
+      "text": "In Jadestone lives Rowan, a young adventurer chasing the legend of the 'world's edge' in the north: a bottomless cave said to spit out relics of unknown origin.",
+      "when": {
+        "keyword": [
+          "Rowan",
+          "Jadestone",
+          "world's edge",
+          "cave"
+        ]
+      }
+    },
+    {
+      "id": "mossbarrow",
+      "text": "The Mossbarrow crypt lies outside town; rumor says a coffin there talks.",
+      "when": {
+        "keyword": [
+          "Mossbarrow",
+          "coffin",
+          "crypt"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "id": "player",
+  "kind": "player",
+  "name": "You",
+  "summary": "A traveler who has stepped out of the rain into a warm room.",
+  "location": "room",
+  "inventory": [],
+  "stats": {},
+  "flags": {}
+}

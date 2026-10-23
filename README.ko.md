@@ -1,261 +1,114 @@
 # WorldLines
 
-**Language:** [English](./README.md) · [简体中文](./README.zh.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md)
+**언어:** [English](./README.md) · [简体中文](./README.zh.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md)
 
-> **오픈소스:** 이 저장소의 예제 월드와 도구 — AGPL-3.0. 포크, 수정, 자신의 세계를 자유롭게 공개할 수 있습니다.
-> **오픈소스가 아닌 것:** 엔진 코어(`neonrp`). 무료 플레이, 포크 및 재배포 불가. [LICENSE](LICENSE) 참조.
+> **WorldLines — 당신의 AI 캐릭터와 함께, 끝없는 세계에서 놀아 보세요.**
+> 오픈 소스: **NeonRP** 엔진(Apache-2.0), **WorldLines** 제품(AGPL-3.0), 문서와 벤치마크(CC BY 4.0).
 
 <p align="center">
   <img alt="GitHub Stars" src="https://img.shields.io/github/stars/LudicDynamics/WorldLines?style=flat-square&color=8b5cf6" />
-  <img alt="Watchers" src="https://img.shields.io/github/watchers/LudicDynamics/WorldLines?style=flat-square&color=8b5cf6" />
   <img alt="Forks" src="https://img.shields.io/github/forks/LudicDynamics/WorldLines?style=flat-square&color=8b5cf6" />
   <img alt="Issues" src="https://img.shields.io/github/issues/LudicDynamics/WorldLines?style=flat-square&color=8b5cf6" />
-  <a href="https://hub.worldlines.gg"><img src="https://img.shields.io/badge/Live%20Demo-hub.worldlines.gg-8b5cf6?style=flat-square" /></a>
   <a href="https://doi.org/10.1145/3800965.3834285"><img alt="Paper" src="https://img.shields.io/badge/Paper-CHI%20PLAY%20Companion%20%2726-b31b1b?style=flat-square" /></a>
   <a href="https://arxiv.org/abs/2606.16014"><img alt="arXiv" src="https://img.shields.io/badge/arXiv-2606.16014-8b5cf6?style=flat-square" /></a>
-  <img alt="License" src="https://img.shields.io/badge/License-AGPL--3.0%20(examples)-blue?style=flat-square" />
-  <img alt="LINUX DO" src="https://img.shields.io/badge/LINUX%20DO-WorldLines-8b5cf6?style=flat-square" />
+  <img alt="Engine license" src="https://img.shields.io/badge/neonrp-Apache--2.0-blue?style=flat-square" />
+  <img alt="Product license" src="https://img.shields.io/badge/worldlines-AGPL--3.0-blue?style=flat-square" />
 </p>
 
 <p align="center">
-  <img src="./assets/hero.png" alt="WorldLines — 살아있는 세계로 향하는 문" width="640" />
+  <img src="./worldlines/assets/hero.png" alt="WorldLines — 살아 있는 세계로 가는 문" width="640" />
 </p>
 
-## 개요
+## WorldLines는
 
-> 대부분의 AI 롤플레이는 *대화할 캐릭터*를 줍니다. WorldLines는 **모든 AI가 진짜로 살아가는 세계**를 줍니다 — 당신이 발을 들이는 실시간 멀티에이전트 시뮬레이션, 각 소울이 저마다의 마음·기억·속셈을 가진 곳. 대화가 아닙니다. 하나의 세계입니다.
+대부분의 AI 롤플레이는 대화할 캐릭터 하나를 건네줍니다. WorldLines가 건네주는 것은 **그 캐릭터가 살아가는 세계**입니다.
+장소가 있고, 물가가 있고, 세력이 있고, 저마다 생각을 가진 다른 캐릭터들이 있으며, 무너지지 않는 규칙이 있습니다.
+그저 이야기만 나누는 게 아닙니다. 어딘가로 떠나고, 거래를 맺고, 싸움을 걸면 세계는 오래 남는 결과로 응답합니다.
 
-**무엇을 할 수 있나요?**
+그 밑에서 돌아가는 것이 **NeonRP**, 하나의 생각에서 출발한 세계 시뮬레이션 엔진입니다 —
+*이야기는 모델이 들려주고, 규칙은 세계가 지킨다.*
 
-당신의 모든 행동을 기억하는 세계로 들어가세요. 잿빛 안개의 북쪽 항구에서 포위 명령을 내리세요. 당신의 말 한마디를 진짜로 기억하는 기억상실 치유사와 마주 앉으세요. 몇 분 만에 세계를 만들고 — 규칙, 템포, NPC를 설정하거나 — 공개 카탈로그에서 골라 바로 뛰어드세요. 이것은 실시간 멀티에이전트 사회: 많은 AI 소울과 당신이, 하나의 세계에서, 함께 빚어갑니다.
+- **한 마디, 한 턴.** 하고 싶은 일을 말하면 됩니다. 세계가 굴려야 할 주사위를 굴리고, 그 자리의 캐릭터들이 차례로
+  움직이고, 이야기가 쓰이고, 검증을 거친 변경 하나가 세계에 반영됩니다.
+- **세 주체.** 세계, 당신, 그리고 각 캐릭터가 저마다의 주체성을 가집니다. 당신의 말은 사실이 아니라 *시도*이며,
+  캐릭터는 스스로 결정합니다.
+- **세계는 파일이다.** 읽고, diff를 보고, 버전 관리할 수 있는 평범한 JSON / Markdown입니다. 턴마다 커밋이 하나씩
+  쌓이고, 언제든 되돌리거나 거기서 갈라져 나갈 수 있습니다.
 
-WorldLines는 **롤플레이를 위한 multi-agent simulation 엔진**입니다: 세계는 독립적인 에이전트들의 사회. world-agent가 세계를 소유하고 **soul-agent** 무리를 지휘합니다 —— 모든 캐릭터는 저마다의 사적인 마음·기억·속셈을 가진 독립된 에이전트이며, 한 줄의 대화 데이터가 아닙니다. 당신은 분신 터미널로 참여합니다. 이것은 챗봇도, 스크립트 게임도 아닙니다.
+## 저장소 구성
 
-> 상태: **v0.2.0 — Hub 출시** (2026-06) · [지금 플레이 →](https://hub.worldlines.gg)
-
----
-
-## 팀 & 비전
-
-우리는 **도쿄대학**의 PhD 및 연구자, 그리고 게임 실무자로 구성된 학제적 팀(사회학, 경제학, 컴퓨터그래픽스, AI 에이전트, 가상세계) — **Ludic Dynamics** 입니다.
-
-TRPG, 갤게임, 오토메 게임을 사랑합니다. AI가 지금처럼 보편화되기 훨씬 이전부터, 오랜 세월 일본어 문화 번역 자원봉사에 힘써왔고, 테이블탑 및 게임 그래픽스 엔진 업계에서 깊이 있게 활동해왔으며, 일본 비주얼 노벨의 Steam 출시를 도왔습니다. 팬데믹 이후 우리는 AI 롤플레이와 내러티브 게임에 빠져들었습니다 — 주말마다, 밤늦게까지 세션을 달리고, 세계를 구축하며, "이야기가 진짜로 숨쉬는" 감각을 좇아왔습니다.
-
-열 개가 넘는 나라를 넘나들며 시공을 모험하고, 이세계의 잊힌 역사를 탐구하고, 소중한 사람을 구하기 위해 몇 번이고 같은 하루에 죽어 돌아가고, 평행하는 시간선을 더듬어 유일한 세계선을 찾아내고, 역사를 소환해 이상을 건 전쟁을 싸워왔습니다.
-
-WorldLines는 그 집념에서 태어났습니다.
-
-> **Orchestrated Reality · 편성된 현실.** Harness를 통해 세계와 AI 소울을 시뮬레이션 — 세계에는 물리적 일관성이, NPC에는 인지적 일관성이 있다. 에이전트를 코딩하지 마라. 에이전트로 세계를 편성하라.
-
-harness로 「멀티에이전트 × 월드 × 소울」 시스템을 구축했습니다. 이 엔진으로: **인터랙티브 경험 창작 · 멀티에이전트 사회 실험 · 에이전트 연구 진전 · 성격·세계 모델 벤치마크.**
-
-> **Agent Role Play.** 사람들은 이미 Claude Code와 Codex 안에서 직접 롤플레이를 합니다 — 에이전트형 시스템이 캐릭터와 장면을 이끌게 하면서. 그것은 프롬프트 기반 대화를 넘어선 새로운 패러다임이며, 우리가 겨냥하는 바로 그것입니다. WorldLines는 그 동일한 에이전트형 근력을 가져와 **더 빠르고, 모델에 구애받지 않으며(DeepSeek / OpenRouter / 로컬 / 무료 모델에서 실행), 대규모 멀티에이전트로** 만듭니다 — 소울이 진짜로 살아 움직이는, 살아있고 플레이 가능한 세계로.
-
----
-
-## 데모 & 영상
-
-<p align="center">
-  <a href="https://youtu.be/M_0xX8OZMa0">
-    <img src="https://img.youtube.com/vi/M_0xX8OZMa0/maxresdefault.jpg" alt="WorldLines · 데모" width="640"/>
-  </a>
-</p>
-<p align="center"><em>▶ YouTube에서 데모 보기</em></p>
-
----
+| 폴더 | 내용 | 라이선스 |
+|---|---|---|
+| [`neonrp/`](./neonrp) | 엔진: 턴 루프, 스키마, 팩(`rpg`, `pct`, `werewolf`, `monopoly`, `economy`, `factions` …), 템플릿, CLI, 터미널 UI, SDK | Apache-2.0 |
+| [`worldlines/`](./worldlines) | 제품: 웹 UI(3.0), 데스크톱 셸, 런처 패키지, 템플릿, 예제 월드, 튜토리얼 | AGPL-3.0 |
+| [`documents/`](./documents) | 사양(world · soul · template · contract · pack)과 [docs.worldlines.gg](https://docs.worldlines.gg)의 원문 | CC BY 4.0 |
+| [`benchmarks/`](./benchmarks) | 엔진의 설계 결정을 뒷받침하는 테스트 스위트 | 코드 Apache-2.0 · 데이터 CC BY 4.0 |
+| `CLAUDE.md` · `AGENTS.md` · `.claude/` · `.agents/` | Claude Code / Codex용 캐릭터·월드 제작 워크벤치(아래 참고) | AGPL-3.0 |
 
 ## 빠른 시작
 
-### 🖥️ 데스크톱 앱 다운로드
-
-더블클릭으로 설치——첫 실행 시 엔진을 자동 설정하고 로컬 웹 제품 전체를 엽니다.
-터미널이 필요 없습니다.
-
-| 플랫폼 | 파일 | 다운로드 |
-|------|------|------|
-| macOS (Apple Silicon) | `WorldLines-Installer.dmg` | [최신판](https://github.com/LudicDynamics/WorldLines/releases/latest/download/WorldLines-Installer.dmg) |
-| Windows | `WorldLines-Desktop-windows-x64-setup.exe` | [최신판](https://github.com/LudicDynamics/WorldLines/releases/latest/download/WorldLines-Desktop-windows-x64-setup.exe) |
-
-macOS: 설치 프로그램을 우클릭 → 열기 → 열기——데스크톱 앱을 자동으로 다운로드·설치하며,
-이후에는 일반 더블클릭으로 실행됩니다. Windows: SmartScreen → 추가 정보 → 실행.
-Linux는 아래 터미널 설치를 이용하세요.
-
-### ⌨️ 또는 터미널로 설치
-
 ```bash
-# macOS / Linux
-curl -LsSf https://worldlines.gg/install.sh | sh
-
-# Windows（PowerShell）
-irm https://worldlines.gg/install.ps1 | iex
+pip install worldlines          # 또는: uv tool install worldlines — 제품 본체. neonrp 엔진도 함께 설치됩니다
+worldlines                      # 로컬 웹 UI → http://127.0.0.1:8787/local
+neonrp                          # 터미널: 「Welcome to WorldLines」 런처
 ```
 
-설치 후:
+로컬 버전은 여기서 설치합니다(PyPI 패키지. 이 저장소가 그 소스입니다). [worldlines.gg](https://worldlines.gg) 는 설치 없이 즐기는 온라인 플레이입니다.
+두 명령 모두 실행 시 새 릴리스를 확인해 스스로 업데이트합니다(먼저 물어보게 하려면 게임 안에서 `/update mode prompt`).
+릴리스 노트: [`neonrp/CHANGELOG.md`](./neonrp/CHANGELOG.md) · [GitHub Releases](https://github.com/LudicDynamics/WorldLines/releases). 한 줄 설치도 계속 쓸 수 있습니다:
+`curl -LsSf https://worldlines.gg/install.sh | sh` (macOS / Linux) · `irm https://worldlines.gg/install.ps1 | iex` (Windows).
+처음 실행하면 모델 제공자(DeepSeek, OpenRouter, 로컬 OpenAI 호환 서버 …)를 고르는 과정을 안내합니다. API 키는 당신의 컴퓨터에만 저장됩니다.
 
-```bash
-worldlines
+## 플레이
+
+월드를 고르면 그 월드만의 오프닝 장면으로 시작합니다. 그다음엔 하고 싶은 일을 그냥 말하면 됩니다:
+
+```text
+你:   艾琳娜，陪我去杂货铺买一瓶小治疗药水，价你来砍。
+主持: 杂货铺在主街，你们走了十来分钟。艾琳娜在柜台前和老苇讲价，说好谈下来的差价一半归她……
+      金 18 → 8 · 两人到杂货铺 · +小治疗药水
 ```
 
-TUI가 실행됩니다. 여기서 새 월드 생성, 카탈로그 탐색, 저장된 세션 이어하기가 가능합니다.
+당신의 한 마디가 곧 한 턴입니다. 세계(「主持」= 진행자 / GM으로 표시)가 무슨 일이 일어났는지 이야기하고, 변화를 세계에 기록합니다.
 
-> **최초 실행 시 API 설정을 안내합니다.** 키는 `~/.neonrp/config.json`에 저장. [제공자 가이드 →](https://docs.worldlines.gg/docs/getting-started/quickstart)
+| 템플릿 | 내용 |
+|---|---|
+| 그레이오크 저택 · 닫힌 문 | 안개 골목 끝의 낡은 저택, 사흘 전 주인이 문으로 들어간 뒤 나오지 않았다. 하룻밤, 입이 무거운 집사, 백분위 주사위 추리 |
+| 스톤포드 · 안개가 물러나는 밤 | 일 년에 하룻밤만 안개가 물러난다. 이틀 밤과 하루 낮 동안 북문을 나설 채비를 마을에서 갖춘다 |
 
-### 🌐 또는 브라우저에서 플레이
-
-설치 불필요. **[hub.worldlines.gg](https://hub.worldlines.gg)** 를 열고 로그인하여 브라우저에서 플레이.
-
----
-
-## 스크린샷
+로컬판에는 이 두 세계가 들어 있습니다. 다른 공식 세계는 로컬 Hub에서 Worldlines 계정으로 로그인하면 보이고 받을 수 있습니다(이 컴퓨터에 내려받아 플레이).
 
 <p align="center">
-  <img src="./assets/web-multi-agent.ko.png" alt="WorldLines — 멀티에이전트 마을, 라이브" width="860" />
+  <img src="./worldlines/assets/web-multi-agent.ko.png" alt="WorldLines — 살아 있는 세계" width="860" />
 </p>
-<p align="center"><em>멀티에이전트 마을, 라이브(Stoneford · Elena) —— Elena와 Rowan이 각자 인지하고 사고하며 스스로 행동하고, world-agent가 서술하며, 에이전트 맵이 누가 어디 있는지 보여준다.</em></p>
 
-<p align="center">
-  <img src="./assets/multi-agent-play.png" alt="WorldLines — 멀티에이전트 플레이, 장면에 7개의 영혼" width="720" />
-</p>
-<p align="center"><em>멀티에이전트 플레이(가구라 섬) —— 장면에 7개의 영혼; 이번 턴에 셋이 병렬로 사고하고, 나머지는 배경에서 계속 살아간다.</em></p>
+## 만들기
 
----
-
-## 예제 월드
-
-WorldLines **자체가 multi-agent simulation(멀티에이전트 시뮬레이션)**입니다: world-agent가 **독립적인 영혼(souls)** 무리를 감쌉니다 —— 각자 자기만의 마음·기억·비밀·목표를 가진 character-agent (표시는 `souls/` 폴더). 이것이 엔진의 본체이며, 모든 월드가 향하는 곳.
-
-> 가벼운 모드는 더 단순한 단일 흐름 장면용으로 남겨둡니다 —— `orch`는 world-agent가 도메인 에이전트를 지휘하고 NPC는 데이터, `fast`는 단일 보이스 에이전트 —— 하지만 WorldLines의 핵심은 아래의 멀티에이전트 사회.
-
-### 👥 멀티에이전트 사회 —— 한 세계 속 독립적인 영혼들
-
-> **로컬 실행.** multi-agent는 아직 호스티드 플레이 미지원(온라인은 `fast` + `orch`만). **Launcher**에서 플레이(새 게임 → 월드 선택 → **브라우저 · Web**)하거나 `neonrp web --project examples/multi-agent/<world>` —— multi-agent는 브라우저가 가장 좋고, 모든 소울이 살아 움직이는 모습을 봅니다. **처음이라면 Stoneford · Elena부터.**(스크립트/연구용은 `neonrp play --project … --json --trace`。)
-
-| 월드 | 소울 | 실행 |
-|---|---|---|
-| **[神楽島 Kagura Island](./examples/multi-agent/kagura-island)** | **7명** —— 鏡子 · 羽 · 真琴 · 宮司 · 白 · 翼 · 悠人. 일본풍 미스터리, 타임 루프, CoC 판정. 가장 풍부한 멀티에이전트 사회. | [소스 →](./examples/multi-agent/kagura-island) |
-| **[Stoneford · Elena](./examples/multi-agent/stoneford-elena)** | **2명** —— Elena(기억하는 치유사) + Rowan. Stoneford 세계에 살아있는 소울이 깃든다. | [소스 →](./examples/multi-agent/stoneford-elena) · [Elena와 대화(호스티드)](https://hub.worldlines.gg/play/souls/elena) |
-
-### ⛩ 그 외: 가벼운 `orch` / `fast` 월드
-
-이들은 world-agent가 데이터 기반 NPC를 연기합니다 —— per-soul 에이전트는 없습니다. 더 타이트한 단일 흐름 장면에 적합하며, 위의 완전한 멀티에이전트 사회로 가는 입문 경사로이기도 합니다.
-
-**Stoneford** —— 잿빛 안개의 북쪽 강변 항구. 클래식 판타지 TRPG · d20 주사위 · world-agent가 마을 / 던전 / 전투 / 스토리 에이전트로 라우팅. **[온라인 플레이 →](https://hub.worldlines.gg/play/worlds/stoneford)** · **[소스 & 문서 →](./examples/orch/stoneford)**
-
-### 더 많은 `orch` / `fast` 월드
-
-| 월드 | 플레이 스타일 | 라이브 데모 |
-|---|---|---|
-| **Goblin Ambush** | 3층 던전 — 3마리 고블린 보스 격파 | [소스 →](./examples/orch/goblin-ambush) |
-| **Worldline** | 시간 표류 내러티브 — 과거에 문자 보내기 | [소스 →](./examples/orch/worldline) |
-| **Sakura Hallway** | 학원 러브 스토리 · 감성 서사 | [소스 →](./examples/orch/sakura-hallway) |
-
-모든 월드는 [examples/](./examples/)에 있습니다 — 오픈소스(AGPL-3.0).
-
-### 빠른 실행
+이 저장소를 clone해서 **Claude Code**나 **Codex**로 열어 보세요. 워크벤치(`CLAUDE.md` / `AGENTS.md`와
+`.claude/skills/` · `.agents/skills/`의 스킬)가 캐릭터 하나, 월드 하나, 혹은 템플릿 한 벌을 만드는 일을 돕고,
+엔진으로 검사까지 해 줍니다.
 
 ```bash
-# multi-agent — 마을 (neonrp play 가 전용 러너)
-neonrp web --project examples/multi-agent/stoneford-elena   # 소울 2명 — Elena & Rowan  ← 여기서 시작
-neonrp web --project examples/multi-agent/kagura-island     # 소울 7명 — 일본풍 미스터리
-
-# orch (neonrp tui)
-neonrp tui --from examples/orch/stoneford           # 플래그십 포위전 TRPG
-neonrp tui --from examples/orch/goblin-ambush/zh    # 3층 던전
-neonrp tui --from examples/orch/sakura-hallway/zh   # 학원 서사
+neonrp template lint  my/<id>.template          # 모든 문제를 표시. block이 있으면 공개할 수 없습니다
+neonrp template build my/<id>.template /tmp/try
+cd /tmp/try && neonrp tui --play
 ```
 
----
+사양: [world](./documents/spec/world.en.md) · [soul](./documents/spec/soul.en.md) · [template](./documents/spec/template.en.md) · [contract](./documents/spec/contract.en.md) · [pack](./documents/spec/pack.en.md)
+· 튜토리얼(중국어): [`worldlines/tutorials/`](./worldlines/tutorials).
 
-## 이 엔진을 사용한 다른 프로젝트
+## 연구와 인용
 
-- **[Soul Talk](https://hub.worldlines.gg/play/souls/elena)** — 캐릭터 에이전트 대화 씬. Elena는 기억합니다.
-- **[Worldline](./examples/orch/worldline)** — 시간 표류 내러티브 엔진. 과거에 문자를 보내고 시간선이 다시 쓰이는 것을 지켜보세요.
-- **Coming: RP-Abyss** — TRPG 원정. DM + 주사위 판정.
-
----
-
-## 누구를 위한 것인가
-
-### 🎮 AI 롤플레이 플레이어
-
-**Character.AI, SillyTavern, AI 주점**에서 오신 분. 깊은 캐릭터 대화를 좋아하지만 — 세계는 항상 잊어버립니다.
-
-WorldLines는 **진짜 기억**을 가진 캐릭터를 제공합니다. 3세션 전에 당신이 한 말을 기억합니다. 내면의 목소리, 의도, 목표를 가지고 있습니다. 그리고 혼자가 아닙니다 — 다른 캐릭터와 함께 세계에 살며 서로를 기억합니다.
-
-→ [Soul Talk 플레이](https://hub.worldlines.gg/play/souls/elena) · [AI 캐릭터 카드를 세계로 가져오기](https://docs.worldlines.gg/docs/guides/sillytavern-import)
-
-### 📖 갤게임 · 오토메 게임 · 비주얼 노벨 팬
-
-**Ren'Py, TyranoBuilder, 분기 내러티브**를 좋아하지만 — 모든 루트를 손으로 쓰는 데 지쳤습니다. *응답하는* 이야기를 원합니다, 단순히 분기하는 것이 아니라.
-
-WorldLines에서는 캐릭터, 세계 규칙, 톤을 설정하면 에이전트가 실시간으로 이야기를 생성합니다. 모든 선택이 파문을 일으킵니다. 같은 플레이스루는 두 번 없습니다.
-
-→ [Sakura Hallway 플레이](./examples/orch/sakura-hallway)(학원 러브 스토리)· [첫 세계 만들기](https://hub.worldlines.gg/create/world) · *비주얼 노벨 전용 오픈소스 프로젝트 —— 곧 공개*
-
-### ✍️ TRPG GM & 월드 크리에이터
-
-**Foundry VTT, Discord, 종이와 펜**으로 테이블탑 캠페인을 운영 중입니다. 플레이보다 준비에 더 많은 시간을 씁니다.
-
-WorldLines는 GM의 엔진: 제약을 설정하면 — 규칙, NPC, 톤 — 에이전트가 세계를 운영합니다. 자동 인덱싱된 로어, NPC별 기억, 주사위 심판 에이전트.
-
-→ [빠른 시작](https://docs.worldlines.gg/docs/getting-started/quickstart) · [Stoneford 스타터 월드](./examples/orch/stoneford)
-
-### 🔬 연구자 — AI 성격 · 세계 모델 · 멀티에이전트
-
-성격 모델, 세계 모델 벤치마크, 멀티에이전트 사회를 연구합니다. **재현 가능한 샌드박스**가 필요합니다 — 블랙박스 API가 아니라.
-
-WorldLines는 **파일 기반, 이벤트 소싱, git-diffable**입니다. 모든 에이전트 결정, 모든 세계 상태 변화가 추적·재생·측정 가능한 평문 이벤트입니다.
-
-다수 동시 플레이는 아직 준비되지 않았습니다 —— 하지만 **멀티에이전트 마을**이 오늘의 기반입니다: 실행·스크립트화·재현이 가능한 독립 소울 사회. `neonrp play` 는 멀티에이전트 전용 러너로, 스크립트 가능한 JSON + trace 출력을 지원합니다:
-
-```bash
-neonrp play --project examples/multi-agent/kagura-island                 # 인터랙티브 REPL
-neonrp play "..." --project examples/multi-agent/kagura-island --json --trace   # 원샷, 스크립트 가능
-```
-
-멀티에이전트 튜토리얼이 곧 공개됩니다. **연구 니즈가 있나요? [이슈를 열거나](https://github.com/LudicDynamics/WorldLines/issues) `info@worldlines.gg` 로 연락 —— 당신의 실험에 협력하겠습니다.**
-
-→ [멀티에이전트 모드](https://docs.worldlines.gg/docs/core-concepts/engine-modes#multi-agent) · [핵심 개념](https://docs.worldlines.gg/docs/core-concepts/agents-orchestration) · [작동 방식](#how-it-works)
-
-### 🛠️ 개발자
-
-**Claude Code, LangGraph, 또는 커스텀 에이전트 파이프라인**으로 구축 중입니다. world-agent, soul-agent, player-agent가 실제로 어떻게 맞물리는지 궁금합니다.
-
-우리는 **아직 프로토콜을 오픈소스화하지 않았습니다** —— **world-agent · soul-agent · player-agent** 아키텍처는 여전히 반복 중입니다. 하나의 완벽한 답이 있다고 생각하지 않으며, 더 합리적인 설계를 능동적으로 연구하고 있습니다. 예제 월드는 **오픈**(AGPL-3.0) —— 월드를 포크하고, 에이전트를 수정하고, 어떻게 연결되는지 살펴보세요.
-
-이것이 당신이 관심 있는 문제라면, **[Discord에 참여](https://discord.gg/HJYWbdqWrE)** 하여 함께 아키텍처를 만들어가요.
-
-→ [examples/](./examples/) · [작동 방식](#how-it-works)
-
-## 작동 방식
-
-WorldLines는 게임 세계를 파일 기반의 이벤트 소싱 상태 머신으로 다룹니다. 모든 턴은 추가 전용 이벤트. 스냅샷으로 빠른 되감기 가능.
-
-**에이전트 구조 —— 에이전트들의 사회:**
-
-```
-world-agent          — 정규 월드를 소유: 상태 · 라우팅 · 서술 · 아카이브
-  └─ soul-agents     — 캐릭터마다 하나씩, 각자 자기 마음:
-                        페르소나 · 기억(장기+단기) · 비밀 · 목표 · 내면의 목소리
-                        스스로 지각하고, 결정하고, 행동한다
-  (가벼운 모드)       — orch는 도메인 에이전트(town / dungeon / combat / story)를 추가,
-                        NPC는 데이터; fast는 단일 보이스 에이전트
-```
-
-- **파일 영구 저장된 기억과 세계 상태** — 모든 것이 평범한 JSON과 Markdown으로 디스크에.
-- **자동 인덱싱, 자동 주입 컨텍스트** — 수동 로어북 관리 불필요.
-- **브랜치 / 언두 / 리두** — git 브랜치처럼 내러티브 분기 탐험.
-- **샌드박스 & 리플레이** — 결정성 검증.
-- **로컬 우선 모델** — GLM, OpenAI, LM Studio, Ollama.
-
----
-
-## 논문 및 인용
-
-WorldLines를 떠받치는 프레임워크 **Orchestrated Reality**는 인간 플레이어를 위한 LLM 기반 게임 월드를 *Parameterized-Action POMDP*로 정식화하고, Plan–Diff–Validate–Apply 파이프라인으로 스키마 검증된 JSON 델타를 커밋합니다.
+WorldLines의 주장은 세 편의 논문으로 정리되어 있습니다 — 세계를 정의하고, 이를 다수의 에이전트로 확장하고,
+세계가 무너지지 않고 유지되는 것이 아키텍처의 성질임을 보입니다. 요약: [worldlines.gg/research](https://worldlines.gg/research/).
 
 > **[From Character Role-Play to Orchestrated Reality: LLM-Driven Game World Simulation as a Parameterized-Action POMDP](https://doi.org/10.1145/3800965.3834285)**
 > Yuhang Huang, Chenmiao Li, Chaowei Fang. *CHI PLAY Companion '26*, ACM. DOI: 10.1145/3800965.3834285 · [arXiv:2606.16014](https://arxiv.org/abs/2606.16014)
+
+> **Multi-Agent LLM Simulation for Living Game Worlds: Coordinating World, Soul, and Player Agents over a Pub/Sub Message Bus**
+> *IPSJ Entertainment Computing 2026* (교토, 2026년 9월).
+
+세 번째 논문은 워킹 페이퍼로 준비 중입니다.
 
 ```bibtex
 @inproceedings{huang2026orchestrated,
@@ -271,64 +124,31 @@ WorldLines를 떠받치는 프레임워크 **Orchestrated Reality**는 인간 �
 }
 ```
 
----
+## 기여하기
 
-## 튜토리얼
-
-전체 문서는 **[docs.worldlines.gg](https://docs.worldlines.gg)** 에:
-
-| 주제 | 링크 |
-|---|---|
-| 시작하기 | [docs.worldlines.gg/docs/getting-started](https://docs.worldlines.gg/docs/getting-started) |
-| 핵심 개념 | [docs.worldlines.gg/docs/core-concepts](https://docs.worldlines.gg/docs/core-concepts) |
-| 가이드 | [docs.worldlines.gg/docs/guides](https://docs.worldlines.gg/docs/guides) |
-| Q&A / 비교 | [docs.worldlines.gg/docs/qa](https://docs.worldlines.gg/docs/qa) |
-
----
-
-## 로드맵
-
-| 버전 | 상태 |
-|---|---|
-| **v0.1.9** — Engine (2026-04) | ✓ 10-agent 오케스트레이터 · Stoneford 스타터 · Claude Code 런타임 |
-| **v0.2.0** — Hub 출시 (2026-06) | ✓ WebHub · 호스트 플레이 · Soul Talk · Create Studio · Stripe · 커버 · 세이브 |
-| **v0.2.3** — 멀티에이전트 마을 (2026-06) | ✓ 마을: world-agent가 독립된 souls를 감쌈 · Kagura Island · Stoneford · Elena · 로컬 실행 |
-| **v0.3.0** — Desktop (2026-07) | ✓ Web/TUI 통합 · Web Launcher · 화이트박스 월드 제작 · 자체 호스팅 Web |
-| **v1.0** — Protocol | ○ 안정된 WORLD/SOUL 프로토콜 · 상주 월드 |
-
-전체 로드맵: [docs.worldlines.gg/docs/roadmap](https://docs.worldlines.gg/docs/roadmap)
-
----
+이 저장소는 WorldLines의 공개 릴리스 저장소입니다. 개발은 업스트림에서 이루어지며, 릴리스마다 커밋 하나로 이곳에 반영됩니다.
+이슈와 풀 리퀘스트 모두 환영합니다. 채택된 PR은 먼저 이 저장소에 병합되고(작성자 정보는 이 이력에 그대로 남습니다),
+다음 릴리스에 포함됩니다. 자세한 내용은 [CONTRIBUTING.ko.md](./CONTRIBUTING.ko.md)를 참고하세요.
 
 ## 라이선스
 
-**오픈소스 (AGPL-3.0):** `examples/`와 `tools/`의 예제 월드, 캐릭터 번들, 도구. (에이전트 프로토콜/아키텍처는 아직 반복 중이며 오픈소스화되지 않음 —— 위 「개발자」 참조.)
+- `neonrp/` — Apache License 2.0 ([`neonrp/LICENSE`](./neonrp/LICENSE), [`neonrp/NOTICE`](./neonrp/NOTICE))
+- `worldlines/`와 워크벤치 — GNU AGPL v3.0 ([`worldlines/LICENSE`](./worldlines/LICENSE))
+- `documents/`, 벤치마크 데이터 — CC BY 4.0 ([`documents/LICENSE`](./documents/LICENSE))
+- `worldlines/templates/`와 `worldlines/examples/`의 설정 콘텐츠 — 텍스트 CC BY 4.0, 이미지와 오디오 CC BY-NC 4.0
+  ([`worldlines/CONTENT-LICENSE.md`](./worldlines/CONTENT-LICENSE.md))
 
-**오픈소스 (AGPL-3.0) —— WorldLines 셸:** 웹 UI (`ui/`)와 데스크톱 셸 (`desktop/`). 이들이 HTTP로 연결하는 NeonRP 엔진은 독점으로 남으며 별도로 배포됩니다.
-
-**오픈소스가 아닌 것:** 엔진 코어 (`neonrp`). 독점 프리뷰 — 무료 플레이, 포크 불가.
-
-## 스타 히스토리
-
-<p align="center">
-  <a href="https://github.com/LudicDynamics/WorldLines/stargazers">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="assets/star-history-dark.svg" />
-      <source media="(prefers-color-scheme: light)" srcset="assets/star-history-light.svg" />
-      <img alt="Star History Chart" src="assets/star-history-light.svg" />
-    </picture>
-  </a>
-</p>
-
----
+"NeonRP"와 "WorldLines"는 Ludic Dynamics의 명칭이며, 각 라이선스는 이 명칭을 사용할 권리를 부여하지 않습니다.
 
 ## 커뮤니티
 
-- Web: [worldlines.gg](https://worldlines.gg) · Docs: [docs.worldlines.gg](https://docs.worldlines.gg)
-- Discord: [discord.gg/HJYWbdqWrE](https://discord.gg/HJYWbdqWrE)
-- GitHub: [LudicDynamics/WorldLines](https://github.com/LudicDynamics/WorldLines)
-- 연락처: `info@worldlines.gg`
+- [worldlines.gg](https://worldlines.gg) · [docs.worldlines.gg](https://docs.worldlines.gg) · [Discord](https://discord.gg/HJYWbdqWrE) · `info@worldlines.gg`
 
----
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./worldlines/assets/star-history-dark.svg" />
+    <img alt="Star History Chart" src="./worldlines/assets/star-history-light.svg" />
+  </picture>
+</p>
 
-**nikoloside** & **redoctober** 가 개발, [Ludic Dynamics](https://ludicdynamics.com) 와 함께 추진.
+개발: **nikoloside** & **redoctober**, 추진: [Ludic Dynamics](https://ludicdynamics.com).

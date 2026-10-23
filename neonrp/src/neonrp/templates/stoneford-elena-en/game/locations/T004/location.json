@@ -1,0 +1,53 @@
+{
+  "id": "T004",
+  "type": "town",
+  "name": "Jadestone",
+  "region": "Northvale",
+  "pos": [
+    18,
+    4
+  ],
+  "summary": "A mining town rich in jade and crystal, a gathering place for adventurers.",
+  "state": {
+    "discovered": true,
+    "danger_nearby": 2
+  },
+  "travel_info": {
+    "from_T001": "3 days' travel, northeast",
+    "recommendation": "suitable for novice adventurers"
+  },
+  "locations": {
+    "冒险者公会碧石分部": {
+      "discovered": true,
+      "note": "twice the size of Stone Ford's"
+    },
+    "翠晶酒馆": {
+      "discovered": true,
+      "note": "tonight's meeting point"
+    },
+    "矿工大道": {
+      "discovered": true,
+      "note": "the main street, paved with jade-green stone"
+    },
+    "晨光小教堂": {
+      "discovered": true,
+      "note": "on East Street; Elena will go there alone"
+    },
+    "矿石铺": {
+      "discovered": true
+    },
+    "草药铺": {
+      "discovered": true
+    },
+    "铁匠铺": {
+      "discovered": true
+    },
+    "矿区入口": {
+      "discovered": false
+    }
+  },
+  "connections": [
+    "T001"
+  ],
+  "entry": "gate_west"
+}

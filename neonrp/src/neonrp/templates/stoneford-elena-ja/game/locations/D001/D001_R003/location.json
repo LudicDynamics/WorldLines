@@ -1,0 +1,11 @@
+{
+  "id": "D001_R003",
+  "name": "供物台の間",
+  "type": "chamber",
+  "connections": [
+    "D001_R002"
+  ],
+  "state": {
+    "explored": false
+  }
+}

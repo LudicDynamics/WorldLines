@@ -1,0 +1,17 @@
+{
+  "facility_id": "inn_T001",
+  "name": "Riverlamp Inn",
+  "rooms": [
+    {
+      "type": "common",
+      "price": 3,
+      "benefit": "Rest: HP/MP restored to maximum"
+    },
+    {
+      "type": "private",
+      "price": 8,
+      "benefit": "Rest + extra: next social check +1 (same day)"
+    }
+  ],
+  "rumor_pool_ref": "../../lore/rumors.md"
+}

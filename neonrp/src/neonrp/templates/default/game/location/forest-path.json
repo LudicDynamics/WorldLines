@@ -1,0 +1,19 @@
+{
+  "id": "forest-path",
+  "kind": "location",
+  "name": "Forest Path",
+  "tags": [
+    "location",
+    "wilderness",
+    "path"
+  ],
+  "summary": "A winding path through dark woods. Danger lurks among the trees.",
+  "connections": [
+    "start-town",
+    "dark-cave"
+  ],
+  "encounters": [
+    "forest-goblin"
+  ]
+}
+

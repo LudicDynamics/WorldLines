@@ -1,45 +1,72 @@
-# WorldLines — 角色卡 / 世界卡创作工作台
+# WorldLines 捏卡工作台 · 给 Claude Code 的说明
 
-用 Claude Code 创作 WorldLines 角色卡（Character Card）和世界卡（World Card / Lorebook）。
+你在 **WorldLines 开源仓** 里,帮用户「捏卡」:做一个角色(soul)、一个世界(world),或者把它们组装成一个能玩、能发布的模板(template)。
+所有东西都是文件夹 + JSON / Markdown;引擎是 `neonrp`(Apache-2.0),你只写数据,不改引擎代码。
 
-## 项目结构
+> English summary: this repo is a card-crafting workbench. Help the user build a **soul** (character), a **world**, or a **template**
+> that binds them, following the specs in `documents/spec/`, validate with `neonrp`, and play-test with the TUI. Never edit engine code.
 
-```
-WorldLines/
-  templates/stoneford-worldlines/   ← 入门世界模板（游戏数据 + agent 定义）
-  cards/                            ← 角色卡 / 世界卡输出目录
-  示例/                             ← 参考示例卡片
-  .claude/skills/                   ← 创作 skill
-  .claude/agents/                   ← 游戏运行时 agent（在 stoneford-worldlines 里）
-```
+## 先弄清用户要什么
 
-## 可用 Skill
+只问最少的、具体的问题(不问哲学问题,一次问完):
 
-创作卡片时，Claude Code 会自动加载对应 skill：
+| 用户想要 | 你产出 | 规格 |
+|---|---|---|
+| 一个角色,放进已有世界 | 一个 soul 文件夹 | `documents/spec/soul.zh.md` |
+| 一个世界(地方、城镇、NPC、开场) | 一个 world 文件夹 | `documents/spec/world.zh.md` |
+| 能直接开局、能发布的一整套 | 一个 `<id>.template/` 文件夹(绑定世界 + 角色 + 玩法包 + 卡面 + 剧情) | `documents/spec/template.zh.md` |
+| 酒馆格式的角色卡 / 世界书 | SillyTavern V2/V3 卡片 | skill `character-card-authoring` / `world-card-authoring` |
+| 一种玩法要给玩家的体验(入口、出口、结局、发布门槛) | 一份玩法合约,或在模板里选一份官方合约 | `documents/spec/contract.zh.md` |
+| 了解玩法包(`rpg` / `pct` / `werewolf` / `monopoly`)的规则、状态和操作 | 只读,不写;在模板的 `pack` 里选用 | `documents/spec/pack.zh.md` |
 
-| Skill | 用途 |
+分层(写之前心里要有):**玩法包 pack(引擎里的规则)+ 世界 world + 角色 souls = 最小可玩**;模板 template 是可选的上层,
+加上卡面、模式、提示词、剧情、素材槽和 lint,也是发布的单位。世界和角色不依赖模板。
+
+## 从参考开始,不要从空白开始
+
+| 参考 | 位置 |
 |---|---|
-| `character-card-authoring` | 创建 SillyTavern 兼容角色卡 (V2/V3) |
-| `world-card-authoring` | 创建世界卡 / lorebook |
-| `entity-authoring` | 创建 NeonRP 原生 game/ 实体 |
-| `soul-authoring` | 创建 soul 文件夹（角色灵魂包，多 soul → 一世界） |
-| `world-game-authoring` | 创建完整 game 世界 |
+| 完整的世界(石津镇,艾琳娜与罗文) | `neonrp/src/neonrp/templates/stoneford-elena/` |
+| 最小的世界 | `neonrp/src/neonrp/templates/white-blank/` |
+| 最小的角色 | `documents/spec/soul.zh.md` 里「最小可用角色」一节(手写示例;`soul-blank/` 目前是艾琳娜的副本,不要拿它当空白) |
+| 模板(多结局 / 经济 + 势力 / 三镇 / 狼人杀 / 百分骰调查) | `worldlines/templates/*.template/` |
+| 更多示例世界 | `worldlines/examples/worlds/` |
 
-## 怎么用
+做法:先复制最接近的参考到用户自己的目录(例如 `my/<id>/`),再按用户的设定逐个文件改。
+改之前读一遍对应的规格;不确定某个字段是否被引擎读取,就去规格里的「参考实现位置」看代码,不要编字段。
 
-直接在 Claude Code 里说：
-- "帮我创建一个角色卡，名字叫 xxx，背景是…"
-- "帮我把这个 NeonRP 角色导出成 tavern 角色卡"
-- "帮我创建一个世界卡，世界观是…"
-- "校验一下 cards/ 下面的卡片格式对不对"
+## 写的规矩
 
-## 架构背景
+- **内容用目标语言原生写**(中文 / 日文 / 英文……),不要先写一种再翻译;**id、字段名、文件名一律 ASCII**。
+- 角色:先给具体画面和说话方式,再写设定;角色自己的状态和日记由引擎在运行时结算,不要预先写满。
+- 世界:引擎代码不写具体世界的词——世界自己的规则、通缉、腹痛、山贼这类都写在世界数据里。
+- 开场:写进 `game/meta/game-start.json` 的 `startup.opening_scene` / `opening_choices`。有角色(soul)的世界开局时原样给玩家,不调模型;
+  没有 soul 的世界由入口 agent 以它为基础叙述开场(会调模型)。详见 `documents/spec/world.zh.md` 3.12。
+- 不放任何密钥、个人路径、内部地址;图片只用用户自己有权使用的。
 
-WorldLines 是多 agent 框架：一个 Orchestrator 调度多个子 agent（town-agent、dungeon-agent、combat-referee、npc-mind 等），多个 soul 对应一个 world。
+## 检查,然后试玩
 
-- game-time agent 在 `templates/stoneford-worldlines/.claude/agents/`
-- 创作 skill 在 `.claude/skills/`
+```bash
+neonrp template lint my/<id>.template          # 模板:全部问题(block 会挡发布,warn 只提醒)
+neonrp template slots my/<id>.template         # 还缺哪些图(地图 / 立绘 / 场景 / 图标)
+cd my/<world> && neonrp validate               # 单独的世界:JSON、角色、开场能不能跑
+neonrp template build my/<id>.template /tmp/try-<id>   # 组装成一局
+cd /tmp/try-<id> && neonrp tui --play          # 试玩:第一句打「开始游戏」
+```
 
-## 语言
+lint 有 block 就先修再试玩;把每条 block 的原文和你的修法告诉用户。没装引擎:`uv tool install worldlines`(会带上 `neonrp`)。
 
-角色卡和世界卡的内容用目标语言写（中文 / 日文 / 英文等），不要翻译。ID、字段名保持 ASCII。
+## 游玩是怎么走的(写设定时要考虑)
+
+一回合 = 玩家说一句话 → 世界叙事并落账:引擎掷该掷的骰子,在场的角色轮流行动,主持叙述这一回合,再把一次校验过的变化写进世界。
+所以角色的设定要能「表态」(她会同意什么、拒绝什么、怎么讨价还价),世界要给主持能读的真实数据(价目、路程、谁在哪)。
+
+## 可用的 skill
+
+| skill | 用途 |
+|---|---|
+| `template-authoring` | 新建 / 修改一个模板(template.json、world-overlay、剧情、素材槽) |
+| `soul-authoring` | 新建一个角色文件夹 |
+| `entity-authoring` | 在世界的 `game/` 里加 / 改实体(地点、NPC、物品、任务) |
+| `character-card-authoring` | 做 / 导出酒馆角色卡(V2/V3) |
+| `world-card-authoring` | 做酒馆世界书 |

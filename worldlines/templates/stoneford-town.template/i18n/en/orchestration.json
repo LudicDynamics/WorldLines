@@ -1,0 +1,10 @@
+{
+  "nodes": {
+    "interaction": {"title": "Interaction (game client)"},
+    "interaction.move": {"title": "Move"},
+    "interaction.examine": {"title": "Examine"},
+    "interaction.talk": {"title": "Talk"},
+    "interaction.approach": {"title": "Approach"},
+    "interaction.encounter": {"title": "Encounter"}
+  }
+}

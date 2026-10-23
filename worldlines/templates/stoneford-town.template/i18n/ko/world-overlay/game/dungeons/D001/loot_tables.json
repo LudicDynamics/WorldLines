@@ -1,0 +1,30 @@
+{
+  "dungeon_id": "D001",
+  "tables": {
+    "common": [
+      {
+        "id": "coin_pouch",
+        "name": "동전 주머니",
+        "min_gold": 3,
+        "max_gold": 10,
+        "chance": 0.4
+      }
+    ],
+    "rare": [
+      {
+        "id": "ring_moss",
+        "name": "이끼무늬 반지",
+        "effect": "VIT+1(던전 탐색 중일 때)",
+        "chance": 0.1
+      }
+    ],
+    "boss": [
+      {
+        "id": "coffin_contract",
+        "name": "관의 계약",
+        "effect": "'거래' 이야기 분기가 열린다",
+        "chance": 1.0
+      }
+    ]
+  }
+}

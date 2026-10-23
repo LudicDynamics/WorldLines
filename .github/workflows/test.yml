@@ -1,0 +1,81 @@
+name: test
+
+# The public repository's CI only tests (releases are cut upstream and published from there).
+# Layout: neonrp/ (engine) · worldlines/ (product; web UI in worldlines/ui) · documents/ · benchmarks/
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: test-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  engine:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ["3.10", "3.12"]
+    defaults:
+      run:
+        working-directory: neonrp
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+      - run: uv python install ${{ matrix.python-version }}
+      - run: uv sync --all-extras --dev
+      - name: Lint (ruff)
+        run: uv run ruff check src tests
+      - name: Tests
+        run: uv run pytest -q
+        env:
+          NEONRP_E2E_LLM: "0"
+
+  web-ui:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: worldlines/ui
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: worldlines/ui/package-lock.json
+      - run: npm ci
+      - run: npm run lint -- --quiet
+      - run: npm run build:local
+
+  e2e:
+    runs-on: ubuntu-latest
+    needs: [web-ui]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+      - run: uv python install 3.12
+      - working-directory: neonrp
+        run: uv sync --all-extras --dev
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: worldlines/ui/package-lock.json
+      - working-directory: worldlines/ui
+        run: npm ci && npx playwright install chromium --with-deps
+      - name: E2E (Playwright against an isolated local engine)
+        run: bash neonrp/scripts/e2e.sh
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: worldlines/ui/playwright-report

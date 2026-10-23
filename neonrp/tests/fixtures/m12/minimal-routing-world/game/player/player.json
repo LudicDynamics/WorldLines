@@ -1,0 +1,6 @@
+{
+  "id": "player",
+  "kind": "player",
+  "name": "Player",
+  "location": "start-town"
+}

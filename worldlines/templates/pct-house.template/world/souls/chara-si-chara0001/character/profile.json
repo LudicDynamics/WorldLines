@@ -1,0 +1,13 @@
+{
+  "sid": "chara",
+  "display_name": "温妮",
+  "name_local": "温妮",
+  "age": 19,
+  "role": "npc",
+  "tags": [
+    "client",
+    "niece"
+  ],
+  "appearance": "娇小,深棕微卷短发,榛色眼睛;深藏青连帽斗篷配橡叶铜扣,手里攥着一封舅舅的旧信。",
+  "summary": "委托人,宅主人的外甥女。紧张、固执,不肯在真相出来前离开。"
+}

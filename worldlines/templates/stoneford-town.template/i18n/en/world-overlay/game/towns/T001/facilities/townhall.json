@@ -1,0 +1,12 @@
+{
+  "facility_id": "townhall_T001",
+  "name": "Town Office",
+  "services": [
+    "Weapon peace-bonding / unbonding",
+    "Writ of passage",
+    "File a report"
+  ],
+  "state": {
+    "weapon_peace_bond_required": true
+  }
+}

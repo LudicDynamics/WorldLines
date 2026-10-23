@@ -1,0 +1,22 @@
+{
+  "id": "T001",
+  "name": "灰橡宅",
+  "region": "雾巷尽头",
+  "overview": "雾巷尽头一座灰石老宅,门旁一棵枯死的大灰橡树。宅主人埃德蒙·格雷伍德三天前夜里失踪,只有管家奥斯温还守着。玩家受他外甥女温妮之托来查。",
+  "entry_points": [
+    "hall"
+  ],
+  "tags": [
+    "mansion",
+    "pct"
+  ],
+  "economy": {
+    "price_index": 1.0,
+    "specialties": []
+  },
+  "laws": {},
+  "state": {
+    "alert": 0,
+    "recent_events": []
+  }
+}

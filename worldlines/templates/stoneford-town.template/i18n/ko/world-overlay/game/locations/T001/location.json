@@ -1,0 +1,21 @@
+{
+  "id": "T001",
+  "type": "town",
+  "name": "스톤포드",
+  "region": "Northvale",
+  "pos": [
+    12,
+    7
+  ],
+  "summary": "강 항구의 교역 마을. 안개가 일 년 내내 걷히지 않는다.",
+  "state": {
+    "discovered": true,
+    "danger_nearby": 2
+  },
+  "connections": [
+    "T002",
+    "D001",
+    "T004"
+  ],
+  "entry": "gate_north"
+}

@@ -1,0 +1,11 @@
+{
+  "sid": "hane",
+  "hp": 100,
+  "max_hp": 100,
+  "skills": [
+    "Dance",
+    "Empathy",
+    "Sense of Direction"
+  ],
+  "age": 18
+}

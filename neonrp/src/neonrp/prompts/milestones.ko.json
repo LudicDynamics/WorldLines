@@ -1,0 +1,7 @@
+{
+ "_doc": "开放冒险的里程碑名(core/milestones.py)",
+ "place": "새 장소를 찾았다: {name}",
+ "job": "의뢰를 완수했다: {name}",
+ "day": "{n}일째를 넘겼다",
+ "stretch": "길이 또 한 구간 이어졌다"
+}

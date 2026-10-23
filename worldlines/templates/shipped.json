@@ -1,0 +1,4 @@
+{
+  "_doc": "niko 10-17:本地版只内置这两个世界(按这个顺序排在最上面);其他官方世界用 Worldlines 账号登录后获取(core/template_publish.fetch_official)。worldlines wheel 只打包这里列的(packaging/worldlines/pyproject.toml,tests/test_shipped_templates.py 守着)。",
+  "builtin": ["pct-house", "stoneford-town"]
+}

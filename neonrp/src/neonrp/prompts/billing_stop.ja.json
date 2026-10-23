@@ -1,0 +1,11 @@
+{
+ "_doc": "ai.worldlines.gg 因额度 / 积分拒绝时给玩家看的话(core/billing_stop.py,10-13)",
+ "quota_exceeded": "Worldlines の枠を使い切りました。追加枠を購読するか、設定で自分のキーに切り替えてください。",
+ "insufficient_credits": "Worldlines のポイントが足りません。チャージか購読、または設定で自分のキーに切り替えてください。",
+ "claim_required": "今日の無料枠がまだ受け取られていません。受け取ってから続けてください。",
+ "debt_limit": "Worldlines の残高がマイナスの上限に達しました。チャージか購読のあとで続けてください。",
+ "plan_required": "このモデルは有料プランが必要です。購読するか、別のモデルを選んでください。",
+ "guest_not_allowed": "ゲストはこれを使えません。Worldlines アカウントでログインしてから続けてください。",
+ "guest_world_only": "ゲストは世界の中でだけ遊べます。Worldlines アカウントでログインしてから続けてください。",
+ "hint": "開く:{url}  (/login billing でブラウザで開く)"
+}

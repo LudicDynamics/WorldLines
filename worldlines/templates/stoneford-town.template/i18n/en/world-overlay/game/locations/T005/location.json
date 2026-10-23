@@ -1,0 +1,20 @@
+{
+  "id": "T005",
+  "type": "city",
+  "name": "Mistlake",
+  "region": "Northvale",
+  "pos": [
+    8,
+    15
+  ],
+  "summary": "The capital of the Greyfog North, seat of the lord's manor, a bustling trade center.",
+  "state": {
+    "discovered": false,
+    "danger_nearby": 1
+  },
+  "travel_info": {
+    "from_T001": "5-6 days' travel"
+  },
+  "connections": [],
+  "isolated": true
+}

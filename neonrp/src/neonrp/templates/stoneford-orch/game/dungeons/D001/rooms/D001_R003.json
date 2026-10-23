@@ -1,0 +1,14 @@
+{
+  "id": "D001_R003",
+  "name": "供台室",
+  "description": "断裂的供台上残留蜡泪，空气里混着甜腥味。",
+  "features": [
+    "可搜刮供台",
+    "可触发陷阱（简易）"
+  ],
+  "state": {
+    "explored": false,
+    "cleared": false,
+    "trap_armed": true
+  }
+}

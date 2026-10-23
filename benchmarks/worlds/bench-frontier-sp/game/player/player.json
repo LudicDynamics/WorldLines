@@ -1,0 +1,16 @@
+{
+ "id": "player",
+ "kind": "player",
+ "name": "Rowan",
+ "summary": "trace the strange ore to its source",
+ "hp": 10,
+ "max_hp": 10,
+ "location": "mine_entrance",
+ "inventory": [
+  {
+   "id": "ore_sample",
+   "name": "strange ore sample",
+   "quantity": 1
+  }
+ ]
+}

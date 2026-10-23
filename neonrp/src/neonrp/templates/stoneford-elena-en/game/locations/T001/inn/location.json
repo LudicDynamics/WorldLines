@@ -1,0 +1,25 @@
+{
+  "id": "inn",
+  "name": "Riverlamp Inn",
+  "type": "facility",
+  "facility_file": "facilities/inn.json",
+  "pos": {
+    "x": 621,
+    "y": 268
+  },
+  "connections": [
+    "main_street",
+    "market-square"
+  ],
+  "kind": "location",
+  "tags": [
+    "town",
+    "inn",
+    "mira"
+  ],
+  "summary": "A small riverside inn whose wooden windows always light up earlier than anywhere else. A good place to hear news, find hot soup, and to first make out the breathing of a fog-bound town.",
+  "notes": "Stone Ford fallback inn scene.",
+  "aliases": [
+    "riverlamp-inn"
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "schema": "worldlines.play-contract/1",
+  "id": "open-adventure",
+  "version": 1,
+  "title": {
+    "zh": "开放冒险",
+    "en": "Open Adventure",
+    "ja": "オープンアドベンチャー",
+    "ko": "오픈 어드벤처"
+  },
+  "pitch": {
+    "zh": "自选出发点,世界自己在走;没有必须的结局,按段落结算,带走地图、关系和新长出来的地方。",
+    "en": "Start where you like while the world runs on its own; no required ending — each leg is settled, and you keep the map, the bonds and the places that grew.",
+    "ja": "好きな場所から出発すれば、世界はひとりでに動いていく。決まったエンディングはない——旅の区切りごとに精算し、地図と絆と新しく生まれた場所を持ち帰る。",
+    "ko": "원하는 곳에서 출발하면 세계는 스스로 굴러간다. 정해진 결말은 없다 — 여정의 한 구간마다 정산하고, 지도와 인연과 새로 생겨난 장소를 가져간다."
+  },
+  "entry": {
+    "opening": "required",
+    "cast": "open"
+  },
+  "exit": {
+    "on": "segment",
+    "segment": "day"
+  },
+  "endings": {
+    "min": 0
+  },
+  "rewards": {
+    "player": [
+      "map_unlock",
+      "collection",
+      "cards"
+    ],
+    "soul": [
+      "bond_growth"
+    ],
+    "world": [
+      "grown_places_kept"
+    ]
+  },
+  "collect": {
+    "souls": true,
+    "min": 0
+  },
+  "deaths": {
+    "player": {
+      "exit": "ending",
+      "ending_kind": "fail"
+    },
+    "companion": {
+      "settle": "record",
+      "plot": "optional"
+    },
+    "other": {
+      "settle": "record"
+    }
+  },
+  "outputs": [
+    "segment_id",
+    "rewards_granted",
+    "epilogue",
+    "replay_bundle"
+  ],
+  "publish": {
+    "lint": "no_block",
+    "test_run": "settle_one_segment"
+  },
+  "achievements": [
+    {
+      "id": "three_legs",
+      "when": "milestone:3",
+      "points": 15,
+      "title": {
+        "zh": "走了三程",
+        "en": "Three Legs In",
+        "ja": "三つめの道のり",
+        "ko": "세 번째 여정"
+      },
+      "desc": {
+        "zh": "一局里达成 3 个里程碑。",
+        "en": "Reached 3 milestones in one run.",
+        "ja": "一局で節目を 3 つ達成した。",
+        "ko": "한 판에서 이정표 3개를 달성했다."
+      }
+    },
+    {
+      "id": "home_by_dawn",
+      "when": "ending_kind:true",
+      "points": 20,
+      "title": {
+        "zh": "天亮之前",
+        "en": "Before Dawn",
+        "ja": "夜明けまでに",
+        "ko": "동이 트기 전에"
+      },
+      "desc": {
+        "zh": "在开放冒险里走到真结局。",
+        "en": "Reached the true ending of an open adventure.",
+        "ja": "オープンアドベンチャーで真のエンディングへ。",
+        "ko": "오픈 어드벤처에서 진엔딩에 닿았다."
+      }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "guild",
+  "name": "冒険者ギルド(ジェイドストーン支部)",
+  "type": "facility",
+  "facility_file": "facilities/guild.json",
+  "description": "ストーンフォードのギルドよりずっと大きな支部。依頼を求める冒険者でいつもごった返している。入口の掲示板は依頼書で埋め尽くされている。",
+  "pos": {
+    "x": 280,
+    "y": 180
+  },
+  "connections": [
+    "main_street"
+  ]
+}

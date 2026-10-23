@@ -1,0 +1,3 @@
+{
+  "description": "RPG 세계 구축 에이전트. 세계 지도 구조를 관리하고 새 지역을 확장하며 노드의 discovered/cleared/danger 상태를 갱신한다. 새 장소를 발견하거나 세계 지도를 갱신할 때 쓴다."
+}

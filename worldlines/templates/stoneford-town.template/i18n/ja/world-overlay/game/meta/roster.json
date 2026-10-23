@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "kind": "meta",
+  "id": "roster",
+  "name": "ストーンフォードの登場人物",
+  "player": {
+    "pid": "player",
+    "kind": "human",
+    "state_path": "game/player"
+  },
+  "note": "M20 の存在論:人間のプレイヤーは soul ではない独立した存在(game/player/ がその本体、N=1 の別名)。エレナとローワンはプレイヤーが出会う独立した NPC の soul エージェントで、どちらもプレイヤーの分身ではない。プレイヤーが soul を演じることはなく、soul がプレイヤーの代わりに話したり動いたりすることもない。ローワンは今 T004 ジェイドストーンにいて、あとから動き出せる。",
+  "cast": [
+    {
+      "sid": "elena",
+      "name": "エレナ・ヴェイル",
+      "name_local": "エレナ",
+      "role": "npc"
+    },
+    {
+      "sid": "rowan",
+      "name": "ローワン・パイク",
+      "name_local": "ローワン",
+      "role": "npc"
+    }
+  ]
+}

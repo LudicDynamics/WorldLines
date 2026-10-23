@@ -1,0 +1,21 @@
+{
+  "id": "T001",
+  "type": "town",
+  "name": "ストーンフォード",
+  "region": "Northvale",
+  "pos": [
+    12,
+    7
+  ],
+  "summary": "川港の交易の町。一年中、霧が晴れない。",
+  "state": {
+    "discovered": true,
+    "danger_nearby": 2
+  },
+  "connections": [
+    "T002",
+    "D001",
+    "T004"
+  ],
+  "entry": "gate_north"
+}

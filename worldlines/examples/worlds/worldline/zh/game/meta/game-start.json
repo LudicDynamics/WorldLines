@@ -1,0 +1,52 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "世界线收束 · Worldline",
+  "summary": "深夜,一台能发短信到过去的旧手机。你的朋友昏迷不醒。改一条短信,过去重写,世界线漂移——但有些事会收束回来,有些代价你想不到。",
+  "startup": {
+    "read_first": [
+      "{{DATA_DIR}}/meta/run_state.json",
+      "{{DATA_DIR}}/meta/worldline_state.json",
+      "{{DATA_DIR}}/meta/timeline.json",
+      "{{DATA_DIR}}/location/your-room.json",
+      "{{DATA_DIR}}/item/old-phone.json"
+    ],
+    "start_location": "your-room",
+    "agent_routing": {
+      "entry_agent": "world-agent",
+      "router_type": "sticky"
+    },
+    "opening_scene": {
+      "zh": "凌晨一点。\n\n你刚从医院回来。澄还躺在那张床上,呼吸机的节奏数着你听不懂的拍子。三天了。\n\n桌上那台旧翻盖手机又亮了。它早该是块废铁——可它收得到信号,而且能发短信。不是发给现在的谁,是发给『那一天』的人。\n\n你只要写下一条短信,过去就会按它改写,现在……会变成另一条世界线。\n\n屏幕角落有一行小字:\n\n  当前分歧率 0.337 · α(原线)\n\n你能改的不多。那辆货车的刹车是坏的,这个改不了。但澄为什么会留在路口、你为什么会迟到——这些,也许能。",
+      "en": "1 a.m.\n\nYou've just come back from the hospital. Cheng is still lying in that bed, the ventilator counting out a rhythm you can't follow. Three days now.\n\nThe old flip phone on your desk lights up again. It should have been scrap long ago — yet it gets a signal, and it can send texts. Not to anyone now, but to someone on *that day*.\n\nAll you have to do is write one message, and the past will rewrite itself around it; the present… will become another worldline.\n\nA line of small text sits in the corner of the screen:\n\n  Current divergence 0.337 · α (original line)\n\nThere isn't much you can change. That truck's brakes were broken — that can't be changed. But why Cheng stayed at the crossing, why you were late — those, maybe, can.",
+      "ja": "午前一時。\n\n病院から戻ったところだ。澄はまだあのベッドに横たわっていて、人工呼吸器があなたには読めない拍を刻んでいる。もう三日になる。\n\n机の上の古い折りたたみ携帯が、また光った。とっくに鉄くずになっているはずなのに——電波を拾い、メールまで送れる。宛先は今の誰かじゃない。『あの日』の誰かだ。\n\nメールを一通書くだけで、過去はそれに合わせて書き換わる。そして現在は……別の世界線になる。\n\n画面の隅に小さな文字が一行:\n\n  現在の分岐率 0.337 · α(元の線)\n\n変えられることは多くない。あのトラックのブレーキが壊れていたこと——それは変えられない。でも、澄がなぜ交差点に残っていたのか、あなたがなぜ遅れたのか——それなら、変えられるかもしれない。",
+      "ko": "새벽 한 시.\n\n병원에서 막 돌아왔다. 징은 아직 그 침대에 누워 있고, 인공호흡기가 네가 알아들을 수 없는 박자를 세고 있다. 벌써 사흘째다.\n\n책상 위의 낡은 폴더폰이 또 켜졌다. 진작 고철이 됐어야 할 물건인데——신호가 잡히고, 문자까지 보낼 수 있다. 지금의 누군가에게가 아니라, 『그날』의 누군가에게.\n\n문자 한 통만 쓰면, 과거는 그에 맞춰 고쳐 쓰이고, 현재는…… 또 다른 세계선이 된다.\n\n화면 구석에 작은 글씨 한 줄:\n\n  현재 분기율 0.337 · α(원래 선)\n\n바꿀 수 있는 건 많지 않다. 그 트럭의 브레이크가 고장 나 있었다는 것——그건 바꿀 수 없다. 하지만 징이 왜 교차로에 남아 있었는지, 네가 왜 늦었는지——그건, 어쩌면 바꿀 수 있다."
+    },
+    "opening_choices": {
+      "zh": [
+        "看看现在的时间线(事件数据库)",
+        "查看这台手机的规则",
+        "给三天前的澄发短信:别在路口等,去街角便利店等我",
+        "给三天前的自己发短信:别加班,早点走"
+      ],
+      "en": [
+        "Look at the timeline as it stands (the event database)",
+        "Check this phone's rules",
+        "Text Cheng three days ago: don't wait at the crossing — wait for me at the corner store",
+        "Text yourself three days ago: skip the overtime, leave early"
+      ],
+      "ja": [
+        "今のタイムラインを見る(イベントデータベース)",
+        "この携帯のルールを確かめる",
+        "三日前の澄にメールする:交差点で待たないで、角のコンビニで待ってて",
+        "三日前の自分にメールする:残業しないで、早く帰れ"
+      ],
+      "ko": [
+        "지금의 타임라인을 본다(사건 데이터베이스)",
+        "이 휴대폰의 규칙을 확인한다",
+        "사흘 전의 징에게 문자를 보낸다: 교차로에서 기다리지 말고, 모퉁이 편의점에서 기다려",
+        "사흘 전의 나에게 문자를 보낸다: 야근하지 말고 일찍 나가"
+      ]
+    }
+  }
+}

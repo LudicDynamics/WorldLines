@@ -1,0 +1,117 @@
+{
+  "schema": "worldlines.play-contract/1",
+  "id": "mystery-trpg",
+  "version": 1,
+  "title": {
+    "zh": "沙盒跑团",
+    "en": "Sandbox TRPG",
+    "ja": "サンドボックスTRPG",
+    "ko": "샌드박스 TRPG"
+  },
+  "pitch": {
+    "zh": "一桩案子、一组固定的人,谈好再查,骰子决定线索;走到结局才揭晓真相。",
+    "en": "One case, a fixed cast; plan, then investigate — the dice decide the clues, and the truth is revealed only at an ending.",
+    "ja": "ひとつの事件と決まった顔ぶれ。相談してから調べ、ダイスが手がかりを決める。真相が明かされるのはエンディングにたどり着いたときだけ。",
+    "ko": "사건 하나, 정해진 인물들. 먼저 상의하고 조사하며, 주사위가 단서를 정한다. 진상은 결말에 이르러서야 드러난다."
+  },
+  "entry": {
+    "opening": "required",
+    "cast": "fixed"
+  },
+  "exit": {
+    "on": "ending",
+    "reveal": "required"
+  },
+  "endings": {
+    "min": 3,
+    "require": [
+      "true"
+    ]
+  },
+  "rewards": {
+    "player": [
+      "ending_cg",
+      "clue_codex",
+      "cards"
+    ],
+    "soul": [
+      "trust",
+      "memory_carry"
+    ],
+    "world": [
+      "case_outcome_written_back"
+    ]
+  },
+  "collect": {
+    "souls": true,
+    "min": 0
+  },
+  "deaths": {
+    "player": {
+      "exit": "ending",
+      "ending_kind": "fail"
+    },
+    "companion": {
+      "settle": "record",
+      "plot": "optional"
+    },
+    "other": {
+      "settle": "record"
+    },
+    "insanity": {
+      "exit": "ending",
+      "ending_kind": "fail"
+    }
+  },
+  "outputs": [
+    "ending_id",
+    "cg_unlocked",
+    "epilogue",
+    "rewards_granted",
+    "replay_bundle"
+  ],
+  "settlement": {
+    "truth_quiz": "required",
+    "truth_quiz_points": {"settle": 200, "per_right": 100, "fallback": 0}
+  },
+  "publish": {
+    "lint": "no_block",
+    "test_run": "reach_one_ending"
+  },
+  "achievements": [
+    {
+      "id": "walked_out",
+      "when": "ending_kind:alt",
+      "points": 10,
+      "title": {
+        "zh": "另一扇门",
+        "en": "Another Door",
+        "ja": "もう一つの扉",
+        "ko": "또 다른 문"
+      },
+      "desc": {
+        "zh": "没有揭开全部真相,但活着走了出来。",
+        "en": "Left without the whole truth, but alive.",
+        "ja": "真相のすべては暴けなかったが、生きて外へ出た。",
+        "ko": "진실을 다 밝히지는 못했지만, 살아서 걸어 나왔다."
+      }
+    },
+    {
+      "id": "lost_to_it",
+      "when": "ending_kind:fail",
+      "points": 5,
+      "title": {
+        "zh": "它赢了这一回",
+        "en": "It Won This Time",
+        "ja": "今回は向こうの勝ち",
+        "ko": "이번엔 저쪽이 이겼다"
+      },
+      "desc": {
+        "zh": "走到一个失败的结局。下一次你知道得更多。",
+        "en": "Reached a failed ending. Next time you know more.",
+        "ja": "失敗のエンディングにたどり着いた。次はもっと知っている。",
+        "ko": "실패 엔딩에 닿았다. 다음엔 더 많이 알고 있다."
+      }
+    }
+  ]
+}

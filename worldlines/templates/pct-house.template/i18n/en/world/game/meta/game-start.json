@@ -1,0 +1,32 @@
+{
+  "name": "Greyoak House",
+  "tags": [
+    "entrypoint",
+    "start",
+    "begin",
+    "start game"
+  ],
+  "summary": "An old house at the blind end of Fog Lane; three nights ago its master went in through this door and never came out. One night of percentile-dice mystery and dread.",
+  "startup": {
+    "opening_scene": {
+      "en": "The fog has crept all the way from the mouth of the lane to the steps of Greyoak House. A single oil lamp burns in the entrance hall. Oswin the butler stands in its shadow, a ring of keys clenched in his fist, with no sign of handing them to you. Winnie stands behind you and speaks very low: “My uncle went in through this very door three nights ago. He never came out.” Upstairs, the study door stands ajar; from the direction of the back garden comes the knock of a loose board in the wind."
+    },
+    "opening_choices": {
+      "en": [
+        "Go upstairs and look in the study",
+        "@Oswin What has happened these three days?",
+        "/Listen Make out what is knocking in the back garden"
+      ]
+    }
+  },
+  "world_info": {
+    "world_name": "Greyoak House",
+    "start_location": "T001 Greyoak House · Entrance Hall",
+    "genre": "Mystery horror · old English manor",
+    "tone": "Cold, quiet, restrained; the dread comes only from details that are wrong, never from monsters",
+    "rules": "Percentile (d100) checks · see game/rules/combat_rules.md"
+  },
+  "agent_routing": {
+    "note": "Every player input goes through the orchestrator first."
+  }
+}

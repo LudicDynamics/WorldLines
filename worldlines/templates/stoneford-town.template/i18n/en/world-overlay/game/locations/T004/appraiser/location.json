@@ -1,0 +1,14 @@
+{
+  "id": "appraiser",
+  "name": "Crow-Eye Appraisals",
+  "type": "facility",
+  "facility_file": "facilities/appraiser.json",
+  "description": "The shop of Old Vance the ore appraiser, the one they call Crow-Eye. They say those mismatched eyes of his can see straight to the heart of any stone.",
+  "pos": {
+    "x": 500,
+    "y": 320
+  },
+  "connections": [
+    "main_street"
+  ]
+}

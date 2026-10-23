@@ -1,0 +1,12 @@
+{
+  "sid": "rowan",
+  "hp": 20,
+  "max_hp": 20,
+  "skills": [
+    "Stealth",
+    "Tracking",
+    "Crossbow & Bow",
+    "Mountain-Path Navigation"
+  ],
+  "age": 24
+}

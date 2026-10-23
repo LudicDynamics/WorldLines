@@ -1,0 +1,19 @@
+{
+  "id": "main_street",
+  "name": "矿工大道",
+  "type": "street",
+  "description": "碧石镇最宽阔的主街。矿车轨道嵌在路面中央，两旁是密集的店铺和摊位。人流不断，热闹非凡。",
+  "pos": {
+    "x": 350,
+    "y": 300
+  },
+  "connections": [
+    "gate_west",
+    "guild",
+    "tavern",
+    "shop_general",
+    "herb_shop",
+    "appraiser",
+    "east_street"
+  ]
+}

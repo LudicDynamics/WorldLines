@@ -1,0 +1,14 @@
+{
+  "id": "shop_general",
+  "name": "돌망치 잡화점",
+  "type": "facility",
+  "facility_file": "facilities/shop_general.json",
+  "description": "광부와 모험가의 보급소. 밧줄부터 화약까지, 식량부터 지도까지 없는 게 없다.",
+  "pos": {
+    "x": 420,
+    "y": 380
+  },
+  "connections": [
+    "main_street"
+  ]
+}

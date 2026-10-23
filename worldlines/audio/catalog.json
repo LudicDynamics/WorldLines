@@ -1,0 +1,750 @@
+{
+ "schema": "worldlines.audio/1",
+ "note": "Platform audio pool. Every file here may be redistributed (CC0-1.0, or CC-BY-4.0 with the attribution in CREDITS.md). Ambient beds re-encoded to 80 kbps mono for size. Imported from the Living Canvas library 2026-10-15; MaouDamashii, Suno and licensed/ tracks are deliberately absent. `sha` = the first 10 hex of the file's sha256 (URLs carry it; tests/test_audio.py checks it).",
+ "defaults": {
+  "moods": {
+   "tense": "tense",
+   "crisis": "crisis"
+  },
+  "theme_by_contract": {
+   "mystery-trpg": "tense",
+   "murder-mystery": "whitechapel",
+   "open-adventure": "emberglass",
+   "romance-companion": "calm",
+   "*": "calm"
+  },
+  "ambient_by_contract": {
+   "*": null
+  }
+ },
+ "tracks": [
+  {
+   "id": "calm",
+   "kind": "music",
+   "file": "music/calm.mp3",
+   "title": "Piano Song Loop #4 Childhood",
+   "artist": "Kleber_KGF",
+   "source": "https://freesound.org/s/355071/",
+   "license": "CC0-1.0",
+   "seconds": 36.7,
+   "tags": [
+    "calm",
+    "warm"
+   ],
+   "description": "Short gentle piano loop; safe, homely, a quiet moment between events.",
+   "sha": "0278932a60",
+   "bytes": 587693
+  },
+  {
+   "id": "tense",
+   "kind": "music",
+   "file": "music/tense.mp3",
+   "title": "Dark Atmospheric Drone (Seamless Loop)",
+   "artist": "kkenny101",
+   "source": "https://freesound.org/s/865550/",
+   "license": "CC0-1.0",
+   "seconds": 158.4,
+   "tags": [
+    "tense",
+    "eerie",
+    "mystery",
+    "night"
+   ],
+   "description": "Slow dark drone with no melody; dread, something is wrong, exploring the unknown.",
+   "sha": "8617a5a1fc",
+   "bytes": 2534828
+  },
+  {
+   "id": "crisis",
+   "kind": "music",
+   "file": "music/crisis.mp3",
+   "title": "Fight Music Synth Tense Loop",
+   "artist": "SnowFightStudios",
+   "source": "https://freesound.org/s/676998/",
+   "license": "CC0-1.0",
+   "seconds": 97.3,
+   "tags": [
+    "action",
+    "tense"
+   ],
+   "description": "Driving synth fight loop; chase, combat, a countdown about to run out.",
+   "sha": "f24f066746",
+   "bytes": 1557776
+  },
+  {
+   "id": "wuwu",
+   "kind": "music",
+   "file": "music/wuwu.mp3",
+   "title": "Pirate Tavern",
+   "artist": "brunoboselli",
+   "source": "https://freesound.org/s/695295/",
+   "license": "CC0-1.0",
+   "seconds": 61.0,
+   "tags": [
+    "festive",
+    "warm",
+    "folk"
+   ],
+   "description": "Lively tavern tune; harbour town, inn, merry company, adventure setting out.",
+   "sha": "53fe1790c3",
+   "bytes": 977231
+  },
+  {
+   "id": "whitechapel",
+   "kind": "music",
+   "file": "music/whitechapel.mp3",
+   "title": "Detective Hawkeye",
+   "artist": "Victor_Natas",
+   "source": "https://freesound.org/s/624600/",
+   "license": "CC-BY-4.0",
+   "seconds": 42.9,
+   "tags": [
+    "mystery",
+    "tense",
+    "night"
+   ],
+   "description": "Sly detective theme; investigation, foggy streets, a case to crack.",
+   "sha": "1a1f654210",
+   "bytes": 687167
+  },
+  {
+   "id": "divergence",
+   "kind": "music",
+   "file": "music/divergence.mp3",
+   "title": "Retro — Generative Sound by Glorb",
+   "artist": "bassimat",
+   "source": "https://freesound.org/s/855476/",
+   "license": "CC0-1.0",
+   "seconds": 120.0,
+   "tags": [
+    "mystery",
+    "calm",
+    "retro"
+   ],
+   "description": "Generative retro synth; thoughtful, slightly uncanny, a puzzle unfolding.",
+   "sha": "02e2c73f14",
+   "bytes": 1920983
+  },
+  {
+   "id": "firstsnow",
+   "kind": "music",
+   "file": "music/firstsnow.mp3",
+   "title": "Awesome Emotional Piano",
+   "artist": "Endersniper123",
+   "source": "https://freesound.org/s/215767/",
+   "license": "CC0-1.0",
+   "seconds": 64.0,
+   "tags": [
+    "melancholy",
+    "warm",
+    "calm"
+   ],
+   "description": "Emotional piano; memory, longing, a tender or bittersweet scene.",
+   "sha": "ec129c9076",
+   "bytes": 1025714
+  },
+  {
+   "id": "emberglass",
+   "kind": "music",
+   "file": "music/emberglass.mp3",
+   "title": "Mystical/fantasy loop",
+   "artist": "nicorico_120",
+   "source": "https://freesound.org/s/858160/",
+   "license": "CC0-1.0",
+   "seconds": 54.5,
+   "tags": [
+    "fantasy",
+    "mystery",
+    "calm"
+   ],
+   "description": "Mystical fantasy loop; magic, enchanted places, wonder.",
+   "sha": "7d331c70ad",
+   "bytes": 873644
+  },
+  {
+   "id": "mandongbu",
+   "kind": "music",
+   "file": "music/mandongbu.mp3",
+   "title": "School Day (Loop)",
+   "artist": "kiluaboy",
+   "source": "https://opengameart.org/content/school-day-rain-sun-loop",
+   "license": "CC0-1.0",
+   "seconds": 85.3,
+   "tags": [
+    "warm",
+    "festive",
+    "calm"
+   ],
+   "description": "Bright easy-going loop; daily life, friends, slice of life.",
+   "sha": "9f03f0360c",
+   "bytes": 1366351
+  },
+  {
+   "id": "guixiang",
+   "kind": "music",
+   "file": "music/guixiang.mp3",
+   "title": "Karst Mountains + Dark Atmospheric Drone",
+   "artist": "neolein + kkenny101",
+   "source": "https://freesound.org/s/664200/ + https://freesound.org/s/865550/",
+   "license": "CC0-1.0",
+   "seconds": 104.0,
+   "tags": [
+    "eerie",
+    "folk",
+    "mystery"
+   ],
+   "description": "Guzheng over a low drone; folk horror, an old village, ancestral secrets.",
+   "sha": "8880054e8d",
+   "bytes": 1666028
+  },
+  {
+   "id": "rain",
+   "kind": "ambient",
+   "file": "ambient/rain.mp3",
+   "title": "Forest Rainstorm 01",
+   "artist": "rifualk",
+   "source": "https://freesound.org/s/648474/",
+   "license": "CC0-1.0",
+   "seconds": 60.0,
+   "tags": [
+    "rain",
+    "calm"
+   ],
+   "description": "Steady rain outdoors.",
+   "keywords": [
+    "rain",
+    "雨",
+    "雨夜"
+   ],
+   "sha": "5801eda219",
+   "bytes": 600599
+  },
+  {
+   "id": "fireplace",
+   "kind": "ambient",
+   "file": "ambient/fireplace.mp3",
+   "title": "Fireplace crackling wood little flame",
+   "artist": "BonnyOrbit",
+   "source": "https://freesound.org/s/484338/",
+   "license": "CC0-1.0",
+   "seconds": 60.0,
+   "tags": [
+    "warm",
+    "calm"
+   ],
+   "description": "Crackling fireplace indoors.",
+   "keywords": [
+    "fireplace",
+    "hearth",
+    "study",
+    "parlor",
+    "parlour",
+    "inn",
+    "home",
+    "house",
+    "壁炉",
+    "炉",
+    "客厅",
+    "书房",
+    "起居",
+    "宅",
+    "屋",
+    "家",
+    "居間",
+    "暖炉"
+   ],
+   "sha": "83e7e01ff9",
+   "bytes": 600599
+  },
+  {
+   "id": "cellar-drip",
+   "kind": "ambient",
+   "file": "ambient/cellar-drip.mp3",
+   "title": "Water Dripping in Cave",
+   "artist": "Sclolex",
+   "source": "https://freesound.org/s/177958/",
+   "license": "CC0-1.0",
+   "seconds": 60.0,
+   "tags": [
+    "eerie"
+   ],
+   "description": "Water dripping in a cellar.",
+   "keywords": [
+    "cellar",
+    "basement",
+    "crypt",
+    "vault",
+    "well",
+    "地窖",
+    "地下室",
+    "地下",
+    "井",
+    "墓",
+    "地下牢",
+    "井戸"
+   ],
+   "sha": "03f8620f9d",
+   "bytes": 600599
+  },
+  {
+   "id": "storm",
+   "kind": "ambient",
+   "file": "ambient/storm.mp3",
+   "title": "Thunderstorm, Moderate Rain, Thunderclaps",
+   "artist": "newlocknew",
+   "source": "https://freesound.org/s/859807/",
+   "license": "CC0-1.0",
+   "seconds": 60.0,
+   "tags": [
+    "rain",
+    "tense"
+   ],
+   "description": "Thunderstorm, heavy rain, thunderclaps.",
+   "keywords": [
+    "storm",
+    "lighthouse",
+    "cliff",
+    "暴雨",
+    "雷",
+    "灯塔",
+    "崖",
+    "嵐",
+    "灯台"
+   ],
+   "sha": "797f351e9a",
+   "bytes": 600599
+  },
+  {
+   "id": "snow-wind",
+   "kind": "ambient",
+   "file": "ambient/snow-wind.mp3",
+   "title": "Winter Snowstorm Ambience",
+   "artist": "HECKFRICKER",
+   "source": "https://freesound.org/s/754256/",
+   "license": "CC0-1.0",
+   "seconds": 60.0,
+   "tags": [
+    "night",
+    "melancholy"
+   ],
+   "description": "Winter wind and falling snow.",
+   "keywords": [
+    "snow",
+    "winter",
+    "mountain",
+    "pass",
+    "雪",
+    "冬",
+    "山",
+    "岭",
+    "峠"
+   ],
+   "sha": "bb665de6d3",
+   "bytes": 600599
+  },
+  {
+   "id": "harbor-waves",
+   "kind": "ambient",
+   "file": "ambient/harbor-waves.mp3",
+   "title": "SeaWaves Pack",
+   "artist": "Liancu",
+   "source": "https://freesound.org/s/515238/",
+   "license": "CC0-1.0",
+   "seconds": 60.0,
+   "tags": [
+    "calm"
+   ],
+   "description": "Sea waves at a harbour.",
+   "keywords": [
+    "harbor",
+    "harbour",
+    "port",
+    "dock",
+    "pier",
+    "berth",
+    "beach",
+    "shore",
+    "sea",
+    "island",
+    "mole",
+    "港",
+    "码头",
+    "泊位",
+    "海",
+    "岸",
+    "滩",
+    "岛",
+    "浜",
+    "砂浜",
+    "桟橋"
+   ],
+   "sha": "8cf9439a44",
+   "bytes": 600599
+  },
+  {
+   "id": "library",
+   "kind": "ambient",
+   "file": "ambient/library.mp3",
+   "title": "Library Ambience (large space)",
+   "artist": "Hupguy",
+   "source": "https://freesound.org/s/138259/",
+   "license": "CC0-1.0",
+   "seconds": 60.0,
+   "tags": [
+    "calm"
+   ],
+   "description": "Hush of a large library.",
+   "keywords": [
+    "library",
+    "archive",
+    "museum",
+    "school",
+    "classroom",
+    "图书",
+    "档案",
+    "书库",
+    "博物馆",
+    "学校",
+    "教室",
+    "図書",
+    "資料館",
+    "博物館"
+   ],
+   "sha": "5c9668c2e5",
+   "bytes": 600599
+  },
+  {
+   "id": "city-night",
+   "kind": "ambient",
+   "file": "ambient/city-night.mp3",
+   "title": "city night 0329 AM",
+   "artist": "klankbeeld",
+   "source": "https://freesound.org/s/771212/",
+   "license": "CC-BY-4.0",
+   "seconds": 60.0,
+   "tags": [
+    "night"
+   ],
+   "description": "City street at night, distant traffic.",
+   "keywords": [
+    "city",
+    "street",
+    "avenue",
+    "alley",
+    "lane",
+    "downtown",
+    "街",
+    "巷",
+    "路",
+    "市",
+    "城区",
+    "通り",
+    "路地"
+   ],
+   "sha": "61e95d92f6",
+   "bytes": 600599
+  },
+  {
+   "id": "office-night",
+   "kind": "ambient",
+   "file": "ambient/office-night.mp3",
+   "title": "Office ambience",
+   "artist": "Chelly01",
+   "source": "https://freesound.org/s/541117/",
+   "license": "CC0-1.0",
+   "seconds": 60.0,
+   "tags": [
+    "night",
+    "calm"
+   ],
+   "description": "Empty room hum late at night.",
+   "keywords": [
+    "office",
+    "station",
+    "train",
+    "carriage",
+    "tunnel",
+    "lab",
+    "车厢",
+    "车站",
+    "隧道",
+    "办公",
+    "值班",
+    "実験",
+    "駅",
+    "車両",
+    "事務所"
+   ],
+   "sha": "17104fa7e4",
+   "bytes": 600599
+  },
+  {
+   "id": "cave-drip",
+   "kind": "ambient",
+   "file": "ambient/cave-drip.mp3",
+   "title": "cave dripping water",
+   "artist": "mentos987",
+   "source": "https://freesound.org/s/818888/",
+   "license": "CC0-1.0",
+   "seconds": 29.0,
+   "tags": [
+    "eerie",
+    "tense"
+   ],
+   "description": "Cave dripping, horror variant.",
+   "keywords": [
+    "cave",
+    "cavern",
+    "mine",
+    "tunnel",
+    "grotto",
+    "underground",
+    "undersea",
+    "洞",
+    "窟",
+    "矿",
+    "隧",
+    "洞窟",
+    "坑道"
+   ],
+   "sha": "5148c32602",
+   "bytes": 291048
+  },
+  {
+   "id": "tavern-chatter",
+   "kind": "ambient",
+   "file": "ambient/tavern-chatter.mp3",
+   "title": "background chatter tavern",
+   "artist": "dazzamoo",
+   "source": "https://freesound.org/s/651364/",
+   "license": "CC0-1.0",
+   "seconds": 60.0,
+   "tags": [
+    "festive",
+    "warm"
+   ],
+   "description": "Low tavern chatter.",
+   "keywords": [
+    "tavern",
+    "pub",
+    "bar",
+    "inn",
+    "guild",
+    "酒馆",
+    "酒肆",
+    "客栈",
+    "旅店",
+    "公会",
+    "酒場",
+    "宿屋"
+   ],
+   "sha": "d93cfc6eed",
+   "bytes": 600599
+  },
+  {
+   "id": "cafe-murmur",
+   "kind": "ambient",
+   "file": "ambient/cafe-murmur.mp3",
+   "title": "restaurant ambience",
+   "artist": "soundtracvkradio",
+   "source": "https://freesound.org/s/394678/",
+   "license": "CC0-1.0",
+   "seconds": 60.0,
+   "tags": [
+    "warm"
+   ],
+   "description": "Cafe voices, cups and plates.",
+   "keywords": [
+    "cafe",
+    "café",
+    "restaurant",
+    "market",
+    "shop",
+    "bazaar",
+    "square",
+    "plaza",
+    "咖啡",
+    "餐",
+    "市集",
+    "集市",
+    "市场",
+    "商店",
+    "店",
+    "广场",
+    "喫茶",
+    "市場",
+    "広場"
+   ],
+   "sha": "61b217e300",
+   "bytes": 600599
+  },
+  {
+   "id": "bell-church",
+   "kind": "ambient",
+   "file": "ambient/bell-church.mp3",
+   "title": "Church Bells, Distant",
+   "artist": "InspectorJ",
+   "source": "https://freesound.org/s/398195/",
+   "license": "CC-BY-4.0",
+   "seconds": 31.0,
+   "tags": [
+    "melancholy"
+   ],
+   "description": "Distant church bells.",
+   "keywords": [
+    "church",
+    "chapel",
+    "cathedral",
+    "temple",
+    "shrine",
+    "monastery",
+    "教堂",
+    "礼拜堂",
+    "寺",
+    "庙",
+    "神社",
+    "祠",
+    "教会",
+    "社"
+   ],
+   "sha": "6019555f69",
+   "bytes": 310640
+  },
+  {
+   "id": "forge",
+   "kind": "ambient",
+   "file": "ambient/forge.mp3",
+   "title": "Forge — Coal burning",
+   "artist": "ldezem",
+   "source": "https://freesound.org/s/386146/",
+   "license": "CC0-1.0",
+   "seconds": 24.0,
+   "tags": [
+    "warm"
+   ],
+   "description": "Forge bellows and burning coal.",
+   "keywords": [
+    "forge",
+    "smithy",
+    "blacksmith",
+    "workshop",
+    "铁匠",
+    "锻造",
+    "工坊",
+    "作坊",
+    "鍛冶",
+    "工房"
+   ],
+   "sha": "3ace0d13c6",
+   "bytes": 240632
+  },
+  {
+   "id": "paper-slide",
+   "kind": "sfx",
+   "file": "sfx/paper-slide.mp3",
+   "title": "paper_rustle_1",
+   "artist": "StarTowerStudio",
+   "source": "https://freesound.org/s/426816/",
+   "license": "CC0-1.0",
+   "seconds": 1.5,
+   "sha": "f0d1a965df",
+   "bytes": 25120
+  },
+  {
+   "id": "bag-pack",
+   "kind": "sfx",
+   "file": "sfx/bag-pack.mp3",
+   "title": "Suitcase Latch",
+   "artist": "ThunderQuads",
+   "source": "https://freesound.org/s/467205/",
+   "license": "CC0-1.0",
+   "seconds": 1.5,
+   "sha": "14df26c569",
+   "bytes": 25120
+  },
+  {
+   "id": "dice-roll",
+   "kind": "sfx",
+   "file": "sfx/dice-roll.mp3",
+   "title": "10-Sided Die Rolled on Wood Table",
+   "artist": "aunrea",
+   "source": "https://freesound.org/s/485946/",
+   "license": "CC0-1.0",
+   "seconds": 2.2,
+   "sha": "11d7f38540",
+   "bytes": 36140
+  },
+  {
+   "id": "unlock",
+   "kind": "sfx",
+   "file": "sfx/unlock.mp3",
+   "title": "Key_Insert",
+   "artist": "schoman3",
+   "source": "https://freesound.org/s/506912/",
+   "license": "CC0-1.0",
+   "seconds": 1.0,
+   "sha": "25c5e7a84e",
+   "bytes": 16556
+  },
+  {
+   "id": "pen-scratch",
+   "kind": "sfx",
+   "file": "sfx/pen-scratch.mp3",
+   "title": "Pen writing on paper (close up)",
+   "artist": "khenshom",
+   "source": "https://freesound.org/s/565206/",
+   "license": "CC0-1.0",
+   "seconds": 2.0,
+   "sha": "fc2fd9d7b9",
+   "bytes": 33068
+  },
+  {
+   "id": "gate-open",
+   "kind": "sfx",
+   "file": "sfx/gate-open.mp3",
+   "title": "creaking-door-open01",
+   "artist": "Aiyumi",
+   "source": "https://freesound.org/s/244425/",
+   "license": "CC0-1.0",
+   "seconds": 1.1,
+   "sha": "5561978e7e",
+   "bytes": 18092
+  },
+  {
+   "id": "crit-chime",
+   "kind": "sfx",
+   "file": "sfx/crit-chime.mp3",
+   "title": "Little bell",
+   "artist": "NikoletB",
+   "source": "https://freesound.org/s/846674/",
+   "license": "CC0-1.0",
+   "seconds": 2.5,
+   "sha": "948a3dc846",
+   "bytes": 41132
+  },
+  {
+   "id": "fumble-break",
+   "kind": "sfx",
+   "file": "sfx/fumble-break.mp3",
+   "title": "Snap",
+   "artist": "Lucky_Diamond555",
+   "source": "https://freesound.org/s/319730/",
+   "license": "CC0-1.0",
+   "seconds": 2.0,
+   "sha": "7c0d2d6227",
+   "bytes": 33061
+  },
+  {
+   "id": "page-turn",
+   "kind": "sfx",
+   "file": "sfx/page-turn.mp3",
+   "title": "Book page turning",
+   "artist": "eZZin",
+   "source": "https://freesound.org/s/641757/",
+   "license": "CC0-1.0",
+   "seconds": 1.8,
+   "sha": "4088d6371a",
+   "bytes": 29718
+  }
+ ]
+}

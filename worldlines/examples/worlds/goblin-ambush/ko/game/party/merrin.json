@@ -1,0 +1,25 @@
+{
+  "id": "merrin",
+  "kind": "party",
+  "name": "메린",
+  "class": "위저드 (Wizard)",
+  "ac": 12,
+  "hp": 7,
+  "hp_max": 7,
+  "initiative_mod": 2,
+  "attacks": [
+    {
+      "name": "화염 화살 (Fire Bolt)",
+      "to_hit": 5,
+      "damage": "1d10",
+      "range": "원거리 주문"
+    },
+    {
+      "name": "지팡이",
+      "to_hit": 2,
+      "damage": "1d6",
+      "range": "근접"
+    }
+  ],
+  "note": "엘프 위저드, 몸은 약하지만 화염 화살은 매우 아프다. 절대 고블린이 붙게 두지 마라."
+}

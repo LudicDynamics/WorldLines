@@ -1,0 +1,22 @@
+{
+  "entries": [
+    {
+      "id": "town_attitude",
+      "text": "Stoneford has no warm welcome for newly arrived adventurers, but it remembers those who settle their bills and keep their word."
+    },
+    {
+      "id": "rowan_legend",
+      "text": "In Jadestone there is a young adventurer called Rowan, a man of more talent than luck, who is chasing the legend of the Edge of the World in the far north: they say there is a cave there with no bottom, which keeps spitting out relics and wondrous devices that no one can account for.",
+      "when": {
+        "keyword": ["rowan", "jadestone", "edge of the world", "world's edge", "cave", "relic"]
+      }
+    },
+    {
+      "id": "mossbarrow",
+      "text": "The crypt at Mossbarrow lies outside town; rumour has it there is a coffin there that talks.",
+      "when": {
+        "keyword": ["mossbarrow", "coffin", "crypt", "barrow", "tomb"]
+      }
+    }
+  ]
+}

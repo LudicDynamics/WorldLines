@@ -1,0 +1,14 @@
+{
+  "id": "tavern",
+  "name": "翠晶酒馆",
+  "type": "facility",
+  "facility_file": "facilities/tavern.json",
+  "description": "碧石镇最大的酒馆兼旅店。门面以碎水晶装饰，夜晚在火光下闪闪发亮。二楼提供住宿。",
+  "pos": {
+    "x": 450,
+    "y": 200
+  },
+  "connections": [
+    "main_street"
+  ]
+}

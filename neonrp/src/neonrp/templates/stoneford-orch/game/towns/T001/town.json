@@ -1,0 +1,29 @@
+{
+  "id": "T001",
+  "name": "石津镇",
+  "region": "Northvale",
+  "overview": "河港贸易小镇，靠渔业与驿路生存。雾与旧墓的传闻让这里的人更迷信。",
+  "entry_points": [
+    "gate_north",
+    "dock"
+  ],
+  "tags": [
+    "river",
+    "trade",
+    "superstition"
+  ],
+  "economy": {
+    "price_index": 1.0,
+    "specialties": [
+      "盐鱼",
+      "河玉"
+    ]
+  },
+  "laws": {
+    "weapon_policy": "peace-bonded_in_townhall"
+  },
+  "state": {
+    "alert": 0,
+    "recent_events": []
+  }
+}

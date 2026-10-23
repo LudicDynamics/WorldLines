@@ -1,0 +1,89 @@
+{
+  "schema_version": 2,
+  "playthrough_id": "pt-white-blank-001",
+  "world": {
+    "wid": "white-blank",
+    "instance_id": "wi-whiteblank0001",
+    "version_hash": "whiteblank001",
+    "head_commit": "seed-world-0001"
+  },
+  "world_agent_team": {
+    "seeded_from": "game/agents/manifest.json@whiteblank001",
+    "agents": [
+      {
+        "id": "world-agent",
+        "role": "orchestrator",
+        "singleton": true
+      },
+      {
+        "id": "town-agent",
+        "role": "functional-sub-agent",
+        "singleton": false
+      },
+      {
+        "id": "dungeon-agent",
+        "role": "functional-sub-agent",
+        "singleton": false
+      },
+      {
+        "id": "combat-referee",
+        "role": "functional-sub-agent",
+        "singleton": false
+      },
+      {
+        "id": "rules-referee",
+        "role": "functional-sub-agent",
+        "singleton": false
+      },
+      {
+        "id": "world-builder",
+        "role": "functional-sub-agent",
+        "singleton": false
+      },
+      {
+        "id": "world-evolution",
+        "role": "functional-sub-agent",
+        "singleton": false
+      },
+      {
+        "id": "clock-keeper",
+        "role": "functional-sub-agent",
+        "singleton": false
+      },
+      {
+        "id": "story-narrative",
+        "role": "functional-sub-agent",
+        "singleton": false
+      }
+    ]
+  },
+  "players": [
+    {
+      "pid": "player",
+      "name": "Player",
+      "state_path": "game/player",
+      "kind": "human"
+    }
+  ],
+  "souls": [
+    {
+      "sid": "chara",
+      "instance_id": "si-chara0001",
+      "version_hash": "whiteblank001",
+      "head_commit": "seed-soul-chara-0001",
+      "role": "npc"
+    },
+    {
+      "sid": "charb",
+      "instance_id": "si-charb0001",
+      "version_hash": "whiteblank001",
+      "head_commit": "seed-soul-charb-0001",
+      "role": "npc"
+    }
+  ],
+  "created_at": "2026-07-11T00:00:00Z",
+  "active_souls": [
+    "si-chara0001",
+    "si-charb0001"
+  ]
+}

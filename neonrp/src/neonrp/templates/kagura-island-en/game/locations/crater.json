@@ -1,0 +1,22 @@
+{
+  "id": "crater",
+  "kind": "location",
+  "name": "The Crater",
+  "tags": [
+    "crater",
+    "danger",
+    "forbidden"
+  ],
+  "summary": "The island's highest point. The crater of the active volcano. Forbidden ground. Part of the fence has been cut. Abnormal light and sound.",
+  "connections": [
+    "shrine",
+    "crater-internal"
+  ],
+  "taboo": {
+    "solo_entry": {
+      "id": 4,
+      "description": "One must not go to the crater alone.",
+      "penalty": "a danger event triggers immediately"
+    }
+  }
+}

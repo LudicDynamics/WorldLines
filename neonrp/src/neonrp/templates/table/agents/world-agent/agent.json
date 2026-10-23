@@ -1,0 +1,36 @@
+{
+  "id": "world-agent",
+  "name": "World Agent",
+  "description": "The table's host for a world that ships no agents of its own (a table game: werewolf). The engine's turn does the work: the pack's contract judges, the souls act, the engine lands what happened.",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 30,
+  "triggers": [
+    ".*"
+  ],
+  "tags": [
+    "world-agent"
+  ],
+  "priority": 100,
+  "permissions": {
+    "read_globs": [
+      "game/**",
+      ".neonrp/**"
+    ],
+    "write_globs": [
+      "game/meta/run_state.json",
+      "game/lore/**",
+      "game/player/journal.md",
+      "game/player/*.json"
+    ],
+    "deny_globs": [],
+    "direct_write_globs": [
+      "game/meta/run_state.json",
+      "game/lore/notes.md",
+      "game/lore/story.md",
+      "game/lore/rumors.md",
+      "game/player/journal.md",
+      "game/player/*.json"
+    ]
+  }
+}

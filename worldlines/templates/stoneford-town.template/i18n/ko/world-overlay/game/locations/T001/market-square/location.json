@@ -1,0 +1,21 @@
+{
+  "id": "market-square",
+  "kind": "location",
+  "name": "장터 광장",
+  "tags": [
+    "town",
+    "market",
+    "social"
+  ],
+  "summary": "아침 장이 아직 다 펼쳐지지 않았다. 젖은 천을 덮어 둔 노점들, 말없이 서 있는 마차, 김이 피어오르는 빵 노점.",
+  "connections": [
+    "gate_north",
+    "inn",
+    "guild"
+  ],
+  "notes": "Most town-facing scenes can fan through here.",
+  "pos": {
+    "x": 154,
+    "y": 116
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "town_id": "T001",
+  "npcs": [
+    {
+      "id": "NPC001",
+      "name": "헤론(길드 관리인)",
+      "role": "guildmaster",
+      "traits": [
+        "신중함",
+        "계약을 중시함"
+      ],
+      "state": {
+        "met": true
+      },
+      "location": "guild",
+      "persuade": {
+        "cares": [
+          "길드의 명성",
+          "정찰대를 데려오는 것"
+        ],
+        "resist": 55
+      },
+      "secrets": [
+        {
+          "id": "heron_pushed",
+          "text": "역로 상단에게 돈을 받고 떠밀려, 정찰대를 사흘 앞당겨 보냈다.",
+          "reveal_when": "상단 장부를 내밀거나, 그가 켕겨 하는 기색을 눈치채고 캐물을 때"
+        }
+      ]
+    },
+    {
+      "id": "NPC002",
+      "name": "리드 영감(잡화상)",
+      "role": "shopkeeper",
+      "traits": [
+        "수다스러움",
+        "눈썰미가 좋음"
+      ],
+      "state": {
+        "met": false
+      },
+      "location": "shop_general",
+      "persuade": {
+        "cares": [
+          "돈",
+          "죽은 아내(마을의 마지막 측량사)"
+        ],
+        "resist": 65
+      },
+      "secrets": [
+        {
+          "id": "laowei_map",
+          "text": "뒷방에 아내가 남긴 낡은 안개길 지도가 잠겨 있다. 아내는 안개 속에서 죽었고, 측량 수첩은 아직 모스배로에 있다.",
+          "reveal_when": "안개 속으로 사람을 찾으러 간다고 말할 때"
+        }
+      ]
+    },
+    {
+      "id": "NPC003",
+      "name": "미라(여관 안주인)",
+      "role": "innkeeper",
+      "traits": [
+        "다정함",
+        "소식에 밝음"
+      ],
+      "state": {
+        "met": false
+      },
+      "location": "inn",
+      "persuade": {
+        "cares": [
+          "남동생 마일로가 살아 돌아오는 것"
+        ],
+        "resist": 30
+      },
+      "secrets": [
+        {
+          "id": "mira_amulet",
+          "text": "마일로의 부적이 그녀의 소매 안에 꿰매져 있다. 부적에는 정찰대의 경로가 수놓여 있다.",
+          "reveal_when": "마일로를 찾아 주겠다고 약속할 때"
+        }
+      ]
+    },
+    {
+      "id": "NPC004",
+      "name": "캐스(북문 문지기)",
+      "role": "gate_guard",
+      "location": "gate_north",
+      "traits": [
+        "잠이 덜 깸",
+        "치안관을 무서워함"
+      ],
+      "persuade": {
+        "cares": [
+          "사고가 안 나는 것",
+          "노름빚을 다 갚는 것"
+        ],
+        "resist": 45
+      },
+      "secrets": [
+        {
+          "id": "kas_bribed",
+          "text": "외눈 호랑이의 부하에게 돈을 받고, 산적들을 위해 망을 봐 준 적이 있다.",
+          "reveal_when": "그가 말을 피하는 걸 눈치채고 캐묻거나, 야영지에서 그의 노름 딱지를 발견할 때"
+        }
+      ],
+      "hp": 10,
+      "max_hp": 10
+    },
+    {
+      "id": "NPC005",
+      "name": "베라(관청 여성 치안관)",
+      "role": "warden",
+      "location": "townhall",
+      "traits": [
+        "반듯함",
+        "마을을 지킴"
+      ],
+      "persuade": {
+        "cares": [
+          "안개철 동안 마을에서 사람이 죽지 않는 것",
+          "상단과 길드가 북쪽 길 다툼에 마을을 끌어들이지 않게 하는 것"
+        ],
+        "resist": 60
+      },
+      "secrets": [
+        {
+          "id": "vera_records",
+          "text": "해마다 안개가 물러나는 밤이면 돌아오지 못하는 사람이 있지만, 관청은 한 번도 기록하지 않았다.",
+          "reveal_when": "지난 몇 해의 안개가 물러나는 밤에 대해 물을 때"
+        }
+      ],
+      "hp": 12,
+      "max_hp": 12
+    },
+    {
+      "id": "NPC006",
+      "name": "물고기 영감(부두 뱃사공)",
+      "role": "ferryman",
+      "location": "dock",
+      "traits": [
+        "약삭빠름",
+        "안개 속 불빛을 두려워함"
+      ],
+      "persuade": {
+        "cares": [
+          "한 배 두둑한 뱃삯"
+        ],
+        "resist": 40
+      },
+      "secrets": [
+        {
+          "id": "laoyu_lights",
+          "text": "안개 속 불빛들이 모스배로 쪽으로 한 줄로 늘어선 것을 본 적이 있다—정찰대의 제등이었다.",
+          "reveal_when": "그에게 술 한잔 살 때"
+        }
+      ],
+      "hp": 10,
+      "max_hp": 10
+    },
+    {
+      "id": "NPC007",
+      "name": "게르다(상단 행렬장)",
+      "role": "caravan_master",
+      "location": "market-square",
+      "traits": [
+        "성급함",
+        "계산적"
+      ],
+      "persuade": {
+        "cares": [
+          "누구보다 먼저 북쪽 길을 지나는 것"
+        ],
+        "resist": 60
+      },
+      "secrets": [
+        {
+          "id": "gra_ledger",
+          "text": "상단 장부에 헤론에게 건넨 그 돈이 적혀 있다.",
+          "reveal_when": "장부를 훔치거나, 그녀를 취하게 만들 때"
+        }
+      ],
+      "hp": 12,
+      "max_hp": 12
+    },
+    {
+      "id": "NPC008",
+      "name": "외눈 호랑이(산적 두목)",
+      "role": "bandit_chief",
+      "location": "road_camp",
+      "traits": [
+        "사나움",
+        "부하를 감쌈"
+      ],
+      "persuade": {
+        "cares": [
+          "북쪽 길의 광석 운반로를 지키는 것",
+          "상단이 먼저 북쪽 길에 닿지 못하게 하는 것"
+        ],
+        "resist": 70
+      },
+      "secrets": [
+        {
+          "id": "tiger_miner",
+          "text": "원래 제이드스톤의 광부였다. 광산이 문을 닫자, 사람들을 이끌고 이 광석 운반로에 기대 먹고산다.",
+          "reveal_when": "제이드스톤의 광산 이야기를 꺼내거나, 광업 조합 휘장을 내보일 때"
+        }
+      ],
+      "hp": 22,
+      "max_hp": 22,
+      "str": 15,
+      "con": 14
+    }
+  ]
+}

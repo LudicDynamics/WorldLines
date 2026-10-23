@@ -1,0 +1,45 @@
+{
+ "job_states": {
+  "offered": "可接",
+  "active": "进行中",
+  "done": "已完成",
+  "failed": "失败",
+  "abandoned": "已放弃"
+ },
+ "exits": {
+  "ending": "走到一个结局",
+  "ending:accusation": "指认凶手,走到结局",
+  "segment:day": "过好每一天",
+  "segment:date": "每一次约会",
+  "segment": "一段一段地过"
+ },
+ "job_words": {
+  "offered": [
+   "可接",
+   "待接",
+   "未接",
+   "可领"
+  ],
+  "active": [
+   "进行中",
+   "已接",
+   "接受",
+   "已接受"
+  ],
+  "done": [
+   "完成",
+   "已完成"
+  ],
+  "failed": [
+   "失败"
+  ],
+  "abandoned": [
+   "放弃",
+   "已放弃"
+  ],
+  "hidden": [
+   "未解锁",
+   "锁定"
+  ]
+ }
+}

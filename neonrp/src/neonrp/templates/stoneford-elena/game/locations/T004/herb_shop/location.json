@@ -1,0 +1,14 @@
+{
+  "id": "herb_shop",
+  "name": "青苔草药铺",
+  "type": "facility",
+  "facility_file": "facilities/herb_shop.json",
+  "description": "一间被藤蔓缠绕的小店，空气中弥漫着草药的清苦香气。矿工受伤后常来这里买药。",
+  "pos": {
+    "x": 250,
+    "y": 400
+  },
+  "connections": [
+    "main_street"
+  ]
+}

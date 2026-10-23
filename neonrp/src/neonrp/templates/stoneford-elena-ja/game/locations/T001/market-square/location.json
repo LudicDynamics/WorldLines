@@ -1,0 +1,21 @@
+{
+  "id": "market-square",
+  "kind": "location",
+  "name": "市場広場",
+  "tags": [
+    "town",
+    "market",
+    "social"
+  ],
+  "summary": "朝市はまだ完全には出そろっていない。濡れた布を敷いた露店、物言わぬ荷馬車、湯気を立てるパンの屋台。",
+  "connections": [
+    "gate_north",
+    "inn",
+    "guild"
+  ],
+  "notes": "Most town-facing scenes can fan through here.",
+  "pos": {
+    "x": 154,
+    "y": 116
+  }
+}

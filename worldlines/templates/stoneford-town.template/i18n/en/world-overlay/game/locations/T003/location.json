@@ -1,0 +1,20 @@
+{
+  "id": "T003",
+  "type": "town",
+  "name": "Wolfsfang Pass",
+  "region": "Northvale",
+  "pos": [
+    10,
+    3
+  ],
+  "summary": "A northern frontier fortress, the first line of defense against orcs and the Frostwolf Kingdom.",
+  "state": {
+    "discovered": false,
+    "danger_nearby": 3
+  },
+  "travel_info": {
+    "from_T001": "2 days' travel, north"
+  },
+  "connections": [],
+  "isolated": true
+}

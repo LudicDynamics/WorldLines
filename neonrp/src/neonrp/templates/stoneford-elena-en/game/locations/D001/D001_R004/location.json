@@ -1,0 +1,11 @@
+{
+  "id": "D001_R004",
+  "name": "the Coffin-Voice Inner Sanctum",
+  "type": "boss",
+  "connections": [
+    "D001_R002"
+  ],
+  "state": {
+    "explored": false
+  }
+}

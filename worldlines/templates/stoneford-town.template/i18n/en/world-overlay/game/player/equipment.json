@@ -1,0 +1,25 @@
+{
+  "weapon": {
+    "id": "wpn_short_sword",
+    "name": "Short Sword",
+    "atk": 4,
+    "tags": [
+      "melee"
+    ],
+    "base_damage": 3
+  },
+  "armor": {
+    "id": "arm_leather_jerkin",
+    "name": "Worn Leather Jerkin",
+    "def": 2,
+    "tags": [
+      "light"
+    ]
+  },
+  "accessories": [
+    {
+      "id": "road_cloak",
+      "name": "Traveling Cloak"
+    }
+  ]
+}

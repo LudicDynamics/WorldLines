@@ -1,0 +1,72 @@
+{
+  "facility_id": "herb_shop_T004",
+  "name": "푸른이끼 약초방",
+  "price_index": 1.0,
+  "inventory": [
+    {
+      "id": "healing_potion_small",
+      "name": "회복 물약(소)",
+      "price": 12,
+      "stock": 5
+    },
+    {
+      "id": "healing_salve",
+      "name": "치유 연고",
+      "price": 8,
+      "stock": 6,
+      "note": "상처에 바른다. HP 15 회복, 다른 사람에게도 쓸 수 있음"
+    },
+    {
+      "id": "antidote",
+      "name": "해독제",
+      "price": 10,
+      "stock": 4
+    },
+    {
+      "id": "stamina_herb",
+      "name": "정신이 드는 풀 다발",
+      "price": 6,
+      "stock": 8,
+      "note": "피로 상태 해제"
+    },
+    {
+      "id": "miners_balm",
+      "name": "광부용 폐 보호 연고",
+      "price": 5,
+      "stock": 10,
+      "note": "광산 먼지로 인한 호흡 곤란을 막는다. 4시간 지속"
+    },
+    {
+      "id": "moonflower_extract",
+      "name": "달맞이꽃 정수",
+      "price": 15,
+      "stock": 2,
+      "note": "희귀 약초 추출물. 마력을 아주 조금 증폭시킨다"
+    },
+    {
+      "id": "herb_bundle_common",
+      "name": "상비 약초 꾸러미",
+      "price": 8,
+      "stock": 5,
+      "note": "흔한 약초 여러 가지가 들어 있다. 약 짓는 법을 아는 사람에게 알맞다"
+    }
+  ],
+  "services": [
+    {
+      "name": "상처 치료",
+      "price": 5,
+      "effect": "HP 10 회복"
+    },
+    {
+      "name": "약 조제(재료 지참)",
+      "price": 3,
+      "effect": "가져온 재료로 알맞은 약을 지어 준다"
+    }
+  ],
+  "buyback_rate": 0.6,
+  "buys": [
+    "약초",
+    "약재",
+    "식물 재료"
+  ]
+}

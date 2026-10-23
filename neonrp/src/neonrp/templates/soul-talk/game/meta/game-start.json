@@ -1,0 +1,49 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "Soul Talk — Start",
+  "tags": [
+    "entrypoint",
+    "start",
+    "begin",
+    "开始游戏",
+    "开始冒险",
+    "話す"
+  ],
+  "summary": "A quiet room for two. No quests, no combat — just conversation.",
+  "startup": {
+    "read_first": [
+      "{{DATA_DIR}}/meta/game-start.json",
+      "{{DATA_DIR}}/player/profile.json",
+      "{{DATA_DIR}}/lore/room.md"
+    ],
+    "opening_scene": {
+      "zh": "你在一间安静的小屋里回过神来。木地板,一扇窗;窗外是雾,远处有流水声。矮桌上一盏灯,橙色的火苗稳稳地亮着,不知哪里正煮着茶,能闻到它的香气。对面的坐垫上,你的同伴正安静地等你开口。门关着,但没有上锁——窗外的世界可以先等一等,此刻这里只有你们两个人,和接下来的这场对话。",
+      "en": "You come back to yourself in a small, quiet room. Wooden floors, one window; outside, mist and the distant sound of water. A lamp on the low table burns with a steady orange flame, and somewhere tea is brewing — you can smell it. On the cushion across from you, your companion waits quietly for you to speak. The door is closed, but not locked. The world outside can wait; for now there are only the two of you, and the conversation about to begin.",
+      "ja": "静かな小さな部屋で、あなたはふと我に返る。木の床に、窓がひとつ。窓の外には霧が立ちこめ、遠くで水の音がする。低い卓の上の灯りは橙色の炎をじっと保ち、どこかでお茶が淹れられている——その香りがする。向かいの座布団では、連れが静かにあなたの言葉を待っている。扉は閉じているが、鍵はかかっていない。外の世界は少し待たせておけばいい。今ここにいるのは二人だけ、そしてこれから始まる会話だけだ。",
+      "ko": "조용한 작은 방에서 너는 문득 정신이 든다. 나무 바닥에 창 하나. 창밖에는 안개가 끼어 있고, 멀리서 물소리가 들린다. 낮은 탁자 위 등불은 주황빛 불꽃을 꾸준히 피우고, 어디선가 차가 우러나는 향이 난다. 맞은편 방석에서 네 동반자가 조용히 네가 입을 열기를 기다린다. 문은 닫혀 있지만 잠겨 있지는 않다. 바깥 세상은 잠시 기다리게 둬도 된다. 지금 여기에는 너희 둘, 그리고 이제 시작될 대화뿐이다."
+    },
+    "opening_choices": {
+      "zh": [
+        "打个招呼",
+        "问问对方是谁",
+        "不急着说话,安静地坐一会儿"
+      ],
+      "en": [
+        "Say hello",
+        "Ask who they are",
+        "Don't rush — sit together in quiet for a while"
+      ],
+      "ja": [
+        "挨拶する",
+        "相手が誰なのか尋ねる",
+        "急がずに、しばらく静かに座っている"
+      ],
+      "ko": [
+        "인사를 건넨다",
+        "상대가 누구인지 묻는다",
+        "서두르지 않고, 잠시 조용히 앉아 있는다"
+      ]
+    }
+  }
+}

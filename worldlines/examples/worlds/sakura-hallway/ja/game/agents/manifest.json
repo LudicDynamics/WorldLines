@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "execution_mode": "orchestrator",
+  "note": "桜坂の廊下 · 情感物語オーケストレーション。world-agent は Layer 1(物語主導):場面とタイムラインを進め、小夜(さや)/文(ふみ)/先輩の声を代弁し、heart を呼んで好感を判定し、好感と記憶を npc + run_state に書き戻す。heart は「ときめき」判定 JSON を返すだけ、world-agent が保存を担う。戦闘はない、ダイスもない。",
+  "agents": [
+    {
+      "id": "world-agent",
+      "name": "Narrator",
+      "agent_path": ".claude/agents/world-agent.md",
+      "role": "Layer 1 — 物語主導:場面/タイムライン推進 + 好感と記憶の書き戻し + キャラの声の代弁",
+      "description": "桜の季節のタイムライン(桜が散る速さ)を進め、小夜(さや)、文(ふみ)、先輩の声を代弁し、意味のあるプレイヤーの言動ごとに heart を呼んで好感の増減を判定し、**新しい好感とこの一言を game/npc/<id>.json に書き戻し、run_state(日数/残り花びら/焦点キャラ)を更新し**、一拍ごとに止まってプレイヤーを待つ。すべてのプレイヤー入力はまずこれを通る。",
+      "read_globs": [
+        "game/**"
+      ],
+      "write_globs": [
+        "game/meta/run_state.json",
+        "game/meta/active-agent.json",
+        "game/npc/*.json"
+      ]
+    },
+    {
+      "id": "heart",
+      "name": "Heart (ときめき判定)",
+      "agent_path": ".claude/agents/heart.md",
+      "role": "Layer 2 — 好感/ときめき判定",
+      "description": "プレイヤーの一つの言動と対象キャラを受け取り、そのキャラの性格と現在の好感をふまえて、構造化された「ときめき」判定 JSON を返す:好感の増減(delta)、マイルストーンに到達したか、一行の内部理由。散文は一切書かず、ファイルにも一切書かない(好感/記憶の保存は world-agent)。Temp 0.4。",
+      "read_globs": [
+        "game/npc/*.json",
+        "game/rules/affection.md",
+        "game/meta/run_state.json"
+      ],
+      "write_globs": []
+    }
+  ],
+  "routing_doctrine": {
+    "all_player_input_passes_through": "world-agent",
+    "all_affection_checks_route_to": "heart",
+    "specialists_return_json_world_agent_persists": true,
+    "no_specialist_writes_prose": true,
+    "max_call_chain_depth_per_turn": 3
+  }
+}

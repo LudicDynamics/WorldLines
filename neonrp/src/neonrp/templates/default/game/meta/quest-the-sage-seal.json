@@ -1,0 +1,26 @@
+{
+  "id": "quest-the-sage-seal",
+  "kind": "meta",
+  "name": "Quest: The Sage's Seal",
+  "tags": [
+    "quest",
+    "starter",
+    "old-sage",
+    "forest-path"
+  ],
+  "summary": "Investigate the strange seal traces near forest-path and report back to Old Sage.",
+  "quest": {
+    "status": "offered",
+    "giver": "old-sage",
+    "start_location": "start-town",
+    "target_location": "forest-path",
+    "objective": "Investigate the glowing seal traces and return with clear evidence.",
+    "reward": {
+      "gold": 30,
+      "items": [
+        "health-potion"
+      ]
+    },
+    "completion_report_to": "old-sage"
+  }
+}

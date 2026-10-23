@@ -1,0 +1,99 @@
+{
+ "template.one_beat": {
+  "title": "One line, one beat",
+  "summary": "Every line the player says is an action: the world resolves it at once and writes the result. For fast-paced adventure, exploration and action worlds."
+ },
+ "node.resolve": {
+  "title": "Resolve",
+  "summary": "The line is taken as an action: everyone present reacts, one narration writes the beat, and the checked changes go into the world."
+ },
+ "kind.mode": "A play layer: inside it, the layer's own host writes the beat (a fight, say); when it is done the turn goes back to Resolve.",
+ "kind.place": "A place layer: entered when the player walks into a place of this kind (a dungeon room, say), left when they walk out.",
+ "kind.one_shot": "A one-off layer: it takes one beat (asking the rules referee first, say), then the turn goes back to Resolve.",
+ "kind.phase": "A phase: one of the world's phases (day / night, say); the turn moves here when the phase changes.",
+ "on.always": "after every beat",
+ "on.next": "the next line",
+ "on.op": "the narration brings in “{v}”",
+ "on.here_class": "walking into a “{v}” place",
+ "on.gate": "the rules call for this layer",
+ "on.tick": "a rule fires ({v})",
+ "on.phase": "the phase turns “{v}”",
+ "on.return": "back after “{v}”",
+ "on.leave": "back when they leave",
+ "on.done": "back after one beat",
+ "preset.chat_only": {
+  "title": "Chat only",
+  "summary": "On the phone you send a line and they answer with one or a few. They do not act on their own. Every character starts with this."
+ },
+ "soul.node.chat": {
+  "title": "Chat",
+  "summary": "You send a line; they answer with one or a few."
+ },
+ "soul.node.tick": {
+  "title": "Their own day",
+  "summary": "While you are away they do a small everyday thing now and then, and sometimes text you."
+ },
+ "soul.node.reflect": {
+  "title": "Reflect",
+  "summary": "Every few times, recent things are folded into lasting memory."
+ },
+ "soul.steps.chat": {
+  "docs": {
+   "title": "Read their notes",
+   "doc": "their own sheet and memories"
+  },
+  "history": {
+   "title": "Recent messages",
+   "doc": "the last few lines you exchanged"
+  },
+  "reply": {
+   "title": "Reply",
+   "doc": "one model call answers"
+  },
+  "bubbles": {
+   "title": "Split into bubbles",
+   "doc": "one to a few bubbles, maybe a sticker"
+  }
+ },
+ "soul.steps.tick": {
+  "ambient": {
+   "title": "What now",
+   "doc": "their routine for this time of day"
+  },
+  "doing": {
+   "title": "One small thing",
+   "doc": "the model picks one small thing they would do now"
+  },
+  "memory": {
+   "title": "Note it",
+   "doc": "written into their own memory"
+  },
+  "message": {
+   "title": "Maybe text you",
+   "doc": "now and then a message (capped per day)"
+  },
+  "reflect": {
+   "title": "Time to reflect",
+   "doc": "after enough of these, reflect"
+  }
+ },
+ "soul.steps.reflect": {
+  "read": {
+   "title": "Look back",
+   "doc": "recent short-term memory"
+  },
+  "fold": {
+   "title": "Fold",
+   "doc": "the model keeps a few lines worth keeping"
+  },
+  "write": {
+   "title": "Keep it",
+   "doc": "written into long-term memory"
+  }
+ },
+ "on.chat": "you send a message",
+ "on.idle": "you are quiet for {v} min",
+ "soul.on.tick": "every so often",
+ "value.on": "on",
+ "value.off": "off"
+}

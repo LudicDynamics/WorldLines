@@ -1,0 +1,101 @@
+{
+ "steps": {
+  "clock": {
+   "title": "세계 시계",
+   "doc": "턴 전에 세계의 시간을 한 칸 진행한다. 모두가 같은 시간을 본다"
+  },
+  "scene_route": {
+   "title": "누가 있나",
+   "doc": "위치로 플레이어와 같은 곳에 있는 캐릭터를 찾는다(있는 캐릭터만 움직인다)"
+  },
+  "s1_plan": {
+   "title": "S1 예측(Jev)",
+   "doc": "Jev 판단 한 번: 플레이어의 의도 · 각 캐릭터가 움직이는지, 얼마나 깊이 · 분위기. Jev가 없으면 대체 계획(있는 캐릭터는 모두 움직인다)"
+  },
+  "player_gate": {
+   "title": "플레이어의 한마디",
+   "doc": "플레이어의 말을 하나의 시도로 다룬다: 무엇을 하려는지 · 언급한 것을 알 수 있는지(캐릭터보다 먼저 실행)"
+  },
+  "s2_souls": {
+   "title": "S2 캐릭터 병렬 행동",
+   "doc": "그 자리의 캐릭터가 S1이 정한 깊이로 동시에 움직인다(침묵 / 몸짓 / 말 / 행동). 없는 캐릭터는 자기 자리에서 한 박을 보낸다"
+  },
+  "followups": {
+   "title": "S1 후속",
+   "doc": "캐릭터가 답한 뒤 한 번 더 판단: 진행자가 아직 누군가에게 물어야 하는지(아니면 묻는 도구를 거둔다)"
+  },
+  "pack": {
+   "title": "세계 묶기",
+   "doc": "서술자가 읽을 세계를 하나로 묶는다(장소 · 사람 · 상태 · 최근 일)"
+  },
+  "understand": {
+   "title": "한마디 읽기",
+   "doc": "플레이어가 언급한 각 대상에 대해 세계가 뭐라고 하는지(없는 것은 아무도 증언하지 않는다)"
+  },
+  "gate": {
+   "title": "사전 판정 / 층 진입",
+   "doc": "규칙이 이 박을 미리 판정한다(심판) · 필요하면 층에 강제로 들어간다(길에서 습격 → 전투) · 비동기 도구를 직접 부른다"
+  },
+  "mode_layer": {
+   "title": "층",
+   "doc": "세계가 층 안(전투 · 던전)에 있을 때 프롬프트 전체를 층의 것으로 바꾸고 층의 상태를 더한다"
+  },
+  "solve": {
+   "title": "서술 호출",
+   "doc": "모델을 한 번 불러 이 박을 쓴다. 쓰면서 도구를 부르고(주사위 · 지도 …) 엔진의 답을 기다렸다가 이어 쓴다"
+  },
+  "verify": {
+   "title": "검증",
+   "doc": "제안된 변화를 하나씩 레지스트리와 규칙으로 확인한다. 고칠 수 있는 것은 다시 쓰게 돌려보낸다(몇 번까지)"
+  },
+  "apply": {
+   "title": "반영",
+   "doc": "통과한 변화를 세계에 쓴다(상태 · 파일)"
+  },
+  "deferred_fire": {
+   "title": "비동기 도구",
+   "doc": "기다리지 않는 도구(지도 · 패널)는 박이 반영된 뒤에 그린다(반영된 뒤의 위치를 그린다)"
+  },
+  "settle": {
+   "title": "캐릭터 사후 정리",
+   "doc": "박이 끝난 뒤 그 자리의 각 캐릭터가 무엇을 기억했는지(자기 기억에 쓴다)"
+  },
+  "after_turn": {
+   "title": "턴 이후",
+   "doc": "턴이 끝난 뒤의 정리(새로 생긴 것의 그림 · 트리거)"
+  },
+  "ticks": {
+   "title": "백그라운드 단위",
+   "doc": "경제 · 효과 카운트다운 · 없는 캐릭터 · 플레이 팩 자체 규칙. 각자 선언한 쓰기 범위 안에서"
+  },
+  "land": {
+   "title": "커밋",
+   "doc": "이 턴을 하나의 버전으로 커밋하고 박 이벤트를 프런트엔드로 보낸다"
+  }
+ },
+ "params": {
+  "turn.plan.backend": "누가 판단하나",
+  "turn.plan.confidence": "판단에 필요한 확신",
+  "turn.plan.react": "캐릭터가 「움직였다」고 볼 경계",
+  "turn.plan.fallback_depth": "확신이 없을 때 행동 깊이",
+  "turn.player_gate": "켜기 / 끄기",
+  "turn.parallel.souls.default_variant": "캐릭터가 움직이는 방식",
+  "turn.parallel.souls.max_workers": "동시에 움직이는 상한",
+  "turn.parallel.souls.timeout_s": "한 캐릭터가 생각할 수 있는 최대 시간(초)",
+  "turn.parallel.souls.escalate_at": "한 번 더 생각하는 경계",
+  "turn.parallel.souls.escalate_turns": "추가로 생각하는 최대 횟수",
+  "turn.parallel.souls.heavy_at": "무거운 경로를 타는 경계",
+  "turn.parallel.souls.decide_conf": "캐릭터가 혼자 결정하는 데 필요한 확신",
+  "turn.parallel.souls.adjudicate": "설득 판정 여부(1 / 0)",
+  "turn.plan.pack_budget": "묶음 글자 수 상한(0 = 엔진 기본값)",
+  "turn.solve.max_ops": "한 박의 변화 상한",
+  "turn.solve.history": "대화 기록 몇 턴",
+  "turn.solve.sections": "출력 구분 방식",
+  "turn.solve.async_mark": "비동기 도구 표기",
+  "turn.verify.gate.max_loops": "다시 쓰기 최대 횟수",
+  "turn.verify.l2": "의미 검증",
+  "turn.verify.grounded_min": "근거가 있다고 볼 경계",
+  "turn.verify.missed_min": "빠뜨렸다고 볼 경계",
+  "turn.apply.writers": "소유자별로 쓰기"
+ }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "road_camp",
+  "name": "Post-Road Camp",
+  "type": "road",
+  "connections": [
+    "gate_north"
+  ],
+  "description": "The bandit camp on the post road beyond the north gate: a campfire, a row of stakes, and an ore cart dragged across the road as a barricade. Further north lie Mossbarrow and the fog.",
+  "pos": {
+    "x": 236,
+    "y": 40
+  }
+}

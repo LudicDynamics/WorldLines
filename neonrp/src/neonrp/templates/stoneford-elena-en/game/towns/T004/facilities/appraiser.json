@@ -1,0 +1,42 @@
+{
+  "facility_id": "appraiser_T004",
+  "name": "Crow-Eye Appraisals",
+  "services": [
+    {
+      "name": "Common ore appraisal",
+      "price": 5,
+      "description": "Identifies the type and quality of common ores"
+    },
+    {
+      "name": "Special item appraisal",
+      "price": 15,
+      "description": "Identifies the properties of rare ores, gemstones, or magical materials"
+    },
+    {
+      "name": "Deep analysis",
+      "price": 50,
+      "description": "In-depth analysis of an unknown or anomalous item, which may reveal hidden properties"
+    }
+  ],
+  "buys": [
+    {
+      "category": "raw ore",
+      "price_range": "5-30",
+      "note": "Varies with quality"
+    },
+    {
+      "category": "gemstones (cut)",
+      "price_range": "20-200",
+      "note": "Varies with type and quality"
+    },
+    {
+      "category": "crystal",
+      "price_range": "10-80",
+      "note": "Varies with purity"
+    }
+  ],
+  "special_note": "Old Fan 'Crow-Eye' has a special reaction to the 'dull green gemstone' in the player's pack — his mismatched eyes both light up at once, and he says this is no ordinary ore.",
+  "state": {
+    "available": true
+  }
+}

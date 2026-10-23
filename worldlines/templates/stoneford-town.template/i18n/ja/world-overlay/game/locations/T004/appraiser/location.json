@@ -1,0 +1,14 @@
+{
+  "id": "appraiser",
+  "name": "カラスの目鑑定所",
+  "type": "facility",
+  "facility_file": "facilities/appraiser.json",
+  "description": "鉱石鑑定士「カラスの目」ことヴァンス爺さんの店。左右で色の違うその瞳は、どんな鉱石の正体も見抜くという。",
+  "pos": {
+    "x": 500,
+    "y": 320
+  },
+  "connections": [
+    "main_street"
+  ]
+}

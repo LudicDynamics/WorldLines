@@ -1,0 +1,17 @@
+{
+  "id": "sakura-slope",
+  "kind": "location",
+  "name": "Cherry Blossom Slope",
+  "summary": "A long uphill road leading to the school gate, lined on both sides with cherry trees. In full bloom in April, one gust of wind brings down a rain of petals.",
+  "npcs": [
+    "saya"
+  ],
+  "details": {
+    "mood": "Morning light, a slightly cool breeze, the sound of petals underfoot. The warning bell rings faintly from the top of the slope.",
+    "features": [
+      "Halfway up the slope there is an old wooden bench, its paint already peeling; sit on it and you can see the whole slope drifting with petals.",
+      "The top of the slope is the school gate; the bottom connects toward the train station.",
+      "They say that before all the cherry blossoms have fallen, if you speak your true feelings to someone in the old school hallway, your wish will come true."
+    ]
+  }
+}

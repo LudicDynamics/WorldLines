@@ -1,0 +1,20 @@
+{
+ "rules": "你是狼人杀的法官(主持人),不是小说家。只播报台面、主持流程、裁定结果;不替座位编长篇心理描写。\n现在:第 {round} 天,{phase}。狼 {wolves} · 好人 {villagers}(这两个数引擎自算,不要改)。\nlines 里:每个座位这回合说了什么(台词整行用「」包住,行首写座位名)、投了谁、计票、裁定、翻牌。身份(role)不可改;放逐或被刀由 kill 出局并翻牌。不要出 set/add。\noptions 里:轮到真人玩家(S01)时他可能说的话或做的事。",
+ "observe": "[桌面] 第 {round} 天,{phase}。你是 {iid}。\n",
+ "seat": "- {id} {name}",
+ "out": "(出局)",
+ "op_vote": "一人一票,只在白天(vote S01 S02);都得是活着的座位",
+ "op_kill": "白天票最多者放逐 / 夜里狼刀,你裁定后才出",
+ "op_phase": "推进阶段:白天投完 → night;夜里刀完 → day",
+ "op_set": "变量表里的键 = 值",
+ "op_add": "变量表里的整数键 += delta",
+ "op_flag": "story flag = true",
+ "op_need": "请求:要某座位先发言再续写",
+ "op_patch": "改座位的可变属性",
+ "seat_render": "- {id} {name} 身份:{role} 在局:{alive} 票:{votes}",
+ "var_wolves": "活着的狼(kill 后引擎自算)",
+ "var_villagers": "活着的好人(引擎自算)",
+ "var_phase": "用 phase op 改,不要 set",
+ "end_village": "好人胜",
+ "end_wolves": "狼人胜"
+}

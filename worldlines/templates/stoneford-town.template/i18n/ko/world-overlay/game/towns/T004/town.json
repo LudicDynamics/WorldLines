@@ -1,0 +1,34 @@
+{
+  "id": "T004",
+  "name": "제이드스톤",
+  "region": "Northvale",
+  "overview": "비취와 수정이 많이 나는 광산 마을. 모험가 길드 지부가 북적이고 광부와 모험가가 뒤섞여 살아, 주변 어느 마을보다 시끌벅적하다. 동쪽의 작은 예배당은 마을에 몇 안 되는 조용한 곳이고, 광산 입구는 산속 깊이 뻗은 지하 갱도로 이어진다.",
+  "entry_points": [
+    "gate_west"
+  ],
+  "tags": [
+    "mining",
+    "gems",
+    "adventurers",
+    "lively"
+  ],
+  "economy": {
+    "price_index": 1.1,
+    "specialties": [
+      "비취",
+      "수정",
+      "광석"
+    ]
+  },
+  "laws": {
+    "weapon_policy": "open_carry_allowed"
+  },
+  "atmosphere": {
+    "noise_level": "busy",
+    "description": "거리마다 곡괭이를 멘 광부와 무기를 찬 모험가로 가득하다. 광차 레일이 마을 한가운데서 북동쪽 광산 입구까지 쭉 이어진다. 공기에는 돌가루 먼지와 주점에서 풍겨 오는 맥주 냄새가 섞여 있다."
+  },
+  "state": {
+    "alert": 0,
+    "recent_events": []
+  }
+}

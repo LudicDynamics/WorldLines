@@ -1,0 +1,3 @@
+{
+ "_JSON_DOC": "one JSON object only (no code fences, no comments), shaped {schema}. Unit ids are the state block's ids (foe.<id> without the prefix); the engine fills hp from the variables; rendered for the player, never ops."
+}

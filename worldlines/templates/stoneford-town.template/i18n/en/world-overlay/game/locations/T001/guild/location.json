@@ -1,0 +1,14 @@
+{
+  "id": "guild",
+  "name": "Adventurers' Guild",
+  "type": "facility",
+  "facility_file": "facilities/guild.json",
+  "pos": {
+    "x": 416,
+    "y": 191
+  },
+  "connections": [
+    "main_street",
+    "market-square"
+  ]
+}

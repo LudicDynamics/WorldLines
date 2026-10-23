@@ -1,0 +1,25 @@
+{
+  "id": "merrin",
+  "kind": "party",
+  "name": "梅林",
+  "class": "法师 (Wizard)",
+  "ac": 12,
+  "hp": 7,
+  "hp_max": 7,
+  "initiative_mod": 2,
+  "attacks": [
+    {
+      "name": "火焰箭 (Fire Bolt)",
+      "to_hit": 5,
+      "damage": "1d10",
+      "range": "远程法术"
+    },
+    {
+      "name": "法杖",
+      "to_hit": 2,
+      "damage": "1d6",
+      "range": "近战"
+    }
+  ],
+  "note": "精灵法师,体弱但火焰箭很疼。务必别让哥布林贴上来。"
+}

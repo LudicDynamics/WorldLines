@@ -1,0 +1,18 @@
+{
+  "id": "T002",
+  "type": "town",
+  "name": "風桟の砦(ふうさんのとりで)",
+  "region": "Northvale",
+  "pos": [
+    5,
+    10
+  ],
+  "summary": "街道の要塞。巡邏隊が駐屯し、規律は厳しい。",
+  "state": {
+    "discovered": false,
+    "danger_nearby": 1
+  },
+  "connections": [
+    "T001"
+  ]
+}

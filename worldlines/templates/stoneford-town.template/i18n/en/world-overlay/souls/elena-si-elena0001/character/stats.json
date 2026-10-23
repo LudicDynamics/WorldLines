@@ -1,0 +1,11 @@
+{
+  "sid": "elena",
+  "hp": 24,
+  "max_hp": 24,
+  "skills": [
+    "Close Combat",
+    "Wilderness Camping",
+    "Reading Faces"
+  ],
+  "age": 21
+}

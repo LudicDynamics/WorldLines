@@ -1,0 +1,18 @@
+{
+  "name": "worldlines-client-ts-example",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Minimal TypeScript client for a WorldLines host (neonrp serve): JSON-RPC 2.0 over HTTP + SSE.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit",
+    "smoke": "node --experimental-strip-types smoke.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "vite": "^6.0.0",
+    "@types/node": "^22.0.0"
+  }
+}

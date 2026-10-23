@@ -1,0 +1,23 @@
+{
+ "faction_render": "- {id} {name}(세력 {power} · 재력 {wealth}): {blurb}",
+ "rumor_render": "- 소문 {id} 「{text}」 열기 {heat}, {towns_text}까지 퍼짐",
+ "quest_render": "- 의뢰 {id} 「{title}」 {status} · 의뢰인: {giver_name} · 보상 {reward_gold} 골드",
+ "op_take_quest": "플레이어가 의뢰를 받는다(take_quest Q001). 의뢰인의 거점에서",
+ "op_rumor": "세계 규칙: 새 소문",
+ "op_spread": "세계 규칙: 소문이 다른 마을로 퍼진다",
+ "op_new_quest": "세계 규칙: 세력이 의뢰를 내건다",
+ "op_quest": "세계 규칙: 의뢰 상태가 바뀐다",
+ "op_strike": "세계 규칙: 파업이 시작된다 / 끝난다",
+ "line": "마을에는 몇몇 세력이 저마다 움직이고 있다(세력값·재력·서로의 관계는 변수표에 있다). 소문은 길을 따라 퍼지고, 의뢰는 세력이 내건다. 이야기에서 그들을 언급할 때는 변수표와 항목을 따르고, 세력 대신 결정하지 않는다.",
+ "doc_power": "{name}의 세력",
+ "doc_wealth": "{name}의 재력",
+ "doc_rep": "{name}에서의 당신의 평판",
+ "doc_rel": "{pair}의 관계",
+ "no_quest": "그런 의뢰는 없다",
+ "quest_closed": "이 의뢰는 이미 누가 받았거나 끝났다",
+ "go_take": "{giver}({seat})에 가서 받아야 한다",
+ "raid": "{name}이(가) 한밤중에 {town}의 자재 창고에 숨어들었다",
+ "bounty": "산적 토벌 현상금: {name}의 망꾼을 없애라",
+ "strike": "{name}이(가) 파업에 들어갔다",
+ "towns_sep": ", "
+}

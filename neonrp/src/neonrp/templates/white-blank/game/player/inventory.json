@@ -1,0 +1,20 @@
+{
+  "capacity": 20,
+  "items": [
+    {
+      "id": "travel-bread",
+      "name": "旅行黑麦面包",
+      "qty": 2
+    },
+    {
+      "id": "lantern",
+      "name": "罩灯",
+      "qty": 1
+    },
+    {
+      "id": "healing-herb",
+      "name": "止血草束",
+      "qty": 1
+    }
+  ]
+}

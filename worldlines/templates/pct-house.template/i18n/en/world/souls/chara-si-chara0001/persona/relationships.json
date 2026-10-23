@@ -1,0 +1,15 @@
+{
+  "relationships": {
+    "owner": {
+      "name": "Edmund Greywood",
+      "disposition": "Her uncle; a home every summer, and a letter every month"
+    },
+    "butler": {
+      "name": "Oswin",
+      "disposition": "The man who peeled apples for her when she was small; now she is sure he is hiding something"
+    },
+    "player": {
+      "disposition": "The investigator she sent for; she wants to trust you, and is afraid of being treated as a child"
+    }
+  }
+}

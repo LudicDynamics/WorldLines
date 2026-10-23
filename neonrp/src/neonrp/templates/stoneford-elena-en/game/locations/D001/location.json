@@ -1,0 +1,34 @@
+{
+  "id": "D001",
+  "type": "dungeon",
+  "name": "Moss Tomb Hollow",
+  "region": "Northvale",
+  "pos": [
+    14,
+    8
+  ],
+  "summary": "An ancient tomb swallowed by moss, rumored to hold a talking coffin.",
+  "state": {
+    "discovered": true,
+    "cleared": false,
+    "danger": 5
+  },
+  "lore": {
+    "source": "Mira's rumors",
+    "legends": [
+      "Once a priest's tower, dedicated to a forgotten god",
+      "It sank underground in a single night, leaving only the entrance",
+      "Legend says a 'sleeping woman' waits inside for someone, or something",
+      "The last person to come out alive was over 20 years ago — and that person went mad"
+    ],
+    "player_knowledge": [
+      "There is a pack of talking wolves inside",
+      "Deep within is a mysterious woman with a face identical to Elena's",
+      "The woman claims Elena is her 'soul fragment'"
+    ]
+  },
+  "connections": [
+    "T001"
+  ],
+  "entry": "D001_R001"
+}

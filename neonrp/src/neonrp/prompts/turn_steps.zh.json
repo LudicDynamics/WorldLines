@@ -1,0 +1,101 @@
+{
+ "steps": {
+  "clock": {
+   "title": "世界时钟",
+   "doc": "回合开始前世界时间走一格,大家看到的是同一个时间"
+  },
+  "scene_route": {
+   "title": "谁在场",
+   "doc": "按位置找出和玩家在一处的角色(在场的才出手)"
+  },
+  "s1_plan": {
+   "title": "S1 预判(Jev)",
+   "doc": "一次 Jev 判断:玩家这句是什么意图 · 每个角色动不动、动多深 · 气氛;没有 Jev 时按回退计划(在场的都出手)"
+  },
+  "player_gate": {
+   "title": "玩家这句",
+   "doc": "玩家的话当成一次尝试:想做什么 · 提到的东西他能不能知道(角色出手前跑)"
+  },
+  "s2_souls": {
+   "title": "S2 角色并行出手",
+   "doc": "在场角色按 S1 给的深度同时出手(沉默 / 手势 / 说话 / 行动);不在场的在自己那里过一拍(异地)"
+  },
+  "followups": {
+   "title": "S1 跟进",
+   "doc": "角色答完后再判一次:主持还要不要再问某个角色(不要就收起问角色的工具)"
+  },
+  "pack": {
+   "title": "打包世界",
+   "doc": "把叙事要读的世界打成一包(地点 · 人 · 状态 · 最近的事)"
+  },
+  "understand": {
+   "title": "读懂这句",
+   "doc": "玩家提到的每样东西,世界里怎么说(没有的东西没人替它作证)"
+  },
+  "gate": {
+   "title": "预裁 / 进层",
+   "doc": "规则预先裁定这一拍(裁判)· 需要时强制进一个层(路上遇袭进战斗)· 自己发异步工具"
+  },
+  "mode_layer": {
+   "title": "层",
+   "doc": "世界在一个层里(战斗 · 地穴)时,整段提示词换成层的,加上层的状态"
+  },
+  "solve": {
+   "title": "叙事主调用",
+   "doc": "一次模型调用写这一拍:边写边调工具(掷骰 · 地图 …),停下等引擎回包再接着写"
+  },
+  "verify": {
+   "title": "校验",
+   "doc": "提出的每条变化按注册表和规则校验;能改的退回重写(最多几次)"
+  },
+  "apply": {
+   "title": "落账",
+   "doc": "通过的变化写进世界(状态 · 文件)"
+  },
+  "deferred_fire": {
+   "title": "异步工具",
+   "doc": "地图 · 面板这类不等的工具,在这一拍落账之后再画(画的是落账后的位置)"
+  },
+  "settle": {
+   "title": "角色事后结算",
+   "doc": "这一拍之后每个在场角色记住了什么(写进她自己的记忆)"
+  },
+  "after_turn": {
+   "title": "回合之后",
+   "doc": "回合结束后的收尾(新出现的东西补图 · 触发器)"
+  },
+  "ticks": {
+   "title": "后台单位",
+   "doc": "经济 · 效果倒计时 · 不在场的角色 · 玩法包自己的规则,按各自声明的写入范围"
+  },
+  "land": {
+   "title": "提交",
+   "doc": "这一回合提交成一个版本,发拍事件给前端"
+  }
+ },
+ "params": {
+  "turn.plan.backend": "谁来判断",
+  "turn.plan.confidence": "判断够有把握的门槛",
+  "turn.plan.react": "角色「被触动」的门槛",
+  "turn.plan.fallback_depth": "没把握时角色出手的深度",
+  "turn.player_gate": "开关",
+  "turn.parallel.souls.default_variant": "角色怎么出手",
+  "turn.parallel.souls.max_workers": "同时出手的上限",
+  "turn.parallel.souls.timeout_s": "一个角色最多想多久(秒)",
+  "turn.parallel.souls.escalate_at": "多想一轮的门槛",
+  "turn.parallel.souls.escalate_turns": "多想最多几轮",
+  "turn.parallel.souls.heavy_at": "走重路径的门槛",
+  "turn.parallel.souls.decide_conf": "角色自己下决定的把握",
+  "turn.parallel.souls.adjudicate": "说服要不要裁定(1 / 0)",
+  "turn.plan.pack_budget": "包的字数上限(0 = 引擎默认)",
+  "turn.solve.max_ops": "一拍最多几条变化",
+  "turn.solve.history": "带几轮对话历史",
+  "turn.solve.sections": "输出分段的写法",
+  "turn.solve.async_mark": "异步工具的标法",
+  "turn.verify.gate.max_loops": "退回重写最多几次",
+  "turn.verify.l2": "语义校验",
+  "turn.verify.grounded_min": "有据可依的门槛",
+  "turn.verify.missed_min": "漏写的门槛",
+  "turn.apply.writers": "按归属写"
+ }
+}

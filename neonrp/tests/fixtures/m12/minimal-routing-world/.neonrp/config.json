@@ -1,0 +1,10 @@
+{
+  "llm": {
+    "provider": "stub",
+    "max_context_chars": 100000
+  },
+  "tui": {
+    "session_max_turns": 50,
+    "narrator_agent_id": "narrator"
+  }
+}

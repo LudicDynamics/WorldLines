@@ -1,0 +1,11 @@
+{
+ "id": "appraiser",
+ "kind": "npc",
+ "name": "Old Fan the Appraiser",
+ "summary": "figure out where the strange ore is coming from",
+ "hp": 10,
+ "max_hp": 10,
+ "location": "bishi_town",
+ "inventory": [],
+ "goal": "figure out where the strange ore is coming from"
+}

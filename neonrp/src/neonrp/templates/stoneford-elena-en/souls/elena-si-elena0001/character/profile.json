@@ -1,0 +1,20 @@
+{
+  "sid": "elena",
+  "display_name": "Elena Vale",
+  "name_local": "Elena Vale",
+  "age": 21,
+  "role": "player",
+  "tags": [
+    "pc",
+    "heroine",
+    "adventurer",
+    "stoneford"
+  ],
+  "appearance": {
+    "hair": "Long silver-white hair, usually tied back offhand, loose strands falling by her cheeks.",
+    "eyes": "Soft violet, clear and gentle.",
+    "build": "Lean of frame, her knuckles worn with the thin calluses of grinding herbs and pressing wounds.",
+    "note": "The silver hair is her most striking feature — it's the first thing the townsfolk remember about her."
+  },
+  "summary": "21, an amnesiac woman healer newly arrived in Stone Ford, with a striking head of silver-white hair. She remembers only her own name, and the instinct in her fingertips for stopping bleeding and identifying herbs; the rest of her past is as if cut away by the fog."
+}

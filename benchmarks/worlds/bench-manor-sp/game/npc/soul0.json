@@ -1,0 +1,11 @@
+{
+ "id": "soul0",
+ "kind": "npc",
+ "name": "Mrs. Tench the Caretaker",
+ "summary": "keep the deeper rooms sealed — watch the heir",
+ "hp": 10,
+ "max_hp": 10,
+ "location": "room0",
+ "inventory": [],
+ "goal": "keep the deeper rooms sealed — watch the heir"
+}

@@ -1,0 +1,84 @@
+{
+  "world_id": "W001",
+  "name": "灰霧の北境",
+  "parent_territory": "灰鴉(はいあ)領",
+  "seed": 123456,
+  "foreign_lands": [
+    {
+      "id": "FL001",
+      "name": "霜狼(そうろう)王国",
+      "direction": "north",
+      "description": "断脊山脈より北の寒冷な王国。住民は熊のように大柄で、年中オークの部族と争っている",
+      "access": "嘆きの隘路（夏のみ通行可）",
+      "relation": "neutral",
+      "discovered_via": "ミラの噂"
+    },
+    {
+      "id": "FL002",
+      "name": "翡翠同盟",
+      "direction": "far_east",
+      "description": "東境の精霊の遺跡よりさらに遠くにある都市国家の連合体。商人がときおり交易に訪れる",
+      "access": "東境の遺跡を抜ける",
+      "relation": "trade",
+      "discovered_via": "ミラの噂"
+    },
+    {
+      "id": "FL003",
+      "name": "灰海(はいかい)",
+      "direction": "south",
+      "description": "南方に果てしなく広がる灰色の海域。十日十夜 航海してもなお灰霧の中で、行ったきり戻らないという",
+      "access": "unknown",
+      "relation": "unknown",
+      "discovered_via": "ミラの噂"
+    }
+  ],
+  "routes": [
+    {
+      "id": "R001",
+      "from": "T001",
+      "to": "T002",
+      "kind": "road",
+      "distance": 18,
+      "tags": [
+        "trade",
+        "patrolled"
+      ],
+      "state": {
+        "blocked": false
+      }
+    },
+    {
+      "id": "R002",
+      "from": "T001",
+      "to": "D001",
+      "kind": "trail",
+      "distance": 6,
+      "tags": [
+        "foggy",
+        "beasts"
+      ],
+      "state": {
+        "blocked": false
+      }
+    },
+    {
+      "id": "R004",
+      "from": "T001",
+      "to": "T004",
+      "kind": "road",
+      "distance": 45,
+      "tags": [
+        "trade",
+        "bandit_risk"
+      ],
+      "state": {
+        "blocked": false
+      },
+      "note": "低い丘の林を通る。山賊『独眼の虎』およそ20人が出没している"
+    }
+  ],
+  "time": {
+    "day": 3,
+    "clock": "17:15"
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "Stone Ford Town — 游戏开始引导",
+  "tags": [
+    "entrypoint",
+    "start",
+    "begin",
+    "开始游戏",
+    "开始冒险"
+  ],
+  "summary": "玩家说「开始游戏」时，orchestrator 先读取本文件。",
+  "startup": {
+    "read_first": [
+      "game/meta/game-start.json",
+      "game/meta/run_state.json",
+      "game/player/profile.json",
+      "game/player/stats.json",
+      "game/player/equipment.json",
+      "game/player/wallet.json",
+      "game/towns/T001/town.json",
+      "game/lore/story.md"
+    ],
+    "opening_scene": {
+      "zh": "你沿着驿路走了一整天。最后半个小时，雾从林子里漏出来——先是脚踝的高度，然后是腰，然后你连自己的手都看不清了。你不慌——驿路比人老，雾再重也不会让它偏。然后你看到一扇歪的木栅栏门，门上挂着褪色的木牌：「石津镇 · 欢迎来到灰雾北境」。一个穿皮背心的守卫靠在门柱上打瞌睡。",
+      "en": "You've walked the post road all day. In the last half hour the fog spilled out of the woods — ankle-high at first, then waist-high, until you couldn't make out your own hands. You don't panic: the post road is older than anyone who walks it, and no fog can turn it aside. Then you see a crooked wooden-fence gate hung with a faded sign: \"Stone Ford · Welcome to the Gray-Fog North.\" A guard in a leather vest leans against the gatepost, dozing.",
+      "ja": "あなたは一日じゅう街道を歩いてきた。最後の半時間、霧が林から漏れ出してきた——はじめは足首の高さ、やがて腰の高さ、とうとう自分の手さえ見えなくなった。あなたは慌てない。街道は人より古く、どれほど濃い霧でも道を逸らせはしない。やがて、傾いた木の柵門と色あせた木札が見えてくる——「石津の町 ・ 灰霧の北境へようこそ」。革のベストを着た門番が、門柱にもたれて居眠りをしている。",
+      "ko": "너는 하루 종일 역로를 걸어왔다. 마지막 반 시간 동안 숲에서 안개가 새어 나왔다——처음엔 발목 높이, 다음엔 허리 높이, 끝내는 제 손조차 보이지 않을 만큼. 너는 당황하지 않는다. 역로는 사람보다 오래되었고, 안개가 아무리 짙어도 길을 비틀 수는 없다. 그러다 비스듬히 기운 나무 울타리 문과 빛바랜 나무 팻말이 보인다: 「석진 마을 · 잿빛 안개의 북쪽 변경에 오신 것을 환영합니다」. 가죽 조끼를 입은 경비 하나가 문기둥에 기대 졸고 있다."
+    },
+    "opening_choices": {
+      "zh": [
+        "和守卫说话",
+        "直接进镇",
+        "看看四周"
+      ],
+      "en": [
+        "Talk to the guard",
+        "Walk straight into town",
+        "Look around"
+      ],
+      "ja": [
+        "門番に話しかける",
+        "そのまま町に入る",
+        "あたりを見回す"
+      ],
+      "ko": [
+        "경비와 이야기한다",
+        "곧장 마을로 들어간다",
+        "주위를 둘러본다"
+      ]
+    }
+  },
+  "world_info": {
+    "world_name": "灰雾北境 Northvale",
+    "start_location": "T001 石津镇",
+    "start_scope": "town",
+    "start_time": {
+      "day": 1,
+      "clock": "08:30"
+    },
+    "genre": "中世纪奇幻 TRPG",
+    "tone": "真实、沉重、有后果",
+    "rules": "d20 骰子判定 · 详见 game/rules/combat_rules.md"
+  },
+  "agent_routing": {
+    "entry_agent": "world-agent",
+    "router_type": "sticky",
+    "note": "所有玩家输入都先经过 orchestrator。orchestrator 读 run_state.json 后决定委托给哪个 domain agent。不要绕过 world-agent 直接进 domain agent。"
+  }
+}

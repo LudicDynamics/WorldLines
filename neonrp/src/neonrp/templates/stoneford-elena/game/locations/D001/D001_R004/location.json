@@ -1,0 +1,11 @@
+{
+  "id": "D001_R004",
+  "name": "棺语内殿",
+  "type": "boss",
+  "connections": [
+    "D001_R002"
+  ],
+  "state": {
+    "explored": false
+  }
+}

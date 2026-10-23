@@ -1,0 +1,54 @@
+{
+  "town_id": "T001",
+  "quests": [
+    {
+      "qid": "Q001",
+      "title": "雾中失踪者",
+      "tier": 1,
+      "summary": "码头区有人在雾里失踪。找回遗物或线索。",
+      "reward": {
+        "gold": 25
+      },
+      "hooks": [
+        "dock"
+      ],
+      "state": "available"
+    },
+    {
+      "qid": "Q002",
+      "title": "苔墓前的狼嚎",
+      "tier": 1,
+      "summary": "通往苔墓的小径上出现野兽。清理 3 次遭遇。",
+      "reward": {
+        "gold": 30,
+        "item": {
+          "id": "potion_small",
+          "name": "小治疗药水",
+          "qty": 1
+        }
+      },
+      "hooks": [
+        "R002"
+      ],
+      "unlocks": [
+        {
+          "discover_dungeon": "D001"
+        }
+      ],
+      "state": "available"
+    },
+    {
+      "qid": "Q003",
+      "title": "会说话的棺木（调查）",
+      "tier": 2,
+      "summary": "深入苔墓地穴，确认传闻真伪，带回证据。",
+      "reward": {
+        "gold": 80
+      },
+      "requires": [
+        "D001_discovered"
+      ],
+      "state": "locked"
+    }
+  ]
+}

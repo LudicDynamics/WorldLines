@@ -1,0 +1,11 @@
+{
+ "_doc": "ai.worldlines.gg 因额度 / 积分拒绝时给玩家看的话(core/billing_stop.py,10-13)",
+ "quota_exceeded": "Worldlines 한도를 다 썼습니다. 추가 구독을 하거나 설정에서 내 키로 바꾸세요.",
+ "insufficient_credits": "Worldlines 크레딧이 부족합니다. 충전하거나 구독하거나, 설정에서 내 키로 바꾸세요.",
+ "claim_required": "오늘의 무료 한도를 아직 받지 않았습니다. 받은 뒤 계속하세요.",
+ "debt_limit": "Worldlines 잔액이 마이너스 한도에 도달했습니다. 충전하거나 구독한 뒤 계속하세요.",
+ "plan_required": "이 모델은 유료 요금제가 필요합니다. 구독하거나 다른 모델을 고르세요.",
+ "guest_not_allowed": "게스트는 이 기능을 쓸 수 없습니다. Worldlines 계정으로 로그인한 뒤 계속하세요.",
+ "guest_world_only": "게스트는 세계 안에서만 플레이할 수 있습니다. Worldlines 계정으로 로그인한 뒤 계속하세요.",
+ "hint": "열기: {url}  (/login billing 으로 브라우저에서 열기)"
+}

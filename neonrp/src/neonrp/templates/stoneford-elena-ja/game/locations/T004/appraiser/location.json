@@ -1,0 +1,14 @@
+{
+  "id": "appraiser",
+  "name": "鴉目(あめ)の鑑定所",
+  "type": "facility",
+  "facility_file": "facilities/appraiser.json",
+  "description": "鉱石鑑定師「鴉目」老ファンの店。彼のあの色違いの瞳は、どんな鉱石の本質をも見抜くという。",
+  "pos": {
+    "x": 500,
+    "y": 320
+  },
+  "connections": [
+    "main_street"
+  ]
+}

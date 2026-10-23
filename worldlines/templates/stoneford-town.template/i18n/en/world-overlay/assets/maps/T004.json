@@ -1,0 +1,21 @@
+{
+  "level": "T004",
+  "fit": {
+    "px": 260,
+    "py": 190,
+    "x0": 100.0,
+    "y0": 180.0,
+    "sx": 1.563076923076923,
+    "sy": 2.9272727272727272
+  },
+  "size": [
+    1536,
+    1024
+  ],
+  "layout_hash": "d21602dc1ace",
+  "backend": "openai",
+  "model": "gpt-image-2",
+  "prompt": "Turn this layout sketch into a painted top-down (slightly isometric) map of \"Jadestone\" — a mining town rich in jade and crystal. Its adventurers' guild branch is busy, miners and adventurers live side by side, and it is louder and livelier than the towns around it. The small chapel to the east is one of the few quiet places in town, and the mine entrance leads into shafts that run deep into the mountain. STRICTLY keep the sketch's layout: each marked building, gate, square and dock exactly where drawn, streets along the drawn lines, walls and water where drawn; small ordinary houses fill the rest.\nPlaces (content only — positions come from the sketch):\n- gatehouse \"West Gate\": Jadestone's main gate, facing the post road toward Stoneford. A huge raw block of jade is set into the gatehouse as the town's marker.\n- street / square \"Miners' Avenue\": Jadestone's broadest street. Mine-cart rails run down the middle of the roadway, lined with crowded shops and stalls.\n- building \"Adventurers' Guild (Jadestone Branch)\": far larger than Stoneford's, always packed with adventurers taking jobs; the notice board at the door is plastered with commissions.\n- building \"Jade-Crystal Tavern\": the town's largest tavern and inn. Its front is studded with crystal shards that glitter in the firelight at night. Rooms upstairs.\n- building \"Stonehammer Sundries\": supply stop for miners and adventurers — rope to blasting powder, rations to maps.\n- building \"Mossgreen Herb Shop\": a small vine-wrapped shop, the air bitter-sweet with herbs. Injured miners come here for medicine.\n- building \"Crow-Eye Appraisals\": the shop of Old Vance, the ore appraiser called Crow-Eye, whose mismatched eyes are said to see to the heart of any stone.\n- street / square \"East Street\": the branch road to the chapel and the mine entrance. Quieter the farther east you go; the clink of distant picks drifts up from the shafts.\n- building \"Dawnlight Chapel\": a small chapel of white stone to the God of Light, solemn and still amid the town's clamor. Ironpost has mentioned it.\n- gatehouse \"Mine Entrance\": a huge mouth into the underground shafts, mine-cart rails running off into the dark; the mining company's notices and safety warnings beside it.\nStyle: Painterly dark-fantasy illustration, muted foggy palette (slate blue, moss green, warm lantern amber), cinematic, highly detailed, no text, no labels, no letters, no UI.",
+  "generated_at": "2026-09-25T23:02:41",
+  "guide": "T004.guide.png"
+}

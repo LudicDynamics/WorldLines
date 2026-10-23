@@ -1,0 +1,18 @@
+{
+  "id": "wall-writings",
+  "kind": "lore",
+  "name": "The Carvings on the Wall",
+  "location": "islet-dock",
+  "content": [
+    "\"I am looking for a way out of here. I am Shiro. Daughter of Waen.\"",
+    "\"The same words — I no longer know how many times I have written them.\"",
+    "\"The scars on the wall do not fade. My memory does.\"",
+    "\"So I write on the wall.\"",
+    "",
+    "\"In the next room, there is something. I am not afraid. I tried speaking to it.\"",
+    "\"It said it was a 'distant guest.'\"",
+    "\"The same words my father carved into the monument.\"",
+    "\"……Who was my father, again?\""
+  ],
+  "note": "Physical traces Shiro has left across countless loops. A new line is added every time."
+}

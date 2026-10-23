@@ -1,0 +1,23 @@
+{
+ "faction_render": "- {id} {name}(勢力 {power} · 財力 {wealth}):{blurb}",
+ "rumor_render": "- 噂 {id}「{text}」熱 {heat}、{towns_text} まで広まっている",
+ "quest_render": "- 依頼 {id}「{title}」{status} · 依頼主:{giver_name} · 報酬 {reward_gold} 金貨",
+ "op_take_quest": "プレイヤーが依頼を受ける(take_quest Q001)。依頼主の拠点で",
+ "op_rumor": "世界のルール:新しい噂",
+ "op_spread": "世界のルール:噂が別の町へ広まる",
+ "op_new_quest": "世界のルール:勢力が依頼を出す",
+ "op_quest": "世界のルール:依頼の状態が変わる",
+ "op_strike": "世界のルール:罷業が始まる / 終わる",
+ "line": "町ではいくつかの勢力がそれぞれに動いている(勢力値・財力・互いの関係は変数表にある)。噂は道沿いに広まり、依頼は勢力が出す。物語でそれらに触れる時は変数表と項目に従い、勢力の代わりに決めない。",
+ "doc_power": "{name}の勢力",
+ "doc_wealth": "{name}の財力",
+ "doc_rep": "{name}でのあなたの評判",
+ "doc_rel": "{pair} の関係",
+ "no_quest": "そんな依頼はない",
+ "quest_closed": "この依頼はもう誰かが受けたか、終わっている",
+ "go_take": "{giver}({seat})まで行って受ける必要がある",
+ "raid": "{name}が夜中に{town}の資材置き場へ忍び込んだ",
+ "bounty": "山賊討伐の賞金:{name}の見張りを潰せ",
+ "strike": "{name}が罷業に入った",
+ "towns_sep": "、"
+}

@@ -1,0 +1,21 @@
+{
+  "level": "T004",
+  "fit": {
+    "px": 260,
+    "py": 190,
+    "x0": 100.0,
+    "y0": 180.0,
+    "sx": 1.563076923076923,
+    "sy": 2.9272727272727272
+  },
+  "size": [
+    1536,
+    1024
+  ],
+  "layout_hash": "d21602dc1ace",
+  "backend": "openai",
+  "model": "gpt-image-2",
+  "prompt": "Turn this layout sketch into a painted top-down (slightly isometric) map of 「제이드스톤」 — 비취와 수정이 많이 나는 광산 마을. 모험가 길드 지부가 북적이고 광부와 모험가가 뒤섞여 살아, 주변 어느 마을보다 시끌벅적하다. 동쪽의 작은 예배당은 마을에 몇 안 되는 조용한 곳이고, 광산 입구는 산속 깊이 뻗은 지하 갱도로 이어진다. STRICTLY keep the sketch's layout: each marked building, gate, square and dock exactly where drawn, streets along the drawn lines, walls and water where drawn; small ordinary houses fill the rest.\nPlaces (content only — positions come from the sketch):\n- gatehouse 「서문」: 제이드스톤의 정문. 스톤포드 쪽 역로를 향해 서 있고, 문루에는 마을의 표식으로 커다란 비취 원석이 박혀 있다.\n- street / square 「광부 대로」: 제이드스톤에서 가장 넓은 큰길. 길 한가운데 광차 레일이 깔려 있고 양옆으로 가게와 노점이 빽빽하다. 사람이 끊이지 않는 북새통이다.\n- building 「모험가 길드(제이드스톤 지부)」: 스톤포드 지부보다 훨씬 크고, 의뢰를 받으려는 모험가들로 늘 붐빈다. 입구 게시판에는 의뢰서가 빈틈없이 붙어 있다.\n- building 「제이드크리스털 주점」: 제이드스톤에서 가장 큰 주점 겸 여관. 정면을 부순 수정 조각으로 꾸며, 밤이면 불빛에 반짝인다. 2층은 객실이다.\n- building 「돌망치 잡화점」: 광부와 모험가의 보급소. 밧줄부터 화약까지, 식량부터 지도까지 없는 게 없다.\n- building 「푸른이끼 약초방」: 덩굴에 휘감긴 작은 가게. 쌉싸름한 약초 향이 가득하다. 다친 광부들이 약을 사러 자주 들른다.\n- building 「까마귀눈 감정소」: 광석 감정사 '까마귀눈' 밴스 영감의 가게. 색이 서로 다른 그의 두 눈은 어떤 광석이든 본질을 꿰뚫어 본다고 한다.\n- street / square 「동쪽 거리」: 예배당과 광산 입구로 갈라지는 길. 동쪽으로 갈수록 조용해지고, 멀리 갱도에서 울리는 망치 소리가 들린다.\n- building 「새벽빛 예배당」: 빛의 신을 모시는 작은 예배당. 흰 돌로 지어졌고, 제이드스톤의 소란 속에서 유독 엄숙하고 고요하다. 쇠기둥이 이곳 얘기를 한 적이 있다.\n- gatehouse 「광산 입구」: 지하 갱도로 이어지는 거대한 굴 입구. 광차 레일이 여기서 어둠 속으로 뻗어 있다. 입구 옆에는 광업 조합의 공고문과 안전 경고문이 붙어 있다.\nStyle: Painterly dark-fantasy illustration, muted foggy palette (slate blue, moss green, warm lantern amber), cinematic, highly detailed, no text, no labels, no letters, no UI.",
+  "generated_at": "2026-09-25T23:02:41",
+  "guide": "T004.guide.png"
+}

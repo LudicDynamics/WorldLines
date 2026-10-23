@@ -1,0 +1,7 @@
+{
+ "_doc": "Out-of-character markers 「画这一幕」 drops (core/scene_art.py: a bracketed aside starting with one of these never goes into a picture)",
+ "ooc": [
+  "OOC",
+  "out of character"
+ ]
+}

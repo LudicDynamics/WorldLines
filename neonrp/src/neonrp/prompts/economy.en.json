@@ -1,0 +1,21 @@
+{
+ "_doc": "packs/mixins/economy.py: the variable docs it registers (the model reads them each turn)",
+ "doc_stock": "stock of {good} in {town} (changed by trade, production / consumption and caravans; do not set it directly)",
+ "doc_price": "price of {good} in {town} (copper)",
+ "doc_inv": "the {good} you are carrying ({unit})",
+ "doc_index": "price index (100 = base price)",
+ "op_trade": "the player buys / sells in a town market (trade grain 3; negative qty sells at 85 %)",
+ "op_new_caravan": "world rule: a caravan sets out when the price gap is wide enough (the engine does it; do not write this op in the narration)",
+ "op_haul": "world rule: a caravan travels one leg",
+ "op_deliver": "world rule: a caravan delivers",
+ "op_rob": "world rule: a caravan is robbed",
+ "market_line": "This world has a real market: prices move with stock and rumour, and caravans carry goods from town to town. Use the trade op when someone buys or sells; the going rate is the variable table's price.* / stock.* — never invent a price.",
+ "caravan_render": "- {id} {name}: {qty} {unit} {good_name} {from}→{to} {status} ({left} turns to go)",
+ "rf_no_market": "this world has no market",
+ "rf_not_at_market": "you are not in a town with a market",
+ "rf_no_good": "no such goods: {good}",
+ "rf_qty_zero": "the quantity cannot be 0",
+ "rf_stock_low": "only {stock} {unit} of {name} left",
+ "rf_no_money": "not enough money: {need} copper needed, you have {have}",
+ "rf_have_only": "you have only {have} {unit} of {name}"
+}

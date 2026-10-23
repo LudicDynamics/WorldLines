@@ -1,0 +1,50 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "Goblin Ambush · SRD 5.2",
+  "summary": "A dusk forest path; a goblin leaps from the shrubs. You command three adventurers and take it down by SRD 5.2 rules.",
+  "startup": {
+    "read_first": [
+      "{{DATA_DIR}}/meta/run_state.json",
+      "{{DATA_DIR}}/location/forest-path.json",
+      "{{DATA_DIR}}/party/aldric.json",
+      "{{DATA_DIR}}/party/bree.json",
+      "{{DATA_DIR}}/party/merrin.json",
+      "{{DATA_DIR}}/npc/goblin.json",
+      "{{DATA_DIR}}/rules/combat-5e.md"
+    ],
+    "start_location": "forest-path",
+    "agent_routing": {
+      "entry_agent": "world-agent",
+      "router_type": "sticky"
+    },
+    "opening_scene": {
+      "zh": "【哥布林遭遇战 · SRD 5.2】\n\n黄昏的林道。你带着三名冒险者——奥德里克(战士)、布丽(游荡者)、梅林(法师)——正穿过这片树林。\n\n灌木一阵晃动。一只哥布林举着弯刀跳了出来,黄眼睛在暗处发亮。\n\n这是一场遭遇战:你指挥这三人,按 SRD 5.2 规则战斗——掷先攻、d20 命中、骰伤害,把哥布林放倒。它只有一只,但别大意:哥布林滑不溜手,见势不妙会逃。\n\n先攻开始。",
+      "en": "[Goblin Ambush · SRD 5.2]\n\nA forest path at dusk. You lead three adventurers — Aldric (Fighter), Bree (Rogue), Merrin (Wizard) — through the woods.\n\nThe shrubs shudder. A goblin springs out brandishing a scimitar, yellow eyes glinting in the gloom.\n\nThis is an encounter: you command these three and fight by SRD 5.2 rules — roll initiative, d20 to hit, roll damage, and put the goblin down. There's only one, but don't get careless: goblins are slippery and will flee when the tide turns.\n\nInitiative begins.",
+      "ja": "【ゴブリン遭遇戦 · SRD 5.2】\n\n黄昏の林道。あなたは三人の冒険者——アルドリック(ファイター(戦士))、ブリー(ローグ(盗賊))、メリン(ウィザード(魔法使い))——を率いてこの森を抜けようとしている。\n\n茂みが一瞬揺れる。一体のゴブリンが曲刀を掲げて飛び出し、黄色い目が暗がりで光る。\n\nこれは遭遇戦だ:あなたはこの三人を指揮し、SRD 5.2 のルールに従って戦う——イニシアチブを振り、d20 で命中させ、ダメージを振り、ゴブリンを倒す。一体だけだが油断するな:ゴブリンはすばしこく、形勢が悪くなれば逃げる。\n\nイニシアチブ、開始。",
+      "ko": "【고블린 매복전 · SRD 5.2】\n\n황혼의 숲길. 너는 세 명의 모험가——알드릭(파이터), 브리(로그), 메린(위저드)——를 이끌고 이 숲을 가로지르고 있다.\n\n덤불이 한 차례 흔들린다. 고블린 한 마리가 곡도를 치켜들고 튀어나온다, 노란 눈이 어둠 속에서 번뜩인다.\n\n이것은 매복전이다: 너는 이 셋을 지휘해 SRD 5.2 규칙에 따라 싸운다——우선권을 굴리고, d20으로 명중을 따지고, 피해를 굴려 고블린을 쓰러뜨린다. 한 마리뿐이지만 방심하지 마라: 고블린은 약삭빠르고, 형세가 불리하면 도망친다.\n\n우선권 시작."
+    },
+    "opening_choices": {
+      "zh": [
+        "掷先攻,开始战斗",
+        "先看看三名冒险者的状态",
+        "查看哥布林"
+      ],
+      "en": [
+        "Roll initiative, start combat",
+        "First, check the three adventurers' status",
+        "Inspect the goblin"
+      ],
+      "ja": [
+        "イニシアチブを振って戦闘開始",
+        "まず三人の冒険者の状態を見る",
+        "ゴブリンを確認する"
+      ],
+      "ko": [
+        "우선권을 굴려 전투 시작",
+        "먼저 세 모험가의 상태를 살펴본다",
+        "고블린을 살펴본다"
+      ]
+    }
+  }
+}

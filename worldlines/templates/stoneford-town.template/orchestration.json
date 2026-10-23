@@ -1,0 +1,110 @@
+{
+ "nodes": {
+  "interaction": {
+   "kind": "interaction",
+   "title": "交互(游戏客户端)",
+   "group": true
+  },
+  "interaction.move": {
+   "kind": "interaction",
+   "title": "换场景",
+   "tools": [
+    "move_to",
+    "gates",
+    "triggers",
+    "scene line"
+   ]
+  },
+  "interaction.examine": {
+   "kind": "interaction",
+   "title": "查看",
+   "tools": [
+    "triggers",
+    "scene line"
+   ]
+  },
+  "interaction.talk": {
+   "kind": "interaction",
+   "title": "交谈",
+   "tools": [
+    "the person's agent",
+    "triggers"
+   ]
+  },
+  "interaction.approach": {
+   "kind": "interaction",
+   "title": "做法",
+   "tools": [
+    "check",
+    "cares",
+    "the person's agent",
+    "effects"
+   ]
+  },
+  "interaction.encounter": {
+   "kind": "interaction",
+   "title": "遭遇",
+   "tools": [
+    "combat"
+   ]
+  }
+ },
+ "add": [
+  {
+   "id": "*>interaction.move",
+   "from": "*",
+   "to": "interaction.move",
+   "on": {
+    "interaction": "move"
+   },
+   "return_to": true,
+   "return": true
+  },
+  {
+   "id": "*>interaction.examine",
+   "from": "*",
+   "to": "interaction.examine",
+   "on": {
+    "interaction": "examine"
+   },
+   "return_to": true,
+   "return": true
+  },
+  {
+   "id": "*>interaction.talk",
+   "from": "*",
+   "to": "interaction.talk",
+   "on": {
+    "interaction": "talk"
+   },
+   "return_to": true,
+   "return": true
+  },
+  {
+   "id": "*>interaction.approach",
+   "from": "*",
+   "to": "interaction.approach",
+   "on": {
+    "interaction": "approach"
+   },
+   "return_to": true,
+   "return": true
+  },
+  {
+   "id": "*>interaction.encounter",
+   "from": "*",
+   "to": "interaction.encounter",
+   "on": {
+    "interaction": "encounter"
+   }
+  },
+  {
+   "id": "interaction.encounter>combat",
+   "from": "interaction.encounter",
+   "to": "combat",
+   "on": {
+    "op": "combat"
+   }
+  }
+ ]
+}

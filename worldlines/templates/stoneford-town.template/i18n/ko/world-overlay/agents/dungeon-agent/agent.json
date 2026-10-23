@@ -1,0 +1,55 @@
+{
+  "id": "dungeon-agent",
+  "name": "Dungeon Agent",
+  "description": "RPG 던전 에이전트. 던전 탐색, 방 사이 이동, 조우 발생, 보스전을 처리한다. scope=='dungeon'이고 플레이어가 던전 안에서 활동할 때 쓴다.",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "triggers": [],
+  "tags": [
+    "dungeon",
+    "exploration",
+    "encounter"
+  ],
+  "priority": 50,
+  "permissions": {
+    "read_globs": [
+      "game/dungeons/*/dungeon.json",
+      "game/dungeons/*/layout.json",
+      "game/dungeons/*/rooms/*.json",
+      "game/dungeons/*/encounter_tables.json",
+      "game/dungeons/*/loot_tables.json",
+      "game/player/stats.json",
+      "game/player/inventory.json",
+      "game/player/equipment.json",
+      "game/player/flags.json",
+      "game/rules/combat_rules.md",
+      "game/meta/run_state.json"
+    ],
+    "write_globs": [
+      "game/dungeons/*/layout.json",
+      "game/dungeons/*/rooms/*.json",
+      "game/player/flags.json"
+    ],
+    "deny_globs": [
+      ".neonrp/**"
+    ],
+    "direct_write_globs": [
+      "game/dungeons/*/layout.json",
+      "game/dungeons/*/rooms/*.json",
+      "game/player/flags.json",
+      "game/world/world_map.json"
+    ]
+  },
+  "defaults": {
+    "context_limit": 20,
+    "temperature": 0.8
+  },
+  "presentation_roles": {
+    "en": "Dungeon",
+    "zh": "地城",
+    "ja": "ダンジョン",
+    "ko": "던전"
+  },
+  "presentation_hidden": false
+}

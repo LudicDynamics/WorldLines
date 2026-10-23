@@ -1,0 +1,17 @@
+{
+  "id": "old-sage",
+  "kind": "npc",
+  "name": "Old Sage",
+  "tags": [
+    "npc",
+    "quest-giver"
+  ],
+  "summary": "A wise elder who guides new adventurers.",
+  "hp": 50,
+  "max_hp": 50,
+  "gold": 200,
+  "level": 10,
+  "location": "start-town",
+  "inventory": []
+}
+

@@ -1,0 +1,53 @@
+{
+  "version": "1.0",
+  "execution_mode": "orchestrator",
+  "note": "世界线收束 · 多 agent 编排。world-agent 是 Layer 1:解析玩家短信、调度 specialist、把结果写回 state、叙述。worldline-agent 算当前分歧率 + 域;drift-agent 算一次改动的漂移 + 收束。specialist 只返回 JSON,world-agent 负责落盘。",
+  "agents": [
+    {
+      "id": "world-agent",
+      "name": "Narrator",
+      "agent_path": ".claude/agents/world-agent.md",
+      "role": "Layer 1 — 叙述 + 短信解析 + 调度 + 写回 state",
+      "description": "读 timeline / worldline_state,把玩家短信解析成对某个过去事件的改动,调 drift-agent 算漂移、worldline-agent 重算分歧率,**把结果写回 timeline + worldline_state**,再织成第二人称剧情并给选项。所有玩家输入先经过它。",
+      "read_globs": ["game/**"],
+      "write_globs": [
+        "game/meta/run_state.json",
+        "game/meta/active-agent.json",
+        "game/meta/timeline.json",
+        "game/meta/worldline_state.json"
+      ]
+    },
+    {
+      "id": "worldline-agent",
+      "name": "Worldline Calculator",
+      "agent_path": ".claude/agents/worldline-agent.md",
+      "role": "Layer 2 — 算当前世界线(分歧率 + 域)",
+      "description": "读当前 timeline,基于事件偏离原线的数量与深度算出 divergence 数值并定位 α/β/γ 域。返回结构化 JSON,不写散文、不落盘(world-agent 负责写)。Temp 0.2。",
+      "read_globs": [
+        "game/meta/timeline.json",
+        "game/meta/worldline_state.json"
+      ],
+      "write_globs": []
+    },
+    {
+      "id": "drift-agent",
+      "name": "Drift Judge",
+      "agent_path": ".claude/agents/drift-agent.md",
+      "role": "Layer 2 — 算漂移偏移量 + 收束判定",
+      "description": "对比改动前后的某个 timeline 事件,按因果深度、是否碰 locked 吸引子,算出 divergence 的 delta;碰吸引子触发收束补偿(几乎不动)。返回结构化判定,不写散文、不落盘。Temp 0.2。",
+      "read_globs": [
+        "game/meta/timeline.json",
+        "game/meta/worldline_state.json"
+      ],
+      "write_globs": []
+    }
+  ],
+  "routing_doctrine": {
+    "all_player_input_passes_through": "world-agent",
+    "drift_of_a_change_routes_to": "drift-agent",
+    "current_worldline_routes_to": "worldline-agent",
+    "specialists_return_json_world_agent_persists": true,
+    "no_specialist_writes_prose": true,
+    "max_call_chain_depth_per_turn": 3
+  }
+}

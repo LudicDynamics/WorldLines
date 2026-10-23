@@ -1,0 +1,21 @@
+{
+  "level": "D001",
+  "fit": {
+    "px": 260,
+    "py": 220,
+    "x0": 0.0,
+    "y0": -5.0,
+    "sx": 50.8,
+    "sy": 58.4
+  },
+  "size": [
+    1536,
+    1024
+  ],
+  "layout_hash": "5c008e7b1961",
+  "backend": "codex",
+  "model": "codex",
+  "prompt": "Turn this layout sketch into a painted top-down dungeon map of 「モスバロウ地下墓所」 (湿った古墓/苔/囁き). STRICTLY keep each room exactly where a chamber is drawn and corridors along the drawn lines.\nPlaces (content only — positions come from the sketch):\n- entrance chamber 「潮門の前室」: 石の扉が半ば開き、湿った冷気が流れ出してくる。壁際には何かを引きずった跡が残っている。\n- corridor 「苔の回廊」: 長い回廊の両側で、苔が息をするように膨らんではしぼむ。ときおり、かすかな囁き声が聞こえる。\n- chamber 「祭壇の間」: 割れた祭壇に蝋が垂れ固まっている。空気には甘ったるい血の匂いが混じる。\n- inner sanctum 「棺の囁く内殿」: 中央の棺がかすかに震えている。まるで笑いを噛み殺しているかのように。それがこちらを「見て」いるのが分かる。\nStyle: Painterly dark-fantasy illustration, muted foggy palette (slate blue, moss green, warm lantern amber), cinematic, highly detailed, no text, no labels, no letters, no UI.",
+  "generated_at": "2026-09-25T23:01:55",
+  "guide": "D001.guide.png"
+}

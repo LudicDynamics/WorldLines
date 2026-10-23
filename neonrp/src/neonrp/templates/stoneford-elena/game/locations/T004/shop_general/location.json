@@ -1,0 +1,14 @@
+{
+  "id": "shop_general",
+  "name": "石锤杂货铺",
+  "type": "facility",
+  "facility_file": "facilities/shop_general.json",
+  "description": "矿工和冒险者的补给站。从绳索到炸药，从口粮到地图，应有尽有。",
+  "pos": {
+    "x": 420,
+    "y": 380
+  },
+  "connections": [
+    "main_street"
+  ]
+}

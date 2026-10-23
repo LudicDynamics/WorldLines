@@ -1,0 +1,48 @@
+{
+ "_doc": "引擎内置成就(core/achievements.py):id → title / desc。",
+ "ui": {
+  "unlocked": "업적 달성"
+ },
+ "builtin": {
+  "first_ending": {
+   "title": "첫 결말",
+   "desc": "처음으로 이야기를 결말까지 걸었다."
+  },
+  "true_ending": {
+   "title": "진상",
+   "desc": "한 세계의 진 결말에 이르렀다."
+  },
+  "all_endings": {
+   "title": "모든 길",
+   "desc": "한 세계의 모든 결말을 보았다."
+  },
+  "quiz_perfect": {
+   "title": "진상 세 문제",
+   "desc": "정산 때 진상 세 문제를 모두 맞혔다."
+  },
+  "first_character": {
+   "title": "첫 동료",
+   "desc": "처음으로 캐릭터를 데려왔다."
+  },
+  "characters_5": {
+   "title": "다섯 이름",
+   "desc": "모두 다섯 캐릭터를 데려왔다."
+  },
+  "places_5": {
+   "title": "걸어 보기",
+   "desc": "한 세계에서 다섯 장소를 찾았다."
+  },
+  "places_10": {
+   "title": "길잡이",
+   "desc": "한 세계에서 열 장소를 찾았다."
+  },
+  "first_milestone": {
+   "title": "첫 이정표",
+   "desc": "오픈 어드벤처에서 처음으로 이정표에 닿았다."
+  },
+  "run_complete": {
+   "title": "한 판을 끝까지",
+   "desc": "이 세계의 한 판을 끝까지 플레이했다."
+  }
+ }
+}

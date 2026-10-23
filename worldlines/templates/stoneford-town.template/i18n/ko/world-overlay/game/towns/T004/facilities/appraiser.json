@@ -1,0 +1,42 @@
+{
+  "facility_id": "appraiser_T004",
+  "name": "까마귀눈 감정소",
+  "services": [
+    {
+      "name": "일반 광석 감정",
+      "price": 5,
+      "description": "흔한 광석의 종류와 품질을 감정"
+    },
+    {
+      "name": "특수 물품 감정",
+      "price": 15,
+      "description": "희귀 광석, 보석, 마법 재료의 속성을 감정"
+    },
+    {
+      "name": "정밀 분석",
+      "price": 50,
+      "description": "정체불명이거나 이상한 물건을 깊이 분석한다. 숨겨진 속성이 드러날 수도 있다"
+    }
+  ],
+  "buys": [
+    {
+      "category": "원광",
+      "price_range": "5-30",
+      "note": "품질에 따라 달라짐"
+    },
+    {
+      "category": "보석(세공된 것)",
+      "price_range": "20-200",
+      "note": "종류와 품질에 따라 달라짐"
+    },
+    {
+      "category": "수정",
+      "price_range": "10-80",
+      "note": "순도에 따라 달라짐"
+    }
+  ],
+  "special_note": "까마귀눈 밴스 영감은 플레이어 배낭 속 '빛바랜 녹색 보석'에 특별한 반응을 보인다. 색이 다른 두 눈이 동시에 빛나며, 이건 평범한 광석이 아니라고 말한다.",
+  "state": {
+    "available": true
+  }
+}

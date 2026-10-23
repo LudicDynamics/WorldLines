@@ -1,0 +1,1 @@
+"""NeonRP TUI package."""

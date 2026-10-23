@@ -1,0 +1,19 @@
+{
+  "sid": "chara",
+  "relationships": {
+    "owner": {
+      "name": "埃德蒙·格雷伍德",
+      "disposition": "舅舅;每个夏天的家,每个月一封信",
+      "known": true
+    },
+    "butler": {
+      "name": "奥斯温",
+      "disposition": "从小削苹果给她的人;现在她觉得他在瞒什么",
+      "known": true
+    },
+    "player": {
+      "disposition": "她请来的调查员;想信任,又怕被当成小孩",
+      "known": true
+    }
+  }
+}

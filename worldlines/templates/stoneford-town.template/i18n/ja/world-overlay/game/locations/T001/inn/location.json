@@ -1,0 +1,25 @@
+{
+  "id": "inn",
+  "name": "リバーランプ亭",
+  "type": "facility",
+  "facility_file": "facilities/inn.json",
+  "pos": {
+    "x": 621,
+    "y": 268
+  },
+  "connections": [
+    "main_street",
+    "market-square"
+  ],
+  "kind": "location",
+  "tags": [
+    "town",
+    "inn",
+    "mira"
+  ],
+  "summary": "川べりの小さな宿。木の窓にはどこよりも早く灯がともる。噂を拾うにも、温かいスープにありつくにも、そして霧の町の息づかいを初めて確かめるにも、うってつけの場所だ。",
+  "notes": "ストーンフォードの予備の宿場面。",
+  "aliases": [
+    "riverlamp-inn"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+ "_doc": "移动判定的结论文字(进模型的提示与拒绝理由,10-06)",
+ "unresolved": "移动目标为空或无法解析",
+ "no_node": "{town} 没有节点 '{node}'(有效节点如:{some})",
+ "entered": "进入 {town},落在 {node}",
+ "no_route": "世界地图上 {a} 与 {b} 之间没有路线,无法前往",
+ "to_gate": "跨镇太远,本回合到 {town}/{gate}({gate_name}),下回合可入 {next}",
+ "via": "前往 {town} 需途经 {next},本回合到 {landing},下回合可继续",
+ "no_node_gate": "{town} 没有节点 '{node}',本回合落在城门 {gate}(有效节点如:{some})"
+}

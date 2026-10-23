@@ -1,0 +1,15 @@
+{
+  "standalone": true,
+  "name": "Traveler",
+  "name_local": "Traveler",
+  "background": "An amnesiac traveler who woke outside Stoneford's north gate, unable to recall even who they are",
+  "class": "Swordsman",
+  "origin": "unknown",
+  "summary": "A person who has lost their memory, newly arrived in Stoneford. The skills remain; the name and the past are forgotten — identity is for the player to recover or define. Elena Vale is the name of someone else in these parts, not you.",
+  "intro_i18n": {
+    "en": "An amnesiac who just woke outside Stoneford's north gate. The skills are still there; the name and the past are gone — your identity is yours to recover or define.",
+    "zh": "一个刚在石津镇北门外醒来的失忆者。身手还在，名字与来历却已不记得——身份要靠你自己找回或定义。",
+    "ja": "石津の町の北門の外で目を覚ましたばかりの記憶喪失者。腕は残っているが、名も来歴も消えている——己の身元は、自ら取り戻すか、定めるかだ。",
+    "ko": "스톤포드 북문 밖에서 막 깨어난 기억상실자. 솜씨는 남아 있지만 이름과 과거는 사라졌다. 정체는 당신이 되찾거나 스스로 정의해야 한다."
+  }
+}

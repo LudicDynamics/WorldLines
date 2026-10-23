@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "sid": "rowan",
+  "name": "Rowan Pike",
+  "name_local": "罗文",
+  "version": "1.0",
+  "created_at": "2026-05-17T00:00:00Z",
+  "source": {
+    "kind": "builtin",
+    "hash": "stonefordelena001",
+    "version": "1.0"
+  },
+  "agent_template": "heroine-classic",
+  "intro_i18n": {
+    "en": "A road-bred adventurer with a quick grin and a quicker eye for exits — smart enough to survive, vain enough to want a legend instead of just a wage.",
+    "zh": "在路上长大的冒险者，笑得快、找退路更快——聪明得足以活命，虚荣得只想要个传奇，而不只是一份工钱。",
+    "ja": "街道育ちの冒険者。笑みは速く、逃げ道を探す目はもっと速い——生き延びる賢さと、賃金ではなく伝説を欲しがる虚栄を併せ持つ。",
+    "ko": "길에서 자란 모험가로, 웃음은 빠르고 도망칠 길을 보는 눈은 더 빠르다. 살아남을 만큼 영리하고, 품삯이 아니라 전설을 원할 만큼 허영심이 있다."
+  },
+  "tags": [
+    "npc",
+    "bro",
+    "scout",
+    "bishi-town"
+  ],
+  "takeable": false
+}

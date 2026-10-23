@@ -1,0 +1,59 @@
+{
+  "hp": {
+    "current": 12,
+    "max": 12
+  },
+  "san": {
+    "current": 55,
+    "max": 99
+  },
+  "attributes": {
+    "str": 10,
+    "con": 12,
+    "siz": 12,
+    "dex": 13,
+    "app": 11,
+    "int": 14,
+    "pow": 11,
+    "edu": 15
+  },
+  "skills": [
+    {
+      "name": "侦查",
+      "value": 60
+    },
+    {
+      "name": "聆听",
+      "value": 45
+    },
+    {
+      "name": "查阅资料",
+      "value": 55
+    },
+    {
+      "name": "心理学",
+      "value": 40
+    },
+    {
+      "name": "急救",
+      "value": 45
+    },
+    {
+      "name": "开锁",
+      "value": 30
+    },
+    {
+      "name": "说服",
+      "value": 35
+    },
+    {
+      "name": "格斗",
+      "value": 40
+    },
+    {
+      "name": "闪避",
+      "value": 30
+    }
+  ],
+  "status_effects": []
+}

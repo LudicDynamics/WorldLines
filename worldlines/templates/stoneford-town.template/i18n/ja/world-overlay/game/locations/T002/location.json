@@ -1,0 +1,18 @@
+{
+  "id": "T002",
+  "type": "town",
+  "name": "ウィンドステイ砦",
+  "region": "Northvale",
+  "pos": [
+    5,
+    10
+  ],
+  "summary": "街道の要塞。巡回隊が駐屯し、規律が厳しい。",
+  "state": {
+    "discovered": false,
+    "danger_nearby": 1
+  },
+  "connections": [
+    "T001"
+  ]
+}

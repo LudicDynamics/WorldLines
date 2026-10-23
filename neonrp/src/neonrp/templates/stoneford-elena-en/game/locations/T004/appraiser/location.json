@@ -1,0 +1,14 @@
+{
+  "id": "appraiser",
+  "name": "Crow-Eye Appraisals",
+  "type": "facility",
+  "facility_file": "facilities/appraiser.json",
+  "description": "The shop of the ore appraiser Old Fan, 'Crow-Eye.' They say those mismatched eyes of his can see through the true nature of any ore.",
+  "pos": {
+    "x": 500,
+    "y": 320
+  },
+  "connections": [
+    "main_street"
+  ]
+}

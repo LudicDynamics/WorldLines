@@ -1,0 +1,16 @@
+{
+  "sid": "hane",
+  "instance_id": "si-hane0001",
+  "location": "south-shore",
+  "status": {
+    "hp": 100,
+    "max_hp": 100,
+    "memory": "amnesia",
+    "mood": "yearning"
+  },
+  "turn_count": 0,
+  "loop_state": {
+    "has_memory": false,
+    "residual": "none"
+  }
+}

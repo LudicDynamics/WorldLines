@@ -1,0 +1,14 @@
+{
+  "id": "chapel",
+  "name": "暁光の礼拝堂",
+  "type": "facility",
+  "facility_file": "facilities/chapel.json",
+  "description": "光の神を祀る白い石造りの小さな礼拝堂。ジェイドストーンの喧騒の中で、ここだけがひときわ厳かに静まり返っている。鉄柱が前にここの話をしていた。",
+  "pos": {
+    "x": 700,
+    "y": 200
+  },
+  "connections": [
+    "east_street"
+  ]
+}

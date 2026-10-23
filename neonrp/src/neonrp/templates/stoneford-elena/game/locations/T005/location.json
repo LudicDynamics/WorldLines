@@ -1,0 +1,20 @@
+{
+  "id": "T005",
+  "type": "city",
+  "name": "雾湖城",
+  "region": "Northvale",
+  "pos": [
+    8,
+    15
+  ],
+  "summary": "灰雾北境的首府，领主府邸所在，繁华的贸易中心。",
+  "state": {
+    "discovered": false,
+    "danger_nearby": 1
+  },
+  "travel_info": {
+    "from_T001": "5-6天路程"
+  },
+  "connections": [],
+  "isolated": true
+}

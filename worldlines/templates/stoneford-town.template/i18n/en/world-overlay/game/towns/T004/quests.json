@@ -1,0 +1,57 @@
+{
+  "town_id": "T004",
+  "quests": [
+    {
+      "qid": "Q_T004_01",
+      "title": "Strange Sounds Deep in the Mine",
+      "tier": 2,
+      "summary": "Unexplained sounds are coming from the mine's third level, and the miners refuse to go down to work. Investigate the cause and remove the threat.",
+      "reward": {
+        "gold": 60,
+        "item": {
+          "id": "raw_crystal",
+          "name": "Uncut Crystal",
+          "qty": 2
+        }
+      },
+      "hooks": [
+        "mine_entrance"
+      ],
+      "state": "available"
+    },
+    {
+      "qid": "Q_T004_02",
+      "title": "Guardian of the Jade Vein",
+      "tier": 3,
+      "summary": "Something dwells deep in the newly discovered jade vein. The mining company is offering a high bounty to clear it out.",
+      "reward": {
+        "gold": 150
+      },
+      "hooks": [
+        "mine_entrance"
+      ],
+      "requires": [
+        "Q_T004_01_completed"
+      ],
+      "state": "locked"
+    },
+    {
+      "qid": "Q_T004_03",
+      "title": "Herb Gathering: Evening Primrose",
+      "tier": 1,
+      "summary": "Granny Green needs evening primrose from the hillside beyond the mine. Gather 5 stalks.",
+      "reward": {
+        "gold": 15,
+        "item": {
+          "id": "healing_salve",
+          "name": "Healing Salve",
+          "qty": 2
+        }
+      },
+      "hooks": [
+        "herb_shop"
+      ],
+      "state": "available"
+    }
+  ]
+}

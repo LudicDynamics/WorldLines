@@ -1,0 +1,43 @@
+{
+ "job_states": {
+  "offered": "受注可",
+  "active": "進行中",
+  "done": "完了",
+  "failed": "失敗",
+  "abandoned": "放棄"
+ },
+ "exits": {
+  "ending": "結末までたどり着く",
+  "ending:accusation": "犯人を名指しして結末へ",
+  "segment:day": "一日ずつ過ごす",
+  "segment:date": "デートを一回ずつ",
+  "segment": "一区切りずつ"
+ },
+ "job_words": {
+  "offered": [
+   "受注可",
+   "受付中",
+   "未受注"
+  ],
+  "active": [
+   "進行中",
+   "受注済み",
+   "受注"
+  ],
+  "done": [
+   "完了",
+   "達成"
+  ],
+  "failed": [
+   "失敗"
+  ],
+  "abandoned": [
+   "放棄",
+   "破棄"
+  ],
+  "hidden": [
+   "未解放",
+   "ロック"
+  ]
+ }
+}

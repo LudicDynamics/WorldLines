@@ -1,0 +1,10 @@
+{
+  "sid": "elena",
+  "relationships": {
+    "rowan": {
+      "disposition": "not_met",
+      "known": false,
+      "truth": "ローワンはジェイドストーンで動いているもう一人の soul だが、エレナはまだ彼を知らない"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "T001",
+  "name": "스톤포드",
+  "region": "Northvale",
+  "overview": "강 항구의 교역 마을. 고기잡이와 역로로 먹고산다. 안개와 옛 무덤에 얽힌 소문 탓에 사람들이 유난히 미신을 믿는다.",
+  "entry_points": [
+    "gate_north",
+    "dock"
+  ],
+  "tags": [
+    "river",
+    "trade",
+    "superstition"
+  ],
+  "economy": {
+    "price_index": 1.0,
+    "specialties": [
+      "염장 생선",
+      "강옥돌"
+    ]
+  },
+  "laws": {
+    "weapon_policy": "peace-bonded_in_townhall"
+  },
+  "state": {
+    "alert": 0,
+    "recent_events": []
+  }
+}

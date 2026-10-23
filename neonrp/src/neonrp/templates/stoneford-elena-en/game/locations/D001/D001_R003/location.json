@@ -1,0 +1,11 @@
+{
+  "id": "D001_R003",
+  "name": "Offering-Table Chamber",
+  "type": "chamber",
+  "connections": [
+    "D001_R002"
+  ],
+  "state": {
+    "explored": false
+  }
+}

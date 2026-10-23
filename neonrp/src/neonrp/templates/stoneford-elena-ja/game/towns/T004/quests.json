@@ -1,0 +1,49 @@
+{
+  "town_id": "T004",
+  "quests": [
+    {
+      "qid": "Q_T004_01",
+      "title": "坑道の奥の異音",
+      "tier": 2,
+      "summary": "鉱区の第三層から正体不明の物音が響き、鉱夫たちが下りて作業するのを拒んでいる。原因を調べ、脅威を取り除く。",
+      "reward": {
+        "gold": 60,
+        "item": {
+          "id": "raw_crystal",
+          "name": "未研磨の水晶",
+          "qty": 2
+        }
+      },
+      "hooks": ["mine_entrance"],
+      "state": "available"
+    },
+    {
+      "qid": "Q_T004_02",
+      "title": "翡翠鉱脈の守り手",
+      "tier": 3,
+      "summary": "新たに見つかった翡翠鉱脈の奥深くに、何かの生き物が棲みついている。鉱業会社が高額の賞金をかけて駆除を求めている。",
+      "reward": {
+        "gold": 150
+      },
+      "hooks": ["mine_entrance"],
+      "requires": ["Q_T004_01_completed"],
+      "state": "locked"
+    },
+    {
+      "qid": "Q_T004_03",
+      "title": "薬草採集：月見草",
+      "tier": 1,
+      "summary": "グリン婆さんが、鉱区の外の山の斜面に生える月見草を必要としている。5株 採取すればよい。",
+      "reward": {
+        "gold": 15,
+        "item": {
+          "id": "healing_salve",
+          "name": "治癒の軟膏",
+          "qty": 2
+        }
+      },
+      "hooks": ["herb_shop"],
+      "state": "available"
+    }
+  ]
+}

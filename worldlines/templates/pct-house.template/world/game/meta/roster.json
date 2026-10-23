@@ -1,0 +1,22 @@
+{
+  "id": "roster",
+  "kind": "meta",
+  "name": "cast roster",
+  "note": "玩家是调查员;chara 温妮是委托人,butler 奥斯温是管家(都是 soul)。宅主人埃德蒙·格雷伍德不出场:只以门厅的肖像和那只停了的怀表出现(见 lore/story.md)。",
+  "player": {
+    "pid": "player",
+    "state_path": "game/player"
+  },
+  "souls": [
+    {
+      "sid": "chara",
+      "instance_id": "si-chara0001",
+      "note": "委托人 温妮"
+    },
+    {
+      "sid": "butler",
+      "instance_id": "si-butler0001",
+      "note": "管家 奥斯温"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "D001_R003",
+  "name": "供物台の間",
+  "description": "折れた供物台には蝋の涙が残り、空気には甘く生臭い匂いが混じっている。",
+  "features": [
+    "供物台を漁れる",
+    "罠が作動しうる（簡易）"
+  ],
+  "state": {
+    "explored": false,
+    "cleared": false,
+    "trap_armed": true
+  }
+}

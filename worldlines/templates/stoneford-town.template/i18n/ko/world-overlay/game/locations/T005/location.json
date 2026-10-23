@@ -1,0 +1,20 @@
+{
+  "id": "T005",
+  "type": "city",
+  "name": "미스트레이크",
+  "region": "Northvale",
+  "pos": [
+    8,
+    15
+  ],
+  "summary": "잿빛안개 북방의 수도. 영주의 저택이 있는 번화한 교역의 중심지다.",
+  "state": {
+    "discovered": false,
+    "danger_nearby": 1
+  },
+  "travel_info": {
+    "from_T001": "5~6일 길"
+  },
+  "connections": [],
+  "isolated": true
+}

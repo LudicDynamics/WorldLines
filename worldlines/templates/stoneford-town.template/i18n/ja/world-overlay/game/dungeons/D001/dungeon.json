@@ -1,0 +1,17 @@
+{
+  "id": "D001",
+  "name": "モスバロウ地下墓所",
+  "theme": "湿った古墓/苔/囁き",
+  "danger": 3,
+  "recommended_level": "1-2",
+  "entrance_from": "R002",
+  "boss": {
+    "id": "BOSS001",
+    "name": "囁きの棺",
+    "note": "取引と秘密でプレイヤーを誘惑してくる"
+  },
+  "state": {
+    "discovered": false,
+    "cleared": false
+  }
+}

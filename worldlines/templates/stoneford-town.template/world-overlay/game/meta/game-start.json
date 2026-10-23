@@ -1,0 +1,61 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "石津镇 · 雾退之夜 — 开局",
+  "tags": [
+    "entrypoint",
+    "start",
+    "begin",
+    "开始游戏",
+    "开始冒险"
+  ],
+  "summary": "玩家说「开始游戏」时，orchestrator 先读取本文件。",
+  "startup": {
+    "read_first": [
+      "game/meta/game-start.json",
+      "game/meta/run_state.json",
+      "game/meta/roster.json",
+      "game/timeline/current.json",
+      "game/player/controller.json",
+      "game/player/profile.json",
+      "game/player/stats.json",
+      "game/player/equipment.json",
+      "game/player/wallet.json",
+      "game/towns/T001/town.json",
+      "game/lore/story.md"
+    ],
+    "opening_scene": {
+      "zh": "雾期第五夜。驿路上的雾浓得能拧出水,你在北门外最后一盏灯下停住。守门人卡斯的头盔大了一号,他把长矛横过来:「没公会委托,往北一步都不行——往南进镇倒随你。」门里的石津镇挤满了走不了的人:集市广场停着一排商队马车,旅店的窗比哪儿都亮。卡斯压低声音补了一句:「后天零点,雾会退开一夜。整个镇子都在等那一夜。」",
+      "en": "The fifth night of the fog season. The fog on the post road is thick enough to wring out; you stop under the last lamp outside the north gate. Kas the gate guard, his helmet a size too big, lowers his spear across the way: \"No guild commission, not one step north — south into town, suit yourself.\" Inside, Stone Ford is packed with people who cannot leave: a row of stranded caravan wagons in the market square, the inn's windows brighter than anywhere. Kas adds, quieter: \"The night after tomorrow, at midnight, the fog lifts for one night. The whole town is waiting for it.\""
+    },
+    "opening_choices": {
+      "zh": [
+        "进镇,去旅店打听",
+        "去冒险者公会看委托",
+        "问卡斯:雾退开以后北路通到哪"
+      ],
+      "en": [
+        "Go into town and ask around at the inn",
+        "Check the commissions at the guild",
+        "Ask Kas where the north road leads once the fog lifts"
+      ]
+    }
+  },
+  "world_info": {
+    "world_name": "灰雾北境 Northvale",
+    "start_location": "T001 石津镇",
+    "start_scope": "town",
+    "start_time": {
+      "day": 1,
+      "clock": "08:30"
+    },
+    "genre": "中世纪奇幻 TRPG / heroine-led migration demo",
+    "tone": "真实、潮湿、克制、有后果",
+    "rules": "d20 骰子判定 · 详见 game/rules/combat_rules.md"
+  },
+  "agent_routing": {
+    "entry_agent": "world-agent",
+    "router_type": "sticky",
+    "note": "所有玩家输入都先经过 orchestrator。orchestrator 读 run_state.json 后决定委托给哪个 domain agent。不要绕过 world-agent 直接进 domain agent。"
+  }
+}

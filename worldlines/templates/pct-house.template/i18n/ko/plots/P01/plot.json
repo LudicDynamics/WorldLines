@@ -1,0 +1,351 @@
+{
+  "id": "P01",
+  "title": "닫힌 문",
+  "stages": [
+    {
+      "name": "방문"
+    },
+    {
+      "name": "일기"
+    },
+    {
+      "name": "열쇠"
+    },
+    {
+      "name": "지하실"
+    }
+  ],
+  "stage_var": "P01.stage",
+  "stage_cg": {
+    "1": {
+      "image": "assets/stage-1.webp",
+      "caption": "벽난로에서 건져 낸 일기. 마지막 장: 목요일, 지하실 서쪽 벽을 깨다.",
+      "camera": "벽난로에 바짝 붙은 클로즈업, 불티가 위로 날아오른다",
+      "prompt": "Close shot in the study: the investigator's gloved hand pulls a half-burned leather diary out of the dying embers, ash and sparks floating up; Winnie leans in beside, a letter clutched to her chest, breath held."
+    },
+    "2": {
+      "image": "assets/stage-2.webp",
+      "caption": "화분 밑의 쇠열쇠. 이빨에 갓 묻은 석회가 붙어 있다.",
+      "camera": "낮은 앵글, 화분이 들리는 순간",
+      "prompt": "In the foggy back garden the investigator tips up a clay flower pot; underneath lies an old iron key, its teeth caked with fresh white lime; Winnie crouches beside, eyes going to the cellar hatch."
+    },
+    "3": {
+      "image": "assets/stage-3.webp",
+      "caption": "지하실 서쪽 벽에서 새것은 이 한 부분뿐이다.",
+      "camera": "손전등 불빛이 계단 아래에서 벽까지 밀고 나간다",
+      "prompt": "The cellar from the bottom of the steps: the flashlight beam lands on the fresh pale plaster of the west wall, a thin crack from the floor to eye height; Winnie stops on the steps above and will not come down."
+    }
+  },
+  "entries": {
+    "I801": {
+      "class": "item",
+      "name": "반쯤 탄 일기",
+      "parent": "T001/study",
+      "props": {
+        "summary": "벽난로에서 건져 낸 일기. 마지막 장에는 「목요일, 지하실 서쪽 벽을 깨다」라고 적혀 있다."
+      }
+    },
+    "I802": {
+      "class": "item",
+      "name": "지하실 열쇠",
+      "parent": "T001/garden",
+      "props": {
+        "summary": "뒤뜰 화분 밑에 깔려 있던 쇠열쇠. 이빨에 갓 묻은 석회가 붙어 있다."
+      }
+    },
+    "I803": {
+      "class": "item",
+      "name": "벽의 새 회반죽",
+      "parent": "T001/cellar",
+      "props": {
+        "fixed": true,
+        "summary": "지하실 서쪽 벽에서 이 부분의 석회만 새것이다. 허옇게 보일 만큼 깨끗하고, 급하게 바른 티가 난다. 회반죽 속에 검붉은 천 올 하나가 끼어 있다."
+      }
+    },
+    "I804": {
+      "class": "item",
+      "name": "의뢰 편지",
+      "parent": "player",
+      "props": {
+        "summary": "위니가 보낸 의뢰 편지. 붉은 밀랍으로 봉하고 떡갈잎 문양 인장을 찍었다. 「외삼촌에게서 사흘째 소식이 없습니다. 오즈윈은 외출하셨다고 하지만 저는 믿지 않아요. 일요일 밤 아홉 시, 그레이오크 저택. 부디 와 주세요.」"
+      }
+    },
+    "I805": {
+      "class": "item",
+      "name": "멈춘 회중시계",
+      "parent": "T001/butler_room",
+      "props": {
+        "summary": "집사실 서랍 속에 잠겨 있는 은 회중시계. 뚜껑 안쪽에 「위니에게」라고 새겨져 있고, 바늘은 열한 시 사십 분에 멈춰 있다. 시곗줄에 하얀 석회가 조금 묻어 있다.",
+        "where": "집사실의 잠긴 서랍(자물쇠를 따거나, 오즈윈이 직접 꺼내 오게 한다)"
+      }
+    },
+    "I806": {
+      "class": "item",
+      "name": "저택 주인의 초상화",
+      "parent": "T001/hall",
+      "props": {
+        "fixed": true,
+        "summary": "에드먼드 그레이우드의 반신 초상화. 니스가 거무스름하게 바래 얼굴은 어둠에 묻혀 보이지 않는다. 또렷이 보이는 것은 그가 손에 쥔 회중시계 줄뿐이다."
+      }
+    }
+  },
+  "triggers": {
+    "P01.diary": {
+      "when": {
+        "text": "both"
+      },
+      "if": [
+        {
+          "var": "P01.stage",
+          "<": 1
+        },
+        {
+          "text": [
+            "일기",
+            "일지",
+            "수기",
+            "수첩",
+            "기록장",
+            "노트"
+          ]
+        }
+      ],
+      "once": true,
+      "then": [
+        {
+          "to": "var",
+          "var": "P01.stage",
+          "set": 1
+        }
+      ]
+    },
+    "P01.key": {
+      "when": {
+        "text": "both"
+      },
+      "if": [
+        {
+          "var": "P01.stage",
+          ">=": 1
+        },
+        {
+          "var": "P01.stage",
+          "<": 2
+        },
+        {
+          "text": [
+            "열쇠",
+            "쇠열쇠",
+            "키"
+          ]
+        }
+      ],
+      "once": true,
+      "then": [
+        {
+          "to": "var",
+          "var": "P01.stage",
+          "set": 2
+        }
+      ]
+    },
+    "P01.cellar": {
+      "when": {
+        "entry": "T001/cellar",
+        "event": "enter"
+      },
+      "if": [
+        {
+          "var": "P01.stage",
+          "<": 3
+        }
+      ],
+      "once": true,
+      "then": [
+        {
+          "to": "var",
+          "var": "P01.stage",
+          "set": 3
+        },
+        {
+          "to": "narration",
+          "text": "지하실 서쪽 벽의 석회는 새것이다. 금 하나가 벽 밑동에서부터 당신 눈높이까지 갈라져 올라가 있다."
+        }
+      ]
+    },
+    "P01.truth": {
+      "when": {
+        "text": "player"
+      },
+      "if": [
+        {
+          "var": "P01.stage",
+          ">=": 3
+        },
+        {
+          "text": [
+            "진실",
+            "진상",
+            "털어놓",
+            "밝히겠",
+            "밝혀야",
+            "폭로"
+          ],
+          "in": "player"
+        }
+      ],
+      "once": true,
+      "then": [
+        {
+          "to": "end",
+          "ending": "E01"
+        }
+      ]
+    },
+    "P01.flee": {
+      "when": {
+        "text": "player"
+      },
+      "if": [
+        {
+          "var": "P01.stage",
+          ">=": 1
+        },
+        {
+          "text": [
+            "여기서 나가",
+            "여기를 떠나",
+            "도망",
+            "달아나",
+            "빠져나가"
+          ],
+          "in": "player"
+        }
+      ],
+      "once": true,
+      "then": [
+        {
+          "to": "end",
+          "ending": "E02"
+        }
+      ]
+    },
+    "P01.fall": {
+      "when": {
+        "var": "player.hp"
+      },
+      "if": [
+        {
+          "var": "player.hp",
+          "<=": 0
+        }
+      ],
+      "once": true,
+      "then": [
+        {
+          "to": "end",
+          "ending": "E09"
+        }
+      ]
+    },
+    "P01.mad": {
+      "when": {
+        "var": "player.san"
+      },
+      "if": [
+        {
+          "var": "player.san",
+          "<=": 0
+        }
+      ],
+      "once": true,
+      "then": [
+        {
+          "to": "end",
+          "ending": "E09"
+        }
+      ]
+    },
+    "P01.watch": {
+      "when": {
+        "entry": "I805",
+        "event": "pick"
+      },
+      "once": true,
+      "then": [
+        {
+          "to": "narration",
+          "text": "뚜껑 안쪽에 짧은 한 줄이 새겨져 있다. 위니에게. 바늘은 열한 시 사십 분에 멈춰 있다."
+        },
+        {
+          "to": "soul",
+          "who": "위니",
+          "text": "외삼촌의 시계다. 그녀는 시곗줄에 난 오래된 긁힌 자국을 알아본다.",
+          "important": true
+        }
+      ]
+    }
+  },
+  "endings": {
+    "E01": {
+      "title": "벽 너머의 사람",
+      "kind": "true",
+      "assets": {
+        "image": "assets/ending-E01.webp"
+      },
+      "text": "멈춘 은 회중시계는 마침내 위니의 손에 들어온다. 뚜껑 안쪽에는 「위니에게」, 바늘은 목요일 밤 열한 시 사십 분에 멈춰 있다——오즈윈이 마지막 회반죽을 바른 바로 그 순간이다. 외삼촌은 마지막 틈 사이로 그것을 내밀며 단 한마디만 남겼다. 그 애가 오거든 주게. 위니는 시계를 귀에 대 본다. 한 사람의 마지막 심장 소리를 듣기라도 하듯이. 벽 너머에서는 더 이상 아무 소리도 나지 않는다. 날이 밝을 무렵, 안개는 골목 어귀 밖으로 물러난다."
+    },
+    "E02": {
+      "title": "안개 속의 퇴로",
+      "kind": "alt",
+      "assets": {
+        "image": "assets/ending-E02.jpg"
+      },
+      "text": "당신들은 저택 앞 돌계단으로 물러나 안개 속으로 걸어 들어간다. 뒤에 남은 그레이오크 저택의 창은 모두 캄캄하다. 땅바닥에 붙은 지하실의 작은 창 하나에만 촛불이 희미하게 켜져 있다. 위니는 한 번도 뒤돌아보지 않다가, 골목 어귀에 이르러서야 걸음을 멈춘다. 「내년에, 다시 올 거예요.」 외삼촌의 회중시계는 아직 그 저택 안에 잠겨 있고, 아무도 그 태엽을 감아 주지 않는다."
+    },
+    "E09": {
+      "title": "그레이오크 저택을 나오지 못했다",
+      "kind": "fail",
+      "assets": {
+        "image": "assets/ending-E09.jpg"
+      },
+      "text": "기름등이 꺼질 때까지도, 당신은 벽의 금을 세고 있었다. 이튿날 아침, 오즈윈은 현관홀의 등을 다시 밝힌다. 남을 위해 덮어 둘 일이 또 하나 늘었다."
+    }
+  },
+  "prompt": {
+    "entries": [
+      {
+        "id": "guide",
+        "when": "always",
+        "text": "숨겨진 본줄기: 서재 벽난로에 반쯤 탄 일기가 있고, 뒤뜰 화분 밑에 지하실 열쇠가 깔려 있으며, 지하실 서쪽 벽에 새로 바른 회반죽(I803)이 있다. 집사실의 씻었는데도 하얀 석회가 말라붙은 쇠양동이, 오즈윈의 오른쪽 바짓단에 묻은 하얀 석회, 저택 주인 침실의 빈 회중시계 받침대는 모두 그 멈춘 회중시계(I805, 집사실 서랍에 잠겨 있다)를 가리킨다. 눈여겨볼 만한 디테일을 자연스럽게 남기되, 대놓고 짚어 주지는 않는다. 저택 주인 에드먼드 그레이우드는 등장하지 않는다. 말하지 않고, 모습을 드러내지 않고, 발견되지도 않으며, 벽 너머는 언제까지나 검은 틈일 뿐이다. 그에 대해 말할 때는 그가 한 일과 그가 남긴 것(현관홀의 초상화 I806, 일기, 회중시계)만 말한다."
+      },
+      {
+        "id": "butler",
+        "when": {
+          "var": "P01.stage",
+          ">=": 2
+        },
+        "text": "열쇠를 찾았다. 오즈윈이 흔들리기 시작한다. 증거를 눈앞에 들이밀면 더는 부인하지 않고, 그가 제 눈으로 보고 제 손으로 한 절반(벽 깨는 소리를 들은 것, 분부대로 벽을 막은 것, 회중시계를 맡아 둔 것)만 말한다. 벽 너머에 무엇이 있는지는 말하지 못한다. 회중시계는 위니 본인에게만 건네려 한다."
+      },
+      {
+        "id": "wall",
+        "when": {
+          "var": "P01.stage",
+          ">=": 3
+        },
+        "text": "플레이어가 지하실에서 벽 틈 너머의 것을 똑똑히 보았을 때, 그 줄에 [san 1/1d6 벽 틈 너머의 것을 봤다]라고 쓴다. 그 뒤에는 돌아온 결과대로 그의 반응을 쓴다. 이 세계에서는 이 항목을 「평정」이라 부르며, 플레이어에게 보이는 글에서는 「평정」이라는 말만 쓴다. 위니는 지하실 계단에 멈춰 서서 내려오려 하지 않는다."
+      },
+      {
+        "id": "endings",
+        "when": {
+          "var": "P01.stage",
+          ">=": 1
+        },
+        "text": "출구는 두 갈래다. 지하실에서 벽을 본 뒤 진실을 털어놓는다(E01, 위니는 마지막에 그 회중시계를 받게 된다). 또는 저택 앞 돌계단으로 돌아가 안개 속으로 물러난다(E02)."
+      }
+    ]
+  },
+  "reveal": {
+    "ko": "저택 주인 에드먼드는 지하실 서쪽 벽을 깨고 벽 너머의 것을 보았다. 그리고 스스로 그 안으로 걸어 들어가, 벽 너머에서 집사 오즈윈에게 벽을 다시 쌓으라고 분부했다. 벽을 막기 전, 그는 마지막 틈 사이로 은 회중시계를 내밀었다. 위니에게. 오즈윈은 그대로 따랐고, 사흘 동안 그를 위해 입을 다물었다."
+  }
+}

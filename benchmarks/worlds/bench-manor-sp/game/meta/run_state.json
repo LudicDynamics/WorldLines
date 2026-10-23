@@ -1,0 +1,8 @@
+{
+ "id": "run_state",
+ "kind": "meta",
+ "name": "Run State",
+ "world_id": "locked_manor",
+ "location": "room0",
+ "turn_count": 0
+}

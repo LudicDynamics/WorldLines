@@ -1,0 +1,12 @@
+{
+  "id": "town-agent",
+  "name": "Town Agent",
+  "delegation_mode": "sticky",
+  "sticky_domain_kinds": ["town"],
+  "permissions": {
+    "read_globs": ["game/**", ".neonrp/manifest.json"],
+    "deny_globs": ["game/meta/active-agent.json"],
+    "write_globs": ["game/**"],
+    "direct_write_globs": ["game/**"]
+  }
+}

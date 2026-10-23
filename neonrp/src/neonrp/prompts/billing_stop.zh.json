@@ -1,0 +1,11 @@
+{
+ "_doc": "ai.worldlines.gg 因额度 / 积分拒绝时给玩家看的话(core/billing_stop.py,10-13)",
+ "quota_exceeded": "Worldlines 的额度用完了。订阅加量,或者在设置里换成你自己的 key。",
+ "insufficient_credits": "Worldlines 额度不够了。充值或订阅,或者在设置里换成你自己的 key。",
+ "claim_required": "今天的免费额度还没领。领取之后再继续。",
+ "debt_limit": "Worldlines 账户欠的额度到上限了。充值或订阅之后再继续。",
+ "plan_required": "这个模型要付费方案才能用。订阅,或者换一个模型。",
+ "guest_not_allowed": "游客用不了这一步,登录 Worldlines 账号后继续。",
+ "guest_world_only": "游客只能在世界里玩,登录 Worldlines 账号后继续。",
+ "hint": "打开:{url}  (输入 /login billing 在浏览器里打开)"
+}

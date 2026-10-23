@@ -1,0 +1,17 @@
+{
+  "id": "D001",
+  "name": "Moss Tomb Hollow",
+  "theme": "damp ancient tomb / moss / whispers",
+  "danger": 3,
+  "recommended_level": "1-2",
+  "entrance_from": "R002",
+  "boss": {
+    "id": "BOSS001",
+    "name": "the Whispering Coffin",
+    "note": "Tempts the player with bargains and secrets"
+  },
+  "state": {
+    "discovered": false,
+    "cleared": false
+  }
+}

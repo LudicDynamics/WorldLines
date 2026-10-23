@@ -1,0 +1,14 @@
+{
+  "id": "guild",
+  "name": "冒险者公会（碧石分部）",
+  "type": "facility",
+  "facility_file": "facilities/guild.json",
+  "description": "公会分部比石津的大得多，常年挤满了接任务的冒险者。门口的告示板贴满了委托单。",
+  "pos": {
+    "x": 280,
+    "y": 180
+  },
+  "connections": [
+    "main_street"
+  ]
+}

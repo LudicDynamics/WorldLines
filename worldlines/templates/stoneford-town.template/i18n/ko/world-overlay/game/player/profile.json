@@ -1,0 +1,15 @@
+{
+  "standalone": true,
+  "name": "나그네",
+  "name_local": "나그네",
+  "background": "스톤포드 북문 밖에서 깨어난 기억 잃은 나그네. 자기가 누구인지조차 떠올리지 못한다",
+  "class": "검사",
+  "origin": "알 수 없음",
+  "summary": "기억을 잃고 막 스톤포드에 닿은 사람. 몸에 밴 솜씨는 남았지만 이름도 내력도 기억나지 않는다. 정체는 플레이어가 직접 되찾거나 정해야 한다. 엘레나 베일은 이 근방에 따로 있는 다른 사람의 이름이며, 당신이 아니다.",
+  "intro_i18n": {
+    "en": "An amnesiac who just woke outside Stone Ford's north gate. The skills are still there; the name and the past are gone — your identity is yours to recover or define.",
+    "zh": "一个刚在石津镇北门外醒来的失忆者。身手还在，名字与来历却已不记得——身份要靠你自己找回或定义。",
+    "ja": "石津の町の北門の外で目を覚ましたばかりの記憶喪失者。腕は残っているが、名も来歴も消えている——己の身元は、自ら取り戻すか、定めるかだ。",
+    "ko": "스톤포드 북문 밖에서 막 깨어난 기억상실자. 솜씨는 남아 있지만 이름과 과거는 사라졌다. 정체는 당신이 되찾거나 스스로 정의해야 한다."
+  }
+}

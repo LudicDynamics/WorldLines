@@ -1,0 +1,16 @@
+{
+  "id": "torn-ticket",
+  "kind": "item",
+  "name": "Torn Ticket",
+  "tags": [
+    "item",
+    "clue",
+    "key-item"
+  ],
+  "summary": "A torn ticket stub found wedged in your seat. The destination is partially illegible: '...nal Sta...' The date reads '19XX'.",
+  "price": 0,
+  "effect": {
+    "type": "clue",
+    "description": "Partial destination and date — a piece of the puzzle"
+  }
+}

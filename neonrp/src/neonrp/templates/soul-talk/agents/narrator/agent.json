@@ -1,0 +1,9 @@
+{
+  "id": "narrator",
+  "name": "Soul Talk",
+  "kind": "agent",
+  "agent_type": "narrator",
+  "mode": "fast",
+  "description": "A single conversational partner. In Soul Talk, the narrator IS the character you're talking to.",
+  "model_ref": "default"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "main_street",
+  "name": "鉱夫大通り",
+  "type": "street",
+  "description": "碧石の町でいちばん広い大通り。トロッコの軌道が路面の中央に埋め込まれ、両側には店や露店がびっしりと並ぶ。人の流れは絶えず、大変なにぎわいだ。",
+  "pos": {
+    "x": 350,
+    "y": 300
+  },
+  "connections": [
+    "gate_west",
+    "guild",
+    "tavern",
+    "shop_general",
+    "herb_shop",
+    "appraiser",
+    "east_street"
+  ]
+}

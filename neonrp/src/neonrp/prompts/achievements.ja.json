@@ -1,0 +1,48 @@
+{
+ "_doc": "引擎内置成就(core/achievements.py):id → title / desc。",
+ "ui": {
+  "unlocked": "実績解除"
+ },
+ "builtin": {
+  "first_ending": {
+   "title": "最初の結末",
+   "desc": "初めて物語を結末まで歩いた。"
+  },
+  "true_ending": {
+   "title": "真相",
+   "desc": "ある世界の真の結末にたどり着いた。"
+  },
+  "all_endings": {
+   "title": "すべての道",
+   "desc": "ひとつの世界のすべての結末を見た。"
+  },
+  "quiz_perfect": {
+   "title": "真相の三問",
+   "desc": "結末の三問にすべて正解した。"
+  },
+  "first_character": {
+   "title": "最初の仲間",
+   "desc": "初めてキャラクターを連れ帰った。"
+  },
+  "characters_5": {
+   "title": "五つの名前",
+   "desc": "連れ帰ったキャラクターが五人になった。"
+  },
+  "places_5": {
+   "title": "歩いてみる",
+   "desc": "ひとつの世界で五つの場所を見つけた。"
+  },
+  "places_10": {
+   "title": "道を知る",
+   "desc": "ひとつの世界で十の場所を見つけた。"
+  },
+  "first_milestone": {
+   "title": "最初の道標",
+   "desc": "オープンアドベンチャーで初めて道標に届いた。"
+  },
+  "run_complete": {
+   "title": "一局を終えて",
+   "desc": "この世界の一局を最後まで遊びきった。"
+  }
+ }
+}

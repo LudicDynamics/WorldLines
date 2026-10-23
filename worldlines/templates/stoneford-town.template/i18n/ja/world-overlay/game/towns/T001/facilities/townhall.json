@@ -1,0 +1,12 @@
+{
+  "facility_id": "townhall_T001",
+  "name": "町役場",
+  "services": [
+    "武器の封印/封印解除",
+    "通行証",
+    "被害の届け出"
+  ],
+  "state": {
+    "weapon_peace_bond_required": true
+  }
+}

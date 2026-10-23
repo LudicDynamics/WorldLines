@@ -1,0 +1,17 @@
+{
+  "facility_id": "inn_T001",
+  "name": "리버램프 여관",
+  "rooms": [
+    {
+      "type": "common",
+      "price": 3,
+      "benefit": "휴식: HP/MP 최대치까지 회복"
+    },
+    {
+      "type": "private",
+      "price": 8,
+      "benefit": "휴식 + 추가: 다음 사교 판정 +1(당일 한정)"
+    }
+  ],
+  "rumor_pool_ref": "../../lore/rumors.md"
+}

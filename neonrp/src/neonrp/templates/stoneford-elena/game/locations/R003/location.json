@@ -1,0 +1,20 @@
+{
+  "id": "R003",
+  "type": "region",
+  "name": "东境",
+  "region": "Eastlands",
+  "pos": [
+    22,
+    8
+  ],
+  "summary": "精灵废墟遍布的神秘区域，据说有古代遗迹和宝藏。",
+  "state": {
+    "discovered": false,
+    "danger_nearby": 4
+  },
+  "travel_info": {
+    "from_T001": "4-5天路程，向东"
+  },
+  "connections": [],
+  "isolated": true
+}

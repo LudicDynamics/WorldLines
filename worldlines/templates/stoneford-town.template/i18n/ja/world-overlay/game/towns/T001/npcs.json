@@ -1,0 +1,215 @@
+{
+  "town_id": "T001",
+  "npcs": [
+    {
+      "id": "NPC001",
+      "name": "ヘロン(ギルド管理人)",
+      "role": "guildmaster",
+      "traits": [
+        "慎重",
+        "契約を重んじる"
+      ],
+      "state": {
+        "met": true
+      },
+      "location": "guild",
+      "persuade": {
+        "cares": [
+          "ギルドの評判",
+          "探索隊を連れ戻すこと"
+        ],
+        "resist": 55
+      },
+      "secrets": [
+        {
+          "id": "heron_pushed",
+          "text": "街道商会に金を握らされ、探索隊を三日早く出すよう迫られた。",
+          "reveal_when": "商会の帳簿を突きつけるか、後ろめたさに気づいて問い詰める"
+        }
+      ]
+    },
+    {
+      "id": "NPC002",
+      "name": "リード爺さん(雑貨屋)",
+      "role": "shopkeeper",
+      "traits": [
+        "口が軽い",
+        "目ざとい"
+      ],
+      "state": {
+        "met": false
+      },
+      "location": "shop_general",
+      "persuade": {
+        "cares": [
+          "金",
+          "亡き妻(町で最後の測量士)"
+        ],
+        "resist": 65
+      },
+      "secrets": [
+        {
+          "id": "laowei_map",
+          "text": "奥の部屋に、妻が遺した霧路の古地図を鍵をかけてしまってある。妻は霧の中で死に、測量帳はまだモスバロウにある。",
+          "reveal_when": "霧の中へ人を探しに行くと打ち明ける"
+        }
+      ]
+    },
+    {
+      "id": "NPC003",
+      "name": "ミラ(宿のおかみ)",
+      "role": "innkeeper",
+      "traits": [
+        "面倒見がいい",
+        "耳が早い"
+      ],
+      "state": {
+        "met": false
+      },
+      "location": "inn",
+      "persuade": {
+        "cares": [
+          "弟のミロが生きて帰ること"
+        ],
+        "resist": 30
+      },
+      "secrets": [
+        {
+          "id": "mira_amulet",
+          "text": "ミロのお守りを袖の中に縫い込んでいる。お守りには探索隊の道筋が刺繍されている。",
+          "reveal_when": "ミロを探しに行くと約束する"
+        }
+      ]
+    },
+    {
+      "id": "NPC004",
+      "name": "キャス(北門の門番)",
+      "role": "gate_guard",
+      "location": "gate_north",
+      "traits": [
+        "寝ぼけている",
+        "町長が怖い"
+      ],
+      "persuade": {
+        "cares": [
+          "面倒が起きないこと",
+          "博打の借金を返すこと"
+        ],
+        "resist": 45
+      },
+      "secrets": [
+        {
+          "id": "kas_bribed",
+          "text": "隻眼の虎の手下から金を受け取り、山賊のために見張りの目を逸らしたことがある。",
+          "reveal_when": "目を泳がせるのに気づいて問い詰めるか、野営地で彼の賭け札を見つける"
+        }
+      ],
+      "hp": 10,
+      "max_hp": 10
+    },
+    {
+      "id": "NPC005",
+      "name": "ヴェラ(町役場の女町長)",
+      "role": "warden",
+      "location": "townhall",
+      "traits": [
+        "実直",
+        "町を守る"
+      ],
+      "persuade": {
+        "cares": [
+          "霧の季節に町で死人を出さないこと",
+          "商会とギルドの北の街道争いに町を巻き込ませないこと"
+        ],
+        "resist": 60
+      },
+      "secrets": [
+        {
+          "id": "vera_records",
+          "text": "霧の退く夜には毎年戻らない者が出るが、町役場は一度も記録に残していない。",
+          "reveal_when": "過去の霧の退く夜について尋ねる"
+        }
+      ],
+      "hp": 12,
+      "max_hp": 12
+    },
+    {
+      "id": "NPC006",
+      "name": "魚じい(船着き場の渡し守)",
+      "role": "ferryman",
+      "location": "dock",
+      "traits": [
+        "抜け目がない",
+        "霧の中の灯を怖がる"
+      ],
+      "persuade": {
+        "cares": [
+          "いい値のつく一舟"
+        ],
+        "resist": 40
+      },
+      "secrets": [
+        {
+          "id": "laoyu_lights",
+          "text": "霧の中の灯がモスバロウの方角へ一列に並んでいるのを見たことがある——探索隊のランタンだ。",
+          "reveal_when": "一杯おごる"
+        }
+      ],
+      "hp": 10,
+      "max_hp": 10
+    },
+    {
+      "id": "NPC007",
+      "name": "ゲルダ(商会の隊商頭)",
+      "role": "caravan_master",
+      "location": "market-square",
+      "traits": [
+        "せっかち",
+        "計算高い"
+      ],
+      "persuade": {
+        "cares": [
+          "誰より先に北の街道を抜けること"
+        ],
+        "resist": 60
+      },
+      "secrets": [
+        {
+          "id": "gra_ledger",
+          "text": "隊商の帳簿に、ヘロンへ支払った金が記されている。",
+          "reveal_when": "帳簿を盗むか、酔い潰す"
+        }
+      ],
+      "hp": 12,
+      "max_hp": 12
+    },
+    {
+      "id": "NPC008",
+      "name": "隻眼の虎(山賊の頭)",
+      "role": "bandit_chief",
+      "location": "road_camp",
+      "traits": [
+        "荒っぽい",
+        "手下をかばう"
+      ],
+      "persuade": {
+        "cares": [
+          "北の街道の鉱石運びの小道を守ること",
+          "商会に先に北の街道を押さえさせないこと"
+        ],
+        "resist": 70
+      },
+      "secrets": [
+        {
+          "id": "tiger_miner",
+          "text": "もとはジェイドストーンの鉱夫だった。鉱山が閉じてから、仲間を率いてこの鉱石運びの小道で食いつないでいる。",
+          "reveal_when": "ジェイドストーンの鉱山の話を持ち出すか、鉱夫組合の徽章を見せる"
+        }
+      ],
+      "hp": 22,
+      "max_hp": 22,
+      "str": 15,
+      "con": 14
+    }
+  ]
+}

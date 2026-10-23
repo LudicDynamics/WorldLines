@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "agent_template": "heroine-classic",
+  "agents": [
+    {
+      "id": "soul-agent",
+      "role": "soul",
+      "write_globs": [
+        "run_state.json",
+        "trajectory/**",
+        "short-term-memo/**",
+        "long-term-memo/**",
+        "character/**"
+      ]
+    }
+  ]
+}

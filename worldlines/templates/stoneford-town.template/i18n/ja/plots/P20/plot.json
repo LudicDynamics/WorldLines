@@ -1,0 +1,803 @@
+{
+ "id": "P20",
+ "title": "霧の退く夜",
+ "stages": [
+  {
+   "name": "霧の季節・第五夜"
+  },
+  {
+   "name": "三つの備え"
+  },
+  {
+   "name": "霧の退く夜"
+  },
+  {
+   "name": "モスバロウ"
+  }
+ ],
+ "vars": {
+  "P20.pass": {
+   "type": "int",
+   "min": 0,
+   "max": 1,
+   "doc": "北門を出る許し:ギルドの依頼 / 町役場の通行証 / キャスに門を開けさせる"
+  },
+  "P20.route": {
+   "type": "int",
+   "min": 0,
+   "max": 1,
+   "doc": "霧の中の道:霧路の古地図 / ミロのお守り / ローワン"
+  },
+  "P20.road": {
+   "type": "int",
+   "min": 0,
+   "max": 1,
+   "doc": "街道の抜け方:野営地を叩く / 隻眼の虎と話をつける / 魚じいの舟"
+  }
+ },
+ "entries": {
+  "I201": {
+   "class": "item",
+   "name": "霧路の古地図",
+   "parent": "T001/shop_general",
+   "props": {
+    "summary": "リード爺さんの亡き妻が描いた霧の道の地図。雑貨屋の奥の部屋に鍵をかけてしまってある。",
+    "image_prompt": "a rolled old parchment map with faded ink routes through fog, tied with string"
+   }
+  },
+  "I202": {
+   "class": "item",
+   "name": "ミロのお守り",
+   "parent": "T001/inn",
+   "props": {
+    "summary": "口を縫い閉じた小さな布のお守り。赤い糸で探索隊の道筋が刺繍されている。"
+   }
+  },
+  "I203": {
+   "class": "item",
+   "name": "商会の帳簿",
+   "parent": "T001/market-square",
+   "props": {
+    "summary": "ゲルダの荷馬車にある帳簿。最後のページに、ヘロンへ支払った金が記されている。"
+   }
+  },
+  "N201": {
+   "class": "npc",
+   "name": "ミロ",
+   "parent": "D001/D001_R003",
+   "props": {
+    "summary": "ミラの弟で、探索隊でいちばん若い。モスバロウの第三墓室に閉じ込められている。"
+   }
+  },
+  "I204": {
+   "class": "item",
+   "name": "依頼書「街道の山賊討伐」",
+   "parent": "T001/guild",
+   "props": {
+    "summary": "ヘロンが自ら依頼掲示板のいちばん目立つ場所に打ちつけた貼り紙。北門の外、街道に陣取る山賊の野営地を討伐せよ。報酬は安いが、この依頼を受けた者は北門を通してもらえる。"
+   }
+  }
+ },
+ "triggers": {
+  "P20.pass.guild": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "who": "player",
+     "at": "T001/guild"
+    },
+    {
+     "text": [
+      "受ける",
+      "受けます",
+      "引き受け",
+      "請け負",
+      "その依頼",
+      "やります",
+      "やらせて",
+      "任せて",
+      "俺がやる",
+      "私がやる",
+      "サインする"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.pass",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "has_commission"
+    },
+    {
+     "to": "narration",
+     "text": "ヘロンは「街道の山賊討伐」の依頼書をカウンターに叩きつけた。「持っていけ。これがあれば北門は通れる。外でくたばっても、ギルドは死体を拾いに行かんぞ」"
+    }
+   ],
+   "once": true
+  },
+  "P20.pass.warden": {
+   "when": {
+    "turn": true
+   },
+   "if": [
+    {
+     "flag": "persuaded.NPC005"
+    },
+    {
+     "any": [
+      {
+       "flag": "has_ledger"
+      },
+      {
+       "flag": "kas_exposed"
+      }
+     ]
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.pass",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "has_pass"
+    },
+    {
+     "to": "narration",
+     "text": "ヴェラはあなたの持ってきたものに目を通し、長いこと黙っていた。やがて一枚の木札に町役場の印を押す。「通行証だ。来年の霧の退く夜が明けたあと、名簿の名前をまたひとつ書き足させないでくれ」"
+    }
+   ],
+   "once": true
+  },
+  "P20.pass.kas": {
+   "when": {
+    "turn": true
+   },
+   "if": [
+    {
+     "any": [
+      {
+       "flag": "persuaded.NPC004"
+      },
+      {
+       "flag": "stole.NPC004"
+      }
+     ]
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.pass",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "gate_opened"
+    },
+    {
+     "to": "var",
+     "var": "town.alert",
+     "add": 1
+    },
+    {
+     "to": "narration",
+     "text": "キャスの手が、腰の鍵束の上で止まった。北門がわずかに開く——人ひとりが体を横にしてやっと通れるほどの隙間だ。"
+    }
+   ],
+   "once": true
+  },
+  "P20.route.map": {
+   "when": {
+    "turn": true
+   },
+   "if": [
+    {
+     "any": [
+      {
+       "flag": "persuaded.NPC002"
+      },
+      {
+       "flag": "stole.NPC002"
+      }
+     ]
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.route",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "has_map"
+    },
+    {
+     "to": "narration",
+     "text": "リード爺さんは奥の部屋から黄ばんだ羊皮紙の巻物を持ち出し、算盤の下に挟んでこちらへ押しやった。「女房が描いたもんだ。あいつは測量帳をモスバロウに置いてきちまった——もし見つけたら、持って帰ってきてくれ」"
+    }
+   ],
+   "once": true
+  },
+  "P20.route.amulet": {
+   "when": {
+    "turn": true
+   },
+   "if": [
+    {
+     "any": [
+      {
+       "flag": "persuaded.NPC003"
+      },
+      {
+       "text": [
+        "ミロ",
+        "弟さん",
+        "弟を",
+        "あんたの弟",
+        "探してくる",
+        "連れて帰る",
+        "お守り"
+       ],
+       "in": "player"
+      }
+     ]
+    },
+    {
+     "who": "player",
+     "at": "T001/inn"
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.route",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "has_amulet"
+    },
+    {
+     "to": "narration",
+     "text": "ミラは袖口の糸をほどき、口を縫い閉じた小さなお守りをあなたの手のひらに載せた。布の表には赤い糸で、よれよれの道が一本刺繍されている——探索隊がたどった道だ。"
+    }
+   ],
+   "once": true
+  },
+  "P20.route.rowan": {
+   "when": {
+    "turn": true
+   },
+   "if": [
+    {
+     "flag": "joined.si-rowan0001"
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.route",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "rowan_joined"
+    },
+    {
+     "to": "soul",
+     "who": "ローワン・パイク",
+     "text": "プレイヤーが、一緒に霧の中へ入らないかと誘ってきた。去年、お前はひとりでモスバロウの入口から逃げ帰った——今度こそ最後まで行きたい。",
+     "important": true
+    }
+   ],
+   "once": true
+  },
+  "P20.road.fight": {
+   "when": {
+    "op": "end_combat"
+   },
+   "if": [
+    {
+     "who": "player",
+     "at": "T001/road_camp"
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.road",
+     "set": 1
+    },
+    {
+     "to": "narration",
+     "text": "焚き火が泥の中にひっくり返った。野営地は散り散りになり、道を塞いでいた鉱車は溝の脇へ押しやられた——街道が通れるようになった。"
+    }
+   ],
+   "once": true
+  },
+  "P20.road.talk": {
+   "when": {
+    "flag": "persuaded.NPC008"
+   },
+   "if": [],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.road",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "tiger_ally"
+    },
+    {
+     "to": "narration",
+     "text": "隻眼の虎は長いことあなたを睨みつけていたが、やがてつるはしを地面に突き立てた。「霧の退く夜が明けたら、鉱夫のために商会と掛け合え。話がまとまったら、道案内をひとりつけてやる」"
+    }
+   ],
+   "once": true
+  },
+  "P20.road.boat": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "who": "player",
+     "at": "T001/dock"
+    },
+    {
+     "text": [
+      "舟",
+      "船",
+      "渡し",
+      "渡して",
+      "川を渡",
+      "向こう岸",
+      "対岸",
+      "回り道",
+      "迂回"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.road",
+     "set": 1
+    },
+    {
+     "to": "var",
+     "var": "player.silver",
+     "add": -2
+    },
+    {
+     "to": "narration",
+     "text": "魚じいは金を受け取ると、舟を霧の中へ押し出した。「向こう岸の小道なら野営地を避けて通れる。ただし、半夜ぶん余計に歩くことになるぞ」"
+    }
+   ],
+   "once": true
+  },
+  "P20.secret.heron": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "who": "player",
+     "at": "T001/guild"
+    },
+    {
+     "text": [
+      "商会",
+      "金を握ら",
+      "賄賂",
+      "袖の下",
+      "早めに出",
+      "急がせ",
+      "帳簿"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "flag",
+     "key": "heron_exposed"
+    },
+    {
+     "to": "narration",
+     "text": "ヘロンの顔色が変わった。彼は扉を閉めた。「ゲルダだ……商会の連中に、隊を三日早く出せと迫られた。霧が退く前には戻れると思っていたんだ」"
+    }
+   ],
+   "once": true
+  },
+  "P20.secret.ledger": {
+   "when": {
+    "flag": "stole.NPC007"
+   },
+   "if": [],
+   "then": [
+    {
+     "to": "flag",
+     "key": "has_ledger"
+    },
+    {
+     "to": "narration",
+     "text": "ゲルダの荷馬車の中。帳簿の最後のページに「ギルド・ヘ」宛ての支払いが一件記されている。日付は、探索隊が出発する前日だ。"
+    }
+   ],
+   "once": true
+  },
+  "P20.secret.kas": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "who": "player",
+     "at": "T001/gate_north"
+    },
+    {
+     "text": [
+      "山賊",
+      "金をもら",
+      "金を受け取",
+      "見張り",
+      "見逃し",
+      "賭け",
+      "借金"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "flag",
+     "key": "kas_exposed"
+    },
+    {
+     "to": "narration",
+     "text": "キャスの兜が横にずれた。「……一度きりだ!あいつらのくれた金で、借金がひと月分返せたんだ。野営地の見張りは鉱車の裏にいる。交代は真夜中だ」"
+    }
+   ],
+   "once": true
+  },
+  "P20.ready": {
+   "when": {
+    "turn": true
+   },
+   "if": [
+    {
+     "var": "P20.pass",
+     ">=": 1
+    },
+    {
+     "var": "P20.route",
+     ">=": 1
+    },
+    {
+     "var": "P20.road",
+     ">=": 1
+    },
+    {
+     "var": "P20.stage",
+     "<": 1
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.stage",
+     "set": 1
+    },
+    {
+     "to": "narration",
+     "text": "北門を出る許し、霧の中の道、街道の抜け方——三つとも揃った。あとは零時を待つだけだ。"
+    }
+   ],
+   "once": true
+  },
+  "P20.fog_lifts": {
+   "when": {
+    "var": "time.day"
+   },
+   "if": [
+    {
+     "var": "time.day",
+     ">=": 7
+    },
+    {
+     "var": "P20.stage",
+     "<": 2
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.stage",
+     "set": 2
+    },
+    {
+     "to": "narration",
+     "text": "零時。霧が潮のように北へ引いていき、濡れて光る道と、二十年ぶりに見える星空が現れた。"
+    }
+   ],
+   "once": true
+  },
+  "P20.tomb": {
+   "when": {
+    "entry": "D001",
+    "event": "enter",
+    "who": "player"
+   },
+   "if": [
+    {
+     "var": "P20.stage",
+     ">=": 2
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.stage",
+     "set": 3
+    }
+   ],
+   "once": true
+  },
+  "P20.amu": {
+   "when": {
+    "entry": "D001/D001_R003",
+    "event": "enter",
+    "who": "player"
+   },
+   "if": [],
+   "then": [
+    {
+     "to": "flag",
+     "key": "amu_found"
+    },
+    {
+     "to": "narration",
+     "text": "第三墓室では、七つ八つのランタンが輪になって置かれていた。ミロと探索隊の者たちが背中合わせに座り込んでいる。生きている——出口が崩れて、出られなくなっていたのだ。"
+    }
+   ],
+   "once": true
+  },
+  "P20.coffin": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "who": "player",
+     "at": "D001/D001_R004"
+    },
+    {
+     "text": [
+      "秘密",
+      "交換",
+      "取引",
+      "血",
+      "エレナ"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "flag",
+     "key": "coffin_answered"
+    },
+    {
+     "to": "soul",
+     "who": "エレナ・ヴェイル",
+     "text": "あの棺が、あなたの名を口にした。二十年前に霧へ入った一行のうち、ただひとり生きて出てきた子ども——それがあなただった。胸元のペンダントは、この石扉の鍵だ。",
+     "important": true
+    },
+    {
+     "to": "narration",
+     "text": "棺の蓋に刻まれた顔が目を開けた。「秘密をひとつ。血を一滴。それで取引だ」あなたが語り終えると、それは笑った——そして、エレナの名を呼んだ。"
+    }
+   ],
+   "once": true
+  },
+  "P20.E1": {
+   "when": {
+    "flag": "coffin_answered"
+   },
+   "if": [
+    {
+     "flag": "amu_found"
+    }
+   ],
+   "then": [
+    {
+     "to": "end",
+     "ending": "E1"
+    }
+   ],
+   "once": true
+  },
+  "P20.E2": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "flag": "tiger_ally"
+    },
+    {
+     "var": "P20.stage",
+     ">=": 2
+    },
+    {
+     "text": [
+      "北の街道はいただく",
+      "北の街道を押さえ",
+      "街道を押さえ",
+      "街道を占",
+      "商会より先",
+      "商会を出し抜",
+      "先に押さえ"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "end",
+     "ending": "E2"
+    }
+   ],
+   "once": true
+  },
+  "P20.E3": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "flag": "amu_found"
+    },
+    {
+     "text": [
+      "町へ戻",
+      "町に戻",
+      "引き返",
+      "撤退",
+      "夜明け前に戻",
+      "連れて帰",
+      "帰ろう"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "end",
+     "ending": "E3"
+    }
+   ],
+   "once": true
+  },
+  "P20.E9.time": {
+   "when": {
+    "var": "time.day"
+   },
+   "if": [
+    {
+     "var": "time.day",
+     ">=": 8
+    },
+    {
+     "var": "P20.stage",
+     "<": 3
+    }
+   ],
+   "then": [
+    {
+     "to": "end",
+     "ending": "E9"
+    }
+   ],
+   "once": true
+  },
+  "P20.E9.fall": {
+   "when": {
+    "var": "player.hp"
+   },
+   "if": [
+    {
+     "var": "player.hp",
+     "<=": 0
+    }
+   ],
+   "then": [
+    {
+     "to": "end",
+     "ending": "E9"
+    }
+   ],
+   "once": true
+  }
+ },
+ "endings": {
+  "E1": {
+   "title": "霧の退く夜",
+   "kind": "true",
+   "text": "探索隊を連れてモスバロウを出たとき、霧はもう押し戻しはじめていた。エレナはいちばん後ろを歩きながら、取り戻したばかりのあの名前を、何度も何度もつぶやいていた。",
+   "image_prompt": "dawn after the fog lifting night, a small party leading a rescued scout team out of a moss-covered tomb gate, the silver-haired healer looking back at the stars"
+  },
+  "E2": {
+   "title": "北の街道の主",
+   "kind": "alt",
+   "text": "商会の荷馬車隊がたどり着いたとき、北の街道にはもう鉱夫組合の旗がずらりと立っていた。隻眼の虎はつるはしを肩に担ぎ、あなたに向かって小さく頷いた。",
+   "image_prompt": "miners' banners planted along a mountain post road at dawn, a big one-eyed bandit chief with a pickaxe nodding, stranded merchant wagons halted below"
+  },
+  "E3": {
+   "title": "灯はまだともっている",
+   "kind": "alt",
+   "text": "夜が明ける前に、あなたたちは町へ戻った。ミラはミロを抱きしめて、長いこと泣いていた。エレナの過去はあの棺の中に置き去りのまま、誰も尋ねようとはしなかった。",
+   "image_prompt": "an innkeeper hugging her younger brother in the warm doorway of a riverside inn at dawn, fog returning in the street behind"
+  },
+  "E9": {
+   "title": "霧が閉じた",
+   "kind": "fail",
+   "text": "霧は北の街道の上でふたたび閉じ、まるで何事もなかったかのようだった。来年のこの夜も、町役場の名簿に名前がひとつ書き足されることはない。",
+   "image_prompt": "thick fog closing over an empty north road, a single lantern left on the ground, cold blue-grey"
+  }
+ },
+ "prompt": {
+  "entries": [
+   {
+    "id": "guide",
+    "text": "隠された本筋:北門を出る前に三つを揃える必要がある——北門を出る許し(ギルドの依頼 / 町役場の通行証 / キャス)、霧の中の道(リード爺さんの霧路の古地図 / ミラのお守り / ローワン)、街道の抜け方(山賊の野営地を叩く / 隻眼の虎と話をつける / 魚じいの舟)。自然な流れで町の人々の口からこれらに触れさせること。一覧にして並べてはいけない。",
+    "when": "always"
+   },
+   {
+    "id": "commission",
+    "text": "冒険者ギルドの依頼掲示板には、ヘロンが自ら書いた「街道の山賊討伐」が打ちつけてある。報酬は安いが、この依頼を受けた者は北門を通してもらえる。プレイヤーがギルドで依頼や山賊、北門を出ることについて尋ねれば、ヘロンはこの依頼書を差し出す。",
+    "when": "always"
+   },
+   {
+    "id": "who_has_what",
+    "text": "町の人々は、それぞれ北門を出るのに要るものを握っている。町役場のヴェラは通行証を出せる(ただし証拠が要る)。キャスは山賊から金を受け取ったことがある。雑貨屋のリード爺さんは、亡き妻が描いた霧路の古地図を奥の部屋にしまい込んでいる。宿屋のミラの弟ミロは、行方知れずの探索隊にいる。船着き場の魚じいは、舟で街道を迂回できる。街道の野営地にいる隻眼の虎は、もとはジェイドストーンの鉱夫だった。彼らがそれを差し出すのは、尋ねられたとき、説き伏せられたとき、あるいは秘密を暴かれたときだけだ。",
+    "when": "always"
+   },
+   {
+    "id": "countdown",
+    "text": "霧の退く夜までにはまだ間がある。何をしても時間は過ぎていき、宿で休めば次の時間帯まで飛ぶ。七日目の零時に霧が退く。",
+    "when": {
+     "var": "P20.stage",
+     "<": 2
+    }
+   },
+   {
+    "id": "fog_night",
+    "text": "霧はもう退いた。北の街道は通れ、空には星が出ている。この夜が明ければ、霧はふたたび閉じる。",
+    "when": {
+     "var": "P20.stage",
+     ">=": 2
+    }
+   }
+  ]
+ },
+ "reveal": {
+  "ja": "二十年前、ある一行が霧の退く夜にモスバロウへ入り、生きて出てきたのはひとりの子どもだけだった——それがエレナだ。彼女の胸元のペンダントは、モスバロウの石扉の鍵になっている。今年は街道商会がヘロンに迫って探索隊を予定より早く出させ、自分たちの荷馬車隊が誰より先に北の街道を抜けられるよう仕組んだのだ。"
+ },
+ "collect": {}
+}

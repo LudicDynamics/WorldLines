@@ -1,0 +1,17 @@
+{
+  "id": "D001",
+  "name": "모스배로 지하묘지",
+  "theme": "축축한 고분 / 이끼 / 속삭임",
+  "danger": 3,
+  "recommended_level": "1-2",
+  "entrance_from": "R002",
+  "boss": {
+    "id": "BOSS001",
+    "name": "속삭이는 관",
+    "note": "거래와 비밀로 플레이어를 꾀어낸다"
+  },
+  "state": {
+    "discovered": false,
+    "cleared": false
+  }
+}

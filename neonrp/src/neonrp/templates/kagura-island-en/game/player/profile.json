@@ -1,0 +1,20 @@
+{
+  "sid": "kakaru",
+  "display_name": "Kakaru",
+  "name_local": "カカル",
+  "age": 18,
+  "role": "player",
+  "tags": [
+    "pc",
+    "ho1",
+    "puzzle",
+    "observer"
+  ],
+  "summary": "Eighteen. Straight long hair. Slight but sturdy. Plain makeup that blends into a crowd, but eyes that observe and try to see through everything. Yuto's younger sister (age-matched). HO1 = puzzle-solver and lover of local history.",
+  "intro_i18n": {
+    "en": "Eighteen, straight long hair, slight but sturdy. Plain makeup that blends into a crowd, and eyes that observe and try to see through everything — a puzzle-solver with a love of local history.",
+    "zh": "十八岁，直长发，偏瘦却结实。妆淡得能融进人群，一双却总在观察、想看穿一切的眼睛——是个爱好乡土史的解谜者。",
+    "ja": "十八歳、直毛のロングヘア、痩せ型だが芯は強い。人混みに溶け込む淡い化粧の下で、すべてを見抜こうと観察する眼。郷土史を好む解謎者。",
+    "ko": "열여덟, 긴 생머리, 마른 편이지만 단단하다. 군중에 섞여드는 옅은 화장 아래, 모든 것을 꿰뚫어 보려 관찰하는 눈. 향토사를 좋아하는 수수께끼 풀이꾼이다."
+  }
+}

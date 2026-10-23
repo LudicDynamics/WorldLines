@@ -1,0 +1,14 @@
+{
+  "id": "herb_shop",
+  "name": "푸른이끼 약초방",
+  "type": "facility",
+  "facility_file": "facilities/herb_shop.json",
+  "description": "덩굴에 휘감긴 작은 가게. 쌉싸름한 약초 향이 가득하다. 다친 광부들이 약을 사러 자주 들른다.",
+  "pos": {
+    "x": 250,
+    "y": 400
+  },
+  "connections": [
+    "main_street"
+  ]
+}

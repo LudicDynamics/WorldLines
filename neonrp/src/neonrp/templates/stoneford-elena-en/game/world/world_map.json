@@ -1,0 +1,84 @@
+{
+  "world_id": "W001",
+  "name": "The Gray-Fog North",
+  "parent_territory": "the Graycrow March",
+  "seed": 123456,
+  "foreign_lands": [
+    {
+      "id": "FL001",
+      "name": "Frostwolf Kingdom",
+      "direction": "north",
+      "description": "A cold kingdom north of the Brokenspine Mountains, its people tall as bears, forever at war with the orc tribes",
+      "access": "Weeping Pass (passable in summer only)",
+      "relation": "neutral",
+      "discovered_via": "Mira's rumors"
+    },
+    {
+      "id": "FL002",
+      "name": "the Emerald League",
+      "direction": "far_east",
+      "description": "A confederation of city-states beyond the eastern elf ruins; merchants occasionally come to trade",
+      "access": "Across the eastern ruins",
+      "relation": "trade",
+      "discovered_via": "Mira's rumors"
+    },
+    {
+      "id": "FL003",
+      "name": "the Gray Sea",
+      "direction": "south",
+      "description": "The endless gray-shrouded waters to the south; they say you can sail ten days and ten nights and still be in gray fog, never to return",
+      "access": "unknown",
+      "relation": "unknown",
+      "discovered_via": "Mira's rumors"
+    }
+  ],
+  "routes": [
+    {
+      "id": "R001",
+      "from": "T001",
+      "to": "T002",
+      "kind": "road",
+      "distance": 18,
+      "tags": [
+        "trade",
+        "patrolled"
+      ],
+      "state": {
+        "blocked": false
+      }
+    },
+    {
+      "id": "R002",
+      "from": "T001",
+      "to": "D001",
+      "kind": "trail",
+      "distance": 6,
+      "tags": [
+        "foggy",
+        "beasts"
+      ],
+      "state": {
+        "blocked": false
+      }
+    },
+    {
+      "id": "R004",
+      "from": "T001",
+      "to": "T004",
+      "kind": "road",
+      "distance": 45,
+      "tags": [
+        "trade",
+        "bandit_risk"
+      ],
+      "state": {
+        "blocked": false
+      },
+      "note": "Passes through the low-hill woodland, where a bandit named 'One-Eye Tiger' and around 20 men are active"
+    }
+  ],
+  "time": {
+    "day": 3,
+    "clock": "17:15"
+  }
+}

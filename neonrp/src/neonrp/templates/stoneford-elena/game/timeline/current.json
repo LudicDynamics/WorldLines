@@ -1,0 +1,16 @@
+{
+  "id": "current",
+  "kind": "timeline",
+  "name": "Stoneford Elena Timeline",
+  "day": 1,
+  "period": "morning",
+  "clock": "08:30",
+  "weather": "cold fog",
+  "fog_pressure": "high",
+  "active_threads": [
+    "newcomer-arrival",
+    "work-at-the-guild",
+    "rumors-about-the-mossbarrow-road",
+    "rowan-chasing-world-edge-legend"
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "town_id": "T004",
+  "npcs": [
+    {
+      "id": "NPC_T004_01",
+      "name": "Kasa (Guild Branch Head)",
+      "role": "guildmaster",
+      "location": "guild",
+      "traits": ["hearty", "a fighter by trade", "an astonishing drinker"],
+      "description": "A burly woman of about forty, with an old knife scar on her left cheek. A former A-rank adventurer, she runs the Jadestone branch after retiring. Strict but fair with newcomers.",
+      "state": { "met": false }
+    },
+    {
+      "id": "NPC_T004_02",
+      "name": "Ironpost (Mine Foreman)",
+      "role": "mine_foreman",
+      "location": "mine_entrance",
+      "traits": ["honest and simple", "immensely strong", "devout"],
+      "description": "A middle-aged miner as burly as an iron tower. He runs the mine's daily operations and is also a faithful believer at the Dawnlight Chapel. A familiar face from the caravan road.",
+      "state": { "met": true }
+    },
+    {
+      "id": "NPC_T004_03",
+      "name": "Old Fan 'Crow-Eye' (Ore Appraiser)",
+      "role": "appraiser",
+      "location": "appraiser",
+      "traits": ["taciturn", "extremely perceptive", "a compulsive collector"],
+      "description": "A gaunt old man, gold left eye and black right eye — said to be the remnant of some ancient bloodline. Jadestone's most authoritative ore appraiser; there's no stone he can't see through.",
+      "state": { "met": false }
+    },
+    {
+      "id": "NPC_T004_04",
+      "name": "Cui (Tavern Keeper)",
+      "role": "innkeeper",
+      "location": "tavern",
+      "traits": ["cheerful", "well-informed", "a first-rate cook"],
+      "description": "A young woman in her twenties, loud-voiced with a hearty laugh. She inherited the Jade-Crystal Tavern from her father. Knows all there is to know about the town's gossip.",
+      "state": { "met": false }
+    },
+    {
+      "id": "NPC_T004_05",
+      "name": "Granny Green (Herbalist)",
+      "role": "herbalist",
+      "location": "herb_shop",
+      "traits": ["kindly", "a chatterbox", "learned"],
+      "description": "A hunched, white-haired old woman, forever grinding herbs in her shop. She knows every plant in the mountains, and injured miners all come to her. Especially kind to young women.",
+      "state": { "met": false }
+    },
+    {
+      "id": "NPC_T004_06",
+      "name": "Damon the Hammer (Shopkeeper)",
+      "role": "shopkeeper",
+      "location": "shop_general",
+      "traits": ["shrewd", "talkative", "a former miner"],
+      "description": "A short, stocky middle-aged man missing two fingers on his left hand — a memento of a mine collapse. After switching to the sundries trade he's made a tidy fortune; his stock is complete and his prices are fair.",
+      "state": { "met": false }
+    },
+    {
+      "id": "NPC_T004_07",
+      "name": "Father Silas (Chapel Priest)",
+      "role": "priest",
+      "location": "chapel",
+      "traits": ["gentle", "deeply learned", "keeping a secret"],
+      "description": "A middle-aged priest, gaunt of face but warm of gaze. He's been sent from the great cathedral of Mistlake City to Jadestone for ten years now. Besides preaching, he also heals the poor for free.",
+      "state": { "met": false }
+    },
+    {
+      "id": "NPC_T004_SOUL_01",
+      "name": "Rowan Pike",
+      "role": "scout",
+      "location": "tavern",
+      "traits": ["alert", "unwilling to be ordinary", "obsessed with legends"],
+      "description": "A young adventurer in his twenties, scraping by middling in Jadestone, forever wanting to seize one lead big enough to change his fate. Lately he's fixed on the northern 'world's edge' legend of the Earthdweller: supposedly there's a bottomless cave there that keeps digging up relics of no known age and rare items with wondrous powers.",
+      "state": { "met": false, "soul_ref": "rowan-si-rowan0001" }
+    }
+  ]
+}

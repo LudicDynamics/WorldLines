@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "sid": "butler",
+  "name": "Oswin Hale",
+  "name_local": "奥斯温",
+  "version": "1.0",
+  "created_at": "2026-10-14T00:00:00Z",
+  "source": {
+    "kind": "builtin",
+    "hash": "pcthouse-butler",
+    "version": "1.0"
+  },
+  "agent_template": "heroine-classic",
+  "source_lang": "zh",
+  "name_i18n": {
+    "zh": "奥斯温",
+    "en": "Oswin",
+    "ja": "オズウィン",
+    "ko": "오즈윈"
+  },
+  "intro_i18n": {
+    "zh": "灰橡宅的老管家,在格雷伍德家做了四十年。寡言、护主,对老爷的去向守口如瓶。",
+    "en": "The old butler of Greyoak House, forty years in the service of the Greywoods. A man of few words and fiercely loyal, he will not be drawn on where his master has gone.",
+    "ja": "グレイオーク館の老執事。グレイウッド家に四十年仕えてきた。寡黙で主に忠実、旦那様の行方については口を閉ざしている。",
+    "ko": "그레이오크 저택의 늙은 집사. 그레이우드 가에서 사십 년을 일했다. 말수가 적고 주인을 감싸며, 주인어른의 행방에 대해서는 입을 다문다."
+  },
+  "tags": [
+    "pct-house",
+    "butler",
+    "npc"
+  ],
+  "takeable": false
+}

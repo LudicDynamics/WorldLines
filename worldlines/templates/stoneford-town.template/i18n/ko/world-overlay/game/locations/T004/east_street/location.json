@@ -1,0 +1,15 @@
+{
+  "id": "east_street",
+  "name": "동쪽 거리",
+  "type": "street",
+  "description": "예배당과 광산 입구로 갈라지는 길. 동쪽으로 갈수록 조용해지고, 멀리 갱도에서 울리는 망치 소리가 들린다.",
+  "pos": {
+    "x": 600,
+    "y": 280
+  },
+  "connections": [
+    "main_street",
+    "chapel",
+    "mine_entrance"
+  ]
+}

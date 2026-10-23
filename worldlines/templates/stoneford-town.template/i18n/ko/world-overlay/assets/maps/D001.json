@@ -1,0 +1,21 @@
+{
+  "level": "D001",
+  "fit": {
+    "px": 260,
+    "py": 220,
+    "x0": 0.0,
+    "y0": -5.0,
+    "sx": 50.8,
+    "sy": 58.4
+  },
+  "size": [
+    1536,
+    1024
+  ],
+  "layout_hash": "5c008e7b1961",
+  "backend": "codex",
+  "model": "codex",
+  "prompt": "Turn this layout sketch into a painted top-down dungeon map of 「모스배로 지하묘지」 (축축한 고분 / 이끼 / 속삭임). STRICTLY keep each room exactly where a chamber is drawn and corridors along the drawn lines.\nPlaces (content only — positions come from the sketch):\n- entrance chamber 「젖은 문 앞방」: 돌문이 반쯤 열려 있고 눅눅한 냉기가 새어 나온다. 벽 모퉁이에 무언가를 끌고 간 자국이 있다.\n- corridor 「이끼 회랑」: 긴 회랑 양쪽의 이끼가 숨을 쉬듯 부풀었다 가라앉고, 이따금 가느다란 속삭임이 들린다.\n- chamber 「제단실」: 부서진 제단 위에 촛농이 엉겨 있고, 공기에 들큼한 비린내가 섞여 있다.\n- inner sanctum 「속삭이는 관의 내전」: 한가운데 놓인 관이 웃음을 참듯 미세하게 떨린다. 그것이 너를 '보고' 있다는 게 느껴진다.\nStyle: Painterly dark-fantasy illustration, muted foggy palette (slate blue, moss green, warm lantern amber), cinematic, highly detailed, no text, no labels, no letters, no UI.",
+  "generated_at": "2026-09-25T23:01:55",
+  "guide": "D001.guide.png"
+}

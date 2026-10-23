@@ -1,0 +1,87 @@
+{
+  "schema_version": 2,
+  "playthrough_id": "pt-kagura-dream1",
+  "world": {
+    "wid": "kagura-island",
+    "instance_id": "wi-kagura0001",
+    "version_hash": "kagura000000",
+    "head_commit": "38043c879f0b"
+  },
+  "world_agent_team": {
+    "seeded_from": "game/agents/manifest.json@kagura000000",
+    "agents": [
+      { "id": "world-agent", "role": "orchestrator", "singleton": true },
+      { "id": "town-agent", "role": "functional-sub-agent", "singleton": false },
+      { "id": "combat-agent", "role": "functional-sub-agent", "singleton": false },
+      { "id": "rules-referee", "role": "functional-sub-agent", "singleton": false },
+      { "id": "world-builder", "role": "functional-sub-agent", "singleton": false },
+      { "id": "npc-builder", "role": "functional-sub-agent", "singleton": false },
+      { "id": "story-narrative", "role": "functional-sub-agent", "singleton": false }
+    ]
+  },
+  "players": [
+    {
+      "pid": "player",
+      "name": "カカル",
+      "state_path": "game/player",
+      "kind": "human"
+    }
+  ],
+  "souls": [
+    {
+      "sid": "hane",
+      "instance_id": "si-hane0001",
+      "version_hash": "kagura000000",
+      "head_commit": "88c14f640b41",
+      "role": "npc"
+    },
+    {
+      "sid": "yuto",
+      "instance_id": "si-yuto0001",
+      "version_hash": "kagura000000",
+      "head_commit": "00e3fa95ac51",
+      "role": "npc"
+    },
+    {
+      "sid": "tsubasa",
+      "instance_id": "si-tsubasa01",
+      "version_hash": "kagura000000",
+      "head_commit": "5da1d9d4b0e8",
+      "role": "npc"
+    },
+    {
+      "sid": "shiro",
+      "instance_id": "si-shiro0001",
+      "version_hash": "kagura000000",
+      "head_commit": "4b973d1ffd93",
+      "role": "npc"
+    },
+    {
+      "sid": "kagami",
+      "instance_id": "si-kagami001",
+      "version_hash": "kagura000000",
+      "head_commit": "cc44858fa74f",
+      "role": "npc"
+    },
+    {
+      "sid": "makoto",
+      "instance_id": "si-makoto001",
+      "version_hash": "kagura000000",
+      "head_commit": "740c7aa069b5",
+      "role": "npc"
+    },
+    {
+      "sid": "miyaji",
+      "instance_id": "si-miyaji001",
+      "version_hash": "kagura000000",
+      "head_commit": "5281f9ed12fd",
+      "role": "npc"
+    }
+  ],
+  "created_at": "2025-08-07T21:00:00Z",
+  "active_souls": [
+    "si-hane0001",
+    "si-yuto0001",
+    "si-makoto001"
+  ]
+}

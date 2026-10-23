@@ -1,0 +1,7 @@
+{
+ "_doc": "开放冒险的里程碑名(core/milestones.py)",
+ "place": "Found a new place: {name}",
+ "job": "Completed a commission: {name}",
+ "day": "Made it through day {n}",
+ "stretch": "Another stretch of the road behind you"
+}

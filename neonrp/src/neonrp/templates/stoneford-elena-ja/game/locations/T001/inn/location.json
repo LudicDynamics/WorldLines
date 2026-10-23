@@ -1,0 +1,25 @@
+{
+  "id": "inn",
+  "name": "河灯亭",
+  "type": "facility",
+  "facility_file": "facilities/inn.json",
+  "pos": {
+    "x": 621,
+    "y": 268
+  },
+  "connections": [
+    "main_street",
+    "market-square"
+  ],
+  "kind": "location",
+  "tags": [
+    "town",
+    "inn",
+    "mira"
+  ],
+  "summary": "川べりの小さな宿屋。木の窓は、いつもどこよりも早く灯りがともる。ここは、噂を聞き、温かいスープにありつくのに向いているし、霧の町の呼吸を初めて見て取るのにもいい。",
+  "notes": "Stone Ford fallback inn scene.",
+  "aliases": [
+    "riverlamp-inn"
+  ]
+}

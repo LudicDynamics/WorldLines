@@ -1,0 +1,18 @@
+{
+  "id": "gate_west",
+  "name": "West Gate",
+  "type": "gate",
+  "description": "Jadestone's main gate, facing the post road toward Stone Ford. A huge raw block of jade is set into the gatehouse as the town's marker.",
+  "pos": {
+    "x": 100,
+    "y": 300
+  },
+  "connections": [
+    "main_street"
+  ],
+  "ports": {
+    "up": [
+      "R004"
+    ]
+  }
+}

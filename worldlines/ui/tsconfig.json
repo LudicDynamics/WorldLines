@@ -1,0 +1,15 @@
+{
+  // 只剩 Playwright 用例要类型检查(app/ 是纯 JS,由 app/build.mjs 内联打包,不走 tsc)
+  "compilerOptions": {
+    "target": "ES2023",
+    "lib": ["ES2023", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "types": ["node"],
+    "skipLibCheck": true,
+    "noEmit": true,
+    "strict": true,
+    "moduleDetection": "force"
+  },
+  "include": ["e2e", "e2e-legacy", "playwright.config.ts"]
+}

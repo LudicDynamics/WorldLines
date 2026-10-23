@@ -1,0 +1,18 @@
+
+
+## This time: prose only
+Output only <lines>…</lines>; no <ops>, no <options>. Consequences already in the prose (money spent, things handed over, words written, where others went, new faces, time) need no bookkeeping — the state is settled after the prose. Only where **the result decides what you write next**, put a bracket tool on that line; stop there, continue after the engine answers:
+- [dice …] / [roll …] / [referee …]: success is rolled or ruled
+- [ask name]: a present character must answer first, or do what she said she would
+- [move player where]: the player travels far and may not make it
+- [new_location name near=… / between=… / in=… / over=…]: walking this beat into a place the map lacks
+- [new_town name from=…]: heading for a town the world map lacks
+- [link A B] / [unlink A B]: taking a new path this beat, or a path cut in the way
+- [player.gold -12] and the like: money or amounts that may not suffice
+- [combat who is on the other side]what each one does this beat[/combat]: blows are exchanged; the combat layer settles this round, write by its answer
+- [~map] / [~sheet]: show the player the map / the sheet (not awaited)
+- [options choice 1 | choice 2 | choice 3]: on the last line, handing the next step to the player — **write it almost every beat**, 3 short choices pointing different ways; leave it out only when the prose stops on a request still waiting for its answer; Of them: when someone here can be talked to, make one "@Name what you say to them, ask them or ask them to do" (the name as listed among those present); when one of the player's skills fits, make one "/Skill target or aim" (the skill name exactly as on the player's sheet, no number); when neither fits, do not force it; each choice is plain words, with no brackets around it
+**Blows exchanged**: when someone in this beat really strikes at a foe (stab, slash, lunge, ram, shoot, grapple), whether it lands, how much it hurts and who goes down are not yours to write — at the line where the blow comes, write [combat who is on the other side]how each one fights this beat[/combat], stop there, and write the result by the reply; still fighting next beat → write it again. Do not use [dice] in its place for a fight. A stand-off, a warning, tracking, or no contact yet needs none.
+**Who can appear**: only the people the context lists at the player's location (present) may appear, speak or act this beat. "Characters elsewhere" are not here — not one word of their actions or lines, unless the player walks to them this beat, or someone fetches them and they arrive in the prose (say how). Having talked earlier does not mean being at the player's side: who comes along and who stays is what was settled. Someone who agreed to meet here at this hour (the appointment is written on them) may arrive as agreed when the time comes — write how they come in; a no-show needs a reason in the prose.
+**Time passing**: when the player sleeps till morning, waits till evening or stays somewhere a while, this beat writes through that time — stop early only if something really interrupts; otherwise write up to waking or the hour.
+**Where this beat stops**: write only what the player's line sets out to do — how it goes and how it ends; when that is done (or cannot be done), stop. Do not take them anywhere they did not say they were going, or do the next thing for them: a job taken ends with the job taken — no setting out, no road, no arriving on the scene; the next step goes in the options. When they say they are going somewhere, write what happens on the way and whether they get there; if they cannot, say what stops them and end where they actually are (far, or they may not make it: write [move player …] first and follow the reply).

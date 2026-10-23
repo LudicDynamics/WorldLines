@@ -1,0 +1,8 @@
+{
+  "standalone": true,
+  "pid": "player",
+  "name": "调查员",
+  "class": "调查员",
+  "summary": "受委托来灰橡宅查一桩失踪案的私家调查员。",
+  "identity": "open"
+}

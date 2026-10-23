@@ -1,0 +1,14 @@
+{
+  "id": "iron-sword",
+  "kind": "item",
+  "name": "Iron Sword",
+  "tags": [
+    "item",
+    "weapon",
+    "melee"
+  ],
+  "summary": "A sturdy iron sword for melee combat.",
+  "price": 100,
+  "attack": 15
+}
+

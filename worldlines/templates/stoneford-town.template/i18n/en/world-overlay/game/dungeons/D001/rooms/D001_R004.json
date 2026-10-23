@@ -1,0 +1,13 @@
+{
+  "id": "D001_R004",
+  "name": "Sanctum of the Speaking Coffin",
+  "description": "The coffin at the center trembles faintly, as if holding back laughter. You can feel it 'watching' you.",
+  "features": [
+    "Boss / bargain storyline",
+    "Combat or dialogue branch"
+  ],
+  "state": {
+    "explored": false,
+    "cleared": false
+  }
+}

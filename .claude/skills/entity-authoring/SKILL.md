@@ -9,7 +9,9 @@ Use this workflow whenever game entities are created or updated.
 
 ## 1) Read Rules First
 
-- Read the entity schema: `game_entity.schema.json` (or check `.neonrp/schema/` if present)
+- Read the entity schema: the world's own override `rules/game_entity.schema.json` if it exists, otherwise the engine's
+  default `neonrp/src/neonrp/schema/game_entity.schema.json`
+- Read the world spec for each folder under `game/`: `documents/spec/world.zh.md` (English: `world.en.md`)
 - Read existing entities of the same kind for patterns
 - Check cross-entity references before writing
 

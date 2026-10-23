@@ -1,0 +1,14 @@
+{
+ "situation": "Scene: {scene}. The player now: ",
+ "respond_or_do": " How do you respond, or what do you do?",
+ "respond": " How do you respond?",
+ "s1_head": "# Pre-read\nplayer intent={intent}; tension={tension}",
+ "s1_move": "; heading to {to}",
+ "going": " (heading to {to})",
+ "only_spoke": "{name} (only spoke, did nothing): \"{text}\"",
+ "resolve_as_agreed": "(continued)",
+ "away_note": "\n\nThe player is not with you. Meanwhile you go about your own business where you are: carry on with what you were doing, see to what you want to get done, or go and find someone — to go to an adjacent place, write that place in move_to. To go to another town, write that town in move_to: you set out on the road and arrive only after its days, not this beat.",
+ "away_ask": " What are you doing right now?",
+ "inbox_head": "\n\n[Director's note · inbox/]\n",
+ "scene_unreadable": "(scene information unavailable)"
+}

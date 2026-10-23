@@ -1,0 +1,14 @@
+{
+  "id": "chapel",
+  "name": "새벽빛 예배당",
+  "type": "facility",
+  "facility_file": "facilities/chapel.json",
+  "description": "빛의 신을 모시는 작은 예배당. 흰 돌로 지어졌고, 제이드스톤의 소란 속에서 유독 엄숙하고 고요하다. 쇠기둥이 이곳 얘기를 한 적이 있다.",
+  "pos": {
+    "x": 700,
+    "y": 200
+  },
+  "connections": [
+    "east_street"
+  ]
+}

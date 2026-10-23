@@ -1,0 +1,23 @@
+{
+  "id": "town",
+  "kind": "location",
+  "name": "Town",
+  "tags": [
+    "town",
+    "hub",
+    "safe"
+  ],
+  "summary": "A settlement of about 30 households. Fishing harbor, shopping street, guesthouses. The three factions live intermingled. The festival's paper lanterns are already strung up.",
+  "connections": [
+    "south-shore",
+    "cafe",
+    "school",
+    "museum",
+    "shrine-path",
+    "monument"
+  ],
+  "npcs_default": [
+    "kagami",
+    "miyaji"
+  ]
+}

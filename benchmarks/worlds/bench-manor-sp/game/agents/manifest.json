@@ -1,0 +1,32 @@
+{
+ "id": "manifest",
+ "kind": "agents",
+ "name": "Agents Manifest",
+ "version": "1.0",
+ "execution_mode": "orchestrator",
+ "note": "locked_manor: world-agent = single writer + validator + world-builder; soul-agent = per-NPC independent mind, output-only (arm=S+).",
+ "agents": [
+  {
+   "id": "world-agent",
+   "name": "World Agent",
+   "agent_path": "agents/world-agent/system.md",
+   "role": "Layer 1 — narrates, validates every commit, grows the world map",
+   "read_globs": [
+    "game/**"
+   ],
+   "write_globs": [
+    "game/**"
+   ]
+  },
+  {
+   "id": "soul-agent",
+   "name": "Soul Agent (NPC mind)",
+   "agent_path": "agents/soul-agent/system.md",
+   "role": "Layer 2 — ONE named inhabitant's private mind; proposes, never writes",
+   "read_globs": [
+    "game/**"
+   ],
+   "write_globs": []
+  }
+ ]
+}

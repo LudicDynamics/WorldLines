@@ -1,0 +1,34 @@
+{
+  "sid": "butler",
+  "hp": 12,
+  "max_hp": 12,
+  "age": 61,
+  "attributes": {
+    "str": 11,
+    "con": 12,
+    "siz": 13,
+    "dex": 9,
+    "app": 10,
+    "int": 12,
+    "pow": 11,
+    "edu": 13
+  },
+  "skills": [
+    {
+      "name": "闪避",
+      "value": 25
+    },
+    {
+      "name": "格斗",
+      "value": 40
+    },
+    {
+      "name": "聆听",
+      "value": 55
+    },
+    {
+      "name": "心理学",
+      "value": 45
+    }
+  ]
+}

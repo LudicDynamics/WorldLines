@@ -1,0 +1,68 @@
+{
+  "facility_id": "herb_shop_T004",
+  "name": "Mossgreen Herb Shop",
+  "price_index": 1.0,
+  "inventory": [
+    {
+      "id": "healing_potion_small",
+      "name": "Healing Potion (small)",
+      "price": 12,
+      "stock": 5
+    },
+    {
+      "id": "healing_salve",
+      "name": "Healing Salve",
+      "price": 8,
+      "stock": 6,
+      "note": "Applied externally, restores 15 HP, can be used on others"
+    },
+    {
+      "id": "antidote",
+      "name": "Antidote",
+      "price": 10,
+      "stock": 4
+    },
+    {
+      "id": "stamina_herb",
+      "name": "Bundle of Stimulant Herbs",
+      "price": 6,
+      "stock": 8,
+      "note": "Removes the fatigued status"
+    },
+    {
+      "id": "miners_balm",
+      "name": "Miner's Lung Balm",
+      "price": 5,
+      "stock": 10,
+      "note": "Prevents breathing problems from mine dust, lasts 4 hours"
+    },
+    {
+      "id": "moonflower_extract",
+      "name": "Evening Primrose Extract",
+      "price": 15,
+      "stock": 2,
+      "note": "A rare herbal extract with a faint magic-amplifying effect"
+    },
+    {
+      "id": "herb_bundle_common",
+      "name": "Common Herb Pack",
+      "price": 8,
+      "stock": 5,
+      "note": "Contains various common herbs, suited to those with alchemy knowledge"
+    }
+  ],
+  "services": [
+    {
+      "name": "Wound treatment",
+      "price": 5,
+      "effect": "Restores 10 HP"
+    },
+    {
+      "name": "Herb compounding (bring your own materials)",
+      "price": 3,
+      "effect": "Makes the corresponding medicine from the materials"
+    }
+  ],
+  "buyback_rate": 0.6,
+  "buys": ["herbs", "medicinal ingredients", "plant materials"]
+}

@@ -1,0 +1,21 @@
+{
+  "level": "D001",
+  "fit": {
+    "px": 260,
+    "py": 220,
+    "x0": 0.0,
+    "y0": -5.0,
+    "sx": 50.8,
+    "sy": 58.4
+  },
+  "size": [
+    1536,
+    1024
+  ],
+  "layout_hash": "1bc0d5b4f73c",
+  "backend": "codex",
+  "model": "codex",
+  "prompt": "Turn this layout sketch into a painted top-down dungeon map of 「苔墓地穴」 (潮湿古墓/苔藓/低语). STRICTLY keep each room exactly where a chamber is drawn and corridors along the drawn lines.\nPlaces (content only — positions come from the sketch):\n- entrance chamber 「潮门前室」: 石门半掩，潮气涌出。墙角有被拖拽的痕迹。\n- corridor 「苔廊」: 长廊两侧苔藓像呼吸一样起伏，偶尔传来细小的耳语。\n- chamber 「供台室」: 断裂的供台上残留蜡泪，空气里混着甜腥味。\n- inner sanctum 「棺语内殿」: 中央棺木微微震动，像在压住笑声。你能感觉到它在‘看’你。\nStyle: Painterly dark-fantasy illustration, muted foggy palette (slate blue, moss green, warm lantern amber), cinematic, highly detailed, no text, no labels, no letters, no UI.",
+  "generated_at": "2026-09-25T23:01:55",
+  "guide": "D001.guide.png"
+}

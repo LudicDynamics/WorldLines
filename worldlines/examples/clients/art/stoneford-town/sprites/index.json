@@ -1,0 +1,74 @@
+{
+ "player": {
+  "frame": 64,
+  "frames": 3,
+  "foot": 57,
+  "top": 8
+ },
+ "elena": {
+  "frame": 64,
+  "frames": 3,
+  "foot": 62,
+  "top": 4
+ },
+ "rowan": {
+  "frame": 64,
+  "frames": 3,
+  "foot": 61,
+  "top": 2
+ },
+ "heron": {
+  "frame": 64,
+  "frames": 3,
+  "foot": 60,
+  "top": 3
+ },
+ "kas": {
+  "frame": 64,
+  "frames": 3,
+  "foot": 60,
+  "top": 3
+ },
+ "laowei": {
+  "frame": 64,
+  "frames": 3,
+  "foot": 60,
+  "top": 3
+ },
+ "laoyu": {
+  "frame": 64,
+  "frames": 3,
+  "foot": 58,
+  "top": 5
+ },
+ "mira": {
+  "frame": 64,
+  "frames": 3,
+  "foot": 61,
+  "top": 2
+ },
+ "tiger": {
+  "frame": 64,
+  "frames": 3,
+  "foot": 60,
+  "top": 3
+ },
+ "vera": {
+  "frame": 64,
+  "frames": 3,
+  "foot": 60,
+  "top": 3
+ },
+ "bandit": {
+  "frame": 64,
+  "frames": 3,
+  "foot": 57,
+  "top": 7
+ },
+ "wraith": {
+  "frame": 64,
+  "frames": 3,
+  "foot": 57,
+  "top": 6
+ }
+}

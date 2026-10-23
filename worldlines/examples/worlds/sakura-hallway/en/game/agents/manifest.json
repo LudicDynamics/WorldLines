@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "execution_mode": "orchestrator",
+  "note": "Sakura Hallway · emotional-narrative orchestration. world-agent is Layer 1 (narrative orchestrator): advances scenes and the timeline, voices Saya/Fumi/Senpai, calls heart to rule on affection, writes affection and memory back to npc + run_state. heart only makes the 'fluttering-heart' ruling and returns JSON, world-agent does the persisting. No combat, no dice.",
+  "agents": [
+    {
+      "id": "world-agent",
+      "name": "Narrator",
+      "agent_path": ".claude/agents/world-agent.md",
+      "role": "Layer 1 — narrative orchestrator: scene/timeline advancement + writing back affection and memory + voicing the characters",
+      "description": "Advances the cherry-blossom-season timeline (the speed of falling petals), voices Saya, Fumi, and Senpai, calls heart on every meaningful player word or action to rule on affection changes, **writes the new affection and that line back to game/npc/<id>.json, and updates run_state (day / petals remaining / focus character)**, one beat then stop to wait for the player. All player input passes through it first.",
+      "read_globs": [
+        "game/**"
+      ],
+      "write_globs": [
+        "game/meta/run_state.json",
+        "game/meta/active-agent.json",
+        "game/npc/*.json"
+      ]
+    },
+    {
+      "id": "heart",
+      "name": "Heart (Affection Arbiter)",
+      "agent_path": ".claude/agents/heart.md",
+      "role": "Layer 2 — affection / fluttering-heart ruling",
+      "description": "Given a player line/action and a target character, combined with that character's personality and current affection, returns one structured 'fluttering-heart' ruling JSON: affection change (delta), whether a milestone is reached, a one-line internal reason. Never writes prose, never writes files (world-agent persists affection/memory). Temp 0.4.",
+      "read_globs": [
+        "game/npc/*.json",
+        "game/rules/affection.md",
+        "game/meta/run_state.json"
+      ],
+      "write_globs": []
+    }
+  ],
+  "routing_doctrine": {
+    "all_player_input_passes_through": "world-agent",
+    "all_affection_checks_route_to": "heart",
+    "specialists_return_json_world_agent_persists": true,
+    "no_specialist_writes_prose": true,
+    "max_call_chain_depth_per_turn": 3
+  }
+}

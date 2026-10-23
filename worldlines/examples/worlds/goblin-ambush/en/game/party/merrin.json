@@ -1,0 +1,25 @@
+{
+  "id": "merrin",
+  "kind": "party",
+  "name": "Merrin",
+  "class": "Wizard",
+  "ac": 12,
+  "hp": 7,
+  "hp_max": 7,
+  "initiative_mod": 2,
+  "attacks": [
+    {
+      "name": "Fire Bolt",
+      "to_hit": 5,
+      "damage": "1d10",
+      "range": "Ranged spell"
+    },
+    {
+      "name": "Staff",
+      "to_hit": 2,
+      "damage": "1d6",
+      "range": "Melee"
+    }
+  ],
+  "note": "Elf wizard, frail but Fire Bolt hurts. Be sure not to let the goblin close in on her."
+}

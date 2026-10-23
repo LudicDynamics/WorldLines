@@ -1,0 +1,17 @@
+{
+  "id": "islet-surface",
+  "kind": "location",
+  "name": "Islet · Surface",
+  "tags": [
+    "islet",
+    "ritual",
+    "path-b"
+  ],
+  "summary": "Reached by wading from the south shore at low tide. On the surface stands the altar (the Yith time machine). A slot for the magatama. Beside the altar a footpath leads down.",
+  "connections": [
+    "south-shore",
+    "islet-dock",
+    "islet-ledge"
+  ],
+  "notes": "Path B entrance. Entering the past chapter from here, you meet the one in black."
+}

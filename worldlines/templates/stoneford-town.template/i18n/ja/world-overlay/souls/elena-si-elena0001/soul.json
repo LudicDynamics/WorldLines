@@ -1,0 +1,27 @@
+{
+  "standalone": true,
+  "schema_version": 1,
+  "sid": "elena",
+  "name": "エレナ・ヴェイル",
+  "name_local": "エレナ",
+  "version": "1.0",
+  "created_at": "2026-05-17T00:00:00Z",
+  "source": {
+    "kind": "builtin",
+    "hash": "stonefordelena001",
+    "version": "1.0"
+  },
+  "agent_template": "heroine-classic",
+  "intro_i18n": {
+    "en": "Young, capable, underfunded, and missing most of her past. She doesn't remember who she is or where she came from — only a pair of hands that still know how to stop bleeding and read herbs. What she lacks is context.",
+    "zh": "年轻、能干、囊中羞涩，过去几乎全部丢失。她不记得自己是谁、从哪来——只剩一双会止血、会辨认草药的手。她缺的，是来龙去脉。",
+    "ja": "若く有能だが金はなく、過去の大半を失っている。自分が誰でどこから来たのかも覚えていない——残っているのは、止血と薬草の見分けを覚えた両手だけ。足りないのは記憶の文脈だ。",
+    "ko": "젊고 유능하지만 가진 것은 없고, 과거의 대부분을 잃었다. 자신이 누구이며 어디서 왔는지도 기억하지 못한다 — 남은 것은 지혈과 약초를 가려내는 손뿐. 그녀에게 없는 것은 맥락이다."
+  },
+  "tags": [
+    "pc",
+    "heroine",
+    "adventurer",
+    "stoneford"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "session_id": "S0001",
+  "world_id": "W-PCT",
+  "location": {
+    "scope": "town",
+    "node_id": "T001",
+    "subnode_id": "hall",
+    "node": "hall",
+    "display": "灰橡宅·门厅"
+  },
+  "time": {
+    "day": 1,
+    "clock": "21:00"
+  },
+  "last_action": "arrived_at_the_house",
+  "pending": [],
+  "turn_count": 0,
+  "party": {
+    "player": {
+      "pid": "player",
+      "state_path": "game/player",
+      "location": "hall"
+    },
+    "souls": {
+      "chara": {
+        "instance_id": "si-chara0001",
+        "state_file": "souls/chara-si-chara0001/run_state.json",
+        "location": "hall",
+        "available_for_interaction": true
+      },
+      "butler": {
+        "instance_id": "si-butler0001",
+        "state_file": "souls/butler-si-butler0001/run_state.json",
+        "location": "hall",
+        "available_for_interaction": true
+      }
+    }
+  }
+}

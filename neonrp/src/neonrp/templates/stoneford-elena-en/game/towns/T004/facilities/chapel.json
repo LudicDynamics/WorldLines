@@ -1,0 +1,35 @@
+{
+  "facility_id": "chapel_T004",
+  "name": "Dawnlight Chapel",
+  "deity": "God of Light · Lord of the Dawn",
+  "services": [
+    {
+      "name": "Prayer",
+      "price": 0,
+      "effect": "Peace of mind; removes the fear/confusion status"
+    },
+    {
+      "name": "Healing blessing",
+      "price": 10,
+      "effect": "Restores 30 HP"
+    },
+    {
+      "name": "Purification",
+      "price": 20,
+      "effect": "Removes a curse or negative magical effect"
+    },
+    {
+      "name": "Donation",
+      "price": "voluntary",
+      "effect": "Raises favor with the church"
+    }
+  ],
+  "lore": [
+    "This chapel was built when Jadestone's mining first began — said to be for holding down something deep in the mine.",
+    "The chapel's white stone is not local; it is holy stone brought from the distant south.",
+    "Father Silas was 'reassigned' here from Mistlake City ten years ago, but those in the know say he actually asked to come himself."
+  ],
+  "state": {
+    "available": true
+  }
+}

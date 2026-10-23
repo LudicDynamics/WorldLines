@@ -1,0 +1,3 @@
+{
+  "description": "메인 조율자. run_state.json을 읽고 location.scope에 따라 하위 에이전트로 라우팅하고, 결과를 합쳐 게임 상태를 갱신하고 최종 서술을 만든다."
+}

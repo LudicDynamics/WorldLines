@@ -1,0 +1,19 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "Game Start Guide",
+  "startup": {
+    "read_first": [
+      "game/meta/game-start.json",
+      "game/player/player.json",
+      "game/town/start-town.json"
+    ],
+    "start_location": "start-town",
+    "player_entity": "player",
+    "opening_scene": "You arrive in the guild town.",
+    "opening_choices": [
+      "Visit the shop",
+      "Leave town"
+    ]
+  }
+}

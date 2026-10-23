@@ -1,0 +1,53 @@
+{
+  "id": "T004",
+  "type": "town",
+  "name": "제이드스톤",
+  "region": "Northvale",
+  "pos": [
+    18,
+    4
+  ],
+  "summary": "비취와 수정이 많이 나는 광산 마을. 모험가들이 모여드는 곳이다.",
+  "state": {
+    "discovered": true,
+    "danger_nearby": 2
+  },
+  "travel_info": {
+    "from_T001": "북동쪽으로 3일 길",
+    "recommendation": "초보 모험가에게 알맞음"
+  },
+  "locations": {
+    "모험가 길드 제이드스톤 지부": {
+      "discovered": true,
+      "note": "스톤포드 지부의 두 배 크기"
+    },
+    "제이드크리스털 주점": {
+      "discovered": true,
+      "note": "오늘 밤 모이기로 한 곳"
+    },
+    "광부 대로": {
+      "discovered": true,
+      "note": "큰길, 푸른 돌로 포장됨"
+    },
+    "새벽빛 예배당": {
+      "discovered": true,
+      "note": "동쪽 거리, 엘레나가 혼자 가려는 곳"
+    },
+    "광석 가게": {
+      "discovered": true
+    },
+    "약초 가게": {
+      "discovered": true
+    },
+    "대장간": {
+      "discovered": true
+    },
+    "광산 입구": {
+      "discovered": false
+    }
+  },
+  "connections": [
+    "T001"
+  ],
+  "entry": "gate_west"
+}

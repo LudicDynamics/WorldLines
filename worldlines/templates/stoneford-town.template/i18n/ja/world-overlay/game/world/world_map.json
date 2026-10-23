@@ -1,0 +1,84 @@
+{
+  "world_id": "W001",
+  "name": "灰霧の北境",
+  "parent_territory": "灰鴉領",
+  "seed": 123456,
+  "foreign_lands": [
+    {
+      "id": "FL001",
+      "name": "フロストウルフ王国",
+      "direction": "north",
+      "description": "背割れ山脈の北にある寒冷の王国。住民は熊のように大柄で、オークの部族と絶えず争っている",
+      "access": "嘆きの隘路(夏のあいだだけ通れる)",
+      "relation": "neutral",
+      "discovered_via": "ミラから聞いた噂"
+    },
+    {
+      "id": "FL002",
+      "name": "エメラルド同盟",
+      "direction": "far_east",
+      "description": "東方辺境のエルフの廃墟のさらに先にある都市国家の連合。ときおり商人が交易に来る",
+      "access": "東方辺境の廃墟を越える",
+      "relation": "trade",
+      "discovered_via": "ミラから聞いた噂"
+    },
+    {
+      "id": "FL003",
+      "name": "灰色の海",
+      "direction": "south",
+      "description": "南に果てしなく広がる灰色の海。十日十晩船を進めても灰色の霧ばかりで、行った者は帰ってこないという",
+      "access": "unknown",
+      "relation": "unknown",
+      "discovered_via": "ミラから聞いた噂"
+    }
+  ],
+  "routes": [
+    {
+      "id": "R001",
+      "from": "T001",
+      "to": "T002",
+      "kind": "road",
+      "distance": 18,
+      "tags": [
+        "trade",
+        "patrolled"
+      ],
+      "state": {
+        "blocked": false
+      }
+    },
+    {
+      "id": "R002",
+      "from": "T001",
+      "to": "D001",
+      "kind": "trail",
+      "distance": 6,
+      "tags": [
+        "foggy",
+        "beasts"
+      ],
+      "state": {
+        "blocked": false
+      }
+    },
+    {
+      "id": "R004",
+      "from": "T001",
+      "to": "T004",
+      "kind": "road",
+      "distance": 45,
+      "tags": [
+        "trade",
+        "bandit_risk"
+      ],
+      "state": {
+        "blocked": false
+      },
+      "note": "低い丘の林を抜ける道。「隻眼の虎」率いる二十人ほどの山賊が出没する"
+    }
+  ],
+  "time": {
+    "day": 3,
+    "clock": "17:15"
+  }
+}

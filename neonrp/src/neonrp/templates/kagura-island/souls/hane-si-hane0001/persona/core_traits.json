@@ -1,0 +1,10 @@
+{
+  "sid": "hane",
+  "traits": {
+    "freedom": 0.95,
+    "sensitivity": 0.85,
+    "restlessness": 0.8,
+    "warmth": 0.7,
+    "observation": 0.5
+  }
+}

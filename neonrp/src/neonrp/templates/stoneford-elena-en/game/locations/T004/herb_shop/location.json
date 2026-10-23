@@ -1,0 +1,14 @@
+{
+  "id": "herb_shop",
+  "name": "Mossgreen Herb Shop",
+  "type": "facility",
+  "facility_file": "facilities/herb_shop.json",
+  "description": "A small shop wrapped in creeping vines, the air steeped in the bittersweet scent of herbs. Injured miners often come here to buy medicine.",
+  "pos": {
+    "x": 250,
+    "y": 400
+  },
+  "connections": [
+    "main_street"
+  ]
+}

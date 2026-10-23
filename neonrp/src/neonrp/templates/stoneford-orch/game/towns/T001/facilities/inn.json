@@ -1,0 +1,17 @@
+{
+  "facility_id": "inn_T001",
+  "name": "河灯旅店",
+  "rooms": [
+    {
+      "type": "common",
+      "price": 3,
+      "benefit": "休息：HP/MP恢复至最大"
+    },
+    {
+      "type": "private",
+      "price": 8,
+      "benefit": "休息+额外：下一次社交检定+1（当日）"
+    }
+  ],
+  "rumor_pool_ref": "../../lore/rumors.md"
+}

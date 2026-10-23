@@ -1,0 +1,6 @@
+{
+  "_doc": "百分骰调查的对手表:hp、攻击技能 %(skill)、闪避 %(dodge)、伤害骰(dmg)。层次同 rules.json。def/atk 留给沿用 rpg 战斗代码的地方(不读也无妨)。",
+  "foe": {"names": {"zh": "敌人", "en": "foe", "ja": "敵", "ko": "적"}, "hp": 11, "skill": 40, "dodge": 25, "dmg": "1d6", "def": 11, "atk": 2},
+  "thug": {"names": {"zh": "打手", "en": "thug", "ja": "チンピラ", "ko": "깡패"}, "aliases": ["thugs"], "hp": 12, "skill": 45, "dodge": 25, "dmg": "1d6", "def": 11, "atk": 2},
+  "hound": {"names": {"zh": "恶犬", "en": "hound", "ja": "猛犬", "ko": "사나운 개"}, "aliases": ["hounds", "dog", "dogs"], "hp": 9, "skill": 40, "dodge": 30, "dmg": "1d6", "def": 12, "atk": 2}
+}

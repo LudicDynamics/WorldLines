@@ -1,0 +1,7 @@
+{
+  "id": "player",
+  "kind": "player",
+  "name": "Commander",
+  "summary": "You command three adventurers: Aldric, Bree, and Merrin. You don't fight in person; instead you issue each one's actions.",
+  "location": "forest-path"
+}

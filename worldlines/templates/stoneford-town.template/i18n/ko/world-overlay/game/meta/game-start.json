@@ -1,0 +1,67 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "스톤포드 · 안개가 물러나는 밤 — 시작",
+  "tags": [
+    "entrypoint",
+    "start",
+    "begin",
+    "게임 시작",
+    "모험 시작"
+  ],
+  "summary": "플레이어가 「게임 시작」이라고 말하면, orchestrator는 먼저 이 파일을 읽는다.",
+  "startup": {
+    "read_first": [
+      "game/meta/game-start.json",
+      "game/meta/run_state.json",
+      "game/meta/roster.json",
+      "game/timeline/current.json",
+      "game/player/controller.json",
+      "game/player/profile.json",
+      "game/player/stats.json",
+      "game/player/equipment.json",
+      "game/player/wallet.json",
+      "game/towns/T001/town.json",
+      "game/lore/story.md"
+    ],
+    "opening_scene": {
+      "zh": "雾期第五夜。驿路上的雾浓得能拧出水,你在北门外最后一盏灯下停住。守门人卡斯的头盔大了一号,他把长矛横过来:「没公会委托,往北一步都不行——往南进镇倒随你。」门里的石津镇挤满了走不了的人:集市广场停着一排商队马车,旅店的窗比哪儿都亮。卡斯压低声音补了一句:「后天零点,雾会退开一夜。整个镇子都在等那一夜。」",
+      "en": "The fifth night of the fog season. The fog on the post road is thick enough to wring out; you stop under the last lamp outside the north gate. Kas the gate guard, his helmet a size too big, lowers his spear across the way: \"No guild commission, not one step north — south into town, suit yourself.\" Inside, Stone Ford is packed with people who cannot leave: a row of stranded caravan wagons in the market square, the inn's windows brighter than anywhere. Kas adds, quieter: \"The night after tomorrow, at midnight, the fog lifts for one night. The whole town is waiting for it.\"",
+      "ko": "안개철 다섯째 밤. 역로의 안개는 손으로 쥐어짜면 물이 떨어질 만큼 짙다. 당신은 북문 밖 마지막 등불 아래에서 걸음을 멈춘다. 투구가 한 치수 큰 문지기 캐스가 창을 가로로 눕혀 길을 막는다. 「길드 의뢰가 없으면 북쪽으로는 한 발짝도 안 돼. 남쪽으로, 마을 안에 들어가는 거야 마음대로고.」 문 안쪽 스톤포드는 떠나지 못한 사람들로 북적인다. 시장 광장에는 상단의 짐마차가 줄지어 서 있고, 여관 창문이 어디보다도 환하다. 캐스가 목소리를 낮춰 한마디 덧붙인다. 「모레 자정에 안개가 하룻밤 동안 물러나. 온 마을이 그 밤만 기다리고 있지.」"
+    },
+    "opening_choices": {
+      "zh": [
+        "进镇,去旅店打听",
+        "去冒险者公会看委托",
+        "问卡斯:雾退开以后北路通到哪"
+      ],
+      "en": [
+        "Go into town and ask around at the inn",
+        "Check the commissions at the guild",
+        "Ask Kas where the north road leads once the fog lifts"
+      ],
+      "ko": [
+        "마을로 들어가 여관에서 소문을 듣는다",
+        "모험가 길드에 가서 의뢰를 살펴본다",
+        "캐스에게 묻는다: 안개가 물러나면 북쪽 길은 어디로 이어지지?"
+      ]
+    }
+  },
+  "world_info": {
+    "world_name": "잿빛안개 북방 Northvale",
+    "start_location": "T001 스톤포드",
+    "start_scope": "town",
+    "start_time": {
+      "day": 1,
+      "clock": "08:30"
+    },
+    "genre": "중세 판타지 TRPG / 여주인공 중심 이주 데모",
+    "tone": "사실적이고, 축축하고, 절제되어 있으며, 대가가 따른다",
+    "rules": "d20 주사위 판정 · 자세한 내용은 game/rules/combat_rules.md"
+  },
+  "agent_routing": {
+    "entry_agent": "world-agent",
+    "router_type": "sticky",
+    "note": "모든 플레이어 입력은 먼저 orchestrator를 거친다. orchestrator는 run_state.json을 읽고 어느 domain agent에 맡길지 정한다. world-agent를 건너뛰고 domain agent로 바로 들어가지 않는다."
+  }
+}

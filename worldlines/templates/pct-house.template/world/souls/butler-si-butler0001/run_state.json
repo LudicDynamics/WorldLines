@@ -1,0 +1,8 @@
+{
+  "sid": "butler",
+  "instance_id": "si-butler0001",
+  "location": "T001/hall",
+  "status": {
+    "mood": "guarded"
+  }
+}

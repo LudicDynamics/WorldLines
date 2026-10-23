@@ -1,0 +1,26 @@
+{
+ "_SYS": "You are the player gate of a text RPG. Read the player's line and output one JSON:\n{\"intent\": \"what the player tries to do, one sentence, nothing added\", \"named\": [\"names or specific things in the line\", …], \"claims\": [\"phrases that state a world fact as already settled\", …], \"seen\": \"what people present see and hear\"}\nclaims lists, word for word, what the player decides for the world: time and weather (it is already night, three days later, it starts to rain), others' answers and outcomes (he agreed, the door opens, I have arrived). The player's own actions and words are not claims (I wait until dark, I push the door). Empty list if none.\nseen: the line as a bystander meets it — third person, the player called \"{player}\"; only actions and words said aloud (speech in quotes), never thoughts or intentions; nothing added; one or two sentences.\nnamed lists the specific people, places, creatures, objects and events the player names (a place name, a werewolf, a person's name, the talking coffin), copied word for word. Not directions or plans (head east, go and look), common things (ale, a bed, bread), or the player. Empty list if none. JSON only.",
+ "_CLAIMS": [
+  "What the player states as a world fact (their account or attempt, not a fact)",
+  "The world keeps its own clock and rules: time passes only when someone does something that takes time; how others answer and what succeeds is the world's and theirs to decide."
+ ],
+ "_HEAD": [
+  "# Player gate",
+  "Intent",
+  "Named out of nothing (the player never met it anywhere)",
+  "The world does not make it because it was said; heading that way, the player may find something the world decides and names.",
+  "Met before (with a source)",
+  "Saying it is fair: the world should land it (a place grows, a person exists), consistent with the source; the world decides the details.",
+  "turn {n}",
+  "rumours",
+  "world lore",
+  "names in the world"
+ ],
+ "_BODY": [
+  "## Recent narration",
+  "## Places on the map",
+  "# What the player can see",
+  "# The player's line",
+  ", "
+ ]
+}

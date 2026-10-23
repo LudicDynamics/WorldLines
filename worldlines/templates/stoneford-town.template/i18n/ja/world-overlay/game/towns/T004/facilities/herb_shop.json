@@ -1,0 +1,72 @@
+{
+  "facility_id": "herb_shop_T004",
+  "name": "グリーンモス薬草店",
+  "price_index": 1.0,
+  "inventory": [
+    {
+      "id": "healing_potion_small",
+      "name": "回復薬(小)",
+      "price": 12,
+      "stock": 5
+    },
+    {
+      "id": "healing_salve",
+      "name": "癒しの軟膏",
+      "price": 8,
+      "stock": 6,
+      "note": "塗り薬。HPを15回復。他人にも使える"
+    },
+    {
+      "id": "antidote",
+      "name": "解毒薬",
+      "price": 10,
+      "stock": 4
+    },
+    {
+      "id": "stamina_herb",
+      "name": "気付け草の束",
+      "price": 6,
+      "stock": 8,
+      "note": "疲労状態を消す"
+    },
+    {
+      "id": "miners_balm",
+      "name": "鉱夫の胸薬",
+      "price": 5,
+      "stock": 10,
+      "note": "鉱塵で胸をやられるのを防ぐ。効果は4時間"
+    },
+    {
+      "id": "moonflower_extract",
+      "name": "月見草のエキス",
+      "price": 15,
+      "stock": 2,
+      "note": "希少な薬草の抽出液。魔力をわずかに高める"
+    },
+    {
+      "id": "herb_bundle_common",
+      "name": "常備薬草の包み",
+      "price": 8,
+      "stock": 5,
+      "note": "よく使う薬草の詰め合わせ。調薬の心得がある者向け"
+    }
+  ],
+  "services": [
+    {
+      "name": "傷の手当て",
+      "price": 5,
+      "effect": "HPを10回復"
+    },
+    {
+      "name": "薬の調合(材料持ち込み)",
+      "price": 3,
+      "effect": "持ち込んだ材料に応じた薬を作る"
+    }
+  ],
+  "buyback_rate": 0.6,
+  "buys": [
+    "薬草",
+    "薬の材料",
+    "植物素材"
+  ]
+}

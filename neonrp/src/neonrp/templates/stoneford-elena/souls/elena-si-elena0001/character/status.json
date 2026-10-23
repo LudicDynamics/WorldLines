@@ -1,0 +1,10 @@
+{
+  "sid": "elena",
+  "memory": "amnesia",
+  "mood": "alert",
+  "flags": {
+    "newcomer": true,
+    "amnesiac": true,
+    "low_funds": true
+  }
+}

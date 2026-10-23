@@ -1,0 +1,9 @@
+{
+  "sid": "rowan",
+  "memory": "stable",
+  "mood": "restless_hopeful",
+  "flags": {
+    "met_elena_before": false,
+    "waiting_in_bishi": true
+  }
+}

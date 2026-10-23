@@ -1,0 +1,15 @@
+{
+  "id": "undersea-tunnel",
+  "kind": "location",
+  "name": "海底トンネル",
+  "tags": [
+    "underground",
+    "hidden",
+    "path-a"
+  ],
+  "summary": "潮待ち茶屋の地下から離島の船着き場へ通じる海底トンネル。石壁に古代の壁画がある。空気は湿り、温度が次第に上がっていく。",
+  "connections": [
+    "cafe-basement",
+    "islet-dock"
+  ]
+}

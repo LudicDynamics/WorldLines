@@ -1,0 +1,26 @@
+# WorldLines 壳仓的 dev / run 工程（2026-09 两仓彻底分离）。
+#
+# `uv run worldlines` 在本目录直接跑：入口走本仓的 SPA 启动器
+# （worldlines_shim.main，与发布 wheel 同一份），它自动把 NEONRP_SPA_DIR
+# 指向仓库 ui/dist-local——所以 dev 也「worldlines 自带 SPA、免 env」。
+# neonrp 引擎作为外部固定依赖引入；换引擎版本只改下面 neonrp 那一行。
+[project]
+name = "worldlines-shell"
+version = "1.0.3"
+description = "WorldLines dev harness — runs the neonrp engine behind the WorldLines web shell (SPA self-served)"
+requires-python = ">=3.10"
+dependencies = [
+    "neonrp[discord]==1.0.3",
+]
+
+[project.scripts]
+worldlines = "worldlines_shim:main"
+neonrp = "neonrp.cli:cli"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# 复用发布壳里的同一份 worldlines_shim（单一事实来源），映射成顶层可导入。
+[tool.hatch.build.targets.wheel]
+packages = ["packaging/worldlines/worldlines_shim"]

@@ -1,0 +1,39 @@
+{
+  "id": "rules-referee",
+  "name": "Rules Referee",
+  "description": "神楽島 ルール裁定者。非戦闘の BRP 式技能/理性値判定、常識チェック、そして禁忌判定（禁忌違反は不可逆、信頼低下・翌日の態度変化）を処理する。world-agent が不確定な行為のときにルーティングする。",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "triggers": [],
+  "tags": ["rules", "dice", "sanity", "taboo", "skill-check"],
+  "priority": 70,
+  "permissions": {
+    "read_globs": [
+      "game/meta/run_state.json",
+      "game/meta/roster.json",
+      "game/timeline/current.json",
+      "game/locations/*.json",
+      "game/lore/notes.md",
+      "game/lore/wall-writings.json",
+      "game/lore/waen-monument.json"
+    ],
+    "write_globs": [
+      "game/meta/run_state.json",
+      "game/lore/notes.md"
+    ],
+    "deny_globs": [
+      ".neonrp/**",
+      "souls/**",
+      "game/lore/gm-truth.md"
+    ],
+    "direct_write_globs": [
+      "game/meta/run_state.json",
+      "game/lore/notes.md"
+    ]
+  },
+  "defaults": {
+    "context_limit": 20,
+    "temperature": 0.6
+  }
+}

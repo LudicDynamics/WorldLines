@@ -1,0 +1,77 @@
+{
+  "facility_id": "guild_T004",
+  "name": "冒険者ギルド(ジェイドストーン支部)",
+  "hours": "07:00-22:00",
+  "reputation_rules": {
+    "complete_job": 1,
+    "fail_job": -1
+  },
+  "services": [
+    "依頼の斡旋",
+    "冒険者登録/昇級",
+    "パーティ募集の掲示板",
+    "鉱区探索許可証"
+  ],
+  "quest_board": [
+    {
+      "qid": "Q_T004_01",
+      "title": "坑道の奥の怪音",
+      "tier": 2,
+      "summary": "坑道の第三層から正体不明の音がして、鉱夫たちが降りるのを拒んでいる。原因を突き止め、脅威を取り除け。",
+      "reward": {
+        "gold": 60,
+        "item": {
+          "id": "raw_crystal",
+          "name": "未研磨の水晶",
+          "qty": 2
+        }
+      },
+      "hooks": [
+        "mine_entrance"
+      ],
+      "state": "available"
+    },
+    {
+      "qid": "Q_T004_02",
+      "title": "翡翠の鉱脈の守り手",
+      "tier": 3,
+      "summary": "新たに見つかった翡翠の鉱脈の奥に、何かが棲みついている。鉱山会社が高額の賞金をかけて駆除を求めている。",
+      "reward": {
+        "gold": 150
+      },
+      "hooks": [
+        "mine_entrance"
+      ],
+      "requires": [
+        "Q_T004_01_completed"
+      ],
+      "state": "locked"
+    },
+    {
+      "qid": "Q_T004_03",
+      "title": "薬草採り:月見草",
+      "tier": 1,
+      "summary": "グリーン婆さんが、鉱区の外の山の斜面に生える月見草を欲しがっている。5株摘んでくれば十分だ。",
+      "reward": {
+        "gold": 15,
+        "item": {
+          "id": "healing_salve",
+          "name": "癒しの軟膏",
+          "qty": 2
+        }
+      },
+      "hooks": [
+        "herb_shop"
+      ],
+      "state": "available"
+    }
+  ],
+  "notice_board": [
+    "鉱区探索隊、隊員募集——治療の心得のある者を優遇",
+    "警告:当面のあいだ、坑道第三層より下は立入禁止",
+    "東方辺境の方角で古代遺跡の入口らしきものが見つかった。興味のある者はギルドまで"
+  ],
+  "state": {
+    "last_refresh_day": 5
+  }
+}

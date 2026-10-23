@@ -1,0 +1,54 @@
+{
+  "town_id": "T001",
+  "quests": [
+    {
+      "qid": "Q001",
+      "title": "The Missing in the Fog",
+      "tier": 1,
+      "summary": "Someone went missing in the fog down by the docks. Recover a keepsake or a clue.",
+      "reward": {
+        "gold": 25
+      },
+      "hooks": [
+        "dock"
+      ],
+      "state": "available"
+    },
+    {
+      "qid": "Q002",
+      "title": "Wolves on the Mossbarrow Road",
+      "tier": 1,
+      "summary": "Beasts have appeared on the trail to Mossbarrow. Clear 3 encounters.",
+      "reward": {
+        "gold": 30,
+        "item": {
+          "id": "potion_small",
+          "name": "Minor Healing Potion",
+          "qty": 1
+        }
+      },
+      "hooks": [
+        "R002"
+      ],
+      "unlocks": [
+        {
+          "discover_dungeon": "D001"
+        }
+      ],
+      "state": "available"
+    },
+    {
+      "qid": "Q003",
+      "title": "The Talking Coffin (Investigation)",
+      "tier": 2,
+      "summary": "Go down into Mossbarrow, find out whether the rumor holds, and bring back proof.",
+      "reward": {
+        "gold": 80
+      },
+      "requires": [
+        "D001_discovered"
+      ],
+      "state": "locked"
+    }
+  ]
+}

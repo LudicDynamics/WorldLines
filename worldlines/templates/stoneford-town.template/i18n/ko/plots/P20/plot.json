@@ -1,0 +1,813 @@
+{
+ "id": "P20",
+ "title": "안개가 물러나는 밤",
+ "stages": [
+  {
+   "name": "안개철 다섯째 밤"
+  },
+  {
+   "name": "세 가지를 갖춰라"
+  },
+  {
+   "name": "안개가 물러나는 밤"
+  },
+  {
+   "name": "모스배로"
+  }
+ ],
+ "vars": {
+  "P20.pass": {
+   "type": "int",
+   "min": 0,
+   "max": 1,
+   "doc": "북문 통과 허가: 길드 의뢰 / 관청 통행증 / 캐스가 문을 열어 줌"
+  },
+  "P20.route": {
+   "type": "int",
+   "min": 0,
+   "max": 1,
+   "doc": "안개 속 길잡이: 낡은 안개길 지도 / 마일로의 부적 / 로완"
+  },
+  "P20.road": {
+   "type": "int",
+   "min": 0,
+   "max": 1,
+   "doc": "역로를 지나는 법: 산적 야영지 소탕 / 외눈 호랑이와 담판 / 물고기 영감의 배"
+  }
+ },
+ "entries": {
+  "I201": {
+   "class": "item",
+   "name": "낡은 안개길 지도",
+   "parent": "T001/shop_general",
+   "props": {
+    "summary": "리드 영감의 아내가 그린 안개길 지도. 잡화점 뒷방에 자물쇠로 잠겨 있다.",
+    "image_prompt": "a rolled old parchment map with faded ink routes through fog, tied with string"
+   }
+  },
+  "I202": {
+   "class": "item",
+   "name": "마일로의 부적",
+   "parent": "T001/inn",
+   "props": {
+    "summary": "입구를 꿰매 막은 작은 천 부적. 정찰대가 간 길이 붉은 실로 수놓여 있다."
+   }
+  },
+  "I203": {
+   "class": "item",
+   "name": "상단 장부",
+   "parent": "T001/market-square",
+   "props": {
+    "summary": "게르다의 짐마차에 있는 장부. 마지막 장에 헤론에게 건넨 돈이 적혀 있다."
+   }
+  },
+  "N201": {
+   "class": "npc",
+   "name": "마일로",
+   "parent": "D001/D001_R003",
+   "props": {
+    "summary": "미라의 남동생이자 정찰대의 막내. 모스배로 셋째 묘실에 갇혀 있다."
+   }
+  },
+  "I204": {
+   "class": "item",
+   "name": "「역로 산적 소탕」 의뢰",
+   "parent": "T001/guild",
+   "props": {
+    "summary": "헤론이 손수 의뢰 게시판 한가운데에 박아 둔 공고. 북문 밖 역로의 산적 야영지를 소탕할 것. 보수는 박하지만, 이 의뢰를 맡은 자는 북문을 지나갈 수 있다."
+   }
+  }
+ },
+ "triggers": {
+  "P20.pass.guild": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "who": "player",
+     "at": "T001/guild"
+    },
+    {
+     "text": [
+      "받겠",
+      "받을게",
+      "받을래",
+      "맡겠",
+      "맡을게",
+      "맡을래",
+      "수락",
+      "의뢰 받",
+      "서명",
+      "제가 하죠",
+      "내가 하지"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.pass",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "has_commission"
+    },
+    {
+     "to": "narration",
+     "text": "헤론이 「역로 산적 소탕」 의뢰서를 카운터에 탁 내려놓는다. 「가져가. 북문에서 보내 줄 거다. 밖에서 죽으면 길드는 시체 안 거둔다.」"
+    }
+   ],
+   "once": true
+  },
+  "P20.pass.warden": {
+   "when": {
+    "turn": true
+   },
+   "if": [
+    {
+     "flag": "persuaded.NPC005"
+    },
+    {
+     "any": [
+      {
+       "flag": "has_ledger"
+      },
+      {
+       "flag": "kas_exposed"
+      }
+     ]
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.pass",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "has_pass"
+    },
+    {
+     "to": "narration",
+     "text": "베라는 당신이 가져온 것을 다 보고 나서 한참을 말이 없다. 이윽고 나무패에 관청 인장을 찍는다. 「통행증이다. 내년 안개가 물러나는 밤이 지나고, 내 명부에서 또 한 사람이 지워지는 일은 없게 해.」"
+    }
+   ],
+   "once": true
+  },
+  "P20.pass.kas": {
+   "when": {
+    "turn": true
+   },
+   "if": [
+    {
+     "any": [
+      {
+       "flag": "persuaded.NPC004"
+      },
+      {
+       "flag": "stole.NPC004"
+      }
+     ]
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.pass",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "gate_opened"
+    },
+    {
+     "to": "var",
+     "var": "town.alert",
+     "add": 1
+    },
+    {
+     "to": "narration",
+     "text": "허리춤의 열쇠 꾸러미 위에서 캐스의 손이 잠시 멈춘다. 북문이 한 뼘쯤 열린다—사람 하나가 몸을 옆으로 틀어 빠져나갈 만큼."
+    }
+   ],
+   "once": true
+  },
+  "P20.route.map": {
+   "when": {
+    "turn": true
+   },
+   "if": [
+    {
+     "any": [
+      {
+       "flag": "persuaded.NPC002"
+      },
+      {
+       "flag": "stole.NPC002"
+      }
+     ]
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.route",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "has_map"
+    },
+    {
+     "to": "narration",
+     "text": "리드 영감이 뒷방에서 누렇게 바랜 양피지 한 두루마리를 꺼내 와, 주판 밑에 눌러 이쪽으로 밀어 준다. 「우리 집사람이 그린 거야. 측량 수첩을 모스배로에 두고 왔지—혹시 보거든 나 대신 가져다주게.」"
+    }
+   ],
+   "once": true
+  },
+  "P20.route.amulet": {
+   "when": {
+    "turn": true
+   },
+   "if": [
+    {
+     "any": [
+      {
+       "flag": "persuaded.NPC003"
+      },
+      {
+       "text": [
+        "마일로",
+        "동생",
+        "찾으러",
+        "찾아올",
+        "찾아 줄",
+        "데려올",
+        "부적"
+       ],
+       "in": "player"
+      }
+     ]
+    },
+    {
+     "who": "player",
+     "at": "T001/inn"
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.route",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "has_amulet"
+    },
+    {
+     "to": "narration",
+     "text": "미라가 소맷부리의 실밥을 풀어, 꿰매 막은 작은 부적 하나를 당신 손에 쥐여 준다. 천 위에는 붉은 실로 삐뚤빼뚤한 길 하나가 수놓여 있다—정찰대가 걸어간 길이다."
+    }
+   ],
+   "once": true
+  },
+  "P20.route.rowan": {
+   "when": {
+    "turn": true
+   },
+   "if": [
+    {
+     "flag": "joined.si-rowan0001"
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.route",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "rowan_joined"
+    },
+    {
+     "to": "soul",
+     "who": "si-rowan0001",
+     "text": "플레이어가 함께 안개 속으로 가자고 했다. 작년에 너는 혼자 모스배로 입구까지 갔다가 도망쳐 돌아왔다—이번에는 끝까지 가 보고 싶다.",
+     "important": true
+    }
+   ],
+   "once": true
+  },
+  "P20.road.fight": {
+   "when": {
+    "op": "end_combat"
+   },
+   "if": [
+    {
+     "who": "player",
+     "at": "T001/road_camp"
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.road",
+     "set": 1
+    },
+    {
+     "to": "narration",
+     "text": "모닥불이 진흙탕에 엎어진다. 야영지는 흩어졌고, 광차로 쌓은 바리케이드는 도랑가로 밀려났다—역로가 열렸다."
+    }
+   ],
+   "once": true
+  },
+  "P20.road.talk": {
+   "when": {
+    "flag": "persuaded.NPC008"
+   },
+   "if": [],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.road",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "tiger_ally"
+    },
+    {
+     "to": "narration",
+     "text": "외눈 호랑이가 한참이나 당신을 노려보더니, 곡괭이를 땅에 푹 꽂는다. 「안개가 물러나는 밤이 지나면, 네가 광부들 편에서 상단이랑 얘기해라. 약속하면 길 안내할 놈 하나 붙여 주지.」"
+    }
+   ],
+   "once": true
+  },
+  "P20.road.boat": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "who": "player",
+     "at": "T001/dock"
+    },
+    {
+     "text": [
+      "배를",
+      "배로",
+      "배 타",
+      "배에",
+      "나룻배",
+      "건너",
+      "강 건너",
+      "돌아서",
+      "우회"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.road",
+     "set": 1
+    },
+    {
+     "to": "var",
+     "var": "player.silver",
+     "add": -2
+    },
+    {
+     "to": "narration",
+     "text": "물고기 영감이 돈을 받아 챙기고 배를 안개 속으로 밀어낸다. 「건너편 오솔길로 가면 야영지를 피해 돌아갈 수 있지. 대신 반나절 밤길을 더 걸어야 해.」"
+    }
+   ],
+   "once": true
+  },
+  "P20.secret.heron": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "who": "player",
+     "at": "T001/guild"
+    },
+    {
+     "text": [
+      "상단",
+      "뇌물",
+      "돈을 받",
+      "돈 받",
+      "먼저 보냈",
+      "일찍 보냈",
+      "앞당",
+      "장부"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "flag",
+     "key": "heron_exposed"
+    },
+    {
+     "to": "narration",
+     "text": "헤론의 얼굴빛이 변한다. 그는 문을 닫는다. 「게르다야……상단 놈들이 나를 몰아붙여서 정찰대를 사흘 앞당겨 보냈어. 안개가 물러나기 전에 돌아올 줄 알았지.」"
+    }
+   ],
+   "once": true
+  },
+  "P20.secret.ledger": {
+   "when": {
+    "flag": "stole.NPC007"
+   },
+   "if": [],
+   "then": [
+    {
+     "to": "flag",
+     "key": "has_ledger"
+    },
+    {
+     "to": "narration",
+     "text": "게르다의 짐마차 안, 장부의 마지막 장에 「길드·헤」 앞으로 지급한 돈 한 건이 적혀 있다. 날짜는 정찰대가 떠나기 전날이다."
+    }
+   ],
+   "once": true
+  },
+  "P20.secret.kas": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "who": "player",
+     "at": "T001/gate_north"
+    },
+    {
+     "text": [
+      "산적",
+      "돈 받",
+      "돈을 받",
+      "뇌물",
+      "망을",
+      "망 봐",
+      "망봐",
+      "노름빚",
+      "도박빚"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "flag",
+     "key": "kas_exposed"
+    },
+    {
+     "to": "narration",
+     "text": "캐스의 투구가 한쪽으로 삐뚜름하게 돌아간다. 「……딱 한 번이었어! 그놈들이 준 돈이면 한 달 치 빚을 갚을 수 있었다고. 야영지 보초는 광차 뒤에 있고, 자정에 교대해.」"
+    }
+   ],
+   "once": true
+  },
+  "P20.ready": {
+   "when": {
+    "turn": true
+   },
+   "if": [
+    {
+     "var": "P20.pass",
+     ">=": 1
+    },
+    {
+     "var": "P20.route",
+     ">=": 1
+    },
+    {
+     "var": "P20.road",
+     ">=": 1
+    },
+    {
+     "var": "P20.stage",
+     "<": 1
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.stage",
+     "set": 1
+    },
+    {
+     "to": "narration",
+     "text": "북문 통과 허가, 안개 속 길잡이, 역로를 지날 방법—세 가지가 다 갖춰졌다. 이제 남은 건 자정을 기다리는 일뿐이다."
+    }
+   ],
+   "once": true
+  },
+  "P20.fog_lifts": {
+   "when": {
+    "var": "time.day"
+   },
+   "if": [
+    {
+     "var": "time.day",
+     ">=": 7
+    },
+    {
+     "var": "P20.stage",
+     "<": 2
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.stage",
+     "set": 2
+    },
+    {
+     "to": "narration",
+     "text": "자정. 안개가 썰물처럼 북쪽으로 밀려나며, 젖어 번들거리는 길 하나와 이십 년 만에 처음 보이는 별을 드러낸다."
+    }
+   ],
+   "once": true
+  },
+  "P20.tomb": {
+   "when": {
+    "entry": "D001",
+    "event": "enter",
+    "who": "player"
+   },
+   "if": [
+    {
+     "var": "P20.stage",
+     ">=": 2
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.stage",
+     "set": 3
+    }
+   ],
+   "once": true
+  },
+  "P20.amu": {
+   "when": {
+    "entry": "D001/D001_R003",
+    "event": "enter",
+    "who": "player"
+   },
+   "if": [],
+   "then": [
+    {
+     "to": "flag",
+     "key": "amu_found"
+    },
+    {
+     "to": "narration",
+     "text": "셋째 묘실 안, 제등 일고여덟 개가 둥글게 놓여 있다. 마일로와 정찰대 사람들이 서로 등을 맞대고 앉아 있다. 살아 있다—출구가 무너져 나가지 못했을 뿐이다."
+    }
+   ],
+   "once": true
+  },
+  "P20.coffin": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "who": "player",
+     "at": "D001/D001_R004"
+    },
+    {
+     "text": [
+      "비밀",
+      "교환",
+      "맞바꾸",
+      "바꾸자",
+      "피를",
+      "피 한",
+      "핏방울",
+      "엘레나"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "flag",
+     "key": "coffin_answered"
+    },
+    {
+     "to": "soul",
+     "who": "si-elena0001",
+     "text": "그 관이 네 이름을 불렀다. 이십 년 전 안개 속으로 들어간 그 일행 가운데 살아 나온 단 한 명의 아이가 바로 너였다. 네 가슴에 걸린 펜던트가 이 돌문의 열쇠다.",
+     "important": true
+    },
+    {
+     "to": "narration",
+     "text": "관 뚜껑에 새겨진 얼굴이 눈을 뜬다. 「비밀 하나에, 피 한 방울.」 당신이 말을 마치자 그것은 웃는다—그리고 엘레나의 이름을 부른다."
+    }
+   ],
+   "once": true
+  },
+  "P20.E1": {
+   "when": {
+    "flag": "coffin_answered"
+   },
+   "if": [
+    {
+     "flag": "amu_found"
+    }
+   ],
+   "then": [
+    {
+     "to": "end",
+     "ending": "E1"
+    }
+   ],
+   "once": true
+  },
+  "P20.E2": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "flag": "tiger_ally"
+    },
+    {
+     "var": "P20.stage",
+     ">=": 2
+    },
+    {
+     "text": [
+      "북쪽 길은 우리",
+      "북로는 우리",
+      "북로를 차지",
+      "차지하",
+      "점거",
+      "눌러앉",
+      "상단보다 먼저",
+      "선수 치",
+      "선수를 치"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "end",
+     "ending": "E2"
+    }
+   ],
+   "once": true
+  },
+  "P20.E3": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "flag": "amu_found"
+    },
+    {
+     "text": [
+      "돌아가자",
+      "마을로 돌아",
+      "돌아가야",
+      "철수",
+      "물러나자",
+      "날 밝기 전에",
+      "날이 밝기 전에",
+      "데리고 돌아",
+      "데려가자"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "end",
+     "ending": "E3"
+    }
+   ],
+   "once": true
+  },
+  "P20.E9.time": {
+   "when": {
+    "var": "time.day"
+   },
+   "if": [
+    {
+     "var": "time.day",
+     ">=": 8
+    },
+    {
+     "var": "P20.stage",
+     "<": 3
+    }
+   ],
+   "then": [
+    {
+     "to": "end",
+     "ending": "E9"
+    }
+   ],
+   "once": true
+  },
+  "P20.E9.fall": {
+   "when": {
+    "var": "player.hp"
+   },
+   "if": [
+    {
+     "var": "player.hp",
+     "<=": 0
+    }
+   ],
+   "then": [
+    {
+     "to": "end",
+     "ending": "E9"
+    }
+   ],
+   "once": true
+  }
+ },
+ "endings": {
+  "E1": {
+   "title": "안개가 물러나는 밤",
+   "kind": "true",
+   "text": "당신들이 정찰대를 데리고 모스배로를 나설 무렵, 안개는 벌써 되밀려 오기 시작한다. 엘레나는 맨 뒤에서 걸으며, 방금 되찾은 그 이름을 몇 번이고 되뇐다.",
+   "image_prompt": "dawn after the fog lifting night, a small party leading a rescued scout team out of a moss-covered tomb gate, the silver-haired healer looking back at the stars"
+  },
+  "E2": {
+   "title": "북로의 주인",
+   "kind": "alt",
+   "text": "상단의 마차 행렬이 도착했을 때, 북쪽 길에는 이미 광업 조합의 깃발이 빼곡히 꽂혀 있다. 외눈 호랑이가 곡괭이를 어깨에 걸치고 당신에게 고개를 끄덕인다.",
+   "image_prompt": "miners' banners planted along a mountain post road at dawn, a big one-eyed bandit chief with a pickaxe nodding, stranded merchant wagons halted below"
+  },
+  "E3": {
+   "title": "등불은 아직 켜져 있다",
+   "kind": "alt",
+   "text": "날이 밝기 전, 당신들은 마을로 돌아왔다. 미라는 마일로를 끌어안고 한참을 운다. 엘레나의 과거는 그 관 속에 남겨진 채, 아무도 묻지 않는다.",
+   "image_prompt": "an innkeeper hugging her younger brother in the warm doorway of a riverside inn at dawn, fog returning in the street behind"
+  },
+  "E9": {
+   "title": "안개가 닫혔다",
+   "kind": "fail",
+   "text": "안개가 북쪽 길 위로 다시 닫힌다. 아무 일도 없었다는 듯이. 내년 이 밤에도, 관청 명부에 이름 하나가 더 적히는 일은 없을 것이다.",
+   "image_prompt": "thick fog closing over an empty north road, a single lantern left on the ground, cold blue-grey"
+  }
+ },
+ "prompt": {
+  "entries": [
+   {
+    "id": "guide",
+    "text": "숨겨진 메인 줄거리: 북문을 나서려면 세 가지를 갖춰야 한다—북문 통과 허가(길드 의뢰 / 관청 통행증 / 캐스), 안개 속 길잡이(리드 영감의 낡은 안개길 지도 / 미라의 부적 / 로완), 역로를 지나는 법(산적 야영지 소탕 / 외눈 호랑이와 담판 / 물고기 영감의 배). 자연스러운 때에 마을 사람들이 이것들을 입에 올리게 하고, 목록으로 늘어놓지 않는다.",
+    "when": "always"
+   },
+   {
+    "id": "commission",
+    "text": "모험가 길드의 의뢰 게시판에는 헤론이 손수 쓴 「역로 산적 소탕」이 박혀 있다. 보수는 박하지만, 이 의뢰를 맡은 자는 북문을 지나갈 수 있다. 플레이어가 길드에서 의뢰나 산적, 북문 밖으로 나가는 일을 물으면 헤론이 이 의뢰서를 건넨다.",
+    "when": "always"
+   },
+   {
+    "id": "who_has_what",
+    "text": "마을 사람들은 저마다 북문을 나설 때 필요한 것을 쥐고 있다. 관청의 베라는 통행증을 내줄 수 있다(증거가 필요하다). 캐스는 산적에게 돈을 받은 적이 있다. 잡화점 리드 영감의 뒷방에는 죽은 아내가 그린 낡은 안개길 지도가 잠겨 있다. 여관 미라의 남동생 마일로는 실종된 정찰대에 있다. 부두의 물고기 영감은 배로 역로를 돌아갈 수 있다. 역로 야영지의 외눈 호랑이는 원래 제이드스톤의 광부였다. 그들은 질문을 받거나, 설득당하거나, 정체가 드러났을 때에만 그것을 내놓는다.",
+    "when": "always"
+   },
+   {
+    "id": "countdown",
+    "text": "안개가 물러나는 밤까지는 아직 시간이 있다. 무슨 일을 하든 시간이 흐르며, 여관에서 쉬면 다음 시간대로 넘어간다. 일곱째 날 자정에 안개가 물러난다.",
+    "when": {
+     "var": "P20.stage",
+     "<": 2
+    }
+   },
+   {
+    "id": "fog_night",
+    "text": "안개가 물러났다. 북쪽 길이 열렸고, 하늘에는 별이 떠 있다. 이 밤이 지나면 안개는 다시 닫힌다.",
+    "when": {
+     "var": "P20.stage",
+     ">=": 2
+    }
+   }
+  ]
+ },
+ "reveal": {
+  "ko": "이십 년 전, 한 일행이 안개가 물러나는 밤에 모스배로로 들어갔고 아이 하나만이 걸어 나왔다—그 아이가 엘레나다. 그녀의 가슴에 걸린 펜던트는 모스배로 돌문의 열쇠다. 올해는 역로 상단이 헤론을 몰아붙여 정찰대를 앞당겨 보내게 했다. 상단의 마차 행렬이 누구보다 먼저 북쪽 길을 지나가기 위해서였다."
+ },
+ "collect": {}
+}

@@ -1,0 +1,21 @@
+{
+  "level": "D001",
+  "fit": {
+    "px": 260,
+    "py": 220,
+    "x0": 0.0,
+    "y0": -5.0,
+    "sx": 50.8,
+    "sy": 58.4
+  },
+  "size": [
+    1536,
+    1024
+  ],
+  "layout_hash": "5c008e7b1961",
+  "backend": "codex",
+  "model": "codex",
+  "prompt": "Turn this layout sketch into a painted top-down dungeon map of \"Mossbarrow\" (damp ancient tomb / moss / whispers). STRICTLY keep each room exactly where a chamber is drawn and corridors along the drawn lines.\nPlaces (content only — positions come from the sketch):\n- entrance chamber \"Tidegate Antechamber\": the stone door hangs half-open, damp air pouring out; drag marks in the corner.\n- corridor \"Moss Corridor\": the moss along both walls swells and sinks as if breathing; now and then a faint whisper.\n- chamber \"Offering-Table Chamber\": old candle-wax hardened over a broken offering table; a sweet, bloody smell in the air.\n- inner sanctum \"Sanctum of the Speaking Coffin\": the coffin at the center trembles faintly, as if holding back laughter. You can feel it watching you.\nStyle: Painterly dark-fantasy illustration, muted foggy palette (slate blue, moss green, warm lantern amber), cinematic, highly detailed, no text, no labels, no letters, no UI.",
+  "generated_at": "2026-09-25T23:01:55",
+  "guide": "D001.guide.png"
+}

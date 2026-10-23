@@ -1,0 +1,14 @@
+{
+  "id": "appraiser",
+  "name": "까마귀눈 감정소",
+  "type": "facility",
+  "facility_file": "facilities/appraiser.json",
+  "description": "광석 감정사 '까마귀눈' 밴스 영감의 가게. 색이 서로 다른 그의 두 눈은 어떤 광석이든 본질을 꿰뚫어 본다고 한다.",
+  "pos": {
+    "x": 500,
+    "y": 320
+  },
+  "connections": [
+    "main_street"
+  ]
+}

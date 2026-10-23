@@ -1,0 +1,15 @@
+{
+  "relationships": {
+    "owner": {
+      "name": "Edmund Greywood",
+      "disposition": "The master he has served for forty years; the last thing he was ever bidden to do was the wall he plastered over with his own hands"
+    },
+    "chara": {
+      "name": "Winnie",
+      "disposition": "The young lady he watched grow up; he dreads nothing more than her going down into the cellar — unless it is her coming to hate her uncle"
+    },
+    "player": {
+      "disposition": "An outsider, sent for by Miss Winnie; perfectly courteous, but not trusted"
+    }
+  }
+}

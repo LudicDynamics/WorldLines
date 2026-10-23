@@ -1,0 +1,22 @@
+{
+  "id": "crater",
+  "kind": "location",
+  "name": "火口",
+  "tags": [
+    "crater",
+    "danger",
+    "forbidden"
+  ],
+  "summary": "島の最高点。活火山の火口。立入禁止の地。柵の一部が切断されている。異常な光と音。",
+  "connections": [
+    "shrine",
+    "crater-internal"
+  ],
+  "taboo": {
+    "solo_entry": {
+      "id": 4,
+      "description": "単独で火口に立ち入ってはならない",
+      "penalty": "即座に危険イベント発生"
+    }
+  }
+}

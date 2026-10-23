@@ -1,0 +1,30 @@
+{
+  "dungeon_id": "D001",
+  "tables": {
+    "common": [
+      {
+        "id": "coin_pouch",
+        "name": "零钱袋",
+        "min_gold": 3,
+        "max_gold": 10,
+        "chance": 0.4
+      }
+    ],
+    "rare": [
+      {
+        "id": "ring_moss",
+        "name": "苔纹戒",
+        "effect": "VIT+1（当探索地下城时）",
+        "chance": 0.1
+      }
+    ],
+    "boss": [
+      {
+        "id": "coffin_contract",
+        "name": "棺之契",
+        "effect": "解锁一个‘交易’剧情分支",
+        "chance": 1.0
+      }
+    ]
+  }
+}

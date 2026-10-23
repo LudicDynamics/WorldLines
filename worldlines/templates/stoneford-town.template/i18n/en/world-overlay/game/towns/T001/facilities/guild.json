@@ -1,0 +1,78 @@
+{
+  "facility_id": "guild_T001",
+  "name": "Stoneford Guild",
+  "hours": "09:00-19:00",
+  "reputation_rules": {
+    "complete_job": 1,
+    "fail_job": -1
+  },
+  "quest_board": [
+    {
+      "qid": "Q001",
+      "title": "The Missing in the Fog",
+      "tier": 1,
+      "summary": "Someone went missing in the fog down by the docks. Recover a keepsake or a clue.",
+      "reward": {
+        "gold": 25
+      },
+      "hooks": [
+        "dock"
+      ],
+      "state": "available"
+    },
+    {
+      "qid": "Q002",
+      "title": "Wolves on the Mossbarrow Road",
+      "tier": 1,
+      "summary": "Beasts have appeared on the trail to Mossbarrow. Clear 3 encounters.",
+      "reward": {
+        "gold": 30,
+        "item": {
+          "id": "potion_small",
+          "name": "Minor Healing Potion",
+          "qty": 1
+        }
+      },
+      "hooks": [
+        "R002"
+      ],
+      "unlocks": [
+        {
+          "discover_dungeon": "D001"
+        }
+      ],
+      "state": "available"
+    },
+    {
+      "qid": "Q003",
+      "title": "The Talking Coffin (Investigation)",
+      "tier": 2,
+      "summary": "Go down into Mossbarrow, find out whether the rumor holds, and bring back proof.",
+      "reward": {
+        "gold": 80
+      },
+      "requires": [
+        "D001_discovered"
+      ],
+      "state": "locked"
+    },
+    {
+      "qid": "Q004",
+      "title": "Caravan Escort: Jadestone",
+      "tier": 2,
+      "type": "escort",
+      "summary": "Escort the Bruno caravan to Jadestone, an estimated 3-day journey.",
+      "reward": {
+        "gold_per_day": "5-10",
+        "estimated_total": "15-30"
+      },
+      "destination": "T002",
+      "duration_days": 3,
+      "employer": "Bruno Trading Company",
+      "state": "accepted"
+    }
+  ],
+  "state": {
+    "last_refresh_day": 2
+  }
+}

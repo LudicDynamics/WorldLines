@@ -1,0 +1,31 @@
+{
+  "_doc": "这个世界登记的游玩行动。每条会变成一个 / 命令(绿色),敲下去等于玩家自己说了 prompt 那句话;{args} 换成命令后面的字。名字用字母/数字/连字符,不能和内置命令重名。 另:`san` 那一键只换 pct 精神检定工具的说明文字(本世界叫「心神」),op 名不变。",
+  "san": {
+    "doc": {
+      "zh": "心神检定:[san 成功损失/失败损失 理由],例 [san 0/1d6 看见墙缝里的黑];引擎掷 d100 对当前心神,扣心神、必要时判临时失控,回包后你按结果写。写给玩家看时只说「心神」",
+      "en": "Nerve check: [san success loss/failure loss why], e.g. [san 0/1d6 sees the dark in the crack]; the engine rolls d100 against current nerve, takes the loss and rules a loss of grip if due; write by its answer. To the player, call it only \"nerve\"",
+      "ja": "平静判定:[san 成功時の喪失/失敗時の喪失 理由]、例 [san 0/1d6 壁の隙間の闇を見た];エンジンが現在の平静に対して d100 を振り、平静を減らし、必要なら取り乱しを裁定する。返答どおりに書く。プレイヤーには「平静」とだけ言う",
+      "ko": "평정 판정: [san 성공 시 손실/실패 시 손실 이유], 예: [san 0/1d6 벽 틈의 어둠을 봤다]; 엔진이 현재 평정에 대해 d100을 굴려 평정을 깎고, 필요하면 흔들림을 판정한다. 답에 따라 쓴다. 플레이어에게는 「평정」이라고만 한다"
+    }
+  },
+  "actions": [
+    {
+      "name": "go",
+      "help": "走到某个地点",
+      "args_hint": "<地点>",
+      "prompt": "我走向{args}。"
+    },
+    {
+      "name": "talk",
+      "help": "和在场的人说话",
+      "args_hint": "<谁> [说什么]",
+      "prompt": "我走到{args}面前,开口说话。"
+    },
+    {
+      "name": "look",
+      "help": "环顾四周,看看这里有什么",
+      "args_hint": "",
+      "prompt": "我仔细环顾四周,留意这里的人和东西。"
+    }
+  ]
+}

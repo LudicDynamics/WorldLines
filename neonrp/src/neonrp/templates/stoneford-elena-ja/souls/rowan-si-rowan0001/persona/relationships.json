@@ -1,0 +1,10 @@
+{
+  "sid": "rowan",
+  "relationships": {
+    "elena": {
+      "disposition": "unmet_newcomer",
+      "known": false,
+      "truth": "エレナとローワンはまだ面識がない。二人は同じ世界の中の、二つの活性な筋にすぎない"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "id": "T004",
+  "name": "Jadestone",
+  "region": "Northvale",
+  "overview": "A mining town, rich in jade and crystal. Its adventurers' guild branch is active, miners and adventurers live side by side, and it's livelier and noisier than the towns around it. The small chapel to the east is one of the few quiet places in town, while the mine entrance leads to the underground shafts that reach deep into the mountain's belly.",
+  "entry_points": [
+    "gate_west"
+  ],
+  "tags": [
+    "mining",
+    "gems",
+    "adventurers",
+    "lively"
+  ],
+  "economy": {
+    "price_index": 1.1,
+    "specialties": [
+      "jade",
+      "crystal",
+      "ore"
+    ]
+  },
+  "laws": {
+    "weapon_policy": "open_carry_allowed"
+  },
+  "atmosphere": {
+    "noise_level": "busy",
+    "description": "The streets are full of miners hauling pickaxes and adventurers with weapons at their hips. Mine-cart rails run from the town center all the way to the mine entrance in the northeast. The air is thick with rock dust and the smell of ale drifting from the taverns."
+  },
+  "state": {
+    "alert": 0,
+    "recent_events": []
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "town_id": "T001",
+  "nodes": [
+    {
+      "id": "gate_north",
+      "name": "北门",
+      "type": "gate",
+      "pos": {
+        "x": 240,
+        "y": 140
+      },
+      "links": [
+        "main_street"
+      ]
+    },
+    {
+      "id": "main_street",
+      "name": "主街",
+      "type": "street",
+      "pos": {
+        "x": 500,
+        "y": 320
+      },
+      "links": [
+        "gate_north",
+        "inn"
+      ]
+    },
+    {
+      "id": "inn",
+      "name": "旅店",
+      "type": "inn",
+      "pos": {
+        "x": 760,
+        "y": 480
+      },
+      "links": [
+        "main_street"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "id": "combat-referee",
+  "name": "Combat Referee",
+  "description": "RPG 전투 심판 에이전트. 턴제 전투 규칙 집행, 명중/피해 계산, 상태 이상 처리, 전투 정산을 맡는다. 전투 조우가 발생했을 때 쓴다.",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "triggers": [],
+  "tags": [
+    "combat",
+    "battle",
+    "referee"
+  ],
+  "priority": 60,
+  "permissions": {
+    "read_globs": [
+      "game/rules/combat_rules.md",
+      "game/player/stats.json",
+      "game/player/equipment.json",
+      "game/player/inventory.json",
+      "game/meta/run_state.json"
+    ],
+    "write_globs": [
+      "game/player/stats.json",
+      "game/player/inventory.json",
+      "game/player/wallet.json",
+      "game/lore/notes.md"
+    ],
+    "deny_globs": [
+      ".neonrp/**"
+    ],
+    "direct_write_globs": [
+      "game/player/stats.json",
+      "game/player/inventory.json",
+      "game/player/wallet.json",
+      "game/lore/notes.md"
+    ]
+  },
+  "defaults": {
+    "context_limit": 20,
+    "temperature": 0.8
+  },
+  "presentation_roles": {
+    "en": "Rules",
+    "zh": "规则",
+    "ja": "ルール",
+    "ko": "규칙"
+  },
+  "presentation_hidden": false
+}

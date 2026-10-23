@@ -1,0 +1,10 @@
+{
+  "sid": "shiro",
+  "relationships": {
+    "kagami": {
+      "disposition": "bloodline_kin",
+      "known": false,
+      "truth": "Of the Waen bloodline; Kagami is the current Waen family head."
+    }
+  }
+}

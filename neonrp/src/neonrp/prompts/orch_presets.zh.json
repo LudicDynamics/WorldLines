@@ -1,0 +1,99 @@
+{
+ "template.one_beat": {
+  "title": "一句一拍",
+  "summary": "玩家每说一句就是一次行动,世界马上结算、写进结果。适合节奏快的冒险、探索、动作世界。"
+ },
+ "node.resolve": {
+  "title": "结算",
+  "summary": "把这一句当成行动:在场的人各自反应,一次叙述写出这一拍,检查过的变化写进世界。"
+ },
+ "kind.mode": "玩法层:进去以后,这一拍由这一层自己的主持来写(比如战斗),做完回到结算。",
+ "kind.place": "地点层:玩家走到这一类地点时进去(比如地穴的房间),离开就回来。",
+ "kind.one_shot": "一次性的层:只接一拍(比如先问规则裁判),然后回到结算。",
+ "kind.phase": "阶段:世界的一个阶段变量(比如白天 / 夜晚),阶段一变就换到这里。",
+ "on.always": "每一拍之后",
+ "on.next": "下一句",
+ "on.op": "叙述里出现「{v}」",
+ "on.here_class": "走到「{v}」类地点",
+ "on.gate": "规则要求进这一层",
+ "on.tick": "规则触发({v})",
+ "on.phase": "阶段变成「{v}」",
+ "on.return": "「{v}」后回来",
+ "on.leave": "离开就回来",
+ "on.done": "做完这一拍回来",
+ "preset.chat_only": {
+  "title": "只聊天",
+  "summary": "小手机里你发一句,TA 回一到几条。TA 不会自己行动。所有角色默认都是这一套。"
+ },
+ "soul.node.chat": {
+  "title": "聊天",
+  "summary": "你发一句,TA 回一到几条。"
+ },
+ "soul.node.tick": {
+  "title": "自己过日子",
+  "summary": "你不在时,TA 隔一阵做一件日常小事,偶尔给你发消息。"
+ },
+ "soul.node.reflect": {
+  "title": "回想",
+  "summary": "隔几次把最近的事归纳成长久的记忆。"
+ },
+ "soul.steps.chat": {
+  "docs": {
+   "title": "读资料",
+   "doc": "读 TA 自己的设定和记忆"
+  },
+  "history": {
+   "title": "最近的消息",
+   "doc": "看最近聊过的几条"
+  },
+  "reply": {
+   "title": "回复",
+   "doc": "模型回一次"
+  },
+  "bubbles": {
+   "title": "分成几条",
+   "doc": "拆成一到几条气泡,可能带表情包"
+  }
+ },
+ "soul.steps.tick": {
+  "ambient": {
+   "title": "这会儿在干嘛",
+   "doc": "按 TA 的日常作息看这个时间段"
+  },
+  "doing": {
+   "title": "做一件小事",
+   "doc": "模型想一件 TA 此刻会做的小事"
+  },
+  "memory": {
+   "title": "记下来",
+   "doc": "写进 TA 自己的记忆"
+  },
+  "message": {
+   "title": "也许发消息",
+   "doc": "偶尔给你发一条(每天有上限)"
+  },
+  "reflect": {
+   "title": "该回想了",
+   "doc": "做够几次就去回想"
+  }
+ },
+ "soul.steps.reflect": {
+  "read": {
+   "title": "翻最近的事",
+   "doc": "读最近的短期记忆"
+  },
+  "fold": {
+   "title": "归纳",
+   "doc": "模型用几句话总结值得留下的"
+  },
+  "write": {
+   "title": "存成长久记忆",
+   "doc": "写进长期记忆"
+  }
+ },
+ "on.chat": "你发消息",
+ "on.idle": "你 {v} 分钟没说话",
+ "soul.on.tick": "每隔一阵",
+ "value.on": "开",
+ "value.off": "关"
+}

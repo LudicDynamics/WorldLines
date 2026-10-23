@@ -1,0 +1,18 @@
+{
+  "id": "gate_west",
+  "name": "西门",
+  "type": "gate",
+  "description": "碧石镇的正门，面朝石津镇方向的驿道。门楼上刻着一块巨大的翡翠原石作为镇标。",
+  "pos": {
+    "x": 100,
+    "y": 300
+  },
+  "connections": [
+    "main_street"
+  ],
+  "ports": {
+    "up": [
+      "R004"
+    ]
+  }
+}

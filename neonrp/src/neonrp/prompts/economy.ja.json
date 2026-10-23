@@ -1,0 +1,21 @@
+{
+ "_doc": "packs/mixins/economy.py: the variable docs it registers (the model reads them each turn)",
+ "doc_stock": "{town} の{good}の在庫(売買・生産と消費・隊商で変わる。直接 set しない)",
+ "doc_price": "{town} の{good}の単価(銅貨)",
+ "doc_inv": "あなたが持っている{good}({unit})",
+ "doc_index": "物価指数(100 = 基準価格)",
+ "op_trade": "プレイヤーが町の市場で売り買いする(trade grain 3 で三つ買う。qty が負なら売る、八五掛けで買い取り)",
+ "op_new_caravan": "世界のルール:値の差が十分に開くと隊商が出発する(エンジンが自動で行う。語りの中でこの op を書かない)",
+ "op_haul": "世界のルール:隊商がひと区間進む",
+ "op_deliver": "世界のルール:隊商が荷を届ける",
+ "op_rob": "世界のルール:隊商が襲われる",
+ "market_line": "この世界には本物の市場がある。値は在庫と噂で動き、隊商が町から町へ荷を運ぶ。売り買いを書く時は trade op を使う。相場は変数表の price.* / stock.* に従い、値段をでっち上げない。",
+ "caravan_render": "- {id} {name}:{qty}{unit}の{good_name} {from}→{to} {status}(あと {left} ターン)",
+ "rf_no_market": "この世界には市場がない",
+ "rf_not_at_market": "市場のある町にいない",
+ "rf_no_good": "そんな品はない:{good}",
+ "rf_qty_zero": "数量は 0 にできない",
+ "rf_stock_low": "{name}は残り {stock} {unit}だけ",
+ "rf_no_money": "お金が足りない:銅貨 {need} 枚が要るのに、手持ちは {have} 枚",
+ "rf_have_only": "{name}は {have} {unit}しか持っていない"
+}

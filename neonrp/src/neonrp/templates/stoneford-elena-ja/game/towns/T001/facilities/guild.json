@@ -1,0 +1,78 @@
+{
+  "facility_id": "guild_T001",
+  "name": "石津の冒険者ギルド",
+  "hours": "09:00-19:00",
+  "reputation_rules": {
+    "complete_job": 1,
+    "fail_job": -1
+  },
+  "quest_board": [
+    {
+      "qid": "Q001",
+      "title": "霧の中の失踪者",
+      "tier": 1,
+      "summary": "波止場のあたりで、人が霧の中に姿を消した。遺品か手がかりを見つけ出す。",
+      "reward": {
+        "gold": 25
+      },
+      "hooks": [
+        "dock"
+      ],
+      "state": "available"
+    },
+    {
+      "qid": "Q002",
+      "title": "苔墓の前の狼の遠吠え",
+      "tier": 1,
+      "summary": "苔墓へ通じる小径に野獣が現れた。遭遇を3回 掃討する。",
+      "reward": {
+        "gold": 30,
+        "item": {
+          "id": "potion_small",
+          "name": "小治癒ポーション",
+          "qty": 1
+        }
+      },
+      "hooks": [
+        "R002"
+      ],
+      "unlocks": [
+        {
+          "discover_dungeon": "D001"
+        }
+      ],
+      "state": "in_progress"
+    },
+    {
+      "qid": "Q003",
+      "title": "口をきく棺（調査）",
+      "tier": 2,
+      "summary": "苔墓の地穴の奥へ入り、噂の真偽を確かめ、証拠を持ち帰る。",
+      "reward": {
+        "gold": 80
+      },
+      "requires": [
+        "D001_discovered"
+      ],
+      "state": "locked"
+    },
+    {
+      "qid": "Q004",
+      "title": "隊商護衛：碧石(へきせき)の町",
+      "tier": 2,
+      "type": "escort",
+      "summary": "ブルーノ隊商を碧石(へきせき)の町まで護送する。道のりはおよそ3日。",
+      "reward": {
+        "gold_per_day": "5-10",
+        "estimated_total": "15-30"
+      },
+      "destination": "T002",
+      "duration_days": 3,
+      "employer": "ブルーノ商会",
+      "state": "accepted"
+    }
+  ],
+  "state": {
+    "last_refresh_day": 2
+  }
+}

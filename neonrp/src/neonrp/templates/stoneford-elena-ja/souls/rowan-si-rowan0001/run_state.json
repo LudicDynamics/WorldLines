@@ -1,0 +1,16 @@
+{
+  "sid": "rowan",
+  "instance_id": "si-rowan0001",
+  "location": "T004",
+  "status": {
+    "hp": 20,
+    "max_hp": 20,
+    "memory": "stable",
+    "mood": "restless_hopeful"
+  },
+  "turn_count": 0,
+  "loop_state": {
+    "has_memory": true,
+    "reason": "bishi-adventurer-chasing-world-edge-rumor"
+  }
+}

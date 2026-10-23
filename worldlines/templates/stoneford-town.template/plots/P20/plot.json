@@ -1,0 +1,814 @@
+{
+ "id": "P20",
+ "title": "雾退之夜",
+ "stages": [
+  {
+   "name": "雾期第五夜",
+   "goal": {
+    "zh": "在镇上打听探路队和北路的事,凑齐出北门要的三样:许可、雾里的路、过驿路的办法。",
+    "en": "Ask around town about the scouting party and the north road, and gather the three things the North Gate asks for: leave to pass, a way through the fog, and a way past the post road.",
+    "ja": "町で探索隊と北の道のことを聞いて回り、北門を出るのに要る三つ——許し、霧の中の道、街道を抜ける手立て——をそろえる。",
+    "ko": "마을에서 정찰대와 북쪽 길에 대해 수소문하고, 북문을 나서는 데 필요한 세 가지——허가, 안개 속의 길, 역로를 지날 방법——를 갖춘다."
+   }
+  },
+  {
+   "name": "凑齐三样",
+   "goal": {
+    "zh": "三样都齐了。把要做的事做完,准备好,等到零点。",
+    "en": "All three are in hand. Finish what you must, get ready, and wait for midnight.",
+    "ja": "三つともそろった。やるべきことを済ませて備え、零時を待つ。",
+    "ko": "세 가지가 모두 갖춰졌다. 할 일을 마치고 채비해서 자정을 기다린다."
+   }
+  },
+  {
+   "name": "雾退之夜",
+   "goal": {
+    "zh": "雾退了。趁路还露着,出北门,沿着那条路去找没回来的人。",
+    "en": "The fog has drawn back. While the road lies open, go out by the North Gate and follow it to the ones who never came back.",
+    "ja": "霧が退いた。道が見えているうちに北門を出て、その道をたどり、戻らなかった者たちを探す。",
+    "ko": "안개가 물러났다. 길이 드러나 있는 동안 북문을 나서, 그 길을 따라 돌아오지 못한 이들을 찾는다."
+   }
+  },
+  {
+   "name": "苔墓",
+   "goal": {
+    "zh": "深入苔墓,把困在里面的人带出来,在雾回来之前回到镇上。",
+    "en": "Go deep into Mossbarrow, bring out whoever is trapped inside, and get back to town before the fog returns.",
+    "ja": "モスバロウの奥へ進み、閉じ込められた者を連れ出して、霧が戻る前に町へ帰る。",
+    "ko": "모스배로 깊숙이 들어가 갇힌 이를 데리고 나와, 안개가 돌아오기 전에 마을로 돌아온다."
+   }
+  }
+ ],
+ "vars": {
+  "P20.pass": {
+   "type": "int",
+   "min": 0,
+   "max": 1,
+   "doc": "出北门的许可:公会委托 / 镇署通行令 / 卡斯开门"
+  },
+  "P20.route": {
+   "type": "int",
+   "min": 0,
+   "max": 1,
+   "doc": "雾里的路:旧雾路图 / 阿沐的护身符 / 罗文"
+  },
+  "P20.road": {
+   "type": "int",
+   "min": 0,
+   "max": 1,
+   "doc": "驿路怎么过:打下营地 / 和独眼虎谈 / 坐老鱼的船"
+  }
+ },
+ "entries": {
+  "I201": {
+   "class": "item",
+   "name": "旧雾路图",
+   "parent": "T001/shop_general",
+   "props": {
+    "summary": "老苇的妻子画的雾路图,锁在杂货铺后屋。",
+    "image_prompt": "a rolled old parchment map with faded ink routes through fog, tied with string"
+   }
+  },
+  "I202": {
+   "class": "item",
+   "name": "阿沐的护身符",
+   "parent": "T001/inn",
+   "props": {
+    "summary": "缝死的小布护身符,红线绣着探路队的路线。"
+   }
+  },
+  "I203": {
+   "class": "item",
+   "name": "商会账本",
+   "parent": "T001/market-square",
+   "props": {
+    "summary": "葛拉车厢里的账本,最后一页记着付给赫伦的钱。"
+   },
+   "clue": true
+  },
+  "N201": {
+   "class": "npc",
+   "name": "阿沐",
+   "parent": "D001/D001_R003",
+   "props": {
+    "summary": "米拉的弟弟,探路队里最年轻的一个,被困在苔墓第三间墓室。",
+    "takeable": false
+   }
+  },
+  "I204": {
+   "class": "item",
+   "name": "「清剿驿路山贼」委托",
+   "parent": "T001/guild",
+   "props": {
+    "summary": "赫伦亲手钉在委托板最显眼处的告示:清剿北门外驿路上的山贼营地。赏金不高,但接下委托的人,北门放行。"
+   }
+  }
+ },
+ "triggers": {
+  "P20.pass.guild": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "who": "player",
+     "at": "T001/guild"
+    },
+    {
+     "text": [
+      "接下",
+      "接这单",
+      "我接",
+      "接了",
+      "签下",
+      "我来接"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.pass",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "has_commission"
+    },
+    {
+     "to": "narration",
+     "text": "赫伦把那张「清剿驿路山贼」的委托拍在柜台上:「拿着它,北门会放你。死在外面,公会不收尸。」"
+    }
+   ],
+   "once": true
+  },
+  "P20.pass.warden": {
+   "when": {
+    "turn": true
+   },
+   "if": [
+    {
+     "flag": "persuaded.NPC005"
+    },
+    {
+     "any": [
+      {
+       "flag": "has_ledger"
+      },
+      {
+       "flag": "kas_exposed"
+      }
+     ]
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.pass",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "has_pass"
+    },
+    {
+     "to": "narration",
+     "text": "薇拉看完你带来的东西,沉默了很久,在一块木牌上盖了镇署的印:「通行令。别让我在明年的雾退之夜之后,又少记一个人。」"
+    }
+   ],
+   "once": true
+  },
+  "P20.pass.kas": {
+   "when": {
+    "turn": true
+   },
+   "if": [
+    {
+     "any": [
+      {
+       "flag": "persuaded.NPC004"
+      },
+      {
+       "flag": "stole.NPC004"
+      }
+     ]
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.pass",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "gate_opened"
+    },
+    {
+     "to": "var",
+     "var": "town.alert",
+     "add": 1
+    },
+    {
+     "to": "narration",
+     "text": "卡斯的手在腰间那串钥匙上停了停。北门开了一道缝——够一个人侧身过去。"
+    }
+   ],
+   "once": true
+  },
+  "P20.route.map": {
+   "when": {
+    "turn": true
+   },
+   "if": [
+    {
+     "any": [
+      {
+       "flag": "persuaded.NPC002"
+      },
+      {
+       "flag": "stole.NPC002"
+      }
+     ]
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.route",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "has_map"
+    },
+    {
+     "to": "narration",
+     "text": "老苇从后屋拿出一卷发黄的羊皮纸,压在算盘下面推过来:「我老婆画的。她把测绘本留在苔墓里了——你要是看见,替我带回来。」"
+    }
+   ],
+   "once": true
+  },
+  "P20.route.amulet": {
+   "when": {
+    "turn": true
+   },
+   "if": [
+    {
+     "any": [
+      {
+       "flag": "persuaded.NPC003"
+      },
+      {
+       "text": [
+        "阿沐",
+        "你弟弟",
+        "找他",
+        "护身符"
+       ],
+       "in": "player"
+      }
+     ]
+    },
+    {
+     "who": "player",
+     "at": "T001/inn"
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.route",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "has_amulet"
+    },
+    {
+     "to": "narration",
+     "text": "米拉拆开袖口的线,把一枚缝死的小护身符放进你手里。布面上用红线绣着一条歪歪扭扭的路——探路队走的路。"
+    }
+   ],
+   "once": true
+  },
+  "P20.route.rowan": {
+   "when": {
+    "turn": true
+   },
+   "if": [
+    {
+     "flag": "joined.si-rowan0001"
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.route",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "rowan_joined"
+    },
+    {
+     "to": "soul",
+     "who": "罗文",
+     "text": "玩家邀你同行进雾。去年你一个人在苔墓门口跑回来过——这次你想走到底。",
+     "important": true
+    }
+   ],
+   "once": true
+  },
+  "P20.road.fight": {
+   "when": {
+    "op": "end_combat"
+   },
+   "if": [
+    {
+     "who": "player",
+     "at": "T001/road_camp"
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.road",
+     "set": 1
+    },
+    {
+     "to": "narration",
+     "text": "篝火翻倒在泥里。营地散了,矿车路障被推到了沟边——驿路能走了。"
+    }
+   ],
+   "once": true
+  },
+  "P20.road.talk": {
+   "when": {
+    "flag": "persuaded.NPC008"
+   },
+   "if": [],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.road",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "tiger_ally"
+    },
+    {
+     "to": "narration",
+     "text": "独眼虎盯着你看了很久,把鹤嘴锄往地上一插:「雾退之夜以后,你替矿工跟商会说话。说定了,我派个人给你带路。」"
+    }
+   ],
+   "once": true
+  },
+  "P20.road.boat": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "who": "player",
+     "at": "T001/dock"
+    },
+    {
+     "text": [
+      "船",
+      "渡",
+      "过河",
+      "绕"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.road",
+     "set": 1
+    },
+    {
+     "to": "var",
+     "var": "player.silver",
+     "add": -2
+    },
+    {
+     "to": "narration",
+     "text": "老鱼收了钱,把船撑进雾里:「对岸的小路能绕开营地,就是要多走半夜。」"
+    }
+   ],
+   "once": true
+  },
+  "P20.secret.heron": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "who": "player",
+     "at": "T001/guild"
+    },
+    {
+     "text": [
+      "商会",
+      "塞钱",
+      "提前派",
+      "账本"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "flag",
+     "key": "heron_exposed"
+    },
+    {
+     "to": "narration",
+     "text": "赫伦的脸色变了。他把门关上:「是葛拉……商会的人逼我提前三天派队。我以为能赶在雾退之前回来。」"
+    }
+   ],
+   "once": true
+  },
+  "P20.secret.ledger": {
+   "when": {
+    "flag": "stole.NPC007"
+   },
+   "if": [],
+   "then": [
+    {
+     "to": "flag",
+     "key": "has_ledger"
+    },
+    {
+     "to": "narration",
+     "text": "葛拉的车厢里,账本最后一页写着一笔付给「公会·赫」的钱,日期是探路队出发的前一天。"
+    }
+   ],
+   "once": true
+  },
+  "P20.secret.kas": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "who": "player",
+     "at": "T001/gate_north"
+    },
+    {
+     "text": [
+      "山贼",
+      "收钱",
+      "放哨",
+      "赌债"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "flag",
+     "key": "kas_exposed"
+    },
+    {
+     "to": "narration",
+     "text": "卡斯的头盔歪到一边:「……就一次!他们给的够我还一个月的债。营地的哨在矿车后面,换岗是子时。」"
+    }
+   ],
+   "once": true
+  },
+  "P20.ready": {
+   "when": {
+    "turn": true
+   },
+   "if": [
+    {
+     "var": "P20.pass",
+     ">=": 1
+    },
+    {
+     "var": "P20.route",
+     ">=": 1
+    },
+    {
+     "var": "P20.road",
+     ">=": 1
+    },
+    {
+     "var": "P20.stage",
+     "<": 1
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.stage",
+     "set": 1
+    },
+    {
+     "to": "narration",
+     "text": "出北门的许可、雾里的路、驿路怎么过——三样都有了。剩下的,就是等零点。"
+    }
+   ],
+   "once": true
+  },
+  "P20.fog_lifts": {
+   "when": {
+    "var": "time.day"
+   },
+   "if": [
+    {
+     "var": "time.day",
+     ">=": 7
+    },
+    {
+     "var": "P20.stage",
+     "<": 2
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.stage",
+     "set": 2
+    },
+    {
+     "to": "narration",
+     "text": "零点。雾像潮水一样往北退去,露出一条湿亮的路,和二十年来第一次能看见的星。"
+    }
+   ],
+   "once": true
+  },
+  "P20.tomb": {
+   "when": {
+    "entry": "D001",
+    "event": "enter",
+    "who": "player"
+   },
+   "if": [
+    {
+     "var": "P20.stage",
+     ">=": 2
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.stage",
+     "set": 3
+    }
+   ],
+   "once": true
+  },
+  "P20.amu": {
+   "when": {
+    "entry": "D001/D001_R003",
+    "event": "enter",
+    "who": "player"
+   },
+   "if": [],
+   "then": [
+    {
+     "to": "flag",
+     "key": "amu_found"
+    },
+    {
+     "to": "narration",
+     "text": "第三间墓室里,七八盏提灯围成一圈。阿沐和探路队的人背靠着背坐着,还活着——出口塌了,他们出不去。"
+    }
+   ],
+   "once": true
+  },
+  "P20.coffin": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "who": "player",
+     "at": "D001/D001_R004"
+    },
+    {
+     "text": [
+      "秘密",
+      "换",
+      "血",
+      "艾琳娜"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "flag",
+     "key": "coffin_answered"
+    },
+    {
+     "to": "soul",
+     "who": "艾琳娜",
+     "text": "那口棺材说出了你的名字。二十年前进雾的那支队伍里,唯一出来的孩子就是你;你胸前的吊坠,是这扇石门的钥匙。",
+     "important": true
+    },
+    {
+     "to": "narration",
+     "text": "棺盖上那张脸睁开了眼:「一个秘密,换一滴血。」你说完,它笑了——然后叫出了艾琳娜的名字。"
+    }
+   ],
+   "once": true
+  },
+  "P20.E1": {
+   "when": {
+    "flag": "coffin_answered"
+   },
+   "if": [
+    {
+     "flag": "amu_found"
+    }
+   ],
+   "then": [
+    {
+     "to": "end",
+     "ending": "E1"
+    }
+   ],
+   "once": true
+  },
+  "P20.E2": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "flag": "tiger_ally"
+    },
+    {
+     "var": "P20.stage",
+     ">=": 2
+    },
+    {
+     "text": [
+      "北路归",
+      "占住",
+      "抢在商会前面"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "end",
+     "ending": "E2"
+    }
+   ],
+   "once": true
+  },
+  "P20.E3": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "flag": "amu_found"
+    },
+    {
+     "text": [
+      "回镇",
+      "撤",
+      "天亮前回去",
+      "带他们回去"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "end",
+     "ending": "E3"
+    }
+   ],
+   "once": true
+  },
+  "P20.E9.time": {
+   "when": {
+    "var": "time.day"
+   },
+   "if": [
+    {
+     "var": "time.day",
+     ">=": 8
+    },
+    {
+     "var": "P20.stage",
+     "<": 3
+    }
+   ],
+   "then": [
+    {
+     "to": "end",
+     "ending": "E9"
+    }
+   ],
+   "once": true
+  },
+  "P20.E9.fall": {
+   "when": {
+    "var": "player.hp"
+   },
+   "if": [
+    {
+     "var": "player.hp",
+     "<=": 0
+    }
+   ],
+   "then": [
+    {
+     "to": "end",
+     "ending": "E9"
+    }
+   ],
+   "once": true
+  }
+ },
+ "endings": {
+  "E1": {
+   "title": "雾退之夜",
+   "kind": "true",
+   "text": "你们带着探路队走出苔墓时,雾已经开始回涌。艾琳娜走在最后,一遍遍念着那个刚找回来的名字。",
+   "image_prompt": "dawn after the fog lifting night, a small party leading a rescued scout team out of a moss-covered tomb gate, the silver-haired healer looking back at the stars",
+   "assets": {
+    "image": "assets/ending-E1.jpg"
+   }
+  },
+  "E2": {
+   "title": "北路的主人",
+   "kind": "alt",
+   "text": "商会的车队到的时候,北路上已经插满了矿工会的旗。独眼虎把鹤嘴锄扛在肩上,冲你点了点头。",
+   "image_prompt": "miners' banners planted along a mountain post road at dawn, a big one-eyed bandit chief with a pickaxe nodding, stranded merchant wagons halted below",
+   "assets": {
+    "image": "assets/ending-E2.jpg"
+   }
+  },
+  "E3": {
+   "title": "灯还亮着",
+   "kind": "alt",
+   "text": "天亮前你们回到了镇上。米拉抱着阿沐哭了很久。艾琳娜的过去还留在那口棺材里,没有人去问。",
+   "image_prompt": "an innkeeper hugging her younger brother in the warm doorway of a riverside inn at dawn, fog returning in the street behind",
+   "assets": {
+    "image": "assets/ending-E3.jpg"
+   }
+  },
+  "E9": {
+   "title": "雾合上了",
+   "kind": "fail",
+   "text": "雾从北路上合拢,像什么都没有发生过。明年的这一夜,镇署的册子上又不会多写一个名字。",
+   "image_prompt": "thick fog closing over an empty north road, a single lantern left on the ground, cold blue-grey",
+   "assets": {
+    "image": "assets/ending-E9.jpg"
+   }
+  }
+ },
+ "prompt": {
+  "entries": [
+   {
+    "id": "guide",
+    "text": "隐藏主线:出北门前要凑齐三样——出北门的许可(公会委托 / 镇署通行令 / 卡斯)、雾里的路(老苇的旧雾路图 / 米拉的护身符 / 罗文)、驿路怎么过(打下山贼营地 / 和独眼虎谈 / 坐老鱼的船)。在自然时机让镇上的人提到这些,不要列清单。",
+    "when": "always"
+   },
+   {
+    "id": "commission",
+    "text": "冒险者公会的委托板上钉着赫伦亲手写的「清剿驿路山贼」:赏金不高,但接下这张委托的人,北门放行。玩家在公会问起委托、山贼或出北门,赫伦会把这张委托递给他。",
+    "when": "always"
+   },
+   {
+    "id": "who_has_what",
+    "text": "镇上的人各自握着出北门要的东西:镇署的薇拉能发通行令(要证据);卡斯收过山贼的钱;杂货铺老苇后屋锁着亡妻画的旧雾路图;旅店米拉的弟弟阿沐在失踪的探路队里;码头老鱼能撑船绕开驿路;驿路营地的独眼虎原是碧石镇矿工。他们只在被问到、被说服或被揭穿时才拿出来。",
+    "when": "always"
+   },
+   {
+    "id": "countdown",
+    "text": "现在离雾退之夜还有段时间;每件事都会花掉时间,去旅店休息会跳到下一个时段。第七天零点雾退开。",
+    "when": {
+     "var": "P20.stage",
+     "<": 2
+    }
+   },
+   {
+    "id": "fog_night",
+    "text": "雾已经退开:北路能走,天上有星。这一夜过去雾就会合上。",
+    "when": {
+     "var": "P20.stage",
+     ">=": 2
+    }
+   }
+  ]
+ },
+ "reveal": {
+  "zh": "二十年前,一支队伍在雾退之夜进了苔墓,只有一个孩子走了出来——就是艾琳娜。她胸前的吊坠是苔墓石门的钥匙。今年是驿路商会逼赫伦提前派了探路队,好让车队抢先过北路。"
+ },
+ "collect": {}
+}

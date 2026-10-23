@@ -1,0 +1,56 @@
+{
+ "none": "none of these",
+ "player": "the player",
+ "of": "'s",
+ "labels": {
+  "gold": "gold",
+  "silver": "silver",
+  "copper": "copper",
+  "hp": "hp",
+  "san": "sanity",
+  "down": "down",
+  "day": "day",
+  "clock": "time"
+ },
+ "gain_verbs": [
+  "got",
+  "gained",
+  "bought",
+  "picked up",
+  "received",
+  "took"
+ ],
+ "nothing": [
+  "no change",
+  "nothing changed"
+ ],
+ "q_var": "Does the description say {label} (now {now}) changed?",
+ "q_clock": "Does the description say time moved on to some hour?",
+ "q_st_new": "Does someone get a new bodily condition in the description (hurt, poisoned, tired, cold)?",
+ "q_st_gone": "Does someone's bodily condition heal or go away in the description?",
+ "q_gain": "Does the player gain something new in the description?",
+ "q_lose": "Does the player lose, use up or give away something they carried?",
+ "q_move": "Does the player go somewhere else this beat?",
+ "q_opt": "As the player's next option, how natural and close to the scene is “{c}”?",
+ "levels": [
+  "not at all",
+  "hardly",
+  "so-so",
+  "fairly",
+  "very"
+ ],
+ "q_val": "What did {label} (now {now}) become?",
+ "same": "unchanged, still {now}",
+ "q_clock_to": "Which hour did time move on to?",
+ "q_st_who": "Who got the new condition?",
+ "q_st_what": "Which condition?",
+ "q_sg_what": "Which condition healed / went away?",
+ "not_listed": "not in the table",
+ "q_gain_what": "What did the player gain?",
+ "q_lose_what": "What did the player lose / use / give away?",
+ "q_move_to": "Where did the player go?",
+ "go": "Go to {p}",
+ "q_soul_move": "Does someone other than the player go somewhere else in the description?",
+ "q_soul_who": "Which character went elsewhere?",
+ "q_soul_to": "Where did that character go?"
+}

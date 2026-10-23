@@ -1,0 +1,44 @@
+{
+  "town_id": "T001",
+  "npcs": [
+    {
+      "id": "NPC001",
+      "name": "ヘロン(ギルドの管事)",
+      "role": "guildmaster",
+      "traits": [
+        "慎重",
+        "契約を重んじる"
+      ],
+      "state": {
+        "met": true
+      },
+      "location": "guild"
+    },
+    {
+      "id": "NPC002",
+      "name": "老リード(雑貨商)",
+      "role": "shopkeeper",
+      "traits": [
+        "口が軽い",
+        "目端が利く"
+      ],
+      "state": {
+        "met": false
+      },
+      "location": "shop_general"
+    },
+    {
+      "id": "NPC003",
+      "name": "ミラ(宿屋の女将)",
+      "role": "innkeeper",
+      "traits": [
+        "気さく",
+        "耳が早い"
+      ],
+      "state": {
+        "met": false
+      },
+      "location": "inn"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+ "hi": {
+  "label": {
+   "zh": "你好",
+   "en": "Hello",
+   "ja": "こんにちは",
+   "ko": "안녕하세요"
+  },
+  "when": "saying hi"
+ },
+ "smile": {
+  "label": {
+   "zh": "嗯!",
+   "en": "Mm!",
+   "ja": "うん!",
+   "ko": "응!"
+  },
+  "when": "happy, relieved, or just praised"
+ },
+ "lost": {
+  "label": {
+   "zh": "想不起来",
+   "en": "I can't remember",
+   "ja": "思い出せない",
+   "ko": "기억이 안 나"
+  },
+  "when": "asked about her past and cannot remember"
+ },
+ "herb": {
+  "label": {
+   "zh": "交给我",
+   "en": "Leave it to me",
+   "ja": "任せて",
+   "ko": "맡겨줘"
+  },
+  "when": "someone is hurt, she offers to treat them"
+ },
+ "worried": {
+  "label": {
+   "zh": "没事吧?",
+   "en": "Are you okay?",
+   "ja": "大丈夫?",
+   "ko": "괜찮아?"
+  },
+  "when": "worried about the player, who says they feel unwell"
+ },
+ "thanks": {
+  "label": {
+   "zh": "谢谢",
+   "en": "Thank you",
+   "ja": "ありがとう",
+   "ko": "고마워"
+  },
+  "when": "saying thanks"
+ }
+}

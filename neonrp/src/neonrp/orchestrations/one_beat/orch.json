@@ -1,0 +1,9 @@
+{
+ "schema": "worldlines.orch-template/1",
+ "id": "one_beat",
+ "version": "1.0",
+ "order": 20,
+ "world": {"kind": "one_beat", "nodes": ["resolve"], "engine": {}},
+ "aliases": {},
+ "soul": {"variant": "legacy"}
+}

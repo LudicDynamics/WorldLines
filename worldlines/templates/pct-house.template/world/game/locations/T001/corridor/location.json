@@ -1,0 +1,15 @@
+{
+  "id": "corridor",
+  "name": "二楼走廊",
+  "type": "corridor",
+  "pos": {
+    "x": 50,
+    "y": 34
+  },
+  "connections": [
+    "hall",
+    "study",
+    "bedroom"
+  ],
+  "summary": "楼梯上来的长走廊,壁灯都没点。尽头一扇窗正对着后院,能看见地窖口的木盖板。左手是书房,右手是宅主人的卧室。"
+}

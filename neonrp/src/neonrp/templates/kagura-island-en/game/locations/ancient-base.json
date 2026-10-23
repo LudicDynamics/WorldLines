@@ -1,0 +1,15 @@
+{
+  "id": "ancient-base",
+  "kind": "location",
+  "name": "The Base",
+  "tags": [
+    "underground",
+    "yith",
+    "ritual"
+  ],
+  "summary": "A vast artificial space deep within the tunnel. Built jointly by the ancient islanders and the Yith. Yith machinery stands here. A hidden history is inscribed on the walls.",
+  "connections": [
+    "shrine-underground",
+    "crater-internal"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "tavern",
+  "name": "翠晶亭",
+  "type": "facility",
+  "facility_file": "facilities/tavern.json",
+  "description": "碧石の町で最も大きい、酒場を兼ねた宿屋。店構えは砕いた水晶で飾られ、夜には火明かりを受けてきらきらと輝く。二階は宿泊できる。",
+  "pos": {
+    "x": 450,
+    "y": 200
+  },
+  "connections": [
+    "main_street"
+  ]
+}

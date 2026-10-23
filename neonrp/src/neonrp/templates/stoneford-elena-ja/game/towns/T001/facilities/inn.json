@@ -1,0 +1,17 @@
+{
+  "facility_id": "inn_T001",
+  "name": "河灯亭",
+  "rooms": [
+    {
+      "type": "common",
+      "price": 3,
+      "benefit": "休息：HP/MP が最大まで回復"
+    },
+    {
+      "type": "private",
+      "price": 8,
+      "benefit": "休息＋追加：次の社交判定に +1（当日）"
+    }
+  ],
+  "rumor_pool_ref": "../../lore/rumors.md"
+}

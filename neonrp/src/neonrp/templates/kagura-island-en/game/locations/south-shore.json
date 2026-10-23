@@ -1,0 +1,17 @@
+{
+  "id": "south-shore",
+  "kind": "location",
+  "name": "South Shore · Sand Beach",
+  "tags": [
+    "shore",
+    "start",
+    "open"
+  ],
+  "summary": "The southern tip of the island. Beach alternates with cliffs. The embers of the fireworks are scattered across the sand. At night a strange light sometimes shows on the sea. At low tide you can wade across to the islet.",
+  "connections": [
+    "town",
+    "islet-surface"
+  ],
+  "npcs_default": [],
+  "notes": "Dream 1 opening location. Low-tide window: early to late morning."
+}

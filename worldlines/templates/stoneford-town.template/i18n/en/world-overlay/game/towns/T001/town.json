@@ -1,0 +1,29 @@
+{
+  "id": "T001",
+  "name": "Stoneford",
+  "region": "Northvale",
+  "overview": "A river-port trading town that lives on fishing and the post road. Fog and old-tomb rumors make its people more superstitious than most.",
+  "entry_points": [
+    "gate_north",
+    "dock"
+  ],
+  "tags": [
+    "river",
+    "trade",
+    "superstition"
+  ],
+  "economy": {
+    "price_index": 1.0,
+    "specialties": [
+      "Salt Fish",
+      "River Jade"
+    ]
+  },
+  "laws": {
+    "weapon_policy": "peace-bonded_in_townhall"
+  },
+  "state": {
+    "alert": 0,
+    "recent_events": []
+  }
+}

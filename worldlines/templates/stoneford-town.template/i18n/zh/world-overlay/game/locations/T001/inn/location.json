@@ -1,0 +1,25 @@
+{
+  "id": "inn",
+  "name": "河灯旅店",
+  "type": "facility",
+  "facility_file": "facilities/inn.json",
+  "pos": {
+    "x": 621,
+    "y": 268
+  },
+  "connections": [
+    "main_street",
+    "market-square"
+  ],
+  "kind": "location",
+  "tags": [
+    "town",
+    "inn",
+    "mira"
+  ],
+  "summary": "临河的小旅店，木窗总比别处更早亮起。这里适合听消息、找热汤，也适合第一次看清一座雾镇的呼吸。",
+  "notes": "石津镇的兜底旅店场景。",
+  "aliases": [
+    "riverlamp-inn"
+  ]
+}

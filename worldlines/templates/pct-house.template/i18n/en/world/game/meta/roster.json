@@ -1,0 +1,11 @@
+{
+  "note": "The player is the investigator; chara, Winnie, is the client, and butler, Oswin, is the butler (both are souls). The master of the house, Edmund Greywood, never appears: he is present only in the portrait in the hall and in the stopped watch (see lore/story.md).",
+  "souls": [
+    {
+      "note": "the client · Winnie"
+    },
+    {
+      "note": "the butler · Oswin"
+    }
+  ]
+}

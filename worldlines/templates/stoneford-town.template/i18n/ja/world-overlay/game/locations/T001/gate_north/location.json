@@ -1,0 +1,32 @@
+{
+  "id": "gate_north",
+  "name": "北門",
+  "type": "gate",
+  "pos": {
+    "x": 236,
+    "y": 153
+  },
+  "connections": [
+    "main_street",
+    "market-square",
+    "road_camp"
+  ],
+  "kind": "location",
+  "tags": [
+    "town",
+    "entry",
+    "fog"
+  ],
+  "summary": "傾いた木の柵門、湿って冷たい朝霧、目を覚ましたばかりの門番、まだ温まっていない石畳。",
+  "notes": "ストーンフォード・エレナの開幕の場面。",
+  "aliases": [
+    "north-gate"
+  ],
+  "ports": {
+    "up": [
+      "R001",
+      "R002",
+      "R004"
+    ]
+  }
+}

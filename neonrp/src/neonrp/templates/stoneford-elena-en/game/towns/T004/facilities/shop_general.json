@@ -1,0 +1,69 @@
+{
+  "facility_id": "shop_general_T004",
+  "name": "Stonehammer Sundries",
+  "price_index": 1.1,
+  "inventory": [
+    {
+      "id": "potion_small",
+      "name": "Minor Healing Potion",
+      "price": 14,
+      "stock": 6
+    },
+    {
+      "id": "torch",
+      "name": "Torch",
+      "price": 2,
+      "stock": 12
+    },
+    {
+      "id": "rope",
+      "name": "Hemp Rope (10m)",
+      "price": 5,
+      "stock": 8
+    },
+    {
+      "id": "antidote",
+      "name": "Antidote",
+      "price": 12,
+      "stock": 4
+    },
+    {
+      "id": "pickaxe",
+      "name": "Pickaxe",
+      "price": 15,
+      "stock": 5
+    },
+    {
+      "id": "mining_helmet",
+      "name": "Miner's Helmet (with lamp)",
+      "price": 20,
+      "stock": 3
+    },
+    {
+      "id": "blasting_powder",
+      "name": "Blasting Powder (small pouch)",
+      "price": 25,
+      "stock": 2,
+      "note": "Requires a mine permit to purchase"
+    },
+    {
+      "id": "dry_rations",
+      "name": "Dry Rations",
+      "price": 3,
+      "stock": 10
+    },
+    {
+      "id": "waterskin",
+      "name": "Waterskin",
+      "price": 4,
+      "stock": 6
+    },
+    {
+      "id": "chalk",
+      "name": "Chalk (for marking)",
+      "price": 1,
+      "stock": 15
+    }
+  ],
+  "buyback_rate": 0.5
+}

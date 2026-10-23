@@ -1,0 +1,15 @@
+{
+  "id": "east_street",
+  "name": "東通り",
+  "type": "street",
+  "description": "礼拝堂と鉱山入口へ続く脇道。東へ進むほど静かになり、遠くの坑道からカン、カンと槌の音が響いてくる。",
+  "pos": {
+    "x": 600,
+    "y": 280
+  },
+  "connections": [
+    "main_street",
+    "chapel",
+    "mine_entrance"
+  ]
+}

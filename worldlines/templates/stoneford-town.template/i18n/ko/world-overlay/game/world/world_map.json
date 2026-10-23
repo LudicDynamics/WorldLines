@@ -1,0 +1,84 @@
+{
+  "world_id": "W001",
+  "name": "잿빛안개 북방",
+  "parent_territory": "잿빛까마귀 영지",
+  "seed": 123456,
+  "foreign_lands": [
+    {
+      "id": "FL001",
+      "name": "프로스트울프 왕국",
+      "direction": "north",
+      "description": "부러진등뼈 산맥 너머 북쪽의 추운 왕국. 주민들은 곰처럼 덩치가 크고, 오크 부족과 끊임없이 싸운다",
+      "access": "통곡의 협로(여름에만 지날 수 있음)",
+      "relation": "neutral",
+      "discovered_via": "미라에게 들은 소문"
+    },
+    {
+      "id": "FL002",
+      "name": "에메랄드 연맹",
+      "direction": "far_east",
+      "description": "동부 변경의 엘프 폐허보다 더 먼 곳에 있는 도시국가 연합. 이따금 상인들이 교역하러 온다",
+      "access": "동부 변경의 폐허를 가로질러야 함",
+      "relation": "trade",
+      "discovered_via": "미라에게 들은 소문"
+    },
+    {
+      "id": "FL003",
+      "name": "잿빛 바다",
+      "direction": "south",
+      "description": "남쪽으로 끝없이 펼쳐진 잿빛 바다. 열흘 밤낮을 항해해도 잿빛 안개뿐이며, 떠난 배는 돌아오지 않는다고 한다",
+      "access": "unknown",
+      "relation": "unknown",
+      "discovered_via": "미라에게 들은 소문"
+    }
+  ],
+  "routes": [
+    {
+      "id": "R001",
+      "from": "T001",
+      "to": "T002",
+      "kind": "road",
+      "distance": 18,
+      "tags": [
+        "trade",
+        "patrolled"
+      ],
+      "state": {
+        "blocked": false
+      }
+    },
+    {
+      "id": "R002",
+      "from": "T001",
+      "to": "D001",
+      "kind": "trail",
+      "distance": 6,
+      "tags": [
+        "foggy",
+        "beasts"
+      ],
+      "state": {
+        "blocked": false
+      }
+    },
+    {
+      "id": "R004",
+      "from": "T001",
+      "to": "T004",
+      "kind": "road",
+      "distance": 45,
+      "tags": [
+        "trade",
+        "bandit_risk"
+      ],
+      "state": {
+        "blocked": false
+      },
+      "note": "낮은 구릉 숲을 지난다. 산적 '외눈 호랑이' 일당 스무 명가량이 활개 치고 있다"
+    }
+  ],
+  "time": {
+    "day": 3,
+    "clock": "17:15"
+  }
+}

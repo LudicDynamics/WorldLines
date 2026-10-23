@@ -1,0 +1,6 @@
+{
+ "here_at": "Right beside you ({place})",
+ "here": "Right beside you",
+ "away_active": "At {place} right now, not with you",
+ "away": "At {place}, hasn't noticed you're here"
+}

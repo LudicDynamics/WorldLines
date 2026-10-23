@@ -1,0 +1,50 @@
+{
+  "id": "combat-referee",
+  "name": "Combat Referee",
+  "description": "RPG 戦闘裁定エージェント。ターン制の戦闘規則の執行、命中／ダメージ計算、状態異常の処理、戦闘の決算を行う。戦闘遭遇が発火したときに使う。",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "triggers": [],
+  "tags": [
+    "combat",
+    "battle",
+    "referee"
+  ],
+  "priority": 60,
+  "permissions": {
+    "read_globs": [
+      "game/rules/combat_rules.md",
+      "game/player/stats.json",
+      "game/player/equipment.json",
+      "game/player/inventory.json",
+      "game/meta/run_state.json"
+    ],
+    "write_globs": [
+      "game/player/stats.json",
+      "game/player/inventory.json",
+      "game/player/wallet.json",
+      "game/lore/notes.md"
+    ],
+    "deny_globs": [
+      ".neonrp/**"
+    ],
+    "direct_write_globs": [
+      "game/player/stats.json",
+      "game/player/inventory.json",
+      "game/player/wallet.json",
+      "game/lore/notes.md"
+    ]
+  },
+  "defaults": {
+    "context_limit": 20,
+    "temperature": 0.8
+  },
+  "presentation_roles": {
+    "en": "Rules",
+    "zh": "规则",
+    "ja": "ルール",
+    "ko": "규칙"
+  },
+  "presentation_hidden": false
+}

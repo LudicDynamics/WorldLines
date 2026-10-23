@@ -1,0 +1,14 @@
+{
+  "id": "monument",
+  "kind": "location",
+  "name": "The Monument",
+  "tags": [
+    "lore",
+    "monument"
+  ],
+  "summary": "An ancient stone monument. The Waen Monument stands here. \"Waen dwelt here six-and-thirty years, no longer knowing the speech of his homeland, never returning to the central land.\" Reading it in daylight yields information.",
+  "connections": [
+    "town",
+    "shrine"
+  ]
+}

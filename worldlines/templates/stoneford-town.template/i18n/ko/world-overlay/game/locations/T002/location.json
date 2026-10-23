@@ -1,0 +1,18 @@
+{
+  "id": "T002",
+  "type": "town",
+  "name": "윈드스테이 요새",
+  "region": "Northvale",
+  "pos": [
+    5,
+    10
+  ],
+  "summary": "역로를 지키는 요새. 순찰대가 주둔하고 규율이 엄하다.",
+  "state": {
+    "discovered": false,
+    "danger_nearby": 1
+  },
+  "connections": [
+    "T001"
+  ]
+}

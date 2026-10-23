@@ -1,0 +1,17 @@
+{
+  "sid": "kagami",
+  "instance_id": "si-kagami001",
+  "location": "cafe",
+  "status": {
+    "hp": 100,
+    "max_hp": 100,
+    "memory": "normal",
+    "trust_initial": 20,
+    "mood": "guarded_warm"
+  },
+  "turn_count": 0,
+  "loop_state": {
+    "has_memory": true,
+    "reason": "normal_resident"
+  }
+}

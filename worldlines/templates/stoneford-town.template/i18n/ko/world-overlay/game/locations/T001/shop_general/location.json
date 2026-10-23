@@ -1,0 +1,13 @@
+{
+  "id": "shop_general",
+  "name": "잡화점",
+  "type": "facility",
+  "facility_file": "facilities/shop_general.json",
+  "pos": {
+    "x": 512,
+    "y": 232
+  },
+  "connections": [
+    "main_street"
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "generated_by": "claude_code_prompt",
+  "version": "1.0.1",
+  "note": "Subagents 位于 .claude/agents/ 目录，每个子代理有独立上下文。路径已修复：移除通配符，使用具体文件路径",
+  "agents": [
+    {
+      "id": "world-agent",
+      "name": "Orchestrator",
+      "agent_path": ".claude/agents/world-agent.md",
+      "role": "主控调度器",
+      "description": "读取游戏状态，路由到子代理，合并patch，更新状态",
+      "read_globs": ["game/**"],
+      "write_globs": ["game/run_state.json", "game/lore/notes.md", "game/lore/story.md"],
+      "note": "重要路径: game/agents/manifest.json (在agents子目录下)"
+    },
+    {
+      "id": "rpg-world-builder",
+      "name": "World Builder",
+      "agent_path": ".claude/agents/rpg-world-builder.md",
+      "role": "世界构建",
+      "description": "管理世界地图结构，扩展新区域，更新节点状态",
+      "read_globs": ["game/world/world_map.json", "game/lore/story.md", "game/lore/notes.md"],
+      "write_globs": ["game/world/world_map.json", "game/world/regions.json", "game/world/factions.json"]
+    },
+    {
+      "id": "rpg-story-narrative",
+      "name": "Story / Narrative",
+      "agent_path": ".claude/agents/rpg-story-narrative.md",
+      "role": "故事叙述",
+      "description": "管理主线故事和传闻，追加故事章节",
+      "read_globs": ["game/lore/story.md", "game/lore/notes.md", "game/world/world_map.json", "game/player/flags.json"],
+      "write_globs": ["game/lore/story.md", "game/lore/rumors.md"]
+    },
+    {
+      "id": "rpg-town-agent",
+      "name": "Town Agent",
+      "agent_path": ".claude/agents/rpg-town-agent.md",
+      "role": "城镇代理",
+      "description": "处理城镇内导航、NPC交互、设施入口",
+      "read_globs": ["game/towns/*/town.json", "game/towns/*/town_map.json", "game/towns/*/npcs.json", "game/towns/*/quests.json", "game/towns/*/facilities/*.json", "game/player/profile.json", "game/player/stats.json", "game/player/inventory.json", "game/player/wallet.json", "game/player/flags.json", "game/lore/notes.md"],
+      "write_globs": ["game/towns/*/town_map.json"],
+      "note": "直接使用 run_state.location.node_id 作为文件夹名"
+    },
+    {
+      "id": "rpg-guild-agent",
+      "name": "Guild Agent",
+      "agent_path": ".claude/agents/rpg-guild-agent.md",
+      "role": "公会设施",
+      "description": "管理任务板、任务接取/提交、声望系统",
+      "read_globs": ["game/towns/*/facilities/guild.json", "game/towns/*/quests.json", "game/player/inventory.json", "game/player/wallet.json", "game/player/flags.json", "game/player/profile.json"],
+      "write_globs": ["game/towns/*/facilities/guild.json", "game/towns/*/quests.json", "game/player/inventory.json", "game/player/wallet.json", "game/player/flags.json"],
+      "note": "直接使用 run_state.location.node_id 作为文件夹名"
+    },
+    {
+      "id": "rpg-shop-agent",
+      "name": "Shop Agent",
+      "agent_path": ".claude/agents/rpg-shop-agent.md",
+      "role": "商店设施",
+      "description": "处理买卖交易、库存管理",
+      "read_globs": ["game/towns/*/facilities/shop_*.json", "game/player/inventory.json", "game/player/wallet.json"],
+      "write_globs": ["game/towns/*/facilities/shop_*.json", "game/player/inventory.json", "game/player/wallet.json"],
+      "note": "直接使用 run_state.location.node_id 作为文件夹名"
+    },
+    {
+      "id": "rpg-inn-agent",
+      "name": "Inn Agent",
+      "agent_path": ".claude/agents/rpg-inn-agent.md",
+      "role": "旅店设施",
+      "description": "处理休息恢复、传闻系统、时间推进",
+      "read_globs": ["game/towns/*/facilities/inn.json", "game/lore/rumors.md", "game/player/stats.json", "game/player/wallet.json", "game/player/flags.json"],
+      "write_globs": ["game/towns/*/facilities/inn.json", "game/player/stats.json", "game/player/wallet.json", "game/player/flags.json"],
+      "note": "直接使用 run_state.location.node_id 作为文件夹名"
+    },
+    {
+      "id": "rpg-dungeon-agent",
+      "name": "Dungeon Agent",
+      "agent_path": ".claude/agents/rpg-dungeon-agent.md",
+      "role": "地下城代理",
+      "description": "处理地下城探索、房间导航、遭遇触发、Boss战",
+      "read_globs": ["game/dungeons/*/dungeon.json", "game/dungeons/*/layout.json", "game/dungeons/*/rooms/*.json", "game/dungeons/*/encounter_tables.json", "game/dungeons/*/loot_tables.json", "game/player/stats.json", "game/player/inventory.json", "game/player/equipment.json", "game/player/flags.json", "game/rules/combat_rules.md"],
+      "write_globs": ["game/dungeons/*/layout.json", "game/dungeons/*/rooms/*.json", "game/player/flags.json", "game/world/world_map.json"],
+      "note": "直接使用 run_state.location.node_id 作为文件夹名"
+    },
+    {
+      "id": "rpg-combat-referee",
+      "name": "Combat Referee",
+      "agent_path": ".claude/agents/rpg-combat-referee.md",
+      "role": "战斗裁判",
+      "description": "执行战斗规则、回合管理、伤害计算、状态处理、战斗结算",
+      "read_globs": ["game/rules/combat_rules.md", "game/player/stats.json", "game/player/equipment.json", "game/player/inventory.json"],
+      "write_globs": ["game/player/stats.json", "game/player/inventory.json", "game/player/wallet.json", "game/lore/notes.md"]
+    },
+    {
+      "id": "rpg-notary-archivist",
+      "name": "Notary / Archivist",
+      "agent_path": ".claude/agents/rpg-notary-archivist.md",
+      "role": "公证人/档案员",
+      "description": "记录重要事件到notes.md，更新玩家日志journal.md",
+      "read_globs": ["game/**"],
+      "write_globs": ["game/lore/notes.md", "game/player/journal.md"]
+    }
+  ],
+  "routing_rules": {
+    "world": {
+      "description": "世界地图层",
+      "condition": "run_state.location.scope == 'world'",
+      "agents": ["rpg-world-builder"],
+      "transitions": {
+        "enter_town": "scope -> town",
+        "enter_dungeon": "scope -> dungeon",
+        "travel_encounter": "rpg-combat-referee"
+      }
+    },
+    "town": {
+      "description": "城镇层",
+      "condition": "run_state.location.scope == 'town'",
+      "agents": ["rpg-town-agent"],
+      "facilities": {
+        "guild": "rpg-guild-agent",
+        "shop_*": "rpg-shop-agent",
+        "inn": "rpg-inn-agent"
+      }
+    },
+    "dungeon": {
+      "description": "地下城层",
+      "condition": "run_state.location.scope == 'dungeon'",
+      "agents": ["rpg-dungeon-agent"],
+      "transitions": {
+        "encounter": "rpg-combat-referee"
+      }
+    },
+    "end_of_turn": {
+      "description": "回合结束归档",
+      "agents": ["rpg-notary-archivist", "rpg-story-narrative"]
+    }
+  }
+}

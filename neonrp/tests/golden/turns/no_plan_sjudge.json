@@ -1,0 +1,129 @@
+{
+ "scenario": "no_plan_sjudge",
+ "model_calls": [
+  "narrate",
+  "transition"
+ ],
+ "steps": [
+  {
+   "line": "艾琳娜,帮我看看这张地图",
+   "nodes": [
+    "resolve"
+   ],
+   "advanced_by": null,
+   "traces": [
+    {
+     "beat": {},
+     "spans": [
+      [
+       "plan",
+       "scene",
+       "python"
+      ],
+      [
+       "plan",
+       "fallback",
+       "python"
+      ],
+      [
+       "parallel",
+       "soul:si-elena0001",
+       "llm",
+       {
+        "kind": "speak"
+       }
+      ],
+      [
+       "plan",
+       "engine.pack",
+       "python"
+      ],
+      [
+       "plan",
+       "gate",
+       "python"
+      ],
+      [
+       "solve",
+       "world",
+       "llm",
+       {
+        "loop": 0,
+        "fmt": "adv-noops",
+        "ops": 0
+       }
+      ],
+      [
+       "verify",
+       "l1",
+       "python",
+       {
+        "accepted": 0,
+        "refused": 0
+       }
+      ],
+      [
+       "solve",
+       "world.transition",
+       "llm",
+       {
+        "ops": 0,
+        "refused": 0,
+        "fixable": 0,
+        "attempt": 0
+       }
+      ],
+      [
+       "apply",
+       "engine",
+       "python",
+       {
+        "applied": 0,
+        "created": 0,
+        "refused": 0
+       }
+      ],
+      [
+       "settle",
+       "souls",
+       "off",
+       {
+        "n": 1
+       }
+      ],
+      [
+       "land",
+       "engine",
+       "python"
+      ]
+     ],
+     "plan": {
+      "source": "fallback",
+      "intent": "act",
+      "depth": {
+       "si-elena0001": "act",
+       "si-rowan0001": "silent"
+      }
+     },
+     "souls": {
+      "si-elena0001": "speak"
+     },
+     "variants": {
+      "si-elena0001": "S-judge"
+     },
+     "applied": [],
+     "refused": [],
+     "created": 0,
+     "tool_returns": [
+      "map"
+     ],
+     "narration": "(stub)"
+    }
+   ],
+   "state": {
+    "vars": {},
+    "moved": {}
+   }
+  }
+ ]
+}

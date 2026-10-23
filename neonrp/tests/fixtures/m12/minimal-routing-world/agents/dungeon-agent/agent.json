@@ -1,0 +1,12 @@
+{
+  "id": "dungeon-agent",
+  "name": "Dungeon Agent",
+  "delegation_mode": "sticky",
+  "sticky_domain_kinds": ["dungeon"],
+  "permissions": {
+    "read_globs": ["game/**", ".neonrp/manifest.json"],
+    "deny_globs": ["game/meta/active-agent.json"],
+    "write_globs": ["game/**"],
+    "direct_write_globs": ["game/**"]
+  }
+}

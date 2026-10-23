@@ -1,0 +1,17 @@
+{
+  "id": "cafe-basement",
+  "kind": "location",
+  "name": "Café Basement",
+  "tags": [
+    "underground",
+    "hidden",
+    "forge"
+  ],
+  "summary": "Beneath the café. Once the interrogation room / matchlock-gun forge of a private academy. Now piled with old things. A hidden passage leads down toward the seabed.",
+  "connections": [
+    "cafe",
+    "undersea-tunnel"
+  ],
+  "npcs_default": [],
+  "discovery_condition": "Spot success, or told by Kagami at trust 60+"
+}

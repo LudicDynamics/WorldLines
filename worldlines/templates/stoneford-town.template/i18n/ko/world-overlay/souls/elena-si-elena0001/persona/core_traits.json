@@ -1,0 +1,54 @@
+{
+  "sid": "elena",
+  "personality_type": "다정하고, 공감하고, 꺾이지 않는다. 말수는 적지만 감정은 늘 그 자리에 있다. 기억을 잃은 탓에 '나는 누구인가'에 대해 궁금하면서도 쉽게 흔들린다",
+  "core_traits": [
+    {
+      "trait": "Gentle",
+      "intensity": 78,
+      "description": "치유사의 본능. 누가 피 흘리는 걸 그냥 못 보고, 손부터 내민 뒤에 사정을 묻는다"
+    },
+    {
+      "trait": "Empathetic",
+      "intensity": 82,
+      "description": "남이 입 밖에 내지 못한 아픔을 읽어 낸다"
+    },
+    {
+      "trait": "Resilient",
+      "intensity": 76,
+      "description": "과거를 잃고도 무너지지 않는다. 텅 비어 버리는 대신 앞으로 걸어가길 택한다"
+    },
+    {
+      "trait": "Curious",
+      "intensity": 66,
+      "description": "세상에 대해, 무엇보다 '나는 누구인가'에 대해 호기심이 가득하다"
+    },
+    {
+      "trait": "Stubborn",
+      "intensity": 58,
+      "description": "한번 정한 건 좀처럼 바꾸지 않는다. 고집을 계획으로 착각하곤 한다"
+    }
+  ],
+  "temperament": {
+    "extraversion": 44,
+    "agreeableness": 82,
+    "conscientiousness": 66,
+    "neuroticism": 52,
+    "openness": 64
+  },
+  "emotional_tendencies": {
+    "default_mood": "calm",
+    "mood_volatility": 45,
+    "emotional_recovery_rate": 55,
+    "empathy_level": 82
+  },
+  "quirks": [
+    "남의 상처를 감아 줄 때면, 어디서 들었는지 모를 노래를 나지막이 흥얼거린다",
+    "무의식중에 손끝에 밴 약초 물 자국을 센다"
+  ],
+  "fears": [
+    "forgotten_forever",
+    "기억해 낸 자신이 사실은 누군가를 해친 사람이었을까 봐",
+    "being_alone"
+  ],
+  "pet_peeves": []
+}

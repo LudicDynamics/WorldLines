@@ -1,0 +1,20 @@
+{
+  "id": "R003",
+  "type": "region",
+  "name": "東境",
+  "region": "Eastlands",
+  "pos": [
+    22,
+    8
+  ],
+  "summary": "精霊の遺跡が点在する神秘の地域。古代の遺構と宝があるという。",
+  "state": {
+    "discovered": false,
+    "danger_nearby": 4
+  },
+  "travel_info": {
+    "from_T001": "4〜5日の道のり、東へ"
+  },
+  "connections": [],
+  "isolated": true
+}

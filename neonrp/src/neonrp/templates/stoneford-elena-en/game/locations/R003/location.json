@@ -1,0 +1,20 @@
+{
+  "id": "R003",
+  "type": "region",
+  "name": "Eastreach",
+  "region": "Eastlands",
+  "pos": [
+    22,
+    8
+  ],
+  "summary": "A mysterious region strewn with elf ruins, said to hold ancient remains and treasure.",
+  "state": {
+    "discovered": false,
+    "danger_nearby": 4
+  },
+  "travel_info": {
+    "from_T001": "4-5 days' travel, east"
+  },
+  "connections": [],
+  "isolated": true
+}

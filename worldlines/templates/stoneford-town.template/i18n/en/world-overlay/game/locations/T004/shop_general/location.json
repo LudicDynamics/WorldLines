@@ -1,0 +1,14 @@
+{
+  "id": "shop_general",
+  "name": "Stonehammer Sundries",
+  "type": "facility",
+  "facility_file": "facilities/shop_general.json",
+  "description": "A supply stop for miners and adventurers. From rope to blasting powder, from rations to maps, it has everything.",
+  "pos": {
+    "x": 420,
+    "y": 380
+  },
+  "connections": [
+    "main_street"
+  ]
+}

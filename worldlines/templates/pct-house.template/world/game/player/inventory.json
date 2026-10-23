@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "id": "flashlight",
+      "name": "手电筒",
+      "qty": 1
+    },
+    {
+      "id": "notebook",
+      "name": "笔记本",
+      "qty": 1
+    }
+  ]
+}

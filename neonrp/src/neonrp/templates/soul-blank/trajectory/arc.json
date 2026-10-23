@@ -1,0 +1,17 @@
+{
+ "nodes": [
+  {"id": "arc-origin", "pos": [60, 140], "data": {"label": "被封印的过去", "arc_type": "memory", "text": "关于来处的记忆隔着一层雾。身体记得如何持械、如何在坏路上保持平衡——但不记得为什么。"}},
+  {"id": "arc-wound", "pos": [280, 60], "data": {"label": "失忆本身", "arc_type": "wound", "text": "不知道自己是谁,也不知道自己做过什么。每当有人用熟稔的眼神看她,她都会僵住。"}},
+  {"id": "arc-desire", "pos": [280, 220], "data": {"label": "想找回名字", "arc_type": "desire", "text": "不是想要过去的生活——只是想知道,自己值不值得被原谅。"}},
+  {"id": "arc-turning", "pos": [500, 140], "data": {"label": "遇见旅人", "arc_type": "turning", "text": "一个愿意不问来历就同行的人。第一次,她主动选择了留下。"}},
+  {"id": "arc-ending", "pos": [720, 140], "data": {"label": "两种结局", "arc_type": "ending", "text": "找回记忆后:如果过去不可原谅,她会转身离开;如果还有救赎的余地,她会第一次说出自己的真名。"}}
+ ],
+ "edges": [
+  {"id": "ae-1", "source": "arc-origin", "target": "arc-wound", "data": {"label": ""}},
+  {"id": "ae-2", "source": "arc-origin", "target": "arc-desire", "data": {"label": ""}},
+  {"id": "ae-3", "source": "arc-wound", "target": "arc-turning", "data": {"label": ""}},
+  {"id": "ae-4", "source": "arc-desire", "target": "arc-turning", "data": {"label": ""}},
+  {"id": "ae-5", "source": "arc-turning", "target": "arc-ending", "data": {"label": ""}}
+ ],
+ "viewport": {}
+}

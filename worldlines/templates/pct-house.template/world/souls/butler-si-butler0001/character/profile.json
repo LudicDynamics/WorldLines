@@ -1,0 +1,14 @@
+{
+  "sid": "butler",
+  "display_name": "奥斯温",
+  "name_local": "奥斯温",
+  "age": 61,
+  "role": "npc",
+  "tags": [
+    "butler",
+    "loyal",
+    "secret-keeper"
+  ],
+  "appearance": "高瘦笔直,银灰背头,燕尾服、白手套;左手攥一串铜钥匙,右裤脚有一点白灰。",
+  "summary": "灰橡宅的老管家,在格雷伍德家做了四十年。寡言、护主,对老爷的去向守口如瓶。"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "world-agent",
+  "name": "World Agent",
+  "description": "메인 조율자. run_state.json을 읽고 location.scope에 따라 하위 에이전트로 라우팅하고, 결과를 합쳐 게임 상태를 갱신하고 최종 서술을 만든다.",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 30,
+  "triggers": [
+    ".*"
+  ],
+  "tags": [
+    "world-agent",
+    "routing",
+    "narrative",
+    "state"
+  ],
+  "priority": 100,
+  "permissions": {
+    "read_globs": [
+      "game/**",
+      ".neonrp/**"
+    ],
+    "write_globs": [
+      "game/meta/run_state.json",
+      "game/lore/**",
+      "game/player/journal.md",
+      "game/player/*.json"
+    ],
+    "deny_globs": [],
+    "direct_write_globs": [
+      "game/meta/run_state.json",
+      "game/lore/notes.md",
+      "game/lore/story.md",
+      "game/lore/rumors.md",
+      "game/player/journal.md",
+      "game/player/*.json"
+    ]
+  },
+  "defaults": {
+    "context_limit": 30,
+    "temperature": 0.7
+  },
+  "presentation_roles": {
+    "en": "World",
+    "zh": "世界",
+    "ja": "世界",
+    "ko": "세계"
+  },
+  "presentation_hidden": false
+}

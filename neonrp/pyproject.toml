@@ -1,0 +1,135 @@
+[project]
+name = "neonrp"
+version = "1.0.3"
+description = "Agentic engine for AI role-playing — agents as a game"
+authors = [
+    {name = "Ludic Dynamics", email = "info@worldlines.gg"},
+    {name = "nikoloside"},
+    {name = "redoctober"},
+]
+dependencies = [
+    "anthropic>=0.40.0",
+    "click>=8.1.7",
+    "jsonschema>=4.21.1",
+    "mcp>=1.0.0",
+    "openai>=2.16.0",
+    "pillow>=12.2.0",
+    "pydantic>=2.0.0",
+    "regex>=2025.11.3",
+    "rich-pixels>=3.0.0",
+    # PIN to the major we develop + test against. textual 8.x changed Input /
+    # IME handling and broke CJK (Chinese/Japanese) input in the TUI. The dev
+    # env is locked to 7.5.0 (works), but the unpinned `>=0.50.0` let a fresh
+    # `uv tool install` resolve to the latest 8.x — so 0.2.5/0.2.6 installs
+    # shipped the broken behavior while older installs (pre-textual-8) were
+    # fine. Cap below 8 so installs match the tested behavior; revisit when the
+    # 8.x line is validated.
+    "textual[syntax]>=7.5.0,<8.0",
+]
+requires-python = ">=3.10"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+
+[project.optional-dependencies]
+# Optional external-interface bridges. Install with:
+#   uv pip install neonrp[discord]
+#   uv pip install neonrp[telegram]
+#   uv pip install neonrp[bridges]  # both
+discord = ["discord.py>=2.3.0"]
+telegram = ["python-telegram-bot>=21.0"]
+bridges = ["discord.py>=2.3.0", "python-telegram-bot>=21.0"]
+# WorldHub publish (upload) requires boto3. Downloads use urllib only
+# and do not need this extra.
+hub-publish = ["boto3>=1.34.0"]
+# In-terminal character portraits (立绘) + scene images for the play TUI.
+# These are now CORE dependencies (see [project].dependencies) so images work
+# out of the box; this extra is kept as a no-op alias for back-compat with
+# anyone installing `neonrp[tui-image]`.
+tui-image = ["rich-pixels>=3.0.0", "pillow>=10.0.0"]
+
+[project.scripts]
+neonrp = "neonrp.cli:cli"
+worldlines = "neonrp.cli:worldlines_cli"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/neonrp"]
+# DEV-ONLY assets — never ship in the pip package. webui/devtools/ holds the
+# local orchestration debug overlay (web.py injects it only when present), so
+# a pip-installed `neonrp web` has no debug surface.
+# webui/spa/:engine-only 瘦 wheel(形态 B,niko 2026-09 两仓 tag 彻底分开)——
+# 引擎 wheel **不再内嵌** SPA。SPA 由开源壳仓(WorldLines)独立发布/伺服,引擎
+# 运行时经 NEONRP_SPA_DIR 找(_spa_root());不设则 API-only。release.yml 的
+# wheel 守门相应翻成「不得内嵌」。
+exclude = [
+    "src/neonrp/webui/devtools/**",
+    "src/neonrp/webui/spa/**",
+    # 10-15:同人改编,权利未清前不出(release/manifest.toml 同样排除;引擎会跳过缺目录的内置世界)
+    "src/neonrp/templates/daogui/**",
+    "src/neonrp/templates/lianyu/**",
+]
+include = [
+    "src/neonrp/schema/*.json",
+    "src/neonrp/orchestrations/**/*",
+    "src/neonrp/templates/**/*",
+    "src/neonrp/templates/**/.neonrp/**/*",
+    "src/neonrp/templates/**/.claude/**/*",
+    "src/neonrp/templates/**/CLAUDE.md",
+    "src/neonrp/builtin_skills/**/*",
+    "src/neonrp/packs/**/prompts/*.md",
+    "src/neonrp/prompts/*.md",
+    "src/neonrp/prompts/*.json",
+    "src/neonrp/packs/**/data/*.json",
+    "src/neonrp/packs/**/data/*.md",
+    "src/neonrp/assets/*",
+    "src/neonrp/webui/*.html",
+]
+
+# 源码包只放引擎本身(10-23:没有这一段时 hatch 把整个仓库受版本管理的文件都打进去 —— docs/ 的游玩记录、
+# 完整提示词、规划文档,479 MB;docs/ 永不外流)
+[tool.hatch.build.targets.sdist]
+only-include = ["src/neonrp", "documents/spec", "README.md", "LICENSE", "NOTICE"]
+exclude = [
+    "src/neonrp/webui/devtools/**",
+    "src/neonrp/webui/spa/**",
+    "src/neonrp/templates/daogui/**",
+    "src/neonrp/templates/lianyu/**",
+]
+
+# 10-08:spec 要能让 agent 直接读(neonrp spec / GET /api/v1/spec / /llms.txt)—— pip 装的引擎也带上 documents/spec
+[tool.hatch.build.targets.wheel.force-include]
+"documents/spec" = "neonrp/_spec"
+
+# 10-23:发 PyPI 的 wheel 带私有层(NEONRP_BUNDLE_PRIVATE=<neonrp_private 目录>);不设 = 只有开源引擎(hatch_build.py)
+[tool.hatch.build.targets.wheel.hooks.custom]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint.per-file-ignores]
+# Files where type-alias / guarded imports sit between import blocks.
+"src/neonrp/tui/app.py" = ["E402"]
+"src/neonrp/core/agent_runner.py" = ["E402"]
+# kernel.py retains compatibility imports that ruff flags as unused.
+"src/neonrp/kernel.py" = ["F401"]
+# Tests may import fixtures, reassign for clarity, or keep unused helpers.
+"tests/*" = ["F401", "F811", "F841"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+markers = [
+    "e2e_llm: Tests requiring real LLM API (skipped unless NEONRP_E2E_LLM=1)",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+    "pytest-cov>=7.0.0",
+    "pytest-timeout>=2.3",
+    "ruff>=0.14.14",
+]

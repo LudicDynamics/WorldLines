@@ -1,0 +1,42 @@
+{
+  "facility_id": "appraiser_T004",
+  "name": "鸦目鉴定所",
+  "services": [
+    {
+      "name": "普通矿石鉴定",
+      "price": 5,
+      "description": "鉴定常见矿石的种类和品质"
+    },
+    {
+      "name": "特殊物品鉴定",
+      "price": 15,
+      "description": "鉴定稀有矿石、宝石或魔法材料的属性"
+    },
+    {
+      "name": "深度解析",
+      "price": 50,
+      "description": "对未知或异常物品进行深入分析，可能揭示隐藏属性"
+    }
+  ],
+  "buys": [
+    {
+      "category": "原矿",
+      "price_range": "5-30",
+      "note": "根据品质浮动"
+    },
+    {
+      "category": "宝石（已切割）",
+      "price_range": "20-200",
+      "note": "根据种类和品质浮动"
+    },
+    {
+      "category": "水晶",
+      "price_range": "10-80",
+      "note": "根据纯度浮动"
+    }
+  ],
+  "special_note": "鸦目老范对玩家背包中的'黯淡的绿色宝石'会有特殊反应——他的异色双瞳会同时发光，并表示这不是普通矿石。",
+  "state": {
+    "available": true
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "ストーンフォード · 霧の退く夜 — 開幕",
+  "tags": [
+    "entrypoint",
+    "start",
+    "begin",
+    "ゲーム開始",
+    "冒険を始める"
+  ],
+  "summary": "プレイヤーが「ゲーム開始」と言ったとき、orchestrator が最初に読むファイル。",
+  "startup": {
+    "read_first": [
+      "game/meta/game-start.json",
+      "game/meta/run_state.json",
+      "game/meta/roster.json",
+      "game/timeline/current.json",
+      "game/player/controller.json",
+      "game/player/profile.json",
+      "game/player/stats.json",
+      "game/player/equipment.json",
+      "game/player/wallet.json",
+      "game/towns/T001/town.json",
+      "game/lore/story.md"
+    ],
+    "opening_scene": {
+      "zh": "雾期第五夜。驿路上的雾浓得能拧出水,你在北门外最后一盏灯下停住。守门人卡斯的头盔大了一号,他把长矛横过来:「没公会委托,往北一步都不行——往南进镇倒随你。」门里的石津镇挤满了走不了的人:集市广场停着一排商队马车,旅店的窗比哪儿都亮。卡斯压低声音补了一句:「后天零点,雾会退开一夜。整个镇子都在等那一夜。」",
+      "en": "The fifth night of the fog season. The fog on the post road is thick enough to wring out; you stop under the last lamp outside the north gate. Kas the gate guard, his helmet a size too big, lowers his spear across the way: \"No guild commission, not one step north — south into town, suit yourself.\" Inside, Stone Ford is packed with people who cannot leave: a row of stranded caravan wagons in the market square, the inn's windows brighter than anywhere. Kas adds, quieter: \"The night after tomorrow, at midnight, the fog lifts for one night. The whole town is waiting for it.\"",
+      "ja": "霧の季節、第五夜。街道の霧は絞れば水が滴りそうなほど濃く、あなたは北門の外、最後のランプの下で足を止めた。門番のキャスは兜がひと回り大きすぎる。彼は槍を横に構えて道を塞いだ。「ギルドの依頼がなけりゃ、北へは一歩も通さねえ——南へ、町に入るってんなら好きにしな」門の内側のストーンフォードは、出るに出られない人々でごった返している。市場広場には商隊の荷馬車がずらりと足止めされ、宿の窓はどこよりも明るい。キャスは声をひそめて付け足した。「明後日の零時、霧がひと晩だけ退く。町じゅうがその夜を待ってるのさ」"
+    },
+    "opening_choices": {
+      "zh": [
+        "进镇,去旅店打听",
+        "去冒险者公会看委托",
+        "问卡斯:雾退开以后北路通到哪"
+      ],
+      "en": [
+        "Go into town and ask around at the inn",
+        "Check the commissions at the guild",
+        "Ask Kas where the north road leads once the fog lifts"
+      ],
+      "ja": [
+        "町に入り、宿で話を聞いて回る",
+        "冒険者ギルドで依頼を見る",
+        "キャスに尋ねる:霧が退いたら、北の街道はどこへ通じているのか"
+      ]
+    }
+  },
+  "world_info": {
+    "world_name": "灰霧の北境 Northvale",
+    "start_location": "T001 ストーンフォード",
+    "start_scope": "town",
+    "start_time": {
+      "day": 1,
+      "clock": "08:30"
+    },
+    "genre": "中世ファンタジー TRPG / heroine-led migration demo",
+    "tone": "リアル、湿っぽく、抑制的、選択には結果が伴う",
+    "rules": "d20 のダイス判定 · 詳しくは game/rules/combat_rules.md"
+  },
+  "agent_routing": {
+    "entry_agent": "world-agent",
+    "router_type": "sticky",
+    "note": "プレイヤーの入力はすべてまず orchestrator を通る。orchestrator は run_state.json を読んでから、どの domain agent に委ねるかを決める。world-agent を飛ばして直接 domain agent に入ってはならない。"
+  }
+}

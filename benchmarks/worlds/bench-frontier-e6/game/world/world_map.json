@@ -1,0 +1,45 @@
+{
+ "id": "world_map",
+ "kind": "world",
+ "world_id": "frontier",
+ "name": "frontier",
+ "nodes": [
+  {
+   "id": "bishi_town",
+   "type": "poi",
+   "name": "Bishi Mining Town",
+   "summary": "A raw-boned town of ore-carts and lamplit taverns, built on rumor and rail dust; everything here points at the mine.",
+   "links": [
+    "R001"
+   ],
+   "items_here": [],
+   "state": {
+    "discovered": true
+   }
+  },
+  {
+   "id": "mine_entrance",
+   "type": "poi",
+   "name": "Mine Entrance",
+   "summary": "Timber-framed mouth of the old workings. Cold air breathes out of the dark; the chart on the wall ends a few steps in.",
+   "links": [
+    "R001"
+   ],
+   "items_here": [],
+   "state": {
+    "discovered": true
+   }
+  }
+ ],
+ "routes": [
+  {
+   "id": "R001",
+   "from": "bishi_town",
+   "to": "mine_entrance",
+   "kind": "road",
+   "state": {
+    "blocked": false
+   }
+  }
+ ]
+}

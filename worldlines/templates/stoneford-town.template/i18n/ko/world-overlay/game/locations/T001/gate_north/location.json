@@ -1,0 +1,32 @@
+{
+  "id": "gate_north",
+  "name": "북문",
+  "type": "gate",
+  "pos": {
+    "x": 236,
+    "y": 153
+  },
+  "connections": [
+    "main_street",
+    "market-square",
+    "road_camp"
+  ],
+  "kind": "location",
+  "tags": [
+    "town",
+    "entry",
+    "fog"
+  ],
+  "summary": "비스듬히 기운 나무 울타리 문, 축축하고 차가운 새벽안개, 막 잠에서 깬 문지기, 아직 온기가 돌지 않은 돌길.",
+  "notes": "스톤포드 · 엘레나 오프닝 장면.",
+  "aliases": [
+    "north-gate"
+  ],
+  "ports": {
+    "up": [
+      "R001",
+      "R002",
+      "R004"
+    ]
+  }
+}

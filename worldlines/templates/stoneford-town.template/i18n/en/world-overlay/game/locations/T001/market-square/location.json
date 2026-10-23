@@ -1,0 +1,21 @@
+{
+  "id": "market-square",
+  "kind": "location",
+  "name": "Market Square",
+  "tags": [
+    "town",
+    "market",
+    "social"
+  ],
+  "summary": "The morning market isn't fully laid out yet — stalls draped with wet cloth, silent carts, a bread stall just starting to steam.",
+  "connections": [
+    "gate_north",
+    "inn",
+    "guild"
+  ],
+  "notes": "Most town-facing scenes can fan through here.",
+  "pos": {
+    "x": 154,
+    "y": 116
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "id": "aldric",
+  "kind": "party",
+  "name": "奥德里克",
+  "class": "战士 (Fighter)",
+  "ac": 16,
+  "hp": 12,
+  "hp_max": 12,
+  "initiative_mod": 1,
+  "attacks": [
+    {
+      "name": "长剑",
+      "to_hit": 5,
+      "damage": "1d8+3",
+      "range": "近战"
+    }
+  ],
+  "note": "人类战士,披链甲持长剑。冲在最前面替队友挡刀。"
+}

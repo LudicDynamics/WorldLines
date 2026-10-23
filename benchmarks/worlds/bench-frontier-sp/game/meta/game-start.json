@@ -1,0 +1,16 @@
+{
+ "id": "game-start",
+ "kind": "meta",
+ "name": "frontier",
+ "summary": "Bishi is a worn mining town at the end of the rail line. A week ago a nameless prospector paid for his drinks with ore that hums faintly in the dark — then walked into the tunnels and never came back. Old Fan the Appraiser has hired anyone brave or broke enough to trace the strange ore to its source. The vein lies somewhere in the UNMAPPED tunnels beyond the mine entrance; every step past the lamplight is a place no one has charted. Central task: follow the ore deeper, chart what you find, and come back alive to tell Old Fan what hums down there.",
+ "startup": {
+  "read_first": [
+   "{{DATA_DIR}}/meta/run_state.json",
+   "{{DATA_DIR}}/world/world_map.json"
+  ],
+  "start_location": "mine_entrance",
+  "agent_routing": {
+   "entry_agent": "world-agent"
+  }
+ }
+}

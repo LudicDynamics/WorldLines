@@ -1,0 +1,20 @@
+{
+  "id": "T005",
+  "type": "city",
+  "name": "ミストレイク",
+  "region": "Northvale",
+  "pos": [
+    8,
+    15
+  ],
+  "summary": "灰霧の北境の首府。領主の館を擁する、にぎわう交易の中心地。",
+  "state": {
+    "discovered": false,
+    "danger_nearby": 1
+  },
+  "travel_info": {
+    "from_T001": "5〜6日の道のり"
+  },
+  "connections": [],
+  "isolated": true
+}

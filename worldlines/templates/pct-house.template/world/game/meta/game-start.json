@@ -1,0 +1,68 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "灰橡宅",
+  "tags": [
+    "entrypoint",
+    "start",
+    "begin",
+    "开始游戏"
+  ],
+  "summary": "雾巷尽头的老宅,主人三天前走进这扇门,再没出来。一夜的百分骰推理恐怖。",
+  "startup": {
+    "read_first": [
+      "game/meta/game-start.json",
+      "game/meta/run_state.json",
+      "game/meta/roster.json",
+      "game/player/profile.json",
+      "game/towns/T001/town.json",
+      "game/lore/story.md",
+      "game/lore/owner.md"
+    ],
+    "opening_scene": {
+      "zh": "雾从巷口一路漫到灰橡宅的台阶上。门厅只点着一盏油灯,管家奥斯温站在灯影里,手里攥着一串钥匙,没有要递给你的意思。温妮站在你身后,声音压得很低:「舅舅三天前就是从这扇门进去的,再没出来。」楼上的书房门虚掩着,后院的方向传来一阵风吹门板的响动。",
+      "en": "Fog has crept from the end of the lane up the steps of the Grey Oak house. A single oil lamp lights the hall; Oswin the butler stands in its shadow, a ring of keys in his fist, with no sign of handing it over. Behind you Winnie speaks low: \"My uncle went in through this door three nights ago and never came out.\" The study door upstairs stands ajar, and from the back garden comes the knock of a loose board in the wind.",
+      "ja": "霧が路地の奥から灰樫邸の石段まで這い上がっている。玄関ホールには油灯がひとつ。執事はその影に立ち、鍵束を握りしめたまま渡す気配はない。背後で依頼人が声を落とす。「叔父は三日前、この扉から入って、それきり出てこなかったんです」。二階の書斎の扉は半開きで、裏庭のほうから風に煽られた板戸の音がする。",
+      "ko": "안개가 골목 끝에서 회색참나무 저택의 계단까지 기어올라 와 있다. 현관홀에는 기름등 하나뿐이다. 집사는 그 그늘에 서서 열쇠 꾸러미를 쥔 채 건넬 기색이 없다. 등 뒤에서 의뢰인이 목소리를 낮춘다. \"외삼촌은 사흘 전 이 문으로 들어가서 다시는 나오지 않았어요.\" 위층 서재 문이 반쯤 열려 있고, 뒤뜰 쪽에서 바람에 덜컹이는 판자 소리가 난다."
+    },
+    "opening_choices": {
+      "zh": [
+        "上楼去书房看看",
+        "@奥斯温 这三天到底发生了什么?",
+        "/聆听 听清后院那阵响动是什么"
+      ],
+      "en": [
+        "Ask Oswin what happened these three days",
+        "Go up to the study",
+        "Check the noise in the back garden"
+      ],
+      "ja": [
+        "この三日に何があったか執事に聞く",
+        "二階の書斎へ行く",
+        "裏庭の物音を確かめる"
+      ],
+      "ko": [
+        "집사에게 사흘 동안 무슨 일이 있었는지 묻는다",
+        "위층 서재로 올라간다",
+        "뒤뜰의 소리를 확인하러 간다"
+      ]
+    }
+  },
+  "world_info": {
+    "world_name": "灰橡宅",
+    "start_location": "T001 灰橡宅·门厅",
+    "start_scope": "town",
+    "start_time": {
+      "day": 1,
+      "clock": "21:00"
+    },
+    "genre": "推理恐怖 · 西式老宅",
+    "tone": "冷、静、克制;恐怖只靠不对劲的细节,不靠怪物",
+    "rules": "百分骰(d100)检定 · 详见 game/rules/combat_rules.md"
+  },
+  "agent_routing": {
+    "entry_agent": "world-agent",
+    "router_type": "sticky",
+    "note": "所有玩家输入都先经过 orchestrator。"
+  }
+}

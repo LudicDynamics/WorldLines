@@ -1,0 +1,25 @@
+{
+  "weapon": {
+    "id": "wpn_short_sword",
+    "name": "短剑",
+    "atk": 4,
+    "tags": [
+      "melee"
+    ],
+    "base_damage": 3
+  },
+  "armor": {
+    "id": "arm_leather_jerkin",
+    "name": "旧皮短甲",
+    "def": 2,
+    "tags": [
+      "light"
+    ]
+  },
+  "accessories": [
+    {
+      "id": "road_cloak",
+      "name": "旅行斗篷"
+    }
+  ]
+}

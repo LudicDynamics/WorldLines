@@ -1,0 +1,35 @@
+{
+  "id": "story-narrative",
+  "name": "Story Narrative",
+  "description": "이탈 대비 보조 서술. 플레이어가 미작성 콘텐츠에 들어갔을 때 가볍게 묘사한다.",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "triggers": [],
+  "tags": [
+    "narrative",
+    "fallback"
+  ],
+  "priority": 55,
+  "permissions": {
+    "read_globs": [
+      "game/**"
+    ],
+    "write_globs": [],
+    "deny_globs": [
+      ".neonrp/**"
+    ],
+    "direct_write_globs": []
+  },
+  "defaults": {
+    "context_limit": 20,
+    "temperature": 0.5
+  },
+  "presentation_roles": {
+    "en": "World",
+    "zh": "世界",
+    "ja": "世界",
+    "ko": "세계"
+  },
+  "presentation_hidden": false
+}

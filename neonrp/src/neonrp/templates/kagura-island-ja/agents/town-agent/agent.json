@@ -1,0 +1,41 @@
+{
+  "id": "town-agent",
+  "name": "Town Agent",
+  "description": "神楽島 町/潮待ち茶屋エージェント。島の集落と場所のナビゲーション、店舗、情報取得、一時的な交流を処理する。world-agent が scope に従ってルーティングする。具名キャラクターは soul チームが自律し、このエージェントは soul を演じない。",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "triggers": [],
+  "tags": ["town", "navigation", "cafe", "info", "shop"],
+  "priority": 50,
+  "permissions": {
+    "read_globs": [
+      "game/locations/*.json",
+      "game/items/*.json",
+      "game/meta/run_state.json",
+      "game/meta/roster.json",
+      "game/timeline/current.json",
+      "game/lore/notes.md",
+      ".neonrp/manifest.json"
+    ],
+    "write_globs": [
+      "game/locations/*.json",
+      "game/meta/run_state.json",
+      "game/lore/notes.md"
+    ],
+    "deny_globs": [
+      ".neonrp/**",
+      "souls/**",
+      "game/lore/gm-truth.md"
+    ],
+    "direct_write_globs": [
+      "game/locations/*.json",
+      "game/meta/run_state.json",
+      "game/lore/notes.md"
+    ]
+  },
+  "defaults": {
+    "context_limit": 20,
+    "temperature": 0.75
+  }
+}

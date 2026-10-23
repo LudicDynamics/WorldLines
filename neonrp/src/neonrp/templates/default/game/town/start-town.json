@@ -1,0 +1,31 @@
+{
+  "id": "start-town",
+  "kind": "town",
+  "name": "Starting Town",
+  "tags": [
+    "town",
+    "starting-area",
+    "entry",
+    "begin"
+  ],
+  "summary": "A small town where the adventure begins. 冒险开始的城镇。",
+  "connections": [
+    "forest-path"
+  ],
+  "npcs": [
+    "old-sage"
+  ],
+  "items_available": [
+    {
+      "id": "health-potion",
+      "name": "Health Potion",
+      "price": 25
+    },
+    {
+      "id": "iron-sword",
+      "name": "Iron Sword",
+      "price": 100
+    }
+  ]
+}
+

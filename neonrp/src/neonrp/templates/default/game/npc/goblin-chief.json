@@ -1,0 +1,27 @@
+{
+  "id": "goblin-chief",
+  "kind": "npc",
+  "name": "Goblin Chief",
+  "tags": [
+    "npc",
+    "hostile",
+    "goblin",
+    "boss",
+    "dungeon"
+  ],
+  "summary": "The brutal leader of the dark-cave goblins.",
+  "hp": 85,
+  "max_hp": 85,
+  "gold": 45,
+  "level": 4,
+  "location": "dark-cave",
+  "attack": 14,
+  "defense": 6,
+  "inventory": [
+    {
+      "id": "health-potion",
+      "name": "Health Potion",
+      "quantity": 1
+    }
+  ]
+}

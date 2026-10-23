@@ -1,0 +1,14 @@
+{
+  "sid": "rowan",
+  "display_name": "Rowan Pike",
+  "name_local": "ローワン",
+  "age": 24,
+  "role": "npc",
+  "tags": [
+    "npc",
+    "bro",
+    "scout",
+    "bishi-town"
+  ],
+  "summary": "24歳、軽装の冒険者。碧石(へきせき)の町で、上でも下でもない位置に甘んじている。周りは彼を運が少し足りないだけだと見るが、本人はまだ本物の大伝説に手が届いていないだけだと思っている。"
+}

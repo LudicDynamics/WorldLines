@@ -1,0 +1,18 @@
+{
+  "id": "T002",
+  "type": "town",
+  "name": "风栈堡",
+  "region": "Northvale",
+  "pos": [
+    5,
+    10
+  ],
+  "summary": "驿路要塞，巡逻队驻扎，规矩森严。",
+  "state": {
+    "discovered": false,
+    "danger_nearby": 1
+  },
+  "connections": [
+    "T001"
+  ]
+}

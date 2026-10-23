@@ -1,0 +1,29 @@
+{
+  "data_dir": "{{DATA_DIR}}",
+  "router": {
+    "agent_id": "narrator",
+    "state_file": "meta/active-agent.json",
+    "startup_file": "meta/game-start.json",
+    "execution_mode": "orchestrator"
+  },
+  "routing": {
+    "location_source": {
+      "entity_id": "player",
+      "field": "location"
+    },
+    "domain_agent_map": {
+      "location": "dungeon-agent",
+      "town": "town-agent",
+      "dungeon": "dungeon-agent"
+    },
+    "fallback_agent": "narrator"
+  },
+  "context_pack": {
+    "seed_entity_ids": [
+      "player",
+      "active-agent",
+      "game-start"
+    ],
+    "max_entities": 6
+  }
+}

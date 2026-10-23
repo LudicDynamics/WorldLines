@@ -1,0 +1,215 @@
+{
+  "town_id": "T001",
+  "npcs": [
+    {
+      "id": "NPC001",
+      "name": "赫伦(公会管事)",
+      "role": "guildmaster",
+      "traits": [
+        "谨慎",
+        "重契约"
+      ],
+      "state": {
+        "met": true
+      },
+      "location": "guild",
+      "persuade": {
+        "cares": [
+          "公会的名声",
+          "把探路队带回来"
+        ],
+        "resist": 55
+      },
+      "secrets": [
+        {
+          "id": "heron_pushed",
+          "text": "驿路商会塞了钱,逼他提前三天派探路队。",
+          "reveal_when": "拿出商会账本,或察觉他心虚后追问"
+        }
+      ]
+    },
+    {
+      "id": "NPC002",
+      "name": "老苇(杂货商)",
+      "role": "shopkeeper",
+      "traits": [
+        "嘴碎",
+        "眼尖"
+      ],
+      "state": {
+        "met": false
+      },
+      "location": "shop_general",
+      "persuade": {
+        "cares": [
+          "钱",
+          "死去的妻子(镇上最后一个测绘师)"
+        ],
+        "resist": 65
+      },
+      "secrets": [
+        {
+          "id": "laowei_map",
+          "text": "后屋锁着妻子留下的旧雾路图;她死在雾里,测绘本还在苔墓。",
+          "reveal_when": "说出要进雾找人"
+        }
+      ]
+    },
+    {
+      "id": "NPC003",
+      "name": "米拉(旅店老板娘)",
+      "role": "innkeeper",
+      "traits": [
+        "热情",
+        "消息灵通"
+      ],
+      "state": {
+        "met": false
+      },
+      "location": "inn",
+      "persuade": {
+        "cares": [
+          "弟弟阿沐活着回来"
+        ],
+        "resist": 30
+      },
+      "secrets": [
+        {
+          "id": "mira_amulet",
+          "text": "阿沐的护身符缝在她袖子里,上面绣着探路队的路线。",
+          "reveal_when": "答应去找阿沐"
+        }
+      ]
+    },
+    {
+      "id": "NPC004",
+      "name": "卡斯(北门守门人)",
+      "role": "gate_guard",
+      "location": "gate_north",
+      "traits": [
+        "没睡醒",
+        "怕镇守"
+      ],
+      "persuade": {
+        "cares": [
+          "别出事",
+          "还清赌债"
+        ],
+        "resist": 45
+      },
+      "secrets": [
+        {
+          "id": "kas_bribed",
+          "text": "他收过独眼虎手下的钱,给山贼放过哨。",
+          "reveal_when": "察觉他躲闪后追问,或在营地看见他的赌票"
+        }
+      ],
+      "hp": 10,
+      "max_hp": 10
+    },
+    {
+      "id": "NPC005",
+      "name": "薇拉(镇署女镇守)",
+      "role": "warden",
+      "location": "townhall",
+      "traits": [
+        "端正",
+        "护镇"
+      ],
+      "persuade": {
+        "cares": [
+          "雾期里镇上别死人",
+          "别让商会和公会把镇子拖进争北路的事"
+        ],
+        "resist": 60
+      },
+      "secrets": [
+        {
+          "id": "vera_records",
+          "text": "每年雾退之夜都有人没回来,镇署从不记录。",
+          "reveal_when": "问起往年的雾退之夜"
+        }
+      ],
+      "hp": 12,
+      "max_hp": 12
+    },
+    {
+      "id": "NPC006",
+      "name": "老鱼(码头船夫)",
+      "role": "ferryman",
+      "location": "dock",
+      "traits": [
+        "精明",
+        "怕雾里的灯"
+      ],
+      "persuade": {
+        "cares": [
+          "一船好价钱"
+        ],
+        "resist": 40
+      },
+      "secrets": [
+        {
+          "id": "laoyu_lights",
+          "text": "他见过雾里的灯朝苔墓方向排成一条线——是探路队的提灯。",
+          "reveal_when": "请他喝一杯"
+        }
+      ],
+      "hp": 10,
+      "max_hp": 10
+    },
+    {
+      "id": "NPC007",
+      "name": "葛拉(商会车队长)",
+      "role": "caravan_master",
+      "location": "market-square",
+      "traits": [
+        "急躁",
+        "算计"
+      ],
+      "persuade": {
+        "cares": [
+          "赶在别人前面过北路"
+        ],
+        "resist": 60
+      },
+      "secrets": [
+        {
+          "id": "gra_ledger",
+          "text": "车队的账本里记着付给赫伦的那笔钱。",
+          "reveal_when": "偷账本,或让他喝醉"
+        }
+      ],
+      "hp": 12,
+      "max_hp": 12
+    },
+    {
+      "id": "NPC008",
+      "name": "独眼虎(山贼头子)",
+      "role": "bandit_chief",
+      "location": "road_camp",
+      "traits": [
+        "凶",
+        "护着手下"
+      ],
+      "persuade": {
+        "cares": [
+          "守住北路的运矿小道",
+          "商会别先到北路"
+        ],
+        "resist": 70
+      },
+      "secrets": [
+        {
+          "id": "tiger_miner",
+          "text": "他原是碧石镇的矿工,矿关了,带人靠这条运矿小道活。",
+          "reveal_when": "提起碧石镇的矿,或拿出矿工会徽记"
+        }
+      ],
+      "hp": 22,
+      "max_hp": 22,
+      "str": 15,
+      "con": 14
+    }
+  ]
+}

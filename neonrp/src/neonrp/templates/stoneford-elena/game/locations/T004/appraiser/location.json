@@ -1,0 +1,14 @@
+{
+  "id": "appraiser",
+  "name": "鸦目鉴定所",
+  "type": "facility",
+  "facility_file": "facilities/appraiser.json",
+  "description": "矿石鉴定师「鸦目」老范的店铺。据说他那双异色瞳孔能看穿任何矿石的本质。",
+  "pos": {
+    "x": 500,
+    "y": 320
+  },
+  "connections": [
+    "main_street"
+  ]
+}

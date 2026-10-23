@@ -1,0 +1,12 @@
+{
+  "facility_id": "townhall_T001",
+  "name": "마을 관청",
+  "services": [
+    "무기 봉인 / 봉인 해제",
+    "통행증",
+    "사건 신고"
+  ],
+  "state": {
+    "weapon_peace_bond_required": true
+  }
+}

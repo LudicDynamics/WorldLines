@@ -1,0 +1,20 @@
+{
+  "id": "T003",
+  "type": "town",
+  "name": "ウルフスファング峠",
+  "region": "Northvale",
+  "pos": [
+    10,
+    3
+  ],
+  "summary": "北の国境の要塞。オークとフロストウルフ王国に備える最初の防衛線だ。",
+  "state": {
+    "discovered": false,
+    "danger_nearby": 3
+  },
+  "travel_info": {
+    "from_T001": "北へ2日の道のり"
+  },
+  "connections": [],
+  "isolated": true
+}

@@ -1,0 +1,9 @@
+{
+ "player_aliases": [
+  "you",
+  "the player",
+  "protagonist"
+ ],
+ "q_which": "One of this beat's changes reads \"{line}\". Which of these does it mean?",
+ "none": "none of them (something new, or unclear)"
+}

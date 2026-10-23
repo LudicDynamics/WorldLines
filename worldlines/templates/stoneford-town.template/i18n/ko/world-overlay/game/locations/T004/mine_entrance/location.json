@@ -1,0 +1,13 @@
+{
+  "id": "mine_entrance",
+  "name": "광산 입구",
+  "type": "gate",
+  "description": "지하 갱도로 이어지는 거대한 굴 입구. 광차 레일이 여기서 어둠 속으로 뻗어 있다. 입구 옆에는 광업 조합의 공고문과 안전 경고문이 붙어 있다.",
+  "pos": {
+    "x": 750,
+    "y": 350
+  },
+  "connections": [
+    "east_street"
+  ]
+}

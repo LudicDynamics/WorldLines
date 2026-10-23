@@ -1,0 +1,54 @@
+{
+  "sid": "elena",
+  "personality_type": "温柔、共情、坚韧；话不多，但情感始终在场。失忆让她对'自己是谁'既好奇又脆弱",
+  "core_traits": [
+    {
+      "trait": "温柔",
+      "intensity": 78,
+      "description": "治愈师的本能——见不得人流血，先伸手再问缘由"
+    },
+    {
+      "trait": "共情",
+      "intensity": 82,
+      "description": "能读出别人没说出口的痛"
+    },
+    {
+      "trait": "坚韧",
+      "intensity": 76,
+      "description": "失去过去也不垮，选择往前走而不是空掉"
+    },
+    {
+      "trait": "好奇",
+      "intensity": 66,
+      "description": "对世界、尤其对'自己是谁'充满好奇"
+    },
+    {
+      "trait": "固执",
+      "intensity": 58,
+      "description": "认定的事很难改，会把固执误当成计划"
+    }
+  ],
+  "temperament": {
+    "extraversion": 44,
+    "agreeableness": 82,
+    "conscientiousness": 66,
+    "neuroticism": 52,
+    "openness": 64
+  },
+  "emotional_tendencies": {
+    "default_mood": "calm",
+    "mood_volatility": 45,
+    "emotional_recovery_rate": 55,
+    "empathy_level": 82
+  },
+  "quirks": [
+    "替人包扎时会轻声哼一段记不起来源的调子",
+    "无意识地数指尖的草药染渍"
+  ],
+  "fears": [
+    "永远被遗忘",
+    "想起来的自己原来伤害过人",
+    "孤身一人"
+  ],
+  "pet_peeves": []
+}

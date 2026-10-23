@@ -1,0 +1,21 @@
+{
+ "_doc": "packs/mixins/economy.py: the variable docs it registers (the model reads them each turn)",
+ "doc_stock": "{town} 的{good}库存(买卖 / 产消 / 商队改,不要直接 set)",
+ "doc_price": "{town} 的{good}单价(铜)",
+ "doc_inv": "你带着的{good}({unit})",
+ "doc_index": "物价指数(100 = 基价)",
+ "op_trade": "玩家在镇上买卖(trade grain 3 买三斗;qty 为负 = 卖,按八五折收)",
+ "op_new_caravan": "世界规则:差价够大时商队发车(引擎自动,叙事不要直接写这个 op)",
+ "op_haul": "世界规则:商队走一程",
+ "op_deliver": "世界规则:商队到货",
+ "op_rob": "世界规则:商队被劫",
+ "market_line": "这个世界有真实的市场:价格随库存与传闻浮动,商队在镇与镇之间跑货。写到买卖时用 trade op;行情以变量表 price.* / stock.* 为准,不要编价格。",
+ "caravan_render": "- {id} {name}:{qty}{unit}{good_name} {from}→{to} {status}(还要 {left} 回合)",
+ "rf_no_market": "这个世界没有市场",
+ "rf_not_at_market": "你不在有市场的镇上",
+ "rf_no_good": "没有这种货:{good}",
+ "rf_qty_zero": "数量不能是 0",
+ "rf_stock_low": "{name}只剩 {stock} {unit}",
+ "rf_no_money": "钱不够:要 {need} 铜,你只有 {have} 铜",
+ "rf_have_only": "你只有 {have} {unit}{name}"
+}

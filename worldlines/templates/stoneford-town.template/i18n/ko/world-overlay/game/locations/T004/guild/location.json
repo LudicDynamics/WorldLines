@@ -1,0 +1,14 @@
+{
+  "id": "guild",
+  "name": "모험가 길드(제이드스톤 지부)",
+  "type": "facility",
+  "facility_file": "facilities/guild.json",
+  "description": "스톤포드 지부보다 훨씬 크고, 의뢰를 받으려는 모험가들로 늘 붐빈다. 입구 게시판에는 의뢰서가 빈틈없이 붙어 있다.",
+  "pos": {
+    "x": 280,
+    "y": 180
+  },
+  "connections": [
+    "main_street"
+  ]
+}

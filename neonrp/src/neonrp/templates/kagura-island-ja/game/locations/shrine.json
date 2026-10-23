@@ -1,0 +1,27 @@
+{
+  "id": "shrine",
+  "kind": "location",
+  "name": "神社",
+  "tags": [
+    "shrine",
+    "danger",
+    "yith",
+    "taboo"
+  ],
+  "summary": "島の中腹。神楽祭の斎行地。本殿は夜間立ち入り禁止。宮司 一真の住まいが後方にある。床下に地下道へ通じる隠し戸がある。",
+  "connections": [
+    "shrine-path",
+    "shrine-underground",
+    "monument"
+  ],
+  "npcs_default": [
+    "miyaji"
+  ],
+  "taboo": {
+    "night_entry": {
+      "id": 1,
+      "description": "夜間に神社本殿に立ち入ってはならない",
+      "penalty": "島民信頼-15, 宮司信頼-20"
+    }
+  }
+}

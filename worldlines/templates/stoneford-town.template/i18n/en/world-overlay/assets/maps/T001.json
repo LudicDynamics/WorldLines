@@ -1,0 +1,23 @@
+{
+  "level": "T001",
+  "fit": {
+    "px": 260,
+    "py": 190,
+    "x0": 236.0,
+    "y0": 153.0,
+    "sx": 1.8955223880597014,
+    "sy": 2.3333333333333335
+  },
+  "size": [
+    1536,
+    1024
+  ],
+  "layout_hash": "ed5335be39f4",
+  "backend": "openai",
+  "model": "gpt-image-2",
+  "prompt": "(prototype run 2026-09-25, guides.py)",
+  "generated_at": "2026-09-25T22:07:00",
+  "guide": "T001.guide.png",
+  "layout_hash_before": "80e25c38b305",
+  "restamped": "2026-10-05 map → folder tree: market-square (Market Square) joined T001 (it was a stray world-map dot); the picture predates it, its pin maps through the frozen fit — regenerate when convenient · 2026-10-05 MAP-SCALES G3 data fixes: market-square's dangling 'guildhall' became the guild road, gate_north's dangling 'old-road' became ports.up — pins unchanged, the picture lacks the new road; regenerate when convenient"
+}

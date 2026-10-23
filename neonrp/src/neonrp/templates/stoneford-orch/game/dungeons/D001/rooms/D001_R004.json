@@ -1,0 +1,13 @@
+{
+  "id": "D001_R004",
+  "name": "棺语内殿",
+  "description": "中央棺木微微震动，像在压住笑声。你能感觉到它在‘看’你。",
+  "features": [
+    "Boss/交易剧情",
+    "战斗或对话分支"
+  ],
+  "state": {
+    "explored": false,
+    "cleared": false
+  }
+}

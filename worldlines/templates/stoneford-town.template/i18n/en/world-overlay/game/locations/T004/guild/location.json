@@ -1,0 +1,14 @@
+{
+  "id": "guild",
+  "name": "Adventurers' Guild (Jadestone Branch)",
+  "type": "facility",
+  "facility_file": "facilities/guild.json",
+  "description": "The guild branch is far larger than Stoneford's, packed year-round with adventurers taking jobs. The notice board at the door is plastered with commissions.",
+  "pos": {
+    "x": 280,
+    "y": 180
+  },
+  "connections": [
+    "main_street"
+  ]
+}

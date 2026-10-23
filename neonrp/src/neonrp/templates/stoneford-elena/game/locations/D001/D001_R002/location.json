@@ -1,0 +1,13 @@
+{
+  "id": "D001_R002",
+  "name": "苔廊",
+  "type": "hall",
+  "connections": [
+    "D001_R001",
+    "D001_R003",
+    "D001_R004"
+  ],
+  "state": {
+    "explored": false
+  }
+}

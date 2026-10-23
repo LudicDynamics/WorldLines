@@ -1,0 +1,7 @@
+deepseek-v4-flash@deepseek   首字p50  1.4s 总p50  1.7s p90  2.4s max   3.0s >20s 0 错0 | 钱 28/40 (70%) 物品 32/40 (80%) 地点 32/38 (84%) 漏扣 9/19 (47%) 多扣 4 | in 292860 out 1554 (reason 0) cost -
+gpt-5-mini@vercel            首字p50  2.5s 总p50  0.7s p90  3.1s max   3.5s >20s 0 错30 | 钱 22/40 (55%) 物品 30/40 (75%) 地点 29/38 (76%) 漏扣 15/19 (79%) 多扣 3 | in 82509 out 732 (reason 0) cost $0.0130 | HTTP 429: {"error":{"message":"Rate limit exceeded for openai/gpt-5-mini for provider openai: this t
+gpt-5-mini@cloudflare        首字p50  1.6s 总p50  2.1s p90  2.9s max   5.1s >20s 0 错0 | 钱 26/40 (65%) 物品 31/40 (78%) 地点 33/38 (87%) 漏扣 3/19 (16%) 多扣 11 | in 331068 out 2634 (reason 0) cost -
+gemini-2.5-flash@vercel      首字p50  2.2s 总p50  0.7s p90  2.6s max   3.3s >20s 0 错30 | 钱 22/40 (55%) 物品 31/40 (78%) 地点 29/38 (76%) 漏扣 16/19 (84%) 多扣 3 | in 82154 out 601 (reason 0) cost $0.0237 | HTTP 429: {"error":{"message":"Rate limit exceeded for google/gemini-2.5-flash for provider vertex: 
+gemini-2.5-flash@cloudflare  首字p50  1.3s 总p50  1.6s p90  2.3s max   2.8s >20s 0 错0 | 钱 30/40 (75%) 物品 30/40 (75%) 地点 36/38 (95%) 漏扣 7/19 (37%) 多扣 5 | in 329581 out 2128 (reason 0) cost -
+  gemini-3.8-flash@cloudflare: HTTP 400: [{ "error": { "code": 400, "message": "Thinking level MINIMAL is not supported for this model. Please retry wi -> retry without ['reasoning_effort']
+gemini-3.8-flash@cloudflare  首字p50  9.0s 总p50  9.1s p90 18.5s max  22.0s >20s 2 错0 | 钱 34/40 (85%) 物品 34/40 (85%) 地点 38/38 (100%) 漏扣 2/19 (11%) 多扣 3 | in 329581 out 1965 (reason 0) cost -

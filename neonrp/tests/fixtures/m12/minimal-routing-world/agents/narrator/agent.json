@@ -1,0 +1,13 @@
+{
+  "id": "narrator",
+  "name": "Narrator",
+  "must_not_do": [
+    "directly handle town/dungeon operations"
+  ],
+  "permissions": {
+    "read_globs": ["game/**", ".neonrp/manifest.json"],
+    "deny_globs": [],
+    "write_globs": ["game/**"],
+    "direct_write_globs": []
+  }
+}

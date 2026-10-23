@@ -1,0 +1,15 @@
+{
+  "sid": "yuto",
+  "relationships": {
+    "tsubasa": {
+      "disposition": "lover",
+      "known_when_memory": true,
+      "truth": "Childhood sweethearts / lovers; he has looped 67 times to save her."
+    },
+    "kakaru": {
+      "disposition": "younger_sibling",
+      "known_when_memory": true,
+      "truth": "Kakaru is Yuto's younger sister."
+    }
+  }
+}

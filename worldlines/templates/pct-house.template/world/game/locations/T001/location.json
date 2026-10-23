@@ -1,0 +1,12 @@
+{
+  "id": "T001",
+  "name": "灰橡宅",
+  "type": "town",
+  "pos": [
+    10,
+    10
+  ],
+  "connections": [],
+  "isolated": true,
+  "entry": "hall"
+}

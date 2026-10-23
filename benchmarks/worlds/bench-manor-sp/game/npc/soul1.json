@@ -1,0 +1,11 @@
+{
+ "id": "soul1",
+ "kind": "npc",
+ "name": "Corvin the Locksmith",
+ "summary": "find out which of his keys the manor still obeys",
+ "hp": 10,
+ "max_hp": 10,
+ "location": "room1",
+ "inventory": [],
+ "goal": "find out which of his keys the manor still obeys"
+}

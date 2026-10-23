@@ -1,0 +1,19 @@
+{
+  "id": "main_street",
+  "name": "Miners' Avenue",
+  "type": "street",
+  "description": "Jadestone's broadest main street. Mine-cart rails are set into the center of the roadway, lined on both sides with dense shops and stalls. A constant flow of people, endlessly lively.",
+  "pos": {
+    "x": 350,
+    "y": 300
+  },
+  "connections": [
+    "gate_west",
+    "guild",
+    "tavern",
+    "shop_general",
+    "herb_shop",
+    "appraiser",
+    "east_street"
+  ]
+}

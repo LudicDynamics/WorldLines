@@ -1,0 +1,56 @@
+{
+ "bow": {
+  "label": {
+   "zh": "遵命",
+   "en": "Very good",
+   "ja": "かしこまりました",
+   "ko": "알겠습니다"
+  },
+  "when": "greeting, at your service"
+ },
+ "stern": {
+  "label": {
+   "zh": "恕难从命",
+   "en": "I must decline",
+   "ja": "お断りします",
+   "ko": "곤란합니다"
+  },
+  "when": "refusing, won't let them in"
+ },
+ "silent": {
+  "label": {
+   "zh": "无可奉告",
+   "en": "I cannot say",
+   "ja": "申し上げられません",
+   "ko": "말씀드릴 수 없습니다"
+  },
+  "when": "asked where the master went"
+ },
+ "startled": {
+  "label": {
+   "zh": "……!",
+   "en": "...!",
+   "ja": "……!",
+   "ko": "……!"
+  },
+  "when": "caught out, startled"
+ },
+ "tea": {
+  "label": {
+   "zh": "请用茶",
+   "en": "Your tea",
+   "ja": "お茶をどうぞ",
+   "ko": "차 드시지요"
+  },
+  "when": "easing the mood, serving tea"
+ },
+ "guilty": {
+  "label": {
+   "zh": "……是我",
+   "en": "...It was me",
+   "ja": "……私です",
+   "ko": "……저입니다"
+  },
+  "when": "when he is found out"
+ }
+}

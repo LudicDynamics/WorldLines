@@ -1,0 +1,18 @@
+{
+ "id": "world-agent",
+ "name": "World Agent",
+ "version": "1.0",
+ "description": "Narrator + validator + world-builder for a ported bench world.",
+ "system_prompt": "system.md",
+ "permissions": {
+  "read_globs": [
+   "**"
+  ],
+  "write_globs": [
+   "**",
+   "game/**"
+  ],
+  "deny_globs": [],
+  "direct_write_globs": []
+ }
+}

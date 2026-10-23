@@ -1,0 +1,54 @@
+{
+  "sid": "elena",
+  "personality_type": "Gentle, empathetic, resilient; not talkative but emotionally present. Amnesia leaves her both curious about and fragile over 'who she is'",
+  "core_traits": [
+    {
+      "trait": "Gentle",
+      "intensity": 78,
+      "description": "A healer's instinct — she can't stand to watch someone bleed, and reaches out before she asks why"
+    },
+    {
+      "trait": "Empathetic",
+      "intensity": 82,
+      "description": "Can read the pain other people don't say out loud"
+    },
+    {
+      "trait": "Resilient",
+      "intensity": 76,
+      "description": "Losing her past doesn't break her; she chooses to move forward rather than hollow out"
+    },
+    {
+      "trait": "Curious",
+      "intensity": 66,
+      "description": "Full of curiosity about the world, and above all about 'who she is'"
+    },
+    {
+      "trait": "Stubborn",
+      "intensity": 58,
+      "description": "Hard to move once she's decided; can mistake stubbornness for a plan"
+    }
+  ],
+  "temperament": {
+    "extraversion": 44,
+    "agreeableness": 82,
+    "conscientiousness": 66,
+    "neuroticism": 52,
+    "openness": 64
+  },
+  "emotional_tendencies": {
+    "default_mood": "calm",
+    "mood_volatility": 45,
+    "emotional_recovery_rate": 55,
+    "empathy_level": 82
+  },
+  "quirks": [
+    "Hums a tune of forgotten origin under her breath while dressing someone's wound",
+    "Absentmindedly counts the herb stains on her fingertips"
+  ],
+  "fears": [
+    "forgotten_forever",
+    "Remembering that she once hurt someone",
+    "being_alone"
+  ],
+  "pet_peeves": []
+}

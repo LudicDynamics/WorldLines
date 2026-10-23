@@ -1,0 +1,94 @@
+{
+  "schema": "worldlines.play-contract/1",
+  "id": "murder-mystery",
+  "version": 1,
+  "title": {
+    "zh": "解谜型剧本杀",
+    "en": "Murder Mystery",
+    "ja": "マーダーミステリー",
+    "ko": "머더 미스터리"
+  },
+  "pitch": {
+    "zh": "一桌人、各自一份剧本和秘密;搜证、对质,最后指认真凶,复盘时所有剧本摊开。",
+    "en": "A table of characters, each with a script and a secret; search, confront, accuse — and every script is opened in the debrief.",
+    "ja": "卓を囲む登場人物それぞれに台本と秘密がある。捜査し、問い詰め、最後に真犯人を名指しする——振り返りではすべての台本が明かされる。",
+    "ko": "한 테이블의 인물들, 저마다 대본과 비밀을 하나씩. 단서를 찾고 대질하고 마지막에 진범을 지목한다 — 복기 때 모든 대본이 펼쳐진다."
+  },
+  "entry": {
+    "opening": "required",
+    "cast": "fixed",
+    "roles": "assigned"
+  },
+  "exit": {
+    "on": "ending",
+    "via": "accusation",
+    "reveal": "required"
+  },
+  "endings": {
+    "min": 2,
+    "require": [
+      "true"
+    ]
+  },
+  "rewards": {
+    "player": [
+      "ending_cg",
+      "debrief_scripts",
+      "cards"
+    ],
+    "soul": [
+      "memory_carry"
+    ],
+    "world": [
+      "case_outcome_written_back"
+    ]
+  },
+  "collect": {
+    "souls": true,
+    "min": 0
+  },
+  "deaths": {
+    "player": {
+      "exit": "ending",
+      "ending_kind": "fail"
+    },
+    "companion": {
+      "settle": "record",
+      "plot": "optional"
+    },
+    "other": {
+      "settle": "record"
+    }
+  },
+  "outputs": [
+    "ending_id",
+    "accusation",
+    "truth_reveal",
+    "cg_unlocked",
+    "rewards_granted",
+    "replay_bundle"
+  ],
+  "publish": {
+    "lint": "no_block",
+    "test_run": "reach_one_ending"
+  },
+  "achievements": [
+    {
+      "id": "named_it",
+      "when": "ending_kind:true",
+      "points": 20,
+      "title": {
+        "zh": "指认",
+        "en": "J'accuse",
+        "ja": "名指し",
+        "ko": "지목"
+      },
+      "desc": {
+        "zh": "在剧本杀里指认对了人,走到真结局。",
+        "en": "Named the right person and reached the true ending.",
+        "ja": "正しい人物を名指しして、真のエンディングへ。",
+        "ko": "맞는 사람을 지목해 진엔딩에 닿았다."
+      }
+    }
+  ]
+}

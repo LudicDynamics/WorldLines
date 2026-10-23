@@ -1,0 +1,14 @@
+{
+  "id": "guild",
+  "name": "冒険者ギルド（碧石支部）",
+  "type": "facility",
+  "facility_file": "facilities/guild.json",
+  "description": "ギルド支部は石津の町のものよりずっと大きく、依頼を受ける冒険者で一年中ごった返している。入口の掲示板は委託の貼り紙で埋め尽くされている。",
+  "pos": {
+    "x": 280,
+    "y": 180
+  },
+  "connections": [
+    "main_street"
+  ]
+}

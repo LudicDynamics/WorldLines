@@ -1,0 +1,13 @@
+{
+  "town_id": "T001",
+  "state": {
+    "discovered_nodes": [
+      "gate_north",
+      "main_street",
+      "guild",
+      "shop_general",
+      "inn"
+    ]
+  },
+  "scale": 0.4
+}

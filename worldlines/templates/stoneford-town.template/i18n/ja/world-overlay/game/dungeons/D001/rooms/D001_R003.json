@@ -1,0 +1,14 @@
+{
+  "id": "D001_R003",
+  "name": "祭壇の間",
+  "description": "割れた祭壇に蝋が垂れ固まっている。空気には甘ったるい血の匂いが混じる。",
+  "features": [
+    "祭壇を漁れる",
+    "罠が作動するおそれあり(簡易)"
+  ],
+  "state": {
+    "explored": false,
+    "cleared": false,
+    "trap_armed": true
+  }
+}

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>灰橡宅 · WorldLines</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500&display=swap">
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+  <!-- scene layers: two, cross-faded when the place changes -->
+  <div id="scene-a" class="scene on"></div><div id="scene-b" class="scene"></div>
+  <div class="vignette"></div>
+
+  <!-- title -->
+  <section id="title">
+    <div id="title-art"></div>
+    <div class="title-card">
+      <h1 id="title-name">WorldLines</h1>
+      <div id="title-sub"></div>
+      <p id="title-pitch"></p>
+      <form id="connect">
+        <input id="token" type="password" placeholder="主进程的令牌(neonrp serve 启动时打印)" autocomplete="off" required>
+        <button>进入</button>
+      </form>
+      <div id="title-msg"></div>
+    </div>
+  </section>
+
+  <!-- play -->
+  <header id="hud">
+    <div class="where"><b id="place"></b><span id="clock"></span></div>
+    <span id="beat" class="beat"></span>
+    <div id="meters"></div>
+    <div class="tools">
+      <button id="clue-btn" hidden>线索 <i id="clue-count">0</i></button>
+      <button id="map-btn">地图</button>
+    </div>
+  </header>
+  <div id="conn"></div>
+  <div id="cast"></div>
+  <section id="panel">
+    <div id="log"></div>
+    <div id="choices"></div>
+    <form id="compose">
+      <input id="say" autocomplete="off" placeholder="说你想做什么">
+      <button id="send">说</button>
+      <button type="button" id="stop">■ 停</button>
+    </form>
+    <div id="sugg"></div>
+  </section>
+
+  <div id="dice" hidden></div>
+  <div id="toast" hidden></div>
+  <div id="map" class="overlay" hidden><div class="sheet"><button class="x" data-close>×</button><h2>灰橡宅</h2><div id="map-body"></div></div></div>
+  <div id="clues" class="overlay" hidden><div class="sheet"><button class="x" data-close>×</button><h2>线索</h2><div id="clue-grid"></div></div></div>
+  <div id="ending" class="overlay" hidden>
+    <div id="ending-art"></div>
+    <div class="ending-card"><div id="ending-kind"></div><p id="ending-text"></p><p id="ending-truth"></p><button id="ending-back">回到标题</button></div>
+  </div>
+  <script type="module" src="/src/game.ts"></script>
+</body>
+</html>

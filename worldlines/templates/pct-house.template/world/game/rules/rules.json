@@ -1,0 +1,31 @@
+{
+  "_doc": "灰橡宅对百分骰规则表的补充(深合并进 pct 的 rules.json):精神损耗在本世界叫「心神」,两种失控改名。只改显示名,op([san …])和变量(player.san)不变。",
+  "san_names": {
+    "name": {
+      "zh": "心神",
+      "en": "nerve",
+      "ja": "平静",
+      "ko": "평정"
+    },
+    "short": {
+      "zh": "心神",
+      "en": "Nerve",
+      "ja": "平静",
+      "ko": "평정"
+    }
+  },
+  "effect_names": {
+    "insane_temp": {
+      "zh": "临时失控",
+      "en": "Losing grip",
+      "ja": "取り乱し",
+      "ko": "흔들림"
+    },
+    "insane_perm": {
+      "zh": "长久失控",
+      "en": "Gone under",
+      "ja": "崩れ",
+      "ko": "무너짐"
+    }
+  }
+}

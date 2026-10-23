@@ -1,0 +1,11 @@
+{
+  "id": "D001_R004",
+  "name": "속삭이는 관의 내전",
+  "type": "boss",
+  "connections": [
+    "D001_R002"
+  ],
+  "state": {
+    "explored": false
+  }
+}

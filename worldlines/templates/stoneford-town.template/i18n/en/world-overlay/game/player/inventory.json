@@ -1,0 +1,20 @@
+{
+  "capacity": 20,
+  "items": [
+    {
+      "id": "travel-bread",
+      "name": "Traveler's Rye Bread",
+      "qty": 2
+    },
+    {
+      "id": "lantern",
+      "name": "Hooded Lantern",
+      "qty": 1
+    },
+    {
+      "id": "healing-herb",
+      "name": "Bundle of Styptic Herbs",
+      "qty": 1
+    }
+  ]
+}

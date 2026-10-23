@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "sid": "chara",
+  "name": "角色A",
+  "name_local": "角色A",
+  "version": "1.0",
+  "created_at": "2026-05-17T00:00:00Z",
+  "source": {
+    "kind": "builtin",
+    "hash": "stonefordchara001",
+    "version": "1.0"
+  },
+  "agent_template": "heroine-classic",
+  "intro_i18n": {
+    "en": "A blank character slot (角色A). Define who they are in the creation dialogue.",
+    "zh": "空白角色位(角色A)。在创作对话中定义 TA 是谁。",
+    "ja": "空白のキャラクター枠(角色A)。創作ダイアログで定義してください。",
+    "ko": "빈 캐릭터 슬롯(角色A). 창작 대화에서 정의하세요."
+  },
+  "tags": [
+    "blank",
+    "npc"
+  ]
+}

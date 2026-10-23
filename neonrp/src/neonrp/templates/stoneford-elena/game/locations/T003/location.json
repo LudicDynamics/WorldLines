@@ -1,0 +1,20 @@
+{
+  "id": "T003",
+  "type": "town",
+  "name": "狼牙关",
+  "region": "Northvale",
+  "pos": [
+    10,
+    3
+  ],
+  "summary": "北方边境要塞，防御兽人和霜狼王国的第一道防线。",
+  "state": {
+    "discovered": false,
+    "danger_nearby": 3
+  },
+  "travel_info": {
+    "from_T001": "2天路程，向北"
+  },
+  "connections": [],
+  "isolated": true
+}

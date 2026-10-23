@@ -1,0 +1,10 @@
+{
+  "id": "active-agent",
+  "kind": "meta",
+  "name": "Active Agent State",
+  "active_agent": "world-agent",
+  "reason": "narrative orch world — world-agent narrates, voices the four princes, and persists affection/vq/memory",
+  "exit_condition": "",
+  "updated_at": "2026-01-01T00:00:00+00:00",
+  "updated_by": "system"
+}

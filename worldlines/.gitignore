@@ -1,0 +1,53 @@
+.DS_Store
+
+# Per-world runtime config (machine-local; never commit, keys via *_API_KEY env)
+**/.neonrp/config.json
+
+# Build-time config. Vite inlines every VITE_* value into the shipped
+# bundle, so these stay machine-local; ui/.env.example documents them.
+.env
+.env.*
+!.env.example
+
+# SPA (ui/)
+ui/node_modules/
+ui/dist/
+ui/dist-local/
+ui/dist-hub/
+ui/*.tsbuildinfo
+ui/.vite/
+ui/test-results/
+ui/playwright-report/
+
+# Desktop shell (desktop/)
+desktop/tauri/target/
+desktop/tauri/gen/
+
+# Release staging (scripts/package-spa.sh)
+/dist/
+
+# uv dev venv (根 pyproject `uv run` 建的)
+.venv/
+
+# wheel 构建时塞进 shim 的 SPA（build 产物；force-include 从 ui/dist-local 拉，不进仓）
+packaging/worldlines/worldlines_shim/spa/
+
+# 引擎运行时缓存(跑一次重建,不进仓)
+**/.neonrp/
+
+# 内部设计 docs 不进公开仓(本地/内部仓保留)
+docs/
+
+# Python 字节码
+__pycache__/
+*.pyc
+
+# Our private orchestration (10-08): copied in from the NeonRP-private repo, never committed here, never exported
+/private/
+# …and its UI tests, synced in by playwright.config.ts to sit next to node_modules
+ui/e2e/private/
+
+# client examples (examples/clients/*): their installs and builds
+examples/clients/ts/node_modules/
+examples/clients/ts/dist/
+examples/clients/godot/.godot/

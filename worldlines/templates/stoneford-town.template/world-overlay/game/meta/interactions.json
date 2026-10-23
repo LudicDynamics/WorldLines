@@ -1,0 +1,86 @@
+{
+ "gates": {
+  "T001/road_camp": {
+   "if": [
+    {
+     "any": [
+      {
+       "var": "P20.pass",
+       ">=": 1
+      },
+      {
+       "flag": "gate_opened"
+      }
+     ]
+    }
+   ],
+   "refuse": "卡斯把长矛横过来:「没有公会委托,往北一步都不行。」"
+  },
+  "D001/D001_R001": {
+   "if": [
+    {
+     "var": "P20.stage",
+     ">=": 2
+    }
+   ],
+   "refuse": "雾墙压在北路上,往前走不出十步就分不清方向。要等雾退开。"
+  }
+ },
+ "links": [
+  [
+   "T001/road_camp",
+   "D001/D001_R001"
+  ]
+ ],
+ "approaches": {
+  "persuade": {
+   "label": "说服",
+   "check": "resist",
+   "bonus_cares": 20,
+   "on_ok": [
+    {
+     "flag": "persuaded.{who}"
+    }
+   ]
+  },
+  "steal": {
+   "label": "偷窃",
+   "check": 45,
+   "night": 15,
+   "alert_cost": 10,
+   "on_ok": [
+    {
+     "flag": "stole.{who}"
+    }
+   ],
+   "on_fail": [
+    {
+     "var": "town.alert",
+     "add": 1
+    }
+   ],
+   "react": "on_fail"
+  },
+  "recruit": {
+   "label": "邀请同行",
+   "check": null,
+   "on_ok": [
+    {
+     "flag": "joined.{who}"
+    }
+   ]
+  },
+  "ask": {
+   "label": "打探"
+  },
+  "quest": {
+   "label": "公会委托"
+  },
+  "trade": {
+   "label": "交易"
+  },
+  "rest": {
+   "label": "休息"
+  }
+ }
+}

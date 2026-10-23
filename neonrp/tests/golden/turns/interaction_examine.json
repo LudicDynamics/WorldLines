@@ -1,0 +1,77 @@
+{
+ "scenario": "interaction_examine",
+ "model_calls": [
+  "narrate"
+ ],
+ "steps": [
+  {
+   "line": "<interaction>{\"kind\": \"examine\", \"target\": \"T001/gate_north\"}</interaction>",
+   "nodes": [
+    "interaction.examine"
+   ],
+   "advanced_by": null,
+   "traces": [
+    {
+     "beat": {
+      "kind": "interaction.examine"
+     },
+     "spans": [],
+     "plan": null,
+     "souls": {},
+     "variants": {},
+     "applied": [
+      {
+       "op": "add",
+       "var": "stock.T001.fish",
+       "to": 65
+      },
+      {
+       "op": "add",
+       "var": "stock.T004.jade",
+       "to": 53
+      },
+      {
+       "op": "add",
+       "var": "stock.T002.grain",
+       "to": 87
+      },
+      {
+       "op": "set",
+       "var": "econ.index",
+       "to": 125
+      }
+     ],
+     "refused": [],
+     "created": 0,
+     "tool_returns": [],
+     "narration": "<lines>\n(stub)\n</lines>"
+    }
+   ],
+   "state": {
+    "vars": {
+     "econ.index": [
+      100,
+      125
+     ],
+     "stock.T001.fish": [
+      64,
+      65
+     ],
+     "stock.T002.grain": [
+      84,
+      87
+     ],
+     "stock.T004.jade": [
+      52,
+      53
+     ],
+     "time.clock": [
+      "22:00",
+      "22:05"
+     ]
+    },
+    "moved": {}
+   }
+  }
+ ]
+}

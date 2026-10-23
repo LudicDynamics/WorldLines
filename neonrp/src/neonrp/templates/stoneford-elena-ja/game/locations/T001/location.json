@@ -1,0 +1,21 @@
+{
+  "id": "T001",
+  "type": "town",
+  "name": "石津(いしづ)の町",
+  "region": "Northvale",
+  "pos": [
+    12,
+    7
+  ],
+  "summary": "河港の交易の町。霧が一年中 晴れない。",
+  "state": {
+    "discovered": true,
+    "danger_nearby": 2
+  },
+  "connections": [
+    "T002",
+    "D001",
+    "T004"
+  ],
+  "entry": "gate_north"
+}

@@ -1,0 +1,8 @@
+{
+  "id": "active-agent",
+  "kind": "meta",
+  "name": "Active Agent",
+  "summary": "Tracks which agent is currently active.",
+  "agent_id": "narrator",
+  "last_switch_turn": 0
+}

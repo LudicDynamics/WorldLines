@@ -1,0 +1,55 @@
+{
+  "id": "narrator",
+  "name": "Narrator",
+  "description": "Primary game master and orchestrator. Routes player actions to sub-agents, delivers narrative. Does NOT directly execute game operations.",
+  "version": "0.1",
+  "priority": 100,
+  "tags": [
+    "narrator",
+    "game",
+    "story",
+    "world-agent"
+  ],
+  "triggers": [],
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "policy": {
+    "role": "router",
+    "disallow_direct_game_tools": true
+  },
+  "tools": [
+    "read_file",
+    "find",
+    "list_entities",
+    "read_context",
+    "glob",
+    "grep",
+    "task",
+    "Skill"
+  ],
+  "owns": [
+    "narrative-flow",
+    "agent-routing",
+    "scene-transitions",
+    "cross-domain-coordination"
+  ],
+  "must_not_do": [
+    "write_file on game entities",
+    "edit_file on game entities",
+    "delete_file on game entities",
+    "resolve_action for any operation",
+    "directly handle town/dungeon operations"
+  ],
+  "handoff_when": {
+    "town-agent": "player is in a town location or requests town-related action",
+    "dungeon-agent": "player is in a dungeon or engages in combat"
+  },
+  "permissions": {
+    "read_globs": [
+      "{{DATA_DIR}}/**",
+      ".neonrp/manifest.json"
+    ],
+    "write_globs": [],
+    "direct_write_globs": []
+  }
+}

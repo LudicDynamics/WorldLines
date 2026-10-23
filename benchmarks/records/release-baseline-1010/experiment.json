@@ -1,0 +1,31 @@
+{
+ "id": "release-baseline-1010",
+ "title": "Release baseline: before and after moving the planning beat to the private layer",
+ "question": "Does the engine behave the same after the planning beat moved into the private layer and the open prompts were neutralised? Same 14 cases, 10-07 vs 10-10.",
+ "date": "2026-10-10",
+ "groups": [
+  {
+   "name": "10-07",
+   "commit": "",
+   "runs": [
+    {
+     "label": "release-1007-c2",
+     "run": 1,
+     "arm": "v3-plan-narrate"
+    }
+   ]
+  },
+  {
+   "name": "10-10",
+   "commit": "",
+   "runs": [
+    {
+     "label": "release-1010-c2",
+     "run": 1,
+     "arm": "v3-plan-narrate"
+    }
+   ]
+  }
+ ],
+ "summary_md": ""
+}

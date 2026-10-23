@@ -1,0 +1,44 @@
+{
+  "town_id": "T001",
+  "npcs": [
+    {
+      "id": "NPC001",
+      "name": "Heron (Guild Steward)",
+      "role": "guildmaster",
+      "traits": [
+        "cautious",
+        "stands by contracts"
+      ],
+      "state": {
+        "met": true
+      },
+      "location": "guild"
+    },
+    {
+      "id": "NPC002",
+      "name": "Old Reed (General Store Keeper)",
+      "role": "shopkeeper",
+      "traits": [
+        "chatty",
+        "sharp-eyed"
+      ],
+      "state": {
+        "met": false
+      },
+      "location": "shop_general"
+    },
+    {
+      "id": "NPC003",
+      "name": "Mira (Innkeeper)",
+      "role": "innkeeper",
+      "traits": [
+        "warm",
+        "well-informed"
+      ],
+      "state": {
+        "met": false
+      },
+      "location": "inn"
+    }
+  ]
+}

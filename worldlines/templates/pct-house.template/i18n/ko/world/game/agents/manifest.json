@@ -1,0 +1,64 @@
+{
+  "agents": [
+    {
+      "role": "총괄 조정자",
+      "description": "게임 상태를 읽고, 하위 에이전트로 라우팅하고, patch를 병합하고, 상태를 갱신한다",
+      "note": "중요 경로: game/agents/manifest.json (agents 하위 폴더에 있음)"
+    },
+    {
+      "role": "세계 구축",
+      "description": "세계 지도 구조를 관리하고, 새 지역을 확장하고, 노드 상태를 갱신한다"
+    },
+    {
+      "role": "이야기 서술",
+      "description": "메인 스토리와 소문을 관리하고, 이야기 장을 덧붙인다"
+    },
+    {
+      "role": "마을 에이전트",
+      "description": "마을 안 이동, NPC 상호작용, 시설 입구를 처리한다",
+      "note": "run_state.location.node_id를 그대로 폴더 이름으로 쓴다"
+    },
+    {
+      "role": "길드 시설",
+      "description": "의뢰 게시판, 의뢰 수락/완료, 명성 시스템을 관리한다",
+      "note": "run_state.location.node_id를 그대로 폴더 이름으로 쓴다"
+    },
+    {
+      "role": "상점 시설",
+      "description": "매매 거래와 재고 관리를 처리한다",
+      "note": "run_state.location.node_id를 그대로 폴더 이름으로 쓴다"
+    },
+    {
+      "role": "여관 시설",
+      "description": "휴식과 회복, 소문 시스템, 시간 경과를 처리한다",
+      "note": "run_state.location.node_id를 그대로 폴더 이름으로 쓴다"
+    },
+    {
+      "role": "던전 에이전트",
+      "description": "던전 탐험, 방 이동, 조우 발생, 보스전을 처리한다",
+      "note": "run_state.location.node_id를 그대로 폴더 이름으로 쓴다"
+    },
+    {
+      "role": "전투 심판",
+      "description": "전투 규칙 집행, 턴 관리, 피해 계산, 상태 처리, 전투 정산"
+    },
+    {
+      "role": "공증인/기록관",
+      "description": "중요한 사건을 notes.md에 기록하고, 플레이어 일지 journal.md를 갱신한다"
+    }
+  ],
+  "routing_rules": {
+    "world": {
+      "description": "세계 지도 층"
+    },
+    "town": {
+      "description": "마을 층"
+    },
+    "dungeon": {
+      "description": "던전 층"
+    },
+    "end_of_turn": {
+      "description": "턴 종료 기록"
+    }
+  }
+}

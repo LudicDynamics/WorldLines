@@ -1,0 +1,19 @@
+{
+  "entries": [
+    {
+      "id": "fog_night",
+      "text": "This year, at midnight on the seventh night of the fog season, the fog will withdraw for one whole night and the north road can be walked; the whole town is stuck here waiting for it. The game opens on the fifth night."
+    },
+    {
+      "id": "peace_bond",
+      "text": "Blades in town must be peace-bonded: anyone who draws steel in town without a duelling licence from the Town Office is marched off by the watch and spends a night in the Town Office cells."
+    },
+    {
+      "id": "curfew",
+      "text": "There is a curfew on fog-season nights, and the watch questions anyone out walking the streets after dark; thieving is easier at night, and getting caught is more trouble.",
+      "when": {
+        "keyword": ["night", "midnight", "dark", "steal", "thief", "pickpocket", "sneak", "slip out", "lockpick"]
+      }
+    }
+  ]
+}

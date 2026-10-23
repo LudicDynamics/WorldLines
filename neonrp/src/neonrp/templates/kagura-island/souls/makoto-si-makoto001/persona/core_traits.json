@@ -1,0 +1,10 @@
+{
+  "sid": "makoto",
+  "traits": {
+    "composure": 0.95,
+    "observation": 1.0,
+    "warmth_simulated": 0.5,
+    "alienness": 0.9,
+    "patience": 0.95
+  }
+}

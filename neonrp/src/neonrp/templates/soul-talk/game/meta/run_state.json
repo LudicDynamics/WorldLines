@@ -1,0 +1,6 @@
+{
+  "id": "run-state",
+  "kind": "meta",
+  "turn_count": 0,
+  "location": {"node_id": "room", "subnode_id": "room", "name": "The Quiet Room"}
+}

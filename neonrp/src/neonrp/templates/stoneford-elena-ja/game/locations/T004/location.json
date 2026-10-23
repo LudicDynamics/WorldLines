@@ -1,0 +1,53 @@
+{
+  "id": "T004",
+  "type": "town",
+  "name": "碧石(へきせき)の町",
+  "region": "Northvale",
+  "pos": [
+    18,
+    4
+  ],
+  "summary": "鉱業の町。翡翠と水晶を豊かに産し、冒険者が集まる。",
+  "state": {
+    "discovered": true,
+    "danger_nearby": 2
+  },
+  "travel_info": {
+    "from_T001": "3日の道のり、北東へ",
+    "recommendation": "駆け出しの冒険者向け"
+  },
+  "locations": {
+    "冒险者公会碧石分部": {
+      "discovered": true,
+      "note": "石津の町の二倍の大きさ"
+    },
+    "翠晶酒馆": {
+      "discovered": true,
+      "note": "今夜の集合地点"
+    },
+    "矿工大道": {
+      "discovered": true,
+      "note": "大通り。碧緑の石材"
+    },
+    "晨光小教堂": {
+      "discovered": true,
+      "note": "東通り。エレナはひとりでここへ向かう"
+    },
+    "矿石铺": {
+      "discovered": true
+    },
+    "草药铺": {
+      "discovered": true
+    },
+    "铁匠铺": {
+      "discovered": true
+    },
+    "矿区入口": {
+      "discovered": false
+    }
+  },
+  "connections": [
+    "T001"
+  ],
+  "entry": "gate_west"
+}

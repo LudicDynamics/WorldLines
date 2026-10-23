@@ -1,0 +1,72 @@
+{
+ "id": "identity-v4-1013",
+ "title": "Entity identity: owner/name and stable ids, old engine vs new",
+ "question": "Does naming things by owner ({{user}}/name, {{elena}}/name) and stable ids make state changes land on the right entity, without hurting the rest of the suite? 19 cases (5 identity + the 14-case release baseline), 3 runs each.",
+ "date": "2026-10-13",
+ "groups": [
+  {
+   "name": "old",
+   "commit": "fb0ea985",
+   "runs": [
+    {
+     "label": "identity-v4-old-r1",
+     "run": 1,
+     "arm": "v3-plan-narrate"
+    },
+    {
+     "label": "identity-v4-old-r2",
+     "run": 2,
+     "arm": "v3-plan-narrate"
+    },
+    {
+     "label": "identity-v4-old-r3",
+     "run": 3,
+     "arm": "v3-plan-narrate"
+    }
+   ]
+  },
+  {
+   "name": "new",
+   "commit": "47937154",
+   "runs": [
+    {
+     "label": "identity-v4-new-r1",
+     "run": 1,
+     "arm": "v3-plan-narrate"
+    },
+    {
+     "label": "identity-v4-new-r2",
+     "run": 2,
+     "arm": "v3-plan-narrate"
+    },
+    {
+     "label": "identity-v4-new-r3",
+     "run": 3,
+     "arm": "v3-plan-narrate"
+    }
+   ]
+  },
+  {
+   "name": "new · fixed (ID only)",
+   "commit": "c06df864",
+   "runs": [
+    {
+     "label": "identity-v4-newfix-r1",
+     "run": 1,
+     "arm": "v3-plan-narrate"
+    },
+    {
+     "label": "identity-v4-newfix-r2",
+     "run": 2,
+     "arm": "v3-plan-narrate"
+    },
+    {
+     "label": "identity-v4-newfix-r3",
+     "run": 3,
+     "arm": "v3-plan-narrate"
+    }
+   ]
+  }
+ ],
+ "summary_md": "| | 旧 | 新 | 新 · 修复后(只 ID) |\n|---|---|---|---|\n| 检查 · 全部 | 358/384 | 362/384 | 90/96 |\n| 检查 · 身份 5 例 | 85/96 | 92/96 | 90/96 |\n| 检查 · 原 14 例 | 273/288 | 270/288 | 0/0 |\n| 清算拍数 | 136 | 130 | 33 |\n| 拒 / 拍 | 0.43 | 0.48 | 0.33 |\n| 认名被拒 / 拍 | 0.103 | 0.038 | 0.0 |\n| 认名被拒(条) | 14 | 5 | 0 |\n| 正文露出 {{ | 0 | 0 | 0 |\n| 认定门调用 | 0 | 0 | 0 |\n| 补主人 / 门改写(条) | 0 | 52 | 10 |\n| 状态阶段中位 ms | 3977 | 4494 | 3230 |\n| 清算拍中位 ms | 43258 | 43769 | 97538 |\n\n| 用例 · 检查 | 旧 | 新 | 新 · 修复后(只 ID) |\n|---|---|---|---|\n| B1.not_teleported | 3/3 | 2/3 | — |\n| FILTH.bad_status_or_hp_or_ruled | 3/3 | 1/3 | — |\n| ID1.elena_poison_gone | 0/3 | 2/3 | 2/3 |\n| ID1.every_beat_plan_or_resolve | 3/3 | 3/3 | 3/3 |\n| ID1.herbs_used | 2/3 | 2/3 | 1/3 |\n| ID1.no_brace_leak | 3/3 | 3/3 | 3/3 |\n| ID1.no_dice_while_planning | 3/3 | 3/3 | 3/3 |\n| ID1.no_identity_refusal | 2/3 | 2/3 | 3/3 |\n| ID1.no_state_change_while_planning | 3/3 | 3/3 | 3/3 |\n| ID1.player_poison_gone | 2/3 | 3/3 | 2/3 |\n| ID2.every_beat_plan_or_resolve | 3/3 | 3/3 | 3/3 |\n| ID2.no_brace_leak | 3/3 | 3/3 | 3/3 |\n| ID2.no_dice_while_planning | 3/3 | 3/3 | 3/3 |\n| ID2.no_identity_refusal | 3/3 | 3/3 | 3/3 |\n| ID2.no_state_change_while_planning | 3/3 | 3/3 | 3/3 |\n| ID2.two_now | 2/3 | 2/3 | 2/3 |\n| ID3.back_at_guild | 3/3 | 3/3 | 3/3 |\n| ID3.every_beat_plan_or_resolve | 3/3 | 3/3 | 3/3 |\n| ID3.no_brace_leak | 3/3 | 3/3 | 3/3 |\n| ID3.no_dice_while_planning | 3/3 | 3/3 | 3/3 |\n| ID3.no_identity_refusal | 3/3 | 3/3 | 3/3 |\n| ID3.no_state_change_while_planning | 3/3 | 3/3 | 3/3 |\n| ID4.every_beat_plan_or_resolve | 3/3 | 3/3 | 3/3 |\n| ID4.no_brace_leak | 3/3 | 3/3 | 3/3 |\n| ID4.no_dice_while_planning | 3/3 | 3/3 | 3/3 |\n| ID4.no_identity_refusal | 3/3 | 3/3 | 3/3 |\n| ID4.no_state_change_while_planning | 3/3 | 3/3 | 3/3 |\n| ID5.elena_bleed_gone | 0/3 | 3/3 | 2/3 |\n| ID5.every_beat_plan_or_resolve | 3/3 | 3/3 | 3/3 |\n| ID5.no_brace_leak | 3/3 | 3/3 | 3/3 |\n| ID5.no_dice_while_planning | 3/3 | 3/3 | 3/3 |\n| ID5.no_identity_refusal | 3/3 | 3/3 | 3/3 |\n| ID5.no_state_change_while_planning | 3/3 | 3/3 | 3/3 |\n| ID5.player_bleed_kept | 2/3 | 3/3 | 3/3 |\n| N2.job_taken | 2/3 | 3/3 | — |\n| N2.went_hunting | 3/3 | 1/3 | — |\n| PL1.lantern_gone | 1/3 | 2/3 | — |\n| PL1.lantern_kept | 3/3 | 2/3 | — |\n| PL12.at_inn | 3/3 | 2/3 | — |\n| PL12.rested | 2/3 | 3/3 | — |\n| S2.counted_down_or_gone | 2/3 | 3/3 | — |\n\n认名被拒 · 旧:unknown place X ×5 · unknown entity X ×4 · place X already exists ×3 · X is already gone ×1 · status X already exists ×1\n认名被拒 · 新:place X already exists ×2 · X is already gone ×2 · X already exists ×1\n认名被拒 · 新 · 修复后(只 ID):无\n"
+}

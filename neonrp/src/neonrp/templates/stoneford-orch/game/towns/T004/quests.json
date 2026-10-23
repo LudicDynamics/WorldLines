@@ -1,0 +1,49 @@
+{
+  "town_id": "T004",
+  "quests": [
+    {
+      "qid": "Q_T004_01",
+      "title": "矿道深处的异响",
+      "tier": 2,
+      "summary": "矿区第三层传出不明声响，矿工拒绝下去作业。调查原因并清除威胁。",
+      "reward": {
+        "gold": 60,
+        "item": {
+          "id": "raw_crystal",
+          "name": "未切割水晶",
+          "qty": 2
+        }
+      },
+      "hooks": ["mine_entrance"],
+      "state": "available"
+    },
+    {
+      "qid": "Q_T004_02",
+      "title": "翡翠矿脉的守护者",
+      "tier": 3,
+      "summary": "新发现的翡翠矿脉深处栖息着某种生物。矿业公司出高价悬赏清除。",
+      "reward": {
+        "gold": 150
+      },
+      "hooks": ["mine_entrance"],
+      "requires": ["Q_T004_01_completed"],
+      "state": "locked"
+    },
+    {
+      "qid": "Q_T004_03",
+      "title": "草药采集：月见草",
+      "tier": 1,
+      "summary": "格林婆婆需要矿区外山坡上的月见草。采集5株即可。",
+      "reward": {
+        "gold": 15,
+        "item": {
+          "id": "healing_salve",
+          "name": "治愈膏",
+          "qty": 2
+        }
+      },
+      "hooks": ["herb_shop"],
+      "state": "available"
+    }
+  ]
+}

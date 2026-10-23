@@ -1,0 +1,86 @@
+{
+  "gates": {
+    "T001/road_camp": {
+      "if": [
+        {
+          "any": [
+            {
+              "var": "P20.pass",
+              ">=": 1
+            },
+            {
+              "flag": "gate_opened"
+            }
+          ]
+        }
+      ],
+      "refuse": "キャスが槍を横に構えた。「ギルドの依頼がなけりゃ、北へは一歩も通さねえ」"
+    },
+    "D001/D001_R001": {
+      "if": [
+        {
+          "var": "P20.stage",
+          ">=": 2
+        }
+      ],
+      "refuse": "霧の壁が北の街道にのしかかっている。十歩も進まないうちに方角が分からなくなる。霧が退くのを待つしかない。"
+    }
+  },
+  "links": [
+    [
+      "T001/road_camp",
+      "D001/D001_R001"
+    ]
+  ],
+  "approaches": {
+    "persuade": {
+      "label": "説得する",
+      "check": "resist",
+      "bonus_cares": 20,
+      "on_ok": [
+        {
+          "flag": "persuaded.{who}"
+        }
+      ]
+    },
+    "steal": {
+      "label": "盗む",
+      "check": 45,
+      "night": 15,
+      "alert_cost": 10,
+      "on_ok": [
+        {
+          "flag": "stole.{who}"
+        }
+      ],
+      "on_fail": [
+        {
+          "var": "town.alert",
+          "add": 1
+        }
+      ],
+      "react": "on_fail"
+    },
+    "recruit": {
+      "label": "同行に誘う",
+      "check": null,
+      "on_ok": [
+        {
+          "flag": "joined.{who}"
+        }
+      ]
+    },
+    "ask": {
+      "label": "聞き込み"
+    },
+    "quest": {
+      "label": "ギルドの依頼"
+    },
+    "trade": {
+      "label": "取引"
+    },
+    "rest": {
+      "label": "休む"
+    }
+  }
+}

@@ -1,0 +1,1303 @@
+{
+ "world": "stoneford-town",
+ "game": "town",
+ "title": "石津镇 · 雾退之夜",
+ "subtitle": "一年只有一夜,雾会从北路上退开",
+ "pitch": "探路队没回来,驿路被山贼截了——你有两个夜晚、一个白天,凑齐出北门的东西。",
+ "title_art": "map/town.jpg",
+ "view": [
+  480,
+  270
+ ],
+ "player": "旅人",
+ "people": {
+  "旅人": {
+   "sprite": "player",
+   "portrait": "portraits/player.jpg",
+   "color": "#8aa07a"
+  },
+  "艾琳娜": {
+   "sprite": "elena",
+   "portrait": "portraits/elena.jpg",
+   "color": "#b9a6d9",
+   "tags": [
+    "soul"
+   ]
+  },
+  "罗文": {
+   "sprite": "rowan",
+   "portrait": "portraits/rowan.jpg",
+   "color": "#9a7b5b",
+   "tags": [
+    "soul"
+   ]
+  },
+  "赫伦": {
+   "sprite": "heron",
+   "portrait": "portraits/heron.jpg",
+   "color": "#c8a560",
+   "tags": [
+    "quest"
+   ]
+  },
+  "老苇": {
+   "sprite": "laowei",
+   "portrait": "portraits/laowei.jpg",
+   "color": "#8c8f7a",
+   "tags": [
+    "merchant"
+   ]
+  },
+  "米拉": {
+   "sprite": "mira",
+   "portrait": "portraits/mira.jpg",
+   "color": "#d98a6f",
+   "tags": [
+    "inn"
+   ]
+  },
+  "卡斯": {
+   "sprite": "kas",
+   "portrait": "portraits/kas.jpg",
+   "color": "#7d8ba0"
+  },
+  "薇拉": {
+   "sprite": "vera",
+   "portrait": "portraits/vera.jpg",
+   "color": "#5f7aa8"
+  },
+  "老鱼": {
+   "sprite": "laoyu",
+   "portrait": "portraits/laoyu.jpg",
+   "color": "#6f8c8c",
+   "tags": [
+    "merchant"
+   ]
+  },
+  "葛拉": {
+   "color": "#b0704a",
+   "tags": [
+    "merchant"
+   ]
+  },
+  "独眼虎": {
+   "sprite": "tiger",
+   "portrait": "portraits/tiger.jpg",
+   "color": "#b04a3a"
+  },
+  "山贼": {
+   "sprite": "bandit",
+   "color": "#7a3a32",
+   "tags": [
+    "mob"
+   ]
+  },
+  "阿沐": {
+   "color": "#a0b0c0"
+  }
+ },
+ "speakers": {
+  "罗文·派克": "罗文",
+  "赫伦(公会管事)": "赫伦",
+  "老苇(杂货商)": "老苇",
+  "米拉(旅店老板娘)": "米拉",
+  "卡斯(北门守门人)": "卡斯",
+  "薇拉(镇署女镇守)": "薇拉",
+  "老鱼(码头船夫)": "老鱼",
+  "葛拉(商会车队长)": "葛拉",
+  "独眼虎(山贼头子)": "独眼虎",
+  "Elena": "艾琳娜",
+  "Rowan": "罗文"
+ },
+ "zones": {
+  "T001/gate_north": {
+   "name": "北门",
+   "scene": "scenes/gate_north.jpg",
+   "walk": [
+    [
+     192,
+     167
+    ],
+    [
+     250,
+     140
+    ],
+    [
+     317,
+     140
+    ],
+    [
+     384,
+     167
+    ],
+    [
+     394,
+     265
+    ],
+    [
+     144,
+     265
+    ]
+   ],
+   "exits": [
+    {
+     "to": "T001/road_camp",
+     "label": "出北门 · 驿路营地",
+     "at": [
+      283,
+      142
+     ],
+     "says": "我想出北门,去驿路上看看。"
+    },
+    {
+     "to": "T001/market-square",
+     "label": "集市广场",
+     "at": [
+      152,
+      252
+     ]
+    },
+    {
+     "to": "T001/main_street",
+     "label": "主街",
+     "at": [
+      386,
+      252
+     ]
+    }
+   ],
+   "npcs": [
+    {
+     "who": "卡斯",
+     "at": [
+      330,
+      160
+     ],
+     "face": "left"
+    }
+   ],
+   "free": [
+    [
+     240,
+     200
+    ],
+    [
+     300,
+     215
+    ]
+   ],
+   "spawn": [
+    270,
+    235
+   ]
+  },
+  "T001/market-square": {
+   "name": "集市广场",
+   "scene": "scenes/market-square.jpg",
+   "walk": [
+    [
+     144,
+     149
+    ],
+    [
+     264,
+     122
+    ],
+    [
+     408,
+     130
+    ],
+    [
+     442,
+     203
+    ],
+    [
+     360,
+     257
+    ],
+    [
+     168,
+     257
+    ]
+   ],
+   "exits": [
+    {
+     "to": "T001/gate_north",
+     "label": "北门",
+     "at": [
+      262,
+      128
+     ]
+    },
+    {
+     "to": "T001/inn",
+     "label": "河灯旅店",
+     "at": [
+      152,
+      244
+     ]
+    },
+    {
+     "to": "T001/guild",
+     "label": "冒险者公会",
+     "at": [
+      428,
+      142
+     ]
+    }
+   ],
+   "npcs": [
+    {
+     "who": "葛拉",
+     "at": [
+      330,
+      165
+     ],
+     "face": "down"
+    }
+   ],
+   "free": [
+    [
+     230,
+     190
+    ],
+    [
+     300,
+     215
+    ]
+   ],
+   "spawn": [
+    290,
+    222
+   ]
+  },
+  "T001/guild": {
+   "name": "冒险者公会",
+   "scene": "scenes/guild.jpg",
+   "walk": [
+    [
+     120,
+     160
+    ],
+    [
+     170,
+     128
+    ],
+    [
+     225,
+     128
+    ],
+    [
+     278,
+     140
+    ],
+    [
+     290,
+     170
+    ],
+    [
+     408,
+     225
+    ],
+    [
+     408,
+     265
+    ],
+    [
+     120,
+     265
+    ]
+   ],
+   "exits": [
+    {
+     "to": "T001/main_street",
+     "label": "主街",
+     "at": [
+      196,
+      134
+     ]
+    },
+    {
+     "to": "T001/market-square",
+     "label": "集市广场",
+     "at": [
+      132,
+      252
+     ]
+    }
+   ],
+   "npcs": [
+    {
+     "who": "赫伦",
+     "at": [
+      300,
+      128
+     ],
+     "face": "down"
+    }
+   ],
+   "spots": [
+    {
+     "label": "委托板",
+     "at": [
+      118,
+      96
+     ],
+     "says": "我走到委托板前,看看上面钉着什么委托。",
+     "icon": "quest"
+    }
+   ],
+   "free": [
+    [
+     200,
+     200
+    ],
+    [
+     260,
+     230
+    ]
+   ],
+   "spawn": [
+    220,
+    215
+   ]
+  },
+  "T001/inn": {
+   "name": "河灯旅店",
+   "scene": "scenes/inn.jpg",
+   "walk": [
+    [
+     106,
+     167
+    ],
+    [
+     216,
+     140
+    ],
+    [
+     360,
+     149
+    ],
+    [
+     384,
+     230
+    ],
+    [
+     264,
+     257
+    ],
+    [
+     120,
+     243
+    ]
+   ],
+   "exits": [
+    {
+     "to": "T001/main_street",
+     "label": "主街",
+     "at": [
+      132,
+      236
+     ]
+    },
+    {
+     "to": "T001/market-square",
+     "label": "集市广场",
+     "at": [
+      380,
+      178
+     ]
+    }
+   ],
+   "npcs": [
+    {
+     "who": "米拉",
+     "at": [
+      288,
+      138
+     ],
+     "face": "down"
+    }
+   ],
+   "spots": [
+    {
+     "label": "楼上的客房",
+     "at": [
+      248,
+      112
+     ],
+     "says": "我向米拉要一间房,睡到下一个时段。",
+     "icon": "rest"
+    }
+   ],
+   "free": [
+    [
+     200,
+     205
+    ],
+    [
+     320,
+     200
+    ]
+   ],
+   "spawn": [
+    220,
+    222
+   ]
+  },
+  "T001/shop_general": {
+   "name": "杂货铺",
+   "scene": "scenes/shop_general.jpg",
+   "walk": [
+    [
+     134,
+     167
+    ],
+    [
+     240,
+     140
+    ],
+    [
+     384,
+     162
+    ],
+    [
+     394,
+     243
+    ],
+    [
+     240,
+     262
+    ],
+    [
+     134,
+     243
+    ]
+   ],
+   "exits": [
+    {
+     "to": "T001/main_street",
+     "label": "主街",
+     "at": [
+      240,
+      256
+     ]
+    }
+   ],
+   "npcs": [
+    {
+     "who": "老苇",
+     "at": [
+      175,
+      146
+     ],
+     "face": "right"
+    }
+   ],
+   "spots": [
+    {
+     "label": "后屋的门",
+     "at": [
+      298,
+      110
+     ],
+     "says": "我看了一眼通往后屋的那扇门。",
+     "icon": "steal"
+    }
+   ],
+   "free": [
+    [
+     300,
+     210
+    ]
+   ],
+   "spawn": [
+    250,
+    230
+   ]
+  },
+  "T001/townhall": {
+   "name": "镇署",
+   "scene": "scenes/townhall.jpg",
+   "walk": [
+    [
+     168,
+     167
+    ],
+    [
+     288,
+     149
+    ],
+    [
+     442,
+     167
+    ],
+    [
+     442,
+     230
+    ],
+    [
+     288,
+     257
+    ],
+    [
+     144,
+     248
+    ]
+   ],
+   "exits": [
+    {
+     "to": "T001/main_street",
+     "label": "主街",
+     "at": [
+      162,
+      244
+     ]
+    }
+   ],
+   "npcs": [
+    {
+     "who": "薇拉",
+     "at": [
+      384,
+      146
+     ],
+     "face": "left"
+    }
+   ],
+   "free": [
+    [
+     260,
+     215
+    ]
+   ],
+   "spawn": [
+    250,
+    225
+   ]
+  },
+  "T001/dock": {
+   "name": "码头",
+   "scene": "scenes/dock.jpg",
+   "walk": [
+    [
+     230,
+     150
+    ],
+    [
+     300,
+     135
+    ],
+    [
+     456,
+     170
+    ],
+    [
+     456,
+     265
+    ],
+    [
+     360,
+     265
+    ],
+    [
+     250,
+     200
+    ]
+   ],
+   "exits": [
+    {
+     "to": "T001/main_street",
+     "label": "主街",
+     "at": [
+      440,
+      172
+     ]
+    }
+   ],
+   "npcs": [
+    {
+     "who": "老鱼",
+     "at": [
+      285,
+      196
+     ],
+     "face": "right"
+    }
+   ],
+   "spots": [
+    {
+     "label": "小船",
+     "at": [
+      245,
+      214
+     ],
+     "says": "我看了看系在木桩上的小船。",
+     "icon": "trade"
+    }
+   ],
+   "free": [
+    [
+     340,
+     200
+    ]
+   ],
+   "spawn": [
+    380,
+    215
+   ]
+  },
+  "T001/main_street": {
+   "name": "主街",
+   "scene": "scenes/main_street.jpg",
+   "walk": [
+    [
+     120,
+     167
+    ],
+    [
+     192,
+     130
+    ],
+    [
+     288,
+     108
+    ],
+    [
+     346,
+     108
+    ],
+    [
+     408,
+     162
+    ],
+    [
+     384,
+     265
+    ],
+    [
+     144,
+     265
+    ]
+   ],
+   "block": [
+    [
+     226,
+     155,
+     24
+    ]
+   ],
+   "exits": [
+    {
+     "to": "T001/townhall",
+     "label": "镇署",
+     "at": [
+      317,
+      112
+     ]
+    },
+    {
+     "to": "T001/guild",
+     "label": "冒险者公会",
+     "at": [
+      126,
+      170
+     ]
+    },
+    {
+     "to": "T001/shop_general",
+     "label": "杂货铺",
+     "at": [
+      152,
+      256
+     ]
+    },
+    {
+     "to": "T001/inn",
+     "label": "河灯旅店",
+     "at": [
+      404,
+      166
+     ]
+    },
+    {
+     "to": "T001/dock",
+     "label": "码头",
+     "at": [
+      292,
+      262
+     ]
+    },
+    {
+     "to": "T001/gate_north",
+     "label": "北门",
+     "at": [
+      380,
+      256
+     ]
+    }
+   ],
+   "npcs": [],
+   "free": [
+    [
+     270,
+     200
+    ],
+    [
+     320,
+     170
+    ],
+    [
+     190,
+     215
+    ]
+   ],
+   "spawn": [
+    280,
+    215
+   ]
+  },
+  "T001/road_camp": {
+   "name": "驿路营地",
+   "scene": "scenes/road_camp.jpg",
+   "walk": [
+    [
+     24,
+     167
+    ],
+    [
+     216,
+     149
+    ],
+    [
+     456,
+     167
+    ],
+    [
+     456,
+     257
+    ],
+    [
+     24,
+     257
+    ]
+   ],
+   "exits": [
+    {
+     "to": "T001/gate_north",
+     "label": "北门",
+     "at": [
+      40,
+      242
+     ]
+    },
+    {
+     "to": "D001/D001_R001",
+     "label": "沿北路进雾 · 苔墓",
+     "at": [
+      410,
+      152
+     ],
+     "says": "我沿着北路往苔墓走。"
+    }
+   ],
+   "npcs": [
+    {
+     "who": "独眼虎",
+     "at": [
+      345,
+      158
+     ],
+     "face": "left"
+    },
+    {
+     "who": "山贼",
+     "at": [
+      300,
+      176
+     ],
+     "face": "left"
+    },
+    {
+     "who": "山贼",
+     "at": [
+      392,
+      186
+     ],
+     "face": "left"
+    }
+   ],
+   "free": [
+    [
+     150,
+     210
+    ]
+   ],
+   "spawn": [
+    100,
+    222
+   ],
+   "battle": "scenes/road_camp.jpg"
+  },
+  "D001/D001_R001": {
+   "name": "潮门前室",
+   "scene": "scenes/tomb_gate.jpg",
+   "walk": [
+    [
+     24,
+     149
+    ],
+    [
+     288,
+     122
+    ],
+    [
+     456,
+     149
+    ],
+    [
+     456,
+     257
+    ],
+    [
+     24,
+     257
+    ]
+   ],
+   "exits": [
+    {
+     "to": "D001/D001_R002",
+     "label": "推开石门",
+     "at": [
+      392,
+      128
+     ]
+    },
+    {
+     "to": "T001/road_camp",
+     "label": "回驿路",
+     "at": [
+      40,
+      242
+     ],
+     "says": "我退出苔墓,回到驿路上。"
+    }
+   ],
+   "npcs": [],
+   "free": [
+    [
+     200,
+     200
+    ],
+    [
+     260,
+     215
+    ]
+   ],
+   "spawn": [
+    120,
+    222
+   ],
+   "battle": "scenes/tomb_gate.jpg"
+  },
+  "D001/D001_R002": {
+   "name": "苔廊",
+   "scene": "scenes/tomb_chamber.jpg",
+   "walk": [
+    [
+     24,
+     149
+    ],
+    [
+     216,
+     108
+    ],
+    [
+     432,
+     149
+    ],
+    [
+     432,
+     248
+    ],
+    [
+     24,
+     248
+    ]
+   ],
+   "exits": [
+    {
+     "to": "D001/D001_R001",
+     "label": "潮门",
+     "at": [
+      40,
+      236
+     ]
+    },
+    {
+     "to": "D001/D001_R003",
+     "label": "供台室",
+     "at": [
+      120,
+      130
+     ]
+    },
+    {
+     "to": "D001/D001_R004",
+     "label": "棺语内殿",
+     "at": [
+      410,
+      160
+     ]
+    }
+   ],
+   "npcs": [],
+   "free": [
+    [
+     200,
+     200
+    ]
+   ],
+   "spawn": [
+    200,
+    222
+   ],
+   "battle": "scenes/tomb_chamber.jpg"
+  },
+  "D001/D001_R003": {
+   "name": "供台室",
+   "scene": "scenes/tomb_chamber.jpg",
+   "walk": [
+    [
+     24,
+     149
+    ],
+    [
+     216,
+     108
+    ],
+    [
+     432,
+     149
+    ],
+    [
+     432,
+     248
+    ],
+    [
+     24,
+     248
+    ]
+   ],
+   "exits": [
+    {
+     "to": "D001/D001_R002",
+     "label": "苔廊",
+     "at": [
+      40,
+      236
+     ]
+    }
+   ],
+   "npcs": [
+    {
+     "who": "阿沐",
+     "at": [
+      300,
+      170
+     ],
+     "face": "left"
+    }
+   ],
+   "free": [
+    [
+     200,
+     200
+    ]
+   ],
+   "spawn": [
+    120,
+    222
+   ],
+   "battle": "scenes/tomb_chamber.jpg"
+  },
+  "D001/D001_R004": {
+   "name": "棺语内殿",
+   "scene": "scenes/tomb_chamber.jpg",
+   "walk": [
+    [
+     24,
+     149
+    ],
+    [
+     216,
+     108
+    ],
+    [
+     432,
+     149
+    ],
+    [
+     432,
+     248
+    ],
+    [
+     24,
+     248
+    ]
+   ],
+   "exits": [
+    {
+     "to": "D001/D001_R002",
+     "label": "苔廊",
+     "at": [
+      40,
+      236
+     ]
+    }
+   ],
+   "npcs": [],
+   "spots": [
+    {
+     "label": "会说话的棺材",
+     "at": [
+      288,
+      130
+     ],
+     "says": "我走到那口刻着人脸的石棺前。"
+    }
+   ],
+   "props": [
+    {
+     "sprite": "sprites/coffin-object.png",
+     "at": [
+      288,
+      150
+     ]
+    }
+   ],
+   "free": [
+    [
+     200,
+     200
+    ]
+   ],
+   "spawn": [
+    150,
+    222
+   ],
+   "battle": "scenes/tomb_chamber.jpg"
+  }
+ },
+ "approaches": [
+  {
+   "id": "talk",
+   "label": "交谈",
+   "icon": "icons/talk.png",
+   "says": "我走过去和{who}搭话。"
+  },
+  {
+   "id": "ask",
+   "label": "打探",
+   "icon": "icons/ask.png",
+   "prefill": "我向{who}打听:"
+  },
+  {
+   "id": "persuade",
+   "label": "说服",
+   "icon": "icons/persuade.png",
+   "prefill": "我想说服{who}:"
+  },
+  {
+   "id": "trade",
+   "label": "交易",
+   "icon": "icons/trade.png",
+   "says": "我想看看{who}手上有什么货。",
+   "when": "merchant"
+  },
+  {
+   "id": "steal",
+   "label": "偷窃",
+   "icon": "icons/steal.png",
+   "prefill": "我趁{who}不注意,"
+  },
+  {
+   "id": "recruit",
+   "label": "邀请同行",
+   "icon": "icons/recruit.png",
+   "says": "{who},跟我一起走吧。",
+   "when": "soul"
+  },
+  {
+   "id": "quest",
+   "label": "公会委托",
+   "icon": "icons/quest.png",
+   "says": "{who},公会现在有什么委托?",
+   "when": "quest"
+  },
+  {
+   "id": "rest",
+   "label": "休息",
+   "icon": "icons/rest.png",
+   "says": "{who},给我一间房,我想睡到下一个时段。",
+   "when": "inn"
+  },
+  {
+   "id": "fight",
+   "label": "动手",
+   "icon": "icons/fight.png",
+   "says": "我拔出武器,冲{who}动手。",
+   "confirm": "真的要动手?镇里没有决斗许可会被押进镇署。"
+  }
+ ],
+ "fog": {
+  "day": 7,
+  "clock": "00:00",
+  "label": "雾退"
+ },
+ "goals": [
+  {
+   "var": "P20.pass",
+   "label": "出北门的许可"
+  },
+  {
+   "var": "P20.route",
+   "label": "雾里的路"
+  },
+  {
+   "var": "P20.road",
+   "label": "驿路怎么过"
+  }
+ ],
+ "meters": [
+  {
+   "var": "player.hp",
+   "label": "生命",
+   "max_var": "player.hp.max"
+  },
+  {
+   "var": "player.silver",
+   "label": "银币"
+  },
+  {
+   "var": "town.alert",
+   "label": "警戒"
+  }
+ ],
+ "follow": {
+  "罗文": {
+   "flag": "rowan_joined"
+  }
+ },
+ "battle": {
+  "default_scene": "scenes/road_camp.jpg",
+  "foes": [
+   {
+    "match": "独眼虎",
+    "sprite": "tiger"
+   },
+   {
+    "match": "山贼",
+    "sprite": "bandit"
+   },
+   {
+    "match": "雾",
+    "sprite": "wraith"
+   },
+   {
+    "match": "亡",
+    "sprite": "wraith"
+   },
+   {
+    "match": "",
+    "sprite": "bandit"
+   }
+  ],
+  "commands": [
+   {
+    "label": "攻击",
+    "says": "我攻击{target}。",
+    "target": true
+   },
+   {
+    "label": "防御",
+    "says": "我举起武器守住,等对方先出手。"
+   },
+   {
+    "label": "看看周围",
+    "says": "我先不动手,看看周围的地形有什么能利用的。"
+   },
+   {
+    "label": "利用场地…",
+    "prefill": "我利用场地:"
+   },
+   {
+    "label": "言出法随…",
+    "prefill": "我开口,让这句话变成真的:"
+   },
+   {
+    "label": "逃跑",
+    "says": "我找机会撤出战斗。"
+   }
+  ]
+ },
+ "endings": {
+  "E1": {
+   "title": "雾退之夜",
+   "text": "你们带着探路队走出苔墓时,雾已经开始回涌。艾琳娜走在最后,一遍遍念着那个刚找回来的名字。"
+  },
+  "E2": {
+   "title": "北路的主人",
+   "text": "商会的车队到的时候,北路上已经插满了矿工会的旗。独眼虎把鹤嘴锄扛在肩上,冲你点了点头。"
+  },
+  "E3": {
+   "title": "灯还亮着",
+   "text": "天亮前你们回到了镇上。米拉抱着阿沐哭了很久。艾琳娜的过去还留在那口棺材里,没有人去问。"
+  },
+  "E9": {
+   "title": "雾合上了",
+   "text": "雾从北路上合拢,像什么都没有发生过。明年的这一夜,镇署的册子上又不会多写一个名字。"
+  }
+ },
+ "map": {
+  "picture": "map/town.jpg",
+  "at": {
+   "T001/gate_north": [
+    0.18,
+    0.1
+   ],
+   "T001/market-square": [
+    0.5,
+    0.3
+   ],
+   "T001/guild": [
+    0.38,
+    0.17
+   ],
+   "T001/inn": [
+    0.62,
+    0.44
+   ],
+   "T001/main_street": [
+    0.45,
+    0.55
+   ],
+   "T001/shop_general": [
+    0.28,
+    0.55
+   ],
+   "T001/townhall": [
+    0.84,
+    0.5
+   ],
+   "T001/dock": [
+    0.43,
+    0.86
+   ],
+   "T001/road_camp": [
+    0.1,
+    0.02
+   ]
+  }
+ }
+}

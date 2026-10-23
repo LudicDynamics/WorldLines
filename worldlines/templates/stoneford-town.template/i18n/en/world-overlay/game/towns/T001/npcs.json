@@ -1,0 +1,215 @@
+{
+  "town_id": "T001",
+  "npcs": [
+    {
+      "id": "NPC001",
+      "name": "Heron (guild steward)",
+      "role": "guildmaster",
+      "traits": [
+        "cautious",
+        "a stickler for contracts"
+      ],
+      "state": {
+        "met": true
+      },
+      "location": "guild",
+      "persuade": {
+        "cares": [
+          "the guild's good name",
+          "bringing the scouting party home"
+        ],
+        "resist": 55
+      },
+      "secrets": [
+        {
+          "id": "heron_pushed",
+          "text": "The Post Road Company slipped him money and leaned on him to send the scouting party out three days early.",
+          "reveal_when": "Produce the Company ledger, or notice his guilty conscience and press him on it"
+        }
+      ]
+    },
+    {
+      "id": "NPC002",
+      "name": "Old Reed (general dealer)",
+      "role": "shopkeeper",
+      "traits": [
+        "a gossip",
+        "sharp-eyed"
+      ],
+      "state": {
+        "met": false
+      },
+      "location": "shop_general",
+      "persuade": {
+        "cares": [
+          "money",
+          "his late wife (the town's last surveyor)"
+        ],
+        "resist": 65
+      },
+      "secrets": [
+        {
+          "id": "laowei_map",
+          "text": "Locked in his back room is the old fog-road map his wife left behind; she died in the fog, and her survey book is still in Mossbarrow.",
+          "reveal_when": "Tell him you mean to go into the fog to find someone"
+        }
+      ]
+    },
+    {
+      "id": "NPC003",
+      "name": "Mira (innkeeper)",
+      "role": "innkeeper",
+      "traits": [
+        "warm-hearted",
+        "hears everything"
+      ],
+      "state": {
+        "met": false
+      },
+      "location": "inn",
+      "persuade": {
+        "cares": [
+          "her younger brother Milo coming home alive"
+        ],
+        "resist": 30
+      },
+      "secrets": [
+        {
+          "id": "mira_amulet",
+          "text": "Milo's charm is sewn into her sleeve, with the scouting party's route stitched across it.",
+          "reveal_when": "Promise to go and find Milo"
+        }
+      ]
+    },
+    {
+      "id": "NPC004",
+      "name": "Cass (North Gate gatekeeper)",
+      "role": "gate_guard",
+      "location": "gate_north",
+      "traits": [
+        "half asleep",
+        "afraid of the warden"
+      ],
+      "persuade": {
+        "cares": [
+          "no trouble",
+          "paying off his gambling debts"
+        ],
+        "resist": 45
+      },
+      "secrets": [
+        {
+          "id": "kas_bribed",
+          "text": "He has taken money from the One-Eyed Tiger's men and kept lookout for the bandits.",
+          "reveal_when": "Notice him dodging and press him, or find his betting slips at the camp"
+        }
+      ],
+      "hp": 10,
+      "max_hp": 10
+    },
+    {
+      "id": "NPC005",
+      "name": "Vera (Town Office warden)",
+      "role": "warden",
+      "location": "townhall",
+      "traits": [
+        "upright",
+        "protective of the town"
+      ],
+      "persuade": {
+        "cares": [
+          "nobody in town dying during the fog season",
+          "keeping the Company and the guild from dragging the town into their fight over the north road"
+        ],
+        "resist": 60
+      },
+      "secrets": [
+        {
+          "id": "vera_records",
+          "text": "Every year someone fails to come back from the night the fog withdraws, and the Town Office never records it.",
+          "reveal_when": "Ask about the fog-withdrawing nights of years past"
+        }
+      ],
+      "hp": 12,
+      "max_hp": 12
+    },
+    {
+      "id": "NPC006",
+      "name": "Old Fish (ferryman at the docks)",
+      "role": "ferryman",
+      "location": "dock",
+      "traits": [
+        "shrewd",
+        "afraid of the lights in the fog"
+      ],
+      "persuade": {
+        "cares": [
+          "a good fare for a boatload"
+        ],
+        "resist": 40
+      },
+      "secrets": [
+        {
+          "id": "laoyu_lights",
+          "text": "He has seen lights in the fog strung out in a line towards Mossbarrow — the scouting party's lanterns.",
+          "reveal_when": "Stand him a drink"
+        }
+      ],
+      "hp": 10,
+      "max_hp": 10
+    },
+    {
+      "id": "NPC007",
+      "name": "Gerda (Company caravan master)",
+      "role": "caravan_master",
+      "location": "market-square",
+      "traits": [
+        "impatient",
+        "calculating"
+      ],
+      "persuade": {
+        "cares": [
+          "getting along the north road ahead of everyone else"
+        ],
+        "resist": 60
+      },
+      "secrets": [
+        {
+          "id": "gra_ledger",
+          "text": "The caravan's ledger records the money paid to Heron.",
+          "reveal_when": "Steal the ledger, or get her drunk"
+        }
+      ],
+      "hp": 12,
+      "max_hp": 12
+    },
+    {
+      "id": "NPC008",
+      "name": "The One-Eyed Tiger (bandit chief)",
+      "role": "bandit_chief",
+      "location": "road_camp",
+      "traits": [
+        "fierce",
+        "protective of his people"
+      ],
+      "persuade": {
+        "cares": [
+          "holding the ore track along the north road",
+          "keeping the Company from reaching the north road first"
+        ],
+        "resist": 70
+      },
+      "secrets": [
+        {
+          "id": "tiger_miner",
+          "text": "He was once a miner in Jadestone; when the mine closed, he led his people out to live off this ore track.",
+          "reveal_when": "Bring up the Jadestone mines, or show him a Miners' Guild badge"
+        }
+      ],
+      "hp": 22,
+      "max_hp": 22,
+      "str": 15,
+      "con": 14
+    }
+  ]
+}

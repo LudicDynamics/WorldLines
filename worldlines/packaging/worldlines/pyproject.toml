@@ -1,0 +1,65 @@
+[project]
+name = "worldlines"
+# 独立版本线（2026-09 两仓彻底分开）：本值由 WorldLines 仓 release.yml 依 tag 号
+# 覆写（sed）。worldlines 版本 = 壳仓自己的 tag，不再与 neonrp 同号。
+version = "1.0.3"
+description = "Worldlines launcher — a world simulation built on the neonrp agentic engine"
+authors = [
+    {name = "Ludic Dynamics", email = "info@worldlines.gg"},
+    {name = "nikoloside"},
+    {name = "redoctober"},
+]
+readme = "README.md"
+license = {text = "AGPL-3.0-or-later"}
+requires-python = ">=3.10"
+# 独立 pin：worldlines 依赖一个「选定的」neonrp 版本，不再随发布锁步改写。
+# 要升 neonrp 时手动改此行并提交（配对测试后），再 tag 发 worldlines。
+dependencies = [
+    "neonrp[discord]==1.0.3",
+]
+
+# Passthrough extras — discord.py already arrives transitively via
+# `neonrp[discord]`, but declaring the extra here keeps `uv tool upgrade`
+# from emitting `worldlines==X does not have an extra named discord`
+# when something upstream propagates the request.
+[project.optional-dependencies]
+discord = []
+
+[project.scripts]
+# `worldlines` 走本仓的 SPA 启动器（worldlines_shim.main）——它先备好
+# NEONRP_SPA_DIR（wheel 内自带的 worldlines_shim/spa/），再委托 neonrp 引擎。
+# 于是发布的 `worldlines` 开箱即服务 /local，无需外部 env。
+worldlines = "worldlines_shim:main"
+# `neonrp` is a dependency of worldlines, so neonrp.cli is importable.
+# Declaring it here makes `uv tool install worldlines` link BOTH commands;
+# otherwise uv only links the primary package's entry points and neonrp.exe
+# never lands on PATH.
+neonrp = "neonrp.cli:cli"
+
+[project.urls]
+Homepage = "https://worldlines.gg"
+Repository = "https://github.com/LudicDynamics/WorldLines"
+Issues = "https://github.com/LudicDynamics/WorldLines/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+# The wheel carries the shim launcher AND the built SPA (worldlines 自带 SPA)。
+only-include = ["worldlines_shim"]
+
+# 把构建好的 LocalShell SPA 塞进 worldlines_shim/spa/，让发布的 `worldlines`
+# 开箱即服务 /local。发布前必须先 `scripts/package-spa.sh`（或 npm run
+# build:local）产出 ui/dist-local；缺失则 wheel 构建会显式报错（fail loud）。
+[tool.hatch.build.targets.wheel.force-include]
+"../../ui/dist-local" = "worldlines_shim/spa"
+# 产品自带的模板与玩法合约(10-08):装好就有书架;引擎经 neonrp.core.paths.shell_dir 找到它们
+# 10-17 niko:本地版只内置 templates/shipped.json 列的两个(灰橡宅 · 石津镇);其他官方世界登录账号后获取,不进 wheel。
+# 改内置名单时这里和 shipped.json 一起改(tests/test_shipped_templates.py 守着)
+"../../templates/shipped.json" = "worldlines_shim/templates/shipped.json"
+"../../templates/pct-house.template" = "worldlines_shim/templates/pct-house.template"
+"../../templates/stoneford-town.template" = "worldlines_shim/templates/stoneford-town.template"
+"../../contracts" = "worldlines_shim/contracts"
+# 平台音频池(10-15,CC0 / CC-BY,约 21 MB):引擎经 neonrp.core.audio.pool_dir → shell_dir("audio") 找到
+"../../audio" = "worldlines_shim/audio"

@@ -1,0 +1,14 @@
+{
+  "name": "旅人",
+  "name_local": "旅人",
+  "background": "石津の町の北門の外で目を覚ました記憶喪失の旅人。自分が誰なのかさえ思い出せない",
+  "class": "剣士",
+  "origin": "不明",
+  "summary": "記憶を失った者。石津の町に着いたばかり。腕は残っているが、名も来歴も思い出せない——身元はプレイヤー自身が取り戻すか、定めるかだ。エレナ・ヴェイルはこの界隈にいる別の人物の名であって、あなたではない。",
+  "intro_i18n": {
+    "en": "An amnesiac who just woke outside Stone Ford's north gate. The skills are still there; the name and the past are gone — your identity is yours to recover or define.",
+    "zh": "一个刚在石津镇北门外醒来的失忆者。身手还在，名字与来历却已不记得——身份要靠你自己找回或定义。",
+    "ja": "石津の町の北門の外で目を覚ましたばかりの記憶喪失者。腕は残っているが、名も来歴も消えている——己の身元は、自ら取り戻すか、定めるかだ。",
+    "ko": "스톤포드 북문 밖에서 막 깨어난 기억상실자. 솜씨는 남아 있지만 이름과 과거는 사라졌다. 정체는 당신이 되찾거나 스스로 정의해야 한다."
+  }
+}

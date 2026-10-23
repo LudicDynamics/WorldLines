@@ -1,0 +1,134 @@
+{
+  "currency": {
+    "gold": 100,
+    "silver": 10,
+    "copper": 1
+  },
+  "goods": {
+    "grain": {
+      "name": "곡식",
+      "unit": "말",
+      "base": 12
+    },
+    "fish": {
+      "name": "염장 생선",
+      "unit": "두름",
+      "base": 9
+    },
+    "herb": {
+      "name": "약초",
+      "unit": "줌",
+      "base": 18
+    },
+    "jade": {
+      "name": "비취석",
+      "unit": "덩이",
+      "base": 60
+    },
+    "tools": {
+      "name": "철물",
+      "unit": "점",
+      "base": 40
+    }
+  },
+  "markets": {
+    "T001": {
+      "stock": {
+        "grain": 38,
+        "fish": 64,
+        "herb": 12,
+        "jade": 3,
+        "tools": 9
+      },
+      "target": {
+        "grain": 40,
+        "fish": 40,
+        "herb": 15,
+        "jade": 8,
+        "tools": 14
+      },
+      "prod": {
+        "fish": 3.2,
+        "herb": 0.3,
+        "grain": 1.6
+      },
+      "cons": {
+        "grain": 1.8,
+        "fish": 1.6,
+        "herb": 0.5,
+        "tools": 0.3,
+        "jade": 0.1
+      }
+    },
+    "T004": {
+      "stock": {
+        "grain": 12,
+        "fish": 5,
+        "herb": 22,
+        "jade": 52,
+        "tools": 30
+      },
+      "target": {
+        "grain": 30,
+        "fish": 20,
+        "herb": 18,
+        "jade": 30,
+        "tools": 20
+      },
+      "prod": {
+        "jade": 2.4,
+        "tools": 1.0,
+        "herb": 0.9,
+        "grain": 1.2
+      },
+      "cons": {
+        "grain": 1.5,
+        "fish": 0.8,
+        "tools": 0.5,
+        "herb": 0.4,
+        "jade": 0.6
+      }
+    },
+    "T002": {
+      "stock": {
+        "grain": 84,
+        "fish": 10,
+        "herb": 6,
+        "jade": 2,
+        "tools": 7
+      },
+      "target": {
+        "grain": 50,
+        "fish": 20,
+        "herb": 10,
+        "jade": 6,
+        "tools": 12
+      },
+      "prod": {
+        "grain": 4.6,
+        "tools": 0.2
+      },
+      "cons": {
+        "grain": 1.4,
+        "fish": 0.8,
+        "herb": 0.3,
+        "tools": 0.4
+      }
+    }
+  },
+  "routes": [
+    [
+      "T001",
+      "T004",
+      3
+    ],
+    [
+      "T001",
+      "T002",
+      2
+    ]
+  ],
+  "caravan_every": 4,
+  "strike_town": "T004",
+  "strike_good": "jade"
+}

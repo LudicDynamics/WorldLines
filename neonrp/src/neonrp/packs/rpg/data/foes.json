@@ -1,0 +1,18 @@
+{
+  "_doc": "Foe stat blocks by stable id. names = display per language, aliases = anything a world / roster / hand-off may call it. A world adds or overrides in game/world/world_map.json foes or game/rules/foes.json.",
+  "bandit": {"hp": 8, "def": 11, "atk": 2, "dmg": "1d4+1", "names": {"zh": "山贼", "en": "bandit", "ja": "山賊"}, "aliases": ["贼", "bandits", "brigand"],
+    "traits": {"zh": "怕见血,少一半人就散", "en": "hates blood; scatters when half are down", "ja": "血を嫌い、半数倒れると散る"}},
+  "boss": {"hp": 14, "def": 13, "atk": 4, "dmg": "1d6+2", "names": {"zh": "独眼虎", "en": "One-Eye Tiger", "ja": "隻眼の虎"}, "aliases": ["one-eye tiger", "one-eyed tiger"],
+    "traits": {"zh": "山贼头目,手下散了才肯退", "en": "the bandit chief; retreats only once his men scatter", "ja": "山賊の頭目。手下が散るまで退かない"}},
+  "rat": {"hp": 4, "def": 9, "atk": 1, "dmg": "1d4", "names": {"zh": "泥苔鼠", "en": "mire-moss rat", "ja": "泥苔鼠"}, "aliases": ["鼠", "rat", "rats"],
+    "traits": {"zh": "成群,怕火", "en": "swarms; fears fire", "ja": "群れる。火を恐れる"}},
+  "wolf": {"hp": 10, "def": 12, "atk": 3, "dmg": "1d6", "names": {"zh": "雾牙狼", "en": "fog-fang wolf", "ja": "霧牙狼"}, "aliases": ["狼", "wolf", "wolves"],
+    "traits": {"zh": "绕后咬,受伤后撤", "en": "flanks and bites; backs off when hurt", "ja": "背後に回って噛む。傷つくと退く"}},
+  "zombie": {"hp": 12, "def": 10, "atk": 2, "dmg": "1d6", "names": {"zh": "苔影尸", "en": "moss-shade wraith", "ja": "苔影屍"}, "aliases": ["wraith"],
+    "traits": {"zh": "慢,砍不死也不逃", "en": "slow; hard to kill, never flees", "ja": "鈍いが、斬っても倒れず逃げもしない"}},
+  "coffin": {"hp": 20, "def": 14, "atk": 3, "dmg": "1d8", "names": {"zh": "低语棺", "en": "the Whispering Coffin", "ja": "囁く棺"}, "aliases": ["whispering coffin", "coffin"],
+    "traits": {"zh": "以交易与秘密诱惑,不轻易动手", "en": "tempts with bargains and secrets; slow to strike", "ja": "取引と秘密で誘い、簡単には手を出さない"}},
+  "beast": {"hp": 7, "def": 11, "atk": 2, "dmg": "1d6", "names": {"zh": "野兽", "en": "beast", "ja": "獣"}, "aliases": ["beasts", "animal"],
+    "traits": {"zh": "夜里来,见火退", "en": "comes at night; backs away from fire", "ja": "夜に来て、火を見ると退く"}},
+  "foe": {"hp": 8, "def": 11, "atk": 2, "dmg": "1d6", "names": {"zh": "敌人", "en": "foe", "ja": "敵"}, "aliases": ["enemy"], "traits": {"zh": "", "en": "", "ja": ""}}
+}

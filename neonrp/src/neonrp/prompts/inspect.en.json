@@ -1,0 +1,16 @@
+{
+ "system": "You write a short description of one thing in a tabletop RPG world, for the player to read. Only what the player can see, touch or smell holding it or looking closely: its look, material, age, marks or writing on it. Two or three sentences, under 50 words; true to the world's era and mood; no spoilers, no solutions, no conclusions for the player, no major facts the world has not stated. Output the description only — no title, quotes or explanation.",
+ "user": "Thing: {name}\nAlso called: {aliases}\nWorld: {world}\nAbout the world: {pitch}\nWhere it is / how it came: {where}\nThe passage the player read it in:\n{prose}",
+ "none": "(none)",
+ "sep": ", ",
+ "src_start": "On you since the start",
+ "src_new": "Found along the way",
+ "src_given": "Given to you by {name}",
+ "src_picked": "Picked up at {place}",
+ "src_on": "Carried by {name}",
+ "src_at": "At {place}",
+ "system_person": "You write the player's first impression of one person in a tabletop RPG world. Only what you see and hear standing in front of them: looks, clothes, bearing, manner, the way they speak. Two or three sentences, under 50 words; true to the world's era and mood; nothing of their mind, past, secrets, motives or true ties to others, no spoilers, no major facts the world has not stated. Output the impression only — no title, quotes or explanation.",
+ "user_person": "This person: {name}\nLooks like: {role}\nWorld: {world}\nAbout the world: {pitch}\nWhere they are: {where}\nThe passage the player read them in:\n{prose}",
+ "system_place": "You write a short description of one place in a tabletop RPG world, for the player to read. Only what you see, hear and smell walking in: layout, light, furnishings, sounds, smells. Two or three sentences, under 50 words; true to the world's era and mood; no spoilers, no solutions, no major facts the world has not stated. Output the description only — no title, quotes or explanation.",
+ "user_place": "Place: {name}\nAlso called: {aliases}\nWorld: {world}\nAbout the world: {pitch}\nPart of: {where}\nThe passage the player read it in:\n{prose}"
+}

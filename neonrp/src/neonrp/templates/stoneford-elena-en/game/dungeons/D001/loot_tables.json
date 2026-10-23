@@ -1,0 +1,30 @@
+{
+  "dungeon_id": "D001",
+  "tables": {
+    "common": [
+      {
+        "id": "coin_pouch",
+        "name": "Coin Pouch",
+        "min_gold": 3,
+        "max_gold": 10,
+        "chance": 0.4
+      }
+    ],
+    "rare": [
+      {
+        "id": "ring_moss",
+        "name": "Mossvein Ring",
+        "effect": "VIT+1 (while exploring a dungeon)",
+        "chance": 0.1
+      }
+    ],
+    "boss": [
+      {
+        "id": "coffin_contract",
+        "name": "the Coffin's Pact",
+        "effect": "Unlocks a 'bargain' story branch",
+        "chance": 1.0
+      }
+    ]
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "gate_north",
+  "name": "北门",
+  "type": "gate",
+  "pos": {
+    "x": 236,
+    "y": 153
+  },
+  "connections": [
+    "main_street",
+    "market-square"
+  ],
+  "kind": "location",
+  "tags": [
+    "town",
+    "entry",
+    "fog"
+  ],
+  "summary": "歪斜的木栅门，湿冷的晨雾，刚醒来的守门人与尚未热起来的石板路。",
+  "notes": "Stoneford Elena opening scene.",
+  "aliases": [
+    "north-gate"
+  ],
+  "ports": {
+    "up": [
+      "R001",
+      "R002",
+      "R004"
+    ]
+  }
+}

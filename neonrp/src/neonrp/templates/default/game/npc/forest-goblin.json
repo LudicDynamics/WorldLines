@@ -1,0 +1,20 @@
+{
+  "id": "forest-goblin",
+  "kind": "npc",
+  "name": "Forest Goblin",
+  "tags": [
+    "npc",
+    "hostile",
+    "goblin",
+    "wilderness"
+  ],
+  "summary": "A sneaky goblin scout lurking along the forest path.",
+  "hp": 30,
+  "max_hp": 30,
+  "gold": 8,
+  "level": 1,
+  "location": "forest-path",
+  "attack": 7,
+  "defense": 2,
+  "inventory": []
+}

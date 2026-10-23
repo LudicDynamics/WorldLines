@@ -1,0 +1,25 @@
+{
+  "personality_type": "The headstrong client",
+  "core_traits": [
+    {
+      "trait": "Stubborn"
+    },
+    {
+      "trait": "Nervous"
+    },
+    {
+      "trait": "Sharp-eyed"
+    },
+    {
+      "trait": "Fiercely loyal to her own"
+    }
+  ],
+  "fears": [
+    "The cellar",
+    "Knocking on a wall in the dark"
+  ],
+  "quirks": [
+    "Twists the oak-leaf clasp on her cloak when she is nervous",
+    "Stops herself halfway through a sentence"
+  ]
+}

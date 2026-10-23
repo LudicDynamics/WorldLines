@@ -1,0 +1,31 @@
+{
+  "id": "drift-agent",
+  "name": "Drift Judge",
+  "description": "Judges how far a single change to a past event shifts the worldline. Weighs causal depth and whether the change touches a locked attractor (convergence rebound). Returns a structured JSON ruling, never narrates, never writes files (world-agent persists). Temp 0.2.",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 8,
+  "triggers": [],
+  "tags": ["drift-agent", "convergence", "worldline"],
+  "priority": 80,
+  "permissions": {
+    "read_globs": [
+      "game/meta/timeline.json",
+      "game/meta/worldline_state.json"
+    ],
+    "write_globs": [],
+    "deny_globs": [],
+    "direct_write_globs": []
+  },
+  "defaults": {
+    "context_limit": 8,
+    "temperature": 0.2
+  },
+  "presentation_roles": {
+    "en": "Drift",
+    "zh": "漂移",
+    "ja": "ドリフト",
+    "ko": "드리프트"
+  },
+  "presentation_hidden": true
+}

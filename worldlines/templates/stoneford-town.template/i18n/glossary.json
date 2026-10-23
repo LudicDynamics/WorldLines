@@ -1,0 +1,480 @@
+{
+  "_doc": "石津镇·雾退之夜的专有名词。西式奇幻小镇:英文还原西式原名(Stoneford…),日文用英文名的片假名,韩文音译英文名;绰号(独眼虎、老鱼、鸦目、铁柱、锤子)意译。这一局的世界来自内置 stoneford-elena + world-overlay,所以本地化层也在 i18n/<lang>/world-overlay/ 下覆盖内置世界的文件。lint 用它查残留;also = 旧音译。id 不变。",
+  "terms": [
+    {
+      "id": "place:T001",
+      "zh": "石津镇",
+      "ja": "ストーンフォード",
+      "ko": "스톤포드",
+      "en": "Stoneford",
+      "also": [
+        "Stone Ford",
+        "石津(いしづ)",
+        "石津の町",
+        "Shijin"
+      ]
+    },
+    {
+      "id": "soul:elena",
+      "zh": "艾琳娜",
+      "ja": [
+        "エレナ・ヴェイル",
+        "エレナ"
+      ],
+      "ko": [
+        "엘레나 베일",
+        "엘레나"
+      ],
+      "en": [
+        "Elena Vale",
+        "Elena"
+      ],
+      "also": [
+        "Ailinna",
+        "아이린나"
+      ]
+    },
+    {
+      "id": "soul:rowan",
+      "zh": [
+        "罗文·派克",
+        "罗文"
+      ],
+      "ja": [
+        "ローワン・パイク",
+        "ローワン"
+      ],
+      "ko": [
+        "로완 파이크",
+        "로완"
+      ],
+      "en": [
+        "Rowan Pike",
+        "Rowan"
+      ],
+      "also": [
+        "Luowen",
+        "羅文"
+      ]
+    },
+    {
+      "id": "npc:heron",
+      "zh": "赫伦",
+      "ja": "ヘロン",
+      "ko": "헤론",
+      "en": "Heron"
+    },
+    {
+      "id": "npc:reed",
+      "zh": "老苇",
+      "ja": [
+        "リード爺さん",
+        "リード"
+      ],
+      "ko": [
+        "리드 영감",
+        "리드"
+      ],
+      "en": [
+        "Old Reed",
+        "Reed"
+      ],
+      "also": [
+        "老リード",
+        "Old Wei"
+      ]
+    },
+    {
+      "id": "npc:mira",
+      "zh": "米拉",
+      "ja": "ミラ",
+      "ko": "미라",
+      "en": "Mira"
+    },
+    {
+      "id": "npc:cass",
+      "zh": "卡斯",
+      "ja": "キャス",
+      "ko": "캐스",
+      "en": "Cass"
+    },
+    {
+      "id": "npc:vera",
+      "zh": "薇拉",
+      "ja": "ヴェラ",
+      "ko": "베라",
+      "en": "Vera"
+    },
+    {
+      "id": "npc:oldfish",
+      "zh": "老鱼",
+      "ja": "魚じい",
+      "ko": "물고기 영감",
+      "en": "Old Fish"
+    },
+    {
+      "id": "npc:gerda",
+      "zh": "葛拉",
+      "ja": "ゲルダ",
+      "ko": "게르다",
+      "en": "Gerda",
+      "also": [
+        "Gela"
+      ]
+    },
+    {
+      "id": "npc:tiger",
+      "zh": "独眼虎",
+      "ja": "隻眼の虎",
+      "ko": "외눈 호랑이",
+      "en": "One-Eyed Tiger",
+      "also": [
+        "Duyanhu"
+      ]
+    },
+    {
+      "id": "npc:milo",
+      "zh": "阿沐",
+      "ja": "ミロ",
+      "ko": "마일로",
+      "en": "Milo",
+      "also": [
+        "A-Mu",
+        "Amu"
+      ]
+    },
+    {
+      "id": "npc:kasa",
+      "zh": "卡萨",
+      "ja": "カーサ",
+      "ko": "카사",
+      "en": "Kasa"
+    },
+    {
+      "id": "npc:ironpost",
+      "zh": "铁柱",
+      "ja": "鉄柱",
+      "ko": "쇠기둥",
+      "en": "Ironpost"
+    },
+    {
+      "id": "npc:vance",
+      "zh": "老范",
+      "ja": "ヴァンス爺さん",
+      "ko": "밴스 영감",
+      "en": "Old Vance",
+      "also": [
+        "Old Fan",
+        "老ファン"
+      ]
+    },
+    {
+      "id": "npc:crow_eye",
+      "zh": "鸦目",
+      "ja": "カラスの目",
+      "ko": "까마귀눈",
+      "en": "Crow-Eye",
+      "also": [
+        "鴉目(あめ)"
+      ]
+    },
+    {
+      "id": "npc:wren",
+      "zh": "小翠",
+      "ja": "レン",
+      "ko": "렌",
+      "en": "Wren",
+      "also": [
+        "Cui",
+        "翠(スイ)"
+      ]
+    },
+    {
+      "id": "npc:green",
+      "zh": "格林婆婆",
+      "ja": "グリーン婆さん",
+      "ko": "그린 할멈",
+      "en": "Granny Green",
+      "also": [
+        "グリン婆さん"
+      ]
+    },
+    {
+      "id": "npc:damon",
+      "zh": "达蒙",
+      "ja": "デイモン",
+      "ko": "데이먼",
+      "en": "Damon"
+    },
+    {
+      "id": "npc:silas",
+      "zh": "塞拉斯",
+      "ja": "サイラス",
+      "ko": "사일러스",
+      "en": "Silas"
+    },
+    {
+      "id": "place:T004",
+      "zh": "碧石镇",
+      "ja": "ジェイドストーン",
+      "ko": "제이드스톤",
+      "en": "Jadestone",
+      "also": [
+        "碧石(へきせき)",
+        "碧石の町"
+      ]
+    },
+    {
+      "id": "place:T002",
+      "zh": "风栈堡",
+      "ja": "ウィンドステイ砦",
+      "ko": "윈드스테이 요새",
+      "en": "Windstay Keep",
+      "also": [
+        "風桟の砦"
+      ]
+    },
+    {
+      "id": "place:T003",
+      "zh": "狼牙关",
+      "ja": "ウルフスファング峠",
+      "ko": "울프스팽 고개",
+      "en": "Wolfsfang Pass",
+      "also": [
+        "狼牙関"
+      ]
+    },
+    {
+      "id": "place:T005",
+      "zh": "雾湖城",
+      "ja": "ミストレイク",
+      "ko": "미스트레이크",
+      "en": "Mistlake",
+      "also": [
+        "霧湖(むこ)の都",
+        "霧湖の都"
+      ]
+    },
+    {
+      "id": "place:D001",
+      "zh": "苔墓",
+      "ja": "モスバロウ",
+      "ko": "모스배로",
+      "en": "Mossbarrow",
+      "also": [
+        "Moss Tomb Hollow",
+        "苔墓(こけばか)"
+      ]
+    },
+    {
+      "id": "place:inn",
+      "zh": "河灯旅店",
+      "ja": "リバーランプ亭",
+      "ko": "리버램프 여관",
+      "en": "Riverlamp Inn",
+      "also": [
+        "河灯亭"
+      ]
+    },
+    {
+      "id": "place:tavern_T004",
+      "zh": "翠晶酒馆",
+      "ja": "ジェイドクリスタル亭",
+      "ko": "제이드크리스털 주점",
+      "en": "Jade-Crystal Tavern",
+      "also": [
+        "翠晶亭"
+      ]
+    },
+    {
+      "id": "region:north",
+      "zh": "灰雾北境",
+      "ja": "灰霧の北境",
+      "ko": "잿빛안개 북방",
+      "en": "Greyfog North",
+      "also": [
+        "The Gray-Fog North"
+      ]
+    },
+    {
+      "id": "region:frostwolf",
+      "zh": "霜狼王国",
+      "ja": "フロストウルフ王国",
+      "ko": "프로스트울프 왕국",
+      "en": "Frostwolf Kingdom",
+      "also": [
+        "霜狼(そうろう)王国"
+      ]
+    },
+    {
+      "id": "region:emerald",
+      "zh": "翡翠联盟",
+      "ja": "エメラルド同盟",
+      "ko": "에메랄드 연맹",
+      "en": "Emerald League",
+      "also": [
+        "翡翠同盟"
+      ]
+    },
+    {
+      "id": "region:greysea",
+      "zh": "灰海",
+      "ja": "灰色の海",
+      "ko": "잿빛 바다",
+      "en": "Grey Sea",
+      "also": [
+        "灰海(はいかい)",
+        "Gray Sea"
+      ]
+    },
+    {
+      "id": "title",
+      "zh": "雾退之夜",
+      "ja": "霧の退く夜",
+      "ko": "안개가 물러나는 밤",
+      "en": "The Night the Fog Withdraws"
+    },
+    {
+      "id": "org:post_road_company",
+      "zh": "驿路商会",
+      "ja": "街道商会",
+      "ko": "역로 상단",
+      "en": "Post Road Company"
+    },
+    {
+      "id": "org:miners_guild",
+      "zh": "矿工会",
+      "ja": "鉱夫組合",
+      "ko": "광업 조합",
+      "en": "Miners' Guild"
+    },
+    {
+      "id": "place:town_office",
+      "zh": "镇署",
+      "ja": "町役場",
+      "ko": "마을 관청",
+      "en": "Town Office"
+    },
+    {
+      "id": "place:gate_north",
+      "zh": "北门",
+      "ja": "北門",
+      "ko": "북문",
+      "en": "North Gate"
+    },
+    {
+      "id": "place:road_camp",
+      "zh": "驿路营地",
+      "ja": "街道の野営地",
+      "ko": "역로 야영지",
+      "en": "Post-Road Camp"
+    },
+    {
+      "id": "term:scouting_party",
+      "zh": "探路队",
+      "ja": "探索隊",
+      "ko": "정찰대",
+      "en": "scouting party"
+    },
+    {
+      "id": "term:fog_season",
+      "zh": "雾期",
+      "ja": "霧の季節",
+      "ko": "안개철",
+      "en": "fog season"
+    },
+    {
+      "id": "item:writ",
+      "zh": "通行令",
+      "ja": "通行証",
+      "ko": "통행증",
+      "en": "writ of passage"
+    },
+    {
+      "id": "item:jade_goods",
+      "zh": [
+        "碧石货物",
+        "碧石"
+      ],
+      "ja": "翡翠の原石",
+      "ko": "비취석",
+      "en": "Jade"
+    },
+    {
+      "id": "world:kagura",
+      "zh": "神乐岛",
+      "ja": "カグラ",
+      "ko": "카구라",
+      "en": "Kagura"
+    },
+    {
+      "id": "npc:hest",
+      "zh": "赫斯特",
+      "ja": "ヘスト",
+      "ko": "헤스트",
+      "en": "Hest"
+    },
+    {
+      "id": "term:soul_charter",
+      "zh": "灵魂宪章",
+      "ja": "ソウル憲章",
+      "ko": "소울 헌장",
+      "en": "Soul Charter"
+    },
+    {
+      "id": "faction:crown",
+      "zh": "王冠",
+      "ja": "王冠",
+      "ko": "왕관",
+      "en": "Crown"
+    },
+    {
+      "id": "faction:faith",
+      "zh": "信仰",
+      "ja": "信仰",
+      "ko": "신앙",
+      "en": "Faith"
+    },
+    {
+      "id": "faction:free_north",
+      "zh": "自由北境",
+      "ja": "自由北方",
+      "ko": "자유 북방",
+      "en": "Free North"
+    },
+    {
+      "id": "faction:union",
+      "zh": "联盟",
+      "ja": "連合",
+      "ko": "연합",
+      "en": "Union"
+    },
+    {
+      "id": "faction:fog",
+      "zh": "雾",
+      "ja": "霧",
+      "ko": "안개",
+      "en": "Fog"
+    },
+    {
+      "id": "faction:guild",
+      "zh": "公会",
+      "ja": "ギルド",
+      "ko": "길드"
+    },
+    {
+      "id": "faction:listeners",
+      "zh": "聆听者",
+      "ja": "聴く者",
+      "ko": "듣는 자",
+      "en": "Listeners"
+    },
+    {
+      "id": "faction:crossers",
+      "zh": "渡者",
+      "ja": "渡る者",
+      "ko": "건너는 자",
+      "en": "Crossers"
+    }
+  ]
+}

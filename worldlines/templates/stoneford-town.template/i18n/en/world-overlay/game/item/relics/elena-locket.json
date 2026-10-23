@@ -1,0 +1,13 @@
+{
+  "id": "elena-locket",
+  "kind": "item",
+  "name": "Elena's Silver Locket",
+  "tags": [
+    "relic",
+    "keepsake",
+    "elena"
+  ],
+  "summary": "A small silver locket worn to a shine, its chain almost the same color as Elena's silver hair. Set inside the clasp is half of a faded portrait — the other half is gone. She never takes it off.",
+  "engraving": "A line of tiny letters is engraved on the inner wall of the locket: 'Return to Stoneford before the spring floods. — R'",
+  "owner": "elena"
+}

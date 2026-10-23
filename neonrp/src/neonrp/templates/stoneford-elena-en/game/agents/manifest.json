@@ -1,0 +1,137 @@
+{
+  "generated_by": "claude_code_prompt",
+  "version": "1.0.1",
+  "note": "Stone Ford contract roster, retained from the real llm-rpg-starter-derived flow. In stoneford-elena, `game/player/*` remains a compatibility projection for heroine Elena while `playthrough.json + souls/` add explicit soul runtime actors around the same world-agent contract.",
+  "agents": [
+    {
+      "id": "world-agent",
+      "name": "Orchestrator",
+      "agent_path": ".claude/agents/world-agent.md",
+      "role": "Master Orchestrator",
+      "description": "Reads game state, routes to sub-agents, merges patches, updates state",
+      "read_globs": ["game/**"],
+      "write_globs": ["game/run_state.json", "game/lore/notes.md", "game/lore/story.md"],
+      "note": "Important path: game/agents/manifest.json (under the agents subdirectory)"
+    },
+    {
+      "id": "rpg-world-builder",
+      "name": "World Builder",
+      "agent_path": ".claude/agents/rpg-world-builder.md",
+      "role": "World Building",
+      "description": "Manages the world-map structure, expands new regions, updates node state",
+      "read_globs": ["game/world/world_map.json", "game/lore/story.md", "game/lore/notes.md"],
+      "write_globs": ["game/world/world_map.json", "game/world/regions.json", "game/world/factions.json"]
+    },
+    {
+      "id": "rpg-story-narrative",
+      "name": "Story / Narrative",
+      "agent_path": ".claude/agents/rpg-story-narrative.md",
+      "role": "Story / Narrative",
+      "description": "Manages the main story and rumors, appends story chapters",
+      "read_globs": ["game/lore/story.md", "game/lore/notes.md", "game/world/world_map.json", "game/player/flags.json"],
+      "write_globs": ["game/lore/story.md", "game/lore/rumors.md"]
+    },
+    {
+      "id": "rpg-town-agent",
+      "name": "Town Agent",
+      "agent_path": ".claude/agents/rpg-town-agent.md",
+      "role": "Town Agent",
+      "description": "Handles in-town navigation, NPC interaction, facility entrances",
+      "read_globs": ["game/towns/*/town.json", "game/towns/*/town_map.json", "game/towns/*/npcs.json", "game/towns/*/quests.json", "game/towns/*/facilities/*.json", "game/player/profile.json", "game/player/stats.json", "game/player/inventory.json", "game/player/wallet.json", "game/player/flags.json", "game/lore/notes.md"],
+      "write_globs": ["game/towns/*/town_map.json"],
+      "note": "Uses run_state.location.node_id directly as the folder name"
+    },
+    {
+      "id": "rpg-guild-agent",
+      "name": "Guild Agent",
+      "agent_path": ".claude/agents/rpg-guild-agent.md",
+      "role": "Guild Facility",
+      "description": "Manages the quest board, quest acceptance/submission, reputation system",
+      "read_globs": ["game/towns/*/facilities/guild.json", "game/towns/*/quests.json", "game/player/inventory.json", "game/player/wallet.json", "game/player/flags.json", "game/player/profile.json"],
+      "write_globs": ["game/towns/*/facilities/guild.json", "game/towns/*/quests.json", "game/player/inventory.json", "game/player/wallet.json", "game/player/flags.json"],
+      "note": "Uses run_state.location.node_id directly as the folder name"
+    },
+    {
+      "id": "rpg-shop-agent",
+      "name": "Shop Agent",
+      "agent_path": ".claude/agents/rpg-shop-agent.md",
+      "role": "Shop Facility",
+      "description": "Handles buy/sell transactions, inventory management",
+      "read_globs": ["game/towns/*/facilities/shop_*.json", "game/player/inventory.json", "game/player/wallet.json"],
+      "write_globs": ["game/towns/*/facilities/shop_*.json", "game/player/inventory.json", "game/player/wallet.json"],
+      "note": "Uses run_state.location.node_id directly as the folder name"
+    },
+    {
+      "id": "rpg-inn-agent",
+      "name": "Inn Agent",
+      "agent_path": ".claude/agents/rpg-inn-agent.md",
+      "role": "Inn Facility",
+      "description": "Handles rest recovery, the rumor system, time advancement",
+      "read_globs": ["game/towns/*/facilities/inn.json", "game/lore/rumors.md", "game/player/stats.json", "game/player/wallet.json", "game/player/flags.json"],
+      "write_globs": ["game/towns/*/facilities/inn.json", "game/player/stats.json", "game/player/wallet.json", "game/player/flags.json"],
+      "note": "Uses run_state.location.node_id directly as the folder name"
+    },
+    {
+      "id": "rpg-dungeon-agent",
+      "name": "Dungeon Agent",
+      "agent_path": ".claude/agents/rpg-dungeon-agent.md",
+      "role": "Dungeon Agent",
+      "description": "Handles dungeon exploration, room navigation, encounter triggering, boss fights",
+      "read_globs": ["game/dungeons/*/dungeon.json", "game/dungeons/*/layout.json", "game/dungeons/*/rooms/*.json", "game/dungeons/*/encounter_tables.json", "game/dungeons/*/loot_tables.json", "game/player/stats.json", "game/player/inventory.json", "game/player/equipment.json", "game/player/flags.json", "game/rules/combat_rules.md"],
+      "write_globs": ["game/dungeons/*/layout.json", "game/dungeons/*/rooms/*.json", "game/player/flags.json", "game/world/world_map.json"],
+      "note": "Uses run_state.location.node_id directly as the folder name"
+    },
+    {
+      "id": "rpg-combat-referee",
+      "name": "Combat Referee",
+      "agent_path": ".claude/agents/rpg-combat-referee.md",
+      "role": "Combat Referee",
+      "description": "Runs combat rules, turn management, damage calculation, status handling, combat resolution",
+      "read_globs": ["game/rules/combat_rules.md", "game/player/stats.json", "game/player/equipment.json", "game/player/inventory.json"],
+      "write_globs": ["game/player/stats.json", "game/player/inventory.json", "game/player/wallet.json", "game/lore/notes.md"]
+    },
+    {
+      "id": "rpg-notary-archivist",
+      "name": "Notary / Archivist",
+      "agent_path": ".claude/agents/rpg-notary-archivist.md",
+      "role": "Notary / Archivist",
+      "description": "Records important events to notes.md, updates the player journal journal.md",
+      "read_globs": ["game/**"],
+      "write_globs": ["game/lore/notes.md", "game/player/journal.md"]
+    }
+  ],
+  "routing_rules": {
+    "world": {
+      "description": "World-map layer",
+      "condition": "run_state.location.scope == 'world'",
+      "agents": ["rpg-world-builder"],
+      "transitions": {
+        "enter_town": "scope -> town",
+        "enter_dungeon": "scope -> dungeon",
+        "travel_encounter": "rpg-combat-referee"
+      }
+    },
+    "town": {
+      "description": "Town layer",
+      "condition": "run_state.location.scope == 'town'",
+      "agents": ["rpg-town-agent"],
+      "facilities": {
+        "guild": "rpg-guild-agent",
+        "shop_*": "rpg-shop-agent",
+        "inn": "rpg-inn-agent"
+      }
+    },
+    "dungeon": {
+      "description": "Dungeon layer",
+      "condition": "run_state.location.scope == 'dungeon'",
+      "agents": ["rpg-dungeon-agent"],
+      "transitions": {
+        "encounter": "rpg-combat-referee"
+      }
+    },
+    "end_of_turn": {
+      "description": "End-of-turn archiving",
+      "agents": ["rpg-notary-archivist", "rpg-story-narrative"]
+    }
+  }
+}

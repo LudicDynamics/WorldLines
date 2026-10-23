@@ -1,0 +1,55 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "Stoneford · The Night the Fog Withdraws — Opening",
+  "tags": [
+    "entrypoint",
+    "start",
+    "begin",
+    "start game",
+    "begin adventure"
+  ],
+  "summary": "When the player says \"start game\", the orchestrator reads this file first.",
+  "startup": {
+    "read_first": [
+      "game/meta/game-start.json",
+      "game/meta/run_state.json",
+      "game/meta/roster.json",
+      "game/timeline/current.json",
+      "game/player/controller.json",
+      "game/player/profile.json",
+      "game/player/stats.json",
+      "game/player/equipment.json",
+      "game/player/wallet.json",
+      "game/towns/T001/town.json",
+      "game/lore/story.md"
+    ],
+    "opening_scene": {
+      "en": "The fifth night of the fog season. The fog on the post road is thick enough to wring out, and you stop beneath the last lamp outside the north gate. Cass the gatekeeper, his helmet a size too big for him, swings his spear across your path. \"No guild commission, not one step north. South into town — suit yourself.\" Beyond the gate, Stoneford is crammed with people who cannot leave: a line of caravan wagons stands stranded in the market square, and the inn's windows burn brighter than anything else in town. Cass lowers his voice and adds: \"Midnight the day after tomorrow, the fog withdraws for one night. The whole town's waiting on that night.\""
+    },
+    "opening_choices": {
+      "en": [
+        "Go into town and ask around at the inn",
+        "Look over the commissions at the Adventurers' Guild",
+        "Ask Cass where the north road leads once the fog withdraws"
+      ]
+    }
+  },
+  "world_info": {
+    "world_name": "The Greyfog North",
+    "start_location": "T001 Stoneford",
+    "start_scope": "town",
+    "start_time": {
+      "day": 1,
+      "clock": "08:30"
+    },
+    "genre": "Medieval fantasy TRPG / heroine-led migration demo",
+    "tone": "Grounded, damp, restrained, with consequences",
+    "rules": "d20 checks · see game/rules/combat_rules.md"
+  },
+  "agent_routing": {
+    "entry_agent": "world-agent",
+    "router_type": "sticky",
+    "note": "Every player input goes through the orchestrator first. The orchestrator reads run_state.json and then decides which domain agent to delegate to. Never bypass world-agent and go straight to a domain agent."
+  }
+}

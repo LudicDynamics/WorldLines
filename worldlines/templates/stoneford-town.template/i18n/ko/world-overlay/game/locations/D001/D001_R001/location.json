@@ -1,0 +1,16 @@
+{
+  "id": "D001_R001",
+  "name": "젖은 문 앞방",
+  "type": "entry",
+  "connections": [
+    "D001_R002"
+  ],
+  "state": {
+    "explored": false
+  },
+  "ports": {
+    "up": [
+      "R002"
+    ]
+  }
+}

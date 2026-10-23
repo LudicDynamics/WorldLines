@@ -1,0 +1,15 @@
+{
+  "id": "east_street",
+  "name": "East Street",
+  "type": "street",
+  "description": "The branching road toward the chapel and the mine entrance. The farther east you go, the quieter it grows; you can hear the distant clang from the mine shafts.",
+  "pos": {
+    "x": 600,
+    "y": 280
+  },
+  "connections": [
+    "main_street",
+    "chapel",
+    "mine_entrance"
+  ]
+}

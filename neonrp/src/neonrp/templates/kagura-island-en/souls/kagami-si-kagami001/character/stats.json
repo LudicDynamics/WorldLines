@@ -1,0 +1,12 @@
+{
+  "sid": "kagami",
+  "hp": 100,
+  "max_hp": 100,
+  "skills": [
+    "Brewing Coffee",
+    "Reading People",
+    "Caring for Orphans",
+    "Waen Family Records"
+  ],
+  "age": 34
+}

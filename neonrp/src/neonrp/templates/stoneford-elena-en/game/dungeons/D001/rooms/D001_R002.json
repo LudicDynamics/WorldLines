@@ -1,0 +1,13 @@
+{
+  "id": "D001_R002",
+  "name": "Moss Corridor",
+  "description": "Moss on both sides of the long corridor rises and falls like breathing, and now and then comes a faint whisper.",
+  "features": [
+    "A fork in the path",
+    "May encounter a fog-fang wolf"
+  ],
+  "state": {
+    "explored": false,
+    "cleared": false
+  }
+}

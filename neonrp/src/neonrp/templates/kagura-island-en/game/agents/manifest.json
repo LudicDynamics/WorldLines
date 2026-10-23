@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "generated_by": "kagura-island-orchestrator",
+  "version": "2.0",
+  "note": "Creator-versioned world-agent roster. world-agent is the sole world sovereign: it owns the functional sub-agents below and closes every turn. The cast under souls/ are full M16 soul bundles bound by playthrough.json. Runtime may fan out to active souls concurrently, but world truth still closes through world-agent. No standalone narrator — world-agent integrates and narrates; story-narrative is only a drift fallback.",
+  "agents": [
+    {
+      "id": "world-agent",
+      "name": "World Agent",
+      "role": "orchestrator",
+      "singleton": true,
+      "agent_path": "agents/world-agent/system.md",
+      "description": "Layer-1 master dispatcher / team leader: manages the soul team (parallel + sticky), routes functional sub-agents serially by scope, integrates, advances the loop/magatama/disappearance/taboo, and produces the narrative directly.",
+      "read_globs": ["game/**", ".neonrp/playthrough.json", ".neonrp/manifest.json"],
+      "write_globs": ["game/meta/run_state.json", "game/timeline/*.json", "game/locations/*.json", "game/lore/notes.md", "game/lore/story.md", "game/lore/gm-truth.md"]
+    },
+    {
+      "id": "town-agent",
+      "name": "Town Agent",
+      "role": "functional-sub-agent",
+      "singleton": false,
+      "agent_path": "agents/town-agent/system.md",
+      "description": "Shiomachi Teahouse / town: navigation, venues, NPC interaction, information leads."
+    },
+    {
+      "id": "combat-agent",
+      "name": "Combat Agent",
+      "role": "functional-sub-agent",
+      "singleton": false,
+      "agent_path": "agents/combat-agent/system.md",
+      "description": "Crisis/conflict adjudication: Yuto's reflexive attack on waking, danger, tiered physical conflict."
+    },
+    {
+      "id": "rules-referee",
+      "name": "Rules Referee",
+      "role": "functional-sub-agent",
+      "singleton": false,
+      "agent_path": "agents/rules-referee/system.md",
+      "description": "Non-combat rulings / common-sense checks / irreversible taboo rulings."
+    },
+    {
+      "id": "world-builder",
+      "name": "World Builder",
+      "role": "functional-sub-agent",
+      "singleton": false,
+      "agent_path": "agents/world-builder/system.md",
+      "description": "Island map / area discovered/danger/connections/low-tide accessibility."
+    },
+    {
+      "id": "npc-builder",
+      "name": "NPC Builder",
+      "role": "functional-sub-agent",
+      "singleton": false,
+      "agent_path": "agents/npc-builder/system.md",
+      "description": "Unnamed passerby NPC generation (the named cast is autonomous via souls)."
+    },
+    {
+      "id": "story-narrative",
+      "name": "Story Narrative",
+      "role": "functional-sub-agent",
+      "singleton": false,
+      "agent_path": "agents/story-narrative/system.md",
+      "description": "Fallback second-person thin description when the player enters unauthored content."
+    }
+  ],
+  "soul_team": {
+    "note": "Named cast = isolated soul actors bound by .neonrp/playthrough.json souls[]/active_souls. Each soul is authored as an internal six-specialist contract, but current runtime resolves it as one consolidated soul-agent. world-agent never reads souls/** — souls return results to it."
+  },
+  "routing_rules": {
+    "every_turn": {
+      "description": "world-agent owns the turn; active souls react in parallel; functional sub-agents are routed as needed; world-agent integrates and closes the player-facing narration.",
+      "layer1": "world-agent",
+      "soul_team": "parallel+sticky (playthrough active_souls)",
+      "functional": ["town-agent", "combat-agent", "rules-referee", "world-builder", "npc-builder", "story-narrative"]
+    }
+  }
+}

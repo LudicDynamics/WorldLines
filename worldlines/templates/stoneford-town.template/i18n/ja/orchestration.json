@@ -1,0 +1,10 @@
+{
+  "nodes": {
+    "interaction": {"title": "インタラクション(ゲームクライアント)"},
+    "interaction.move": {"title": "場所を移る"},
+    "interaction.examine": {"title": "調べる"},
+    "interaction.talk": {"title": "話す"},
+    "interaction.approach": {"title": "手を打つ"},
+    "interaction.encounter": {"title": "遭遇"}
+  }
+}

@@ -1,0 +1,10 @@
+{
+ "nodes": {
+  "interaction": {"title": "상호작용(게임 클라이언트)"},
+  "interaction.move": {"title": "장면 이동"},
+  "interaction.examine": {"title": "살펴보기"},
+  "interaction.talk": {"title": "대화"},
+  "interaction.approach": {"title": "방식"},
+  "interaction.encounter": {"title": "조우"}
+ }
+}

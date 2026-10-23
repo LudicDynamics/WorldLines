@@ -1,0 +1,14 @@
+{
+  "id": "shop_general",
+  "name": "石槌(いしづち)の雑貨屋",
+  "type": "facility",
+  "facility_file": "facilities/shop_general.json",
+  "description": "鉱夫と冒険者の補給拠点。縄から爆薬、携行食から地図まで、何でもそろっている。",
+  "pos": {
+    "x": 420,
+    "y": 380
+  },
+  "connections": [
+    "main_street"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "player",
+  "kind": "player",
+  "name": "Player",
+  "tags": [
+    "player",
+    "protagonist",
+    "start"
+  ],
+  "summary": "The player character. 主角，游戏开始时位于起始小镇。",
+  "hp": 100,
+  "max_hp": 100,
+  "gold": 50,
+  "level": 1,
+  "location": "start-town",
+  "inventory": []
+}
+

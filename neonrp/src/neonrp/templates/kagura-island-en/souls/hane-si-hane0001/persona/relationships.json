@@ -1,0 +1,14 @@
+{
+  "sid": "hane",
+  "relationships": {
+    "tsubasa": {
+      "disposition": "younger_sister",
+      "known": false,
+      "truth": "Tsubasa is her older sister; the sisters' fate will repeat itself in her."
+    },
+    "kakaru": {
+      "disposition": "fellow_awakened",
+      "known": false
+    }
+  }
+}

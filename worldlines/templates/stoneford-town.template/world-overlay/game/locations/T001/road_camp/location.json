@@ -1,0 +1,13 @@
+{
+  "id": "road_camp",
+  "name": "驿路营地",
+  "type": "road",
+  "connections": [
+    "gate_north"
+  ],
+  "description": "北门外驿路上的山贼营地:篝火、拒马、一辆矿车横在路中间当路障。再往北,是苔墓和雾。",
+  "pos": {
+    "x": 236,
+    "y": 40
+  }
+}

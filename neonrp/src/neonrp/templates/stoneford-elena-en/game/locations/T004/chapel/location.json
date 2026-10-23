@@ -1,0 +1,14 @@
+{
+  "id": "chapel",
+  "name": "Dawnlight Chapel",
+  "type": "facility",
+  "facility_file": "facilities/chapel.json",
+  "description": "A small chapel dedicated to the God of Light, built of white stone, strikingly solemn and calm amid Jadestone's clamor. Ironpost has mentioned this place.",
+  "pos": {
+    "x": 700,
+    "y": 200
+  },
+  "connections": [
+    "east_street"
+  ]
+}

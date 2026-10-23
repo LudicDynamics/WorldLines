@@ -1,0 +1,20 @@
+{
+  "capacity": 20,
+  "items": [
+    {
+      "id": "travel-bread",
+      "name": "旅用のライ麦パン",
+      "qty": 2
+    },
+    {
+      "id": "lantern",
+      "name": "ランタン",
+      "qty": 1
+    },
+    {
+      "id": "healing-herb",
+      "name": "血止め草の束",
+      "qty": 1
+    }
+  ]
+}

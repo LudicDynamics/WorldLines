@@ -1,0 +1,10 @@
+{
+  "world_id": "W-PCT",
+  "name": "雾巷",
+  "seed": 1005,
+  "routes": [],
+  "time": {
+    "day": 1,
+    "clock": "21:00"
+  }
+}

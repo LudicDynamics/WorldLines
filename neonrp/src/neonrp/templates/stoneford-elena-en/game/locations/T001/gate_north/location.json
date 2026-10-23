@@ -1,0 +1,31 @@
+{
+  "id": "gate_north",
+  "name": "North Gate",
+  "type": "gate",
+  "pos": {
+    "x": 236,
+    "y": 153
+  },
+  "connections": [
+    "main_street",
+    "market-square"
+  ],
+  "kind": "location",
+  "tags": [
+    "town",
+    "entry",
+    "fog"
+  ],
+  "summary": "A crooked wooden gate, cold damp morning fog, a just-woken gatekeeper and flagstones not yet warmed by the day.",
+  "notes": "Stoneford Elena opening scene.",
+  "aliases": [
+    "north-gate"
+  ],
+  "ports": {
+    "up": [
+      "R001",
+      "R002",
+      "R004"
+    ]
+  }
+}

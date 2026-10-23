@@ -1,0 +1,14 @@
+{
+  "id": "shop_general",
+  "name": "ストーンハンマー雑貨店",
+  "type": "facility",
+  "facility_file": "facilities/shop_general.json",
+  "description": "鉱夫と冒険者の補給所。ロープから火薬、携帯食から地図まで、何でもそろう。",
+  "pos": {
+    "x": 420,
+    "y": 380
+  },
+  "connections": [
+    "main_street"
+  ]
+}

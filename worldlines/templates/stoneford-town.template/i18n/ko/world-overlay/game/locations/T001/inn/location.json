@@ -1,0 +1,25 @@
+{
+  "id": "inn",
+  "name": "리버램프 여관",
+  "type": "facility",
+  "facility_file": "facilities/inn.json",
+  "pos": {
+    "x": 621,
+    "y": 268
+  },
+  "connections": [
+    "main_street",
+    "market-square"
+  ],
+  "kind": "location",
+  "tags": [
+    "town",
+    "inn",
+    "mira"
+  ],
+  "summary": "강가의 작은 여관. 나무 창문에 불이 켜지는 건 언제나 이곳이 제일 먼저다. 소식을 듣기에도, 뜨끈한 수프를 찾기에도, 안개 낀 마을의 숨결을 처음으로 제대로 느껴 보기에도 좋은 곳.",
+  "notes": "스톤포드의 기본 여관 장면.",
+  "aliases": [
+    "riverlamp-inn"
+  ]
+}

@@ -1,0 +1,56 @@
+{
+ "worried": {
+  "label": {
+   "zh": "怎么办",
+   "en": "What now?",
+   "ja": "どうしよう",
+   "ko": "어떡해"
+  },
+  "when": "anxious, doesn't know what to do"
+ },
+ "stubborn": {
+  "label": {
+   "zh": "我不走",
+   "en": "I'm not leaving",
+   "ja": "帰らない",
+   "ko": "안 가"
+  },
+  "when": "when told to leave"
+ },
+ "afraid": {
+  "label": {
+   "zh": "有声音",
+   "en": "I heard something",
+   "ja": "音がした",
+   "ko": "소리 났어"
+  },
+  "when": "a noise in the house"
+ },
+ "relieved": {
+  "label": {
+   "zh": "太好了",
+   "en": "Thank goodness",
+   "ja": "よかった",
+   "ko": "다행이다"
+  },
+  "when": "relieved"
+ },
+ "tearful": {
+  "label": {
+   "zh": "舅舅……",
+   "en": "Uncle...",
+   "ja": "叔父さん……",
+   "ko": "삼촌……"
+  },
+  "when": "thinking of her uncle, sad"
+ },
+ "resolute": {
+  "label": {
+   "zh": "一起找",
+   "en": "Let's find him",
+   "ja": "一緒に探そう",
+   "ko": "같이 찾자"
+  },
+  "when": "determined, pulling the player along"
+ }
+}

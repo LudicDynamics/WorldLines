@@ -1,0 +1,86 @@
+{
+ "gates": {
+  "T001/road_camp": {
+   "if": [
+    {
+     "any": [
+      {
+       "var": "P20.pass",
+       ">=": 1
+      },
+      {
+       "flag": "gate_opened"
+      }
+     ]
+    }
+   ],
+   "refuse": "캐스가 창을 가로로 눕혀 길을 막는다. 「길드 의뢰가 없으면 북쪽으로는 한 발짝도 안 돼.」"
+  },
+  "D001/D001_R001": {
+   "if": [
+    {
+     "var": "P20.stage",
+     ">=": 2
+    }
+   ],
+   "refuse": "안개 벽이 북쪽 길을 짓누르고 있다. 열 걸음도 못 가 방향을 잃는다. 안개가 물러날 때까지 기다려야 한다."
+  }
+ },
+ "links": [
+  [
+   "T001/road_camp",
+   "D001/D001_R001"
+  ]
+ ],
+ "approaches": {
+  "persuade": {
+   "label": "설득",
+   "check": "resist",
+   "bonus_cares": 20,
+   "on_ok": [
+    {
+     "flag": "persuaded.{who}"
+    }
+   ]
+  },
+  "steal": {
+   "label": "훔치기",
+   "check": 45,
+   "night": 15,
+   "alert_cost": 10,
+   "on_ok": [
+    {
+     "flag": "stole.{who}"
+    }
+   ],
+   "on_fail": [
+    {
+     "var": "town.alert",
+     "add": 1
+    }
+   ],
+   "react": "on_fail"
+  },
+  "recruit": {
+   "label": "동행 권유",
+   "check": null,
+   "on_ok": [
+    {
+     "flag": "joined.{who}"
+    }
+   ]
+  },
+  "ask": {
+   "label": "탐문"
+  },
+  "quest": {
+   "label": "길드 의뢰"
+  },
+  "trade": {
+   "label": "거래"
+  },
+  "rest": {
+   "label": "휴식"
+  }
+ }
+}

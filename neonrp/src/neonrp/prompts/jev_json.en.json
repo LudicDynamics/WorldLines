@@ -1,0 +1,81 @@
+{
+ "none": "none of these",
+ "only_desc": "only description — nothing in the world changed",
+ "player": "the player",
+ "world": "the world",
+ "player_words": [
+  "the player",
+  "you",
+  "player"
+ ],
+ "nothing": [
+  "no change",
+  "nothing changed"
+ ],
+ "connectors": [
+  " because ",
+  " so ",
+  " from ",
+  " to ",
+  " into ",
+  " became ",
+  " turned into ",
+  " and ",
+  " then ",
+  " after ",
+  " about ",
+  " at "
+ ],
+ "from_to": [
+  [
+   "from",
+   "to"
+  ],
+  [
+   "from",
+   "into"
+  ],
+  [
+   "went from",
+   "to"
+  ]
+ ],
+ "prop_keys": [
+  "weather",
+  "door",
+  "light",
+  "state",
+  "mood",
+  "attitude"
+ ],
+ "q_kind": "Which kind of change in the world is this line? Which of our tools records it?\n“{line}”",
+ "q_field": "“{line}”\nRecording this line with the tool {op} ({doc}), what should the field “{field}” be?",
+ "field_q": {
+  "move_to.who": "In this line, who moves?",
+  "move_to.to": "In this line, where does the move end?",
+  "set.var": "In this line, which value changed?",
+  "set.value": "In this line, what did it become?",
+  "add.var": "In this line, which value went up or down?",
+  "add.delta": "In this line, by how much did it go up or down?",
+  "flag.key": "What event does this line record?",
+  "new.class": "Which kind of thing is the new thing?",
+  "new.name": "What is the new thing called?",
+  "patch.who": "In this line, whose / what's property changed?",
+  "patch.props_key": "Which property changed?",
+  "patch.props_value": "What did that property become?",
+  "remove.who": "In this line, what left the world, was used up or ended?",
+  "link.a": "One end of the new road?",
+  "link.b": "The other end of the new road?",
+  "unlink.a": "One end of the cut road?",
+  "unlink.b": "The other end of the cut road?",
+  "new_npc.name": "What is the new person called?",
+  "new_npc.at": "Where is this person?",
+  "new_npc.role": "What does this person do?",
+  "new_location.name": "What is the new place called?",
+  "new_location.parent": "Next to / inside which place is it?",
+  "end_combat.outcome": "How did the fight end?"
+ },
+ "q_tag": "Does `lines[{i}]` describe a change in the world of the kind the tool {op} records? ({op}: {doc})",
+ "q_var": "Do the changes in `lines` say that the variable {var} (now {now}) changed?",
+ "q_var_to": "According to `lines`, what did the variable {var} (now {now}) become?"
+}

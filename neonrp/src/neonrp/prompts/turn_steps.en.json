@@ -1,0 +1,101 @@
+{
+ "steps": {
+  "clock": {
+   "title": "World clock",
+   "doc": "The world's time moves one step before the turn, so everyone sees the same time"
+  },
+  "scene_route": {
+   "title": "Who is here",
+   "doc": "Finds the characters at the player's place by location (only those present act)"
+  },
+  "s1_plan": {
+   "title": "S1 forecast (Jev)",
+   "doc": "One Jev judgment: what the player means · whether each character moves and how deeply · the mood; without Jev, the fallback plan (everyone present acts)"
+  },
+  "player_gate": {
+   "title": "The player's line",
+   "doc": "The player's words as an attempt: what they try · whether they can know what they mention (runs before the characters act)"
+  },
+  "s2_souls": {
+   "title": "S2 characters act in parallel",
+   "doc": "Characters present act at the same time at the depth S1 gave (silent / gesture / speak / act); those away take a beat where they are"
+  },
+  "followups": {
+   "title": "S1 follow-up",
+   "doc": "After the characters answer, one more judgment: does the host still need to ask anyone (if not, the ask tools are put away)"
+  },
+  "pack": {
+   "title": "Pack the world",
+   "doc": "The world the narrator reads, in one pack (places · people · state · recent events)"
+  },
+  "understand": {
+   "title": "Read the line",
+   "doc": "What the world says about each thing the player mentions (nobody vouches for what is not there)"
+  },
+  "gate": {
+   "title": "Pre-ruling / enter a layer",
+   "doc": "The rules rule this beat in advance (a referee) · force a layer when needed (an ambush on the road → combat) · fire async tools itself"
+  },
+  "mode_layer": {
+   "title": "Layer",
+   "doc": "Inside a layer (combat · a dungeon) the whole prompt is the layer's, plus the layer's state"
+  },
+  "solve": {
+   "title": "Narration call",
+   "doc": "One model call writes the beat, calling tools as it goes (dice · map …) and waiting for the engine's answer before it goes on"
+  },
+  "verify": {
+   "title": "Verify",
+   "doc": "Each proposed change is checked against the registry and the rules; fixable ones go back for a rewrite (a few times at most)"
+  },
+  "apply": {
+   "title": "Apply",
+   "doc": "The changes that passed are written into the world (state · files)"
+  },
+  "deferred_fire": {
+   "title": "Async tools",
+   "doc": "Tools that are not waited for (map · panels) are drawn after the beat lands (so they show where things ended up)"
+  },
+  "settle": {
+   "title": "Characters settle",
+   "doc": "What each character present remembers after the beat (written into their own memory)"
+  },
+  "after_turn": {
+   "title": "After the turn",
+   "doc": "Wrap-up after the turn (pictures for new things · triggers)"
+  },
+  "ticks": {
+   "title": "Background units",
+   "doc": "The economy · effect countdowns · characters elsewhere · the pack's own rules, each within its declared writes"
+  },
+  "land": {
+   "title": "Commit",
+   "doc": "The turn is committed as a version and its beat events go to the front ends"
+  }
+ },
+ "params": {
+  "turn.plan.backend": "Who judges",
+  "turn.plan.confidence": "How sure a judgment must be",
+  "turn.plan.react": "When a character counts as moved",
+  "turn.plan.fallback_depth": "How deeply characters act when unsure",
+  "turn.player_gate": "On / off",
+  "turn.parallel.souls.default_variant": "How characters act",
+  "turn.parallel.souls.max_workers": "How many act at once",
+  "turn.parallel.souls.timeout_s": "How long one character may think (s)",
+  "turn.parallel.souls.escalate_at": "When a character thinks one more round",
+  "turn.parallel.souls.escalate_turns": "At most how many extra rounds",
+  "turn.parallel.souls.heavy_at": "When the heavy path is taken",
+  "turn.parallel.souls.decide_conf": "How sure a character must be to decide alone",
+  "turn.parallel.souls.adjudicate": "Rule on persuasion (1 / 0)",
+  "turn.plan.pack_budget": "Pack size cap in characters (0 = engine default)",
+  "turn.solve.max_ops": "At most how many changes per beat",
+  "turn.solve.history": "How many rounds of history",
+  "turn.solve.sections": "How output sections are marked",
+  "turn.solve.async_mark": "How async tools are marked",
+  "turn.verify.gate.max_loops": "At most how many rewrites",
+  "turn.verify.l2": "Semantic check",
+  "turn.verify.grounded_min": "How grounded a change must be",
+  "turn.verify.missed_min": "When something counts as missed",
+  "turn.apply.writers": "Write by ownership"
+ }
+}

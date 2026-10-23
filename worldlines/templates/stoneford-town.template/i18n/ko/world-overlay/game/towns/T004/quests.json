@@ -1,0 +1,57 @@
+{
+  "town_id": "T004",
+  "quests": [
+    {
+      "qid": "Q_T004_01",
+      "title": "갱도 깊은 곳의 이상한 소리",
+      "tier": 2,
+      "summary": "광산 3층에서 정체 모를 소리가 나서 광부들이 내려가기를 거부하고 있다. 원인을 조사하고 위협을 제거할 것.",
+      "reward": {
+        "gold": 60,
+        "item": {
+          "id": "raw_crystal",
+          "name": "세공 전 수정 원석",
+          "qty": 2
+        }
+      },
+      "hooks": [
+        "mine_entrance"
+      ],
+      "state": "available"
+    },
+    {
+      "qid": "Q_T004_02",
+      "title": "비취 광맥의 수호자",
+      "tier": 3,
+      "summary": "새로 발견된 비취 광맥 깊은 곳에 무언가가 살고 있다. 광업 조합이 큰돈을 걸고 퇴치를 의뢰했다.",
+      "reward": {
+        "gold": 150
+      },
+      "hooks": [
+        "mine_entrance"
+      ],
+      "requires": [
+        "Q_T004_01_completed"
+      ],
+      "state": "locked"
+    },
+    {
+      "qid": "Q_T004_03",
+      "title": "약초 채집: 달맞이꽃",
+      "tier": 1,
+      "summary": "그린 할멈이 광산 바깥 산비탈의 달맞이꽃을 찾는다. 다섯 포기만 캐 오면 된다.",
+      "reward": {
+        "gold": 15,
+        "item": {
+          "id": "healing_salve",
+          "name": "치유 연고",
+          "qty": 2
+        }
+      },
+      "hooks": [
+        "herb_shop"
+      ],
+      "state": "available"
+    }
+  ]
+}

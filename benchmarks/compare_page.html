@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>v3 实验对照台</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#EDF0F3; --paper:#FFFFFF; --well:#F6F8FA; --ink:#182028; --ink-2:#48545E; --ink-3:#7B8790; --line:#D6DCE1; --line-2:#BFC8CF;
+  --acc:#1F6F8B; --acc-bg:#DDEEF4; --jev:#6D4AA6; --jev-bg:#ECE4F7; --llm:#B0761C; --llm-bg:#FBEFD8;
+  --good:#1E8E5A; --good-bg:#DDF3E7; --bad:#C23B3B; --bad-bg:#F9E1E1; --warn:#B8860B; --warn-bg:#FBF1D2;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace; --sans:"Noto Sans SC","PingFang SC","Hiragino Sans GB",system-ui,sans-serif; --serif:"Noto Serif SC","Songti SC",serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F1418; --paper:#161C22; --well:#1B232B; --ink:#E6EAEE; --ink-2:#AEB8C1; --ink-3:#7F8B95; --line:#28323B; --line-2:#36424C;
+  --acc:#6FB6D0; --acc-bg:#15303B; --jev:#B79AE6; --jev-bg:#2B2140; --llm:#E0A748; --llm-bg:#3A2C12;
+  --good:#4CCB8C; --good-bg:#12331F; --bad:#F07474; --bad-bg:#3E1C1C; --warn:#E3B84B; --warn-bg:#3A2F10;}}
+:root[data-theme="dark"]{
+  --bg:#0F1418; --paper:#161C22; --well:#1B232B; --ink:#E6EAEE; --ink-2:#AEB8C1; --ink-3:#7F8B95; --line:#28323B; --line-2:#36424C;
+  --acc:#6FB6D0; --acc-bg:#15303B; --jev:#B79AE6; --jev-bg:#2B2140; --llm:#E0A748; --llm-bg:#3A2C12;
+  --good:#4CCB8C; --good-bg:#12331F; --bad:#F07474; --bad-bg:#3E1C1C; --warn:#E3B84B; --warn-bg:#3A2F10;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14.5px;line-height:1.7}
+a{color:var(--acc)}
+.wrap{max-width:1360px;margin:0 auto;padding:22px 16px 80px}
+h1{font-family:var(--serif);font-size:26px;margin:0;line-height:1.2;text-wrap:balance}
+h2{font-size:16px;font-weight:700;margin:26px 0 8px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.sub{color:var(--ink-2);margin:6px 0 0;max-width:80ch}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:18px 0 12px;position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:5;border-bottom:1px solid var(--line)}
+.tab{border:1px solid var(--line-2);background:var(--paper);color:var(--ink-2);border-radius:4px;padding:6px 12px;font-family:var(--mono);font-size:12px;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--acc);border-color:var(--acc);color:#fff}
+.tab:focus-visible,.chk:focus-visible,button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.panel{display:grid;grid-template-columns:360px 1fr;gap:16px;align-items:start}
+@media (max-width:900px){.panel{grid-template-columns:1fr}}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:12px 14px}
+.card h3{margin:0 0 8px;font-size:13px;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:left;padding:5px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.bar{height:8px;background:var(--well);border-radius:2px;overflow:hidden;min-width:70px}
+.bar i{display:block;height:100%;background:var(--acc)}
+.bar.t i{background:var(--llm)}
+.runs{display:flex;flex-direction:column;gap:4px}
+.chk{display:flex;gap:8px;align-items:center;font-family:var(--mono);font-size:12px;cursor:pointer;padding:3px 4px;border-radius:3px}
+.chk:hover{background:var(--well)}
+.chk input{margin:0}
+.opts{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;font-size:12.5px;color:var(--ink-2)}
+.opts label{display:flex;gap:5px;align-items:center;cursor:pointer}
+.overall{border-left:3px solid var(--jev);background:var(--jev-bg);padding:10px 12px;border-radius:4px;font-size:13.5px;white-space:pre-wrap}
+.turn{margin-top:14px;background:var(--paper);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.turn > header{display:flex;gap:10px;align-items:baseline;padding:9px 14px;background:var(--well);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.turn > header .id{font-family:var(--mono);font-weight:600;color:var(--acc)}
+.turn > header .in{color:var(--ink);flex:1;min-width:200px}
+.turn > header .diff{font-family:var(--mono);font-size:11px;color:var(--warn)}
+.cols{display:grid;gap:0;grid-auto-flow:column;grid-auto-columns:minmax(260px,1fr);overflow-x:auto}
+.col{padding:10px 14px;border-right:1px solid var(--line);min-width:0}
+.col:last-child{border-right:0}
+.col .lab{font-family:var(--mono);font-size:12px;font-weight:600;display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.chips{display:flex;gap:4px;flex-wrap:wrap;margin:4px 0 8px}
+.chip{font-family:var(--mono);font-size:10.5px;padding:1px 6px;border-radius:3px;background:var(--well);color:var(--ink-2);border:1px solid var(--line)}
+.chip.ok{background:var(--good-bg);color:var(--good);border-color:transparent}
+.chip.no{background:var(--bad-bg);color:var(--bad);border-color:transparent}
+.chip.na{background:var(--well);color:var(--ink-3)}
+.chip.ms{background:var(--llm-bg);color:var(--llm);border-color:transparent}
+.chip.det{background:var(--acc-bg);color:var(--acc);border-color:transparent}
+.chip.det.no{background:var(--bad-bg);color:var(--bad)}
+.chip.best{background:var(--jev);color:#fff;border-color:transparent}
+.speech{border-left:3px solid var(--llm);background:var(--llm-bg);padding:6px 10px;border-radius:0 4px 4px 0;margin:0 0 8px;white-space:pre-wrap;font-size:13.5px}
+.speech.none{color:var(--ink-3);border-left-color:var(--line-2);background:var(--well)}
+.narr{white-space:pre-wrap;color:var(--ink-2);font-size:13.5px;position:relative}
+.narr.clamp{max-height:9.5em;overflow:hidden}
+.narr.clamp::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3em;background:linear-gradient(transparent,var(--paper))}
+.more{font-family:var(--mono);font-size:11px;color:var(--acc);background:none;border:0;padding:2px 0;cursor:pointer}
+.dec{margin-top:8px;font-size:12.5px;border-left:3px solid var(--jev);background:var(--jev-bg);padding:6px 10px;border-radius:0 4px 4px 0}
+.dec b{font-family:var(--mono);font-size:11.5px}
+.dec ol{margin:4px 0 0 16px;padding:0;color:var(--ink-2)}
+.crit{padding:10px 14px;border-top:1px dashed var(--line-2);background:var(--well);font-size:13px}
+.crit .rank{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:4px;font-family:var(--mono);font-size:11.5px}
+.crit .notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 14px;color:var(--ink-2);margin:4px 0}
+.crit .notes b{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+.crit .verdict{margin-top:4px}
+.empty{color:var(--ink-3);padding:20px;text-align:center}
+.legend{font-size:12px;color:var(--ink-3);margin-top:8px}
+@media (prefers-reduced-motion:no-preference){.turn{transition:opacity .15s}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">NeonRP · 引擎 v3 · benchmarks/compare.py · stoneford-elena · deepseek</div>
+  <h1 style="margin-top:6px">v3 实验对照台</h1>
+  <p class="sub">每个套题的每次跑都在这里。左边选几栏并排,右边每回合一行:分数、艾琳娜台词、叙事、裁决链;行尾是 deepseek 对这几个版本的评审(排名 + 一句话 + 总评)。数据来自 <code>docs/playrecords/</code> 的归档,不是临时目录。</p>
+  <div class="tabs" role="tablist" id="tabs"></div>
+  <div id="root"></div>
+</div>
+<script>
+const DATA = /*__DATA__*/null;
+const $ = (s, r=document) => r.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const state = { suite: null, sel: {}, onlyDiff: false, full: false };
+try { const s = JSON.parse(localStorage.getItem("cmp-state") || "{}"); Object.assign(state, s); } catch (e) {}
+function save(){ try { localStorage.setItem("cmp-state", JSON.stringify({suite: state.suite, sel: state.sel, onlyDiff: state.onlyDiff, full: state.full})); } catch (e) {} }
+const suites = Object.keys(DATA.suites);
+if (!state.suite || !DATA.suites[state.suite]) state.suite = suites[0];
+for (const k of suites) if (!state.sel[k]) { const labels = Object.keys(DATA.suites[k].runs); state.sel[k] = labels.slice(-Math.min(3, labels.length)); }
+
+function tabs(){
+  const t = $("#tabs"); t.innerHTML = "";
+  for (const k of suites) {
+    const b = document.createElement("button"); b.className = "tab"; b.setAttribute("role","tab"); b.setAttribute("aria-selected", String(k === state.suite));
+    const n = Object.keys(DATA.suites[k].runs).length; b.textContent = `${k} · ${n} 次跑`;
+    b.onclick = () => { state.suite = k; save(); render(); }; t.appendChild(b);
+  }
+}
+function pct(x){ return x == null ? "—" : Math.round(x * 100) + "%"; }
+function sec(ms){ return (ms/1000).toFixed(1) + " s"; }
+
+function summaryTable(S){
+  const labels = Object.keys(S.runs);
+  const maxMs = Math.max(...labels.map(l => S.runs[l].summary.ms_median || 0), 1);
+  const hasJev = labels.some(l => S.runs[l].summary.total > 0), hasDet = labels.some(l => S.runs[l].summary.det_n > 0);
+  let h = `<table><thead><tr><th>跑</th>${hasJev ? "<th>Jev 过题</th><th></th>" : ""}${hasDet ? "<th>位置</th>" : ""}<th>中位</th><th></th></tr></thead><tbody>`;
+  for (const l of labels) {
+    const s = S.runs[l].summary;
+    h += `<tr><td class="n">${esc(l)}</td>${hasJev ? `<td class="n">${s.total ? `${s.passed}/${s.total}` : "—"}</td><td><div class="bar"><i style="width:${Math.round((s.rate||0)*100)}%"></i></div></td>` : ""}${hasDet ? `<td class="n">${s.det_n ? `${s.det_ok}/${s.det_n}` : "—"}</td>` : ""}<td class="n">${sec(s.ms_median)}</td><td><div class="bar t"><i style="width:${Math.round(100*(s.ms_median||0)/maxMs)}%"></i></div></td></tr>`;
+  }
+  return h + `</tbody></table><div class='legend'>${hasJev ? "蓝条 = Jev 过题率;" : ""}橙条 = 整回合中位墙钟(相对最慢的一次)。</div>`;
+}
+
+function scoreChips(t){
+  const out = [];
+  for (const [k, v] of Object.entries(t.scores || {})) {
+    if ("v" in v) { out.push(`<span class="chip">${esc(k)}=${esc(v.v)}</span>`); continue; }
+    const cls = v.pass === true ? "ok" : v.pass === false ? "no" : "na";
+    out.push(`<span class="chip ${cls}" title="${esc(k)}">${esc(k)} ${(v.p ?? 0).toFixed(2)}</span>`);
+  }
+  if (t.det != null) out.push(`<span class="chip det ${t.det ? "" : "no"}">位置 ${t.det ? "✓" : "✗"}</span>`);
+  if (t.ms) out.push(`<span class="chip ms">${sec(t.ms)}</span>`);
+  if (t.loops) out.push(`<span class="chip">环 ${t.loops}</span>`);
+  return `<div class="chips">${out.join("")}</div>`;
+}
+function decision(d){
+  if (!d) return "";
+  const roll = d.roll != null ? `骰 ${d.roll} vs 目标 ${d.target}` : (d.stakes === "light" ? `意愿 ${(d.willingness||0).toFixed(2)} 对阈值` : "不裁");
+  return `<div class="dec"><b>${esc(d.stakes)} → ${esc(d.outcome || "—")} · ${esc(roll)}</b><ol>${(d.reasons||[]).map(r => `<li>${esc(r)}</li>`).join("")}</ol></div>`;
+}
+function column(label, t, best){
+  if (!t) return `<div class="col"><div class="lab">${esc(label)}</div><div class="empty">这次跑没有这一回合</div></div>`;
+  const narr = state.full ? "" : "clamp";
+  return `<div class="col"><div class="lab">${esc(label)}${best === label ? '<span class="chip best">评审第一</span>' : ""}</div>${scoreChips(t)}
+    <div class="speech ${t.speech ? "" : "none"}">${t.speech ? esc(t.speech) : "艾琳娜没有台词(不在场 / 沉默 / 只有神态)"}</div>
+    <div class="narr ${narr}">${esc(t.narration)}</div>${state.full ? "" : `<button class="more" data-more>展开叙事</button>`}${decision(t.decision)}</div>`;
+}
+function critique(sk, tid){
+  const c = ((DATA.critique[sk] || {}).turns || {})[tid];
+  if (!c) return "";
+  const rank = (c.ranking || []).map((l, i) => `<span class="chip ${i === 0 ? "best" : ""}">${i+1}. ${esc(l)}</span>`).join("");
+  const notes = Object.entries(c.notes || {}).map(([l, n]) => `<div><b>${esc(l)}</b> ${esc(n)}</div>`).join("");
+  return `<div class="crit"><div class="rank">评审排名 ${rank || "—"}</div><div class="notes">${notes}</div><div class="verdict">${esc(c.verdict || c.error || "")}</div></div>`;
+}
+function differs(turns){
+  const ps = turns.filter(Boolean).map(t => `${t.passed}/${t.total}/${t.det}`);
+  return new Set(ps).size > 1;
+}
+function render(){
+  tabs(); save();
+  const sk = state.suite, S = DATA.suites[sk];
+  const labels = Object.keys(S.runs);
+  const sel = state.sel[sk].filter(l => labels.includes(l));
+  const ids = []; for (const l of labels) for (const t of S.runs[l].turns) if (!ids.includes(t.id)) ids.push(t.id);
+  const overall = (DATA.critique[sk] || {}).overall;
+  let h = `<div class="panel"><div>
+    <div class="card"><h3>${esc(S.title)}</h3><div class="sub" style="margin:0 0 8px;font-size:13px">${esc(S.what)}</div>${summaryTable(S)}</div>
+    <div class="card" style="margin-top:12px"><h3>并排哪几次</h3><div class="runs">${labels.map(l => `<label class="chk"><input type="checkbox" data-run="${esc(l)}" ${sel.includes(l) ? "checked" : ""}> ${esc(l)} <span style="color:var(--ink-3)">${S.runs[l].summary.total ? S.runs[l].summary.passed + "/" + S.runs[l].summary.total : ""}</span></label>`).join("")}</div>
+      <div class="opts"><label><input type="checkbox" data-opt="onlyDiff" ${state.onlyDiff ? "checked" : ""}> 只看结果不同的回合</label><label><input type="checkbox" data-opt="full" ${state.full ? "checked" : ""}> 叙事全文</label></div></div>
+    ${overall ? `<div class="card" style="margin-top:12px"><h3>评审总评 · deepseek</h3><div class="overall">${esc(overall)}</div></div>` : `<div class="card" style="margin-top:12px"><h3>评审总评</h3><div class="sub" style="font-size:13px;margin:0">还没跑评审:<code>uv run python benchmarks/compare.py --critique --suites ${sk}</code></div></div>`}
+  </div><div id="turns">`;
+  let shown = 0;
+  for (const tid of ids) {
+    const ts = sel.map(l => S.runs[l].turns.find(t => t.id === tid) || null);
+    if (!ts.some(Boolean)) continue;
+    const diff = differs(ts);
+    if (state.onlyDiff && !diff) continue;
+    shown++;
+    const input = (ts.find(Boolean) || {}).input;
+    const best = (((DATA.critique[sk] || {}).turns || {})[tid] || {}).ranking?.[0];
+    h += `<section class="turn"><header><span class="id">${esc(tid)}</span><span class="in">${esc(input)}</span>${diff ? '<span class="diff">结果不同</span>' : ""}</header>
+      <div class="cols">${ts.map((t, i) => column(sel[i], t, best)).join("")}</div>${critique(sk, tid)}</section>`;
+  }
+  if (!shown) h += `<div class="empty">没有可显示的回合(选至少一次跑,或关掉「只看不同」)</div>`;
+  h += `</div></div>`;
+  $("#root").innerHTML = h;
+  for (const cb of document.querySelectorAll("[data-run]")) cb.onchange = () => { const l = cb.dataset.run; const cur = state.sel[sk]; state.sel[sk] = cb.checked ? [...cur, l] : cur.filter(x => x !== l); render(); };
+  for (const cb of document.querySelectorAll("[data-opt]")) cb.onchange = () => { state[cb.dataset.opt] = cb.checked; render(); };
+  for (const b of document.querySelectorAll("[data-more]")) b.onclick = () => { const n = b.previousElementSibling; n.classList.toggle("clamp"); b.textContent = n.classList.contains("clamp") ? "展开叙事" : "收起"; };
+}
+render();
+</script>
+</body>
+</html>

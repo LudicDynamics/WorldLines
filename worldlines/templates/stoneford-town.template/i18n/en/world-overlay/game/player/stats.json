@@ -1,0 +1,33 @@
+{
+  "level": 1,
+  "hp": {
+    "current": 24,
+    "max": 24
+  },
+  "mp": {
+    "current": 0,
+    "max": 0
+  },
+  "attributes": {
+    "str": 5,
+    "dex": 7,
+    "int": 5,
+    "vit": 6,
+    "cha": 5
+  },
+  "skills": [
+    {
+      "id": "skill_quick_slash",
+      "name": "Quick Slash",
+      "rank": 1,
+      "desc": "Easier to land when you close in with the initiative."
+    },
+    {
+      "id": "skill_hold_ground",
+      "name": "Standing Parry",
+      "rank": 1,
+      "desc": "Easier to hold the line in tight terrain."
+    }
+  ],
+  "status_effects": []
+}

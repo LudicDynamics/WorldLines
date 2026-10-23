@@ -1,0 +1,21 @@
+{
+  "level": "T004",
+  "fit": {
+    "px": 260,
+    "py": 190,
+    "x0": 100.0,
+    "y0": 180.0,
+    "sx": 1.563076923076923,
+    "sy": 2.9272727272727272
+  },
+  "size": [
+    1536,
+    1024
+  ],
+  "layout_hash": "bdd88b2f8433",
+  "backend": "openai",
+  "model": "gpt-image-2",
+  "prompt": "Turn this layout sketch into a painted top-down (slightly isometric) map of 「碧石镇」 — 矿业小镇，盛产翡翠和水晶。冒险者公会分部活跃，矿工与冒险者混居，比周边城镇更热闹喧嚣。东边的小教堂是镇上为数不多的安静去处，而矿区入口通向延伸至山腹深处的地下矿道。 STRICTLY keep the sketch's layout: each marked building, gate, square and dock exactly where drawn, streets along the drawn lines, walls and water where drawn; small ordinary houses fill the rest.\nPlaces (content only — positions come from the sketch):\n- gatehouse 「西门」: 碧石镇的正门，面朝石津镇方向的驿道。门楼上刻着一块巨大的翡翠原石作为镇标。\n- street / square 「矿工大道」: 碧石镇最宽阔的主街。矿车轨道嵌在路面中央，两旁是密集的店铺和摊位。人流不断，热闹非凡。\n- building 「冒险者公会（碧石分部）」: 公会分部比石津的大得多，常年挤满了接任务的冒险者。门口的告示板贴满了委托单。\n- building 「翠晶酒馆」: 碧石镇最大的酒馆兼旅店。门面以碎水晶装饰，夜晚在火光下闪闪发亮。二楼提供住宿。\n- building 「石锤杂货铺」: 矿工和冒险者的补给站。从绳索到炸药，从口粮到地图，应有尽有。\n- building 「青苔草药铺」: 一间被藤蔓缠绕的小店，空气中弥漫着草药的清苦香气。矿工受伤后常来这里买药。\n- building 「鸦目鉴定所」: 矿石鉴定师「鸦目」老范的店铺。据说他那双异色瞳孔能看穿任何矿石的本质。\n- street / square 「东街」: 通往教堂和矿区入口的岔道。越往东走越安静，能听到远处矿洞里传出的叮当声。\n- building 「晨光小教堂」: 供奉光明神的小教堂，白石砌成，在碧石镇的喧嚣中显得格外肃穆宁静。铁柱曾提起过这里。\n- gatehouse 「矿区入口」: 通向地下矿道的巨大洞口。矿车轨道从这里延伸进黑暗中。入口旁有矿业公司的告示和安全警告。\nStyle: Painterly dark-fantasy illustration, muted foggy palette (slate blue, moss green, warm lantern amber), cinematic, highly detailed, no text, no labels, no letters, no UI.",
+  "generated_at": "2026-09-25T23:02:41",
+  "guide": "T004.guide.png"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "museum",
+  "kind": "location",
+  "name": "博物館",
+  "tags": [
+    "museum",
+    "info",
+    "magatama"
+  ],
+  "summary": "島の歴史と神楽祭の由来を展示する。古代の祭器、地図、写真がある。ある年代の記録は飛ばされている。非公開の保管庫に黒い勾玉がある。",
+  "connections": [
+    "town"
+  ],
+  "npcs_default": [],
+  "items": [
+    "magatama-past"
+  ],
+  "discovery_condition": "図書館成功 → 非公開エリア発見"
+}

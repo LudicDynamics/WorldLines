@@ -1,0 +1,21 @@
+{
+  "id": "market-square",
+  "kind": "location",
+  "name": "集市广场",
+  "tags": [
+    "town",
+    "market",
+    "social"
+  ],
+  "summary": "晨市尚未完全铺开，铺着湿布的摊位、沉默的马车、正在冒热气的面包摊。",
+  "connections": [
+    "gate_north",
+    "inn",
+    "guild"
+  ],
+  "notes": "镇上大多数面向城镇的场景都可以从这里分流出去。",
+  "pos": {
+    "x": 154,
+    "y": 116
+  }
+}

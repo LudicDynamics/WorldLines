@@ -1,0 +1,86 @@
+{
+  "gates": {
+    "T001/road_camp": {
+      "if": [
+        {
+          "any": [
+            {
+              "var": "P20.pass",
+              ">=": 1
+            },
+            {
+              "flag": "gate_opened"
+            }
+          ]
+        }
+      ],
+      "refuse": "Cass swings his spear across your path. \"No guild commission, not one step north.\""
+    },
+    "D001/D001_R001": {
+      "if": [
+        {
+          "var": "P20.stage",
+          ">=": 2
+        }
+      ],
+      "refuse": "A wall of fog lies over the north road; ten steps in and you can no longer tell one direction from another. You will have to wait for the fog to withdraw."
+    }
+  },
+  "links": [
+    [
+      "T001/road_camp",
+      "D001/D001_R001"
+    ]
+  ],
+  "approaches": {
+    "persuade": {
+      "label": "Persuade",
+      "check": "resist",
+      "bonus_cares": 20,
+      "on_ok": [
+        {
+          "flag": "persuaded.{who}"
+        }
+      ]
+    },
+    "steal": {
+      "label": "Steal",
+      "check": 45,
+      "night": 15,
+      "alert_cost": 10,
+      "on_ok": [
+        {
+          "flag": "stole.{who}"
+        }
+      ],
+      "on_fail": [
+        {
+          "var": "town.alert",
+          "add": 1
+        }
+      ],
+      "react": "on_fail"
+    },
+    "recruit": {
+      "label": "Invite along",
+      "check": null,
+      "on_ok": [
+        {
+          "flag": "joined.{who}"
+        }
+      ]
+    },
+    "ask": {
+      "label": "Ask around"
+    },
+    "quest": {
+      "label": "Guild commission"
+    },
+    "trade": {
+      "label": "Trade"
+    },
+    "rest": {
+      "label": "Rest"
+    }
+  }
+}

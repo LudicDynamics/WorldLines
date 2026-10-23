@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{TITLE}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700&family=Noto+Sans+SC:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#f3f6f5;--paper:#ffffff;--ink:#17201e;--ink2:#58645f;--line:#dde4e1;--soft:#eaf0ee;
+  --acc:#2c6e68;--acc-soft:#e2efed;--ok:#2f7d4f;--ok-soft:#e3f2e8;--bad:#b4442f;--bad-soft:#f8e6e1;--mid:#a8741a;--mid-soft:#f6eedc;
+  --plan:#eef3f8;--res:#f7f0e6;
+  --serif:"Noto Serif SC",Georgia,serif;--sans:"Noto Sans SC",system-ui,-apple-system,sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#111615;--paper:#171f1d;--ink:#e3eae7;--ink2:#97a5a0;--line:#29332f;--soft:#1d2724;
+  --acc:#62b5ab;--acc-soft:#1c302d;--ok:#62c28a;--ok-soft:#18301f;--bad:#e2806a;--bad-soft:#3a1f19;--mid:#d9a650;--mid-soft:#352a14;
+  --plan:#1a2430;--res:#2b2418;}}
+:root[data-theme="dark"]{
+  --bg:#111615;--paper:#171f1d;--ink:#e3eae7;--ink2:#97a5a0;--line:#29332f;--soft:#1d2724;
+  --acc:#62b5ab;--acc-soft:#1c302d;--ok:#62c28a;--ok-soft:#18301f;--bad:#e2806a;--bad-soft:#3a1f19;--mid:#d9a650;--mid-soft:#352a14;
+  --plan:#1a2430;--res:#2b2418;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 var(--sans)}
+a{color:var(--acc)}
+a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:28px 16px 64px}
+header.top{display:flex;flex-direction:column;gap:6px;margin-bottom:28px}
+.crumb{font:12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+h1{font:700 30px/1.25 var(--serif);margin:0;text-wrap:balance}
+h2{font:700 19px/1.3 var(--serif);margin:36px 0 12px;text-wrap:balance}
+.lede{color:var(--ink2);max-width:68ch;margin:0}
+.facts{display:flex;flex-wrap:wrap;gap:8px 18px;font:13px var(--mono);color:var(--ink2);margin-top:6px}
+.facts b{color:var(--ink);font-weight:600}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:8px}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 12px var(--mono);letter-spacing:.04em;color:var(--ink2);text-transform:uppercase;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.num{font-variant-numeric:tabular-nums;font-family:var(--mono);white-space:nowrap}
+.id{font:600 13px var(--mono);white-space:nowrap}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+.chip{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:4px 11px;font:13px var(--sans);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:var(--paper)}
+.chip .n{font-family:var(--mono);opacity:.7;margin-left:4px}
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+input[type=search]{flex:1;min-width:200px;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:6px;padding:7px 10px;font:14px var(--sans)}
+.tag{display:inline-block;font:12px var(--mono);padding:1px 7px;border-radius:4px;background:var(--soft);color:var(--ink2);margin:1px 4px 1px 0;white-space:nowrap}
+.tag.cat{background:var(--acc-soft);color:var(--acc)}
+.goal{color:var(--ink2);font-size:13px;max-width:62ch}
+.rate{display:inline-flex;align-items:center;gap:8px}
+.bar{width:84px;height:6px;border-radius:3px;background:var(--soft);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--acc)}
+.unset{display:block;margin-top:2px;font:11px var(--mono);color:var(--ink2)}
+.cell{display:inline-block;min-width:44px;text-align:center;padding:2px 6px;border-radius:4px;font:600 12px var(--mono)}
+.c-ok{background:var(--ok-soft);color:var(--ok)}.c-bad{background:var(--bad-soft);color:var(--bad)}.c-mid{background:var(--mid-soft);color:var(--mid)}
+.diff td{background:color-mix(in srgb,var(--mid-soft) 45%,transparent)}
+.case-row{cursor:pointer}.case-row:hover td{background:var(--soft)}
+.md table{font-size:14px}.md{padding:4px 0}
+.beats{display:flex;flex-direction:column;gap:10px;padding:14px}
+.beat{border:1px solid var(--line);border-radius:6px;padding:10px 12px;background:var(--paper)}
+.beat.plan{background:var(--plan)}.beat.resolve{background:var(--res)}
+.beat .say{font-weight:600}
+.beat .meta{font:12px var(--mono);color:var(--ink2)}
+.beat .prose{white-space:pre-wrap;margin-top:6px;font-size:14px}
+.beat .ref{font:12px var(--mono);color:var(--bad);margin-top:6px}
+.pick{display:flex;gap:6px;flex-wrap:wrap;padding:12px 14px 0}
+.muted{color:var(--ink2)}
+details>summary{cursor:pointer;color:var(--acc);font-size:13px}
+footer{margin-top:48px;color:var(--ink2);font-size:13px}
+@media (max-width:640px){h1{font-size:24px}.hide-sm{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+const KIND = "{{KIND}}", BASE = "{{BASE}}";
+const DATA = {{DATA}};
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+const cls = (ok, n) => !n ? "" : ok === n ? "c-ok" : ok === 0 ? "c-bad" : "c-mid";
+const pct = (a, b) => b ? Math.round(100 * a / b) : 0;
+
+function mdTable(md) {  // pipe tables + plain lines; enough for the KPI summaries
+  const out = []; let rows = [];
+  const flush = () => {
+    if (!rows.length) return;
+    const body = rows.filter(r => !/^\|\s*-/.test(r)).map(r => r.replace(/^\||\|$/g, "").split("|").map(x => x.trim()));
+    out.push(`<div class="panel scroll"><table><thead><tr>${body[0].map(c => `<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>${
+      body.slice(1).map(r => `<tr>${r.map((c, i) => `<td class="${i ? "num" : ""}">${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`);
+    rows = [];
+  };
+  for (const ln of md.split("\n")) { if (ln.trim().startsWith("|")) rows.push(ln.trim()); else { flush(); if (ln.trim()) out.push(`<p class="muted">${esc(ln)}</p>`); } }
+  flush(); return out.join("");
+}
+
+function home() {
+  const {catalog: cat, experiments: exps, used} = DATA;
+  const counts = Object.fromEntries(cat.categories.map(c => [c, cat.cases.filter(x => x.category === c).length]));
+  let pick = "", q = "";
+  $("#app").innerHTML = `
+  <header class="top">
+    <span class="crumb">WorldLines · benchmark</span>
+    <h1>WorldLines Play Suite</h1>
+    <p class="lede">${cat.cases.length} cases in ${cat.categories.length} categories, all in the world <code>${esc(cat.world)}</code>.
+      In each case a player model is given a goal and plays it out beat by beat. Deterministic checks then read the world's files
+      (state, inventory, location, refusals); no model grades the result.</p>
+    <div class="facts"><span>catalog built <b>${esc(cat.built)}</b></span><span>experiments <b>${exps.length}</b></span>
+      <span><a href="${BASE}catalog.json">catalog.json</a></span></div>
+  </header>
+  <h2>Experiments</h2>
+  <div class="panel scroll"><table><thead><tr><th>Date</th><th>Experiment</th><th>Groups · checks passed</th></tr></thead><tbody>
+  ${exps.map(m => `<tr><td class="num">${esc(m.date)}</td>
+     <td><a href="${BASE}records/${encodeURIComponent(m.id)}/index.html"><b>${esc(m.title)}</b></a><div class="goal">${esc(m.question)}</div></td>
+     <td>${m.groups.map(g => `<div class="rate"><span class="tag">${esc(g.name)}</span>
+        <span class="bar"><i style="width:${pct(g.passed, g.checks)}%"></i></span>
+        <span class="num">${g.passed}/${g.checks} · ${g.runs.length} run${g.runs.length > 1 ? "s" : ""}</span></div>`).join("")}</td></tr>`).join("")
+     || `<tr><td colspan="3" class="muted">No experiments imported yet.</td></tr>`}
+  </tbody></table></div>
+  <h2>Cases</h2>
+  <div class="tools"><input type="search" id="q" placeholder="Search id, title, goal, check…" aria-label="Search cases"></div>
+  <div class="chips" id="cats"></div>
+  <div class="panel scroll"><table><thead><tr><th>ID</th><th>Case · player goal</th><th>Checks</th><th class="hide-sm">Used in</th></tr></thead><tbody id="rows"></tbody></table></div>
+  <p class="muted" style="font-size:13px;margin-top:10px">Every case also runs the process checks:
+    ${cat.process_checks.map(c => `<span class="tag">${esc(c)}</span>`).join("")}</p>
+  <footer>Generated by <code>benchmarks/site.py</code>. Each experiment page holds the full transcript of every run.</footer>`;
+  const chips = () => {
+    $("#cats").innerHTML = [["", "All", cat.cases.length], ...cat.categories.map(c => [c, c, counts[c]])].map(([v, t, n]) =>
+      `<button class="chip" data-c="${esc(v)}" aria-pressed="${pick === v}">${esc(t)}<span class="n">${n}</span></button>`).join("");
+  };
+  const rows = () => {
+    const ql = q.toLowerCase();
+    const xs = cat.cases.filter(c => (!pick || c.category === pick) &&
+      (!ql || [c.id, c.title, c.goal, ...c.checks, ...c.merged].join(" ").toLowerCase().includes(ql)));
+    $("#rows").innerHTML = xs.map(c => `<tr><td class="id">${esc(c.id)}</td>
+      <td><span class="tag cat">${esc(c.category)}</span><b>${esc(c.title)}</b>${c.merged.length ? ` <span class="muted">(merges ${esc(c.merged.join(", "))})</span>` : ""}
+        <div class="goal">${c.goal ? esc(c.goal) : ""}</div></td>
+      <td>${c.checks.map(k => `<span class="tag">${esc(k)}</span>`).join("") || `<span class="muted">—</span>`}</td>
+      <td class="hide-sm">${(used[c.id] || []).map(e => `<a class="tag" href="${BASE}records/${encodeURIComponent(e)}/index.html">${esc(e)}</a>`).join("") || `<span class="muted">—</span>`}</td></tr>`).join("")
+      || `<tr><td colspan="4" class="muted">No case matches.</td></tr>`;
+  };
+  chips(); rows();
+  $("#cats").addEventListener("click", e => { const b = e.target.closest(".chip"); if (!b) return; pick = b.dataset.c; chips(); rows(); });
+  $("#q").addEventListener("input", e => { q = e.target.value; rows(); });
+}
+
+function experiment() {
+  const {experiment: m, runs, catalog: cat} = DATA;
+  const byId = Object.fromEntries(cat.cases.map(c => [c.id, c]));
+  const cases = [...new Set(Object.values(runs).flatMap(r => r.cases.map(c => c.id)))];
+  const order = id => { const c = byId[id]; return c ? cat.categories.indexOf(c.category) * 1000 + cat.cases.indexOf(c) : 99999; };
+  cases.sort((a, b) => order(a) - order(b));
+  const PROC = new Set(cat.process_checks);
+  const passOf = (c, k) => k !== "process" ? (c.checks[k] ? c.checks[k].pass : null)
+    : (Object.keys(c.checks).some(x => PROC.has(x)) ? Object.entries(c.checks).every(([x, v]) => !PROC.has(x) || v.pass) : null);
+  // a run whose last beat is still the talk: what the player agreed to was never settled, so a failed check there says
+  // more about the talk than about the state
+  const unsettled = c => (c.beats.at(-1) || {}).kind === "plan";
+  const tally = (g, cid, k) => { let ok = 0, n = 0, u = 0;
+    for (const r of g.runs) { const c = runs[r.label].cases.find(x => x.id === cid); const p = c ? passOf(c, k) : null;
+      if (p !== null) { n++; ok += p; if (!p && unsettled(c)) u++; } }
+    return [ok, n, u]; };
+  let rowsHtml = "";
+  for (const cid of cases) {
+    const all = [...new Set(m.groups.flatMap(g => g.runs.flatMap(r => Object.keys((runs[r.label].cases.find(x => x.id === cid) || {}).checks || {}))))];
+    const keys = [...all.filter(k => !PROC.has(k)), ...(all.some(k => PROC.has(k)) ? ["process"] : [])];
+    keys.forEach((k, i) => {
+      const t = m.groups.map(g => tally(g, cid, k));
+      const differ = new Set(t.map(([a, b]) => b ? (a / b).toFixed(2) : "-")).size > 1;
+      rowsHtml += `<tr class="case-row ${differ ? "diff" : ""}" data-case="${esc(cid)}">
+        <td class="id">${i ? "" : esc(cid)}</td><td>${i ? "" : `<b>${esc((byId[cid] || {}).title || cid)}</b><br>`}<span class="muted">${esc(k)}</span></td>
+        ${t.map(([a, b, u]) => `<td><span class="cell ${cls(a, b)}">${b ? `${a}/${b}` : "—"}</span>${u ? `<span class="unset" title="${u} failed run${u > 1 ? "s" : ""} ended in the talk, never settled">${u} unsettled</span>` : ""}</td>`).join("")}</tr>`;
+    });
+  }
+  $("#app").innerHTML = `
+  <header class="top">
+    <span class="crumb"><a href="${BASE}index.html">WorldLines Play Suite</a> · experiment · ${esc(m.id)}</span>
+    <h1>${esc(m.title)}</h1>
+    <p class="lede">${esc(m.question)}</p>
+    <div class="facts"><span>date <b>${esc(m.date)}</b></span>
+      ${m.groups.map(g => `<span>${esc(g.name)} <b>${esc(g.commit || "")}</b> · ${g.runs.length} run${g.runs.length > 1 ? "s" : ""} · arm ${esc(g.runs[0]?.arm || "")}</span>`).join("")}</div>
+  </header>
+  ${m.summary_md ? `<h2>Summary</h2><div class="md">${mdTable(m.summary_md)}</div>` : ""}
+  <h2>Checks by case</h2>
+  <p class="muted" style="font-size:13px;margin:-4px 0 10px">Passed / runs for each group. <i>process</i> = the ${cat.process_checks.length} process checks all passed. Rows where the groups differ are tinted. <i>unsettled</i> = failed runs whose last beat was still the talk (the action was agreed but never settled). Select a row to read the transcripts.</p>
+  <div class="panel scroll"><table><thead><tr><th>Case</th><th>Check</th>${m.groups.map(g => `<th>${esc(g.name)}</th>`).join("")}</tr></thead>
+  <tbody id="mx">${rowsHtml}</tbody></table></div>
+  <h2 id="tx-h">Transcript</h2>
+  <div class="panel" id="tx"><p class="muted" style="padding:14px;margin:0">Select a case above.</p></div>
+  <footer><a href="${BASE}index.html">← All cases and experiments</a></footer>`;
+  let cur = null, sel = null;
+  const show = () => {
+    const opts = m.groups.flatMap(g => g.runs.map(r => ({g: g.name, r})));
+    sel = sel && opts.find(o => o.r.label === sel.r.label) ? sel : opts[0];
+    const c = runs[sel.r.label].cases.find(x => x.id === cur);
+    $("#tx-h").textContent = `Transcript · ${cur} ${(byId[cur] || {}).title || ""}`;
+    $("#tx").innerHTML = `<div class="pick">${opts.map(o => `<button class="chip" data-l="${esc(o.r.label)}" aria-pressed="${o === sel}">${esc(o.g)} · run ${o.r.run}</button>`).join("")}</div>
+      ${c ? `<div class="beats">
+        ${unsettled(c) ? `<div class="ref">This run ended in the talk: the last thing agreed was never settled.</div>` : ""}
+        <div class="muted" style="font-size:13px">${Object.entries(c.checks).map(([k, v]) => `<span class="cell ${v.pass ? "c-ok" : "c-bad"}" title="${esc(v.got)}">${v.pass ? "✓" : "✗"} ${esc(k)}</span>`).join(" ")}</div>
+        ${c.beats.map(b => `<div class="beat ${esc(b.kind)}"><div class="meta">${esc(b.id)} · ${esc(b.kind || "beat")} · ${b.ms != null ? (b.ms / 1000).toFixed(1) + " s" : ""}</div>
+          <div class="say">${esc(b.input)}</div><div class="prose">${esc(b.narration)}</div>
+          ${b.refused.length ? `<div class="ref">refused: ${b.refused.map(esc).join(" · ")}</div>` : ""}</div>`).join("")}</div>`
+      : `<p class="muted" style="padding:14px">This run has no ${esc(cur)}.</p>`}`;
+  };
+  $("#mx").addEventListener("click", e => { const tr = e.target.closest("tr[data-case]"); if (!tr) return; cur = tr.dataset.case; show(); $("#tx-h").scrollIntoView({behavior: "smooth"}); });
+  $("#tx").addEventListener("click", e => { const b = e.target.closest(".chip[data-l]"); if (!b) return;
+    sel = m.groups.flatMap(g => g.runs.map(r => ({g: g.name, r}))).find(o => o.r.label === b.dataset.l); show(); });
+  if (cases.length) { cur = cases[0]; show(); }
+}
+
+KIND === "home" ? home() : experiment();
+</script>
+</body>
+</html>

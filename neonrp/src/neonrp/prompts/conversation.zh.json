@@ -1,0 +1,14 @@
+{
+ "situation": "场景:{scene}。玩家此刻:",
+ "respond_or_do": " 你会怎么回应,或做什么?",
+ "respond": " 你会怎么回应?",
+ "s1_head": "# 预判\n玩家意图={intent};张力={tension}",
+ "s1_move": ";要去 {to}",
+ "going": "(要去 {to})",
+ "only_spoke": "{name}(只说了话,未行动):「{text}」",
+ "resolve_as_agreed": "(接着)",
+ "away_note": "\n\n玩家不在你这里。这段时间你在自己待的地方做自己的事:接着做你手上的事、去办你想办的事,或者去找人——要去相邻的地点就在 move_to 写那个地点。要去别的镇,move_to 写那个镇:你会先上路,走够天数才到,这一拍到不了。",
+ "away_ask": " 你这会儿在做什么?",
+ "inbox_head": "\n\n[导演干预 · inbox/]\n",
+ "scene_unreadable": "(场景信息暂不可读)"
+}

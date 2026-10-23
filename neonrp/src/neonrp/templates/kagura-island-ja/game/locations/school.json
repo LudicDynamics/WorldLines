@@ -1,0 +1,20 @@
+{
+  "id": "school",
+  "kind": "location",
+  "name": "学校",
+  "tags": [
+    "school",
+    "info",
+    "archive"
+  ],
+  "summary": "半ば打ち捨てられた島の小学校。空き教室に机が二つあるだけ。地下に古い資料室がある。真琴先生がここにいる。",
+  "connections": [
+    "town"
+  ],
+  "npcs_default": [
+    "makoto"
+  ],
+  "hidden": {
+    "archive": "school-archive"
+  }
+}

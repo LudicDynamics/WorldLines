@@ -1,0 +1,29 @@
+{
+  "id": "T001",
+  "name": "石津の町",
+  "region": "Northvale",
+  "overview": "河港の交易の町。漁業と街道で生計を立てている。霧と古い墓にまつわる噂が、ここの人々をいっそう迷信深くしている。",
+  "entry_points": [
+    "gate_north",
+    "dock"
+  ],
+  "tags": [
+    "river",
+    "trade",
+    "superstition"
+  ],
+  "economy": {
+    "price_index": 1.0,
+    "specialties": [
+      "塩魚",
+      "河玉"
+    ]
+  },
+  "laws": {
+    "weapon_policy": "peace-bonded_in_townhall"
+  },
+  "state": {
+    "alert": 0,
+    "recent_events": []
+  }
+}

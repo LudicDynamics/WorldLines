@@ -1,0 +1,19 @@
+{
+  "kind": "npc",
+  "affection": 0,
+  "affection_level": "Stranger",
+  "mood": "Looking up at the blossoms, as if waiting for a half-heard line to be said again.",
+  "memory": [],
+  "id": "saya",
+  "name": "Saya",
+  "age": "second year",
+  "summary": "The girl who is always late, racing breathlessly up the slope. In her bag is a half-finished sketchbook — what she's drawing looks like cherry blossoms, or maybe the back of a certain someone.",
+  "personality": "Cheerful, a little oblivious, once she starts laughing she can't stop; really, she's terrified of anyone seeing who she drew in her sketchbook.",
+  "tells": "When she's nervous she shoves the sketchbook back into her bag; when she's happy she forgets she's about to be late.",
+  "likes": [
+    "cherry blossoms",
+    "drawing",
+    "being truly listened to"
+  ],
+  "cares_about": "that sketchbook no one has ever seen."
+}

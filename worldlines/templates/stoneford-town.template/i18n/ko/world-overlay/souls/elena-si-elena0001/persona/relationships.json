@@ -1,0 +1,10 @@
+{
+  "sid": "elena",
+  "relationships": {
+    "rowan": {
+      "disposition": "not_met",
+      "known": false,
+      "truth": "로완은 제이드스톤에서 움직이는 또 하나의 soul 줄기지만, 엘레나는 아직 그를 모른다"
+    }
+  }
+}

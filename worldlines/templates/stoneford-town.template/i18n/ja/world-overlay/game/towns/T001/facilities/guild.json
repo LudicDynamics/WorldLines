@@ -1,0 +1,78 @@
+{
+  "facility_id": "guild_T001",
+  "name": "ストーンフォード冒険者ギルド",
+  "hours": "09:00-19:00",
+  "reputation_rules": {
+    "complete_job": 1,
+    "fail_job": -1
+  },
+  "quest_board": [
+    {
+      "qid": "Q001",
+      "title": "霧に消えた者",
+      "tier": 1,
+      "summary": "船着き場の界隈で、霧の中に消えた者がいる。遺品か手がかりを持ち帰れ。",
+      "reward": {
+        "gold": 25
+      },
+      "hooks": [
+        "dock"
+      ],
+      "state": "available"
+    },
+    {
+      "qid": "Q002",
+      "title": "モスバロウ前の遠吠え",
+      "tier": 1,
+      "summary": "モスバロウへ続く小道に獣が出る。3回の遭遇を片付けること。",
+      "reward": {
+        "gold": 30,
+        "item": {
+          "id": "potion_small",
+          "name": "小さな回復薬",
+          "qty": 1
+        }
+      },
+      "hooks": [
+        "R002"
+      ],
+      "unlocks": [
+        {
+          "discover_dungeon": "D001"
+        }
+      ],
+      "state": "available"
+    },
+    {
+      "qid": "Q003",
+      "title": "しゃべる棺(調査)",
+      "tier": 2,
+      "summary": "モスバロウ地下墓所の奥へ潜り、噂の真偽を確かめ、証拠を持ち帰れ。",
+      "reward": {
+        "gold": 80
+      },
+      "requires": [
+        "D001_discovered"
+      ],
+      "state": "locked"
+    },
+    {
+      "qid": "Q004",
+      "title": "隊商の護衛:ジェイドストーンまで",
+      "tier": 2,
+      "type": "escort",
+      "summary": "ブルーノ商会の隊商をジェイドストーンまで護衛する。道のりはおよそ3日。",
+      "reward": {
+        "gold_per_day": "5-10",
+        "estimated_total": "15-30"
+      },
+      "destination": "T002",
+      "duration_days": 3,
+      "employer": "ブルーノ商会",
+      "state": "accepted"
+    }
+  ],
+  "state": {
+    "last_refresh_day": 2
+  }
+}

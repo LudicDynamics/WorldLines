@@ -1,0 +1,8 @@
+{
+  "router": {
+    "agent_id": "world-agent",
+    "execution_mode": "orchestrator",
+    "state_file": "meta/active-agent.json",
+    "startup_file": "meta/game-start.json"
+  }
+}

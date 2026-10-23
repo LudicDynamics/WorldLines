@@ -1,6 +1,6 @@
 ---
 name: character-card-authoring
-description: Author or edit a SillyTavern-compatible 角色卡 / character card (V2/V3 spec) directly inside a NeonRP project. Use when the user asks to write a tavern character card, convert a NeonRP character entity into a shareable tavern card, or fix schema issues in an existing card. Distinct from tavern-game-import, which converts a card INTO a NeonRP slice — this skill is about producing the tavern card itself.
+description: Author or edit a SillyTavern-compatible 角色卡 / character card (V2/V3 spec) directly inside a NeonRP project. Use when the user asks to write a tavern character card, convert a NeonRP character entity into a shareable tavern card, or fix schema issues in an existing card. Distinct from `neonrp import sillytavern-card`, which converts a card INTO NeonRP game data — this skill is about producing the tavern card itself.
 ---
 
 # Character Card Authoring
@@ -19,7 +19,7 @@ tavern-compatible frontend.
 
 Do NOT use this skill:
 
-- To import a tavern card INTO NeonRP — use `tavern-game-import`.
+- To import a tavern card INTO NeonRP — run `neonrp import sillytavern-card <card.json|card.png>` (`--id` overrides the entity id).
 - To author a standalone world book — use `world-card-authoring`.
 - To write NeonRP-native `game/character/<id>.json` entities — use
   `entity-authoring`.

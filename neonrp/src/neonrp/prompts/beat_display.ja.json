@@ -1,0 +1,10 @@
+{
+ "_doc": "beat_display 里玩家看得到的标签(10-06 C3-2)",
+ "away": "別の場所",
+ "away_place_in_town": "{place}({town})",
+ "dice_success": "成功",
+ "dice_fail": "失敗",
+ "dice_crit": "クリティカル",
+ "dice_fumble": "ファンブル",
+ "host": "GM"
+}

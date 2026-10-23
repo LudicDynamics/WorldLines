@@ -1,0 +1,268 @@
+{
+  "version": 1,
+  "_comment": "Single source of truth for the built-in world registry. worlds.py loads this into WORLDS. Each entry's `template` names a folder under neonrp/templates/ (instantiated via load_game_template). `mode` is fast|orch|multi-agent. `hidden` keeps an entry out of the world picker (e.g. soul-talk is a character mode). Covers live in the public examples/ repo + hub, NOT in the wheel — the CLI/TUI does not render them.",
+  "worlds": [
+    {
+      "id": "soul-talk",
+      "name": "Soul Talk",
+      "name_local": "灵魂对话",
+      "template": "soul-talk",
+      "mode": "fast",
+      "desc": "A quiet room. Just you and one character. No quests, no combat — conversation.",
+      "source_lang": "en",
+      "hidden": true,
+      "order": 99,
+      "name_i18n": {
+        "en": "Soul Talk",
+        "zh": "灵魂对话",
+        "ja": "ソウルトーク",
+        "ko": "소울 토크"
+      },
+      "desc_i18n": {
+        "en": "A quiet room. Just you and one character. No quests, no combat — conversation.",
+        "zh": "一间安静的房间。只有你和一个人物。没有任务，没有战斗——只有对话。",
+        "ja": "静かな部屋。あなたと一人のキャラクターだけ。クエストも戦闘もない——会話だけ。",
+        "ko": "조용한 방. 당신과 한 명의 캐릭터만. 퀘스트도 전투도 없다——대화뿐."
+      }
+    },
+    {
+      "id": "stone-ford",
+      "hidden": true,
+      "name": "Stone Ford Town",
+      "name_local": "石津镇",
+      "template": "stoneford-orch",
+      "mode": "orch",
+      "desc": "Classic fantasy RPG",
+      "source_lang": "en",
+      "order": 10,
+      "name_i18n": {
+        "en": "Stone Ford Town",
+        "zh": "石津镇",
+        "ja": "ストーンフォード",
+        "ko": "스톤포드 타운"
+      },
+      "desc_i18n": {
+        "en": "Classic fantasy RPG",
+        "zh": "经典奇幻RPG",
+        "ja": "クラシックファンタジーRPG",
+        "ko": "클래식 판타지 RPG"
+      }
+    },
+    {
+      "id": "sakura-hallway",
+      "hidden": true,
+      "name": "Sakura Hallway",
+      "name_local": "樱坂走廊",
+      "template": "sakura-hallway-zh",
+      "templates": {
+        "zh": "sakura-hallway-zh",
+        "en": "sakura-hallway-en",
+        "ja": "sakura-hallway-ja",
+        "ko": "sakura-hallway-ko"
+      },
+      "mode": "orch",
+      "shelf": "standard",
+      "desc": "A school love story · emotional narrative",
+      "source_lang": "zh",
+      "order": 20,
+      "name_i18n": {
+        "zh": "樱坂走廊",
+        "en": "Sakura Hallway",
+        "ja": "桜坂の廊下",
+        "ko": "사쿠라 복도"
+      },
+      "desc_i18n": {
+        "zh": "校园恋爱故事 · 情感叙事",
+        "en": "A school love story · emotional narrative",
+        "ja": "学園ラブストーリー · 感情ナラティブ",
+        "ko": "학원 러브 스토리 · 감성 내러티브"
+      }
+    },
+    {
+      "id": "otome-lamp",
+      "hidden": true,
+      "name": "Lamp of Souls",
+      "name_local": "引魂灯·盛世缘",
+      "template": "otome-lamp",
+      "mode": "orch",
+      "shelf": "standard",
+      "desc": "Guofeng otome court romance · 4 princes · 8 endings",
+      "source_lang": "zh",
+      "order": 30,
+      "name_i18n": {
+        "zh": "引魂灯·盛世缘",
+        "en": "Lamp of Souls",
+        "ja": "魂を導く灯",
+        "ko": "혼을 부르는 등불"
+      },
+      "desc_i18n": {
+        "zh": "国风乙女宫廷恋 · 四位皇子 · 一盏认主的灯 · 八种结局",
+        "en": "Guofeng otome court romance · 4 princes · a soul-lamp · 8 endings",
+        "ja": "中華風乙女・宮廷恋愛 · 四人の皇子 · 八つの結末",
+        "ko": "중화풍 오토메 궁정 로맨스 · 네 황자 · 여덟 결말"
+      }
+    },
+    {
+      "id": "goblin-ambush",
+      "hidden": true,
+      "name": "Goblin Ambush",
+      "name_local": "哥布林遭遇战",
+      "template": "goblin-ambush-zh",
+      "templates": {
+        "zh": "goblin-ambush-zh",
+        "en": "goblin-ambush-en",
+        "ja": "goblin-ambush-ja",
+        "ko": "goblin-ambush-ko"
+      },
+      "mode": "orch",
+      "shelf": "standard",
+      "desc": "SRD 5.2 single-scene combat · 3 adventurers vs a goblin",
+      "source_lang": "zh",
+      "order": 60,
+      "name_i18n": {
+        "zh": "哥布林遭遇战",
+        "en": "Goblin Ambush",
+        "ja": "ゴブリンの待ち伏せ",
+        "ko": "고블린 매복"
+      },
+      "desc_i18n": {
+        "zh": "SRD 5.2 单场景战斗 · 三名冒险者对一只哥布林 · 一回合一停",
+        "en": "SRD 5.2 single-scene combat · 3 adventurers vs a goblin · one turn at a time",
+        "ja": "SRD 5.2 単一シーン戦闘 · 三人の冒険者 vs ゴブリン · 一ターンずつ",
+        "ko": "SRD 5.2 단일 장면 전투 · 모험가 셋 vs 고블린 · 한 턴씩"
+      }
+    },
+    {
+      "id": "worldline",
+      "hidden": true,
+      "name": "Worldline",
+      "name_local": "世界线收束",
+      "template": "worldline",
+      "mode": "orch",
+      "shelf": "standard",
+      "desc": "Timeline drift · text a phone into the past · convergence pulls back",
+      "source_lang": "zh",
+      "order": 70,
+      "name_i18n": {
+        "zh": "世界线收束",
+        "en": "Worldline",
+        "ja": "世界線収束",
+        "ko": "월드라인 수렴"
+      },
+      "desc_i18n": {
+        "zh": "时间线漂移 · 给过去发短信 · 改写世界线但收束会拉回",
+        "en": "Timeline drift · text the past · rewrite the worldline, but convergence pulls back",
+        "ja": "時間線ドリフト · 過去にメールを送る · 世界線を書き換えるが収束が引き戻す",
+        "ko": "타임라인 드리프트 · 과거로 문자를 보내 · 월드라인을 다시 쓰지만 수렴이 되돌린다"
+      }
+    },
+    {
+      "id": "stoneford-elena",
+      "hidden": true,
+      "name": "Stoneford · Elena & Rowan",
+      "name_local": "石津镇·艾琳娜·罗文",
+      "template": "stoneford-elena",
+      "templates": {
+        "zh": "stoneford-elena",
+        "en": "stoneford-elena-en",
+        "ja": "stoneford-elena-ja"
+      },
+      "mode": "multi-agent",
+      "desc": "失忆 heroine + soul-native 迁移 demo",
+      "source_lang": "zh",
+      "order": 50,
+      "name_i18n": {
+        "zh": "石津镇·艾琳娜·罗文",
+        "en": "Stoneford · Elena & Rowan",
+        "ja": "ストーンフォード・エレナ＆ローワン",
+        "ko": "스톤포드 · 엘레나 & 로완"
+      },
+      "desc_i18n": {
+        "zh": "失忆 heroine + soul-native 迁移 demo",
+        "en": "Amnesiac heroine + soul-native migration demo",
+        "ja": "記憶喪失のヒロイン + ソウルネイティブ移行デモ",
+        "ko": "기억상실 히로인 + 소울 네이티브 마이그레이션 데모"
+      }
+    },
+    {
+      "id": "kagura-island",
+      "hidden": true,
+      "name": "Kagura Island",
+      "name_local": "神楽島",
+      "template": "kagura-island",
+      "templates": {
+        "zh": "kagura-island",
+        "en": "kagura-island-en",
+        "ja": "kagura-island-ja"
+      },
+      "mode": "multi-agent",
+      "desc": "和风悬疑 · 时间循环 · 多 agent soul 世界",
+      "source_lang": "zh",
+      "order": 40,
+      "name_i18n": {
+        "zh": "神楽島",
+        "en": "Kagura Island",
+        "ja": "神楽島",
+        "ko": "카구라 섬"
+      },
+      "desc_i18n": {
+        "zh": "和风悬疑 · 时间循环 · 多 agent soul 世界",
+        "en": "Japanese-style mystery · time loop · multi-agent soul world",
+        "ja": "和風ミステリー · 時間ループ · マルチエージェント・ソウル世界",
+        "ko": "일본식 미스터리 · 시간 루프 · 멀티 에이전트 소울 월드"
+      }
+    },
+    {
+      "id": "lianyu",
+      "hidden": true,
+      "name": "Lianyu City",
+      "name_local": "恋语市",
+      "template": "lianyu",
+      "templates": {
+        "zh": "lianyu"
+      },
+      "mode": "multi-agent",
+      "desc": "都市乙女 · 四位异能男主 · 你是被卷入的制片人",
+      "source_lang": "zh",
+      "order": 60,
+      "name_i18n": {
+        "zh": "恋语市",
+        "en": "Lianyu City",
+        "ja": "恋語市",
+        "ko": "연어시"
+      },
+      "desc_i18n": {
+        "zh": "都市乙女 · 四位异能男主 · 你是被卷入的制片人",
+        "en": "Urban otome · four men with powers · you are the producer pulled in",
+        "ja": "都会の乙女ゲー · 異能の男性4人 · 巻き込まれたプロデューサーはあなた",
+        "ko": "도시 오토메 · 능력자 남주 4인 · 휘말린 프로듀서는 당신"
+      }
+    },
+    {
+      "id": "daogui",
+      "hidden": true,
+      "name": "Two Worlds, One Cradle",
+      "name_local": "道诡异仙",
+      "template": "daogui",
+      "templates": {
+        "zh": "daogui"
+      },
+      "mode": "multi-agent",
+      "desc": "道轨 / 医院 两界重影 · 药与真相 · 谁也不点破",
+      "source_lang": "zh",
+      "order": 61,
+      "name_i18n": {
+        "zh": "道诡异仙",
+        "en": "Two Worlds, One Cradle",
+        "ja": "道詭異仙",
+        "ko": "도궤이선"
+      },
+      "desc_i18n": {
+        "zh": "道轨 / 医院 两界重影 · 药与真相 · 谁也不点破",
+        "en": "Taoist mountain / hospital ward, one place two skins · the medicine and the truth · nobody says it out loud",
+        "ja": "道観と病棟、同じ場所の二つの皮 · 薬と真実 · 誰も口にしない",
+        "ko": "도관과 병동, 한 장소의 두 얼굴 · 약과 진실 · 아무도 입 밖에 내지 않는다"
+      }
+    }
+  ]
+}

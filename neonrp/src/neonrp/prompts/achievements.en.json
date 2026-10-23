@@ -1,0 +1,48 @@
+{
+ "_doc": "引擎内置成就(core/achievements.py):id → title / desc。",
+ "ui": {
+  "unlocked": "Achievement unlocked"
+ },
+ "builtin": {
+  "first_ending": {
+   "title": "First Ending",
+   "desc": "Saw a story through to an ending for the first time."
+  },
+  "true_ending": {
+   "title": "The Whole Truth",
+   "desc": "Reached a world's true ending."
+  },
+  "all_endings": {
+   "title": "Every Road",
+   "desc": "Reached every ending of one world."
+  },
+  "quiz_perfect": {
+   "title": "Three Truths",
+   "desc": "Answered all three truth questions right at the settlement."
+  },
+  "first_character": {
+   "title": "First Companion",
+   "desc": "Brought a character home for the first time."
+  },
+  "characters_5": {
+   "title": "Five Names",
+   "desc": "Brought five characters home in all."
+  },
+  "places_5": {
+   "title": "Wanderer",
+   "desc": "Found five places in one world."
+  },
+  "places_10": {
+   "title": "Pathfinder",
+   "desc": "Found ten places in one world."
+  },
+  "first_milestone": {
+   "title": "First Milestone",
+   "desc": "Reached a milestone in an open adventure for the first time."
+  },
+  "run_complete": {
+   "title": "Saw it through",
+   "desc": "Played a run of this world to its close."
+  }
+ }
+}

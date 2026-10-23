@@ -1,0 +1,17 @@
+{
+  "_doc": "Route tag -> what the road does. p = chance per journey, dc = 1d6 target to get through, fail_days = days a failure costs. A world overrides by tag in game/world/world_map.json travel.hazards or game/rules/hazards.json. foes = who stands in the road when it comes to a fight ({foe: [min, max]}, combat.spawn); also = other foes the place can ground (understand).",
+  "bandit_risk": {"p": 0.5, "dc": 4, "fail_days": 1, "foes": {"bandit": [2, 4]}, "also": ["boss"],
+    "text": {"zh": "路上遇到山贼拦路,要么交买路钱,要么绕远,要么打", "en": "bandits block the road: pay the toll, take the long way round, or fight", "ja": "山賊が道を塞いでいる。通行料を払うか、遠回りするか、戦うか"},
+    "pass": {"zh": "山贼退了:被打退或放行,队伍继续走", "en": "the bandits back off: beaten or bought, the party moves on", "ja": "山賊は引いた。撃退したか通されたか、一行は先へ進む"},
+    "fail": {"zh": "没占到便宜:交了买路钱或绕了远路,多耗一天", "en": "no luck: paid the toll or took the long way, one day lost", "ja": "うまくいかない。通行料を払ったか遠回りして、一日余計にかかる"}},
+  "beasts": {"p": 0.35, "dc": 3, "fail_days": 1, "foes": {"beast": [1, 2]},
+    "text": {"zh": "夜里有野兽跟着队伍,得守夜", "en": "beasts trail the party at night; someone has to keep watch", "ja": "夜、獣が一行につきまとう。見張りが要る"},
+    "pass": {"zh": "守夜守住了,野兽没敢近", "en": "the watch held; the beasts kept their distance", "ja": "見張りが効き、獣は近寄らなかった"},
+    "fail": {"zh": "夜里被扰,有人受了小伤,天亮才敢走,多耗一天", "en": "a bad night, a small wound, no moving until daylight: one day lost", "ja": "夜を乱され軽い傷を負い、夜明けまで動けず一日遅れる"}},
+  "foggy": {"p": 0.4, "dc": 3, "fail_days": 1,
+    "text": {"zh": "雾把路吞了,走岔一段,多耗了半天", "en": "fog swallows the road; the party strays for a while", "ja": "霧が道を呑み、一行はしばらく迷う"},
+    "pass": {"zh": "认出路了,没走岔", "en": "they find the road again without straying", "ja": "道を見分け、迷わずに済んだ"},
+    "fail": {"zh": "走岔了一段,多耗一天", "en": "they stray and lose a day", "ja": "道を外れ、一日余計にかかる"}},
+  "patrolled": {"p": 0.0, "dc": 0, "fail_days": 0,
+    "text": {"zh": "有巡逻队,路上平安", "en": "patrols keep the road quiet", "ja": "巡回隊がいて道中は平穏"}, "pass": {"zh": "", "en": "", "ja": ""}, "fail": {"zh": "", "en": "", "ja": ""}}
+}

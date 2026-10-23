@@ -1,0 +1,23 @@
+{
+ "faction_render": "- {id} {name} (power {power} · wealth {wealth}): {blurb}",
+ "rumor_render": "- rumor {id} “{text}” heat {heat}, has reached {towns_text}",
+ "quest_render": "- quest {id} “{title}” {status} · posted by {giver_name} · reward {reward_gold} gold",
+ "op_take_quest": "the player takes a posted quest (take_quest Q001), at its giver's seat",
+ "op_rumor": "world rule: a new rumor",
+ "op_spread": "world rule: a rumor reaches another town",
+ "op_new_quest": "world rule: a faction posts a quest",
+ "op_quest": "world rule: a quest changes state",
+ "op_strike": "world rule: a strike starts / ends",
+ "line": "Several factions run on their own in town (power, wealth and their relations are in the variable table); rumors spread along the roads and quests are posted by the factions. When the story mentions them, go by the variables and the entries, and never decide for a faction.",
+ "doc_power": "{name}'s power",
+ "doc_wealth": "{name}'s wealth",
+ "doc_rep": "your standing with {name}",
+ "doc_rel": "relations {pair}",
+ "no_quest": "there is no such quest",
+ "quest_closed": "someone has taken this quest already, or it is over",
+ "go_take": "it has to be taken at {giver} ({seat})",
+ "raid": "{name} crept into the {town} stockyard at night",
+ "bounty": "Bandit bounty: take out {name}'s lookouts",
+ "strike": "{name} has gone on strike",
+ "towns_sep": ", "
+}

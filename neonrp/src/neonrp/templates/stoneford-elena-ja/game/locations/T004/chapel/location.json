@@ -1,0 +1,14 @@
+{
+  "id": "chapel",
+  "name": "晨光(しんこう)の礼拝堂",
+  "type": "facility",
+  "facility_file": "facilities/chapel.json",
+  "description": "光明神を祀る小さな礼拝堂。白い石で築かれ、碧石の町の喧騒の中でひときわ厳かで静まり返っている。鉄柱がここのことを口にしていた。",
+  "pos": {
+    "x": 700,
+    "y": 200
+  },
+  "connections": [
+    "east_street"
+  ]
+}

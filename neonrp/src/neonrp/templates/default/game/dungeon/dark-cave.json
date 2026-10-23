@@ -1,0 +1,24 @@
+{
+  "id": "dark-cave",
+  "kind": "dungeon",
+  "name": "Dark Cave",
+  "tags": [
+    "dungeon",
+    "cave",
+    "starter"
+  ],
+  "summary": "A damp cave system at the end of the forest path. Home to goblins and their treasure.",
+  "difficulty": 1,
+  "connections": [
+    "forest-path"
+  ],
+  "encounters": [
+    "cave-goblin",
+    "goblin-chief"
+  ],
+  "loot_table": [
+    "health-potion",
+    "iron-sword"
+  ]
+}
+

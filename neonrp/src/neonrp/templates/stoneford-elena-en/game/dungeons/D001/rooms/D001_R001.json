@@ -1,0 +1,13 @@
+{
+  "id": "D001_R001",
+  "name": "Tidegate Antechamber",
+  "description": "The stone door hangs half-open, damp air pouring out. There are drag marks in the corner.",
+  "features": [
+    "Can investigate the drag marks",
+    "Can light a torch to lessen the fog's effect"
+  ],
+  "state": {
+    "explored": false,
+    "cleared": false
+  }
+}

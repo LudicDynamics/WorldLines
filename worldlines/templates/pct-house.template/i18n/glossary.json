@@ -1,0 +1,89 @@
+{
+  "_doc": "灰橡宅·关上的门的专有名词。西式老宅:英文用西式原名,日文片假名,韩文音译。心神 = Nerve / 平静 / 평정(规则表已定)。禁词见 tests/test_template_pct_house.py。lint 用它查残留;id 不变。",
+  "terms": [
+    {
+      "id": "place:T001",
+      "zh": "灰橡宅",
+      "ja": "グレイオーク館",
+      "ko": "그레이오크 저택",
+      "en": "Greyoak House",
+      "also": [
+        "Grey Oak House",
+        "灰橡館"
+      ]
+    },
+    {
+      "id": "soul:butler",
+      "zh": [
+        "奥斯温·黑尔",
+        "奥斯温"
+      ],
+      "ja": [
+        "オズウィン・ヘイル",
+        "オズウィン"
+      ],
+      "ko": [
+        "오즈윈 헤일",
+        "오즈윈"
+      ],
+      "en": [
+        "Oswin Hale",
+        "Oswin"
+      ]
+    },
+    {
+      "id": "soul:chara",
+      "zh": "温妮",
+      "ja": "ウィニー",
+      "ko": "위니",
+      "en": "Winnie"
+    },
+    {
+      "id": "npc:owner",
+      "zh": [
+        "埃德蒙·格雷伍德",
+        "埃德蒙"
+      ],
+      "ja": [
+        "エドマンド・グレイウッド",
+        "エドマンド"
+      ],
+      "ko": [
+        "에드먼드 그레이우드",
+        "에드먼드"
+      ],
+      "en": [
+        "Edmund Greywood",
+        "Edmund"
+      ]
+    },
+    {
+      "id": "place:fog_lane",
+      "zh": "雾巷",
+      "ja": "霧の小路",
+      "ko": "안개 골목",
+      "en": "Fog Lane"
+    },
+    {
+      "id": "term:nerve",
+      "zh": "心神",
+      "ja": "平静",
+      "ko": "평정",
+      "en": "Nerve"
+    },
+    {
+      "id": "title",
+      "zh": "关上的门",
+      "ja": "閉ざされた扉",
+      "ko": "닫힌 문",
+      "en": "The Closed Door"
+    },
+    {
+      "id": "ending:E01",
+      "zh": "墙后的人",
+      "ja": "壁の向こうの人",
+      "ko": "벽 너머의 사람",
+      "en": "The One Behind the Wall"
+    }
+  ]
+}

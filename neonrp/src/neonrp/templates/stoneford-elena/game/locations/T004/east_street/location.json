@@ -1,0 +1,15 @@
+{
+  "id": "east_street",
+  "name": "东街",
+  "type": "street",
+  "description": "通往教堂和矿区入口的岔道。越往东走越安静，能听到远处矿洞里传出的叮当声。",
+  "pos": {
+    "x": 600,
+    "y": 280
+  },
+  "connections": [
+    "main_street",
+    "chapel",
+    "mine_entrance"
+  ]
+}

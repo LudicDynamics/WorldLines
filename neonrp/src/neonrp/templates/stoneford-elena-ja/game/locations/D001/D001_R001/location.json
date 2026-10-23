@@ -1,0 +1,16 @@
+{
+  "id": "D001_R001",
+  "name": "潮門の前室",
+  "type": "entry",
+  "connections": [
+    "D001_R002"
+  ],
+  "state": {
+    "explored": false
+  },
+  "ports": {
+    "up": [
+      "R002"
+    ]
+  }
+}

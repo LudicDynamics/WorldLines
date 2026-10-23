@@ -1,0 +1,3 @@
+{
+  "description": "RPG world-building agent. Manages the world map structure, extends new areas and updates node discovered/cleared/danger state. Use when a new location is discovered or the world map needs updating."
+}

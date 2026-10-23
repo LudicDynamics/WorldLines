@@ -1,0 +1,78 @@
+{
+  "facility_id": "guild_T001",
+  "name": "스톤포드 길드",
+  "hours": "09:00-19:00",
+  "reputation_rules": {
+    "complete_job": 1,
+    "fail_job": -1
+  },
+  "quest_board": [
+    {
+      "qid": "Q001",
+      "title": "안개 속 실종자",
+      "tier": 1,
+      "summary": "선착장 일대에서 누군가 안개 속에 사라졌다. 유품이나 단서를 찾아올 것.",
+      "reward": {
+        "gold": 25
+      },
+      "hooks": [
+        "dock"
+      ],
+      "state": "available"
+    },
+    {
+      "qid": "Q002",
+      "title": "모스배로 앞의 늑대 울음",
+      "tier": 1,
+      "summary": "모스배로로 가는 오솔길에 짐승이 나타났다. 세 차례의 조우를 정리할 것.",
+      "reward": {
+        "gold": 30,
+        "item": {
+          "id": "potion_small",
+          "name": "소형 회복 물약",
+          "qty": 1
+        }
+      },
+      "hooks": [
+        "R002"
+      ],
+      "unlocks": [
+        {
+          "discover_dungeon": "D001"
+        }
+      ],
+      "state": "available"
+    },
+    {
+      "qid": "Q003",
+      "title": "말하는 관(조사)",
+      "tier": 2,
+      "summary": "모스배로 지하묘지 깊숙이 들어가 소문의 진위를 확인하고 증거를 가져올 것.",
+      "reward": {
+        "gold": 80
+      },
+      "requires": [
+        "D001_discovered"
+      ],
+      "state": "locked"
+    },
+    {
+      "qid": "Q004",
+      "title": "상단 호위: 제이드스톤",
+      "tier": 2,
+      "type": "escort",
+      "summary": "브루노 상단을 제이드스톤까지 호위한다. 예상 일정은 3일.",
+      "reward": {
+        "gold_per_day": "5-10",
+        "estimated_total": "15-30"
+      },
+      "destination": "T002",
+      "duration_days": 3,
+      "employer": "브루노 상회",
+      "state": "accepted"
+    }
+  ],
+  "state": {
+    "last_refresh_day": 2
+  }
+}

@@ -1,0 +1,23 @@
+{
+ "faction_render": "- {id} {name}(势力 {power} · 财 {wealth}):{blurb}",
+ "rumor_render": "- 传闻 {id}「{text}」热度 {heat},已传到 {towns_text}",
+ "quest_render": "- 委托 {id}「{title}」{status} · 发布:{giver_name} · 赏 {reward_gold} 金",
+ "op_take_quest": "玩家接委托(take_quest Q001),要在发布方的据点",
+ "op_rumor": "世界规则:一条新传闻",
+ "op_spread": "世界规则:传闻传到另一个镇",
+ "op_new_quest": "世界规则:势力挂出委托",
+ "op_quest": "世界规则:委托状态变化",
+ "op_strike": "世界规则:罢工开始 / 结束",
+ "line": "镇上有几股势力在各自运转(势力值、财力、彼此关系都在变量表里);传闻会沿路传开,委托由势力挂出。叙事里提到它们时以变量表和条目为准,不要替势力做决定。",
+ "doc_power": "{name}的势力",
+ "doc_wealth": "{name}的财力",
+ "doc_rep": "你在{name}那里的名声",
+ "doc_rel": "{pair} 的关系",
+ "no_quest": "没有这个委托",
+ "quest_closed": "这个委托已经有人接了或结束了",
+ "go_take": "得去{giver}({seat})接",
+ "raid": "{name}半夜摸进了{town}的料场",
+ "bounty": "剿匪悬赏:打掉{name}的眼线",
+ "strike": "{name}罢工了",
+ "towns_sep": "、"
+}

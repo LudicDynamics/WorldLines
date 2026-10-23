@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "generated_by": "kagura-island-orchestrator",
+  "version": "2.0",
+  "note": "クリエイターがバージョン管理する world-agent の名簿。world-agent は唯一の世界主権体であり、下記の functional サブエージェントを所有し、毎ターンを締める。souls/ 下の cast は playthrough.json によって束ねられる完全な M16 soul バンドルである。ランタイムは active souls へ並行に扇状展開してよいが、世界の真実はなお world-agent を通じて締められる。独立した narrator は存在しない——world-agent が統合し語る；story-narrative は漂流時の補完にすぎない。",
+  "agents": [
+    {
+      "id": "world-agent",
+      "name": "World Agent",
+      "role": "orchestrator",
+      "singleton": true,
+      "agent_path": "agents/world-agent/system.md",
+      "description": "Layer-1 の主制御スケジューラ/team-leader：soul チームを管理（並行+sticky）、scope に従って functional サブエージェントを直列ルーティング、統合、ループ/勾玉/消失/禁忌を推進、直接語りを生み出す。",
+      "read_globs": ["game/**", ".neonrp/playthrough.json", ".neonrp/manifest.json"],
+      "write_globs": ["game/meta/run_state.json", "game/timeline/*.json", "game/locations/*.json", "game/lore/notes.md", "game/lore/story.md", "game/lore/gm-truth.md"]
+    },
+    {
+      "id": "town-agent",
+      "name": "Town Agent",
+      "role": "functional-sub-agent",
+      "singleton": false,
+      "agent_path": "agents/town-agent/system.md",
+      "description": "潮待ち茶屋/町：ナビゲーション、場所、NPC 交流、情報の手がかり。"
+    },
+    {
+      "id": "combat-agent",
+      "name": "Combat Agent",
+      "role": "functional-sub-agent",
+      "singleton": false,
+      "agent_path": "agents/combat-agent/system.md",
+      "description": "危機/衝突の裁定：悠人の覚醒反射攻撃、危険、肉体的衝突の段階分け。"
+    },
+    {
+      "id": "rules-referee",
+      "name": "Rules Referee",
+      "role": "functional-sub-agent",
+      "singleton": false,
+      "agent_path": "agents/rules-referee/system.md",
+      "description": "非戦闘の判定/常識チェック/不可逆な禁忌判定。"
+    },
+    {
+      "id": "world-builder",
+      "name": "World Builder",
+      "role": "functional-sub-agent",
+      "singleton": false,
+      "agent_path": "agents/world-builder/system.md",
+      "description": "島の地図/エリアの discovered/danger/接続/引き潮の到達可能性。"
+    },
+    {
+      "id": "npc-builder",
+      "name": "NPC Builder",
+      "role": "functional-sub-agent",
+      "singleton": false,
+      "agent_path": "agents/npc-builder/system.md",
+      "description": "無名の通行人 NPC 生成（具名 cast は soul が自律）。"
+    },
+    {
+      "id": "story-narrative",
+      "name": "Story Narrative",
+      "role": "functional-sub-agent",
+      "singleton": false,
+      "agent_path": "agents/story-narrative/system.md",
+      "description": "プレイヤーが未創作の内容へ入ったときの、補完的な二人称の薄描。"
+    }
+  ],
+  "soul_team": {
+    "note": "具名 cast = .neonrp/playthrough.json の souls[]/active_souls によって束ねられる隔離された soul アクター。各 soul は内部的に六スペシャリストの契約として著されるが、現行ランタイムは一つに統合された soul-agent として解決する。world-agent は souls/** を決して読まない——souls が結果をそれに返す。"
+  },
+  "routing_rules": {
+    "every_turn": {
+      "description": "world-agent がターンを所有する；active souls は並行に反応する；functional サブエージェントは必要に応じてルーティングされる；world-agent が統合し、プレイヤー向けの語りを締める。",
+      "layer1": "world-agent",
+      "soul_team": "parallel+sticky (playthrough active_souls)",
+      "functional": ["town-agent", "combat-agent", "rules-referee", "world-builder", "npc-builder", "story-narrative"]
+    }
+  }
+}

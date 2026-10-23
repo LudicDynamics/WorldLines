@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "sid": "chara",
+  "name": "Winnie",
+  "name_local": "温妮",
+  "version": "1.0",
+  "created_at": "2026-05-17T00:00:00Z",
+  "source": {
+    "kind": "builtin",
+    "hash": "pcthouse-chara",
+    "version": "1.0"
+  },
+  "agent_template": "heroine-classic",
+  "intro_i18n": {
+    "zh": "委托人,失踪宅主人的外甥女,十九岁。紧张、固执,不肯在真相出来前离开。",
+    "en": "The client: the missing owner's niece, nineteen. Tense and stubborn, she will not leave before the truth comes out.",
+    "ja": "依頼人。失踪した屋敷の主の姪、十九歳。張りつめていて頑固、真相が出るまで帰らない。",
+    "ko": "의뢰인. 실종된 저택 주인의 조카, 열아홉 살. 긴장해 있고 고집이 세서 진실이 나오기 전엔 떠나지 않는다."
+  },
+  "tags": [
+    "pct-house",
+    "client",
+    "npc"
+  ],
+  "source_lang": "zh",
+  "name_i18n": {
+    "zh": "温妮",
+    "en": "Winnie",
+    "ja": "ウィニー",
+    "ko": "위니"
+  }
+}

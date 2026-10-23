@@ -1,0 +1,10 @@
+{
+  "sid": "rowan",
+  "relationships": {
+    "elena": {
+      "disposition": "unmet_newcomer",
+      "known": false,
+      "truth": "Elena and Rowan have not met yet; they are just two active lines in the same world"
+    }
+  }
+}

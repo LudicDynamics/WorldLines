@@ -1,0 +1,29 @@
+{
+  "id": "T001",
+  "name": "ストーンフォード",
+  "region": "Northvale",
+  "overview": "川港の交易の町。漁と街道で食いつないでいる。霧と古い墓の噂のせいで、ここの人々は迷信深い。",
+  "entry_points": [
+    "gate_north",
+    "dock"
+  ],
+  "tags": [
+    "river",
+    "trade",
+    "superstition"
+  ],
+  "economy": {
+    "price_index": 1.0,
+    "specialties": [
+      "塩漬け魚",
+      "川玉"
+    ]
+  },
+  "laws": {
+    "weapon_policy": "peace-bonded_in_townhall"
+  },
+  "state": {
+    "alert": 0,
+    "recent_events": []
+  }
+}

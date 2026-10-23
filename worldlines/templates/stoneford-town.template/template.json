@@ -1,0 +1,198 @@
+{
+ "schema": "worldlines.template/1",
+ "id": "stoneford-town",
+ "version": "0.1",
+ "zone": "reviewed",
+ "forkable": true,
+ "card": {
+  "title": "石津镇 · 雾退之夜",
+  "pitch": "一年只有一夜,雾会从北路上退开。探路队没回来,驿路被山贼截了——你有两个夜晚、一个白天,凑齐出北门的东西。",
+  "cover": "assets/cover.png",
+  "lang": "zh",
+  "tags": [
+   "奇幻",
+   "雾",
+   "小镇",
+   "开放小镇 RPG"
+  ]
+ },
+ "mode": {
+  "ending": "multi",
+  "freedom": "semi"
+ },
+ "play_contract": "open-adventure@1",
+ "world": {
+  "builtin": "stoneford-elena",
+  "prompts": "replace",
+  "overlay": "world-overlay"
+ },
+ "uses": {"template": "two_beat", "version": "1.0", "soul": "S-judge"},
+ "pack": {
+  "name": "rpg",
+  "mixins": [
+   "economy"
+  ],
+  "engine": {
+   "turn": {
+    "mode": "v3"
+   }
+  }
+ },
+ "souls": [
+  {
+   "sid": "elena",
+   "role": "npc"
+  },
+  {
+   "sid": "rowan",
+   "role": "npc"
+  }
+ ],
+ "prompts": [
+  "prompts/world.json",
+  "prompts/voice.md",
+  "prompts/town.json"
+ ],
+ "plots": [
+  "plots/P20"
+ ],
+ "models": {
+  "play": "deepseek-v4-flash"
+ },
+ "lint": {
+  "level": "draft"
+ },
+ "ui": {
+  "beats": {
+   "start": "interaction.move"
+  }
+ },
+ "orchestration": "orchestration.json",
+ "creation": {
+  "add": [
+   "soul",
+   "plot",
+   "ending",
+   "clue",
+   "rule"
+  ],
+  "triggers": {
+   "when": [
+    "text",
+    "flag",
+    "entry"
+   ],
+   "then": [
+    "narration",
+    "soul",
+    "flag",
+    "end"
+   ]
+  },
+  "collect": [
+   "clear",
+   "ending",
+   "flag"
+  ]
+ },
+ "audio": {
+  "theme": "emberglass",
+  "ambient": "fireplace"
+ },
+ "rewards": [
+  {
+   "id": "old_fog_map",
+   "kind": "card",
+   "rarity": "common",
+   "when": "flag:has_map",
+   "title": {
+    "zh": "旧雾路图",
+    "en": "The Old Fog Map",
+    "ja": "古い霧の道図",
+    "ko": "옛 안개길 지도"
+   },
+   "desc": {
+    "zh": "老苇的妻子画的。发黄的羊皮纸上,有一条雾里的路。",
+    "en": "Drawn by Old Reed's wife: a road through the fog on yellowed vellum.",
+    "ja": "リード爺さんの妻が描いた。黄ばんだ羊皮紙に、霧の中の道が一本。",
+    "ko": "리드 영감의 아내가 그렸다. 누렇게 바랜 양피지에 안개 속 길 하나."
+   }
+  },
+  {
+   "id": "stitched_amulet",
+   "kind": "card",
+   "rarity": "common",
+   "when": "flag:has_amulet",
+   "title": {
+    "zh": "缝死的护身符",
+    "en": "The Stitched Amulet",
+    "ja": "縫い込まれたお守り",
+    "ko": "꿰매 붙인 부적"
+   },
+   "desc": {
+    "zh": "红线绣着一条歪歪扭扭的路——探路队走的那条。",
+    "en": "A crooked road stitched in red thread — the one the scouts took.",
+    "ja": "赤い糸で縫われた曲がりくねった道——探索隊が通った道。",
+    "ko": "붉은 실로 수놓은 구불구불한 길 — 정찰대가 간 그 길."
+   }
+  },
+  {
+   "id": "one_eyed_tigers_word",
+   "kind": "card",
+   "rarity": "rare",
+   "when": "flag:tiger_ally",
+   "title": {
+    "zh": "独眼虎的约定",
+    "en": "One-Eyed Tiger's Word",
+    "ja": "隻眼の虎との約束",
+    "ko": "외눈 호랑이의 약속"
+   },
+   "desc": {
+    "zh": "鹤嘴锄往地上一插:雾退之夜以后,你替矿工说话。",
+    "en": "A pickaxe driven into the ground: after the night the fog lifts, you speak for the miners.",
+    "ja": "つるはしを地面に突き立てて——霧が退いた夜のあと、坑夫のために口をきけ。",
+    "ko": "곡괭이를 땅에 꽂으며: 안개가 걷힌 밤이 지나면, 광부들 편에서 말해 달라."
+   }
+  },
+  {
+   "id": "three_for_the_gate",
+   "kind": "card",
+   "rarity": "rare",
+   "when": [
+    "var:P20.pass:1",
+    "var:P20.route:1",
+    "var:P20.road:1"
+   ],
+   "title": {
+    "zh": "出北门的三样",
+    "en": "Three Things for the North Gate",
+    "ja": "北門を出る三つ",
+    "ko": "북문을 나서는 세 가지"
+   },
+   "desc": {
+    "zh": "许可、雾里的路、过驿路的办法——都凑齐了。",
+    "en": "Leave to pass, a way through the fog, a way past the post road — all gathered.",
+    "ja": "許し、霧の中の道、街道を抜ける手立て——みなそろった。",
+    "ko": "허가, 안개 속의 길, 역로를 지날 방법 — 모두 모았다."
+   }
+  },
+  {
+   "id": "the_fog_lifts",
+   "kind": "card",
+   "rarity": "epic",
+   "when": "ending:E1",
+   "title": {
+    "zh": "雾退之夜",
+    "en": "The Night the Fog Lifts",
+    "ja": "霧の退く夜",
+    "ko": "안개가 걷히는 밤"
+   },
+   "desc": {
+    "zh": "一年只有一夜。这一夜,你走出了北门。",
+    "en": "Only one night a year. On this one, you walked out of the North Gate.",
+    "ja": "一年にただ一夜。この夜、あなたは北門を出た。",
+    "ko": "일 년에 단 하룻밤. 이 밤, 당신은 북문을 나섰다."
+   }
+  }
+ ]
+}

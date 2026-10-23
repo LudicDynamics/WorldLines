@@ -1,6 +1,6 @@
 ---
 name: world-card-authoring
-description: Author or edit a SillyTavern-compatible 世界卡 / world book (V2/V3 spec) directly inside a NeonRP project. Use when the user asks to build, expand, or fix lorebook entries, world cards, character_book payloads, or tavern-style world packages. Distinct from tavern-game-import, which converts an existing card into a playable slice — this skill is about authoring the tavern format itself.
+description: Author or edit a SillyTavern-compatible 世界卡 / world book (V2/V3 spec) directly inside a NeonRP project. Use when the user asks to build, expand, or fix lorebook entries, world cards, character_book payloads, or tavern-style world packages. Distinct from `neonrp import sillytavern-card`, which converts an existing character card into NeonRP game data — this skill is about authoring the tavern format itself.
 ---
 
 # World Card Authoring
@@ -18,10 +18,10 @@ with, SillyTavern or a tavern-compatible frontend.
 
 Do NOT use this skill:
 
-- To convert a tavern card INTO a NeonRP playable project — use
-  `tavern-game-import` instead.
+- To convert a tavern character card INTO NeonRP game data — run
+  `neonrp import sillytavern-card <card.json|card.png>` instead.
 - To author NeonRP-native `world/<kind>/<id>.json` entities — use
-  `entity-authoring` + `world-building` for that.
+  `entity-authoring` (and `documents/spec/world.zh.md`) for that.
 
 # Canonical File Layout In A NeonRP Project
 
@@ -127,4 +127,4 @@ When the user asks to create a fresh world book from a short premise:
   in NeonRP `game/` entities.
 - Do not embed the same lore in more than one entry — split by trigger instead.
 - Do not touch `game/` entities from this skill; for cross-domain changes,
-  pair with `entity-authoring` or `tavern-game-import`.
+  pair with `entity-authoring` or `neonrp import sillytavern-card`.

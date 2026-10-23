@@ -1,0 +1,30 @@
+{
+  "sid": "chara",
+  "hp": 10,
+  "max_hp": 10,
+  "skills": [
+    {
+      "name": "聆听",
+      "value": 50
+    },
+    {
+      "name": "历史",
+      "value": 40
+    },
+    {
+      "name": "闪避",
+      "value": 24
+    }
+  ],
+  "age": 19,
+  "attributes": {
+    "str": 9,
+    "con": 10,
+    "siz": 10,
+    "dex": 12,
+    "app": 13,
+    "int": 13,
+    "pow": 12,
+    "edu": 14
+  }
+}

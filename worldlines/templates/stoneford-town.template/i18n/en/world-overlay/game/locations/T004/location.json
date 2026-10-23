@@ -1,0 +1,53 @@
+{
+  "id": "T004",
+  "type": "town",
+  "name": "Jadestone",
+  "region": "Northvale",
+  "pos": [
+    18,
+    4
+  ],
+  "summary": "A mining town rich in jade and crystal, a gathering place for adventurers.",
+  "state": {
+    "discovered": true,
+    "danger_nearby": 2
+  },
+  "travel_info": {
+    "from_T001": "3 days' travel, northeast",
+    "recommendation": "suitable for novice adventurers"
+  },
+  "locations": {
+    "Adventurers' Guild (Jadestone Branch)": {
+      "discovered": true,
+      "note": "twice the size of Stoneford's"
+    },
+    "Jade-Crystal Tavern": {
+      "discovered": true,
+      "note": "tonight's meeting point"
+    },
+    "Miners' Avenue": {
+      "discovered": true,
+      "note": "the main street, paved with jade-green stone"
+    },
+    "Dawnlight Chapel": {
+      "discovered": true,
+      "note": "on East Street; Elena will go there alone"
+    },
+    "Ore Shop": {
+      "discovered": true
+    },
+    "Herb Shop": {
+      "discovered": true
+    },
+    "Smithy": {
+      "discovered": true
+    },
+    "Mine Entrance": {
+      "discovered": false
+    }
+  },
+  "connections": [
+    "T001"
+  ],
+  "entry": "gate_west"
+}

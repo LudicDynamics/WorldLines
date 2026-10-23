@@ -1,0 +1,19 @@
+{
+  "sid": "butler",
+  "relationships": {
+    "owner": {
+      "name": "埃德蒙·格雷伍德",
+      "disposition": "侍奉了四十年的老爷;最后一道吩咐是他亲手抹上的那面墙",
+      "known": true
+    },
+    "chara": {
+      "name": "温妮",
+      "disposition": "看着长大的小姐;最怕她下地窖,也最怕她恨老爷",
+      "known": true
+    },
+    "player": {
+      "disposition": "外人;小姐请来的,礼数周全,但不信任",
+      "known": true
+    }
+  }
+}

@@ -1,0 +1,3753 @@
+{
+ "_note": "stage A old loading (NeonRP 64b22827 = neonrp-worlds as merged into integrate/1019, incl. f57a3989 combat one-shot node; NeonRP-private 41ce9a3, NEONRP_PRIVATE=off), written by tests/test_template_layers.snapshot",
+ "worlds": {
+  "guixiang": {
+   "desk_engine": {
+    "turn": {
+     "apply": {
+      "re_propose": {
+       "max": 1,
+       "world_conflicts": [
+        "same_item",
+        "addressed_but_leaving",
+        "commitment_vs_intention",
+        "tool_flag_clash"
+       ]
+      },
+      "writers": "on"
+     },
+     "mode": "v3",
+     "parallel": {
+      "ctb": {
+       "budget_per_turn": 2,
+       "enabled": false,
+       "wait_day_threshold": 0.7
+      },
+      "souls": {
+       "adjudicate": 1,
+       "decide_conf": 0.5,
+       "default_variant": "S-judge",
+       "escalate_at": 0.8,
+       "escalate_turns": 3,
+       "heavy_at": 0.4,
+       "max_workers": 8,
+       "per_soul": {},
+       "timeout_s": 20
+      },
+      "tools": {
+       "disabled": [],
+       "enabled": []
+      }
+     },
+     "plan": {
+      "backend": "auto",
+      "confidence": 0.7,
+      "fallback_depth": "act",
+      "pack_budget": 0,
+      "react": 0.6
+     },
+     "solve": {
+      "async_mark": "tilde",
+      "history": 4,
+      "max_ops": 24,
+      "sections": "xml",
+      "stream": false,
+      "structured": "adv"
+     },
+     "verify": {
+      "gate": {
+       "max_loops": 1,
+       "need_fix": 0.7,
+       "need_more": 0.7
+      },
+      "grounded_min": 0.5,
+      "l2": "auto",
+      "missed_min": 0.6
+     }
+    }
+   },
+   "engine": {
+    "turn": {
+     "apply": {
+      "re_propose": {
+       "max": 1,
+       "world_conflicts": [
+        "same_item",
+        "addressed_but_leaving",
+        "commitment_vs_intention",
+        "tool_flag_clash"
+       ]
+      },
+      "writers": "on"
+     },
+     "mode": "v3",
+     "parallel": {
+      "ctb": {
+       "budget_per_turn": 2,
+       "enabled": false,
+       "wait_day_threshold": 0.7
+      },
+      "souls": {
+       "adjudicate": 1,
+       "decide_conf": 0.5,
+       "default_variant": "S-judge",
+       "escalate_at": 0.8,
+       "escalate_turns": 3,
+       "heavy_at": 0.4,
+       "max_workers": 8,
+       "per_soul": {},
+       "timeout_s": 20
+      },
+      "tools": {
+       "disabled": [],
+       "enabled": []
+      }
+     },
+     "plan": {
+      "backend": "auto",
+      "confidence": 0.7,
+      "fallback_depth": "act",
+      "pack_budget": 0,
+      "react": 0.6
+     },
+     "solve": {
+      "async_mark": "tilde",
+      "history": 4,
+      "max_ops": 24,
+      "sections": "xml",
+      "stream": false,
+      "structured": "adv"
+     },
+     "verify": {
+      "gate": {
+       "max_loops": 1,
+       "need_fix": 0.7,
+       "need_more": 0.7
+      },
+      "grounded_min": 0.5,
+      "l2": "auto",
+      "missed_min": 0.6
+     }
+    }
+   },
+   "graph": {
+    "edges": [
+     {
+      "from": "resolve",
+      "id": "resolve>combat:call",
+      "on": {
+       "op": "combat"
+      },
+      "return": true,
+      "to": "combat"
+     },
+     {
+      "from": "dungeon",
+      "id": "dungeon>combat:call",
+      "on": {
+       "op": "combat"
+      },
+      "return": true,
+      "to": "combat"
+     },
+     {
+      "from": "*",
+      "id": "*>dungeon:here",
+      "on": {
+       "here_class": "room"
+      },
+      "return": true,
+      "to": "dungeon"
+     },
+     {
+      "from": "resolve",
+      "id": "resolve>referee:call",
+      "on": {
+       "op": "referee"
+      },
+      "return": true,
+      "to": "referee"
+     },
+     {
+      "from": "dungeon",
+      "id": "dungeon>referee:call",
+      "on": {
+       "op": "referee"
+      },
+      "return": true,
+      "to": "referee"
+     }
+    ],
+    "nodes": {
+     "combat": {
+      "kind": "one_shot",
+      "mode": "combat",
+      "title": "战斗裁判",
+      "tools": [
+       "dice",
+       "roll",
+       "flag",
+       "san"
+      ]
+     },
+     "dungeon": {
+      "here_class": "room",
+      "kind": "place",
+      "mode": "dungeon",
+      "title": "地穴主持",
+      "tools": []
+     },
+     "referee": {
+      "kind": "one_shot",
+      "mode": "referee",
+      "title": "规则裁判",
+      "tools": []
+     },
+     "resolve": {
+      "kind": "loop",
+      "prompt": "narrate",
+      "state": "pseudo",
+      "steps": [
+       "clock",
+       "scene_route",
+       "s1_plan",
+       "player_gate",
+       "s2_souls",
+       "followups",
+       "pack",
+       "understand",
+       "gate",
+       "mode_layer",
+       "solve",
+       "verify",
+       "apply",
+       "deferred_fire",
+       "settle",
+       "after_turn",
+       "ticks",
+       "land"
+      ],
+      "title": "resolve",
+      "tools": "@pack.actions"
+     }
+    },
+    "start": "resolve",
+    "units": [
+     {
+      "doc": "status effects count down and apply their per-resolve change (the world's own variables: any)",
+      "llm": false,
+      "name": "effects",
+      "on": "apply",
+      "tick": "core:effects",
+      "writes": [
+       "var:*",
+       "op:patch",
+       "op:remove"
+      ]
+     },
+     {
+      "doc": "characters away from the player take their own turn (LLM); only their own moves land",
+      "llm": true,
+      "name": "souls_elsewhere",
+      "on": "resolve",
+      "tick": "core:souls_elsewhere",
+      "writes": [
+       "op:move_to"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "effects_clock",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.effects_clock:tick",
+      "writes": [
+       "op:patch",
+       "op:remove"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "travel",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.travel:tick_souls",
+      "undeclared": true,
+      "writes": []
+     },
+     {
+      "llm": false,
+      "name": "downed",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.downed:tick",
+      "writes": [
+       "var:char.*",
+       "var:player.hp",
+       "op:new",
+       "op:remove"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "combat",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.combat:tick",
+      "writes": [
+       "op:end_combat"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "tick",
+      "on": "apply",
+      "tick": "neonrp.packs.pct.tick:tick",
+      "writes": [
+       "op:new"
+      ]
+     }
+    ]
+   },
+   "souls": {
+    "xiulian": "S-judge"
+   }
+  },
+  "kagura-island": {
+   "desk_engine": {
+    "turn": {
+     "apply": {
+      "re_propose": {
+       "max": 1,
+       "world_conflicts": [
+        "same_item",
+        "addressed_but_leaving",
+        "commitment_vs_intention",
+        "tool_flag_clash"
+       ]
+      },
+      "writers": "on"
+     },
+     "mode": "v3",
+     "parallel": {
+      "ctb": {
+       "budget_per_turn": 2,
+       "enabled": false,
+       "wait_day_threshold": 0.7
+      },
+      "souls": {
+       "adjudicate": 1,
+       "decide_conf": 0.5,
+       "default_variant": "S-judge",
+       "escalate_at": 0.8,
+       "escalate_turns": 3,
+       "heavy_at": 0.4,
+       "max_workers": 8,
+       "per_soul": {},
+       "timeout_s": 20
+      },
+      "tools": {
+       "disabled": [],
+       "enabled": []
+      }
+     },
+     "plan": {
+      "backend": "auto",
+      "confidence": 0.7,
+      "fallback_depth": "act",
+      "pack_budget": 0,
+      "react": 0.6
+     },
+     "solve": {
+      "async_mark": "tilde",
+      "history": 4,
+      "max_ops": 24,
+      "sections": "xml",
+      "stream": false,
+      "structured": "adv"
+     },
+     "verify": {
+      "gate": {
+       "max_loops": 1,
+       "need_fix": 0.7,
+       "need_more": 0.7
+      },
+      "grounded_min": 0.5,
+      "l2": "auto",
+      "missed_min": 0.6
+     }
+    }
+   },
+   "engine": {
+    "turn": {
+     "apply": {
+      "re_propose": {
+       "max": 1,
+       "world_conflicts": [
+        "same_item",
+        "addressed_but_leaving",
+        "commitment_vs_intention",
+        "tool_flag_clash"
+       ]
+      },
+      "writers": "on"
+     },
+     "mode": "v3",
+     "parallel": {
+      "ctb": {
+       "budget_per_turn": 2,
+       "enabled": false,
+       "wait_day_threshold": 0.7
+      },
+      "souls": {
+       "adjudicate": 1,
+       "decide_conf": 0.5,
+       "default_variant": "S-judge",
+       "escalate_at": 0.8,
+       "escalate_turns": 3,
+       "heavy_at": 0.4,
+       "max_workers": 8,
+       "per_soul": {},
+       "timeout_s": 20
+      },
+      "tools": {
+       "disabled": [],
+       "enabled": []
+      }
+     },
+     "plan": {
+      "backend": "auto",
+      "confidence": 0.7,
+      "fallback_depth": "act",
+      "pack_budget": 0,
+      "react": 0.6
+     },
+     "solve": {
+      "async_mark": "tilde",
+      "history": 4,
+      "max_ops": 24,
+      "sections": "xml",
+      "stream": false,
+      "structured": "adv"
+     },
+     "verify": {
+      "gate": {
+       "max_loops": 1,
+       "need_fix": 0.7,
+       "need_more": 0.7
+      },
+      "grounded_min": 0.5,
+      "l2": "auto",
+      "missed_min": 0.6
+     }
+    }
+   },
+   "graph": {
+    "edges": [
+     {
+      "from": "resolve",
+      "id": "resolve>combat:call",
+      "on": {
+       "op": "combat"
+      },
+      "return": true,
+      "to": "combat"
+     },
+     {
+      "from": "dungeon",
+      "id": "dungeon>combat:call",
+      "on": {
+       "op": "combat"
+      },
+      "return": true,
+      "to": "combat"
+     },
+     {
+      "from": "*",
+      "id": "*>dungeon:here",
+      "on": {
+       "here_class": "room"
+      },
+      "return": true,
+      "to": "dungeon"
+     },
+     {
+      "from": "resolve",
+      "id": "resolve>referee:call",
+      "on": {
+       "op": "referee"
+      },
+      "return": true,
+      "to": "referee"
+     },
+     {
+      "from": "dungeon",
+      "id": "dungeon>referee:call",
+      "on": {
+       "op": "referee"
+      },
+      "return": true,
+      "to": "referee"
+     }
+    ],
+    "nodes": {
+     "combat": {
+      "kind": "one_shot",
+      "mode": "combat",
+      "title": "战斗裁判",
+      "tools": [
+       "dice",
+       "roll",
+       "flag",
+       "san"
+      ]
+     },
+     "dungeon": {
+      "here_class": "room",
+      "kind": "place",
+      "mode": "dungeon",
+      "title": "地穴主持",
+      "tools": []
+     },
+     "referee": {
+      "kind": "one_shot",
+      "mode": "referee",
+      "title": "规则裁判",
+      "tools": []
+     },
+     "resolve": {
+      "kind": "loop",
+      "prompt": "narrate",
+      "state": "pseudo",
+      "steps": [
+       "clock",
+       "scene_route",
+       "s1_plan",
+       "player_gate",
+       "s2_souls",
+       "followups",
+       "pack",
+       "understand",
+       "gate",
+       "mode_layer",
+       "solve",
+       "verify",
+       "apply",
+       "deferred_fire",
+       "settle",
+       "after_turn",
+       "ticks",
+       "land"
+      ],
+      "title": "resolve",
+      "tools": "@pack.actions"
+     }
+    },
+    "start": "resolve",
+    "units": [
+     {
+      "doc": "status effects count down and apply their per-resolve change (the world's own variables: any)",
+      "llm": false,
+      "name": "effects",
+      "on": "apply",
+      "tick": "core:effects",
+      "writes": [
+       "var:*",
+       "op:patch",
+       "op:remove"
+      ]
+     },
+     {
+      "doc": "characters away from the player take their own turn (LLM); only their own moves land",
+      "llm": true,
+      "name": "souls_elsewhere",
+      "on": "resolve",
+      "tick": "core:souls_elsewhere",
+      "writes": [
+       "op:move_to"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "effects_clock",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.effects_clock:tick",
+      "writes": [
+       "op:patch",
+       "op:remove"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "travel",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.travel:tick_souls",
+      "undeclared": true,
+      "writes": []
+     },
+     {
+      "llm": false,
+      "name": "downed",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.downed:tick",
+      "writes": [
+       "var:char.*",
+       "var:player.hp",
+       "op:new",
+       "op:remove"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "combat",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.combat:tick",
+      "writes": [
+       "op:end_combat"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "tick",
+      "on": "apply",
+      "tick": "neonrp.packs.pct.tick:tick",
+      "writes": [
+       "op:new"
+      ]
+     }
+    ]
+   },
+   "souls": {
+    "hane": "S-judge",
+    "kagami": "S-judge",
+    "makoto": "S-judge",
+    "miyaji": "S-judge",
+    "shiro": "S-judge",
+    "tsubasa": "S-judge",
+    "yuto": "S-judge"
+   }
+  },
+  "last-train": {
+   "desk_engine": {
+    "turn": {
+     "apply": {
+      "re_propose": {
+       "max": 1,
+       "world_conflicts": [
+        "same_item",
+        "addressed_but_leaving",
+        "commitment_vs_intention",
+        "tool_flag_clash"
+       ]
+      },
+      "writers": "on"
+     },
+     "mode": "v3",
+     "parallel": {
+      "ctb": {
+       "budget_per_turn": 2,
+       "enabled": false,
+       "wait_day_threshold": 0.7
+      },
+      "souls": {
+       "adjudicate": 1,
+       "decide_conf": 0.5,
+       "default_variant": "S-judge",
+       "escalate_at": 0.8,
+       "escalate_turns": 3,
+       "heavy_at": 0.4,
+       "max_workers": 8,
+       "per_soul": {},
+       "timeout_s": 20
+      },
+      "tools": {
+       "disabled": [],
+       "enabled": []
+      }
+     },
+     "plan": {
+      "backend": "auto",
+      "confidence": 0.7,
+      "fallback_depth": "act",
+      "pack_budget": 0,
+      "react": 0.6
+     },
+     "solve": {
+      "async_mark": "tilde",
+      "history": 4,
+      "max_ops": 24,
+      "sections": "xml",
+      "stream": false,
+      "structured": "adv"
+     },
+     "verify": {
+      "gate": {
+       "max_loops": 1,
+       "need_fix": 0.7,
+       "need_more": 0.7
+      },
+      "grounded_min": 0.5,
+      "l2": "auto",
+      "missed_min": 0.6
+     }
+    }
+   },
+   "engine": {
+    "turn": {
+     "apply": {
+      "re_propose": {
+       "max": 1,
+       "world_conflicts": [
+        "same_item",
+        "addressed_but_leaving",
+        "commitment_vs_intention",
+        "tool_flag_clash"
+       ]
+      },
+      "writers": "on"
+     },
+     "mode": "v3",
+     "parallel": {
+      "ctb": {
+       "budget_per_turn": 2,
+       "enabled": false,
+       "wait_day_threshold": 0.7
+      },
+      "souls": {
+       "adjudicate": 1,
+       "decide_conf": 0.5,
+       "default_variant": "S-judge",
+       "escalate_at": 0.8,
+       "escalate_turns": 3,
+       "heavy_at": 0.4,
+       "max_workers": 8,
+       "per_soul": {},
+       "timeout_s": 20
+      },
+      "tools": {
+       "disabled": [],
+       "enabled": []
+      }
+     },
+     "plan": {
+      "backend": "auto",
+      "confidence": 0.7,
+      "fallback_depth": "act",
+      "pack_budget": 0,
+      "react": 0.6
+     },
+     "solve": {
+      "async_mark": "tilde",
+      "history": 4,
+      "max_ops": 24,
+      "sections": "xml",
+      "stream": false,
+      "structured": "adv"
+     },
+     "verify": {
+      "gate": {
+       "max_loops": 1,
+       "need_fix": 0.7,
+       "need_more": 0.7
+      },
+      "grounded_min": 0.5,
+      "l2": "auto",
+      "missed_min": 0.6
+     }
+    }
+   },
+   "graph": {
+    "edges": [
+     {
+      "from": "resolve",
+      "id": "resolve>combat:call",
+      "on": {
+       "op": "combat"
+      },
+      "return": true,
+      "to": "combat"
+     },
+     {
+      "from": "dungeon",
+      "id": "dungeon>combat:call",
+      "on": {
+       "op": "combat"
+      },
+      "return": true,
+      "to": "combat"
+     },
+     {
+      "from": "*",
+      "id": "*>dungeon:here",
+      "on": {
+       "here_class": "room"
+      },
+      "return": true,
+      "to": "dungeon"
+     },
+     {
+      "from": "resolve",
+      "id": "resolve>referee:call",
+      "on": {
+       "op": "referee"
+      },
+      "return": true,
+      "to": "referee"
+     },
+     {
+      "from": "dungeon",
+      "id": "dungeon>referee:call",
+      "on": {
+       "op": "referee"
+      },
+      "return": true,
+      "to": "referee"
+     }
+    ],
+    "nodes": {
+     "combat": {
+      "kind": "one_shot",
+      "mode": "combat",
+      "title": "战斗裁判",
+      "tools": [
+       "dice",
+       "roll",
+       "flag",
+       "san"
+      ]
+     },
+     "dungeon": {
+      "here_class": "room",
+      "kind": "place",
+      "mode": "dungeon",
+      "title": "地穴主持",
+      "tools": []
+     },
+     "referee": {
+      "kind": "one_shot",
+      "mode": "referee",
+      "title": "规则裁判",
+      "tools": []
+     },
+     "resolve": {
+      "kind": "loop",
+      "prompt": "narrate",
+      "state": "pseudo",
+      "steps": [
+       "clock",
+       "scene_route",
+       "s1_plan",
+       "player_gate",
+       "s2_souls",
+       "followups",
+       "pack",
+       "understand",
+       "gate",
+       "mode_layer",
+       "solve",
+       "verify",
+       "apply",
+       "deferred_fire",
+       "settle",
+       "after_turn",
+       "ticks",
+       "land"
+      ],
+      "title": "resolve",
+      "tools": "@pack.actions"
+     }
+    },
+    "start": "resolve",
+    "units": [
+     {
+      "doc": "status effects count down and apply their per-resolve change (the world's own variables: any)",
+      "llm": false,
+      "name": "effects",
+      "on": "apply",
+      "tick": "core:effects",
+      "writes": [
+       "var:*",
+       "op:patch",
+       "op:remove"
+      ]
+     },
+     {
+      "doc": "characters away from the player take their own turn (LLM); only their own moves land",
+      "llm": true,
+      "name": "souls_elsewhere",
+      "on": "resolve",
+      "tick": "core:souls_elsewhere",
+      "writes": [
+       "op:move_to"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "effects_clock",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.effects_clock:tick",
+      "writes": [
+       "op:patch",
+       "op:remove"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "travel",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.travel:tick_souls",
+      "undeclared": true,
+      "writes": []
+     },
+     {
+      "llm": false,
+      "name": "downed",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.downed:tick",
+      "writes": [
+       "var:char.*",
+       "var:player.hp",
+       "op:new",
+       "op:remove"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "combat",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.combat:tick",
+      "writes": [
+       "op:end_combat"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "tick",
+      "on": "apply",
+      "tick": "neonrp.packs.pct.tick:tick",
+      "writes": [
+       "op:new"
+      ]
+     }
+    ]
+   },
+   "souls": {
+    "laohe": "S-judge",
+    "xiacheng": "S-judge",
+    "zhonghuaili": "S-judge",
+    "zhouzihang": "S-judge"
+   }
+  },
+  "neon-rebirth": {
+   "desk_engine": {
+    "turn": {
+     "apply": {
+      "re_propose": {
+       "max": 1,
+       "world_conflicts": [
+        "same_item",
+        "addressed_but_leaving",
+        "commitment_vs_intention",
+        "tool_flag_clash"
+       ]
+      },
+      "writers": "on"
+     },
+     "mode": "v3",
+     "parallel": {
+      "ctb": {
+       "budget_per_turn": 2,
+       "enabled": false,
+       "wait_day_threshold": 0.7
+      },
+      "souls": {
+       "adjudicate": 1,
+       "decide_conf": 0.5,
+       "default_variant": "S-judge",
+       "escalate_at": 0.8,
+       "escalate_turns": 3,
+       "heavy_at": 0.4,
+       "max_workers": 8,
+       "per_soul": {},
+       "timeout_s": 20
+      },
+      "tools": {
+       "disabled": [],
+       "enabled": []
+      }
+     },
+     "plan": {
+      "backend": "auto",
+      "confidence": 0.7,
+      "fallback_depth": "act",
+      "pack_budget": 0,
+      "react": 0.6
+     },
+     "solve": {
+      "async_mark": "tilde",
+      "history": 4,
+      "max_ops": 24,
+      "sections": "xml",
+      "stream": false,
+      "structured": "adv"
+     },
+     "verify": {
+      "gate": {
+       "max_loops": 1,
+       "need_fix": 0.7,
+       "need_more": 0.7
+      },
+      "grounded_min": 0.5,
+      "l2": "auto",
+      "missed_min": 0.6
+     }
+    }
+   },
+   "engine": {
+    "turn": {
+     "apply": {
+      "re_propose": {
+       "max": 1,
+       "world_conflicts": [
+        "same_item",
+        "addressed_but_leaving",
+        "commitment_vs_intention",
+        "tool_flag_clash"
+       ]
+      },
+      "writers": "on"
+     },
+     "mode": "v3",
+     "parallel": {
+      "ctb": {
+       "budget_per_turn": 2,
+       "enabled": false,
+       "wait_day_threshold": 0.7
+      },
+      "souls": {
+       "adjudicate": 1,
+       "decide_conf": 0.5,
+       "default_variant": "S-judge",
+       "escalate_at": 0.8,
+       "escalate_turns": 3,
+       "heavy_at": 0.4,
+       "max_workers": 8,
+       "per_soul": {},
+       "timeout_s": 20
+      },
+      "tools": {
+       "disabled": [],
+       "enabled": []
+      }
+     },
+     "plan": {
+      "backend": "auto",
+      "confidence": 0.7,
+      "fallback_depth": "act",
+      "pack_budget": 0,
+      "react": 0.6
+     },
+     "solve": {
+      "async_mark": "tilde",
+      "history": 4,
+      "max_ops": 24,
+      "sections": "xml",
+      "stream": false,
+      "structured": "adv"
+     },
+     "verify": {
+      "gate": {
+       "max_loops": 1,
+       "need_fix": 0.7,
+       "need_more": 0.7
+      },
+      "grounded_min": 0.5,
+      "l2": "auto",
+      "missed_min": 0.6
+     }
+    }
+   },
+   "graph": {
+    "edges": [
+     {
+      "from": "resolve",
+      "id": "resolve>combat:call",
+      "on": {
+       "op": "combat"
+      },
+      "return": true,
+      "to": "combat"
+     },
+     {
+      "from": "dungeon",
+      "id": "dungeon>combat:call",
+      "on": {
+       "op": "combat"
+      },
+      "return": true,
+      "to": "combat"
+     },
+     {
+      "from": "*",
+      "id": "*>dungeon:here",
+      "on": {
+       "here_class": "room"
+      },
+      "return": true,
+      "to": "dungeon"
+     },
+     {
+      "from": "resolve",
+      "id": "resolve>referee:call",
+      "on": {
+       "op": "referee"
+      },
+      "return": true,
+      "to": "referee"
+     },
+     {
+      "from": "dungeon",
+      "id": "dungeon>referee:call",
+      "on": {
+       "op": "referee"
+      },
+      "return": true,
+      "to": "referee"
+     }
+    ],
+    "nodes": {
+     "combat": {
+      "kind": "one_shot",
+      "mode": "combat",
+      "title": "战斗裁判",
+      "tools": [
+       "dice",
+       "roll",
+       "flag"
+      ]
+     },
+     "dungeon": {
+      "here_class": "room",
+      "kind": "place",
+      "mode": "dungeon",
+      "title": "地穴主持",
+      "tools": []
+     },
+     "referee": {
+      "kind": "one_shot",
+      "mode": "referee",
+      "title": "规则裁判",
+      "tools": []
+     },
+     "resolve": {
+      "kind": "loop",
+      "prompt": "narrate",
+      "state": "pseudo",
+      "steps": [
+       "clock",
+       "scene_route",
+       "s1_plan",
+       "player_gate",
+       "s2_souls",
+       "followups",
+       "pack",
+       "understand",
+       "gate",
+       "mode_layer",
+       "solve",
+       "verify",
+       "apply",
+       "deferred_fire",
+       "settle",
+       "after_turn",
+       "ticks",
+       "land"
+      ],
+      "title": "resolve",
+      "tools": "@pack.actions"
+     }
+    },
+    "start": "resolve",
+    "units": [
+     {
+      "doc": "status effects count down and apply their per-resolve change (the world's own variables: any)",
+      "llm": false,
+      "name": "effects",
+      "on": "apply",
+      "tick": "core:effects",
+      "writes": [
+       "var:*",
+       "op:patch",
+       "op:remove"
+      ]
+     },
+     {
+      "doc": "characters away from the player take their own turn (LLM); only their own moves land",
+      "llm": true,
+      "name": "souls_elsewhere",
+      "on": "resolve",
+      "tick": "core:souls_elsewhere",
+      "writes": [
+       "op:move_to"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "effects_clock",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.effects_clock:tick",
+      "writes": [
+       "op:patch",
+       "op:remove"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "travel",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.travel:tick_souls",
+      "undeclared": true,
+      "writes": []
+     },
+     {
+      "llm": false,
+      "name": "downed",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.downed:tick",
+      "writes": [
+       "var:char.*",
+       "var:player.hp",
+       "op:new",
+       "op:remove"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "combat",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.combat:tick",
+      "writes": [
+       "op:end_combat"
+      ]
+     }
+    ]
+   },
+   "souls": {
+    "akari": "S-judge",
+    "gu": "S-judge",
+    "hawk": "S-judge",
+    "isse": "S-judge",
+    "kujo": "S-judge",
+    "kuon": "S-judge",
+    "nameless": "S-judge",
+    "rin": "S-judge",
+    "shirase": "S-judge",
+    "yomi": "S-judge"
+   }
+  },
+  "pct-house": {
+   "desk_engine": {
+    "turn": {
+     "apply": {
+      "re_propose": {
+       "max": 1,
+       "world_conflicts": [
+        "same_item",
+        "addressed_but_leaving",
+        "commitment_vs_intention",
+        "tool_flag_clash"
+       ]
+      },
+      "writers": "on"
+     },
+     "mode": "v3",
+     "parallel": {
+      "ctb": {
+       "budget_per_turn": 2,
+       "enabled": false,
+       "wait_day_threshold": 0.7
+      },
+      "souls": {
+       "adjudicate": 1,
+       "decide_conf": 0.5,
+       "default_variant": "S-judge",
+       "escalate_at": 0.8,
+       "escalate_turns": 3,
+       "heavy_at": 0.4,
+       "max_workers": 8,
+       "per_soul": {},
+       "timeout_s": 20
+      },
+      "tools": {
+       "disabled": [],
+       "enabled": []
+      }
+     },
+     "plan": {
+      "backend": "auto",
+      "confidence": 0.7,
+      "fallback_depth": "act",
+      "pack_budget": 0,
+      "react": 0.6
+     },
+     "solve": {
+      "async_mark": "tilde",
+      "history": 4,
+      "max_ops": 24,
+      "sections": "xml",
+      "stream": false,
+      "structured": "adv"
+     },
+     "verify": {
+      "gate": {
+       "max_loops": 1,
+       "need_fix": 0.7,
+       "need_more": 0.7
+      },
+      "grounded_min": 0.5,
+      "l2": "auto",
+      "missed_min": 0.6
+     }
+    }
+   },
+   "engine": {
+    "turn": {
+     "apply": {
+      "re_propose": {
+       "max": 1,
+       "world_conflicts": [
+        "same_item",
+        "addressed_but_leaving",
+        "commitment_vs_intention",
+        "tool_flag_clash"
+       ]
+      },
+      "writers": "on"
+     },
+     "mode": "v3",
+     "parallel": {
+      "ctb": {
+       "budget_per_turn": 2,
+       "enabled": false,
+       "wait_day_threshold": 0.7
+      },
+      "souls": {
+       "adjudicate": 1,
+       "decide_conf": 0.5,
+       "default_variant": "S-judge",
+       "escalate_at": 0.8,
+       "escalate_turns": 3,
+       "heavy_at": 0.4,
+       "max_workers": 8,
+       "per_soul": {},
+       "timeout_s": 20
+      },
+      "tools": {
+       "disabled": [],
+       "enabled": []
+      }
+     },
+     "plan": {
+      "backend": "auto",
+      "confidence": 0.7,
+      "fallback_depth": "act",
+      "pack_budget": 0,
+      "react": 0.6
+     },
+     "solve": {
+      "async_mark": "tilde",
+      "history": 4,
+      "max_ops": 24,
+      "sections": "xml",
+      "stream": false,
+      "structured": "adv"
+     },
+     "verify": {
+      "gate": {
+       "max_loops": 1,
+       "need_fix": 0.7,
+       "need_more": 0.7
+      },
+      "grounded_min": 0.5,
+      "l2": "auto",
+      "missed_min": 0.6
+     }
+    }
+   },
+   "graph": {
+    "edges": [
+     {
+      "from": "resolve",
+      "id": "resolve>combat:call",
+      "on": {
+       "op": "combat"
+      },
+      "return": true,
+      "to": "combat"
+     },
+     {
+      "from": "dungeon",
+      "id": "dungeon>combat:call",
+      "on": {
+       "op": "combat"
+      },
+      "return": true,
+      "to": "combat"
+     },
+     {
+      "from": "*",
+      "id": "*>dungeon:here",
+      "on": {
+       "here_class": "room"
+      },
+      "return": true,
+      "to": "dungeon"
+     },
+     {
+      "from": "resolve",
+      "id": "resolve>referee:call",
+      "on": {
+       "op": "referee"
+      },
+      "return": true,
+      "to": "referee"
+     },
+     {
+      "from": "dungeon",
+      "id": "dungeon>referee:call",
+      "on": {
+       "op": "referee"
+      },
+      "return": true,
+      "to": "referee"
+     }
+    ],
+    "nodes": {
+     "combat": {
+      "kind": "one_shot",
+      "mode": "combat",
+      "title": "战斗裁判",
+      "tools": [
+       "dice",
+       "roll",
+       "flag",
+       "san"
+      ]
+     },
+     "dungeon": {
+      "here_class": "room",
+      "kind": "place",
+      "mode": "dungeon",
+      "title": "地穴主持",
+      "tools": []
+     },
+     "referee": {
+      "kind": "one_shot",
+      "mode": "referee",
+      "title": "规则裁判",
+      "tools": []
+     },
+     "resolve": {
+      "kind": "loop",
+      "prompt": "narrate",
+      "state": "pseudo",
+      "steps": [
+       "clock",
+       "scene_route",
+       "s1_plan",
+       "player_gate",
+       "s2_souls",
+       "followups",
+       "pack",
+       "understand",
+       "gate",
+       "mode_layer",
+       "solve",
+       "verify",
+       "apply",
+       "deferred_fire",
+       "settle",
+       "after_turn",
+       "ticks",
+       "land"
+      ],
+      "title": "resolve",
+      "tools": "@pack.actions"
+     }
+    },
+    "start": "resolve",
+    "units": [
+     {
+      "doc": "status effects count down and apply their per-resolve change (the world's own variables: any)",
+      "llm": false,
+      "name": "effects",
+      "on": "apply",
+      "tick": "core:effects",
+      "writes": [
+       "var:*",
+       "op:patch",
+       "op:remove"
+      ]
+     },
+     {
+      "doc": "characters away from the player take their own turn (LLM); only their own moves land",
+      "llm": true,
+      "name": "souls_elsewhere",
+      "on": "resolve",
+      "tick": "core:souls_elsewhere",
+      "writes": [
+       "op:move_to"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "effects_clock",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.effects_clock:tick",
+      "writes": [
+       "op:patch",
+       "op:remove"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "travel",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.travel:tick_souls",
+      "undeclared": true,
+      "writes": []
+     },
+     {
+      "llm": false,
+      "name": "downed",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.downed:tick",
+      "writes": [
+       "var:char.*",
+       "var:player.hp",
+       "op:new",
+       "op:remove"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "combat",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.combat:tick",
+      "writes": [
+       "op:end_combat"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "tick",
+      "on": "apply",
+      "tick": "neonrp.packs.pct.tick:tick",
+      "writes": [
+       "op:new"
+      ]
+     }
+    ]
+   },
+   "souls": {
+    "butler": "S-judge",
+    "chara": "S-judge"
+   }
+  },
+  "spice-witch": {
+   "desk_engine": {
+    "turn": {
+     "apply": {
+      "re_propose": {
+       "max": 1,
+       "world_conflicts": [
+        "same_item",
+        "addressed_but_leaving",
+        "commitment_vs_intention",
+        "tool_flag_clash"
+       ]
+      },
+      "writers": "on"
+     },
+     "mode": "v3",
+     "parallel": {
+      "ctb": {
+       "budget_per_turn": 2,
+       "enabled": false,
+       "wait_day_threshold": 0.7
+      },
+      "souls": {
+       "adjudicate": 1,
+       "decide_conf": 0.5,
+       "default_variant": "S-judge",
+       "escalate_at": 0.8,
+       "escalate_turns": 3,
+       "heavy_at": 0.4,
+       "max_workers": 8,
+       "per_soul": {},
+       "timeout_s": 20
+      },
+      "tools": {
+       "disabled": [],
+       "enabled": []
+      }
+     },
+     "plan": {
+      "backend": "auto",
+      "confidence": 0.7,
+      "fallback_depth": "act",
+      "pack_budget": 0,
+      "react": 0.6
+     },
+     "solve": {
+      "async_mark": "tilde",
+      "history": 4,
+      "max_ops": 24,
+      "sections": "xml",
+      "stream": false,
+      "structured": "adv"
+     },
+     "verify": {
+      "gate": {
+       "max_loops": 1,
+       "need_fix": 0.7,
+       "need_more": 0.7
+      },
+      "grounded_min": 0.5,
+      "l2": "auto",
+      "missed_min": 0.6
+     }
+    }
+   },
+   "engine": {
+    "turn": {
+     "apply": {
+      "re_propose": {
+       "max": 1,
+       "world_conflicts": [
+        "same_item",
+        "addressed_but_leaving",
+        "commitment_vs_intention",
+        "tool_flag_clash"
+       ]
+      },
+      "writers": "on"
+     },
+     "mode": "v3",
+     "parallel": {
+      "ctb": {
+       "budget_per_turn": 2,
+       "enabled": false,
+       "wait_day_threshold": 0.7
+      },
+      "souls": {
+       "adjudicate": 1,
+       "decide_conf": 0.5,
+       "default_variant": "S-judge",
+       "escalate_at": 0.8,
+       "escalate_turns": 3,
+       "heavy_at": 0.4,
+       "max_workers": 8,
+       "per_soul": {},
+       "timeout_s": 20
+      },
+      "tools": {
+       "disabled": [],
+       "enabled": []
+      }
+     },
+     "plan": {
+      "backend": "auto",
+      "confidence": 0.7,
+      "fallback_depth": "act",
+      "pack_budget": 0,
+      "react": 0.6
+     },
+     "solve": {
+      "async_mark": "tilde",
+      "history": 4,
+      "max_ops": 24,
+      "sections": "xml",
+      "stream": false,
+      "structured": "adv"
+     },
+     "verify": {
+      "gate": {
+       "max_loops": 1,
+       "need_fix": 0.7,
+       "need_more": 0.7
+      },
+      "grounded_min": 0.5,
+      "l2": "auto",
+      "missed_min": 0.6
+     }
+    }
+   },
+   "graph": {
+    "edges": [
+     {
+      "from": "resolve",
+      "id": "resolve>combat:call",
+      "on": {
+       "op": "combat"
+      },
+      "return": true,
+      "to": "combat"
+     },
+     {
+      "from": "dungeon",
+      "id": "dungeon>combat:call",
+      "on": {
+       "op": "combat"
+      },
+      "return": true,
+      "to": "combat"
+     },
+     {
+      "from": "*",
+      "id": "*>dungeon:here",
+      "on": {
+       "here_class": "room"
+      },
+      "return": true,
+      "to": "dungeon"
+     },
+     {
+      "from": "resolve",
+      "id": "resolve>referee:call",
+      "on": {
+       "op": "referee"
+      },
+      "return": true,
+      "to": "referee"
+     },
+     {
+      "from": "dungeon",
+      "id": "dungeon>referee:call",
+      "on": {
+       "op": "referee"
+      },
+      "return": true,
+      "to": "referee"
+     }
+    ],
+    "nodes": {
+     "combat": {
+      "kind": "one_shot",
+      "mode": "combat",
+      "title": "战斗裁判",
+      "tools": [
+       "dice",
+       "roll",
+       "flag"
+      ]
+     },
+     "dungeon": {
+      "here_class": "room",
+      "kind": "place",
+      "mode": "dungeon",
+      "title": "地穴主持",
+      "tools": []
+     },
+     "referee": {
+      "kind": "one_shot",
+      "mode": "referee",
+      "title": "规则裁判",
+      "tools": []
+     },
+     "resolve": {
+      "kind": "loop",
+      "prompt": "narrate",
+      "state": "pseudo",
+      "steps": [
+       "clock",
+       "scene_route",
+       "s1_plan",
+       "player_gate",
+       "s2_souls",
+       "followups",
+       "pack",
+       "understand",
+       "gate",
+       "mode_layer",
+       "solve",
+       "verify",
+       "apply",
+       "deferred_fire",
+       "settle",
+       "after_turn",
+       "ticks",
+       "land"
+      ],
+      "title": "resolve",
+      "tools": "@pack.actions"
+     }
+    },
+    "start": "resolve",
+    "units": [
+     {
+      "doc": "status effects count down and apply their per-resolve change (the world's own variables: any)",
+      "llm": false,
+      "name": "effects",
+      "on": "apply",
+      "tick": "core:effects",
+      "writes": [
+       "var:*",
+       "op:patch",
+       "op:remove"
+      ]
+     },
+     {
+      "doc": "characters away from the player take their own turn (LLM); only their own moves land",
+      "llm": true,
+      "name": "souls_elsewhere",
+      "on": "resolve",
+      "tick": "core:souls_elsewhere",
+      "writes": [
+       "op:move_to"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "effects_clock",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.effects_clock:tick",
+      "writes": [
+       "op:patch",
+       "op:remove"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "travel",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.travel:tick_souls",
+      "undeclared": true,
+      "writes": []
+     },
+     {
+      "llm": false,
+      "name": "downed",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.downed:tick",
+      "writes": [
+       "var:char.*",
+       "var:player.hp",
+       "op:new",
+       "op:remove"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "combat",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.combat:tick",
+      "writes": [
+       "op:end_combat"
+      ]
+     }
+    ]
+   },
+   "souls": {
+    "maestro": "S-judge",
+    "severin": "S-judge"
+   }
+  },
+  "stoneford-elena": {
+   "desk_engine": {
+    "turn": {
+     "apply": {
+      "re_propose": {
+       "max": 1,
+       "world_conflicts": [
+        "same_item",
+        "addressed_but_leaving",
+        "commitment_vs_intention",
+        "tool_flag_clash"
+       ]
+      },
+      "writers": "on"
+     },
+     "mode": "v3",
+     "parallel": {
+      "ctb": {
+       "budget_per_turn": 2,
+       "enabled": false,
+       "wait_day_threshold": 0.7
+      },
+      "souls": {
+       "adjudicate": 1,
+       "decide_conf": 0.5,
+       "default_variant": "S-judge",
+       "escalate_at": 0.8,
+       "escalate_turns": 3,
+       "heavy_at": 0.4,
+       "max_workers": 8,
+       "per_soul": {},
+       "timeout_s": 20
+      },
+      "tools": {
+       "disabled": [],
+       "enabled": []
+      }
+     },
+     "plan": {
+      "backend": "auto",
+      "confidence": 0.7,
+      "fallback_depth": "act",
+      "pack_budget": 0,
+      "react": 0.6
+     },
+     "solve": {
+      "async_mark": "tilde",
+      "history": 4,
+      "max_ops": 24,
+      "sections": "xml",
+      "stream": false,
+      "structured": "adv"
+     },
+     "verify": {
+      "gate": {
+       "max_loops": 1,
+       "need_fix": 0.7,
+       "need_more": 0.7
+      },
+      "grounded_min": 0.5,
+      "l2": "auto",
+      "missed_min": 0.6
+     }
+    }
+   },
+   "engine": {
+    "turn": {
+     "apply": {
+      "re_propose": {
+       "max": 1,
+       "world_conflicts": [
+        "same_item",
+        "addressed_but_leaving",
+        "commitment_vs_intention",
+        "tool_flag_clash"
+       ]
+      },
+      "writers": "on"
+     },
+     "mode": "v3",
+     "parallel": {
+      "ctb": {
+       "budget_per_turn": 2,
+       "enabled": false,
+       "wait_day_threshold": 0.7
+      },
+      "souls": {
+       "adjudicate": 1,
+       "decide_conf": 0.5,
+       "default_variant": "S-judge",
+       "escalate_at": 0.8,
+       "escalate_turns": 3,
+       "heavy_at": 0.4,
+       "max_workers": 8,
+       "per_soul": {},
+       "timeout_s": 20
+      },
+      "tools": {
+       "disabled": [],
+       "enabled": []
+      }
+     },
+     "plan": {
+      "backend": "auto",
+      "confidence": 0.7,
+      "fallback_depth": "act",
+      "pack_budget": 0,
+      "react": 0.6
+     },
+     "solve": {
+      "async_mark": "tilde",
+      "history": 4,
+      "max_ops": 24,
+      "sections": "xml",
+      "stream": false,
+      "structured": "adv"
+     },
+     "verify": {
+      "gate": {
+       "max_loops": 1,
+       "need_fix": 0.7,
+       "need_more": 0.7
+      },
+      "grounded_min": 0.5,
+      "l2": "auto",
+      "missed_min": 0.6
+     }
+    }
+   },
+   "graph": {
+    "edges": [
+     {
+      "from": "resolve",
+      "id": "resolve>combat:call",
+      "on": {
+       "op": "combat"
+      },
+      "return": true,
+      "to": "combat"
+     },
+     {
+      "from": "dungeon",
+      "id": "dungeon>combat:call",
+      "on": {
+       "op": "combat"
+      },
+      "return": true,
+      "to": "combat"
+     },
+     {
+      "from": "*",
+      "id": "*>dungeon:here",
+      "on": {
+       "here_class": "room"
+      },
+      "return": true,
+      "to": "dungeon"
+     },
+     {
+      "from": "resolve",
+      "id": "resolve>referee:call",
+      "on": {
+       "op": "referee"
+      },
+      "return": true,
+      "to": "referee"
+     },
+     {
+      "from": "dungeon",
+      "id": "dungeon>referee:call",
+      "on": {
+       "op": "referee"
+      },
+      "return": true,
+      "to": "referee"
+     }
+    ],
+    "nodes": {
+     "combat": {
+      "kind": "one_shot",
+      "mode": "combat",
+      "title": "战斗裁判",
+      "tools": [
+       "dice",
+       "roll",
+       "flag"
+      ]
+     },
+     "dungeon": {
+      "here_class": "room",
+      "kind": "place",
+      "mode": "dungeon",
+      "title": "地穴主持",
+      "tools": []
+     },
+     "referee": {
+      "kind": "one_shot",
+      "mode": "referee",
+      "title": "规则裁判",
+      "tools": []
+     },
+     "resolve": {
+      "kind": "loop",
+      "prompt": "narrate",
+      "state": "pseudo",
+      "steps": [
+       "clock",
+       "scene_route",
+       "s1_plan",
+       "player_gate",
+       "s2_souls",
+       "followups",
+       "pack",
+       "understand",
+       "gate",
+       "mode_layer",
+       "solve",
+       "verify",
+       "apply",
+       "deferred_fire",
+       "settle",
+       "after_turn",
+       "ticks",
+       "land"
+      ],
+      "title": "resolve",
+      "tools": "@pack.actions"
+     }
+    },
+    "start": "resolve",
+    "units": [
+     {
+      "doc": "status effects count down and apply their per-resolve change (the world's own variables: any)",
+      "llm": false,
+      "name": "effects",
+      "on": "apply",
+      "tick": "core:effects",
+      "writes": [
+       "var:*",
+       "op:patch",
+       "op:remove"
+      ]
+     },
+     {
+      "doc": "characters away from the player take their own turn (LLM); only their own moves land",
+      "llm": true,
+      "name": "souls_elsewhere",
+      "on": "resolve",
+      "tick": "core:souls_elsewhere",
+      "writes": [
+       "op:move_to"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "effects_clock",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.effects_clock:tick",
+      "writes": [
+       "op:patch",
+       "op:remove"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "travel",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.travel:tick_souls",
+      "undeclared": true,
+      "writes": []
+     },
+     {
+      "llm": false,
+      "name": "downed",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.downed:tick",
+      "writes": [
+       "var:char.*",
+       "var:player.hp",
+       "op:new",
+       "op:remove"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "combat",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.combat:tick",
+      "writes": [
+       "op:end_combat"
+      ]
+     }
+    ]
+   },
+   "souls": {
+    "elena": "S-judge",
+    "rowan": "S-judge"
+   }
+  },
+  "stoneford-market": {
+   "desk_engine": {
+    "turn": {
+     "apply": {
+      "re_propose": {
+       "max": 1,
+       "world_conflicts": [
+        "same_item",
+        "addressed_but_leaving",
+        "commitment_vs_intention",
+        "tool_flag_clash"
+       ]
+      },
+      "writers": "on"
+     },
+     "mode": "v3",
+     "parallel": {
+      "ctb": {
+       "budget_per_turn": 2,
+       "enabled": false,
+       "wait_day_threshold": 0.7
+      },
+      "souls": {
+       "adjudicate": 1,
+       "decide_conf": 0.5,
+       "default_variant": "S-judge",
+       "escalate_at": 0.8,
+       "escalate_turns": 3,
+       "heavy_at": 0.4,
+       "max_workers": 8,
+       "per_soul": {},
+       "timeout_s": 20
+      },
+      "tools": {
+       "disabled": [],
+       "enabled": []
+      }
+     },
+     "plan": {
+      "backend": "auto",
+      "confidence": 0.7,
+      "fallback_depth": "act",
+      "pack_budget": 0,
+      "react": 0.6
+     },
+     "solve": {
+      "async_mark": "tilde",
+      "history": 4,
+      "max_ops": 24,
+      "sections": "xml",
+      "stream": false,
+      "structured": "adv"
+     },
+     "verify": {
+      "gate": {
+       "max_loops": 1,
+       "need_fix": 0.7,
+       "need_more": 0.7
+      },
+      "grounded_min": 0.5,
+      "l2": "auto",
+      "missed_min": 0.6
+     }
+    }
+   },
+   "engine": {
+    "turn": {
+     "apply": {
+      "re_propose": {
+       "max": 1,
+       "world_conflicts": [
+        "same_item",
+        "addressed_but_leaving",
+        "commitment_vs_intention",
+        "tool_flag_clash"
+       ]
+      },
+      "writers": "on"
+     },
+     "mode": "v3",
+     "parallel": {
+      "ctb": {
+       "budget_per_turn": 2,
+       "enabled": false,
+       "wait_day_threshold": 0.7
+      },
+      "souls": {
+       "adjudicate": 1,
+       "decide_conf": 0.5,
+       "default_variant": "S-judge",
+       "escalate_at": 0.8,
+       "escalate_turns": 3,
+       "heavy_at": 0.4,
+       "max_workers": 8,
+       "per_soul": {},
+       "timeout_s": 20
+      },
+      "tools": {
+       "disabled": [],
+       "enabled": []
+      }
+     },
+     "plan": {
+      "backend": "auto",
+      "confidence": 0.7,
+      "fallback_depth": "act",
+      "pack_budget": 0,
+      "react": 0.6
+     },
+     "solve": {
+      "async_mark": "tilde",
+      "history": 4,
+      "max_ops": 24,
+      "sections": "xml",
+      "stream": false,
+      "structured": "adv"
+     },
+     "verify": {
+      "gate": {
+       "max_loops": 1,
+       "need_fix": 0.7,
+       "need_more": 0.7
+      },
+      "grounded_min": 0.5,
+      "l2": "auto",
+      "missed_min": 0.6
+     }
+    }
+   },
+   "graph": {
+    "edges": [
+     {
+      "from": "resolve",
+      "id": "resolve>combat:call",
+      "on": {
+       "op": "combat"
+      },
+      "return": true,
+      "to": "combat"
+     },
+     {
+      "from": "dungeon",
+      "id": "dungeon>combat:call",
+      "on": {
+       "op": "combat"
+      },
+      "return": true,
+      "to": "combat"
+     },
+     {
+      "from": "*",
+      "id": "*>dungeon:here",
+      "on": {
+       "here_class": "room"
+      },
+      "return": true,
+      "to": "dungeon"
+     },
+     {
+      "from": "resolve",
+      "id": "resolve>referee:call",
+      "on": {
+       "op": "referee"
+      },
+      "return": true,
+      "to": "referee"
+     },
+     {
+      "from": "dungeon",
+      "id": "dungeon>referee:call",
+      "on": {
+       "op": "referee"
+      },
+      "return": true,
+      "to": "referee"
+     }
+    ],
+    "nodes": {
+     "combat": {
+      "kind": "one_shot",
+      "mode": "combat",
+      "title": "战斗裁判",
+      "tools": [
+       "dice",
+       "roll",
+       "flag"
+      ]
+     },
+     "dungeon": {
+      "here_class": "room",
+      "kind": "place",
+      "mode": "dungeon",
+      "title": "地穴主持",
+      "tools": []
+     },
+     "referee": {
+      "kind": "one_shot",
+      "mode": "referee",
+      "title": "规则裁判",
+      "tools": []
+     },
+     "resolve": {
+      "kind": "loop",
+      "prompt": "narrate",
+      "state": "pseudo",
+      "steps": [
+       "clock",
+       "scene_route",
+       "s1_plan",
+       "player_gate",
+       "s2_souls",
+       "followups",
+       "pack",
+       "understand",
+       "gate",
+       "mode_layer",
+       "solve",
+       "verify",
+       "apply",
+       "deferred_fire",
+       "settle",
+       "after_turn",
+       "ticks",
+       "land"
+      ],
+      "title": "resolve",
+      "tools": "@pack.actions"
+     }
+    },
+    "start": "resolve",
+    "units": [
+     {
+      "doc": "status effects count down and apply their per-resolve change (the world's own variables: any)",
+      "llm": false,
+      "name": "effects",
+      "on": "apply",
+      "tick": "core:effects",
+      "writes": [
+       "var:*",
+       "op:patch",
+       "op:remove"
+      ]
+     },
+     {
+      "doc": "characters away from the player take their own turn (LLM); only their own moves land",
+      "llm": true,
+      "name": "souls_elsewhere",
+      "on": "resolve",
+      "tick": "core:souls_elsewhere",
+      "writes": [
+       "op:move_to"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "effects_clock",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.effects_clock:tick",
+      "writes": [
+       "op:patch",
+       "op:remove"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "travel",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.travel:tick_souls",
+      "undeclared": true,
+      "writes": []
+     },
+     {
+      "llm": false,
+      "name": "downed",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.downed:tick",
+      "writes": [
+       "var:char.*",
+       "var:player.hp",
+       "op:new",
+       "op:remove"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "combat",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.combat:tick",
+      "writes": [
+       "op:end_combat"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "economy",
+      "on": "apply",
+      "tick": "neonrp.packs.mixins.economy:tick",
+      "writes": [
+       "var:stock.*",
+       "var:price.*",
+       "var:econ.index",
+       "op:new_caravan",
+       "op:haul",
+       "op:deliver",
+       "op:rob"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "factions",
+      "on": "apply",
+      "tick": "neonrp.packs.mixins.factions:tick",
+      "writes": [
+       "var:faction.*",
+       "var:rel.*",
+       "op:spread",
+       "op:patch_rumor"
+      ]
+     }
+    ]
+   },
+   "souls": {
+    "elena": "S-judge",
+    "rowan": "S-judge"
+   }
+  },
+  "stoneford-three-towns": {
+   "desk_engine": {
+    "turn": {
+     "apply": {
+      "re_propose": {
+       "max": 1,
+       "world_conflicts": [
+        "same_item",
+        "addressed_but_leaving",
+        "commitment_vs_intention",
+        "tool_flag_clash"
+       ]
+      },
+      "writers": "on"
+     },
+     "mode": "v3",
+     "parallel": {
+      "ctb": {
+       "budget_per_turn": 2,
+       "enabled": false,
+       "wait_day_threshold": 0.7
+      },
+      "souls": {
+       "adjudicate": 1,
+       "decide_conf": 0.5,
+       "default_variant": "S-judge",
+       "escalate_at": 0.8,
+       "escalate_turns": 3,
+       "heavy_at": 0.4,
+       "max_workers": 8,
+       "per_soul": {},
+       "timeout_s": 20
+      },
+      "tools": {
+       "disabled": [],
+       "enabled": []
+      }
+     },
+     "plan": {
+      "backend": "auto",
+      "confidence": 0.7,
+      "fallback_depth": "act",
+      "pack_budget": 0,
+      "react": 0.6
+     },
+     "solve": {
+      "async_mark": "tilde",
+      "history": 4,
+      "max_ops": 24,
+      "sections": "xml",
+      "stream": false,
+      "structured": "adv"
+     },
+     "verify": {
+      "gate": {
+       "max_loops": 1,
+       "need_fix": 0.7,
+       "need_more": 0.7
+      },
+      "grounded_min": 0.5,
+      "l2": "auto",
+      "missed_min": 0.6
+     }
+    }
+   },
+   "engine": {
+    "turn": {
+     "apply": {
+      "re_propose": {
+       "max": 1,
+       "world_conflicts": [
+        "same_item",
+        "addressed_but_leaving",
+        "commitment_vs_intention",
+        "tool_flag_clash"
+       ]
+      },
+      "writers": "on"
+     },
+     "mode": "v3",
+     "parallel": {
+      "ctb": {
+       "budget_per_turn": 2,
+       "enabled": false,
+       "wait_day_threshold": 0.7
+      },
+      "souls": {
+       "adjudicate": 1,
+       "decide_conf": 0.5,
+       "default_variant": "S-judge",
+       "escalate_at": 0.8,
+       "escalate_turns": 3,
+       "heavy_at": 0.4,
+       "max_workers": 8,
+       "per_soul": {},
+       "timeout_s": 20
+      },
+      "tools": {
+       "disabled": [],
+       "enabled": []
+      }
+     },
+     "plan": {
+      "backend": "auto",
+      "confidence": 0.7,
+      "fallback_depth": "act",
+      "pack_budget": 0,
+      "react": 0.6
+     },
+     "solve": {
+      "async_mark": "tilde",
+      "history": 4,
+      "max_ops": 24,
+      "sections": "xml",
+      "stream": false,
+      "structured": "adv"
+     },
+     "verify": {
+      "gate": {
+       "max_loops": 1,
+       "need_fix": 0.7,
+       "need_more": 0.7
+      },
+      "grounded_min": 0.5,
+      "l2": "auto",
+      "missed_min": 0.6
+     }
+    }
+   },
+   "graph": {
+    "edges": [
+     {
+      "from": "resolve",
+      "id": "resolve>combat:call",
+      "on": {
+       "op": "combat"
+      },
+      "return": true,
+      "to": "combat"
+     },
+     {
+      "from": "dungeon",
+      "id": "dungeon>combat:call",
+      "on": {
+       "op": "combat"
+      },
+      "return": true,
+      "to": "combat"
+     },
+     {
+      "from": "*",
+      "id": "*>dungeon:here",
+      "on": {
+       "here_class": "room"
+      },
+      "return": true,
+      "to": "dungeon"
+     },
+     {
+      "from": "resolve",
+      "id": "resolve>referee:call",
+      "on": {
+       "op": "referee"
+      },
+      "return": true,
+      "to": "referee"
+     },
+     {
+      "from": "dungeon",
+      "id": "dungeon>referee:call",
+      "on": {
+       "op": "referee"
+      },
+      "return": true,
+      "to": "referee"
+     }
+    ],
+    "nodes": {
+     "combat": {
+      "kind": "one_shot",
+      "mode": "combat",
+      "title": "战斗裁判",
+      "tools": [
+       "dice",
+       "roll",
+       "flag"
+      ]
+     },
+     "dungeon": {
+      "here_class": "room",
+      "kind": "place",
+      "mode": "dungeon",
+      "title": "地穴主持",
+      "tools": []
+     },
+     "referee": {
+      "kind": "one_shot",
+      "mode": "referee",
+      "title": "规则裁判",
+      "tools": []
+     },
+     "resolve": {
+      "kind": "loop",
+      "prompt": "narrate",
+      "state": "pseudo",
+      "steps": [
+       "clock",
+       "scene_route",
+       "s1_plan",
+       "player_gate",
+       "s2_souls",
+       "followups",
+       "pack",
+       "understand",
+       "gate",
+       "mode_layer",
+       "solve",
+       "verify",
+       "apply",
+       "deferred_fire",
+       "settle",
+       "after_turn",
+       "ticks",
+       "land"
+      ],
+      "title": "resolve",
+      "tools": "@pack.actions"
+     }
+    },
+    "start": "resolve",
+    "units": [
+     {
+      "doc": "status effects count down and apply their per-resolve change (the world's own variables: any)",
+      "llm": false,
+      "name": "effects",
+      "on": "apply",
+      "tick": "core:effects",
+      "writes": [
+       "var:*",
+       "op:patch",
+       "op:remove"
+      ]
+     },
+     {
+      "doc": "characters away from the player take their own turn (LLM); only their own moves land",
+      "llm": true,
+      "name": "souls_elsewhere",
+      "on": "resolve",
+      "tick": "core:souls_elsewhere",
+      "writes": [
+       "op:move_to"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "effects_clock",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.effects_clock:tick",
+      "writes": [
+       "op:patch",
+       "op:remove"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "travel",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.travel:tick_souls",
+      "undeclared": true,
+      "writes": []
+     },
+     {
+      "llm": false,
+      "name": "downed",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.downed:tick",
+      "writes": [
+       "var:char.*",
+       "var:player.hp",
+       "op:new",
+       "op:remove"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "combat",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.combat:tick",
+      "writes": [
+       "op:end_combat"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "economy",
+      "on": "apply",
+      "tick": "neonrp.packs.mixins.economy:tick",
+      "writes": [
+       "var:stock.*",
+       "var:price.*",
+       "var:econ.index",
+       "op:new_caravan",
+       "op:haul",
+       "op:deliver",
+       "op:rob"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "factions",
+      "on": "apply",
+      "tick": "neonrp.packs.mixins.factions:tick",
+      "writes": [
+       "var:faction.*",
+       "var:rel.*",
+       "op:spread",
+       "op:patch_rumor"
+      ]
+     }
+    ]
+   },
+   "souls": {
+    "elena": "S-judge",
+    "rowan": "S-judge"
+   }
+  },
+  "stoneford-town": {
+   "desk_engine": {
+    "turn": {
+     "apply": {
+      "re_propose": {
+       "max": 1,
+       "world_conflicts": [
+        "same_item",
+        "addressed_but_leaving",
+        "commitment_vs_intention",
+        "tool_flag_clash"
+       ]
+      },
+      "writers": "on"
+     },
+     "mode": "v3",
+     "parallel": {
+      "ctb": {
+       "budget_per_turn": 2,
+       "enabled": false,
+       "wait_day_threshold": 0.7
+      },
+      "souls": {
+       "adjudicate": 1,
+       "decide_conf": 0.5,
+       "default_variant": "S-judge",
+       "escalate_at": 0.8,
+       "escalate_turns": 3,
+       "heavy_at": 0.4,
+       "max_workers": 8,
+       "per_soul": {},
+       "timeout_s": 20
+      },
+      "tools": {
+       "disabled": [],
+       "enabled": []
+      }
+     },
+     "plan": {
+      "backend": "auto",
+      "confidence": 0.7,
+      "fallback_depth": "act",
+      "pack_budget": 0,
+      "react": 0.6
+     },
+     "plan_loop": "off",
+     "solve": {
+      "async_mark": "tilde",
+      "history": 4,
+      "max_ops": 24,
+      "sections": "xml",
+      "stream": false,
+      "structured": "adv"
+     },
+     "verify": {
+      "gate": {
+       "max_loops": 1,
+       "need_fix": 0.7,
+       "need_more": 0.7
+      },
+      "grounded_min": 0.5,
+      "l2": "auto",
+      "missed_min": 0.6
+     }
+    }
+   },
+   "engine": {
+    "turn": {
+     "apply": {
+      "re_propose": {
+       "max": 1,
+       "world_conflicts": [
+        "same_item",
+        "addressed_but_leaving",
+        "commitment_vs_intention",
+        "tool_flag_clash"
+       ]
+      },
+      "writers": "on"
+     },
+     "mode": "v3",
+     "parallel": {
+      "ctb": {
+       "budget_per_turn": 2,
+       "enabled": false,
+       "wait_day_threshold": 0.7
+      },
+      "souls": {
+       "adjudicate": 1,
+       "decide_conf": 0.5,
+       "default_variant": "S-judge",
+       "escalate_at": 0.8,
+       "escalate_turns": 3,
+       "heavy_at": 0.4,
+       "max_workers": 8,
+       "per_soul": {},
+       "timeout_s": 20
+      },
+      "tools": {
+       "disabled": [],
+       "enabled": []
+      }
+     },
+     "plan": {
+      "backend": "auto",
+      "confidence": 0.7,
+      "fallback_depth": "act",
+      "pack_budget": 0,
+      "react": 0.6
+     },
+     "plan_loop": "off",
+     "solve": {
+      "async_mark": "tilde",
+      "history": 4,
+      "max_ops": 24,
+      "sections": "xml",
+      "stream": false,
+      "structured": "adv"
+     },
+     "verify": {
+      "gate": {
+       "max_loops": 1,
+       "need_fix": 0.7,
+       "need_more": 0.7
+      },
+      "grounded_min": 0.5,
+      "l2": "auto",
+      "missed_min": 0.6
+     }
+    }
+   },
+   "graph": {
+    "edges": [
+     {
+      "from": "resolve",
+      "id": "resolve>combat:call",
+      "on": {
+       "op": "combat"
+      },
+      "return": true,
+      "to": "combat"
+     },
+     {
+      "from": "dungeon",
+      "id": "dungeon>combat:call",
+      "on": {
+       "op": "combat"
+      },
+      "return": true,
+      "to": "combat"
+     },
+     {
+      "from": "*",
+      "id": "*>dungeon:here",
+      "on": {
+       "here_class": "room"
+      },
+      "return": true,
+      "to": "dungeon"
+     },
+     {
+      "from": "resolve",
+      "id": "resolve>referee:call",
+      "on": {
+       "op": "referee"
+      },
+      "return": true,
+      "to": "referee"
+     },
+     {
+      "from": "dungeon",
+      "id": "dungeon>referee:call",
+      "on": {
+       "op": "referee"
+      },
+      "return": true,
+      "to": "referee"
+     },
+     {
+      "from": "*",
+      "id": "*>interaction.move",
+      "on": {
+       "interaction": "move"
+      },
+      "return": true,
+      "return_to": true,
+      "to": "interaction.move"
+     },
+     {
+      "from": "*",
+      "id": "*>interaction.examine",
+      "on": {
+       "interaction": "examine"
+      },
+      "return": true,
+      "return_to": true,
+      "to": "interaction.examine"
+     },
+     {
+      "from": "*",
+      "id": "*>interaction.talk",
+      "on": {
+       "interaction": "talk"
+      },
+      "return": true,
+      "return_to": true,
+      "to": "interaction.talk"
+     },
+     {
+      "from": "*",
+      "id": "*>interaction.approach",
+      "on": {
+       "interaction": "approach"
+      },
+      "return": true,
+      "return_to": true,
+      "to": "interaction.approach"
+     },
+     {
+      "from": "*",
+      "id": "*>interaction.encounter",
+      "on": {
+       "interaction": "encounter"
+      },
+      "to": "interaction.encounter"
+     },
+     {
+      "from": "interaction.encounter",
+      "id": "interaction.encounter>combat",
+      "on": {
+       "op": "combat"
+      },
+      "to": "combat"
+     }
+    ],
+    "nodes": {
+     "combat": {
+      "kind": "one_shot",
+      "mode": "combat",
+      "title": "战斗裁判",
+      "tools": [
+       "dice",
+       "roll",
+       "flag"
+      ]
+     },
+     "dungeon": {
+      "here_class": "room",
+      "kind": "place",
+      "mode": "dungeon",
+      "title": "地穴主持",
+      "tools": []
+     },
+     "interaction": {
+      "group": true,
+      "kind": "interaction",
+      "title": "交互(游戏客户端)"
+     },
+     "interaction.approach": {
+      "kind": "interaction",
+      "title": "做法",
+      "tools": [
+       "check",
+       "cares",
+       "the person's agent",
+       "effects"
+      ]
+     },
+     "interaction.encounter": {
+      "kind": "interaction",
+      "title": "遭遇",
+      "tools": [
+       "combat"
+      ]
+     },
+     "interaction.examine": {
+      "kind": "interaction",
+      "title": "查看",
+      "tools": [
+       "triggers",
+       "scene line"
+      ]
+     },
+     "interaction.move": {
+      "kind": "interaction",
+      "title": "换场景",
+      "tools": [
+       "move_to",
+       "gates",
+       "triggers",
+       "scene line"
+      ]
+     },
+     "interaction.talk": {
+      "kind": "interaction",
+      "title": "交谈",
+      "tools": [
+       "the person's agent",
+       "triggers"
+      ]
+     },
+     "referee": {
+      "kind": "one_shot",
+      "mode": "referee",
+      "title": "规则裁判",
+      "tools": []
+     },
+     "resolve": {
+      "kind": "loop",
+      "prompt": "narrate",
+      "state": "pseudo",
+      "steps": [
+       "clock",
+       "scene_route",
+       "s1_plan",
+       "player_gate",
+       "s2_souls",
+       "followups",
+       "pack",
+       "understand",
+       "gate",
+       "mode_layer",
+       "solve",
+       "verify",
+       "apply",
+       "deferred_fire",
+       "settle",
+       "after_turn",
+       "ticks",
+       "land"
+      ],
+      "title": "resolve",
+      "tools": "@pack.actions"
+     }
+    },
+    "start": "resolve",
+    "units": [
+     {
+      "doc": "status effects count down and apply their per-resolve change (the world's own variables: any)",
+      "llm": false,
+      "name": "effects",
+      "on": "apply",
+      "tick": "core:effects",
+      "writes": [
+       "var:*",
+       "op:patch",
+       "op:remove"
+      ]
+     },
+     {
+      "doc": "characters away from the player take their own turn (LLM); only their own moves land",
+      "llm": true,
+      "name": "souls_elsewhere",
+      "on": "resolve",
+      "tick": "core:souls_elsewhere",
+      "writes": [
+       "op:move_to"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "effects_clock",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.effects_clock:tick",
+      "writes": [
+       "op:patch",
+       "op:remove"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "travel",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.travel:tick_souls",
+      "undeclared": true,
+      "writes": []
+     },
+     {
+      "llm": false,
+      "name": "downed",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.downed:tick",
+      "writes": [
+       "var:char.*",
+       "var:player.hp",
+       "op:new",
+       "op:remove"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "combat",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.combat:tick",
+      "writes": [
+       "op:end_combat"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "economy",
+      "on": "apply",
+      "tick": "neonrp.packs.mixins.economy:tick",
+      "writes": [
+       "var:stock.*",
+       "var:price.*",
+       "var:econ.index",
+       "op:new_caravan",
+       "op:haul",
+       "op:deliver",
+       "op:rob"
+      ]
+     }
+    ]
+   },
+   "souls": {
+    "elena": "S-judge",
+    "rowan": "S-judge"
+   }
+  },
+  "werewolf-night-village": {
+   "desk_engine": {
+    "turn": {
+     "apply": {
+      "re_propose": {
+       "max": 1,
+       "world_conflicts": [
+        "same_item",
+        "addressed_but_leaving",
+        "commitment_vs_intention",
+        "tool_flag_clash"
+       ]
+      },
+      "writers": "on"
+     },
+     "mode": "v3",
+     "parallel": {
+      "ctb": {
+       "budget_per_turn": 2,
+       "enabled": false,
+       "wait_day_threshold": 0.7
+      },
+      "souls": {
+       "adjudicate": 1,
+       "decide_conf": 0.5,
+       "default_variant": "legacy",
+       "escalate_at": 0.8,
+       "escalate_turns": 3,
+       "heavy_at": 0.4,
+       "max_workers": 8,
+       "per_soul": {},
+       "timeout_s": 20
+      },
+      "tools": {
+       "disabled": [],
+       "enabled": []
+      }
+     },
+     "plan": {
+      "backend": "auto",
+      "confidence": 0.7,
+      "fallback_depth": "act",
+      "pack_budget": 0,
+      "react": 0.6
+     },
+     "solve": {
+      "async_mark": "tilde",
+      "history": 4,
+      "max_ops": 24,
+      "sections": "xml",
+      "stream": false,
+      "structured": "adv"
+     },
+     "verify": {
+      "gate": {
+       "max_loops": 1,
+       "need_fix": 0.7,
+       "need_more": 0.7
+      },
+      "grounded_min": 0.5,
+      "l2": "auto",
+      "missed_min": 0.6
+     }
+    }
+   },
+   "engine": {
+    "turn": {
+     "apply": {
+      "re_propose": {
+       "max": 1,
+       "world_conflicts": [
+        "same_item",
+        "addressed_but_leaving",
+        "commitment_vs_intention",
+        "tool_flag_clash"
+       ]
+      },
+      "writers": "on"
+     },
+     "mode": "v3",
+     "parallel": {
+      "ctb": {
+       "budget_per_turn": 2,
+       "enabled": false,
+       "wait_day_threshold": 0.7
+      },
+      "souls": {
+       "adjudicate": 1,
+       "decide_conf": 0.5,
+       "default_variant": "legacy",
+       "escalate_at": 0.8,
+       "escalate_turns": 3,
+       "heavy_at": 0.4,
+       "max_workers": 8,
+       "per_soul": {},
+       "timeout_s": 20
+      },
+      "tools": {
+       "disabled": [],
+       "enabled": []
+      }
+     },
+     "plan": {
+      "backend": "auto",
+      "confidence": 0.7,
+      "fallback_depth": "act",
+      "pack_budget": 0,
+      "react": 0.6
+     },
+     "solve": {
+      "async_mark": "tilde",
+      "history": 4,
+      "max_ops": 24,
+      "sections": "xml",
+      "stream": false,
+      "structured": "adv"
+     },
+     "verify": {
+      "gate": {
+       "max_loops": 1,
+       "need_fix": 0.7,
+       "need_more": 0.7
+      },
+      "grounded_min": 0.5,
+      "l2": "auto",
+      "missed_min": 0.6
+     }
+    }
+   },
+   "graph": {
+    "edges": [
+     {
+      "from": "day",
+      "id": "day>night:phase",
+      "on": {
+       "op": "phase",
+       "value": "night"
+      },
+      "to": "night"
+     },
+     {
+      "from": "night",
+      "id": "night>day:phase",
+      "on": {
+       "op": "phase",
+       "value": "day"
+      },
+      "to": "day"
+     }
+    ],
+    "nodes": {
+     "day": {
+      "kind": "phase",
+      "title": "day",
+      "value": "day",
+      "var": "table.phase"
+     },
+     "night": {
+      "kind": "phase",
+      "title": "night",
+      "value": "night",
+      "var": "table.phase"
+     },
+     "resolve": {
+      "kind": "loop",
+      "prompt": "narrate",
+      "state": "pseudo",
+      "steps": [
+       "clock",
+       "scene_route",
+       "s1_plan",
+       "player_gate",
+       "s2_souls",
+       "followups",
+       "pack",
+       "understand",
+       "gate",
+       "mode_layer",
+       "solve",
+       "verify",
+       "apply",
+       "deferred_fire",
+       "settle",
+       "after_turn",
+       "ticks",
+       "land"
+      ],
+      "title": "resolve",
+      "tools": "@pack.actions"
+     }
+    },
+    "start": "resolve",
+    "units": [
+     {
+      "doc": "status effects count down and apply their per-resolve change (the world's own variables: any)",
+      "llm": false,
+      "name": "effects",
+      "on": "apply",
+      "tick": "core:effects",
+      "writes": [
+       "var:*",
+       "op:patch",
+       "op:remove"
+      ]
+     },
+     {
+      "doc": "characters away from the player take their own turn (LLM); only their own moves land",
+      "llm": true,
+      "name": "souls_elsewhere",
+      "on": "resolve",
+      "tick": "core:souls_elsewhere",
+      "writes": [
+       "op:move_to"
+      ]
+     }
+    ]
+   },
+   "souls": {}
+  },
+  "wuwu": {
+   "desk_engine": {
+    "turn": {
+     "apply": {
+      "re_propose": {
+       "max": 1,
+       "world_conflicts": [
+        "same_item",
+        "addressed_but_leaving",
+        "commitment_vs_intention",
+        "tool_flag_clash"
+       ]
+      },
+      "writers": "on"
+     },
+     "mode": "v3",
+     "parallel": {
+      "ctb": {
+       "budget_per_turn": 2,
+       "enabled": false,
+       "wait_day_threshold": 0.7
+      },
+      "souls": {
+       "adjudicate": 1,
+       "decide_conf": 0.5,
+       "default_variant": "S-judge",
+       "escalate_at": 0.8,
+       "escalate_turns": 3,
+       "heavy_at": 0.4,
+       "max_workers": 8,
+       "per_soul": {},
+       "timeout_s": 20
+      },
+      "tools": {
+       "disabled": [],
+       "enabled": []
+      }
+     },
+     "plan": {
+      "backend": "auto",
+      "confidence": 0.7,
+      "fallback_depth": "act",
+      "pack_budget": 0,
+      "react": 0.6
+     },
+     "solve": {
+      "async_mark": "tilde",
+      "history": 4,
+      "max_ops": 24,
+      "sections": "xml",
+      "stream": false,
+      "structured": "adv"
+     },
+     "verify": {
+      "gate": {
+       "max_loops": 1,
+       "need_fix": 0.7,
+       "need_more": 0.7
+      },
+      "grounded_min": 0.5,
+      "l2": "auto",
+      "missed_min": 0.6
+     }
+    }
+   },
+   "engine": {
+    "turn": {
+     "apply": {
+      "re_propose": {
+       "max": 1,
+       "world_conflicts": [
+        "same_item",
+        "addressed_but_leaving",
+        "commitment_vs_intention",
+        "tool_flag_clash"
+       ]
+      },
+      "writers": "on"
+     },
+     "mode": "v3",
+     "parallel": {
+      "ctb": {
+       "budget_per_turn": 2,
+       "enabled": false,
+       "wait_day_threshold": 0.7
+      },
+      "souls": {
+       "adjudicate": 1,
+       "decide_conf": 0.5,
+       "default_variant": "S-judge",
+       "escalate_at": 0.8,
+       "escalate_turns": 3,
+       "heavy_at": 0.4,
+       "max_workers": 8,
+       "per_soul": {},
+       "timeout_s": 20
+      },
+      "tools": {
+       "disabled": [],
+       "enabled": []
+      }
+     },
+     "plan": {
+      "backend": "auto",
+      "confidence": 0.7,
+      "fallback_depth": "act",
+      "pack_budget": 0,
+      "react": 0.6
+     },
+     "solve": {
+      "async_mark": "tilde",
+      "history": 4,
+      "max_ops": 24,
+      "sections": "xml",
+      "stream": false,
+      "structured": "adv"
+     },
+     "verify": {
+      "gate": {
+       "max_loops": 1,
+       "need_fix": 0.7,
+       "need_more": 0.7
+      },
+      "grounded_min": 0.5,
+      "l2": "auto",
+      "missed_min": 0.6
+     }
+    }
+   },
+   "graph": {
+    "edges": [
+     {
+      "from": "resolve",
+      "id": "resolve>combat:call",
+      "on": {
+       "op": "combat"
+      },
+      "return": true,
+      "to": "combat"
+     },
+     {
+      "from": "dungeon",
+      "id": "dungeon>combat:call",
+      "on": {
+       "op": "combat"
+      },
+      "return": true,
+      "to": "combat"
+     },
+     {
+      "from": "*",
+      "id": "*>dungeon:here",
+      "on": {
+       "here_class": "room"
+      },
+      "return": true,
+      "to": "dungeon"
+     },
+     {
+      "from": "resolve",
+      "id": "resolve>referee:call",
+      "on": {
+       "op": "referee"
+      },
+      "return": true,
+      "to": "referee"
+     },
+     {
+      "from": "dungeon",
+      "id": "dungeon>referee:call",
+      "on": {
+       "op": "referee"
+      },
+      "return": true,
+      "to": "referee"
+     }
+    ],
+    "nodes": {
+     "combat": {
+      "kind": "one_shot",
+      "mode": "combat",
+      "title": "战斗裁判",
+      "tools": [
+       "dice",
+       "roll",
+       "flag",
+       "san"
+      ]
+     },
+     "dungeon": {
+      "here_class": "room",
+      "kind": "place",
+      "mode": "dungeon",
+      "title": "地穴主持",
+      "tools": []
+     },
+     "referee": {
+      "kind": "one_shot",
+      "mode": "referee",
+      "title": "规则裁判",
+      "tools": []
+     },
+     "resolve": {
+      "kind": "loop",
+      "prompt": "narrate",
+      "state": "pseudo",
+      "steps": [
+       "clock",
+       "scene_route",
+       "s1_plan",
+       "player_gate",
+       "s2_souls",
+       "followups",
+       "pack",
+       "understand",
+       "gate",
+       "mode_layer",
+       "solve",
+       "verify",
+       "apply",
+       "deferred_fire",
+       "settle",
+       "after_turn",
+       "ticks",
+       "land"
+      ],
+      "title": "resolve",
+      "tools": "@pack.actions"
+     }
+    },
+    "start": "resolve",
+    "units": [
+     {
+      "doc": "status effects count down and apply their per-resolve change (the world's own variables: any)",
+      "llm": false,
+      "name": "effects",
+      "on": "apply",
+      "tick": "core:effects",
+      "writes": [
+       "var:*",
+       "op:patch",
+       "op:remove"
+      ]
+     },
+     {
+      "doc": "characters away from the player take their own turn (LLM); only their own moves land",
+      "llm": true,
+      "name": "souls_elsewhere",
+      "on": "resolve",
+      "tick": "core:souls_elsewhere",
+      "writes": [
+       "op:move_to"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "effects_clock",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.effects_clock:tick",
+      "writes": [
+       "op:patch",
+       "op:remove"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "travel",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.travel:tick_souls",
+      "undeclared": true,
+      "writes": []
+     },
+     {
+      "llm": false,
+      "name": "downed",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.downed:tick",
+      "writes": [
+       "var:char.*",
+       "var:player.hp",
+       "op:new",
+       "op:remove"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "combat",
+      "on": "apply",
+      "tick": "neonrp.packs.rpg.combat:tick",
+      "writes": [
+       "op:end_combat"
+      ]
+     },
+     {
+      "llm": false,
+      "name": "tick",
+      "on": "apply",
+      "tick": "neonrp.packs.pct.tick:tick",
+      "writes": [
+       "op:new"
+      ]
+     }
+    ]
+   },
+   "souls": {
+    "oldmo": "S-judge",
+    "silverkite": "S-judge",
+    "vera": "S-judge"
+   }
+  }
+ }
+}

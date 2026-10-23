@@ -1,0 +1,14 @@
+{
+  "id": "D001_R003",
+  "name": "Offering-Table Chamber",
+  "description": "Old candle-wax has dripped and hardened over the broken offering table, and a sweet, bloody smell hangs in the air.",
+  "features": [
+    "Can loot the offering table",
+    "Can trigger a trap (simple)"
+  ],
+  "state": {
+    "explored": false,
+    "cleared": false,
+    "trap_armed": true
+  }
+}

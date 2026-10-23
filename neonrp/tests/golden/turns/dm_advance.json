@@ -1,0 +1,168 @@
+{
+ "scenario": "dm_advance",
+ "model_calls": [
+  "host",
+  "host",
+  "narrate",
+  "transition"
+ ],
+ "steps": [
+  {
+   "line": "我四处看看",
+   "nodes": [
+    "plan"
+   ],
+   "advanced_by": null,
+   "traces": [
+    {
+     "beat": {
+      "kind": "plan",
+      "board": [
+       "玩家"
+      ]
+     },
+     "spans": [],
+     "plan": null,
+     "souls": {},
+     "variants": {},
+     "applied": [],
+     "refused": [],
+     "created": 0,
+     "tool_returns": [],
+     "narration": "(stub model) The host is listening."
+    }
+   ],
+   "state": {
+    "vars": {},
+    "moved": {}
+   }
+  },
+  {
+   "line": "@dm 走吧",
+   "nodes": [
+    "plan",
+    "resolve"
+   ],
+   "advanced_by": "player",
+   "traces": [
+    {
+     "beat": {
+      "kind": "plan",
+      "board": [
+       "玩家"
+      ]
+     },
+     "spans": [],
+     "plan": null,
+     "souls": {},
+     "variants": {},
+     "applied": [],
+     "refused": [],
+     "created": 0,
+     "tool_returns": [],
+     "narration": "(假模型)主持:那就走。"
+    },
+    {
+     "beat": {
+      "kind": "resolve",
+      "advanced_by": "player",
+      "board": [
+       "玩家"
+      ]
+     },
+     "spans": [
+      [
+       "plan",
+       "scene",
+       "python"
+      ],
+      [
+       "plan",
+       "fallback",
+       "python"
+      ],
+      [
+       "plan",
+       "engine.pack",
+       "python"
+      ],
+      [
+       "solve",
+       "world",
+       "llm",
+       {
+        "loop": 0,
+        "fmt": "adv-noops",
+        "ops": 0
+       }
+      ],
+      [
+       "verify",
+       "l1",
+       "python",
+       {
+        "accepted": 0,
+        "refused": 0
+       }
+      ],
+      [
+       "solve",
+       "world.transition",
+       "llm",
+       {
+        "ops": 0,
+        "refused": 0,
+        "fixable": 0,
+        "attempt": 0
+       }
+      ],
+      [
+       "apply",
+       "engine",
+       "python",
+       {
+        "applied": 0,
+        "created": 0,
+        "refused": 0
+       }
+      ],
+      [
+       "settle",
+       "souls",
+       "off",
+       {
+        "n": 0
+       }
+      ],
+      [
+       "land",
+       "engine",
+       "python"
+      ]
+     ],
+     "plan": {
+      "source": "fallback",
+      "intent": "act",
+      "depth": {
+       "si-elena0001": "act",
+       "si-rowan0001": "silent"
+      }
+     },
+     "souls": {},
+     "variants": {
+      "si-rowan0001": "S-direct"
+     },
+     "applied": [],
+     "refused": [],
+     "created": 0,
+     "tool_returns": [],
+     "narration": "你们离开北门。"
+    }
+   ],
+   "state": {
+    "vars": {},
+    "moved": {}
+   }
+  }
+ ]
+}

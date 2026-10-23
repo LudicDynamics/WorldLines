@@ -1,0 +1,88 @@
+{
+  "schema": "worldlines.play-contract/1",
+  "id": "romance-companion",
+  "version": 1,
+  "title": {
+    "zh": "恋爱陪伴",
+    "en": "Romance & Companion",
+    "ja": "恋愛・寄り添い",
+    "ko": "연애 · 동반"
+  },
+  "pitch": {
+    "zh": "和固定的那个人过日子:每次约会结算一段,好感和回忆留下来;线路结局可选。",
+    "en": "Spend days with one person: each date is settled, affection and memories stay; route endings are optional.",
+    "ja": "決まったあの人と日々を過ごす。デートのたびにひと区切りを精算し、好感度と思い出は残る。ルートのエンディングは選べる。",
+    "ko": "정해진 그 사람과 하루하루를 보낸다. 데이트마다 한 단락씩 정산하고, 호감도와 추억은 남는다. 루트 엔딩은 고를 수 있다."
+  },
+  "entry": {
+    "opening": "required",
+    "cast": "fixed"
+  },
+  "exit": {
+    "on": "segment",
+    "segment": "date"
+  },
+  "endings": {
+    "min": 0
+  },
+  "rewards": {
+    "player": [
+      "date_cg",
+      "memory_album",
+      "cards"
+    ],
+    "soul": [
+      "affection",
+      "memory_carry"
+    ],
+    "world": []
+  },
+  "collect": {
+    "souls": true,
+    "min": 0
+  },
+  "deaths": {
+    "player": {
+      "exit": "ending",
+      "ending_kind": "fail"
+    },
+    "companion": {
+      "exit": "ending",
+      "ending_kind": "fail"
+    },
+    "other": {
+      "settle": "record"
+    }
+  },
+  "outputs": [
+    "segment_id",
+    "affection_delta",
+    "cg_unlocked",
+    "epilogue",
+    "rewards_granted",
+    "replay_bundle"
+  ],
+  "publish": {
+    "lint": "no_block",
+    "test_run": "settle_one_segment"
+  },
+  "achievements": [
+    {
+      "id": "stayed_till_the_end",
+      "when": "run_end",
+      "points": 10,
+      "title": {
+        "zh": "陪到最后",
+        "en": "Stayed Till the End",
+        "ja": "最後まで",
+        "ko": "끝까지 곁에"
+      },
+      "desc": {
+        "zh": "把一段陪伴走到收场。",
+        "en": "Saw a companionship through to its close.",
+        "ja": "ひとつの時間を最後まで一緒に過ごした。",
+        "ko": "한 번의 동행을 끝까지 함께했다."
+      }
+    }
+  ]
+}

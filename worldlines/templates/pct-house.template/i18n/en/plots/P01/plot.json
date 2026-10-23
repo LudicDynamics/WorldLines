@@ -1,0 +1,190 @@
+{
+  "title": "The Closed Door",
+  "stages": [
+    {
+      "name": "The Visit"
+    },
+    {
+      "name": "The Diary"
+    },
+    {
+      "name": "The Key"
+    },
+    {
+      "name": "The Cellar"
+    }
+  ],
+  "stage_cg": {
+    "1": {
+      "caption": "A diary snatched from the grate. The last page: Thursday — break open the west wall of the cellar.",
+      "camera": "Close in by the fireplace, sparks drifting upward"
+    },
+    "2": {
+      "caption": "An iron key under the flowerpot, fresh lime still caked on its teeth.",
+      "camera": "Low angle, the instant the pot is tipped up"
+    },
+    "3": {
+      "caption": "Of the whole west wall of the cellar, only this patch is new.",
+      "camera": "The torch beam pushing up from the foot of the steps on to the wall"
+    }
+  },
+  "entries": {
+    "I801": {
+      "name": "Half-burnt diary",
+      "props": {
+        "summary": "A diary snatched from the grate in the study. The last page reads: “Thursday — break open the west wall of the cellar.”"
+      }
+    },
+    "I802": {
+      "name": "Cellar key",
+      "props": {
+        "summary": "An iron key pressed under a flowerpot in the back garden, fresh lime still caked on its teeth."
+      }
+    },
+    "I803": {
+      "name": "Fresh plaster on the wall",
+      "props": {
+        "summary": "Of all the west wall of the cellar, only this patch of lime plaster is new — clean to the point of whiteness, and laid on in a hurry. Caught in it is a single dark-red thread of cloth."
+      }
+    },
+    "I804": {
+      "name": "Letter of commission",
+      "props": {
+        "summary": "Winnie's letter engaging you, sealed with red wax and pressed with an oak-leaf seal. “Three days and no word from my uncle. Oswin says he has gone away. I don't believe it. Sunday night, nine o'clock, Greyoak House. Please come.”"
+      }
+    },
+    "I805": {
+      "name": "The stopped pocket watch",
+      "props": {
+        "summary": "A silver pocket watch, locked in a drawer in the butler's room. Engraved inside the case lid: “For Winnie.” The hands have stopped at twenty to twelve; a fleck of white lime clings to the chain.",
+        "where": "The locked drawer in the butler's room (pick the lock, or get Oswin to bring it out himself)"
+      }
+    },
+    "I806": {
+      "name": "Portrait of the master of the house",
+      "props": {
+        "summary": "A half-length portrait of Edmund Greywood. The varnish has darkened and his face is lost in shadow; all that can be made out is the watch chain clasped in his hand."
+      }
+    }
+  },
+  "triggers": {
+    "P01.diary": {
+      "if": [
+        {},
+        {
+          "text": [
+            "diary",
+            "journal",
+            "his notes",
+            "burnt book",
+            "burned book",
+            "half-burnt",
+            "the grate",
+            "memorandum"
+          ]
+        }
+      ]
+    },
+    "P01.key": {
+      "if": [
+        {},
+        {},
+        {
+          "text": [
+            "key",
+            "lock"
+          ]
+        }
+      ]
+    },
+    "P01.cellar": {
+      "then": [
+        {},
+        {
+          "text": "The plaster on the west wall of the cellar is new. A crack runs from the foot of the wall up to the height of your eyes."
+        }
+      ]
+    },
+    "P01.truth": {
+      "if": [
+        {},
+        {
+          "text": [
+            "truth",
+            "reveal",
+            "expose",
+            "confess",
+            "own up",
+            "what really happened",
+            "what I saw",
+            "tell her what",
+            "tell them what",
+            "say it plainly"
+          ]
+        }
+      ]
+    },
+    "P01.flee": {
+      "if": [
+        {},
+        {
+          "text": [
+            "leave this",
+            "get out",
+            "run out",
+            "flee",
+            "escape",
+            "clear out",
+            "leave the house",
+            "back into the fog",
+            "let's go"
+          ]
+        }
+      ]
+    },
+    "P01.watch": {
+      "then": [
+        {
+          "text": "Engraved inside the case lid are two words: For Winnie. The hands have stopped at twenty to twelve."
+        },
+        {
+          "who": "Winnie",
+          "text": "That is her uncle's watch. She knows the old scratch on its chain."
+        }
+      ]
+    }
+  },
+  "endings": {
+    "E01": {
+      "title": "The One Behind the Wall",
+      "text": "The stopped silver watch has come at last into Winnie's hands. Engraved inside the case lid: “For Winnie.” The hands stand at twenty to twelve on Thursday night — the very moment Oswin laid on the last stroke of plaster. Her uncle passed it out through the final crack and said only this: give it to her when she comes. Winnie holds the watch to her ear, as though listening to a man's last heartbeat. No sound comes from behind the wall again. When day breaks, the fog draws back out of the mouth of the lane."
+    },
+    "E02": {
+      "title": "A Way Back Through the Fog",
+      "text": "You retreat to the steps before the house and walk out into the fog. Behind you every window of Greyoak House is dark, save the little cellar window down by the ground, where a candle still burns. Winnie does not look back once; only at the mouth of the lane does she stop. “Next year, I shall come again.” Her uncle's watch is still locked away inside that house, and nobody will wind it."
+    },
+    "E09": {
+      "title": "Never Left Greyoak House",
+      "text": "When the lamp goes out, you are still counting the cracks in the wall. Next morning Oswin lights the lamp in the hall again — one more thing he must keep hidden for someone."
+    }
+  },
+  "prompt": {
+    "entries": [
+      {
+        "text": "The hidden thread: in the study grate lies a half-burnt diary; under a flowerpot in the back garden is the cellar key; on the west wall of the cellar is a patch of fresh plaster (I803). The washed iron pail in the butler's room still crusted with white lime, the white lime on Oswin's right trouser cuff, and the empty watch stand in the master's bedroom all point to the stopped watch (I805, locked in a drawer in the butler's room). Leave noticeable details lying naturally about; never spell them out. The master of the house, Edmund Greywood, never appears: he does not speak, is not seen and is not found, and behind the wall there is only ever a black crack. When he comes up, speak only of what he did and what he left behind (the portrait in the hall, I806; the diary; the watch)."
+      },
+      {
+        "text": "The key has been found: Oswin begins to give way. When the evidence is laid before him he stops denying it, and tells only the half he saw with his own eyes and did with his own hands (he heard the wall being broken open, sealed it as he was bidden, and has kept the watch); he cannot say what lies behind the wall. He will give the watch to no one but Winnie herself."
+      },
+      {
+        "text": "When the player makes out what lies behind the crack in the cellar wall, write [san 1/1d6 sees what is in the crack in the wall] on that line; then write the player's reaction according to what comes back. This world calls this score “Nerve”; when writing for the player, use only the word “Nerve”. Winnie stops on the cellar steps and will not come down."
+      },
+      {
+        "text": "Two ways out: once the wall in the cellar has been seen, speak the truth aloud (E01; Winnie will have the watch in the end); or go back to the steps before the house and withdraw into the fog (E02)."
+      }
+    ]
+  },
+  "reveal": {
+    "en": "The master of the house, Edmund, broke open the west wall of the cellar, saw what lay behind it, and walked in of his own accord; then, through the wall, he bade his butler Oswin build it up again. Before the wall was sealed he passed the silver watch out through the last crack: for Winnie. Oswin did as he was told, and kept it hidden for three days."
+  }
+}

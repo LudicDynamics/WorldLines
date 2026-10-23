@@ -1,0 +1,46 @@
+{
+ "lasts": [
+  "lasts",
+  "last",
+  "for"
+ ],
+ "turns": [
+  "turns",
+  "turn",
+  "resolves",
+  "resolve",
+  "beats",
+  "beat",
+  "rounds",
+  "round"
+ ],
+ "hours": [
+  "hours",
+  "hour",
+  "hrs",
+  "hr"
+ ],
+ "days": [
+  "days",
+  "day"
+ ],
+ "each": [
+  "each resolve",
+  "each turn",
+  "each beat",
+  "each round",
+  "every resolve",
+  "every turn",
+  "per resolve",
+  "per turn"
+ ],
+ "none": [
+  "none",
+  "null"
+ ],
+ "check": [
+  "check",
+  "checks",
+  "rolls"
+ ]
+}

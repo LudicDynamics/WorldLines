@@ -1,0 +1,19 @@
+{
+  "id": "main_street",
+  "name": "鉱夫大通り",
+  "type": "street",
+  "description": "ジェイドストーンでいちばん広い目抜き通り。路面の真ん中にトロッコの軌道が埋め込まれ、両脇には店や露店がひしめく。人波が途切れることはなく、いつもにぎやかだ。",
+  "pos": {
+    "x": 350,
+    "y": 300
+  },
+  "connections": [
+    "gate_west",
+    "guild",
+    "tavern",
+    "shop_general",
+    "herb_shop",
+    "appraiser",
+    "east_street"
+  ]
+}

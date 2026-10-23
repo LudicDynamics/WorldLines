@@ -1,0 +1,17 @@
+{
+  "id": "library",
+  "kind": "location",
+  "name": "Library",
+  "summary": "An almost empty afternoon library. The same person always sits by the window, reading a very thick novel that seems to have no ending.",
+  "npcs": [
+    "fumi"
+  ],
+  "details": {
+    "mood": "Quiet enough to hear pages turn. Outside the window, the shadow of a cherry tree sways across the pages.",
+    "features": [
+      "The third desk by the window is practically someone's fixed seat.",
+      "On the return cart there is a novel that has been borrowed over and over, the lending card showing the same name.",
+      "When the librarian is away, it is so quiet here that time seems to stand still."
+    ]
+  }
+}

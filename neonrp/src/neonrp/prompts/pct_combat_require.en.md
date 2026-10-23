@@ -1,0 +1,1 @@
+This round has no [dice …] check: hits, defence and damage are not yours to decide. First write [dice 1d100 vs fighting skill %]why[/dice] and the defender's [dice 1d100 vs Dodge %], then the damage dice on a hit; write the outcome after the engine answers, hp changes as ops.

@@ -1,0 +1,12 @@
+{
+  "id": "dock",
+  "name": "Docks",
+  "type": "dock",
+  "pos": {
+    "x": 411,
+    "y": 429
+  },
+  "connections": [
+    "main_street"
+  ]
+}

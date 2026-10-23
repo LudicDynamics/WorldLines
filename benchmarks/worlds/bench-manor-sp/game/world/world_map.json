@@ -1,0 +1,86 @@
+{
+ "id": "world_map",
+ "kind": "world",
+ "world_id": "locked_manor",
+ "name": "locked_manor",
+ "nodes": [
+  {
+   "id": "room0",
+   "type": "poi",
+   "name": "Entrance Hall",
+   "summary": "Dust-sheeted furniture and a stopped clock; the last public room of the house, where visitors were received and refused.",
+   "links": [
+    "R001"
+   ],
+   "items_here": [
+    {
+     "id": "key0",
+     "name": "brass key"
+    }
+   ],
+   "state": {
+    "discovered": true
+   }
+  },
+  {
+   "id": "room1",
+   "type": "poi",
+   "name": "Long Gallery",
+   "summary": "A corridor of portraits with their faces turned to the wall. Something was being hidden even from the paintings.",
+   "links": [
+    "R001",
+    "R002"
+   ],
+   "items_here": [
+    {
+     "id": "key1",
+     "name": "iron key"
+    }
+   ],
+   "state": {
+    "discovered": true
+   }
+  },
+  {
+   "id": "room2",
+   "type": "poi",
+   "name": "Private Study",
+   "summary": "Harrow's inner sanctum: ledgers, a cold hearth, and the uncatalogued thing the whole house was locked around.",
+   "links": [
+    "R002"
+   ],
+   "items_here": [],
+   "state": {
+    "discovered": true
+   }
+  }
+ ],
+ "routes": [
+  {
+   "id": "R001",
+   "from": "room0",
+   "to": "room1",
+   "kind": "road",
+   "state": {
+    "blocked": true
+   },
+   "tags": [
+    "door",
+    "key:key0"
+   ]
+  },
+  {
+   "id": "R002",
+   "from": "room1",
+   "to": "room2",
+   "kind": "road",
+   "state": {
+    "blocked": true
+   },
+   "tags": [
+    "door",
+    "key:key1"
+   ]
+  }
+ ]
+}

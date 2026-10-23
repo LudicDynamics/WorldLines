@@ -1,0 +1,35 @@
+{
+  "id": "story-narrative",
+  "name": "Story Narrative",
+  "description": "神楽島 漂流時の補完薄描。プレイヤーが未創作の内容へ入ったとき、抑制的な二人称の和風ミステリの薄描を返し、既存 canon を決して突き崩さない。world-agent が創作区域から漂い出たときにルーティングする。",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "triggers": [],
+  "tags": ["narrative", "fallback", "drift"],
+  "priority": 45,
+  "permissions": {
+    "read_globs": [
+      "game/lore/story.md",
+      "game/lore/notes.md",
+      "game/locations/*.json",
+      "game/meta/run_state.json",
+      "game/timeline/current.json"
+    ],
+    "write_globs": [
+      "game/lore/story.md"
+    ],
+    "deny_globs": [
+      ".neonrp/**",
+      "souls/**",
+      "game/lore/gm-truth.md"
+    ],
+    "direct_write_globs": [
+      "game/lore/story.md"
+    ]
+  },
+  "defaults": {
+    "context_limit": 20,
+    "temperature": 0.7
+  }
+}

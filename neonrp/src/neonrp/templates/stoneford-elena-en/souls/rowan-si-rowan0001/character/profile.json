@@ -1,0 +1,14 @@
+{
+  "sid": "rowan",
+  "display_name": "Rowan Pike",
+  "name_local": "Rowan Pike",
+  "age": 24,
+  "role": "npc",
+  "tags": [
+    "npc",
+    "bro",
+    "scout",
+    "bishi-town"
+  ],
+  "summary": "24, a light-traveling adventurer scraping by, middling, in Jadestone. Others think he's a bit short on luck; he himself thinks he just hasn't yet touched the one real, great legend."
+}

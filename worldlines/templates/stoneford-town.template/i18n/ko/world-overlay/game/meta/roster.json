@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "kind": "meta",
+  "id": "roster",
+  "name": "스톤포드 · 엘레나 등장인물 명단",
+  "player": {
+    "pid": "player",
+    "kind": "human",
+    "state_path": "game/player"
+  },
+  "note": "M20 온톨로지: 인간 플레이어는 soul이 아닌 일급 엔티티다(game/player/가 그 자체의 주인이며, N=1 별칭). 엘레나와 로완은 플레이어가 만나는 독립된 NPC soul-agent이며, 둘 다 플레이어의 아바타가 아니다. 플레이어는 절대 soul을 연기하지 않으며, 어떤 soul도 플레이어 대신 말하거나 행동하지 않는다. 로완은 현재 T004 제이드스톤에 있으며, 나중에 활성화될 수 있다.",
+  "cast": [
+    {
+      "sid": "elena",
+      "name": "엘레나 베일",
+      "name_local": "엘레나",
+      "role": "npc"
+    },
+    {
+      "sid": "rowan",
+      "name": "로완 파이크",
+      "name_local": "로완",
+      "role": "npc"
+    }
+  ]
+}

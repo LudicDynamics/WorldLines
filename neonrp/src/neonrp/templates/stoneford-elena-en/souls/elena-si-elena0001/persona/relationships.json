@@ -1,0 +1,10 @@
+{
+  "sid": "elena",
+  "relationships": {
+    "rowan": {
+      "disposition": "not_met",
+      "known": false,
+      "truth": "Rowan is another active soul line over in Jadestone, but Elena does not know him yet"
+    }
+  }
+}

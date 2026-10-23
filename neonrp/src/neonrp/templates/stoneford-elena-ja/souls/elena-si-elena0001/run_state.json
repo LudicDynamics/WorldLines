@@ -1,0 +1,16 @@
+{
+  "sid": "elena",
+  "instance_id": "si-elena0001",
+  "location": "gate_north",
+  "status": {
+    "hp": 24,
+    "max_hp": 24,
+    "memory": "amnesia",
+    "mood": "alert"
+  },
+  "turn_count": 0,
+  "loop_state": {
+    "has_memory": false,
+    "residual": "identity-fragments-only"
+  }
+}

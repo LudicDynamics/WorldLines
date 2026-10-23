@@ -1,0 +1,28 @@
+{
+ "schema": "worldlines.orchestration-presets/1",
+ "presets": [
+  {
+   "id": "chat_only",
+   "subject": "soul",
+   "order": 10,
+   "graph": {
+    "start": "chat",
+    "nodes": {
+     "chat": {
+      "kind": "chat"
+     }
+    },
+    "edges": [
+     {
+      "id": "chat>chat:message",
+      "from": "chat",
+      "to": "chat",
+      "on": {
+       "chat": "message"
+      }
+     }
+    ]
+   }
+  }
+ ]
+}

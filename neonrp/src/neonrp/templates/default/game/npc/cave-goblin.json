@@ -1,0 +1,20 @@
+{
+  "id": "cave-goblin",
+  "kind": "npc",
+  "name": "Cave Goblin",
+  "tags": [
+    "npc",
+    "hostile",
+    "goblin",
+    "dungeon"
+  ],
+  "summary": "A cave-dwelling goblin that attacks intruders on sight.",
+  "hp": 42,
+  "max_hp": 42,
+  "gold": 12,
+  "level": 2,
+  "location": "dark-cave",
+  "attack": 9,
+  "defense": 3,
+  "inventory": []
+}

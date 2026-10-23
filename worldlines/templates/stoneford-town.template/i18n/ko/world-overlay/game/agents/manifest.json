@@ -1,0 +1,245 @@
+{
+  "generated_by": "claude_code_prompt",
+  "version": "1.0.1",
+  "note": "스톤포드 계약 명단. 실제 llm-rpg-starter 계열 흐름에서 이어받았다. stoneford-elena에서 `game/player/*`는 여주인공 엘레나를 위한 호환용 투영으로 남아 있고, `playthrough.json + souls/`가 같은 world-agent 계약 둘레에 명시적인 soul 런타임 행위자를 더한다.",
+  "agents": [
+    {
+      "id": "world-agent",
+      "name": "Orchestrator",
+      "agent_path": ".claude/agents/world-agent.md",
+      "role": "주 제어 디스패처",
+      "description": "게임 상태를 읽고, 하위 에이전트로 라우팅하고, patch를 병합해 상태를 갱신한다",
+      "read_globs": [
+        "game/**"
+      ],
+      "write_globs": [
+        "game/run_state.json",
+        "game/lore/notes.md",
+        "game/lore/story.md"
+      ],
+      "note": "중요 경로: game/agents/manifest.json (agents 하위 디렉터리에 있음)"
+    },
+    {
+      "id": "rpg-world-builder",
+      "name": "World Builder",
+      "agent_path": ".claude/agents/rpg-world-builder.md",
+      "role": "세계 구축",
+      "description": "세계 지도 구조를 관리하고, 새 지역을 넓히고, 노드 상태를 갱신한다",
+      "read_globs": [
+        "game/world/world_map.json",
+        "game/lore/story.md",
+        "game/lore/notes.md"
+      ],
+      "write_globs": [
+        "game/world/world_map.json",
+        "game/world/regions.json",
+        "game/world/factions.json"
+      ]
+    },
+    {
+      "id": "rpg-story-narrative",
+      "name": "Story / Narrative",
+      "agent_path": ".claude/agents/rpg-story-narrative.md",
+      "role": "이야기 서술",
+      "description": "메인 스토리와 소문을 관리하고, 이야기 장을 덧붙인다",
+      "read_globs": [
+        "game/lore/story.md",
+        "game/lore/notes.md",
+        "game/world/world_map.json",
+        "game/player/flags.json"
+      ],
+      "write_globs": [
+        "game/lore/story.md",
+        "game/lore/rumors.md"
+      ]
+    },
+    {
+      "id": "rpg-town-agent",
+      "name": "Town Agent",
+      "agent_path": ".claude/agents/rpg-town-agent.md",
+      "role": "마을 에이전트",
+      "description": "마을 안 이동, NPC 상호작용, 시설 입장을 처리한다",
+      "read_globs": [
+        "game/towns/*/town.json",
+        "game/towns/*/town_map.json",
+        "game/towns/*/npcs.json",
+        "game/towns/*/quests.json",
+        "game/towns/*/facilities/*.json",
+        "game/player/profile.json",
+        "game/player/stats.json",
+        "game/player/inventory.json",
+        "game/player/wallet.json",
+        "game/player/flags.json",
+        "game/lore/notes.md"
+      ],
+      "write_globs": [
+        "game/towns/*/town_map.json"
+      ],
+      "note": "run_state.location.node_id를 그대로 폴더 이름으로 쓴다"
+    },
+    {
+      "id": "rpg-guild-agent",
+      "name": "Guild Agent",
+      "agent_path": ".claude/agents/rpg-guild-agent.md",
+      "role": "길드 시설",
+      "description": "의뢰 게시판, 의뢰 수락/보고, 평판 시스템을 관리한다",
+      "read_globs": [
+        "game/towns/*/facilities/guild.json",
+        "game/towns/*/quests.json",
+        "game/player/inventory.json",
+        "game/player/wallet.json",
+        "game/player/flags.json",
+        "game/player/profile.json"
+      ],
+      "write_globs": [
+        "game/towns/*/facilities/guild.json",
+        "game/towns/*/quests.json",
+        "game/player/inventory.json",
+        "game/player/wallet.json",
+        "game/player/flags.json"
+      ],
+      "note": "run_state.location.node_id를 그대로 폴더 이름으로 쓴다"
+    },
+    {
+      "id": "rpg-shop-agent",
+      "name": "Shop Agent",
+      "agent_path": ".claude/agents/rpg-shop-agent.md",
+      "role": "상점 시설",
+      "description": "사고팔기, 재고 관리를 처리한다",
+      "read_globs": [
+        "game/towns/*/facilities/shop_*.json",
+        "game/player/inventory.json",
+        "game/player/wallet.json"
+      ],
+      "write_globs": [
+        "game/towns/*/facilities/shop_*.json",
+        "game/player/inventory.json",
+        "game/player/wallet.json"
+      ],
+      "note": "run_state.location.node_id를 그대로 폴더 이름으로 쓴다"
+    },
+    {
+      "id": "rpg-inn-agent",
+      "name": "Inn Agent",
+      "agent_path": ".claude/agents/rpg-inn-agent.md",
+      "role": "여관 시설",
+      "description": "휴식과 회복, 소문 시스템, 시간 흐름을 처리한다",
+      "read_globs": [
+        "game/towns/*/facilities/inn.json",
+        "game/lore/rumors.md",
+        "game/player/stats.json",
+        "game/player/wallet.json",
+        "game/player/flags.json"
+      ],
+      "write_globs": [
+        "game/towns/*/facilities/inn.json",
+        "game/player/stats.json",
+        "game/player/wallet.json",
+        "game/player/flags.json"
+      ],
+      "note": "run_state.location.node_id를 그대로 폴더 이름으로 쓴다"
+    },
+    {
+      "id": "rpg-dungeon-agent",
+      "name": "Dungeon Agent",
+      "agent_path": ".claude/agents/rpg-dungeon-agent.md",
+      "role": "던전 에이전트",
+      "description": "던전 탐색, 방 사이 이동, 조우 발생, 보스전을 처리한다",
+      "read_globs": [
+        "game/dungeons/*/dungeon.json",
+        "game/dungeons/*/layout.json",
+        "game/dungeons/*/rooms/*.json",
+        "game/dungeons/*/encounter_tables.json",
+        "game/dungeons/*/loot_tables.json",
+        "game/player/stats.json",
+        "game/player/inventory.json",
+        "game/player/equipment.json",
+        "game/player/flags.json",
+        "game/rules/combat_rules.md"
+      ],
+      "write_globs": [
+        "game/dungeons/*/layout.json",
+        "game/dungeons/*/rooms/*.json",
+        "game/player/flags.json",
+        "game/world/world_map.json"
+      ],
+      "note": "run_state.location.node_id를 그대로 폴더 이름으로 쓴다"
+    },
+    {
+      "id": "rpg-combat-referee",
+      "name": "Combat Referee",
+      "agent_path": ".claude/agents/rpg-combat-referee.md",
+      "role": "전투 심판",
+      "description": "전투 규칙 집행, 턴 관리, 피해 계산, 상태 처리, 전투 정산",
+      "read_globs": [
+        "game/rules/combat_rules.md",
+        "game/player/stats.json",
+        "game/player/equipment.json",
+        "game/player/inventory.json"
+      ],
+      "write_globs": [
+        "game/player/stats.json",
+        "game/player/inventory.json",
+        "game/player/wallet.json",
+        "game/lore/notes.md"
+      ]
+    },
+    {
+      "id": "rpg-notary-archivist",
+      "name": "Notary / Archivist",
+      "agent_path": ".claude/agents/rpg-notary-archivist.md",
+      "role": "공증인/기록관",
+      "description": "중요한 사건을 notes.md에 기록하고, 플레이어 일지 journal.md를 갱신한다",
+      "read_globs": [
+        "game/**"
+      ],
+      "write_globs": [
+        "game/lore/notes.md",
+        "game/player/journal.md"
+      ]
+    }
+  ],
+  "routing_rules": {
+    "world": {
+      "description": "세계 지도 층",
+      "condition": "run_state.location.scope == 'world'",
+      "agents": [
+        "rpg-world-builder"
+      ],
+      "transitions": {
+        "enter_town": "scope -> town",
+        "enter_dungeon": "scope -> dungeon",
+        "travel_encounter": "rpg-combat-referee"
+      }
+    },
+    "town": {
+      "description": "마을 층",
+      "condition": "run_state.location.scope == 'town'",
+      "agents": [
+        "rpg-town-agent"
+      ],
+      "facilities": {
+        "guild": "rpg-guild-agent",
+        "shop_*": "rpg-shop-agent",
+        "inn": "rpg-inn-agent"
+      }
+    },
+    "dungeon": {
+      "description": "던전 층",
+      "condition": "run_state.location.scope == 'dungeon'",
+      "agents": [
+        "rpg-dungeon-agent"
+      ],
+      "transitions": {
+        "encounter": "rpg-combat-referee"
+      }
+    },
+    "end_of_turn": {
+      "description": "턴 종료 기록",
+      "agents": [
+        "rpg-notary-archivist",
+        "rpg-story-narrative"
+      ]
+    }
+  }
+}

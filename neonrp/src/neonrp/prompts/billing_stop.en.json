@@ -1,0 +1,11 @@
+{
+ "_doc": "ai.worldlines.gg 因额度 / 积分拒绝时给玩家看的话(core/billing_stop.py,10-13)",
+ "quota_exceeded": "Your Worldlines allowance is used up. Subscribe for more, or switch to your own key in settings.",
+ "insufficient_credits": "Not enough Worldlines credits. Top up or subscribe, or switch to your own key in settings.",
+ "claim_required": "Today's free allowance hasn't been claimed yet. Claim it, then carry on.",
+ "debt_limit": "Your Worldlines balance has hit its debt limit. Top up or subscribe to carry on.",
+ "plan_required": "This model needs a paid plan. Subscribe, or pick another model.",
+ "guest_not_allowed": "Guests can't do this. Sign in with a Worldlines account to carry on.",
+ "guest_world_only": "As a guest you can only play inside a world. Sign in with a Worldlines account to carry on.",
+ "hint": "Open: {url}  (type /login billing to open it in your browser)"
+}

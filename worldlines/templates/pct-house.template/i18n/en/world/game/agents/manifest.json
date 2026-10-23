@@ -1,0 +1,64 @@
+{
+  "agents": [
+    {
+      "role": "Orchestrator",
+      "description": "Reads the game state, routes to sub-agents, merges patches, updates the state",
+      "note": "Important path: game/agents/manifest.json (inside the agents subfolder)"
+    },
+    {
+      "role": "World building",
+      "description": "Manages the world map structure, extends new regions, updates node state"
+    },
+    {
+      "role": "Story narration",
+      "description": "Manages the main story and rumours, appends story chapters"
+    },
+    {
+      "role": "Town agent",
+      "description": "Handles navigation inside a town, NPC interaction, facility entrances",
+      "note": "Use run_state.location.node_id directly as the folder name"
+    },
+    {
+      "role": "Guild facility",
+      "description": "Manages the quest board, taking / handing in quests, reputation",
+      "note": "Use run_state.location.node_id directly as the folder name"
+    },
+    {
+      "role": "Shop facility",
+      "description": "Handles buying and selling, stock management",
+      "note": "Use run_state.location.node_id directly as the folder name"
+    },
+    {
+      "role": "Inn facility",
+      "description": "Handles rest and recovery, the rumour system, time passing",
+      "note": "Use run_state.location.node_id directly as the folder name"
+    },
+    {
+      "role": "Dungeon agent",
+      "description": "Handles dungeon exploration, room navigation, encounter triggers, boss fights",
+      "note": "Use run_state.location.node_id directly as the folder name"
+    },
+    {
+      "role": "Combat referee",
+      "description": "Runs the combat rules, turn order, damage, status effects, combat resolution"
+    },
+    {
+      "role": "Notary / archivist",
+      "description": "Records important events in notes.md, updates the player's journal.md"
+    }
+  ],
+  "routing_rules": {
+    "world": {
+      "description": "World map layer"
+    },
+    "town": {
+      "description": "Town layer"
+    },
+    "dungeon": {
+      "description": "Dungeon layer"
+    },
+    "end_of_turn": {
+      "description": "End-of-turn archiving"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "level": "world",
+  "fit": {
+    "px": 170,
+    "py": 150,
+    "x0": 5.0,
+    "y0": 3.0,
+    "sx": 70.3529411764706,
+    "sy": 60.333333333333336
+  },
+  "size": [
+    1536,
+    1024
+  ],
+  "layout_hash": "6d49761baa2c",
+  "backend": "openai",
+  "model": "gpt-image-2",
+  "prompt": "(prototype run 2026-09-25, guides.py)",
+  "generated_at": "2026-09-25T22:07:00",
+  "guide": "world.guide.png"
+}

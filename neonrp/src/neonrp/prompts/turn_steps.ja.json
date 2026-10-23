@@ -1,0 +1,101 @@
+{
+ "steps": {
+  "clock": {
+   "title": "世界の時計",
+   "doc": "ターンの前に世界の時間を一つ進める。全員が同じ時刻を見る"
+  },
+  "scene_route": {
+   "title": "誰がいるか",
+   "doc": "位置からプレイヤーと同じ場所にいるキャラクターを探す(いる者だけが動く)"
+  },
+  "s1_plan": {
+   "title": "S1 予測(Jev)",
+   "doc": "Jev の判断を一回:プレイヤーの意図 · 各キャラクターが動くか、どこまで動くか · 空気。Jev がなければ代替プラン(いる者は全員動く)"
+  },
+  "player_gate": {
+   "title": "プレイヤーの一言",
+   "doc": "プレイヤーの言葉を一つの試みとして扱う:何をしたいか · 触れたものを知り得るか(キャラクターより先に走る)"
+  },
+  "s2_souls": {
+   "title": "S2 キャラクターが並行で動く",
+   "doc": "その場のキャラクターが S1 の深さで同時に動く(沈黙 / 仕草 / 発言 / 行動)。不在の者は自分の場所で一拍過ごす"
+  },
+  "followups": {
+   "title": "S1 フォローアップ",
+   "doc": "キャラクターが答えた後もう一度判断:進行役がまだ誰かに聞く必要があるか(なければ聞くツールをしまう)"
+  },
+  "pack": {
+   "title": "世界をまとめる",
+   "doc": "語り手が読む世界を一つにまとめる(場所 · 人 · 状態 · 最近の出来事)"
+  },
+  "understand": {
+   "title": "一言を読む",
+   "doc": "プレイヤーが触れた各物事について世界が何と言うか(無いものを証言する者はいない)"
+  },
+  "gate": {
+   "title": "事前裁定 / 層に入る",
+   "doc": "ルールがこの拍を先に裁定する(審判)· 必要なら層に強制的に入る(道中の襲撃 → 戦闘)· 非同期ツールを自ら呼ぶ"
+  },
+  "mode_layer": {
+   "title": "層",
+   "doc": "世界が層の中(戦闘 · ダンジョン)にある間、プロンプト全体を層のものに替え、層の状態を加える"
+  },
+  "solve": {
+   "title": "語りの呼び出し",
+   "doc": "モデルを一回呼んでこの拍を書く。書きながらツールを呼び(ダイス · 地図 …)、エンジンの返事を待って続ける"
+  },
+  "verify": {
+   "title": "検証",
+   "doc": "提案された変化を一つずつレジストリとルールで確かめる。直せるものは書き直しに戻す(数回まで)"
+  },
+  "apply": {
+   "title": "反映",
+   "doc": "通った変化を世界に書き込む(状態 · ファイル)"
+  },
+  "deferred_fire": {
+   "title": "非同期ツール",
+   "doc": "待たないツール(地図 · パネル)は拍が反映された後に描く(反映後の位置を描く)"
+  },
+  "settle": {
+   "title": "キャラクターの事後整理",
+   "doc": "拍の後、その場の各キャラクターが何を覚えたか(本人の記憶に書く)"
+  },
+  "after_turn": {
+   "title": "ターンの後",
+   "doc": "ターン終了後の後始末(新しく出たものの絵 · トリガー)"
+  },
+  "ticks": {
+   "title": "バックグラウンドの単位",
+   "doc": "経済 · 効果のカウントダウン · 不在のキャラクター · プレイパック自身のルール。それぞれ宣言した書き込み範囲で"
+  },
+  "land": {
+   "title": "コミット",
+   "doc": "このターンを一つの版としてコミットし、拍のイベントをフロントエンドに送る"
+  }
+ },
+ "params": {
+  "turn.plan.backend": "誰が判断するか",
+  "turn.plan.confidence": "判断に必要な確かさ",
+  "turn.plan.react": "キャラクターが「動かされた」とみなす境目",
+  "turn.plan.fallback_depth": "確信がないときの動きの深さ",
+  "turn.player_gate": "オン / オフ",
+  "turn.parallel.souls.default_variant": "キャラクターの動き方",
+  "turn.parallel.souls.max_workers": "同時に動ける上限",
+  "turn.parallel.souls.timeout_s": "一人が考えられる最長時間(秒)",
+  "turn.parallel.souls.escalate_at": "もう一巡考える境目",
+  "turn.parallel.souls.escalate_turns": "追加で考える最大回数",
+  "turn.parallel.souls.heavy_at": "重い経路を取る境目",
+  "turn.parallel.souls.decide_conf": "キャラクターが自分で決めるのに必要な確かさ",
+  "turn.parallel.souls.adjudicate": "説得を裁定するか(1 / 0)",
+  "turn.plan.pack_budget": "まとめの文字数上限(0 = エンジン既定)",
+  "turn.solve.max_ops": "一拍の変化の上限",
+  "turn.solve.history": "何往復の履歴を付けるか",
+  "turn.solve.sections": "出力の区切り方",
+  "turn.solve.async_mark": "非同期ツールの書き方",
+  "turn.verify.gate.max_loops": "書き直しの最大回数",
+  "turn.verify.l2": "意味の検証",
+  "turn.verify.grounded_min": "根拠があるとみなす境目",
+  "turn.verify.missed_min": "書き漏れとみなす境目",
+  "turn.apply.writers": "持ち主ごとに書く"
+ }
+}

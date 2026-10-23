@@ -1,0 +1,7 @@
+{
+  "id": "player",
+  "kind": "player",
+  "name": "指挥官",
+  "summary": "你指挥奥德里克、布丽、梅林三名冒险者。你不亲自上阵,而是下达每个人的行动。",
+  "location": "forest-path"
+}

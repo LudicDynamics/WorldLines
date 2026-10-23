@@ -1,0 +1,14 @@
+{
+  "id": "tavern",
+  "name": "제이드크리스털 주점",
+  "type": "facility",
+  "facility_file": "facilities/tavern.json",
+  "description": "제이드스톤에서 가장 큰 주점 겸 여관. 정면을 부순 수정 조각으로 꾸며, 밤이면 불빛에 반짝인다. 2층은 객실이다.",
+  "pos": {
+    "x": 450,
+    "y": 200
+  },
+  "connections": [
+    "main_street"
+  ]
+}

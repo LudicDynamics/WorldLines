@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "kind": "meta",
+  "id": "roster",
+  "name": "石津镇·艾琳娜 角色名册",
+  "player": {
+    "pid": "player",
+    "kind": "human",
+    "state_path": "game/player"
+  },
+  "note": "M20 本体论：人类玩家是一等的「非 soul」实体（game/player/ 是它自己的主档，即 N=1 别名）。艾琳娜和罗文都是玩家遇到的独立 NPC soul-agent——谁都不是玩家的化身。玩家从不扮演任何 soul；任何 soul 也不替玩家说话或行动。罗文目前在 T004 碧石镇，之后可以被激活。",
+  "cast": [
+    {
+      "sid": "elena",
+      "name": "艾琳娜",
+      "name_local": "艾琳娜",
+      "role": "npc"
+    },
+    {
+      "sid": "rowan",
+      "name": "罗文",
+      "name_local": "罗文",
+      "role": "npc"
+    }
+  ]
+}

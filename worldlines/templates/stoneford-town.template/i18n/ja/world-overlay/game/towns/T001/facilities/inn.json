@@ -1,0 +1,17 @@
+{
+  "facility_id": "inn_T001",
+  "name": "リバーランプ亭",
+  "rooms": [
+    {
+      "type": "common",
+      "price": 3,
+      "benefit": "休息:HP/MPが全回復"
+    },
+    {
+      "type": "private",
+      "price": 8,
+      "benefit": "休息+ボーナス:次の交渉判定に+1(当日のみ)"
+    }
+  ],
+  "rumor_pool_ref": "../../lore/rumors.md"
+}

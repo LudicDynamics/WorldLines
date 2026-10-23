@@ -1,0 +1,199 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "neonrp://schemas/game-entity.schema.json",
+  "title": "NeonRP Game Entity (M7)",
+  "type": "object",
+  "required": ["id", "kind", "name"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9._-]+$",
+      "minLength": 1
+    },
+    "kind": {
+      "type": "string",
+      "pattern": "^[a-z0-9._-]+$",
+      "minLength": 1
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tags": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "summary": {
+      "type": "string"
+    },
+    "meta": {
+      "type": "object"
+    },
+    "hp": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Current health points (for characters)"
+    },
+    "max_hp": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Maximum health points (for characters)"
+    },
+    "gold": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Currency amount (for characters)"
+    },
+    "level": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Character level"
+    },
+    "location": {
+      "type": "string",
+      "description": "Current location id (for characters)"
+    },
+    "inventory": {
+      "type": "array",
+      "description": "Items held by character",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "name": {"type": "string"},
+          "quantity": {"type": "integer", "minimum": 1}
+        }
+      }
+    },
+    "value": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Gold value (for items)"
+    },
+    "weight": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Item weight"
+    },
+    "quantity": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Stack quantity (for items)"
+    },
+    "effects": {
+      "type": "array",
+      "description": "Item effects when used",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {"type": "string"},
+          "value": {"type": "integer"}
+        }
+      }
+    },
+    "connections": {
+      "type": "array",
+      "description": "Connected location ids (for locations)",
+      "items": {"type": "string"}
+    },
+    "npcs": {
+      "type": "array",
+      "description": "NPC ids present at location",
+      "items": {"type": "string"}
+    },
+    "items_available": {
+      "type": "array",
+      "description": "Items available for sale/pickup at location",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "name": {"type": "string"},
+          "price": {"type": "integer", "minimum": 0}
+        }
+      }
+    }
+  },
+  "additionalProperties": true,
+  "allOf": [
+    {
+      "if": {
+        "properties": {"kind": {"enum": ["character", "player", "npc"]}},
+        "required": ["kind"]
+      },
+      "then": {
+        "properties": {
+          "hp": {"type": "integer", "minimum": 0},
+          "max_hp": {"type": "integer", "minimum": 1},
+          "gold": {"type": "integer", "minimum": 0},
+          "level": {"type": "integer", "minimum": 1},
+          "location": {"type": "string"},
+          "inventory": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {"type": "string"},
+                "name": {"type": "string"},
+                "quantity": {"type": "integer", "minimum": 1}
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {"kind": {"const": "item"}},
+        "required": ["kind"]
+      },
+      "then": {
+        "properties": {
+          "value": {"type": "integer", "minimum": 0},
+          "weight": {"type": "number", "minimum": 0},
+          "quantity": {"type": "integer", "minimum": 1},
+          "effects": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {"type": "string"},
+                "value": {"type": "integer"}
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {"kind": {"enum": ["location", "town", "dungeon", "shop"]}},
+        "required": ["kind"]
+      },
+      "then": {
+        "properties": {
+          "connections": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "npcs": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "items_available": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {"type": "string"},
+                "name": {"type": "string"},
+                "price": {"type": "integer", "minimum": 0}
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

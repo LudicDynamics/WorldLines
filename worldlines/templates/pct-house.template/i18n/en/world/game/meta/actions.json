@@ -1,0 +1,19 @@
+{
+  "_doc": "The play actions this world registers. Each becomes a / command (in green); typing it is the same as the player saying that prompt line themselves, with {args} replaced by whatever follows the command. Names use letters / digits / hyphens and must not clash with the built-in commands. Also: the `san` key only swaps the description of pct's mental check tool (this world calls it “Nerve”); the op name stays the same.",
+  "actions": [
+    {
+      "help": "Walk to a place",
+      "args_hint": "<place>",
+      "prompt": "I walk over to {args}."
+    },
+    {
+      "help": "Talk to someone here",
+      "args_hint": "<who> [what to say]",
+      "prompt": "I go up to {args} and speak."
+    },
+    {
+      "help": "Look around and see what is here",
+      "prompt": "I look carefully about me, taking note of the people and things here."
+    }
+  ]
+}

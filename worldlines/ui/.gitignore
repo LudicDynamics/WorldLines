@@ -1,0 +1,11 @@
+node_modules
+dist
+dist-local
+dist-hub
+dist-neonrp
+.DS_Store
+*.log
+.vite
+*.tsbuildinfo
+test-results
+playwright-report

@@ -1,0 +1,48 @@
+{
+ "_doc": "引擎内置成就(core/achievements.py):id → title / desc。",
+ "ui": {
+  "unlocked": "成就解锁"
+ },
+ "builtin": {
+  "first_ending": {
+   "title": "第一个结局",
+   "desc": "第一次把一个故事走到结局。"
+  },
+  "true_ending": {
+   "title": "真相大白",
+   "desc": "走到一个世界的真结局。"
+  },
+  "all_endings": {
+   "title": "每一条路",
+   "desc": "走过一个世界的所有结局。"
+  },
+  "quiz_perfect": {
+   "title": "真相三问",
+   "desc": "结算时三道真相题全部答对。"
+  },
+  "first_character": {
+   "title": "第一个同伴",
+   "desc": "第一次把一个角色带回来。"
+  },
+  "characters_5": {
+   "title": "五个人的名字",
+   "desc": "一共带回 5 个角色。"
+  },
+  "places_5": {
+   "title": "走走看看",
+   "desc": "在一个世界里发现 5 个地方。"
+  },
+  "places_10": {
+   "title": "识途",
+   "desc": "在一个世界里发现 10 个地方。"
+  },
+  "first_milestone": {
+   "title": "第一块里程碑",
+   "desc": "在开放冒险里第一次达成里程碑。"
+  },
+  "run_complete": {
+   "title": "打完一局",
+   "desc": "在这个世界里把一局玩到收场。"
+  }
+ }
+}

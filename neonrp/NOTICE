@@ -1,0 +1,28 @@
+NeonRP
+Copyright 2026 worldlines-nikoloside, redoctober.
+
+This product (the NeonRP engine: src/neonrp and its tests and tools) is
+licensed under the Apache License, Version 2.0 — see LICENSE.
+
+The WorldLines product in worldlines/ is licensed separately under the
+GNU Affero General Public License v3.0 — see worldlines/LICENSE.
+
+Setting content (world and character settings as text and data, in
+src/neonrp/templates/ and worldlines/templates/ and worldlines/examples/) is
+licensed under CC-BY-4.0; images and audio there are CC-BY-NC-4.0 — see
+CONTENT-LICENSE.md in those folders.
+
+Open rules used by some worlds and packs:
+- SRD 5.2: This work includes material from the System Reference Document 5.2
+  ("SRD 5.2") by Wizards of the Coast LLC, available at
+  https://www.dndbeyond.com/srd. The SRD 5.2 is licensed under the Creative
+  Commons Attribution 4.0 International License, available at
+  https://creativecommons.org/licenses/by/4.0/legalcode.
+- BRP: the percentile pack (src/neonrp/packs/pct) follows Basic Roleplaying:
+  Universal Game Engine by Chaosium Inc., used under the ORC License.
+  "Basic Roleplaying" is a trademark of Chaosium Inc.; no affiliation or
+  endorsement is implied.
+
+Acknowledgements:
+With gratitude to the Ludic Dynamics community, and to amber and other friends
+whose support made this release possible.

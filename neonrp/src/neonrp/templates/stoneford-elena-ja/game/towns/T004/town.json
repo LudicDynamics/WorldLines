@@ -1,0 +1,34 @@
+{
+  "id": "T004",
+  "name": "碧石(へきせき)の町",
+  "region": "Northvale",
+  "overview": "鉱業の町。翡翠と水晶を豊かに産する。冒険者ギルドの支部が活気づき、鉱夫と冒険者が入り混じって暮らし、周辺の町よりもにぎやかで騒がしい。東の小さな礼拝堂は、町でも数少ない静かな場所だ。そして鉱区の入口は、山の奥深くまで延びる地下の坑道へと通じている。",
+  "entry_points": [
+    "gate_west"
+  ],
+  "tags": [
+    "mining",
+    "gems",
+    "adventurers",
+    "lively"
+  ],
+  "economy": {
+    "price_index": 1.1,
+    "specialties": [
+      "翡翠",
+      "水晶",
+      "鉱石"
+    ]
+  },
+  "laws": {
+    "weapon_policy": "open_carry_allowed"
+  },
+  "atmosphere": {
+    "noise_level": "busy",
+    "description": "通りには、ツルハシを担いだ鉱夫と、武器を帯びた冒険者があふれている。トロッコの軌道が町の中心から北東の鉱区入口までまっすぐ延びている。空気には砕石の粉塵と、酒場から漂うエールの香りが立ち込めている。"
+  },
+  "state": {
+    "alert": 0,
+    "recent_events": []
+  }
+}

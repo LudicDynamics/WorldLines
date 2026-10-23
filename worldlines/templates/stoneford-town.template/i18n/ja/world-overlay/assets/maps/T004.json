@@ -1,0 +1,21 @@
+{
+  "level": "T004",
+  "fit": {
+    "px": 260,
+    "py": 190,
+    "x0": 100.0,
+    "y0": 180.0,
+    "sx": 1.563076923076923,
+    "sy": 2.9272727272727272
+  },
+  "size": [
+    1536,
+    1024
+  ],
+  "layout_hash": "d21602dc1ace",
+  "backend": "openai",
+  "model": "gpt-image-2",
+  "prompt": "Turn this layout sketch into a painted top-down (slightly isometric) map of 「ジェイドストーン」 — 翡翠と水晶で知られる鉱山町。冒険者ギルドの支部は活気にあふれ、鉱夫と冒険者が入り混じって暮らしていて、近隣のどの町よりもにぎやかだ。東の小さな礼拝堂は町でも数少ない静かな場所で、鉱山入口からは山の奥深くへ延びる地下坑道が続いている。 STRICTLY keep the sketch's layout: each marked building, gate, square and dock exactly where drawn, streets along the drawn lines, walls and water where drawn; small ordinary houses fill the rest.\nPlaces (content only — positions come from the sketch):\n- gatehouse 「西門」: ジェイドストーンの正門。ストーンフォードへ続く街道に面している。門楼には町の印として、巨大な翡翠の原石が据えられている。\n- street / square 「鉱夫大通り」: ジェイドストーンでいちばん広い目抜き通り。路面の真ん中にトロッコの軌道が埋め込まれ、両脇には店や露店がひしめく。人波が途切れることはなく、いつもにぎやかだ。\n- building 「冒険者ギルド(ジェイドストーン支部)」: ストーンフォードのギルドよりずっと大きな支部。依頼を求める冒険者でいつもごった返している。入口の掲示板は依頼書で埋め尽くされている。\n- building 「ジェイドクリスタル亭」: ジェイドストーン一の酒場兼宿屋。店構えは砕いた水晶で飾られ、夜になると炎の明かりを受けてきらきらと輝く。二階は宿になっている。\n- building 「ストーンハンマー雑貨店」: 鉱夫と冒険者の補給所。ロープから火薬、携帯食から地図まで、何でもそろう。\n- building 「グリーンモス薬草店」: 蔦に覆われた小さな店。薬草のほろ苦い香りが立ちこめている。怪我をした鉱夫たちがよく薬を買いに来る。\n- building 「カラスの目鑑定所」: 鉱石鑑定士「カラスの目」ことヴァンス爺さんの店。左右で色の違うその瞳は、どんな鉱石の正体も見抜くという。\n- street / square 「東通り」: 礼拝堂と鉱山入口へ続く脇道。東へ進むほど静かになり、遠くの坑道からカン、カンと槌の音が響いてくる。\n- building 「暁光の礼拝堂」: 光の神を祀る白い石造りの小さな礼拝堂。ジェイドストーンの喧騒の中で、ここだけがひときわ厳かに静まり返っている。鉄柱が前にここの話をしていた。\n- gatehouse 「鉱山入口」: 地下坑道へ通じる巨大な洞口。トロッコの軌道がここから闇の奥へ延びている。入口の脇には鉱山会社の告知と安全上の警告が掲げられている。\nStyle: Painterly dark-fantasy illustration, muted foggy palette (slate blue, moss green, warm lantern amber), cinematic, highly detailed, no text, no labels, no letters, no UI.",
+  "generated_at": "2026-09-25T23:02:41",
+  "guide": "T004.guide.png"
+}

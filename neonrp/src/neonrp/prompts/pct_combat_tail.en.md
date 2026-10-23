@@ -1,0 +1,1 @@
+Write this round only: order, each side's attack and defence checks, damage; hp changes as ops; a fallen foe's hp to 0; the engine decides when the fight is over — do not write it. Write a round's dice in one go: several [dice …] lines at the same stop (attack, defence, damage one line each); the engine rolls them all and answers once.

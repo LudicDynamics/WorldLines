@@ -1,0 +1,16 @@
+{
+  "id": "current",
+  "kind": "timeline",
+  "name": "Stoneford · The Night the Fog Withdraws",
+  "day": 5,
+  "period": "night",
+  "clock": "22:00",
+  "weather": "heavy fog",
+  "fog_pressure": "extreme",
+  "active_threads": [
+    "fog-lifting-night",
+    "missing-scout-team",
+    "bandits-on-the-post-road",
+    "stranded-caravans"
+  ]
+}

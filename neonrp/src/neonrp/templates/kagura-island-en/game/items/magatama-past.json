@@ -1,0 +1,12 @@
+{
+  "id": "magatama-past",
+  "kind": "item",
+  "name": "Magatama of the Past",
+  "color": "black",
+  "owner": null,
+  "location": "museum_hidden",
+  "power": "Can travel to the Sengoku era. Shiro's relic.",
+  "era_link": "the Sengoku era",
+  "note": "In the museum's restricted vault. Wrapped in an old silk cloth. There is a message from Shiro on the cloth.",
+  "discovery": "Library Use success → restricted area → Taboo 6 violation"
+}

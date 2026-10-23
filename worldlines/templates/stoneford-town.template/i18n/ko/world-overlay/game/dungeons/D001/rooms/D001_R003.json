@@ -1,0 +1,14 @@
+{
+  "id": "D001_R003",
+  "name": "제단실",
+  "description": "부서진 제단 위에 촛농이 엉겨 있고, 공기에 들큼한 비린내가 섞여 있다.",
+  "features": [
+    "제단을 뒤질 수 있음",
+    "함정이 발동할 수 있음(간단한 것)"
+  ],
+  "state": {
+    "explored": false,
+    "cleared": false,
+    "trap_armed": true
+  }
+}

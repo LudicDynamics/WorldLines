@@ -1,0 +1,7 @@
+{
+  "id": "player",
+  "kind": "player",
+  "name": "指揮官",
+  "summary": "あなたはアルドリック、ブリー、メリンの三人の冒険者を指揮する。自ら戦うのではなく、それぞれの行動を指示する。",
+  "location": "forest-path"
+}

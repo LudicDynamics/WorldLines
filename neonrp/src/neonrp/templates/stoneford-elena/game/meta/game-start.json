@@ -1,0 +1,77 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "Stoneford Elena — 游戏开始引导",
+  "tags": [
+    "entrypoint",
+    "start",
+    "begin",
+    "开始游戏",
+    "开始冒险"
+  ],
+  "summary": "玩家说「开始游戏」时，orchestrator 先读取本文件。",
+  "startup": {
+    "read_first": [
+      "game/meta/game-start.json",
+      "game/meta/run_state.json",
+      "game/meta/roster.json",
+      "game/timeline/current.json",
+      "game/player/controller.json",
+      "game/player/profile.json",
+      "game/player/stats.json",
+      "game/player/equipment.json",
+      "game/player/wallet.json",
+      "game/towns/T001/town.json",
+      "game/lore/story.md"
+    ],
+    "opening_scene": {
+      "zh": "黎明前的雾像湿布一样压在驿路上。你披着旅行斗篷，靴子沾满泥水，终于看见一扇歪斜的木栅门，门上挂着褪色的牌子：「石津镇 · 欢迎来到灰雾北境」。镇子还没有真正醒来，只有远处旅店窗里漏出一点橙色灯光。你想不起自己是谁——名字、来历、为什么会在这里、该去找谁，都像被雾吃掉了一样。只有身体还记得怎么握剑。",
+      "en": "The pre-dawn fog presses down on the post road like a wet cloth. Wrapped in your traveling cloak, boots caked with mud, you finally make out a crooked wooden gate, a faded sign hanging on it: \"Stone Ford · Welcome to the Gray-Fog North.\" The town hasn't truly woken; only a little orange lamplight leaks from an inn window in the distance. You can't remember who you are — your name, your origin, why you're here, who you're meant to find, all of it as if eaten by the fog. Only your body still remembers how to hold a sword.",
+      "ja": "夜明け前の霧が、濡れた布のように街道へのしかかっている。旅の外套をまとい、靴は泥水にまみれ、あなたはようやく一枚の傾いた木の柵門を見つける。門には色あせた札が掛かっている——「石津の町 ・ 灰霧の北境へようこそ」。町はまだ本当には目覚めておらず、遠くの宿屋の窓から橙色の灯りがわずかに漏れているだけだ。自分が誰なのか、思い出せない——名前も、来し方も、なぜここにいるのかも、誰を訪ねればいいのかも、すべて霧に呑まれてしまったようだ。ただ体だけが、剣の握りかたを覚えている。",
+      "ko": "새벽이 오기 전의 안개가 젖은 천처럼 역로를 짓누른다. 여행 망토를 두르고 장화는 흙탕물투성이가 된 채, 너는 마침내 비스듬히 기운 나무 울타리 문 하나를 발견한다. 문에는 빛바랜 팻말이 걸려 있다: 「석진 마을 · 잿빛 안개의 북쪽 변경에 오신 것을 환영합니다」. 마을은 아직 제대로 깨어나지 않았고, 멀리 여관 창문에서 주황빛 등불이 조금 새어 나올 뿐이다. 너는 자신이 누구인지 떠올릴 수 없다——이름도, 내력도, 왜 여기 있는지도, 누구를 찾아가야 하는지도, 모두 안개에 먹혀 버린 것 같다. 오직 몸만이 검을 쥐는 법을 기억하고 있다."
+    },
+    "opening_choices": {
+      "zh": [
+        "自由行动",
+        "和守门人说话",
+        "直接走向镇中央",
+        "先观察雾中的街道和旅店灯光"
+      ],
+      "en": [
+        "Act freely",
+        "Speak with the gatekeeper",
+        "Head straight for the town center",
+        "First take in the fog-bound streets and the inn's lamplight"
+      ],
+      "ja": [
+        "自由行動",
+        "門番に話しかける",
+        "まっすぐ町の中央へ歩く",
+        "まずは霧の中の通りと宿屋の灯りを観察する"
+      ],
+      "ko": [
+        "자유 행동",
+        "문지기와 이야기한다",
+        "곧장 마을 한가운데로 걸어간다",
+        "먼저 안개 낀 거리와 여관 불빛을 살핀다"
+      ]
+    }
+  },
+  "world_info": {
+    "world_name": "灰雾北境 Northvale",
+    "start_location": "T001 石津镇",
+    "start_scope": "town",
+    "start_time": {
+      "day": 1,
+      "clock": "08:30"
+    },
+    "genre": "中世纪奇幻 TRPG / heroine-led migration demo",
+    "tone": "真实、潮湿、克制、有后果",
+    "rules": "d20 骰子判定 · 详见 game/rules/combat_rules.md"
+  },
+  "agent_routing": {
+    "entry_agent": "world-agent",
+    "router_type": "sticky",
+    "note": "所有玩家输入都先经过 orchestrator。orchestrator 读 run_state.json 后决定委托给哪个 domain agent。不要绕过 world-agent 直接进 domain agent。"
+  }
+}

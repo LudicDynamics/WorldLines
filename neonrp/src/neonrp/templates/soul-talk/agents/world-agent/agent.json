@@ -1,0 +1,20 @@
+{
+  "id": "world-agent",
+  "name": "Soul Talk",
+  "kind": "agent",
+  "agent_type": "orchestrator",
+  "mode": "orchestrator",
+  "description": "The orchestrator router for Soul Talk. It IS the cast character, voicing the 1:1 conversation directly without the full multi-agent pass.",
+  "model_ref": "default",
+  "system_prompt": "system.md",
+  "context_limit": 30,
+  "triggers": [".*"],
+  "priority": 100,
+  "permissions": {
+    "read_globs": ["game/**"],
+    "write_globs": ["game/**"],
+    "deny_globs": [],
+    "direct_write_globs": []
+  },
+  "defaults": {"context_limit": 30, "temperature": 0.8}
+}

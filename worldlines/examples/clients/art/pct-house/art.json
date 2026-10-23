@@ -1,0 +1,176 @@
+{
+  "world": "pct-house",
+  "title": "灰橡宅",
+  "subtitle": "百分骰推理恐怖 · 一夜的失踪",
+  "pitch": "雾巷尽头的老宅。宅主人三天前走进这扇门,再没出来。他的外甥女温妮请你来。",
+  "title_art": "title.jpg",
+  "scenes": {
+    "T001/steps": "backgrounds/steps.jpg",
+    "T001/hall": "backgrounds/hall.jpg",
+    "T001/butler_room": "backgrounds/butler_room.jpg",
+    "T001/corridor": "backgrounds/corridor.jpg",
+    "T001/study": "backgrounds/study.jpg",
+    "T001/bedroom": "backgrounds/bedroom.jpg",
+    "T001/garden": "backgrounds/garden.jpg",
+    "T001/cellar": "backgrounds/cellar.jpg"
+  },
+  "fallback_scene": "title.jpg",
+  "portraits": {
+    "chara": {
+      "name": "温妮",
+      "base": "characters/chara.jpg",
+      "variants": {
+        "resolute": "characters/chara-resolute.jpg",
+        "afraid": "characters/chara-afraid.jpg"
+      }
+    },
+    "butler": {
+      "name": "奥斯温",
+      "base": "characters/butler.jpg",
+      "variants": {
+        "blocking": "characters/butler-blocking.jpg"
+      }
+    }
+  },
+  "speakers": {
+    "温妮": "chara",
+    "Winnie": "chara",
+    "奥斯温": "butler",
+    "Oswin": "butler",
+    "管家": "butler"
+  },
+  "npcs_by_place": {},
+  "endings": {
+    "E01": "endings/e01.jpg",
+    "E02": "endings/e02.jpg",
+    "E09": "endings/e09.jpg"
+  },
+  "clues": [
+    {
+      "id": "diary",
+      "title": "烧剩的日记",
+      "text": "日期栏还看得清。凿墙,就在三天前。",
+      "art": "items/diary.jpg",
+      "when": {
+        "var": "P01.stage",
+        "gte": 1
+      }
+    },
+    {
+      "id": "cellar-key",
+      "title": "花盆下的钥匙",
+      "text": "沾着湿泥的铁钥匙。地窖的。",
+      "art": "items/cellar-key.jpg",
+      "when": {
+        "var": "P01.stage",
+        "gte": 2
+      }
+    },
+    {
+      "id": "fresh-plaster",
+      "title": "墙上的新灰",
+      "text": "西墙只有这一块是新的。灰里卡着布料的线头。",
+      "art": "items/fresh-plaster.jpg",
+      "when": {
+        "var": "P01.stage",
+        "gte": 3
+      }
+    }
+  ],
+  "map": {
+    "art": "map/house.jpg",
+    "rooms": {
+      "T001/steps": {
+        "label": "宅前石阶",
+        "x": 50,
+        "y": 90,
+        "go": "我出门到宅前的石阶上"
+      },
+      "T001/hall": {
+        "label": "门厅",
+        "x": 50,
+        "y": 62,
+        "go": "我回门厅"
+      },
+      "T001/butler_room": {
+        "label": "管家房",
+        "x": 22,
+        "y": 66,
+        "go": "我去管家房看看"
+      },
+      "T001/corridor": {
+        "label": "二楼走廊",
+        "x": 50,
+        "y": 34,
+        "go": "我上楼到二楼走廊"
+      },
+      "T001/study": {
+        "label": "书房 · 楼上",
+        "x": 24,
+        "y": 20,
+        "go": "我去书房"
+      },
+      "T001/bedroom": {
+        "label": "卧室 · 楼上",
+        "x": 76,
+        "y": 20,
+        "go": "我去宅主人的卧室"
+      },
+      "T001/garden": {
+        "label": "后院",
+        "x": 78,
+        "y": 50,
+        "go": "我去后院"
+      },
+      "T001/cellar": {
+        "label": "地窖",
+        "x": 80,
+        "y": 84,
+        "go": "我下地窖"
+      }
+    },
+    "links": [
+      [
+        "T001/bedroom",
+        "T001/corridor"
+      ],
+      [
+        "T001/butler_room",
+        "T001/hall"
+      ],
+      [
+        "T001/cellar",
+        "T001/garden"
+      ],
+      [
+        "T001/corridor",
+        "T001/hall"
+      ],
+      [
+        "T001/corridor",
+        "T001/study"
+      ],
+      [
+        "T001/garden",
+        "T001/hall"
+      ],
+      [
+        "T001/hall",
+        "T001/steps"
+      ]
+    ],
+    "_doc": "rooms 的 x / y 与模板 world/game/locations/T001/*/location.json 的 pos 同一套(0–100);links = location.json 的 connections。"
+  },
+  "dice": "ui/dice-d100.png",
+  "meters": {
+    "player.hp": {
+      "label": "生命",
+      "max_var": null,
+      "max": 12
+    },
+    "player.san": {
+      "label": "心神",
+      "max": 99
+    }
+  }
+}

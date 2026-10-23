@@ -1,0 +1,64 @@
+{
+  "agents": [
+    {
+      "role": "全体の進行役(オーケストレーター)",
+      "description": "ゲーム状態を読み、サブエージェントへ振り分け、パッチをまとめて状態を更新する",
+      "note": "重要なパス: game/agents/manifest.json(agents サブディレクトリの中)"
+    },
+    {
+      "role": "世界構築",
+      "description": "世界地図の構造を管理し、新しい区域を広げ、ノードの状態を更新する"
+    },
+    {
+      "role": "物語の語り",
+      "description": "本筋の物語とうわさを管理し、物語の章を書き足す"
+    },
+    {
+      "role": "町エージェント",
+      "description": "町の中の移動、NPC とのやりとり、施設への出入りを扱う",
+      "note": "run_state.location.node_id をそのままフォルダ名として使う"
+    },
+    {
+      "role": "ギルド施設",
+      "description": "依頼板、依頼の受注と報告、名声を管理する",
+      "note": "run_state.location.node_id をそのままフォルダ名として使う"
+    },
+    {
+      "role": "商店施設",
+      "description": "売買と在庫の管理を扱う",
+      "note": "run_state.location.node_id をそのままフォルダ名として使う"
+    },
+    {
+      "role": "宿屋施設",
+      "description": "休息と回復、うわさ、時間の進行を扱う",
+      "note": "run_state.location.node_id をそのままフォルダ名として使う"
+    },
+    {
+      "role": "ダンジョンエージェント",
+      "description": "ダンジョンの探索、部屋の移動、遭遇の発生、ボス戦を扱う",
+      "note": "run_state.location.node_id をそのままフォルダ名として使う"
+    },
+    {
+      "role": "戦闘の審判",
+      "description": "戦闘ルールの執行、手番の管理、ダメージ計算、状態の処理、戦闘の決着を行う"
+    },
+    {
+      "role": "記録係",
+      "description": "重要な出来事を notes.md に記録し、プレイヤーの日誌 journal.md を更新する"
+    }
+  ],
+  "routing_rules": {
+    "world": {
+      "description": "世界地図の層"
+    },
+    "town": {
+      "description": "町の層"
+    },
+    "dungeon": {
+      "description": "ダンジョンの層"
+    },
+    "end_of_turn": {
+      "description": "手番終了時の記録"
+    }
+  }
+}

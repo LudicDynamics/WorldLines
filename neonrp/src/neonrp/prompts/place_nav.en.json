@@ -1,0 +1,10 @@
+{
+ "_doc": "移动判定的结论文字(进模型的提示与拒绝理由,10-06)",
+ "unresolved": "the move target is empty or cannot be resolved",
+ "no_node": "{town} has no node '{node}' (valid nodes e.g.: {some})",
+ "entered": "enter {town}, landing at {node}",
+ "no_route": "no route between {a} and {b} on the world map; cannot go",
+ "to_gate": "too far to cross towns: this turn reach {town}/{gate} ({gate_name}); next turn you can enter {next}",
+ "via": "to reach {town} you pass through {next}: this turn reach {landing}, continue next turn",
+ "no_node_gate": "{town} has no node '{node}'; this turn you land at the gate {gate} (valid nodes e.g.: {some})"
+}

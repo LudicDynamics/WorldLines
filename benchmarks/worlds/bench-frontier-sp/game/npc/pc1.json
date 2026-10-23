@@ -1,0 +1,11 @@
+{
+ "id": "pc1",
+ "kind": "npc",
+ "name": "Miner Tomas",
+ "summary": "trace the strange ore to its source",
+ "hp": 10,
+ "max_hp": 10,
+ "location": "mine_entrance",
+ "inventory": [],
+ "goal": "trace the strange ore to its source"
+}

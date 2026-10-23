@@ -1,0 +1,16 @@
+{
+  "id": "main_street",
+  "name": "Main Street",
+  "type": "street",
+  "pos": {
+    "x": 504,
+    "y": 316
+  },
+  "connections": [
+    "guild",
+    "shop_general",
+    "inn",
+    "dock",
+    "townhall"
+  ]
+}

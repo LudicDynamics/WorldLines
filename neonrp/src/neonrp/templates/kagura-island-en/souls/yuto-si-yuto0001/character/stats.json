@@ -1,0 +1,11 @@
+{
+  "sid": "yuto",
+  "hp": 90,
+  "max_hp": 100,
+  "skills": [
+    "Deciphering Old Records",
+    "Loop Knowledge (body memory)",
+    "Close Combat"
+  ],
+  "age": 24
+}

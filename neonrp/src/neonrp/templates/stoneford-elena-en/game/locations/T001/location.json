@@ -1,0 +1,21 @@
+{
+  "id": "T001",
+  "type": "town",
+  "name": "Stone Ford",
+  "region": "Northvale",
+  "pos": [
+    12,
+    7
+  ],
+  "summary": "A river-port trading town where the fog never lifts.",
+  "state": {
+    "discovered": true,
+    "danger_nearby": 2
+  },
+  "connections": [
+    "T002",
+    "D001",
+    "T004"
+  ],
+  "entry": "gate_north"
+}

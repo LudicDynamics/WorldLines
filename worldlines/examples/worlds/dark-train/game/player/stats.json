@@ -1,0 +1,48 @@
+{
+  "id": "stats",
+  "kind": "player",
+  "system": "brp",
+  "characteristics": {
+    "STR": 11,
+    "CON": 12,
+    "SIZ": 13,
+    "DEX": 12,
+    "CHA": 10,
+    "INT": 14,
+    "POW": 12,
+    "EDU": 13
+  },
+  "derived": {
+    "hp": {"current": 13, "max": 13, "major_wound_threshold": 7},
+    "san": {"current": 60, "max": 99, "starting": 60, "beat_turn": null, "beat_start": null, "beat_loss": 0},
+    "move_rate": 10,
+    "damage_bonus": "0"
+  },
+  "skills": {
+    "Spot": 25,
+    "Listen": 25,
+    "Research": 25,
+    "Insight": 20,
+    "Persuade": 15,
+    "Fast Talk": 15,
+    "Stealth": 20,
+    "Hide": 10,
+    "First Aid": 30,
+    "Medicine": 5,
+    "Repair": 15,
+    "Fine Manipulation": 5,
+    "Climb": 40,
+    "Dodge": 24,
+    "Brawl": 25,
+    "Firearm (Handgun)": 20,
+    "Knowledge (Occult)": 5,
+    "Forbidden Lore": 0
+  },
+  "afflictions": [],
+  "temporary_insanity": null,
+  "status_effects": [],
+  "fragments_heard": [],
+  "pending_dispersal": false,
+  "forbidden_lore": 0,
+  "_schema_note": "BRP (Basic Roleplaying, Chaosium, ORC License) sheet, characteristics on the 3-18 scale. HP = (CON+SIZ)/2 rounded up. SAN starts at POW x 5; san.max = 99 - forbidden_lore (this world's own skill, see rules/sanity_rules.md). san.beat_turn / san.beat_start / san.beat_loss track losses within one beat (one GM turn) for temporary insanity (beat_loss >= beat_start/2). Total SAN lost = san.starting - san.current (used by event min_san_loss). damage_bonus from STR+SIZ (24 -> none). afflictions[] holds lingering marks: {name, subject, gained_at_tick}."
+}

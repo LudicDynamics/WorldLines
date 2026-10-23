@@ -1,0 +1,14 @@
+{
+  "id": "tavern",
+  "name": "ジェイドクリスタル亭",
+  "type": "facility",
+  "facility_file": "facilities/tavern.json",
+  "description": "ジェイドストーン一の酒場兼宿屋。店構えは砕いた水晶で飾られ、夜になると炎の明かりを受けてきらきらと輝く。二階は宿になっている。",
+  "pos": {
+    "x": 450,
+    "y": 200
+  },
+  "connections": [
+    "main_street"
+  ]
+}

@@ -1,0 +1,72 @@
+{
+ "id": "rules-1014",
+ "title": "规则日 10-14:规则面板 · BRP · GM · 时间只进不退",
+ "question": "10-14 一天的引擎改动(检定数值走规则面板、百分骰对齐 BRP、主持叫 GM、日历和钟点只进不退、空改动退回)有没有把 19 个用例带坏?和 10-13 的新旧两版对照,各 3 遍。S1 的「写了修正」按 10-14 新写法(「状态:名字」)对三组统一重算。「卡住的局」= 最后连着 ≥2 拍以菜单交回、玩家都在说行动;其余停在商量拍的是预算用完时还在谈。",
+ "date": "2026-10-15",
+ "groups": [
+  {
+   "name": "旧 10-13",
+   "commit": "fb0ea985",
+   "runs": [
+    {
+     "label": "identity-v4-old-r1",
+     "run": 1,
+     "arm": "v3-plan-narrate"
+    },
+    {
+     "label": "identity-v4-old-r2",
+     "run": 2,
+     "arm": "v3-plan-narrate"
+    },
+    {
+     "label": "identity-v4-old-r3",
+     "run": 3,
+     "arm": "v3-plan-narrate"
+    }
+   ]
+  },
+  {
+   "name": "新 10-13",
+   "commit": "47937154",
+   "runs": [
+    {
+     "label": "identity-v4-new-r1",
+     "run": 1,
+     "arm": "v3-plan-narrate"
+    },
+    {
+     "label": "identity-v4-new-r2",
+     "run": 2,
+     "arm": "v3-plan-narrate"
+    },
+    {
+     "label": "identity-v4-new-r3",
+     "run": 3,
+     "arm": "v3-plan-narrate"
+    }
+   ]
+  },
+  {
+   "name": "今天 10-14",
+   "commit": "0d256a0b",
+   "runs": [
+    {
+     "label": "rules-1014-r1",
+     "run": 1,
+     "arm": "v3-plan-narrate"
+    },
+    {
+     "label": "rules-1014-r2",
+     "run": 2,
+     "arm": "v3-plan-narrate"
+    },
+    {
+     "label": "rules-1014-r3",
+     "run": 3,
+     "arm": "v3-plan-narrate"
+    }
+   ]
+  }
+ ],
+ "summary_md": "| | 旧 10-13 | 新 10-13 | 今天 10-14 |\n|---|---|---|---|\n| 检查 · 全部 | 358/384 | 362/384 | 359/384 |\n| 检查 · 身份 5 例 | 85/96 | 92/96 | 93/96 |\n| 检查 · 原 14 例 | 273/288 | 270/288 | 266/288 |\n| 其中失败于没落账的局 | 9 | 2 | 14 |\n| 卡住的局(连着 ≥2 拍菜单交回,玩家都在说行动) | 1 | 3 | 4 |\n| 谈到一半预算用完的局 | 6 | 4 | 9 |\n| 平均几拍商量进一次清算 | 1.67 | 1.8 | 1.97 |\n| 清算拍数 | 136 | 130 | 118 |\n| 拒 / 拍 | 0.43 | 0.48 | 0.22 |\n| 认名被拒 / 拍 | 0.103 | 0.038 | 0.068 |\n| 认名被拒(条) | 14 | 5 | 8 |\n| 正文露出 {{ | 0 | 0 | 0 |\n| 认定门调用 | 0 | 0 | 3 |\n| 补主人 / 门改写(条) | 0 | 52 | 50 |\n| 状态阶段中位 ms | 3977 | 4494 | 4917 |\n| 清算拍中位 ms | 43258 | 43769 | 77338 |\n\n| 用例 · 检查 | 旧 10-13 | 新 10-13 | 今天 10-14 |\n|---|---|---|---|\n| B1.not_teleported | 3/3 | 2/3 | 3/3 |\n| FILTH.bad_status_or_hp_or_ruled | 3/3 | 1/3 | 2/3 |\n| ID1.elena_poison_gone | 0/3 | 2/3 | 2/3 |\n| ID1.every_beat_plan_or_resolve | 3/3 | 3/3 | 3/3 |\n| ID1.herbs_used | 2/3 | 2/3 | 3/3 |\n| ID1.no_brace_leak | 3/3 | 3/3 | 3/3 |\n| ID1.no_dice_while_planning | 3/3 | 3/3 | 3/3 |\n| ID1.no_identity_refusal | 2/3 | 2/3 | 3/3 |\n| ID1.no_state_change_while_planning | 3/3 | 3/3 | 3/3 |\n| ID1.player_poison_gone | 2/3 | 3/3 | 2/3 |\n| ID2.every_beat_plan_or_resolve | 3/3 | 3/3 | 3/3 |\n| ID2.no_brace_leak | 3/3 | 3/3 | 3/3 |\n| ID2.no_dice_while_planning | 3/3 | 3/3 | 3/3 |\n| ID2.no_identity_refusal | 3/3 | 3/3 | 3/3 |\n| ID2.no_state_change_while_planning | 3/3 | 3/3 | 3/3 |\n| ID2.two_now | 2/3 | 2/3 | 2/3 |\n| ID3.back_at_guild | 3/3 | 3/3 | 3/3 |\n| ID3.every_beat_plan_or_resolve | 3/3 | 3/3 | 3/3 |\n| ID3.no_brace_leak | 3/3 | 3/3 | 3/3 |\n| ID3.no_dice_while_planning | 3/3 | 3/3 | 3/3 |\n| ID3.no_identity_refusal | 3/3 | 3/3 | 3/3 |\n| ID3.no_state_change_while_planning | 3/3 | 3/3 | 3/3 |\n| ID4.every_beat_plan_or_resolve | 3/3 | 3/3 | 3/3 |\n| ID4.no_brace_leak | 3/3 | 3/3 | 3/3 |\n| ID4.no_dice_while_planning | 3/3 | 3/3 | 3/3 |\n| ID4.no_identity_refusal | 3/3 | 3/3 | 3/3 |\n| ID4.no_state_change_while_planning | 3/3 | 3/3 | 3/3 |\n| ID5.elena_bleed_gone | 0/3 | 3/3 | 3/3 |\n| ID5.every_beat_plan_or_resolve | 3/3 | 3/3 | 3/3 |\n| ID5.no_brace_leak | 3/3 | 3/3 | 3/3 |\n| ID5.no_dice_while_planning | 3/3 | 3/3 | 3/3 |\n| ID5.no_identity_refusal | 3/3 | 3/3 | 3/3 |\n| ID5.no_state_change_while_planning | 3/3 | 3/3 | 3/3 |\n| ID5.player_bleed_kept | 2/3 | 3/3 | 3/3 |\n| N2.job_taken | 2/3 | 3/3 | 3/3 |\n| N2.went_hunting | 3/3 | 1/3 | 2/3 |\n| PL1.board_has_haggle_check | 2/3 | 2/3 | 3/3 |\n| PL1.lantern_gone | 1/3 | 2/3 | 1/3 |\n| PL1.lantern_kept | 3/3 | 2/3 | 2/3 |\n| PL1.paid_then_paid_back | 3/3 | 3/3 | 2/3 |\n| PL12.at_inn | 3/3 | 2/3 | 3/3 |\n| PL12.rested | 2/3 | 3/3 | 3/3 |\n| PL13.appointment_on_heron | 3/3 | 3/3 | 2/3 |\n| PL13.appointment_on_heron·N7 | 2/3 | 2/3 | 1/3 |\n| PL13.appointment_on_heron·PL2 | 2/3 | 2/3 | 1/3 |\n| PL13.evening | 3/3 | 3/3 | 1/3 |\n| PL13.evening·N7 | 3/3 | 3/3 | 1/3 |\n| PL13.heron_came | 2/3 | 2/3 | 1/3 |\n| S2.counted_down_or_gone | 2/3 | 3/3 | 3/3 |\n| S4.slept_past | 2/3 | 2/3 | 3/3 |\n\n认名被拒 · 旧 10-13:unknown place X ×5 · unknown entity X ×4 · place X already exists ×3 · X is already gone ×1 · status X already exists ×1\n认名被拒 · 新 10-13:place X already exists ×2 · X is already gone ×2 · X already exists ×1\n认名被拒 · 今天 10-14:place X already exists ×4 · X not found in game/world/world_map.json ×4\n"
+}

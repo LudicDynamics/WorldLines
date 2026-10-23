@@ -1,0 +1,33 @@
+{
+  "dungeon_id": "D001",
+  "tables": {
+    "D001_R001": [
+      {
+        "enemy": "mire-moss rat",
+        "count": "1-2",
+        "chance": 0.5
+      }
+    ],
+    "D001_R002": [
+      {
+        "enemy": "fog-fang wolf",
+        "count": "1",
+        "chance": 0.4
+      }
+    ],
+    "D001_R003": [
+      {
+        "enemy": "moss-shade wraith",
+        "count": "1",
+        "chance": 0.6
+      }
+    ],
+    "D001_R004": [
+      {
+        "enemy": "the Whispering Coffin",
+        "count": "1",
+        "chance": 1.0
+      }
+    ]
+  }
+}

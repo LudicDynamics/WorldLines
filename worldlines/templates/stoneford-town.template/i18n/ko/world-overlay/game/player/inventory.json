@@ -1,0 +1,20 @@
+{
+  "capacity": 20,
+  "items": [
+    {
+      "id": "travel-bread",
+      "name": "여행용 호밀빵",
+      "qty": 2
+    },
+    {
+      "id": "lantern",
+      "name": "갓 씌운 등불",
+      "qty": 1
+    },
+    {
+      "id": "healing-herb",
+      "name": "지혈초 다발",
+      "qty": 1
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+ "job_states": {
+  "offered": "Available",
+  "active": "In progress",
+  "done": "Done",
+  "failed": "Failed",
+  "abandoned": "Dropped"
+ },
+ "exits": {
+  "ending": "Reach an ending",
+  "ending:accusation": "Name the culprit and reach an ending",
+  "segment:day": "Live it one day at a time",
+  "segment:date": "One date at a time",
+  "segment": "One stretch at a time"
+ },
+ "job_words": {
+  "offered": [
+   "offered",
+   "available",
+   "open",
+   "posted",
+   "new",
+   "listed"
+  ],
+  "active": [
+   "active",
+   "taken",
+   "accepted",
+   "in_progress",
+   "in progress",
+   "ongoing",
+   "started",
+   "doing"
+  ],
+  "done": [
+   "done",
+   "complete",
+   "completed",
+   "finished",
+   "success",
+   "succeeded",
+   "turned_in",
+   "resolved"
+  ],
+  "failed": [
+   "failed",
+   "fail",
+   "expired",
+   "lost"
+  ],
+  "abandoned": [
+   "abandoned",
+   "dropped",
+   "cancelled",
+   "canceled",
+   "given_up"
+  ],
+  "hidden": [
+   "locked",
+   "hidden",
+   "unavailable",
+   "secret"
+  ]
+ }
+}

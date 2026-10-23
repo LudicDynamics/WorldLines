@@ -1,0 +1,41 @@
+{
+ "job_states": {
+  "offered": "수락 가능",
+  "active": "진행 중",
+  "done": "완료",
+  "failed": "실패",
+  "abandoned": "포기"
+ },
+ "exits": {
+  "ending": "결말까지 가기",
+  "ending:accusation": "범인을 지목하고 결말로",
+  "segment:day": "하루하루 보내기",
+  "segment:date": "데이트 한 번씩",
+  "segment": "한 구간씩"
+ },
+ "job_words": {
+  "offered": [
+   "수락 가능",
+   "접수 중"
+  ],
+  "active": [
+   "진행 중",
+   "수락함",
+   "수락"
+  ],
+  "done": [
+   "완료",
+   "달성"
+  ],
+  "failed": [
+   "실패"
+  ],
+  "abandoned": [
+   "포기"
+  ],
+  "hidden": [
+   "잠김",
+   "미해금"
+  ]
+ }
+}

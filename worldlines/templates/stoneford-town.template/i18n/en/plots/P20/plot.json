@@ -1,0 +1,802 @@
+{
+ "id": "P20",
+ "title": "The Night the Fog Withdraws",
+ "stages": [
+  {
+   "name": "The fifth night of the fog season"
+  },
+  {
+   "name": "Three things for the north road"
+  },
+  {
+   "name": "The night the fog withdraws"
+  },
+  {
+   "name": "Mossbarrow"
+  }
+ ],
+ "vars": {
+  "P20.pass": {
+   "type": "int",
+   "min": 0,
+   "max": 1,
+   "doc": "Leave to pass the north gate: a guild commission / a writ of passage from the Town Office / Cass opening the gate"
+  },
+  "P20.route": {
+   "type": "int",
+   "min": 0,
+   "max": 1,
+   "doc": "A way through the fog: the old fog-road map / Milo's charm / Rowan"
+  },
+  "P20.road": {
+   "type": "int",
+   "min": 0,
+   "max": 1,
+   "doc": "Getting past the post road: break the camp / talk to the One-Eyed Tiger / take Old Fish's boat"
+  }
+ },
+ "entries": {
+  "I201": {
+   "class": "item",
+   "name": "Old fog-road map",
+   "parent": "T001/shop_general",
+   "props": {
+    "summary": "A map of the fog roads drawn by Old Reed's late wife, kept under lock in the back room of the general store.",
+    "image_prompt": "a rolled old parchment map with faded ink routes through fog, tied with string"
+   }
+  },
+  "I202": {
+   "class": "item",
+   "name": "Milo's charm",
+   "parent": "T001/inn",
+   "props": {
+    "summary": "A little cloth charm, sewn shut, with the scouting party's route stitched across it in red thread."
+   }
+  },
+  "I203": {
+   "class": "item",
+   "name": "Company ledger",
+   "parent": "T001/market-square",
+   "props": {
+    "summary": "The ledger from Gerda's wagon. The last page records a payment to Heron."
+   }
+  },
+  "N201": {
+   "class": "npc",
+   "name": "Milo",
+   "parent": "D001/D001_R003",
+   "props": {
+    "summary": "Mira's younger brother, the youngest of the scouting party, trapped in the third chamber of Mossbarrow."
+   }
+  },
+  "I204": {
+   "class": "item",
+   "name": "Commission: Clear the Post-Road Bandits",
+   "parent": "T001/guild",
+   "props": {
+    "summary": "A notice Heron pinned up himself, in pride of place on the commission board: clear out the bandit camp on the post road beyond the north gate. The bounty is poor, but whoever takes the job is let through the north gate."
+   }
+  }
+ },
+ "triggers": {
+  "P20.pass.guild": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "who": "player",
+     "at": "T001/guild"
+    },
+    {
+     "text": [
+      "accept",
+      "take the job",
+      "i'll take",
+      "i will take",
+      "take it",
+      "sign up",
+      "sign it",
+      "sign on",
+      "i'm in",
+      "take the commission"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.pass",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "has_commission"
+    },
+    {
+     "to": "narration",
+     "text": "Heron slaps the Clear the Post-Road Bandits commission down on the counter. \"Take it. The north gate will let you through. Die out there and the guild won't be fetching the body.\""
+    }
+   ],
+   "once": true
+  },
+  "P20.pass.warden": {
+   "when": {
+    "turn": true
+   },
+   "if": [
+    {
+     "flag": "persuaded.NPC005"
+    },
+    {
+     "any": [
+      {
+       "flag": "has_ledger"
+      },
+      {
+       "flag": "kas_exposed"
+      }
+     ]
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.pass",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "has_pass"
+    },
+    {
+     "to": "narration",
+     "text": "Vera reads through what you have brought her and is silent for a long while. Then she presses the Town Office seal into a wooden tally. \"A writ of passage. Don't make me write one name fewer in next year's book, after the fog has gone.\""
+    }
+   ],
+   "once": true
+  },
+  "P20.pass.kas": {
+   "when": {
+    "turn": true
+   },
+   "if": [
+    {
+     "any": [
+      {
+       "flag": "persuaded.NPC004"
+      },
+      {
+       "flag": "stole.NPC004"
+      }
+     ]
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.pass",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "gate_opened"
+    },
+    {
+     "to": "var",
+     "var": "town.alert",
+     "add": 1
+    },
+    {
+     "to": "narration",
+     "text": "Cass's hand stops on the ring of keys at his belt. The north gate opens a crack — just wide enough for one person to slip through sideways."
+    }
+   ],
+   "once": true
+  },
+  "P20.route.map": {
+   "when": {
+    "turn": true
+   },
+   "if": [
+    {
+     "any": [
+      {
+       "flag": "persuaded.NPC002"
+      },
+      {
+       "flag": "stole.NPC002"
+      }
+     ]
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.route",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "has_map"
+    },
+    {
+     "to": "narration",
+     "text": "Old Reed fetches a roll of yellowed parchment from the back room and slides it across under the counting board. \"My wife drew it. She left her survey book in Mossbarrow — if you see it, bring it back to me.\""
+    }
+   ],
+   "once": true
+  },
+  "P20.route.amulet": {
+   "when": {
+    "turn": true
+   },
+   "if": [
+    {
+     "any": [
+      {
+       "flag": "persuaded.NPC003"
+      },
+      {
+       "text": [
+        "milo",
+        "your brother",
+        "find him",
+        "charm",
+        "amulet"
+       ],
+       "in": "player"
+      }
+     ]
+    },
+    {
+     "who": "player",
+     "at": "T001/inn"
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.route",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "has_amulet"
+    },
+    {
+     "to": "narration",
+     "text": "Mira picks open the stitching at her cuff and lays a small charm, sewn shut, in your palm. Across the cloth runs a crooked path in red thread — the road the scouting party took."
+    }
+   ],
+   "once": true
+  },
+  "P20.route.rowan": {
+   "when": {
+    "turn": true
+   },
+   "if": [
+    {
+     "flag": "joined.si-rowan0001"
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.route",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "rowan_joined"
+    },
+    {
+     "to": "soul",
+     "who": "Rowan Pike",
+     "text": "The player has asked you to come with them into the fog. Last year you made it as far as the door of Mossbarrow on your own and ran back — this time you mean to go all the way.",
+     "important": true
+    }
+   ],
+   "once": true
+  },
+  "P20.road.fight": {
+   "when": {
+    "op": "end_combat"
+   },
+   "if": [
+    {
+     "who": "player",
+     "at": "T001/road_camp"
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.road",
+     "set": 1
+    },
+    {
+     "to": "narration",
+     "text": "The campfire lies overturned in the mud. The camp has scattered and the ore-cart barricade has been shoved into the ditch — the post road is open."
+    }
+   ],
+   "once": true
+  },
+  "P20.road.talk": {
+   "when": {
+    "flag": "persuaded.NPC008"
+   },
+   "if": [],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.road",
+     "set": 1
+    },
+    {
+     "to": "flag",
+     "key": "tiger_ally"
+    },
+    {
+     "to": "narration",
+     "text": "The One-Eyed Tiger stares at you for a long time, then drives his pickaxe into the ground. \"After the fog's gone, you speak for the miners to the Company. That's the deal. I'll send one of mine to show you the way.\""
+    }
+   ],
+   "once": true
+  },
+  "P20.road.boat": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "who": "player",
+     "at": "T001/dock"
+    },
+    {
+     "text": [
+      "boat",
+      "ferry",
+      "cross the river",
+      "across the river",
+      "other bank",
+      "go around",
+      "way around",
+      "around the camp"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.road",
+     "set": 1
+    },
+    {
+     "to": "var",
+     "var": "player.silver",
+     "add": -2
+    },
+    {
+     "to": "narration",
+     "text": "Old Fish pockets the coin and poles the boat out into the fog. \"There's a path on the far bank that goes round the camp. Costs you half a night more walking, mind.\""
+    }
+   ],
+   "once": true
+  },
+  "P20.secret.heron": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "who": "player",
+     "at": "T001/guild"
+    },
+    {
+     "text": [
+      "company",
+      "bribe",
+      "paid you",
+      "sent them early",
+      "sent them out early",
+      "too early",
+      "ledger"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "flag",
+     "key": "heron_exposed"
+    },
+    {
+     "to": "narration",
+     "text": "The colour drains from Heron's face. He shuts the door. \"It was Gerda… the Company's people leaned on me to send the party out three days early. I thought they'd be back before the fog withdrew.\""
+    }
+   ],
+   "once": true
+  },
+  "P20.secret.ledger": {
+   "when": {
+    "flag": "stole.NPC007"
+   },
+   "if": [],
+   "then": [
+    {
+     "to": "flag",
+     "key": "has_ledger"
+    },
+    {
+     "to": "narration",
+     "text": "In Gerda's wagon, the last page of the ledger records a payment to \"Guild · H.\", dated the day before the scouting party set out."
+    }
+   ],
+   "once": true
+  },
+  "P20.secret.kas": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "who": "player",
+     "at": "T001/gate_north"
+    },
+    {
+     "text": [
+      "bandit",
+      "paid you",
+      "took money",
+      "bribe",
+      "lookout",
+      "gambling",
+      "debt"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "flag",
+     "key": "kas_exposed"
+    },
+    {
+     "to": "narration",
+     "text": "Cass's helmet slips sideways. \"…Just the once! What they paid me covers a month of my debts. Their lookout sits behind the ore cart, and the watch changes at midnight.\""
+    }
+   ],
+   "once": true
+  },
+  "P20.ready": {
+   "when": {
+    "turn": true
+   },
+   "if": [
+    {
+     "var": "P20.pass",
+     ">=": 1
+    },
+    {
+     "var": "P20.route",
+     ">=": 1
+    },
+    {
+     "var": "P20.road",
+     ">=": 1
+    },
+    {
+     "var": "P20.stage",
+     "<": 1
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.stage",
+     "set": 1
+    },
+    {
+     "to": "narration",
+     "text": "Leave to pass the north gate, a way through the fog, a way past the post road — you have all three. All that is left is to wait for midnight."
+    }
+   ],
+   "once": true
+  },
+  "P20.fog_lifts": {
+   "when": {
+    "var": "time.day"
+   },
+   "if": [
+    {
+     "var": "time.day",
+     ">=": 7
+    },
+    {
+     "var": "P20.stage",
+     "<": 2
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.stage",
+     "set": 2
+    },
+    {
+     "to": "narration",
+     "text": "Midnight. The fog draws back northward like a tide going out, and leaves behind a road shining wet — and stars, the first anyone here has seen in twenty years."
+    }
+   ],
+   "once": true
+  },
+  "P20.tomb": {
+   "when": {
+    "entry": "D001",
+    "event": "enter",
+    "who": "player"
+   },
+   "if": [
+    {
+     "var": "P20.stage",
+     ">=": 2
+    }
+   ],
+   "then": [
+    {
+     "to": "var",
+     "var": "P20.stage",
+     "set": 3
+    }
+   ],
+   "once": true
+  },
+  "P20.amu": {
+   "when": {
+    "entry": "D001/D001_R003",
+    "event": "enter",
+    "who": "player"
+   },
+   "if": [],
+   "then": [
+    {
+     "to": "flag",
+     "key": "amu_found"
+    },
+    {
+     "to": "narration",
+     "text": "In the third chamber, seven or eight lanterns stand in a ring. Milo and the rest of the scouting party sit back to back inside it, alive — the way out has caved in, and they cannot get out."
+    }
+   ],
+   "once": true
+  },
+  "P20.coffin": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "who": "player",
+     "at": "D001/D001_R004"
+    },
+    {
+     "text": [
+      "secret",
+      "trade",
+      "exchange",
+      "blood",
+      "elena"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "flag",
+     "key": "coffin_answered"
+    },
+    {
+     "to": "soul",
+     "who": "Elena Vale",
+     "text": "The coffin spoke your name. Twenty years ago a party went into the fog, and the only one who came out was a child — you. The pendant at your breast is the key to this stone door.",
+     "important": true
+    },
+    {
+     "to": "narration",
+     "text": "The face on the coffin lid opens its eyes. \"A secret, for a drop of blood.\" When you have spoken, it laughs — and then it calls Elena by her name."
+    }
+   ],
+   "once": true
+  },
+  "P20.E1": {
+   "when": {
+    "flag": "coffin_answered"
+   },
+   "if": [
+    {
+     "flag": "amu_found"
+    }
+   ],
+   "then": [
+    {
+     "to": "end",
+     "ending": "E1"
+    }
+   ],
+   "once": true
+  },
+  "P20.E2": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "flag": "tiger_ally"
+    },
+    {
+     "var": "P20.stage",
+     ">=": 2
+    },
+    {
+     "text": [
+      "claim the north road",
+      "the north road is ours",
+      "hold the road",
+      "hold the north road",
+      "take the road",
+      "beat the company",
+      "before the company"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "end",
+     "ending": "E2"
+    }
+   ],
+   "once": true
+  },
+  "P20.E3": {
+   "when": {
+    "text": "both"
+   },
+   "if": [
+    {
+     "flag": "amu_found"
+    },
+    {
+     "text": [
+      "back to town",
+      "return to town",
+      "head back",
+      "go back",
+      "retreat",
+      "pull back",
+      "fall back",
+      "before dawn",
+      "take them home",
+      "get them home"
+     ],
+     "in": "player"
+    }
+   ],
+   "then": [
+    {
+     "to": "end",
+     "ending": "E3"
+    }
+   ],
+   "once": true
+  },
+  "P20.E9.time": {
+   "when": {
+    "var": "time.day"
+   },
+   "if": [
+    {
+     "var": "time.day",
+     ">=": 8
+    },
+    {
+     "var": "P20.stage",
+     "<": 3
+    }
+   ],
+   "then": [
+    {
+     "to": "end",
+     "ending": "E9"
+    }
+   ],
+   "once": true
+  },
+  "P20.E9.fall": {
+   "when": {
+    "var": "player.hp"
+   },
+   "if": [
+    {
+     "var": "player.hp",
+     "<=": 0
+    }
+   ],
+   "then": [
+    {
+     "to": "end",
+     "ending": "E9"
+    }
+   ],
+   "once": true
+  }
+ },
+ "endings": {
+  "E1": {
+   "title": "The Night the Fog Withdraws",
+   "kind": "true",
+   "text": "By the time you lead the scouting party out of Mossbarrow, the fog has begun to roll back in. Elena walks last of all, saying the name she has only just found again, over and over.",
+   "image_prompt": "dawn after the fog lifting night, a small party leading a rescued scouting party out of a moss-covered tomb gate, the silver-haired healer looking back at the stars"
+  },
+  "E2": {
+   "title": "Master of the North Road",
+   "kind": "alt",
+   "text": "When the Company's wagons arrive, the north road is already planted with the Miners' Guild's banners. The One-Eyed Tiger shoulders his pickaxe and gives you a nod.",
+   "image_prompt": "miners' banners planted along a mountain post road at dawn, a big one-eyed bandit chief with a pickaxe nodding, stranded merchant wagons halted below"
+  },
+  "E3": {
+   "title": "The Lamps Are Still Lit",
+   "kind": "alt",
+   "text": "You are back in town before daybreak. Mira holds Milo and weeps for a long time. Elena's past stays where it is, in that coffin, and nobody goes to ask after it.",
+   "image_prompt": "an innkeeper hugging her younger brother in the warm doorway of a riverside inn at dawn, fog returning in the street behind"
+  },
+  "E9": {
+   "title": "The Fog Closes",
+   "kind": "fail",
+   "text": "The fog closes over the north road as if nothing had happened. This night next year, the Town Office book will once again hold no new name.",
+   "image_prompt": "thick fog closing over an empty north road, a single lantern left on the ground, cold blue-grey"
+  }
+ },
+ "prompt": {
+  "entries": [
+   {
+    "id": "guide",
+    "text": "Hidden main line: before leaving by the north gate, three things must be gathered — leave to pass the gate (the guild commission / a writ of passage from the Town Office / Cass), a way through the fog (Old Reed's old fog-road map / Mira's charm / Rowan), and a way past the post road (break the bandit camp / talk to the One-Eyed Tiger / take Old Fish's boat). Let the townsfolk bring these up when the moment is natural; never hand over a checklist.",
+    "when": "always"
+   },
+   {
+    "id": "commission",
+    "text": "Pinned to the Adventurers' Guild commission board is Clear the Post-Road Bandits, in Heron's own hand: the bounty is poor, but whoever takes it is let through the north gate. If the player asks at the guild about commissions, the bandits or getting out by the north gate, Heron hands them this commission.",
+    "when": "always"
+   },
+   {
+    "id": "who_has_what",
+    "text": "Each of the townsfolk holds something the road north needs: Vera at the Town Office can issue a writ of passage (she needs proof); Cass has taken the bandits' money; Old Reed keeps his late wife's old fog-road map locked in the back room of the general store; Mira at the inn has a younger brother, Milo, with the missing scouting party; Old Fish at the docks can take a boat round the post road; the One-Eyed Tiger at the post-road camp was once a miner in Jadestone. They bring these out only when asked, persuaded or caught out.",
+    "when": "always"
+   },
+   {
+    "id": "countdown",
+    "text": "There is still time before the night the fog withdraws; everything costs time, and resting at the inn skips ahead to the next part of the day. The fog withdraws at midnight on the seventh day.",
+    "when": {
+     "var": "P20.stage",
+     "<": 2
+    }
+   },
+   {
+    "id": "fog_night",
+    "text": "The fog has withdrawn: the north road is open and there are stars overhead. When this night ends, the fog will close again.",
+    "when": {
+     "var": "P20.stage",
+     ">=": 2
+    }
+   }
+  ]
+ },
+ "reveal": {
+  "en": "Twenty years ago a party went into Mossbarrow on the night the fog withdrew, and only one child walked out — Elena. The pendant at her breast is the key to Mossbarrow's stone door. This year it was the Post Road Company that pushed Heron into sending the scouting party out early, so its wagons could be first along the north road."
+ },
+ "collect": {}
+}

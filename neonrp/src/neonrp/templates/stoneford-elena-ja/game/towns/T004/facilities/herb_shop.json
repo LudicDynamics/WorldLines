@@ -1,0 +1,68 @@
+{
+  "facility_id": "herb_shop_T004",
+  "name": "青苔(あおごけ)の薬草店",
+  "price_index": 1.0,
+  "inventory": [
+    {
+      "id": "healing_potion_small",
+      "name": "治癒ポーション（小）",
+      "price": 12,
+      "stock": 5
+    },
+    {
+      "id": "healing_salve",
+      "name": "治癒の軟膏",
+      "price": 8,
+      "stock": 6,
+      "note": "外用。HP を15回復。他人にも使える"
+    },
+    {
+      "id": "antidote",
+      "name": "解毒剤",
+      "price": 10,
+      "stock": 4
+    },
+    {
+      "id": "stamina_herb",
+      "name": "気付けの薬草束",
+      "price": 6,
+      "stock": 8,
+      "note": "疲労状態を取り除く"
+    },
+    {
+      "id": "miners_balm",
+      "name": "鉱夫の肺守り軟膏",
+      "price": 5,
+      "stock": 10,
+      "note": "鉱塵による呼吸の不調を防ぐ。効果は4時間持続"
+    },
+    {
+      "id": "moonflower_extract",
+      "name": "月見草のエキス",
+      "price": 15,
+      "stock": 2,
+      "note": "希少な薬草の抽出物。わずかに魔力を増幅する効果がある"
+    },
+    {
+      "id": "herb_bundle_common",
+      "name": "常用薬草の詰め合わせ",
+      "price": 8,
+      "stock": 5,
+      "note": "よくある薬草を各種含む。調薬の心得がある者向け"
+    }
+  ],
+  "services": [
+    {
+      "name": "傷の手当て",
+      "price": 5,
+      "effect": "HP を10回復"
+    },
+    {
+      "name": "薬草の調合（材料持ち込み）",
+      "price": 3,
+      "effect": "持ち込んだ材料に応じた薬を作る"
+    }
+  ],
+  "buyback_rate": 0.6,
+  "buys": ["薬草", "生薬", "植物素材"]
+}

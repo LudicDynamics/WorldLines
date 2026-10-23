@@ -1,0 +1,13 @@
+{
+  "id": "mine_entrance",
+  "name": "Mine Entrance",
+  "type": "gate",
+  "description": "A huge mouth opening into the underground shafts. The mine-cart rails run from here off into the dark. Beside the entrance are the mining company's notices and safety warnings.",
+  "pos": {
+    "x": 750,
+    "y": 350
+  },
+  "connections": [
+    "east_street"
+  ]
+}

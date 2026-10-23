@@ -1,0 +1,15 @@
+{
+  "id": "flags",
+  "kind": "player",
+  "story_flags": {},
+  "carriage_progress": {
+    "carriages_unlocked": ["carriage-6"],
+    "carriages_visited": ["carriage-6"],
+    "carriages_solved": []
+  },
+  "fragments_known_count": 0,
+  "events_fired": [],
+  "puzzles_state": {},
+  "dispersal_count": 0,
+  "_schema_note": "Tracks flags / progress / which puzzles have been touched. fragments_known_count mirrors len(stats.fragments_heard). dispersal_count increments each SAN-0 dispersal event; story.md captures the milestone, this just tracks the bookkeeping."
+}

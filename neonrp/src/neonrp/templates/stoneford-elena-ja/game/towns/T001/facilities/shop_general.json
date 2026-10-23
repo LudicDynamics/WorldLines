@@ -1,0 +1,32 @@
+{
+  "facility_id": "shop_general_T001",
+  "name": "老リードの雑貨屋",
+  "price_index": 1.0,
+  "inventory": [
+    {
+      "id": "potion_small",
+      "name": "小治癒ポーション",
+      "price": 12,
+      "stock": 4
+    },
+    {
+      "id": "torch",
+      "name": "松明",
+      "price": 2,
+      "stock": 8
+    },
+    {
+      "id": "rope",
+      "name": "麻縄(10m)",
+      "price": 4,
+      "stock": 6
+    },
+    {
+      "id": "antidote",
+      "name": "解毒剤",
+      "price": 10,
+      "stock": 3
+    }
+  ],
+  "buyback_rate": 0.5
+}

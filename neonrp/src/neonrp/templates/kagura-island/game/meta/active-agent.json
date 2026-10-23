@@ -1,0 +1,5 @@
+{
+  "active_agent": "world-agent",
+  "since_turn": 0,
+  "note": "Multi-agent mode: world-agent is the player-facing sovereign voice and router; the M18 runtime fans out to soul instances each turn."
+}

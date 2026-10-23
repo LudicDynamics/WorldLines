@@ -1,0 +1,51 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "引魂灯·盛世缘 · Lamp of Souls",
+  "summary": "天启年间,大胤王朝鼎盛。你是入宫首夜的清贫女官,误入禁苑点亮了传说中的引魂灯,从此被四位风华绝代的皇子缠绕。在灯火燃尽之前,在权谋与情丝里,你能否为自己择一条生路、择一个人?",
+  "startup": {
+    "read_first": [
+      "{{DATA_DIR}}/meta/run_state.json",
+      "{{DATA_DIR}}/location/gyoen-pavilion.json",
+      "{{DATA_DIR}}/npc/crown-prince.json",
+      "{{DATA_DIR}}/npc/second-prince.json",
+      "{{DATA_DIR}}/npc/third-prince.json",
+      "{{DATA_DIR}}/npc/fourth-prince.json",
+      "{{DATA_DIR}}/rules/affection.md",
+      "{{DATA_DIR}}/rules/endings.md"
+    ],
+    "start_location": "gyoen-pavilion",
+    "agent_routing": {
+      "entry_agent": "world-agent",
+      "router_type": "sticky"
+    },
+    "opening_scene": {
+      "zh": "【引魂灯·盛世缘】\n\n天启三年,孟春。入宫的第一夜,你这名出身寒微的女官还没睡熟,窗纸上忽然浮起一线幽蓝的光。\n\n那光像有灵性,引着你穿过空无一人的回廊,推开禁苑的角门——御花园深处的凉亭里,一盏古旧的铜灯正自顾自地亮着,蓝焰无风自动。\n\n你刚走近,灯火骤然一盛,亭中四道身影同时回过头来。太子萧景琰、二皇子萧景桓、三皇子萧景瑜、五皇子萧景玥——大胤最尊贵的四位皇子,此刻正围着这盏灯而立,神色各异地看着你。\n\n灯,认了你。\n\n(这里没有战斗,没有掷骰。只有灯火渐弱的时辰,和四个各怀心思的人。灯灭之前,你要弄清这盏灯,也要在这座宫里,为自己择一条路。)",
+      "en": "【Soul-Guiding Lamp · A Golden-Age Romance】\n\nEarly spring, the third year of Tianqi. On your first night in the palace — a lady-in-waiting of humble birth, not yet asleep — a thread of ghostly blue light rises across your paper window.\n\nThe light seems almost alive. It leads you through empty corridors and out by the side gate of the forbidden garden — and there, in a pavilion deep in the imperial garden, an old bronze lamp is burning all on its own, its blue flame stirring without wind.\n\nAs you draw near, the flame suddenly swells, and four figures in the pavilion turn as one. Crown Prince Xiao Jingyan, Second Prince Xiao Jinghuan, Third Prince Xiao Jingyu, Fifth Prince Xiao Jingyue — the four most exalted princes of the Great Yin stand around the lamp, each watching you with a different look.\n\nThe lamp has chosen you.\n\n(There is no combat here, no dice. Only the hours as the lamplight wanes, and four people each keeping their own counsel. Before the lamp goes out, you must learn what it is — and choose a path for yourself in this palace.)",
+      "ja": "【引魂灯・盛世縁】\n\n天啓三年、孟春。入宮して最初の夜、身分の低い出の女官であるあなたがまだ寝つけずにいると、障子にふっと幽かな青い光が浮かぶ。\n\nその光はまるで意思があるかのように、人けのない回廊を抜け、禁苑の通用門へとあなたを導く——御花園の奥の四阿で、古びた銅の灯がひとりでに灯り、青い炎が風もないのに揺れている。\n\n近づいた途端、灯火がぱっと大きくなり、四阿の四つの人影が一斉に振り返る。皇太子・蕭景琰、第二皇子・蕭景桓、第三皇子・蕭景瑜、第五皇子・蕭景玥——大胤で最も尊い四人の皇子が灯を囲んで立ち、それぞれ異なる面持ちであなたを見ている。\n\n灯が、あなたを選んだ。\n\n(ここには戦闘も、ダイスもない。あるのは灯火が細っていく刻と、それぞれ思惑を抱えた四人だけ。灯が消える前に、この灯の正体を突き止め、この宮廷で自分の道を選ばなければならない。)",
+      "ko": "【인혼등 · 성세연】\n\n천계 3년, 이른 봄. 입궁한 첫날 밤, 미천한 출신의 궁녀인 네가 아직 잠들지 못하고 있을 때, 창호지 위로 문득 그윽한 푸른빛 한 줄기가 떠오른다.\n\n그 빛은 마치 넋이 있는 것처럼, 인적 없는 회랑을 지나 금원의 쪽문 너머로 너를 이끈다——어화원 깊숙한 정자 안에서, 낡은 청동 등 하나가 저 혼자 타오르고 있다. 푸른 불꽃이 바람도 없이 일렁인다.\n\n네가 다가서자 불꽃이 확 커지고, 정자 안의 네 그림자가 일제히 고개를 돌린다. 태자 소경염, 둘째 황자 소경환, 셋째 황자 소경유, 다섯째 황자 소경월——대윤에서 가장 존귀한 네 황자가 등을 둘러싸고 서서, 저마다 다른 얼굴로 너를 바라본다.\n\n등이, 너를 알아보았다.\n\n(여기에는 전투도, 주사위도 없다. 등불이 사그라드는 시간과, 저마다 속셈을 품은 네 사람뿐. 등이 꺼지기 전에, 이 등의 정체를 밝히고 이 궁에서 너 자신의 길을 골라야 한다.)"
+    },
+    "opening_choices": {
+      "zh": [
+        "上前一步,问这盏灯究竟是什么",
+        "敛衽行礼,先探四位皇子的神色",
+        "假装没看清,悄悄退回回廊"
+      ],
+      "en": [
+        "Step forward and ask what this lamp really is",
+        "Curtsy, and first read the four princes' faces",
+        "Pretend you saw nothing, and slip back into the corridor"
+      ],
+      "ja": [
+        "一歩進み出て、この灯が何なのか尋ねる",
+        "裾を正して礼をし、まず四人の皇子の顔色をうかがう",
+        "よく見えなかったふりをして、そっと回廊へ引き返す"
+      ],
+      "ko": [
+        "한 걸음 나서서, 이 등이 대체 무엇인지 묻는다",
+        "옷매무새를 여미고 예를 올리며, 먼저 네 황자의 기색을 살핀다",
+        "못 본 척하고, 조용히 회랑으로 물러난다"
+      ]
+    }
+  }
+}

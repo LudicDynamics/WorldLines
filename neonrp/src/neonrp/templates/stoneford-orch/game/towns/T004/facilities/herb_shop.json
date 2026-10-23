@@ -1,0 +1,68 @@
+{
+  "facility_id": "herb_shop_T004",
+  "name": "青苔草药铺",
+  "price_index": 1.0,
+  "inventory": [
+    {
+      "id": "healing_potion_small",
+      "name": "治愈药水（小）",
+      "price": 12,
+      "stock": 5
+    },
+    {
+      "id": "healing_salve",
+      "name": "治愈膏",
+      "price": 8,
+      "stock": 6,
+      "note": "外敷，恢复15HP，可用于他人"
+    },
+    {
+      "id": "antidote",
+      "name": "解毒剂",
+      "price": 10,
+      "stock": 4
+    },
+    {
+      "id": "stamina_herb",
+      "name": "提神草束",
+      "price": 6,
+      "stock": 8,
+      "note": "消除疲劳状态"
+    },
+    {
+      "id": "miners_balm",
+      "name": "矿工护肺膏",
+      "price": 5,
+      "stock": 10,
+      "note": "防止矿尘导致的呼吸问题，持续4小时"
+    },
+    {
+      "id": "moonflower_extract",
+      "name": "月见草精华",
+      "price": 15,
+      "stock": 2,
+      "note": "稀有草药提取物，具有微弱的魔力增幅效果"
+    },
+    {
+      "id": "herb_bundle_common",
+      "name": "常用草药包",
+      "price": 8,
+      "stock": 5,
+      "note": "包含各种常见药草，适合有炼药知识的人"
+    }
+  ],
+  "services": [
+    {
+      "name": "伤口处理",
+      "price": 5,
+      "effect": "恢复10HP"
+    },
+    {
+      "name": "草药调配（自带材料）",
+      "price": 3,
+      "effect": "根据材料制作对应药品"
+    }
+  ],
+  "buyback_rate": 0.6,
+  "buys": ["草药", "药材", "植物素材"]
+}

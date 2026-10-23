@@ -1,0 +1,20 @@
+{
+  "id": "R003",
+  "type": "region",
+  "name": "동부 변경",
+  "region": "Eastlands",
+  "pos": [
+    22,
+    8
+  ],
+  "summary": "엘프 폐허가 곳곳에 흩어진 신비로운 지역. 고대 유적과 보물이 있다고 한다.",
+  "state": {
+    "discovered": false,
+    "danger_nearby": 4
+  },
+  "travel_info": {
+    "from_T001": "동쪽으로 4~5일 길"
+  },
+  "connections": [],
+  "isolated": true
+}

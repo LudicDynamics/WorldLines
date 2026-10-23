@@ -1,0 +1,21 @@
+{
+ "_doc": "packs/mixins/economy.py: the variable docs it registers (the model reads them each turn)",
+ "doc_stock": "{town}의 {good} 재고(매매 · 생산과 소비 · 상단이 바꾼다. 직접 set하지 말 것)",
+ "doc_price": "{town}의 {good} 단가(동화)",
+ "doc_inv": "당신이 가진 {good}({unit})",
+ "doc_index": "물가 지수(100 = 기준가)",
+ "op_trade": "플레이어가 마을 시장에서 사고판다(trade grain 3은 셋을 산다. qty가 음수면 판다, 85 %로 쳐준다)",
+ "op_new_caravan": "세계 규칙: 값 차이가 충분히 벌어지면 상단이 출발한다(엔진이 자동으로 한다. 서술에서 이 op를 직접 쓰지 말 것)",
+ "op_haul": "세계 규칙: 상단이 한 구간 나아간다",
+ "op_deliver": "세계 규칙: 상단이 물건을 넘긴다",
+ "op_rob": "세계 규칙: 상단이 약탈당한다",
+ "market_line": "이 세계에는 진짜 시장이 있다. 값은 재고와 소문에 따라 오르내리고, 상단이 마을에서 마을로 물건을 나른다. 사고팔 때는 trade op를 쓰고, 시세는 변수표의 price.* / stock.*를 따른다. 값을 지어내지 말 것.",
+ "caravan_render": "- {id} {name}: {good_name} {qty}{unit} {from}→{to} {status}(앞으로 {left}턴)",
+ "rf_no_market": "이 세계에는 시장이 없다",
+ "rf_not_at_market": "시장이 있는 마을에 있지 않다",
+ "rf_no_good": "그런 물건은 없다: {good}",
+ "rf_qty_zero": "수량은 0일 수 없다",
+ "rf_stock_low": "{name}은(는) {stock} {unit}밖에 남지 않았다",
+ "rf_no_money": "돈이 모자란다: 동전 {need}닢이 필요한데 {have}닢뿐이다",
+ "rf_have_only": "{name}은(는) {have} {unit}밖에 없다"
+}

@@ -1,0 +1,16 @@
+{
+ "id": "game-start",
+ "kind": "meta",
+ "name": "locked_manor",
+ "summary": "Harrow Manor has stood sealed since the night its master — the collector Edwin Harrow — was carried out and never carried back. His housekeeping order still holds: each deeper room locked, each key hidden one room shy of the door it opens. The caretaker keeps the seals out of loyalty; the heir has finally come to break them. Central task: reach the innermost room, where Harrow kept the one thing he never catalogued. The manor does not care who you are — a locked door needs its key.",
+ "startup": {
+  "read_first": [
+   "{{DATA_DIR}}/meta/run_state.json",
+   "{{DATA_DIR}}/world/world_map.json"
+  ],
+  "start_location": "room0",
+  "agent_routing": {
+   "entry_agent": "world-agent"
+  }
+ }
+}

@@ -1,0 +1,20 @@
+{
+  "id": "T003",
+  "type": "town",
+  "name": "울프스팽 고개",
+  "region": "Northvale",
+  "pos": [
+    10,
+    3
+  ],
+  "summary": "북쪽 국경의 요새. 오크와 프로스트울프 왕국을 막는 첫 번째 방어선이다.",
+  "state": {
+    "discovered": false,
+    "danger_nearby": 3
+  },
+  "travel_info": {
+    "from_T001": "북쪽으로 2일 길"
+  },
+  "connections": [],
+  "isolated": true
+}

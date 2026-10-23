@@ -1,0 +1,823 @@
+{
+  "_doc": "百分骰(BRP)的规则表:Basic Roleplaying: Universal Game Engine(Chaosium,ORC License)为底,见 ../NOTICE.md。层次:rpg 的 rules.json < 这里 < 世界的 game/rules/rules.json。技能名照 BRP(中日韩是我们的译名),每个技能都有一句说明(desc,四语:悬停 / 长按 / 教程里显示);旧名字(侦查、心理学、查阅资料……)留在 aliases 里,旧角色卡照样认,显示成今天的名字。",
+  "system": "pct",
+  "attr_x": 5,
+  "fumble_min": 99,
+  "down_rule": "pct",
+  "npc_hp_default": 11,
+  "major_wound_ratio": 0.5,
+  "san_max": 99,
+  "attrs": {
+    "str": {
+      "zh": "力量",
+      "en": "STR",
+      "ja": "筋力",
+      "ko": "근력",
+      "aliases": [
+        "strength"
+      ],
+      "desc": {
+        "zh": "搬、推、扳、硬扛:身体有多大力气。",
+        "en": "Raw strength: lifting, forcing, holding on.",
+        "ja": "持ち上げる・押す・こじ開ける力。",
+        "ko": "들고, 밀고, 버티는 힘."
+      }
+    },
+    "con": {
+      "zh": "体质",
+      "en": "CON",
+      "ja": "体力",
+      "ko": "건강",
+      "aliases": [
+        "constitution",
+        "vit",
+        "VIT"
+      ],
+      "desc": {
+        "zh": "扛得住伤、病、冷和熬夜。",
+        "en": "How well you take wounds, sickness, cold and sleepless nights.",
+        "ja": "傷・病・寒さ・徹夜への強さ。",
+        "ko": "상처, 병, 추위, 밤샘을 버티는 힘."
+      }
+    },
+    "siz": {
+      "zh": "体型",
+      "en": "SIZ",
+      "ja": "体格",
+      "ko": "크기",
+      "aliases": [
+        "size"
+      ],
+      "desc": {
+        "zh": "身形大小:挤不挤得过去、拦不拦得住人。",
+        "en": "Body size: squeezing through, blocking a doorway.",
+        "ja": "体の大きさ。狭い所を通れるか、人を止められるか。",
+        "ko": "몸집: 좁은 틈을 지나가거나 사람을 막을 수 있는지."
+      }
+    },
+    "int": {
+      "zh": "智力",
+      "en": "INT",
+      "ja": "知性",
+      "ko": "지능",
+      "aliases": [
+        "intelligence"
+      ],
+      "desc": {
+        "zh": "想得通、看得出联系。",
+        "en": "Working things out, seeing how they connect.",
+        "ja": "考え抜き、つながりを見抜く力。",
+        "ko": "생각을 이어 붙이고 연결을 알아보는 힘."
+      }
+    },
+    "pow": {
+      "zh": "意志",
+      "en": "POW",
+      "ja": "精神",
+      "ko": "정신",
+      "aliases": [
+        "power",
+        "will"
+      ],
+      "desc": {
+        "zh": "意志和心神,撑得住不该看见的东西。",
+        "en": "Will and nerve: holding together before what should not be seen.",
+        "ja": "意志と心の強さ。見てはいけないものに耐える。",
+        "ko": "의지와 정신력. 봐서는 안 될 것을 버틴다."
+      }
+    },
+    "dex": {
+      "zh": "敏捷",
+      "en": "DEX",
+      "ja": "敏捷",
+      "ko": "민첩",
+      "aliases": [
+        "dexterity"
+      ],
+      "desc": {
+        "zh": "手脚灵活、反应快。",
+        "en": "Quick hands and feet, fast reactions.",
+        "ja": "手先と身のこなし、反応の速さ。",
+        "ko": "손발이 재빠르고 반응이 빠르다."
+      }
+    },
+    "cha": {
+      "zh": "魅力",
+      "en": "CHA",
+      "ja": "魅力",
+      "ko": "매력",
+      "aliases": [
+        "charisma"
+      ]
+    },
+    "edu": {
+      "zh": "教育",
+      "en": "EDU",
+      "ja": "教育",
+      "ko": "교육",
+      "aliases": [
+        "education"
+      ],
+      "desc": {
+        "zh": "读过的书、学过的东西。",
+        "en": "What you have read and been taught.",
+        "ja": "読んだ本、学んだこと。",
+        "ko": "읽은 책과 배운 것."
+      }
+    },
+    "app": {
+      "zh": "外貌",
+      "en": "APP",
+      "ja": "外見",
+      "ko": "외모",
+      "aliases": [
+        "appearance"
+      ],
+      "desc": {
+        "zh": "第一眼给人的印象。",
+        "en": "The impression you make at first sight.",
+        "ja": "第一印象。",
+        "ko": "첫인상."
+      }
+    }
+  },
+  "skills": {
+    "dodge": {
+      "zh": "闪避",
+      "en": "Dodge",
+      "ja": "回避",
+      "ko": "회피",
+      "base": "dex*2",
+      "desc": {
+        "zh": "躲开扑过来的东西或一击。",
+        "en": "Get out of the way of a blow or something lunging at you.",
+        "ja": "飛びかかるもの・一撃をかわす。",
+        "ko": "덤벼드는 것이나 일격을 피한다."
+      },
+      "attr": "dex",
+      "aliases": []
+    },
+    "search": {
+      "zh": "察觉",
+      "en": "Spot",
+      "ja": "発見",
+      "ko": "발견",
+      "base": 25,
+      "desc": {
+        "zh": "发现藏起来的东西、不对劲的细节。",
+        "en": "Spot hidden things and details that are wrong.",
+        "ja": "隠れたもの・おかしな細部に気づく。",
+        "ko": "숨겨진 것, 어긋난 디테일을 찾아낸다."
+      },
+      "attr": "int",
+      "aliases": [
+        "spot",
+        "察觉",
+        "発見",
+        "발견",
+        "搜查",
+        "侦查",
+        "Search",
+        "目星",
+        "탐색",
+        "search"
+      ]
+    },
+    "listen": {
+      "zh": "聆听",
+      "en": "Listen",
+      "ja": "聴き取り",
+      "ko": "듣기",
+      "base": 25,
+      "desc": {
+        "zh": "听见远处、隔墙、压低的声音。",
+        "en": "Hear sounds far off, through walls, kept low.",
+        "ja": "遠く・壁越し・ひそめた音を聞き取る。",
+        "ko": "멀리, 벽 너머, 낮춘 소리를 듣는다."
+      },
+      "attr": "pow",
+      "aliases": [
+        "聴き取り",
+        "聞き耳",
+        "listen"
+      ]
+    },
+    "library": {
+      "zh": "查资料",
+      "en": "Research",
+      "ja": "調べもの",
+      "ko": "자료 조사",
+      "base": 25,
+      "desc": {
+        "zh": "在书、档案、旧报纸里找到要的那一条。",
+        "en": "Find the one line you need in books, files, old papers.",
+        "ja": "本・記録・古新聞から必要な一行を探す。",
+        "ko": "책, 기록, 옛 신문에서 필요한 한 줄을 찾는다."
+      },
+      "attr": "edu",
+      "aliases": [
+        "查资料",
+        "調べもの",
+        "资料调查",
+        "查阅资料",
+        "資料調査",
+        "library"
+      ]
+    },
+    "first_aid": {
+      "zh": "急救",
+      "en": "First Aid",
+      "ja": "応急手当",
+      "ko": "응급처치",
+      "base": 30,
+      "desc": {
+        "zh": "止血、包扎、把倒下的人救回来。",
+        "en": "Stop bleeding, bind wounds, bring someone back from going down.",
+        "ja": "止血・手当て、倒れた人を引き戻す。",
+        "ko": "지혈하고 붕대를 감아 쓰러진 사람을 살린다."
+      },
+      "attr": "int",
+      "aliases": []
+    },
+    "medicine": {
+      "zh": "医学",
+      "en": "Medicine",
+      "ja": "医学",
+      "ko": "의학",
+      "base": 5,
+      "desc": {
+        "zh": "看病、认药、判断伤势和死因。",
+        "en": "Diagnose, know drugs, read wounds and causes of death.",
+        "ja": "診察・薬・傷や死因の見立て。",
+        "ko": "진찰하고 약을 알고 상처와 사인을 판단한다."
+      },
+      "attr": "edu",
+      "aliases": []
+    },
+    "psychology": {
+      "zh": "洞察",
+      "en": "Insight",
+      "ja": "洞察",
+      "ko": "통찰",
+      "base": 5,
+      "desc": {
+        "zh": "看出一个人有没有说谎、在怕什么。",
+        "en": "Tell whether someone is lying and what they fear.",
+        "ja": "嘘をついているか、何を恐れているかを読む。",
+        "ko": "거짓말을 하는지, 무엇을 두려워하는지 읽는다."
+      },
+      "attr": "pow",
+      "aliases": [
+        "insight",
+        "洞察",
+        "통찰",
+        "心理学",
+        "Psychology",
+        "심리학",
+        "psychology"
+      ]
+    },
+    "persuade": {
+      "zh": "说服",
+      "en": "Persuade",
+      "ja": "説得",
+      "ko": "설득",
+      "base": 15,
+      "desc": {
+        "zh": "讲道理让人慢慢站到你这边。",
+        "en": "Talk someone round with reasons, given time.",
+        "ja": "筋道を立てて相手を味方にする。",
+        "ko": "이치로 차근차근 설득한다."
+      },
+      "attr": "cha",
+      "opposed": "psychology",
+      "aliases": []
+    },
+    "fast_talk": {
+      "zh": "巧言",
+      "en": "Fast Talk",
+      "ja": "口車",
+      "ko": "말재주",
+      "base": 5,
+      "desc": {
+        "zh": "三两句糊弄过去、骗人先信你。",
+        "en": "Bluff your way past; get them to believe you for now.",
+        "ja": "口先で丸め込み、ひとまず信じさせる。",
+        "ko": "몇 마디로 얼버무려 일단 믿게 만든다."
+      },
+      "attr": "cha",
+      "opposed": "psychology",
+      "aliases": [
+        "巧言",
+        "口車",
+        "话术",
+        "言いくるめ",
+        "fast talk"
+      ]
+    },
+    "stealth": {
+      "zh": "潜行",
+      "en": "Stealth",
+      "ja": "隠密",
+      "ko": "은신",
+      "base": 10,
+      "desc": {
+        "zh": "不出声、不被看见地移动。",
+        "en": "Move without being heard or seen.",
+        "ja": "音を立てず、見つからずに動く。",
+        "ko": "소리 없이, 들키지 않고 움직인다."
+      },
+      "attr": "dex",
+      "opposed": "listen",
+      "aliases": [
+        "隠密",
+        "忍び歩き",
+        "stealth"
+      ]
+    },
+    "climb": {
+      "zh": "攀爬",
+      "en": "Climb",
+      "ja": "登攀",
+      "ko": "등반",
+      "base": 40,
+      "desc": {
+        "zh": "爬墙、爬树、攀上去。",
+        "en": "Climb walls, trees, whatever is in the way.",
+        "ja": "壁・木をよじ登る。",
+        "ko": "벽이나 나무를 기어오른다."
+      },
+      "attr": "str",
+      "aliases": []
+    },
+    "jump": {
+      "zh": "跳跃",
+      "en": "Jump",
+      "ja": "跳躍",
+      "ko": "도약",
+      "base": 25,
+      "desc": {
+        "zh": "跳过沟、跳下去还站得住。",
+        "en": "Clear a gap; land on your feet.",
+        "ja": "溝を跳び越え、飛び降りても踏みとどまる。",
+        "ko": "틈을 뛰어넘고 뛰어내려도 버틴다."
+      },
+      "attr": "str",
+      "aliases": []
+    },
+    "locksmith": {
+      "zh": "精细操作",
+      "en": "Fine Manipulation",
+      "ja": "精密作業",
+      "ko": "정밀 조작",
+      "base": 5,
+      "desc": {
+        "zh": "手上的精细活:开锁、拆机关、修细小的零件。",
+        "en": "Fine handwork: open locks, take mechanisms apart, fix small parts.",
+        "ja": "手先の細かい作業:鍵開け・仕掛けの解除・小さな部品の扱い。",
+        "ko": "손끝의 섬세한 작업: 자물쇠 따기, 장치 해체, 작은 부품 다루기."
+      },
+      "attr": "dex",
+      "aliases": [
+        "fine_manipulation",
+        "精细操作",
+        "Fine Manipulation",
+        "精密作業",
+        "정밀 조작",
+        "开锁",
+        "Locksmith",
+        "鍵開け",
+        "자물쇠 따기",
+        "locksmith"
+      ]
+    },
+    "history": {
+      "zh": "学识(历史)",
+      "en": "Knowledge (History)",
+      "ja": "知識(歴史)",
+      "ko": "지식(역사)",
+      "base": 5,
+      "desc": {
+        "zh": "学识的一门:认出旧物、旧事、老地方的来历。",
+        "en": "A field of Knowledge: know where old things, old events and old places come from.",
+        "ja": "知識の一分野:古い物・出来事・土地の来歴がわかる。",
+        "ko": "지식의 한 분야: 옛 물건, 옛일, 오래된 곳의 내력을 안다."
+      },
+      "attr": "edu",
+      "aliases": [
+        "knowledge",
+        "学识",
+        "知識",
+        "지식",
+        "历史",
+        "History",
+        "歴史",
+        "역사",
+        "history"
+      ]
+    },
+    "occult": {
+      "zh": "学识(神秘学)",
+      "en": "Knowledge (Occult)",
+      "ja": "知識(オカルト)",
+      "ko": "지식(오컬트)",
+      "base": 5,
+      "desc": {
+        "zh": "学识的一门:懂符咒、仪式、民间说法里的门道。",
+        "en": "A field of Knowledge: charms, rites and what folk sayings really mean.",
+        "ja": "知識の一分野:呪符・儀式・言い伝えの意味がわかる。",
+        "ko": "지식의 한 분야: 부적, 의식, 민간 이야기의 속뜻을 안다."
+      },
+      "attr": "edu",
+      "aliases": [
+        "神秘学",
+        "Occult",
+        "オカルト",
+        "오컬트",
+        "occult"
+      ]
+    },
+    "brawl": {
+      "zh": "格斗",
+      "en": "Brawl",
+      "ja": "格闘",
+      "ko": "격투",
+      "base": 25,
+      "desc": {
+        "zh": "赤手空拳打、扭、推开。",
+        "en": "Fight bare-handed: hit, grapple, shove.",
+        "ja": "素手で殴る・組む・突き飛ばす。",
+        "ko": "맨손으로 치고 붙잡고 밀친다."
+      },
+      "attr": "str",
+      "opposed": "dodge",
+      "aliases": []
+    },
+    "melee": {
+      "zh": "近战武器",
+      "en": "Melee Weapon",
+      "ja": "近接武器",
+      "ko": "근접 무기",
+      "base": 20,
+      "desc": {
+        "zh": "用刀、棍、手边的东西打。",
+        "en": "Fight with a blade, a club, whatever is at hand.",
+        "ja": "刃物・棒・手近な物で戦う。",
+        "ko": "칼, 몽둥이, 손에 잡히는 것으로 싸운다."
+      },
+      "attr": "str",
+      "opposed": "dodge",
+      "aliases": []
+    },
+    "firearms": {
+      "zh": "射击",
+      "en": "Firearm",
+      "ja": "射撃",
+      "ko": "사격",
+      "base": 20,
+      "desc": {
+        "zh": "开枪打中。",
+        "en": "Shoot and hit.",
+        "ja": "銃を撃って当てる。",
+        "ko": "총을 쏴 맞힌다."
+      },
+      "attr": "dex",
+      "aliases": [
+        "Firearm",
+        "Firearms",
+        "firearms"
+      ]
+    },
+    "throw": {
+      "zh": "投掷",
+      "en": "Throw",
+      "ja": "投擲",
+      "ko": "투척",
+      "base": 25,
+      "desc": {
+        "zh": "扔准、扔远。",
+        "en": "Throw straight and far.",
+        "ja": "狙って遠くへ投げる。",
+        "ko": "멀리, 정확히 던진다."
+      },
+      "attr": "dex",
+      "aliases": []
+    },
+    "appraise": {
+      "zh": "估价",
+      "en": "Appraise",
+      "ja": "目利き",
+      "ko": "감정",
+      "base": 15,
+      "attr": "int",
+      "desc": {
+        "zh": "估出一件东西值多少钱、是真是假。",
+        "en": "Judge what a thing is worth, and whether it is genuine.",
+        "ja": "物の値打ちと真贋を見積もる。",
+        "ko": "물건의 값어치와 진위를 가늠한다."
+      }
+    },
+    "bargain": {
+      "zh": "讨价还价",
+      "en": "Bargain",
+      "ja": "値段交渉",
+      "ko": "흥정",
+      "base": 5,
+      "attr": "cha",
+      "aliases": [
+        "砍价",
+        "讲价"
+      ],
+      "desc": {
+        "zh": "把价钱谈到对自己有利。",
+        "en": "Talk a price your way.",
+        "ja": "値段を自分に有利なところまで交渉する。",
+        "ko": "값을 자기에게 유리하게 흥정한다."
+      }
+    },
+    "command": {
+      "zh": "指挥",
+      "en": "Command",
+      "ja": "指揮",
+      "ko": "지휘",
+      "base": 5,
+      "attr": "cha",
+      "desc": {
+        "zh": "在混乱或危急时让一群人听你的指挥。",
+        "en": "Get a group to follow your orders in chaos or danger.",
+        "ja": "混乱や危機の中で人々を自分の指示に従わせる。",
+        "ko": "혼란이나 위기 속에서 사람들이 내 지시를 따르게 한다."
+      }
+    },
+    "disguise": {
+      "zh": "伪装",
+      "en": "Disguise",
+      "ja": "変装",
+      "ko": "변장",
+      "base": 1,
+      "attr": "cha",
+      "opposed": "psychology",
+      "desc": {
+        "zh": "改变外貌、声音和举止,让人认不出或认错。",
+        "en": "Change your looks, voice and manner so you go unrecognized or are taken for someone else.",
+        "ja": "外見・声・振る舞いを変え、見破られないようにする。",
+        "ko": "외모·목소리·몸가짐을 바꿔 알아보지 못하게 한다."
+      }
+    },
+    "etiquette": {
+      "zh": "礼仪",
+      "en": "Etiquette",
+      "ja": "礼儀作法",
+      "ko": "예절",
+      "base": 5,
+      "attr": "cha",
+      "desc": {
+        "zh": "懂得一个圈子的规矩和礼数,在那里不失礼、被接纳。",
+        "en": "Know a circle's manners and customs, so you are accepted there.",
+        "ja": "ある場の作法としきたりを心得て、受け入れられる。",
+        "ko": "어떤 자리의 예법과 관습을 알아 받아들여진다."
+      }
+    },
+    "grapple": {
+      "zh": "擒拿",
+      "en": "Grapple",
+      "ja": "組み付き",
+      "ko": "붙잡기",
+      "base": 25,
+      "attr": "str",
+      "opposed": "dodge",
+      "desc": {
+        "zh": "抓住、按倒、扭住对方,或挣脱别人的控制。",
+        "en": "Seize, pin or hold someone, or break free of a hold.",
+        "ja": "相手をつかむ・押さえ込む、または拘束を振りほどく。",
+        "ko": "상대를 붙잡거나 제압하고, 붙잡힌 것을 풀어낸다."
+      }
+    },
+    "hide": {
+      "zh": "躲藏",
+      "en": "Hide",
+      "ja": "隠れる",
+      "ko": "숨기",
+      "base": 10,
+      "attr": "dex",
+      "opposed": "search",
+      "desc": {
+        "zh": "找地方藏住自己或东西,不被发现。",
+        "en": "Conceal yourself or an object where it won't be found.",
+        "ja": "自分や物を見つからない所に隠す。",
+        "ko": "자신이나 물건을 들키지 않게 숨긴다."
+      }
+    },
+    "navigate": {
+      "zh": "辨向",
+      "en": "Navigate",
+      "ja": "方角",
+      "ko": "길찾기",
+      "base": 10,
+      "attr": "int",
+      "desc": {
+        "zh": "认路、辨方向,在陌生地方不迷路。",
+        "en": "Find your way and keep your bearings in unfamiliar places.",
+        "ja": "道や方角を見定め、見知らぬ土地で迷わない。",
+        "ko": "길과 방향을 가늠해 낯선 곳에서 길을 잃지 않는다."
+      }
+    },
+    "repair": {
+      "zh": "修理",
+      "en": "Repair",
+      "ja": "修理",
+      "ko": "수리",
+      "base": 15,
+      "attr": "dex",
+      "desc": {
+        "zh": "修好坏了的器械、机关和工具。",
+        "en": "Fix broken devices, mechanisms and tools.",
+        "ja": "壊れた器械・仕掛け・道具を直す。",
+        "ko": "고장 난 기계·장치·도구를 고친다."
+      }
+    },
+    "ride": {
+      "zh": "骑乘",
+      "en": "Ride",
+      "ja": "乗馬",
+      "ko": "승마",
+      "base": 5,
+      "attr": "dex",
+      "desc": {
+        "zh": "骑马或别的坐骑,在颠簸和追逐中坐稳。",
+        "en": "Ride a horse or other mount, and stay on through rough going or a chase.",
+        "ja": "馬などに乗り、悪路や追跡でも振り落とされない。",
+        "ko": "말 같은 탈것을 타고 험한 길이나 추격에서도 버틴다."
+      }
+    },
+    "sense": {
+      "zh": "嗅辨",
+      "en": "Sense",
+      "ja": "感覚",
+      "ko": "감각",
+      "base": 10,
+      "attr": "pow",
+      "desc": {
+        "zh": "靠嗅觉、味觉、触觉察觉异样(气味、冷热、震动)。",
+        "en": "Notice something off by smell, taste or touch (an odour, a chill, a tremor).",
+        "ja": "嗅覚・味覚・触覚で異変(におい・温度・振動)に気づく。",
+        "ko": "냄새·맛·촉감으로 이상(냄새, 온도, 진동)을 알아챈다."
+      }
+    },
+    "sleight_of_hand": {
+      "zh": "巧手",
+      "en": "Sleight of Hand",
+      "ja": "手先の早業",
+      "ko": "손재주",
+      "base": 5,
+      "attr": "dex",
+      "aliases": [
+        "扒窃"
+      ],
+      "opposed": "search",
+      "desc": {
+        "zh": "手上的小动作不被看见:扒窃、藏牌、偷换东西。",
+        "en": "Small moves no one sees: picking pockets, palming, swapping things.",
+        "ja": "誰にも見えない手先の技:スリ・すり替え・隠し持つ。",
+        "ko": "남몰래 하는 손기술: 소매치기, 바꿔치기, 감추기."
+      }
+    },
+    "swim": {
+      "zh": "游泳",
+      "en": "Swim",
+      "ja": "水泳",
+      "ko": "수영",
+      "base": 25,
+      "attr": "str",
+      "desc": {
+        "zh": "在水里游、潜下去,不被淹没。",
+        "en": "Swim and dive without going under.",
+        "ja": "水中を泳ぎ・潜り、溺れない。",
+        "ko": "물속에서 헤엄치고 잠수하며 가라앉지 않는다."
+      }
+    },
+    "teach": {
+      "zh": "教导",
+      "en": "Teach",
+      "ja": "教授",
+      "ko": "가르치기",
+      "base": 10,
+      "attr": "cha",
+      "desc": {
+        "zh": "把一门本事讲明白,让别人学会。",
+        "en": "Explain a skill so someone else learns it.",
+        "ja": "技能をわかりやすく伝えて、人に身につけさせる。",
+        "ko": "기술을 알기 쉽게 가르쳐 남이 익히게 한다."
+      }
+    },
+    "track": {
+      "zh": "追踪",
+      "en": "Track",
+      "ja": "追跡",
+      "ko": "추적",
+      "base": 10,
+      "attr": "int",
+      "desc": {
+        "zh": "循着脚印、痕迹找到人或动物的去向。",
+        "en": "Follow footprints and signs to where a person or animal went.",
+        "ja": "足跡や痕跡をたどって人や動物の行き先を突き止める。",
+        "ko": "발자국과 흔적을 따라 사람이나 동물이 간 곳을 찾는다."
+      }
+    }
+  },
+  "damage_bonus": [
+    {
+      "max": 12,
+      "db": "-1d6"
+    },
+    {
+      "max": 16,
+      "db": "-1d4"
+    },
+    {
+      "max": 24,
+      "db": "0"
+    },
+    {
+      "max": 32,
+      "db": "+1d4"
+    },
+    {
+      "max": 40,
+      "db": "+1d6"
+    },
+    {
+      "max": 99,
+      "db": "+2d6"
+    }
+  ],
+  "weapons_default": {
+    "brawl": "1d3",
+    "melee": "1d6",
+    "firearms": "1d10",
+    "throw": "1d4"
+  },
+  "down_names": {
+    "down": {
+      "zh": "濒死",
+      "en": "Dying",
+      "ja": "瀕死",
+      "ko": "빈사"
+    },
+    "stable": {
+      "zh": "稳住了",
+      "en": "Stabilized",
+      "ja": "持ち直した",
+      "ko": "안정됨"
+    },
+    "dead": {
+      "zh": "死亡",
+      "en": "Dead",
+      "ja": "死亡",
+      "ko": "사망"
+    }
+  },
+  "effect_names": {
+    "major": {
+      "zh": "重伤",
+      "en": "Major wound",
+      "ja": "重傷",
+      "ko": "중상"
+    },
+    "insane_temp": {
+      "zh": "临时疯狂",
+      "en": "Losing control",
+      "ja": "一時的狂気",
+      "ko": "일시적 광기"
+    },
+    "insane_perm": {
+      "zh": "永久疯狂",
+      "en": "Lost control",
+      "ja": "永久的狂気",
+      "ko": "영구적 광기"
+    }
+  },
+  "baseline": {
+    "attributes": {
+      "str": 10,
+      "con": 10,
+      "siz": 10,
+      "int": 10,
+      "pow": 10,
+      "dex": 10,
+      "cha": 10,
+      "edu": 10
+    }
+  },
+  "fallback_attr": "int",
+  "difficulty": {
+    "easy": 2,
+    "normal": 1,
+    "hard": 0.5
+  },
+  "crit_div": 20,
+  "special_div": 5,
+  "san_insane_ratio": 0.5,
+  "crit_max": 5,
+  "san_insane_loss": 5
+}

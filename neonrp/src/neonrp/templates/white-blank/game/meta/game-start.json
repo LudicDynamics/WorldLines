@@ -1,0 +1,71 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "White Blank — 游戏开始引导",
+  "tags": [
+    "entrypoint",
+    "start",
+    "begin",
+    "开始游戏"
+  ],
+  "summary": "玩家说「开始游戏」时,orchestrator 先读取本文件。",
+  "startup": {
+    "read_first": [
+      "game/meta/game-start.json",
+      "game/meta/run_state.json",
+      "game/meta/roster.json",
+      "game/player/profile.json",
+      "game/towns/T001/town.json",
+      "game/lore/story.md"
+    ],
+    "opening_scene": {
+      "zh": "这里是一个尚未被完全书写的世界。晨光落在起点镇歪斜的北门上,门后的主街还很安静,旅店的烟囱冒着细细的烟。你站在门口——这个世界的第一页,正等着从你的脚步开始写起。",
+      "en": "This is a world not yet fully written. Morning light falls on the crooked north gate of Origin Town; beyond it the main street is still quiet, and a thin thread of smoke rises from the inn's chimney. You stand at the gate — the first page of this world, waiting to be written from your first step.",
+      "ja": "ここは、まだ書き上がっていない世界。朝の光が起点の町の傾いた北門に落ち、門の向こうの大通りはまだ静かで、宿屋の煙突から細い煙が立ちのぼっている。あなたは門の前に立っている——この世界の最初のページは、あなたの一歩から書かれるのを待っている。",
+      "ko": "이곳은 아직 다 쓰이지 않은 세계다. 아침 햇살이 시작 마을의 기울어진 북문 위로 내려앉고, 문 너머 큰길은 아직 조용하며, 여관 굴뚝에서 가느다란 연기가 피어오른다. 너는 문 앞에 서 있다——이 세계의 첫 페이지가 너의 발걸음에서부터 쓰이기를 기다리고 있다."
+    },
+    "opening_choices": {
+      "zh": [
+        "自由行动",
+        "走进主街看看",
+        "去旅店歇脚",
+        "观察这座陌生的小镇"
+      ],
+      "en": [
+        "Act freely",
+        "Walk into the main street",
+        "Rest at the inn",
+        "Take in this unfamiliar little town"
+      ],
+      "ja": [
+        "自由行動",
+        "大通りに入ってみる",
+        "宿屋でひと休みする",
+        "見知らぬこの小さな町を観察する"
+      ],
+      "ko": [
+        "자유 행동",
+        "큰길로 들어가 본다",
+        "여관에서 잠시 쉰다",
+        "낯선 이 작은 마을을 살펴본다"
+      ]
+    }
+  },
+  "world_info": {
+    "world_name": "未命名世界(待创作)",
+    "start_location": "T001 起点镇",
+    "start_scope": "town",
+    "start_time": {
+      "day": 1,
+      "clock": "08:00"
+    },
+    "genre": "(待创作)",
+    "tone": "(待创作)",
+    "rules": "d20 骰子判定 · 详见 game/rules/combat_rules.md"
+  },
+  "agent_routing": {
+    "entry_agent": "world-agent",
+    "router_type": "sticky",
+    "note": "所有玩家输入都先经过 orchestrator。"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "weapon": {
+    "id": "wpn_rust_sword",
+    "name": "锈剑",
+    "atk": 4,
+    "tags": [
+      "melee"
+    ],
+    "base_damage": 3
+  },
+  "armor": {
+    "id": "arm_leather",
+    "name": "皮甲",
+    "def": 2,
+    "tags": [
+      "light"
+    ]
+  },
+  "accessories": []
+}

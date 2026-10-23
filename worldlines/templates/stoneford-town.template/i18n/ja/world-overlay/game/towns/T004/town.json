@@ -1,0 +1,34 @@
+{
+  "id": "T004",
+  "name": "ジェイドストーン",
+  "region": "Northvale",
+  "overview": "翡翠と水晶で知られる鉱山町。冒険者ギルドの支部は活気にあふれ、鉱夫と冒険者が入り混じって暮らしていて、近隣のどの町よりもにぎやかだ。東の小さな礼拝堂は町でも数少ない静かな場所で、鉱山入口からは山の奥深くへ延びる地下坑道が続いている。",
+  "entry_points": [
+    "gate_west"
+  ],
+  "tags": [
+    "mining",
+    "gems",
+    "adventurers",
+    "lively"
+  ],
+  "economy": {
+    "price_index": 1.1,
+    "specialties": [
+      "翡翠",
+      "水晶",
+      "鉱石"
+    ]
+  },
+  "laws": {
+    "weapon_policy": "open_carry_allowed"
+  },
+  "atmosphere": {
+    "noise_level": "busy",
+    "description": "通りはどこもつるはしを担いだ鉱夫と、武器を提げた冒険者でいっぱいだ。トロッコの軌道が町の中心から北東の鉱山入口までずっと延びている。空気には砕石の粉塵と、酒場から漂うエールの香りが混じっている。"
+  },
+  "state": {
+    "alert": 0,
+    "recent_events": []
+  }
+}

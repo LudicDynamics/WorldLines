@@ -1,0 +1,20 @@
+{
+  "id": "quest-reach-carriage-1",
+  "kind": "meta",
+  "name": "Quest: Reach Carriage 1",
+  "tags": [
+    "quest",
+    "main",
+    "mystery"
+  ],
+  "summary": "The main objective: traverse all carriages from 6 to 1 (the engine car) to discover the truth.",
+  "quest": {
+    "status": "active",
+    "objective": "Make your way forward through all carriages to reach Carriage 1 — the engine car. Each carriage has a puzzle or challenge that must be solved to proceed.",
+    "progress": {
+      "carriages_unlocked": ["carriage-6"],
+      "current_carriage": "carriage-6",
+      "total_carriages": 6
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "level": "world",
+  "layout_hash": "9eebc656bc49",
+  "fit": {
+    "px": 170,
+    "py": 150,
+    "x0": 10.0,
+    "y0": 10.0,
+    "sx": 1.0,
+    "sy": 1.0
+  },
+  "backend": "upload"
+}

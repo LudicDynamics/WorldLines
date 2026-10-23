@@ -1,0 +1,25 @@
+{
+  "id": "T001",
+  "name": "起点镇",
+  "region": "未命名边境",
+  "overview": "(待创作)一座刚刚落笔的小镇。它还没有历史、没有传闻、没有立场——这一切等待创作者与 agent 在对话中一点点写出来。",
+  "entry_points": [
+    "gate_north"
+  ],
+  "tags": [
+    "blank",
+    "starter"
+  ],
+  "economy": {
+    "price_index": 1.0,
+    "specialties": []
+  },
+  "laws": {
+    "weapon_policy": "(待定)",
+    "curfew": "(待定)"
+  },
+  "state": {
+    "alert": 0,
+    "recent_events": []
+  }
+}

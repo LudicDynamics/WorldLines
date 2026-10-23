@@ -1,0 +1,54 @@
+{
+  "town_id": "T001",
+  "quests": [
+    {
+      "qid": "Q001",
+      "title": "The Missing in the Fog",
+      "tier": 1,
+      "summary": "Someone went missing in the fog down by the docks. Recover a keepsake or a clue.",
+      "reward": {
+        "gold": 25
+      },
+      "hooks": [
+        "dock"
+      ],
+      "state": "available"
+    },
+    {
+      "qid": "Q002",
+      "title": "Wolf-Howls Before the Moss Tomb",
+      "tier": 1,
+      "summary": "Beasts have appeared on the trail toward the Moss Tomb. Clear 3 encounters.",
+      "reward": {
+        "gold": 30,
+        "item": {
+          "id": "potion_small",
+          "name": "Minor Healing Potion",
+          "qty": 1
+        }
+      },
+      "hooks": [
+        "R002"
+      ],
+      "unlocks": [
+        {
+          "discover_dungeon": "D001"
+        }
+      ],
+      "state": "in_progress"
+    },
+    {
+      "qid": "Q003",
+      "title": "The Talking Coffin (Investigation)",
+      "tier": 2,
+      "summary": "Go deep into the Moss Tomb hollow, confirm whether the rumor is true, and bring back evidence.",
+      "reward": {
+        "gold": 80
+      },
+      "requires": [
+        "D001_discovered"
+      ],
+      "state": "locked"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "T002",
+  "type": "town",
+  "name": "Windstay Keep",
+  "region": "Northvale",
+  "pos": [
+    5,
+    10
+  ],
+  "summary": "A fortress on the post road, garrisoned by patrols, with strict rules.",
+  "state": {
+    "discovered": false,
+    "danger_nearby": 1
+  },
+  "connections": [
+    "T001"
+  ]
+}

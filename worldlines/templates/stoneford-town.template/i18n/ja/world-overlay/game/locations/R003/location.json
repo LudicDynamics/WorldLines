@@ -1,0 +1,20 @@
+{
+  "id": "R003",
+  "type": "region",
+  "name": "東方辺境",
+  "region": "Eastlands",
+  "pos": [
+    22,
+    8
+  ],
+  "summary": "エルフの廃墟が点在する謎めいた地方。古代の遺跡と財宝が眠るという。",
+  "state": {
+    "discovered": false,
+    "danger_nearby": 4
+  },
+  "travel_info": {
+    "from_T001": "東へ4〜5日の道のり"
+  },
+  "connections": [],
+  "isolated": true
+}

@@ -1,0 +1,14 @@
+{
+  "id": "herb_shop",
+  "name": "青苔(あおごけ)の薬草店",
+  "type": "facility",
+  "facility_file": "facilities/herb_shop.json",
+  "description": "蔦に絡まれた小さな店。空気には薬草のほろ苦い香りが漂っている。鉱夫は怪我をすると、よくここへ薬を買いに来る。",
+  "pos": {
+    "x": 250,
+    "y": 400
+  },
+  "connections": [
+    "main_street"
+  ]
+}

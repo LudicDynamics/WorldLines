@@ -1,0 +1,18 @@
+{
+  "sid": "shiro",
+  "instance_id": "si-shiro0001",
+  "location": "islet-dock",
+  "status": {
+    "hp": 100,
+    "max_hp": 100,
+    "memory": "amnesia_every_cycle",
+    "mobility": "extremely_high",
+    "catchable": false,
+    "mood": "driven"
+  },
+  "turn_count": 0,
+  "loop_state": {
+    "has_memory": false,
+    "reason": "no_magatama_no_inherit"
+  }
+}

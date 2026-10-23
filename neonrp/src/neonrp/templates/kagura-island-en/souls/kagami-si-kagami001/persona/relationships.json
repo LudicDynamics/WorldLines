@@ -1,0 +1,14 @@
+{
+  "sid": "kagami",
+  "relationships": {
+    "makoto": {
+      "disposition": "lost_dear_friend",
+      "known": true,
+      "truth": "Her dear friend was possessed by a Yith 12 years ago; she does not know how to bring her back."
+    },
+    "shiro": {
+      "disposition": "ancestral_kin",
+      "known": false
+    }
+  }
+}

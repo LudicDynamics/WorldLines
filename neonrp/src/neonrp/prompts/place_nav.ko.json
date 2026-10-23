@@ -1,0 +1,10 @@
+{
+ "_doc": "移动判定的结论文字(进模型的提示与拒绝理由,10-06)",
+ "unresolved": "이동 목표가 비었거나 해석할 수 없다",
+ "no_node": "{town}에 노드 '{node}'가 없다(유효한 노드 예: {some})",
+ "entered": "{town}에 들어가 {node}에 도착한다",
+ "no_route": "세계 지도에 {a}와 {b} 사이 길이 없어 갈 수 없다",
+ "to_gate": "마을을 건너기엔 너무 멀다: 이번 턴엔 {town}/{gate}({gate_name})까지, 다음 턴에 {next}에 들어갈 수 있다",
+ "via": "{town}에 가려면 {next}를 거친다: 이번 턴엔 {landing}까지, 다음 턴에 이어 간다",
+ "no_node_gate": "{town}에 노드 '{node}'가 없다: 이번 턴엔 성문 {gate}에 도착한다(유효한 노드 예: {some})"
+}

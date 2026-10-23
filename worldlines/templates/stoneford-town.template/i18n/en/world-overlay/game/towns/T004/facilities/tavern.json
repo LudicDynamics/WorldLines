@@ -1,0 +1,39 @@
+{
+  "facility_id": "tavern_T004",
+  "name": "Jade-Crystal Tavern",
+  "type": "inn_and_tavern",
+  "rooms": [
+    {
+      "type": "common",
+      "price": 4,
+      "benefit": "Rest: HP/MP restored to maximum"
+    },
+    {
+      "type": "private",
+      "price": 10,
+      "benefit": "Rest + extra: next social check +1 (same day)"
+    }
+  ],
+  "menu": [
+    {
+      "item": "Miner's Set (stewed meat + black bread + ale)",
+      "price": 3
+    },
+    {
+      "item": "Jade-Crystal Special (the house cocktail)",
+      "price": 5
+    },
+    {
+      "item": "Water / juice",
+      "price": 1
+    }
+  ],
+  "rumor_pool": [
+    "They dug something strange out of the mine's third level lately, and the miners won't go down anymore.",
+    "Word is someone out east found the entrance to elf ruins; the guild's already sent people to confirm it.",
+    "Crow-Eye Vance looked over a stone the other day and went white as chalk. Kept his shop shut three days after.",
+    "Father Silas of the Dawnlight Chapel often heads toward the mine in the dead of night — no one knows what for.",
+    "Jadestone's jade output has been dropping lately, and the mining company men are at their wits' end."
+  ],
+  "rumor_pool_ref": "../../lore/rumors.md"
+}

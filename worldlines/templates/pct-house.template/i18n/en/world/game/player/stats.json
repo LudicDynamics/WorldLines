@@ -1,0 +1,31 @@
+{
+  "skills": [
+    {
+      "name": "Search"
+    },
+    {
+      "name": "Listen"
+    },
+    {
+      "name": "Research"
+    },
+    {
+      "name": "Psychology"
+    },
+    {
+      "name": "First Aid"
+    },
+    {
+      "name": "Locksmith"
+    },
+    {
+      "name": "Persuade"
+    },
+    {
+      "name": "Brawl"
+    },
+    {
+      "name": "Dodge"
+    }
+  ]
+}

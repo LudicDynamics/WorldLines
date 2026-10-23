@@ -1,0 +1,33 @@
+{
+  "level": 1,
+  "hp": {
+    "current": 24,
+    "max": 24
+  },
+  "mp": {
+    "current": 0,
+    "max": 0
+  },
+  "attributes": {
+    "str": 5,
+    "dex": 7,
+    "int": 5,
+    "vit": 6,
+    "cha": 5
+  },
+  "skills": [
+    {
+      "id": "skill_quick_slash",
+      "name": "빠른 베기",
+      "rank": 1,
+      "desc": "먼저 파고들었을 때 더 잘 맞는다."
+    },
+    {
+      "id": "skill_hold_ground",
+      "name": "버텨 막기",
+      "rank": 1,
+      "desc": "좁은 곳에서 방어선을 더 잘 지킨다."
+    }
+  ],
+  "status_effects": []
+}

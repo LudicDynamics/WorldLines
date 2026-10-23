@@ -1,0 +1,13 @@
+{
+  "id": "townhall",
+  "name": "Town Office",
+  "type": "facility",
+  "facility_file": "facilities/townhall.json",
+  "pos": {
+    "x": 772,
+    "y": 315
+  },
+  "connections": [
+    "main_street"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "T003",
+  "type": "town",
+  "name": "狼牙関(ろうがかん)",
+  "region": "Northvale",
+  "pos": [
+    10,
+    3
+  ],
+  "summary": "北の辺境の要塞。オークと霜狼王国に対する第一の防衛線。",
+  "state": {
+    "discovered": false,
+    "danger_nearby": 3
+  },
+  "travel_info": {
+    "from_T001": "2日の道のり、北へ"
+  },
+  "connections": [],
+  "isolated": true
+}

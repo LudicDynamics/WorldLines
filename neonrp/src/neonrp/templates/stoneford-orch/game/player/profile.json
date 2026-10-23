@@ -1,0 +1,12 @@
+{
+  "name": "玩家",
+  "background": "旅人",
+  "class": "战士(可改)",
+  "origin": "驿路尽头",
+  "intro_i18n": {
+    "en": "A traveler arriving at the end of the post road — a fighter by default, but who you are is yours to shape.",
+    "zh": "一个走到驿路尽头的旅人——默认是个战士，但你是谁，由你自己来定。",
+    "ja": "宿場街道の果てにたどり着いた旅人——既定では戦士だが、何者であるかは自分で形づくるものだ。",
+    "ko": "역로의 끝에 다다른 여행자. 기본값은 전사이지만, 당신이 누구인지는 스스로 빚어가는 것이다."
+  }
+}

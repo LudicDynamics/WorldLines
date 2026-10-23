@@ -1,0 +1,42 @@
+{
+  "card": {
+    "title": "Greyoak House · The Closed Door",
+    "pitch": "An old house at the blind end of Fog Lane. Three nights ago its master went in through this door and never came out. His niece has sent for you — one night, a butler who keeps his own counsel, and a house that will not talk.",
+    "lang": "en",
+    "tags": [
+      "Mystery",
+      "Horror",
+      "Old manor",
+      "Percentile dice"
+    ]
+  },
+  "opening": {
+    "cg": [
+      {
+        "caption": "The fog has crept all the way from the mouth of the lane to the steps of Greyoak House.",
+        "camera": "A slow push down Fog Lane, coming to rest on the stone steps before the house"
+      },
+      {
+        "caption": "“My uncle went in through this very door three nights ago. He never came out.”",
+        "camera": "Over the investigator's shoulder, pushing in on the butler in the lamp's shadow"
+      },
+      {
+        "caption": "The door upstairs stands ajar, and out in the back garden a loose board knocks, and knocks, in the wind.",
+        "camera": "Looking up the staircase from the hall, then panning across to the back corridor"
+      }
+    ]
+  },
+  "ui": {
+    "slots": [
+      {
+        "fallback": "first letter of the name"
+      }
+    ],
+    "prompts": {
+      "player_portrait": "The investigator (the player's default look): late twenties, gender indeterminate, a wide-brimmed hat pulled down over the eyes, a dark green long coat with the collar turned up, a dark scarf, brown leather gloves, a brass torch and a wooden walking stick. Head-and-shoulders, three-quarter front view, plain deep slate-blue background, {style}."
+    }
+  },
+  "recipe": {
+    "style": "Anime illustration, clean line art, cel shading with two hard shadow tones, flat colour; a base of cold blue-grey (deep slate #1c2230, the grey-blue of fog #4a5568), the only warm colour the amber glow of an oil lamp (#e8a650), key light from the upper left and a cold rim light of fog on the right; a foggy night at an early-twentieth-century English manor; no text"
+  }
+}

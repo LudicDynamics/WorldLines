@@ -1,0 +1,18 @@
+{
+  "id": "gate_west",
+  "name": "서문",
+  "type": "gate",
+  "description": "제이드스톤의 정문. 스톤포드 쪽 역로를 향해 서 있고, 문루에는 마을의 표식으로 커다란 비취 원석이 박혀 있다.",
+  "pos": {
+    "x": 100,
+    "y": 300
+  },
+  "connections": [
+    "main_street"
+  ],
+  "ports": {
+    "up": [
+      "R004"
+    ]
+  }
+}

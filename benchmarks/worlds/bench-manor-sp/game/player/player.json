@@ -1,0 +1,10 @@
+{
+ "id": "player",
+ "kind": "player",
+ "name": "The Heir",
+ "summary": "reach the last room and find what Harrow never catalogued",
+ "hp": 10,
+ "max_hp": 10,
+ "location": "room0",
+ "inventory": []
+}

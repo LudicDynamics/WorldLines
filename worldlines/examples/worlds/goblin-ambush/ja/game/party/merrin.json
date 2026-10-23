@@ -1,0 +1,25 @@
+{
+  "id": "merrin",
+  "kind": "party",
+  "name": "メリン",
+  "class": "ウィザード（魔法使い） (Wizard)",
+  "ac": 12,
+  "hp": 7,
+  "hp_max": 7,
+  "initiative_mod": 2,
+  "attacks": [
+    {
+      "name": "ファイアボルト (Fire Bolt)",
+      "to_hit": 5,
+      "damage": "1d10",
+      "range": "遠隔呪文"
+    },
+    {
+      "name": "杖",
+      "to_hit": 2,
+      "damage": "1d6",
+      "range": "近接"
+    }
+  ],
+  "note": "エルフのウィザード、打たれ弱いがファイアボルトはよく痛い。ゴブリンを絶対に接近させないこと。"
+}

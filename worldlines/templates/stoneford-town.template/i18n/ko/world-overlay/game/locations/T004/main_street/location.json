@@ -1,0 +1,19 @@
+{
+  "id": "main_street",
+  "name": "광부 대로",
+  "type": "street",
+  "description": "제이드스톤에서 가장 넓은 큰길. 길 한가운데 광차 레일이 깔려 있고 양옆으로 가게와 노점이 빽빽하다. 사람이 끊이지 않는 북새통이다.",
+  "pos": {
+    "x": 350,
+    "y": 300
+  },
+  "connections": [
+    "gate_west",
+    "guild",
+    "tavern",
+    "shop_general",
+    "herb_shop",
+    "appraiser",
+    "east_street"
+  ]
+}

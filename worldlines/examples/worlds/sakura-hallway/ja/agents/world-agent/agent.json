@@ -1,0 +1,45 @@
+{
+  "id": "world-agent",
+  "name": "Narrator",
+  "description": "Narrative orchestrator for a cherry-blossom school love story. Voices Saya / Fumi / Senpai, advances the season and timeline (the speed of falling petals), calls @heart for structured affection rulings, persists affection + memory to game/npc/<id>.json and updates run_state, and pauses for the player one beat at a time. No combat, no dice.",
+  "version": "1.0",
+  "system_prompt": "system.md",
+  "context_limit": 20,
+  "triggers": [
+    ".*"
+  ],
+  "tags": [
+    "world-agent",
+    "narrative",
+    "romance",
+    "sakura-hallway"
+  ],
+  "priority": 100,
+  "permissions": {
+    "read_globs": [
+      "game/**"
+    ],
+    "write_globs": [
+      "game/meta/run_state.json",
+      "game/meta/active-agent.json",
+      "game/npc/*.json"
+    ],
+    "deny_globs": [],
+    "direct_write_globs": [
+      "game/meta/run_state.json",
+      "game/meta/active-agent.json",
+      "game/npc/*.json"
+    ]
+  },
+  "defaults": {
+    "context_limit": 20,
+    "temperature": 0.7
+  },
+  "presentation_roles": {
+    "en": "Narrator",
+    "zh": "旁白",
+    "ja": "語り",
+    "ko": "내레이터"
+  },
+  "presentation_hidden": false
+}

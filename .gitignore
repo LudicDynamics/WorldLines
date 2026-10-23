@@ -1,27 +1,39 @@
+# WorldLines public repository
 .DS_Store
-
-# Per-world runtime config (machine-local; never commit, keys via *_API_KEY env)
-**/.neonrp/config.json
-
-# Build-time config. Vite inlines every VITE_* value into the shipped
-# bundle, so these stay machine-local; ui/.env.example documents them.
 .env
 .env.*
 !.env.example
-
-# SPA (ui/)
-ui/node_modules/
-ui/dist/
-ui/dist-local/
-ui/dist-hub/
-ui/*.tsbuildinfo
-ui/.vite/
-ui/test-results/
-ui/playwright-report/
-
-# Desktop shell (desktop/)
-desktop/tauri/target/
-desktop/tauri/gen/
-
-# Release staging (scripts/package-spa.sh)
+__pycache__/
+*.pyc
+.venv/
 /dist/
+/docs/
+
+# engine (neonrp/)
+neonrp/.venv/
+neonrp/.pytest_cache/
+neonrp/.ruff_cache/
+neonrp/src/neonrp/webui/spa/
+
+# product (worldlines/)
+worldlines/ui/node_modules/
+worldlines/ui/dist/
+worldlines/ui/dist-local/
+worldlines/ui/dist-hub/
+worldlines/ui/*.tsbuildinfo
+worldlines/ui/.vite/
+worldlines/ui/test-results/
+worldlines/ui/playwright-report/
+worldlines/desktop/tauri/target/
+worldlines/desktop/tauri/gen/
+worldlines/packaging/worldlines/worldlines_shim/spa/
+# runtime caches of worlds you play locally (tracked fixtures under neonrp/tests are intentional)
+worldlines/**/.neonrp/
+**/.neonrp/config.json
+!neonrp/tests/fixtures/**/.neonrp/config.json
+
+# benchmarks
+benchmarks/runs/*
+
+# your own work in the authoring workbench (see CLAUDE.md / AGENTS.md)
+/my/

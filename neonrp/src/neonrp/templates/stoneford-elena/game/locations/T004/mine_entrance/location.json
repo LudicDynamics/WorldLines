@@ -1,0 +1,13 @@
+{
+  "id": "mine_entrance",
+  "name": "矿区入口",
+  "type": "gate",
+  "description": "通向地下矿道的巨大洞口。矿车轨道从这里延伸进黑暗中。入口旁有矿业公司的告示和安全警告。",
+  "pos": {
+    "x": 750,
+    "y": 350
+  },
+  "connections": [
+    "east_street"
+  ]
+}

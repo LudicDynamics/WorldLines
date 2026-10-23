@@ -1,0 +1,55 @@
+{
+  "id": "game-start",
+  "kind": "meta",
+  "name": "Game Start Guide",
+  "tags": [
+    "entrypoint",
+    "start",
+    "begin",
+    "onboarding",
+    "开始游戏",
+    "开始冒险",
+    "开局",
+    "新手引导"
+  ],
+  "summary": "Read this first when the user wants to start the game. 玩家说“开始游戏/开始冒险”时先读取本文件。",
+  "startup": {
+    "read_first": [
+      "{{DATA_DIR}}/meta/game-start.json",
+      "{{DATA_DIR}}/player/player.json",
+      "{{DATA_DIR}}/town/start-town.json",
+      "{{DATA_DIR}}/npc/old-sage.json",
+      "{{DATA_DIR}}/meta/quest-the-sage-seal.json"
+    ],
+    "start_location": "start-town",
+    "player_entity": "player",
+    "opening_scene": {
+      "zh": "天刚亮,起始小镇还罩在一层薄雾里。面包房的烟囱冒着热气,杂货摊的主人正一块块卸下门板,通往森林小径的路口隐在雾后。你背着简单的行囊站在镇口——这是你旅程的第一天。镇上的老贤者据说守着一道古老封印的秘密,今早有人看见他早早就醒了,像是在等什么人。",
+      "en": "Dawn has only just broken, and Starting Town still sits under a thin veil of mist. The bakery chimney breathes warm air, a stallholder is lifting the shutters off the general stall one board at a time, and the turn onto the forest path hides beyond the fog. You stand at the edge of town with a light pack on your back — the first day of your journey. The town's Old Sage is said to keep the secret of an ancient seal, and this morning someone saw him up early, as if he were waiting for someone.",
+      "ja": "夜が明けたばかりで、始まりの町はまだ薄い霧に包まれている。パン屋の煙突からは温かな湯気が立ち、雑貨の露店の主人が雨戸を一枚ずつ外している。森の小道へ続く辻は霧の向こうに隠れている。あなたは身軽な荷を背負って町の入口に立っている——旅の一日目だ。町の老賢者は古い封印の秘密を守っているという。その老賢者が今朝は早くから起きていて、誰かを待っているようだったと聞いた。",
+      "ko": "막 동이 텄고, 시작 마을은 아직 옅은 안개에 싸여 있다. 빵집 굴뚝에서는 따뜻한 김이 피어오르고, 잡화 노점 주인이 덧문을 한 장씩 떼어 내는 중이다. 숲길로 이어지는 갈림길은 안개 너머에 숨어 있다. 너는 가벼운 봇짐을 메고 마을 어귀에 서 있다——여정의 첫날이다. 마을의 늙은 현자가 오래된 봉인의 비밀을 지키고 있다는데, 오늘 아침 그가 일찍부터 깨어 누군가를 기다리는 것 같았다고 한다."
+    },
+    "opening_choices": {
+      "zh": [
+        "去找老贤者打听线索",
+        "先去集市,备好补给",
+        "不多停留,直接走向森林小径"
+      ],
+      "en": [
+        "Ask the Old Sage what he knows",
+        "Visit the market and stock up first",
+        "Waste no time — head for the forest path"
+      ],
+      "ja": [
+        "老賢者に手がかりを尋ねに行く",
+        "まず市場で旅支度を整える",
+        "長居はせず、まっすぐ森の小道へ向かう"
+      ],
+      "ko": [
+        "늙은 현자에게 단서를 물으러 간다",
+        "먼저 장터에 들러 채비를 갖춘다",
+        "지체하지 않고 곧장 숲길로 향한다"
+      ]
+    }
+  }
+}

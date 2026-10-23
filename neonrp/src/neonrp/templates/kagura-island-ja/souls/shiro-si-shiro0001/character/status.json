@@ -1,0 +1,9 @@
+{
+  "sid": "shiro",
+  "memory": "amnesia_every_cycle",
+  "mood": "driven",
+  "flags": {
+    "mobility": "extremely_high",
+    "catchable": false
+  }
+}

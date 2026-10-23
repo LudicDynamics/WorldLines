@@ -1,0 +1,7 @@
+{
+  "weapon": {
+    "name": "手杖",
+    "skill": "格斗",
+    "damage": "1d4"
+  }
+}

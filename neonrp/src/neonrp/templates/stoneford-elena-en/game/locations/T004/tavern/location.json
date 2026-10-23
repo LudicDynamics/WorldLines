@@ -1,0 +1,14 @@
+{
+  "id": "tavern",
+  "name": "Jade-Crystal Tavern",
+  "type": "facility",
+  "facility_file": "facilities/tavern.json",
+  "description": "Jadestone's largest tavern and inn. Its front is decorated with crystal shards that glitter in the firelight at night. The upper floor offers lodging.",
+  "pos": {
+    "x": 450,
+    "y": 200
+  },
+  "connections": [
+    "main_street"
+  ]
+}

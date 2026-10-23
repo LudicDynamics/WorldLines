@@ -1,0 +1,228 @@
+{
+  "_doc": "Numbers the combat layer and the referee run on. A world overrides any key in game/rules/rules.json.",
+  "attr_mod_base": 5,
+  "def_base": 10,
+  "hit_die": "1d20",
+  "damage_die": "1d6",
+  "travel_per_day": 20,
+  "referee_difficulty": {
+    "easy": 8,
+    "normal": 12,
+    "hard": 15,
+    "very_hard": 18,
+    "extreme": 21
+  },
+  "unit_labels": {
+    "zh": "甲乙丙丁戊己",
+    "en": "ABCDEF",
+    "ja": "甲乙丙丁戊己"
+  },
+  "npc_hp_default": 8,
+  "down_rule": "srd",
+  "_rulebook": "The check rulebook: baseline = the plain person's rule panel, used when a character's own panel, its role panel (a world's role_panels) and its run fills have no value; actions = what a check names → the attribute it rolls on; fallback_attr = the attribute when nothing matches; dc_numbers = tier (a number the host wrote is read as the nearest tier) | keep (the number is the DC). Filled values are written to the run's character state.",
+  "baseline": {
+    "attributes": {
+      "str": 5,
+      "dex": 5,
+      "int": 5,
+      "vit": 5,
+      "cha": 5
+    }
+  },
+  "actions": {
+    "persuade": {
+      "zh": "说服",
+      "en": "Persuade",
+      "ja": "説得",
+      "ko": "설득",
+      "attr": "cha",
+      "aliases": [
+        "交涉",
+        "交渉",
+        "砍价",
+        "讲价",
+        "还价",
+        "压价",
+        "口才",
+        "劝说",
+        "negotiate",
+        "persuasion",
+        "haggle",
+        "値切り",
+        "흥정"
+      ]
+    },
+    "deceive": {
+      "zh": "欺瞒",
+      "en": "Deceive",
+      "ja": "騙す",
+      "ko": "속이기",
+      "attr": "cha",
+      "aliases": [
+        "撒谎",
+        "哄骗",
+        "糊弄",
+        "lie",
+        "bluff",
+        "嘘",
+        "거짓말"
+      ]
+    },
+    "intimidate": {
+      "zh": "威吓",
+      "en": "Intimidate",
+      "ja": "威圧",
+      "ko": "위협",
+      "attr": "cha",
+      "aliases": [
+        "恐吓",
+        "吓唬",
+        "threaten",
+        "脅す",
+        "협박"
+      ]
+    },
+    "insight": {
+      "zh": "察言观色",
+      "en": "Insight",
+      "ja": "洞察",
+      "ko": "통찰",
+      "attr": "int",
+      "aliases": [
+        "看穿",
+        "识破",
+        "读心",
+        "read",
+        "心理学",
+        "psychology",
+        "見抜く",
+        "간파"
+      ]
+    },
+    "search": {
+      "zh": "搜查",
+      "en": "Search",
+      "ja": "探索",
+      "ko": "수색",
+      "attr": "int",
+      "aliases": [
+        "侦查",
+        "查看",
+        "找",
+        "调查",
+        "察觉",
+        "spot",
+        "notice",
+        "investigate",
+        "探す",
+        "조사"
+      ]
+    },
+    "recall": {
+      "zh": "回想",
+      "en": "Recall",
+      "ja": "知識",
+      "ko": "지식",
+      "attr": "int",
+      "aliases": [
+        "认得",
+        "辨认",
+        "知识",
+        "know",
+        "lore",
+        "思い出す",
+        "기억"
+      ]
+    },
+    "stealth": {
+      "zh": "潜行",
+      "en": "Stealth",
+      "ja": "忍び足",
+      "ko": "은신",
+      "attr": "dex",
+      "aliases": [
+        "躲藏",
+        "溜过",
+        "偷偷",
+        "sneak",
+        "hide",
+        "隠れる",
+        "몰래"
+      ]
+    },
+    "sleight": {
+      "zh": "巧手",
+      "en": "Sleight",
+      "ja": "手先",
+      "ko": "손재주",
+      "attr": "dex",
+      "aliases": [
+        "撬锁",
+        "开锁",
+        "偷",
+        "扒窃",
+        "lockpick",
+        "pick",
+        "steal",
+        "鍵開け",
+        "자물쇠"
+      ]
+    },
+    "dodge": {
+      "zh": "闪避",
+      "en": "Dodge",
+      "ja": "回避",
+      "ko": "회피",
+      "attr": "dex",
+      "aliases": [
+        "躲开",
+        "甩开",
+        "escape",
+        "避ける",
+        "피하기"
+      ]
+    },
+    "athletics": {
+      "zh": "运动",
+      "en": "Athletics",
+      "ja": "運動",
+      "ko": "운동",
+      "attr": "str",
+      "aliases": [
+        "攀爬",
+        "跳跃",
+        "推",
+        "撞",
+        "扛",
+        "搬",
+        "climb",
+        "jump",
+        "force",
+        "lift",
+        "登る",
+        "오르기"
+      ]
+    },
+    "endure": {
+      "zh": "忍耐",
+      "en": "Endure",
+      "ja": "耐える",
+      "ko": "인내",
+      "attr": "vit",
+      "aliases": [
+        "坚持",
+        "撑住",
+        "抵抗毒",
+        "熬",
+        "resist",
+        "withstand",
+        "我慢",
+        "버티기"
+      ]
+    }
+  },
+  "fallback_attr": "int",
+  "dc_numbers": "tier",
+  "role_panels": {},
+  "generate_panels": false
+}

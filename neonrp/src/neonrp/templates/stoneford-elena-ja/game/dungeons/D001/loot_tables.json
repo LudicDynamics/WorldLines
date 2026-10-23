@@ -1,0 +1,30 @@
+{
+  "dungeon_id": "D001",
+  "tables": {
+    "common": [
+      {
+        "id": "coin_pouch",
+        "name": "小銭袋",
+        "min_gold": 3,
+        "max_gold": 10,
+        "chance": 0.4
+      }
+    ],
+    "rare": [
+      {
+        "id": "ring_moss",
+        "name": "苔紋の指輪",
+        "effect": "VIT+1（ダンジョン探索中）",
+        "chance": 0.1
+      }
+    ],
+    "boss": [
+      {
+        "id": "coffin_contract",
+        "name": "棺の契約",
+        "effect": "「取引」の物語分岐を解放する",
+        "chance": 1.0
+      }
+    ]
+  }
+}

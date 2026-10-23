@@ -1,0 +1,122 @@
+{
+  "_doc": "Role panels (layer a): the rule panel of a character whose own record has none, by its role. 5 = the rulebook's plain person (+0). Draft numbers 10-14 — the template's author tunes them.",
+  "role_panels": {
+    "gate_guard": {
+      "attributes": {
+        "str": 7,
+        "dex": 5,
+        "int": 4,
+        "vit": 7,
+        "cha": 4
+      }
+    },
+    "warden": {
+      "attributes": {
+        "str": 6,
+        "dex": 5,
+        "int": 6,
+        "vit": 6,
+        "cha": 7
+      }
+    },
+    "guildmaster": {
+      "attributes": {
+        "str": 5,
+        "dex": 4,
+        "int": 7,
+        "vit": 5,
+        "cha": 7
+      }
+    },
+    "shopkeeper": {
+      "attributes": {
+        "str": 4,
+        "dex": 5,
+        "int": 6,
+        "vit": 5,
+        "cha": 7
+      }
+    },
+    "innkeeper": {
+      "attributes": {
+        "str": 4,
+        "dex": 5,
+        "int": 6,
+        "vit": 5,
+        "cha": 7
+      }
+    },
+    "appraiser": {
+      "attributes": {
+        "str": 3,
+        "dex": 6,
+        "int": 8,
+        "vit": 4,
+        "cha": 5
+      }
+    },
+    "herbalist": {
+      "attributes": {
+        "str": 3,
+        "dex": 6,
+        "int": 7,
+        "vit": 4,
+        "cha": 5
+      }
+    },
+    "priest": {
+      "attributes": {
+        "str": 4,
+        "dex": 4,
+        "int": 7,
+        "vit": 5,
+        "cha": 7
+      }
+    },
+    "mine_foreman": {
+      "attributes": {
+        "str": 8,
+        "dex": 5,
+        "int": 5,
+        "vit": 8,
+        "cha": 5
+      }
+    },
+    "ferryman": {
+      "attributes": {
+        "str": 6,
+        "dex": 6,
+        "int": 4,
+        "vit": 6,
+        "cha": 4
+      }
+    },
+    "caravan_master": {
+      "attributes": {
+        "str": 6,
+        "dex": 5,
+        "int": 6,
+        "vit": 6,
+        "cha": 6
+      }
+    },
+    "bandit_chief": {
+      "attributes": {
+        "str": 8,
+        "dex": 6,
+        "int": 5,
+        "vit": 7,
+        "cha": 6
+      }
+    },
+    "scout": {
+      "attributes": {
+        "str": 5,
+        "dex": 8,
+        "int": 6,
+        "vit": 6,
+        "cha": 4
+      }
+    }
+  }
+}

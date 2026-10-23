@@ -1,0 +1,137 @@
+{
+  "generated_by": "claude_code_prompt",
+  "version": "1.0.1",
+  "note": "Stone Ford contract roster, retained from the real llm-rpg-starter-derived flow. In stoneford-elena, `game/player/*` remains a compatibility projection for heroine Elena while `playthrough.json + souls/` add explicit soul runtime actors around the same world-agent contract.",
+  "agents": [
+    {
+      "id": "world-agent",
+      "name": "Orchestrator",
+      "agent_path": ".claude/agents/world-agent.md",
+      "role": "主制御ディスパッチャー",
+      "description": "ゲーム状態を読み、子エージェントへルーティングし、patch を統合し、状態を更新する",
+      "read_globs": ["game/**"],
+      "write_globs": ["game/run_state.json", "game/lore/notes.md", "game/lore/story.md"],
+      "note": "重要なパス: game/agents/manifest.json（agents サブディレクトリの下）"
+    },
+    {
+      "id": "rpg-world-builder",
+      "name": "World Builder",
+      "agent_path": ".claude/agents/rpg-world-builder.md",
+      "role": "世界構築",
+      "description": "世界地図の構造を管理し、新しい領域を拡張し、ノードの状態を更新する",
+      "read_globs": ["game/world/world_map.json", "game/lore/story.md", "game/lore/notes.md"],
+      "write_globs": ["game/world/world_map.json", "game/world/regions.json", "game/world/factions.json"]
+    },
+    {
+      "id": "rpg-story-narrative",
+      "name": "Story / Narrative",
+      "agent_path": ".claude/agents/rpg-story-narrative.md",
+      "role": "物語の語り",
+      "description": "本筋の物語と噂を管理し、物語の章を追記する",
+      "read_globs": ["game/lore/story.md", "game/lore/notes.md", "game/world/world_map.json", "game/player/flags.json"],
+      "write_globs": ["game/lore/story.md", "game/lore/rumors.md"]
+    },
+    {
+      "id": "rpg-town-agent",
+      "name": "Town Agent",
+      "agent_path": ".claude/agents/rpg-town-agent.md",
+      "role": "町エージェント",
+      "description": "町内のナビゲーション、NPC との交流、施設の入口を処理する",
+      "read_globs": ["game/towns/*/town.json", "game/towns/*/town_map.json", "game/towns/*/npcs.json", "game/towns/*/quests.json", "game/towns/*/facilities/*.json", "game/player/profile.json", "game/player/stats.json", "game/player/inventory.json", "game/player/wallet.json", "game/player/flags.json", "game/lore/notes.md"],
+      "write_globs": ["game/towns/*/town_map.json"],
+      "note": "run_state.location.node_id をそのままフォルダ名として使う"
+    },
+    {
+      "id": "rpg-guild-agent",
+      "name": "Guild Agent",
+      "agent_path": ".claude/agents/rpg-guild-agent.md",
+      "role": "ギルド施設",
+      "description": "依頼掲示板、依頼の受注／提出、名声システムを管理する",
+      "read_globs": ["game/towns/*/facilities/guild.json", "game/towns/*/quests.json", "game/player/inventory.json", "game/player/wallet.json", "game/player/flags.json", "game/player/profile.json"],
+      "write_globs": ["game/towns/*/facilities/guild.json", "game/towns/*/quests.json", "game/player/inventory.json", "game/player/wallet.json", "game/player/flags.json"],
+      "note": "run_state.location.node_id をそのままフォルダ名として使う"
+    },
+    {
+      "id": "rpg-shop-agent",
+      "name": "Shop Agent",
+      "agent_path": ".claude/agents/rpg-shop-agent.md",
+      "role": "店の施設",
+      "description": "売買の取引、在庫の管理を処理する",
+      "read_globs": ["game/towns/*/facilities/shop_*.json", "game/player/inventory.json", "game/player/wallet.json"],
+      "write_globs": ["game/towns/*/facilities/shop_*.json", "game/player/inventory.json", "game/player/wallet.json"],
+      "note": "run_state.location.node_id をそのままフォルダ名として使う"
+    },
+    {
+      "id": "rpg-inn-agent",
+      "name": "Inn Agent",
+      "agent_path": ".claude/agents/rpg-inn-agent.md",
+      "role": "宿屋の施設",
+      "description": "休息による回復、噂システム、時間の進行を処理する",
+      "read_globs": ["game/towns/*/facilities/inn.json", "game/lore/rumors.md", "game/player/stats.json", "game/player/wallet.json", "game/player/flags.json"],
+      "write_globs": ["game/towns/*/facilities/inn.json", "game/player/stats.json", "game/player/wallet.json", "game/player/flags.json"],
+      "note": "run_state.location.node_id をそのままフォルダ名として使う"
+    },
+    {
+      "id": "rpg-dungeon-agent",
+      "name": "Dungeon Agent",
+      "agent_path": ".claude/agents/rpg-dungeon-agent.md",
+      "role": "ダンジョンエージェント",
+      "description": "ダンジョン探索、部屋のナビゲーション、遭遇の発火、ボス戦を処理する",
+      "read_globs": ["game/dungeons/*/dungeon.json", "game/dungeons/*/layout.json", "game/dungeons/*/rooms/*.json", "game/dungeons/*/encounter_tables.json", "game/dungeons/*/loot_tables.json", "game/player/stats.json", "game/player/inventory.json", "game/player/equipment.json", "game/player/flags.json", "game/rules/combat_rules.md"],
+      "write_globs": ["game/dungeons/*/layout.json", "game/dungeons/*/rooms/*.json", "game/player/flags.json", "game/world/world_map.json"],
+      "note": "run_state.location.node_id をそのままフォルダ名として使う"
+    },
+    {
+      "id": "rpg-combat-referee",
+      "name": "Combat Referee",
+      "agent_path": ".claude/agents/rpg-combat-referee.md",
+      "role": "戦闘裁定者",
+      "description": "戦闘規則の執行、ターン管理、ダメージ計算、状態処理、戦闘の決算を行う",
+      "read_globs": ["game/rules/combat_rules.md", "game/player/stats.json", "game/player/equipment.json", "game/player/inventory.json"],
+      "write_globs": ["game/player/stats.json", "game/player/inventory.json", "game/player/wallet.json", "game/lore/notes.md"]
+    },
+    {
+      "id": "rpg-notary-archivist",
+      "name": "Notary / Archivist",
+      "agent_path": ".claude/agents/rpg-notary-archivist.md",
+      "role": "公証人／記録係",
+      "description": "重要な事件を notes.md に記録し、プレイヤーの日誌 journal.md を更新する",
+      "read_globs": ["game/**"],
+      "write_globs": ["game/lore/notes.md", "game/player/journal.md"]
+    }
+  ],
+  "routing_rules": {
+    "world": {
+      "description": "世界地図レイヤー",
+      "condition": "run_state.location.scope == 'world'",
+      "agents": ["rpg-world-builder"],
+      "transitions": {
+        "enter_town": "scope -> town",
+        "enter_dungeon": "scope -> dungeon",
+        "travel_encounter": "rpg-combat-referee"
+      }
+    },
+    "town": {
+      "description": "町レイヤー",
+      "condition": "run_state.location.scope == 'town'",
+      "agents": ["rpg-town-agent"],
+      "facilities": {
+        "guild": "rpg-guild-agent",
+        "shop_*": "rpg-shop-agent",
+        "inn": "rpg-inn-agent"
+      }
+    },
+    "dungeon": {
+      "description": "ダンジョンレイヤー",
+      "condition": "run_state.location.scope == 'dungeon'",
+      "agents": ["rpg-dungeon-agent"],
+      "transitions": {
+        "encounter": "rpg-combat-referee"
+      }
+    },
+    "end_of_turn": {
+      "description": "ターン終了時のアーカイブ",
+      "agents": ["rpg-notary-archivist", "rpg-story-narrative"]
+    }
+  }
+}

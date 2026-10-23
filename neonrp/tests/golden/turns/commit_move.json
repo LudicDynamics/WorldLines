@@ -1,0 +1,165 @@
+{
+ "scenario": "commit_move",
+ "model_calls": [
+  "host",
+  "narrate",
+  "transition"
+ ],
+ "steps": [
+  {
+   "line": "我去主街看看",
+   "nodes": [
+    "plan"
+   ],
+   "advanced_by": null,
+   "traces": [
+    {
+     "beat": {
+      "kind": "plan",
+      "board": [
+       "玩家"
+      ]
+     },
+     "spans": [],
+     "plan": null,
+     "souls": {},
+     "variants": {},
+     "applied": [],
+     "refused": [],
+     "created": 0,
+     "tool_returns": [],
+     "narration": "(stub model) The host is listening."
+    }
+   ],
+   "state": {
+    "vars": {},
+    "moved": {}
+   }
+  },
+  {
+   "line": "定",
+   "nodes": [
+    "resolve"
+   ],
+   "advanced_by": "player",
+   "traces": [
+    {
+     "beat": {
+      "kind": "resolve",
+      "advanced_by": "player",
+      "board": [
+       "玩家"
+      ]
+     },
+     "spans": [
+      [
+       "plan",
+       "scene",
+       "python"
+      ],
+      [
+       "plan",
+       "fallback",
+       "python"
+      ],
+      [
+       "plan",
+       "engine.pack",
+       "python"
+      ],
+      [
+       "solve",
+       "world",
+       "llm",
+       {
+        "loop": 0,
+        "fmt": "adv-noops",
+        "ops": 0
+       }
+      ],
+      [
+       "verify",
+       "l1",
+       "python",
+       {
+        "accepted": 0,
+        "refused": 0
+       }
+      ],
+      [
+       "solve",
+       "world.transition",
+       "llm",
+       {
+        "ops": 1,
+        "refused": 0,
+        "fixable": 0,
+        "attempt": 0
+       }
+      ],
+      [
+       "apply",
+       "engine",
+       "python",
+       {
+        "applied": 1,
+        "created": 0,
+        "refused": 0
+       }
+      ],
+      [
+       "settle",
+       "souls",
+       "off",
+       {
+        "n": 0
+       }
+      ],
+      [
+       "land",
+       "engine",
+       "python"
+      ]
+     ],
+     "plan": {
+      "source": "fallback",
+      "intent": "act",
+      "depth": {
+       "si-elena0001": "act",
+       "si-rowan0001": "silent"
+      }
+     },
+     "souls": {},
+     "variants": {
+      "si-rowan0001": "S-direct"
+     },
+     "applied": [
+      {
+       "op": "move_to",
+       "to": "T001/main_street",
+       "who": "player"
+      }
+     ],
+     "refused": [],
+     "created": 0,
+     "tool_returns": [],
+     "narration": "你走上主街,雾还没散。"
+    }
+   ],
+   "state": {
+    "vars": {
+     "location": [
+      "T001/gate_north",
+      "T001/main_street"
+     ]
+    },
+    "moved": {
+     "player": [
+      "T001/gate_north",
+      "T001/main_street"
+     ]
+    }
+   }
+  }
+ ]
+}

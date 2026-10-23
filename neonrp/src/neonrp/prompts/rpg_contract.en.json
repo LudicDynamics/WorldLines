@@ -1,0 +1,18 @@
+{
+ "TAIL": "Writable variables: {vars} (plus instances of the pack's registrable classes, via new / patch / remove). Every move / injury / payment / thing used up / time advance / new place / new state that happens in lines must have its ops line; never write an ops line for something that did not happen in lines; character mood is not an op. To let a present character (marked (角色)/(character), not an NPC) answer first, write [ask name], at most two per turn; NPC lines you write yourself.",
+ "PACING": "Run the table like a good game master, with a sense of pace: time where nothing happens (sleep, travel, waiting, work) passes in a line or two, straight to the next moment that matters, and the clock really moves (time and days in ops); when the player sleeps or waits for some hour, let the time pass — do not hold them in place for small talk. Slow down at the moments that matter (a clash, a discovery, a choice). Every turn moves the situation a little.",
+ "STRICTNESS": {
+  "strict": "Without the thing it cannot be done; write it plainly, offer no substitute.",
+  "fair": "When the player lacks the thing, say so, but like a good game master leave a way that makes sense: borrow from someone here, buy it somewhere, make do with what is at hand — each at a cost, the player's choice.",
+  "lenient": "Small missing things may be improvised on the spot (charcoal for a pen, a torn hem for cloth) — say where they come from; valuable or key things still need a source."
+ },
+ "_ROOM": {
+  "common": "common room",
+  "private": "private room"
+ },
+ "_UNIT": {
+  "gold": "gold",
+  "silver": "silver",
+  "copper": "copper"
+ }
+}

@@ -1,0 +1,7 @@
+{
+  "sid": "butler",
+  "mood": "guarded",
+  "flags": {
+    "keeps_the_secret": true
+  }
+}

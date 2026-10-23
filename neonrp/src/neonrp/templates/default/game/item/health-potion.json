@@ -1,0 +1,17 @@
+{
+  "id": "health-potion",
+  "kind": "item",
+  "name": "Health Potion",
+  "tags": [
+    "item",
+    "consumable",
+    "healing"
+  ],
+  "summary": "Restores 30 HP when consumed.",
+  "price": 25,
+  "effect": {
+    "type": "heal",
+    "amount": 30
+  }
+}
+

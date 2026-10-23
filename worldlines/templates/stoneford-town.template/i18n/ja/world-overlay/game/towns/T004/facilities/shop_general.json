@@ -1,0 +1,69 @@
+{
+  "facility_id": "shop_general_T004",
+  "name": "ストーンハンマー雑貨店",
+  "price_index": 1.1,
+  "inventory": [
+    {
+      "id": "potion_small",
+      "name": "小さな回復薬",
+      "price": 14,
+      "stock": 6
+    },
+    {
+      "id": "torch",
+      "name": "松明",
+      "price": 2,
+      "stock": 12
+    },
+    {
+      "id": "rope",
+      "name": "麻縄(10m)",
+      "price": 5,
+      "stock": 8
+    },
+    {
+      "id": "antidote",
+      "name": "解毒薬",
+      "price": 12,
+      "stock": 4
+    },
+    {
+      "id": "pickaxe",
+      "name": "つるはし",
+      "price": 15,
+      "stock": 5
+    },
+    {
+      "id": "mining_helmet",
+      "name": "鉱夫のヘルメット(ランプ付き)",
+      "price": 20,
+      "stock": 3
+    },
+    {
+      "id": "blasting_powder",
+      "name": "発破用火薬(小袋)",
+      "price": 25,
+      "stock": 2,
+      "note": "購入には鉱区許可証が必要"
+    },
+    {
+      "id": "dry_rations",
+      "name": "保存食",
+      "price": 3,
+      "stock": 10
+    },
+    {
+      "id": "waterskin",
+      "name": "水袋",
+      "price": 4,
+      "stock": 6
+    },
+    {
+      "id": "chalk",
+      "name": "チョーク(目印用)",
+      "price": 1,
+      "stock": 15
+    }
+  ],
+  "buyback_rate": 0.5
+}

@@ -1,0 +1,9 @@
+{
+  "town_id": "T004",
+  "state": {
+    "discovered_nodes": [
+      "gate_west"
+    ]
+  },
+  "scale": 0.4
+}

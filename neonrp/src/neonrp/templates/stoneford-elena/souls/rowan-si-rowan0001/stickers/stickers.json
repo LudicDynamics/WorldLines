@@ -1,0 +1,56 @@
+{
+ "grin": {
+  "label": {
+   "zh": "看我的",
+   "en": "Watch me",
+   "ja": "見てな",
+   "ko": "나만 믿어"
+  },
+  "when": "full of confidence, wants to show off"
+ },
+ "wink": {
+  "label": {
+   "zh": "懂的",
+   "en": "You know",
+   "ja": "わかるだろ",
+   "ko": "알지?"
+  },
+  "when": "joking, a knowing look"
+ },
+ "run": {
+  "label": {
+   "zh": "溜了",
+   "en": "I'm out",
+   "ja": "逃げる!",
+   "ko": "튄다"
+  },
+  "when": "things look bad, slipping away"
+ },
+ "brag": {
+  "label": {
+   "zh": "传奇吧",
+   "en": "Legendary",
+   "ja": "伝説だろ",
+   "ko": "전설이지"
+  },
+  "when": "bragging about his adventures"
+ },
+ "shrug": {
+  "label": {
+   "zh": "谁知道呢",
+   "en": "Who knows",
+   "ja": "さあね",
+   "ko": "글쎄"
+  },
+  "when": "doesn't know, doesn't care"
+ },
+ "think": {
+  "label": {
+   "zh": "有门道",
+   "en": "Hmm...",
+   "ja": "ふむ",
+   "ko": "흠"
+  },
+  "when": "scheming, looking for a way out"
+ }
+}

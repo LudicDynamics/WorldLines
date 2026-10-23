@@ -1,0 +1,229 @@
+{
+  "schema": "worldlines.template/1",
+  "id": "pct-house",
+  "version": "0.2",
+  "zone": "reviewed",
+  "forkable": true,
+  "card": {
+    "title": "灰橡宅 · 关上的门",
+    "pitch": "雾巷尽头的老宅。宅主人三天前走进这扇门,再没出来。他的外甥女请你来——一夜、一个守口如瓶的管家、一座不肯开口的老宅。",
+    "lang": "zh",
+    "tags": [
+      "推理",
+      "恐怖",
+      "西式老宅",
+      "百分骰"
+    ],
+    "cover": "assets/cover.jpg"
+  },
+  "mode": {
+    "ending": "multi",
+    "freedom": "semi"
+  },
+  "play_contract": "mystery-trpg@1",
+  "world": {
+    "path": "world"
+  },
+  "uses": {"template": "two_beat", "version": "1.0", "soul": "S-judge"},
+  "pack": {
+    "name": "pct",
+    "mixins": [],
+    "engine": {
+      "turn": {
+        "mode": "v3"
+      }
+    }
+  },
+  "souls": [
+    {
+      "sid": "chara",
+      "role": "npc"
+    },
+    {
+      "sid": "butler",
+      "role": "npc"
+    }
+  ],
+  "prompts": [],
+  "plots": [
+    "plots/P01"
+  ],
+  "opening": {
+    "cg": [
+      {
+        "id": "1",
+        "image": "assets/opening/cg-1.webp",
+        "caption": {
+          "zh": "雾从巷口一路漫到灰橡宅的台阶上。"
+        },
+        "camera": "沿雾巷缓慢前推,停在宅前石阶",
+        "prompt": "A long narrow fog lane at night, shuttered stone houses and amber gas lamps blurred in the fog; at the dead end the grey manor and a huge leafless grey oak; the investigator walks in from the foreground, seen from behind; far ahead on the manor steps Winnie waits with a small lantern."
+      },
+      {
+        "id": "2",
+        "image": "assets/opening/cg-2.webp",
+        "caption": {
+          "zh": "「舅舅三天前就是从这扇门进去的,再没出来。」"
+        },
+        "camera": "越过调查员肩头,推向灯影里的管家",
+        "prompt": "The lamp-lit entrance hall from just behind the investigator's shoulder: Oswin the old butler stands in the lamp's shadow, the ring of brass keys clenched in his fist; Winnie leans in close behind to whisper, eyes on the butler; above the lamp a portrait whose face is lost in shadow."
+      },
+      {
+        "id": "3",
+        "image": "assets/opening/cg-3.webp",
+        "caption": {
+          "zh": "楼上的门虚掩着,后院的门板在风里一下一下地响。"
+        },
+        "camera": "从门厅仰拍楼梯,再摇向后廊",
+        "prompt": "A view up from the hall: the staircase climbs into darkness toward an upstairs door standing ajar with a sliver of light; down the back corridor the garden door bangs in the wind, fog curling in; the butler's lamp glows at the bottom edge."
+      }
+    ]
+  },
+  "lint": {
+    "level": "draft"
+  },
+  "recipe": {
+    "backend": "",
+    "style": "二次元插画,干净线稿,赛璐璐两段硬阴影,平涂;冷蓝灰为底(深石板 #1c2230、雾的灰蓝 #4a5568),唯一的暖色是油灯的琥珀光(#e8a650),左上主光、右侧雾的冷轮廓光;二十世纪初西式老宅的雾夜;无文字"
+  },
+  "ui": {
+    "slots": [
+      {
+        "cls": "player",
+        "slot": "portrait",
+        "kind": "image",
+        "ratio": "1:1",
+        "required": "optional",
+        "recipe": "player_portrait",
+        "fallback": "名字首字"
+      }
+    ],
+    "prompts": {
+      "player_portrait": "调查员(玩家的默认样子):二十八九岁,性别不明,宽檐帽压住眼睛,墨绿长风衣立着领子,深色围巾,棕色皮手套,一支黄铜手电和一根木手杖。头肩像,正面四分之三侧,纯深石板蓝底,{style}。"
+    },
+    "views": [
+      {
+        "id": "alert",
+        "remove": true
+      },
+      {
+        "id": "purse",
+        "remove": true
+      },
+      {
+        "id": "nerve",
+        "title": {
+          "zh": "心神",
+          "en": "Nerve",
+          "ja": "平静",
+          "ko": "평정"
+        },
+        "bind": [
+          "player.san"
+        ],
+        "widget": "meter",
+        "layout": {
+          "area": "right",
+          "order": 1,
+          "range": [
+            0,
+            99
+          ]
+        }
+      }
+    ]
+  },
+  "audio": {
+    "theme": "whitechapel",
+    "ambient": "fireplace",
+    "places": {
+      "T001/steps": {
+        "ambient": "city-night"
+      },
+      "T001/garden": {
+        "ambient": "rain"
+      },
+      "T001/corridor": {
+        "ambient": "library"
+      }
+    }
+  },
+  "rewards": [
+    {
+      "id": "half_burnt_diary",
+      "kind": "card",
+      "rarity": "common",
+      "when": "stage:P01:1",
+      "slot": "item.icon:I801",
+      "title": {
+        "zh": "烧了一半的日记",
+        "en": "The Half-Burnt Diary",
+        "ja": "焼けかけの日記",
+        "ko": "반쯤 탄 일기"
+      },
+      "desc": {
+        "zh": "从壁炉里抢出来的。最后一页写着:周四,凿开地窖西墙。",
+        "en": "Pulled from the embers. The last page: Thursday, break open the west wall of the cellar.",
+        "ja": "暖炉から救い出した。最後のページ——木曜日、地下室の西の壁を開ける。",
+        "ko": "벽난로에서 건져 냈다. 마지막 장: 목요일, 지하실 서쪽 벽을 뚫는다."
+      }
+    },
+    {
+      "id": "fresh_plaster",
+      "kind": "card",
+      "rarity": "rare",
+      "when": "stage:P01:3",
+      "slot": "stage.cg:P01.3",
+      "title": {
+        "zh": "新抹的石灰",
+        "en": "Fresh Plaster",
+        "ja": "塗りたての漆喰",
+        "ko": "새로 바른 회벽"
+      },
+      "desc": {
+        "zh": "地窖西墙只有这一块是新的。",
+        "en": "Only this patch of the cellar's west wall is new.",
+        "ja": "地下室の西の壁で、ここだけが新しい。",
+        "ko": "지하실 서쪽 벽에서 이 부분만 새것이다."
+      }
+    },
+    {
+      "id": "behind_the_wall",
+      "kind": "card",
+      "rarity": "epic",
+      "when": "ending:E01",
+      "slot": "plot:plots/P01:ending:E01",
+      "title": {
+        "zh": "墙后的人",
+        "en": "The One Behind the Wall",
+        "ja": "壁の向こうの人",
+        "ko": "벽 뒤의 사람"
+      },
+      "desc": {
+        "zh": "你把真相说出了口。灰橡宅的门,这一次是你打开的。",
+        "en": "You said the truth out loud. This time it was you who opened the door of Greyoak House.",
+        "ja": "真相を口にした。グレイオーク館の扉を、今度はあなたが開けた。",
+        "ko": "진실을 입 밖에 냈다. 이번에는 당신이 그레이오크 저택의 문을 열었다."
+      }
+    },
+    {
+      "id": "way_out_in_fog",
+      "kind": "card",
+      "rarity": "rare",
+      "when": "ending:E02",
+      "slot": "plot:plots/P01:ending:E02",
+      "title": {
+        "zh": "雾里的退路",
+        "en": "A Way Out in the Fog",
+        "ja": "霧の中の退路",
+        "ko": "안개 속의 퇴로"
+      },
+      "desc": {
+        "zh": "你没有等到天亮。雾巷把你送了出去,门在身后关上。",
+        "en": "You did not wait for dawn. The fog lane let you go, and the door shut behind you.",
+        "ja": "夜明けを待たなかった。霧の路地があなたを外へ送り出し、扉は背後で閉じた。",
+        "ko": "새벽을 기다리지 않았다. 안개 골목이 당신을 내보냈고, 문은 등 뒤에서 닫혔다."
+      }
+    }
+  ]
+}

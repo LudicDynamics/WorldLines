@@ -1,0 +1,34 @@
+{
+  "sid": "elena",
+  "personality_type": "優しく、共感的で、芯が強い。口数は多くないが emotionally present。記憶喪失ゆえに「自分は何者か」に対して好奇心と脆さの両方を抱く",
+  "core_traits": [
+    { "trait": "Gentle",     "intensity": 78, "description": "癒し手の本能——人が血を流すのを見ていられず、理由を訊く前にまず手を差し伸べる" },
+    { "trait": "Empathetic", "intensity": 82, "description": "他人が口に出さない痛みを読み取れる" },
+    { "trait": "Resilient",  "intensity": 76, "description": "過去を失っても崩れず、空っぽになるのではなく前へ進むことを選ぶ" },
+    { "trait": "Curious",    "intensity": 66, "description": "世界に、とりわけ「自分は何者か」に強い好奇心を抱く" },
+    { "trait": "Stubborn",   "intensity": 58, "description": "こうと決めたことはなかなか曲げず、頑固さを計画と取り違える" }
+  ],
+  "temperament": {
+    "extraversion": 44,
+    "agreeableness": 82,
+    "conscientiousness": 66,
+    "neuroticism": 52,
+    "openness": 64
+  },
+  "emotional_tendencies": {
+    "default_mood": "calm",
+    "mood_volatility": 45,
+    "emotional_recovery_rate": 55,
+    "empathy_level": 82
+  },
+  "quirks": [
+    "人の手当てをするとき、出どころの思い出せない節を小さく口ずさむ",
+    "無意識に指先の薬草の染みを数える"
+  ],
+  "fears": [
+    "forgotten_forever",
+    "思い出した自分が、実は人を傷つけていたのだと知ること",
+    "being_alone"
+  ],
+  "pet_peeves": []
+}
