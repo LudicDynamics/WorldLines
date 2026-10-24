@@ -37,6 +37,10 @@ out.zoneBtn = !!(await p.$('[data-zone]'))
 await p.goto('http://hub.test/#/')
 await p.waitForTimeout(300)
 out.defaultCards = await p.$$eval('.cards .wcard', a => a.map(x => decodeURIComponent(x.getAttribute('href').replace(/^.*\/t\//, ''))))
+if (out.defaultCards.includes('official')) {   // 默认区的作品:不给「复制到我的工作台」「在这个模板上创作」(10-24:只在自由区)
+  await p.goto('http://hub.test/#/t/official'); await p.waitForSelector('.ctas')
+  out.officialLocal = await p.$$eval('.ctas > *', a => a.map(x => x.textContent.trim()))
+}
 if (out.zoneBtn) {
   await p.goto('http://hub.test/#/t/remote-abc123')
   await p.waitForSelector('[data-fzget]')
@@ -48,7 +52,7 @@ if (out.zoneBtn) {
   out.afterFetch = p.url()
   await p.goto('http://hub.test/#/t/mine-local')
   await p.waitForSelector('.hero .note')
-  out.localOpen = { note: (await p.textContent('.hero .note')).trim(), report: !!(await p.$('[data-report]')) }
+  out.localOpen = { note: (await p.textContent('.hero .note')).trim(), report: !!(await p.$('[data-report]')), ctas: await p.$$eval('.ctas > *', a => a.map(x => x.textContent.trim())) }
 }
 await p.goto('http://hub.test/#/me')
 await p.waitForSelector('.mebox .wk', { timeout: 5000 }).catch(() => {})

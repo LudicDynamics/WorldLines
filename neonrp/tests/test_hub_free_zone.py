@@ -66,6 +66,8 @@ def test_free_zone_in_the_local_hub(tmp_path):
     assert ["/api/v1/local/hub/report", {"id": "remote-abc123", "lang": "zh", "reason": "侵权"}] in r["posts"]
     assert ["/api/v1/local/hub/fetch", {"id": "remote-abc123", "lang": "zh"}] in r["posts"]
     assert r["localOpen"]["report"] and "自由区" in r["localOpen"]["note"]
+    assert "⎘ 复制到我的工作台" in r["localOpen"]["ctas"] and "✎ 在这个模板上创作" in r["localOpen"]["ctas"], "the free zone keeps fork / create"
+    assert not {"⎘ 复制到我的工作台", "✎ 在这个模板上创作"} & set(r["officialLocal"]), "the default zone gives no fork / create"
     w = {x["text"].split(" ")[0]: x for x in r["works"]}
     assert w["公开中的"]["chips"] == ["公开中"] and w["公开中的"]["unpub"] and w["公开中的"]["apply"]
     assert w["被下架的"]["chips"] == ["被下架"] and "侵权图" in w["被下架的"]["text"] and not w["被下架的"]["unpub"]
