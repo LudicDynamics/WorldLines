@@ -20,7 +20,8 @@ from neonrp.core import save_limits as SL
 
 
 @pytest.fixture(autouse=True)
-def _clear_cache():
+def _clear_cache(monkeypatch):
+    monkeypatch.setenv("NEONRP_SAVE_LIMITS_ENFORCE", "1")   # the limit applies in the browser build; tests run it here
     SL._CACHE.clear()
     yield
     SL._CACHE.clear()
@@ -96,6 +97,12 @@ def test_runs_of_counts_only_this_world(tmp_path) -> None:
 
 
 # ── who is limited, and by how much ─────────────────────────────────────────
+
+def test_local_edition_has_no_limit_even_signed_in(monkeypatch) -> None:
+    monkeypatch.delenv("NEONRP_SAVE_LIMITS_ENFORCE", raising=False)
+    signed(monkeypatch, "free")
+    assert SL.limit_for("sandbox") == (None, None)
+
 
 def test_own_key_not_signed_in_has_no_limit(monkeypatch) -> None:
     monkeypatch.setattr("neonrp.core.worldlines_auth.access_token", lambda: None)

@@ -9,7 +9,11 @@ const V3 = (() => {
   let BASE = ''; // '' = 本地引擎同源;'/api/v1/play/engine' = Hub(经路由到账户引擎)
   const j = async (path, opt) => {
     const r = await fetch(BASE + path, { credentials: 'include', ...(opt || {}) });
-    if (!r.ok) throw Object.assign(new Error(`${r.status} ${path}`), { status: r.status });
+    if (!r.ok) {
+      const d = r.status === 409 ? await r.clone().json().catch(() => null) : null;
+      const msg = d && d.error === 'save_limit' ? `存档已满(这个世界最多 ${d.limit} 个):到 Hub 继续一局或删掉一局` : `${r.status} ${path}`;
+      throw Object.assign(new Error(msg), { status: r.status, body: d });
+    }
     return r.json();
   };
   const post = (path, body) => j(path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body || {}) });
@@ -38,6 +42,11 @@ const V3 = (() => {
     if (q.get('tpl') && !q.get('save') && window.BUILDER) return window.BUILDER.start(q.get('tpl'), lang);
     if (slug) return post('/api/v1/play/session', { slug, output_lang: lang });
     try { await j('/api/v1/play/engine/template'); await j('/traces'); return null; } catch { /* nothing bound */ }
+    // 10-25: nothing bound → carry on with the newest save instead of opening a new run every time the page opens
+    // (each visit used to add a run; a signed-in player hit the save limit and the page only said 「连不上引擎」)
+    const sv = await j('/api/v1/play/saves').catch(() => ({ saves: [] }));
+    const last = (sv.saves || []).slice().sort((a, b) => (b.last_modified || 0) - (a.last_modified || 0))[0];
+    if (last && last.session_id) return post('/api/v1/play/session', { slug: last.session_id, output_lang: lang });
     const ts = await j('/api/v1/local/templates').catch(() => ({ templates: [] }));
     const first = (ts.templates || []).find(t => t.publishable) || (ts.templates || [])[0];
     if (!first) throw new Error('没有可开局的模板');

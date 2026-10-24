@@ -11,8 +11,9 @@ runs already over the limit are left alone. The numbers are data, not code — t
 2. ``NEONRP_SAVE_LIMITS`` (a JSON file shaped like the packaged one; e2e)
 3. the packaged ``schema/save_limits.json`` — by tier (billing's ``tier``: free · story = Traveler · vivid = Voyager)
 
-Who is limited: a player on Worldlines — signed in, or a guest whose token the browser build pushed in. A local player
-with their own model key who is not signed in has no limit (lead 10-21). The platform out of reach = no limit this
+Who is limited: a player on Worldlines in the browser build (the online Hub, the iOS app) — signed in, or a guest
+whose token the browser build pushed in. The local edition (``worldlines`` / ``neonrp`` / the desktop app) has no
+limit, signed in or not (lead 10-25); ``NEONRP_SAVE_LIMITS_ENFORCE=1`` turns the limit on there too (tests, hosted). The platform out of reach = no limit this
 time (better one run too many than a player who cannot start); a token the platform refuses = free.
 """
 from __future__ import annotations
@@ -20,6 +21,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import sys
 import time
 from pathlib import Path
 from typing import Any
@@ -138,6 +140,8 @@ def limit_for(kind: str) -> tuple[str | None, int | None]:
     """(tier, how many runs of one world) for whoever plays on this engine; (None, None) = no limit."""
     from neonrp.core import worldlines_auth
 
+    if sys.platform != "emscripten" and os.environ.get("NEONRP_SAVE_LIMITS_ENFORCE", "").strip() != "1":
+        return None, None  # the local edition: no limit, signed in or not (10-25)
     tok = worldlines_auth.access_token()
     if not tok or tok == "-":
         return None, None  # own key, not signed in (local)

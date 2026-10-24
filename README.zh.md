@@ -250,9 +250,8 @@ WorldLines 背后的主张写成了三篇论文——定义世界、扩展到多
 <p align="center">
   <a href="https://github.com/LudicDynamics/WorldLines/stargazers">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="./worldlines/assets/star-history-dark.svg" />
-      <source media="(prefers-color-scheme: light)" srcset="./worldlines/assets/star-history-light.svg" />
-      <img alt="Star History Chart" src="./worldlines/assets/star-history-light.svg" />
+      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=LudicDynamics/WorldLines&type=Date&theme=dark" />
+      <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=LudicDynamics/WorldLines&type=Date" width="720" />
     </picture>
   </a>
 </p>

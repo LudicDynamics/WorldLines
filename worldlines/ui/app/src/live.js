@@ -420,7 +420,7 @@
     if (S.screen === 'duo' && L.ok && window.MAPW && !window.MAPW.edit && !L.opening && !L.openFail) buildMapWorld();
     _render();
     const t = L.templates.find(x => x.id === L.bound), w = what();
-    $('#ctx').innerHTML = !L.ok ? `<span class="chip" ${L.err ? `title="${esc(L.err)}" data-err="${esc(L.err)}"` : ''}>${L.err ? '连不上引擎' : esc(waitText())}</span>`
+    $('#ctx').innerHTML = !L.ok ? `<span class="chip" ${L.err ? `title="${esc(L.err)}" data-err="${esc(L.err)}"` : ''}>${L.err ? (/^\d{3} \//.test(L.err) || /fetch|network/i.test(L.err) ? '连不上引擎' : esc(L.err)) : esc(waitText())}</span>`
       : w ? `<span class="chip blue">${esc(w)}</span>` : `<span class="chip" title="引擎绑着的这一局">${esc(t ? '这一局 · ' + tplTitle(t) : '未开局')}</span><span class="chip sage">真引擎 · neonrp</span>`;
     worldSel(); testBanner(); navLinks();
   };
