@@ -35,7 +35,7 @@ await p.goto('http://hub.test/#/')
 await p.waitForSelector('.cards .wcard')
 const cards = await p.$$eval('.cards .wcard', a => a.map(x => {
   const v = x.querySelector('.head .ver')
-  return { id: decodeURIComponent(x.getAttribute('href').slice(4)), cls: v ? v.className : '', text: v ? v.textContent.trim() : '', title: x.querySelector('h3').textContent }
+  return { id: decodeURIComponent(x.getAttribute('href').replace(/^.*\/t\//, '')), cls: v ? v.className : '', text: v ? v.textContent.trim() : '', title: x.querySelector('h3').textContent }
 }))
 // 开源区入口:切过去看 zone=open 的作品(没有就是空状态说明),再切回来
 const zoneBtn = !!(await p.$('[data-zone]'))
@@ -44,6 +44,9 @@ if (zoneBtn) {
   await p.click('.tyrow [data-zone]')
   await p.waitForTimeout(200)
   open = { cards: await p.$$eval('.cards .wcard', a => a.map(x => decodeURIComponent(x.getAttribute('href').replace(/^.*\/t\//, '')))), empty: !!(await p.$('.openempty')), url: p.url() }
+} else {   // 本地版(10-24):首页就是自由区,没有切换按钮;「本机」一栏不算自由区作品
+  open = { cards: await p.$$eval('.cards .wcard', a => a.filter(x => !x.closest('.sec.mine')).map(x => decodeURIComponent(x.getAttribute('href').replace(/^.*\/t\//, '')))), empty: !!(await p.$('.openempty')), url: p.url(),
+    mine: await p.$$eval('.sec.mine .wcard', a => a.map(x => decodeURIComponent(x.getAttribute('href').replace(/^.*\/t\//, '')))) }
 }
 const detail = {}, avsw = []
 for (const c of cards) {

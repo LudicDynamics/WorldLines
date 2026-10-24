@@ -31,6 +31,14 @@
 - **三方。** 世界、你、每个角色各有主体性。你说的话是一次**尝试**,不是事实;角色自己拿主意。
 - **世界就是文件。** 纯 JSON / Markdown,能读、能 diff、能版本管理;每一回合都是一个提交,可以回滚、可以分岔。
 
+## 愿景
+
+- **从模拟里长出故事。** NeonRP 让模拟的世界和有自己目标的角色 agent 相互对抗,故事从中产生。
+- **人人都能写的编排。** 一回合怎么跑,从跑团到剧本杀,用一句话就能设计,并作为内容分享出去。
+- **角色、世界和玩法分开。** 角色的素材与设定、世界的素材与设定、玩法规则是各自独立的部分,可以自由组合。
+- **快的引擎,接什么前端都行。** AI 引擎只负责快、稳、自由;接上前端,就是完整的游戏客户端。
+- **引擎开源,平台给所有人。** 引擎开源,用你自己的 API key 就能跑;[worldlines.gg](https://worldlines.gg) 是给一般玩家的平台;社区在两者之上共建。
+
 ## 仓库里有什么
 
 | 目录 | 是什么 | 许可 |
@@ -40,6 +48,18 @@
 | [`documents/`](./documents) | 规格(world · soul · template · contract · pack)与 [docs.worldlines.gg](https://docs.worldlines.gg) 的正文 | CC BY 4.0 |
 | [`benchmarks/`](./benchmarks) | 引擎每个设计决定背后的测试套件 | 代码 Apache-2.0 · 数据 CC BY 4.0 |
 | `CLAUDE.md` · `AGENTS.md` · `.claude/` · `.agents/` | 给 Claude Code / Codex 用的捏卡工作台(见下) | AGPL-3.0 |
+
+## 这个仓库和 PyPI 包
+
+PyPI 包用的是同一份代码,另外带了不开源的部分([`neonrp/LICENSE-PROPRIETARY.md`](./neonrp/LICENSE-PROPRIETARY.md)):
+
+| | 这个仓库 | PyPI `neonrp` / `worldlines` |
+|---|---|---|
+| 回合 | 结算拍 | 商量拍 + 结算拍,以及内置的编排 |
+| 网页界面 | 工作台、测试台、游玩页 | 另有 Hub、标准前端、小手机聊天页 |
+| 内置世界 | 灰橡宅、石津镇 | 相同;其他官方世界登录 worldlines.gg 后获取 |
+
+这个仓库里的一切都能单独运行,用你自己的 API key 即可。
 
 ## 快速开始
 

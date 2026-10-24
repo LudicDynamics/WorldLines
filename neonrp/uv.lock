@@ -1145,7 +1145,7 @@ wheels = [
 
 [[package]]
 name = "neonrp"
-version = "1.0.3"
+version = "1.0.4"
 source = { editable = "." }
 dependencies = [
     { name = "anthropic" },

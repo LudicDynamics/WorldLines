@@ -112,11 +112,11 @@ def test_engine_mode_zone_tags(tmp_path):
     got = _engine_mode(tmp_path, rows)
     assert got["errs"] == []
     tags = {c["id"]: c for c in got["cards"]}
-    for tid in OFFICIAL:
-        assert tags[tid]["cls"] == "ver" and "默认区" in tags[tid]["text"], (tid, tags[tid])
+    for tid in OFFICIAL:   # 本地版(10-24):卡片上标「本机」;详情页照样写它属于默认区
+        assert tags[tid]["cls"] == "ver none" and tags[tid]["text"] == "本机", (tid, tags[tid])
         assert got["detail"][tid].endswith("默认区"), (tid, got["detail"][tid])
     for m in unlabelled:   # 没写 zone:中性,既不标默认区也不标自由区
-        assert tags[m["id"]]["cls"] == "ver none", (m["id"], tags[m["id"]])
+        assert tags[m["id"]]["cls"] == "ver none" and tags[m["id"]]["text"] == "本机", (m["id"], tags[m["id"]])
         for z in ("默认区", "自由区"):
             assert z not in tags[m["id"]]["text"] and z not in got["detail"][m["id"]], (m["id"], got["detail"][m["id"]])
 
@@ -132,12 +132,13 @@ def test_open_zone_entry(tmp_path):
     # 「开源区」入口(10-15):默认视图只有审核区;开源区的作品切过去才看得到;没有作品时是空状态说明
     rows = _meta_rows()
     opened = {**rows[0], "id": "someones-open-work", "zone": "open"}
+    # 本地版(10-24):首页就是自由区(#/free/),没有切换按钮;本机的世界在「本机」一栏,默认区去线上 Hub
     got = _engine_mode(tmp_path, [*rows, opened])
-    assert got["errs"] == [] and got["zoneBtn"]
-    assert "someones-open-work" not in {c["id"] for c in got["cards"]}
-    assert got["open"]["cards"] == ["someones-open-work"] and "#/free/" in got["open"]["url"], "the free zone has its own address (10-16)"
+    assert got["errs"] == [] and not got["zoneBtn"]
+    assert got["open"]["cards"] == ["someones-open-work"], "#/ is the free zone page (details under #/free/t/…, test_hub_free_zone)"
+    assert sorted(got["open"]["mine"]) == sorted(r["id"] for r in rows)
     got = _engine_mode(tmp_path, rows)
-    assert got["open"]["cards"] == [] and got["open"]["empty"]
+    assert got["open"]["cards"] == [] and got["open"]["empty"], "no free work yet: the empty note under the 本机 section"
 
 
 def test_open_zone_hidden_when_disabled(tmp_path):

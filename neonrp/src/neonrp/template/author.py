@@ -130,6 +130,21 @@ def fork(src: Template | Path | str, new_id: str, *, title: str | None = None, c
     return t2
 
 
+def delete(tid: str) -> bool:
+    """Remove a template the player keeps (``<write store>/<tid>.template``: forked, made, fetched); built-ins and other
+    read-only stores are refused (False). Its runs stay."""
+    from neonrp.template import discover
+
+    root, d = write_root(), discover().get(tid)
+    if root is None or d is None or not ID_RE.match(tid or ""):
+        return False
+    d = Path(d).resolve()
+    if d.parent != root or d.name != f"{tid}.template":
+        return False
+    shutil.rmtree(d)
+    return True
+
+
 def _new_dest(new_id: str) -> Path:
     """``<write store>/<new_id>.template`` for a new template (the id checked, the store made); not created yet."""
     root = write_root()

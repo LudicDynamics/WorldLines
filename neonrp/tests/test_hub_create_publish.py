@@ -77,7 +77,8 @@ def test_edit_flow_on_the_desk(tmp_path, mode):
     assert second["card"]["zh"]["title"] == "雾夜猎人 · 改" and second["addition"]["soul"][0]["name"] == "阿白"
     assert "orchestration" not in second["addition"], "back to the world's default pace = nothing written"
     assert o["coverUploads2"] == 2, "the new cover is uploaded again"
-    assert "已提交到默认区审核" in o["submit1"] and o["revise"] == "#/t/stoneford-town/create"
+    # 本地网页版(10-24)只有自由区那一页,创作台的地址在 #/free/ 下;iOS 没有自由区
+    assert "已提交到默认区审核" in o["submit1"] and o["revise"] == ("#/t/stoneford-town/create" if mode == "ios" else "#/free/t/stoneford-town/create")
     assert o["revisedOpen"] == "雾夜猎人 · 改", "「改版再提交」opens this very work"
     assert "顶掉了排队的那一版" in o["submit2"], "in review: a new version replaces the queued one"
     assert "旧版照常在线" in o["submit3"] and "旧版在线" in o["mineAfter"] and "审核中" in o["mineAfter"]

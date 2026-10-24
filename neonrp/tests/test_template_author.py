@@ -163,6 +163,19 @@ def test_http_fork_ops_ui(store):
     assert h.status == 400 and "只读" in h.out["error"]
 
 
+
+def test_delete_only_the_players_own(store):
+    author.fork(TP.discover()["stoneford-market"], "mist-market")
+    H = _client(store)
+    h = H("/api/v1/local/templates")
+    assert h._template_route_get(None)
+    rows = {r["id"]: r for r in h.out["templates"]}
+    assert rows["mist-market"].get("removable") and not rows["stoneford-market"].get("removable"), "the Hub offers delete on the player's own only"
+    assert not author.delete("stoneford-market") and TP.discover().get("stoneford-market"), "a built-in is refused"
+    assert not author.delete("no-such-one")
+    assert author.delete("mist-market") and not (store / "mist-market.template").exists() and "mist-market" not in TP.discover()
+
+
 def test_http_ops_sync_the_bound_run(store, tmp_path):
     t = author.fork(TP.discover()["stoneford-market"], "mist-market")
     run = tmp_path / "run"

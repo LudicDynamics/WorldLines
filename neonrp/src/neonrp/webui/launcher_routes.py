@@ -217,6 +217,22 @@ class LauncherRoutes:
                 ok = False
             self._send_json({"ok": bool(ok)})
             return True
+        # DELETE /api/v1/local/templates/<id> — remove a template the player keeps (template/author.delete: the write store
+        # only; built-ins refuse → ok false). Its runs stay.
+        prefix = "/api/v1/local/templates/"
+        if self.path.startswith(prefix):
+            tid = web._path_seg(self.path[len(prefix):])
+            if not web._safe_name(tid):
+                self.send_error(400)
+                return True
+            from neonrp.template import author
+
+            try:
+                ok = author.delete(tid)
+            except OSError:
+                ok = False
+            self._send_json({"ok": bool(ok)}, status=200 if ok else 409)
+            return True
         # DELETE /api/v1/local/souls/<dir_name> — remove a soul from the
         # library (core.souls.delete_soul refuses path escapes itself).
         prefix = "/api/v1/local/souls/"

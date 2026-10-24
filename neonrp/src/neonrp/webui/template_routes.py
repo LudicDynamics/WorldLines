@@ -368,6 +368,12 @@ class TemplateRoutes:
             return True
         found = TP.discover()
         if route == _LOCAL:
+            from neonrp.template import author as _au
+
+            root = _au.write_root()
+            def rm(d):   # the player's own (Hub: delete)
+                return {"removable": True} if root and Path(d).resolve().parent == root else {}
+
             rows = []
             cold = [d for d in found.values() if not lint_is_cached(d)]
             if cold:  # 引擎刚起:先回列表(不带 lint),后台把 lint 补进缓存 —— 页面不用等 6–9 秒;界面看到 checking 会再取
@@ -378,10 +384,10 @@ class TemplateRoutes:
                         meta = TP.load(d).meta()
                     except TP.TemplateError:
                         continue
-                    rows.append({**meta, "publishable": None, "counts": None, "checking": True})
+                    rows.append({**meta, "publishable": None, "counts": None, "checking": True, **rm(d)})
                     continue
                 r = lint_cached(d)
-                rows.append({**r["meta"], "publishable": r["publishable"], "counts": r.get("counts")})
+                rows.append({**r["meta"], "publishable": r["publishable"], "counts": r.get("counts"), **rm(d)})
             self._send_json({"version": TEMPLATE_VERSION, "templates": rows})
             return True
         rest = route[len(_LOCAL) + 1:]

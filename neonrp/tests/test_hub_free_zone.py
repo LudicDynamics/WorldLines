@@ -57,8 +57,10 @@ def _run(tmp_path, *, open_zone=True):
 def test_free_zone_in_the_local_hub(tmp_path):
     r = _run(tmp_path)
     assert r["errs"] == []
-    assert sorted(r["openCards"]) == ["mine-local", "remote-abc123"], "the platform's works join the free zone view; a downloaded one is the local item"
-    assert "remote-abc123" not in r["defaultCards"] and "mine-local" not in r["defaultCards"] and "official" in r["defaultCards"]
+    assert sorted(r["openCards"]) == ["mine-local", "official", "remote-abc123"], "the free zone page: this machine's worlds + the platform's works"
+    assert r["mineCards"] == ["official"], "this machine's own (bundled · made · kept) in its 「本机」 section; a downloaded free work is a free work"
+    assert sorted(r["defaultCards"]) == sorted(r["openCards"]), "local: #/ is the free zone page too (no local default zone)"
+    assert ["默认区 ↗", "https://neonrp.worldlines.gg/"] in r["defLinks"], "the default zone is the online Hub"
     rm = r["remote"]
     assert rm["ctas"] == ["⬇ 下载到本地玩", "举报", "屏蔽这个作者"] and "hub/template/remote-abc123" in rm["tag"]
     assert rm["cover"] == "/api/v1/local/hub/cover?id=remote-abc123&rev=2"
@@ -67,7 +69,7 @@ def test_free_zone_in_the_local_hub(tmp_path):
     assert ["/api/v1/local/hub/fetch", {"id": "remote-abc123", "lang": "zh"}] in r["posts"]
     assert r["localOpen"]["report"] and "自由区" in r["localOpen"]["note"]
     assert "⎘ 复制到我的工作台" in r["localOpen"]["ctas"] and "✎ 在这个模板上创作" in r["localOpen"]["ctas"], "the free zone keeps fork / create"
-    assert not {"⎘ 复制到我的工作台", "✎ 在这个模板上创作"} & set(r["officialLocal"]), "the default zone gives no fork / create"
+    assert {"⎘ 复制到我的工作台", "✎ 在这个模板上创作"} <= set(r["officialLocal"]), "this machine's worlds (本机) keep fork / create"
     w = {x["text"].split(" ")[0]: x for x in r["works"]}
     assert w["公开中的"]["chips"] == ["公开中"] and w["公开中的"]["unpub"] and w["公开中的"]["apply"]
     assert w["被下架的"]["chips"] == ["被下架"] and "侵权图" in w["被下架的"]["text"] and not w["被下架的"]["unpub"]
@@ -121,8 +123,8 @@ def test_two_addresses_on_the_web(tmp_path):
 def test_local_free_zone_address(tmp_path):
     r = _run(tmp_path)
     assert r["landing"] == "#/free/", "hub.html opened without a hash lands in the free zone"
-    assert sorted(r["openHrefs"]) == ["#/free/t/mine-local", "#/free/t/remote-abc123"], "local: #/free/… is the free zone, details under it"
-    assert r["toggle"] == [["#/", ""], ["#/free/", "on"]]
+    assert sorted(r["openHrefs"]) == ["#/free/t/mine-local", "#/free/t/official", "#/free/t/remote-abc123"], "local: #/free/… is the free zone, details under it"
+    assert r["toggle"] == [["https://neonrp.worldlines.gg/", ""], ["#/free/", "on"]]
 
 
 def test_ios_web_has_no_free_zone(tmp_path):

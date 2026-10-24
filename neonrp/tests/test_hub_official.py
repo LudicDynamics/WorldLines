@@ -25,11 +25,13 @@ def _remote(wid, title, *, version="1.0", rev=2, installed=None, update=False):
 
 
 def _run(tmp_path, lang="zh", shots=None):
+    # the default-zone listing (local + the online Hub's) stays where there is no free zone: the iOS app (openZone false).
+    # The desktop local Hub has the free zone only and links the default zone to the online Hub (test_hub_free_zone)
     node = shutil.which("node")
     if not node or not (UI / "node_modules" / "playwright").is_dir():
         pytest.skip("node + worldlines/ui/node_modules/playwright needed")
     page = (HUB / "index.html").read_text(encoding="utf-8").replace(
-        "<!--SCRIPT-->", "<script>window.HUB={}</script><script>" + (HUB / "hub.js").read_text(encoding="utf-8") + "</script>")
+        "<!--SCRIPT-->", "<script>window.HUB={openZone:false}</script><script>" + (HUB / "hub.js").read_text(encoding="utf-8") + "</script>")
     (tmp_path / "page.html").write_text(page, encoding="utf-8")
     api = {
         "/api/v1/local/templates": {"templates": [
@@ -71,7 +73,7 @@ def test_official_worlds_in_the_local_hub(tmp_path):
     c = r["cached"]
     assert c[0].startswith("▶") and "⬆ 更新 到 v1.1" in c and not any("复制" in x for x in c) and not any("下载" in x for x in c)
     assert "只能玩" in r["cachedNote"]
-    assert any("复制" in x for x in r["builtin"]), "the two shipped worlds keep 「复制一份来改」"
+    assert not any("复制" in x for x in r["builtin"]), "no copy outside the free zone (10-24) — the iOS app has none"
     h = r["hubOnly"]
     assert h["ctas"] == ["▶ 到 Hub 上玩 ↗"] and h["href"] == "https://hub.example.test/#/t/last-train", "an online-only world plays on the online Hub"
 

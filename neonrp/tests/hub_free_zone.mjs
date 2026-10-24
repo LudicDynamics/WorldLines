@@ -34,6 +34,8 @@ out.openHrefs = await p.$$eval('.cards .wcard', a => a.map(x => x.getAttribute('
 out.toggle = await p.$$eval('#ztog a', a => a.map(x => [x.getAttribute('href'), x.className]))
 out.openCards = await p.$$eval('.cards .wcard', a => a.map(x => decodeURIComponent(x.getAttribute('href').replace(/^.*\/t\//, ''))))
 out.zoneBtn = !!(await p.$('[data-zone]'))
+out.mineCards = await p.$$eval('.sec.mine .wcard', a => a.map(x => decodeURIComponent(x.getAttribute('href').replace(/^.*\/t\//, ''))))
+out.defLinks = await p.$$eval('a[data-zt][target=_blank]', a => a.map(x => [x.textContent.trim(), x.getAttribute('href')]))
 await p.goto('http://hub.test/#/')
 await p.waitForTimeout(300)
 out.defaultCards = await p.$$eval('.cards .wcard', a => a.map(x => decodeURIComponent(x.getAttribute('href').replace(/^.*\/t\//, ''))))
@@ -41,7 +43,7 @@ if (out.defaultCards.includes('official')) {   // 默认区的作品:不给「�
   await p.goto('http://hub.test/#/t/official'); await p.waitForSelector('.ctas')
   out.officialLocal = await p.$$eval('.ctas > *', a => a.map(x => x.textContent.trim()))
 }
-if (out.zoneBtn) {
+if (out.zoneBtn || out.defLinks.length) {   // 本地版:默认区换成去线上 Hub 的链接(10-24),自由区那一页照样有
   await p.goto('http://hub.test/#/t/remote-abc123')
   await p.waitForSelector('[data-fzget]')
   out.remote = { ctas: await p.$$eval('.ctas > *', a => a.map(x => x.textContent.trim())), tag: await p.textContent('.hero .info .tag'), cover: await p.getAttribute('.hero img.bimg', 'src') }

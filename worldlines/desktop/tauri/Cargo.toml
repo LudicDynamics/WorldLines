@@ -1,6 +1,6 @@
 [package]
 name = "worldlines-desktop"
-version = "0.3.0"
+version = "1.0.4"
 edition = "2021"
 description = "WorldLines desktop shell — thin wrapper over `neonrp web`"
 

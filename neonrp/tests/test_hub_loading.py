@@ -15,6 +15,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 HUB = ROOT / "worldlines" / "ui" / "app" / "hub"
 UI = ROOT / "worldlines" / "ui"
+FREE_EMPTY = "自由区还没有作品"   # 本地版(引擎模式)只有自由区那一页:空的时候是自由区的说明,不是「没有符合的世界」
 
 
 @pytest.fixture(scope="module")
@@ -37,17 +38,19 @@ def test_loading_first_then_cards(r, name):
     e, late = r[name]["early"], r[name]["late"]
     assert e["skel"] == 4 and e["busy"] and e["msg"] == "正在载入世界…" and e["cards"] == 0
     assert e["empty"] == "", "no 「没有符合的世界」 while the list is on its way"
-    assert late["skel"] == 0 and not late["busy"] and late["cards"] >= 1 and late["empty"] == ""
+    # 本地网页 / 桌面(10-24):只有自由区那一页 ——「本机」一栏的卡片下面,自由区还没有作品就写一句说明
+    assert late["skel"] == 0 and not late["busy"] and late["cards"] >= 1 and (late["empty"].startswith(FREE_EMPTY) if name != "web" else late["empty"] == "")
 
 
 def test_empty_list_says_empty_only_after_loading(r):
     assert r["empty"]["early"]["empty"] == "" and r["empty"]["early"]["skel"] == 4
-    assert r["empty"]["late"] == {"skel": 0, "busy": False, "msg": "", "cards": 0, "empty": "没有符合的世界"}
+    late = r["empty"]["late"]
+    assert {k: late[k] for k in ("skel", "busy", "msg", "cards")} == {"skel": 0, "busy": False, "msg": "", "cards": 0} and late["empty"].startswith(FREE_EMPTY)
 
 
 def test_engine_down_does_not_spin_forever(r):
     late = r["down"]["late"]
-    assert late["skel"] == 0 and not late["busy"] and late["empty"] == "没有符合的世界"
+    assert late["skel"] == 0 and not late["busy"] and late["empty"].startswith(FREE_EMPTY)
 
 
 def test_four_languages_and_souls_page(r):

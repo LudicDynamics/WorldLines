@@ -3,6 +3,14 @@
 `neonrp` (engine and terminal launcher) and `worldlines` (local web UI) share version numbers from 1.0.3.
 Full notes for each version are on [GitHub Releases](https://github.com/LudicDynamics/WorldLines/releases).
 
+## 1.0.4 (2026-10-24)
+
+- The local Hub shows the Free Zone only. Bundled worlds and your own templates are listed under "On this computer". The Default Zone opens on the online Hub.
+- Delete templates you made from the local Hub.
+- "Copy to my workbench" and "Create on this template" appear on Free Zone works and on worlds on this computer only.
+- Report a problem from the Hub footer.
+- Desktop app: the engine port comes from a pool (8792–8799), and only the app's own engine is used. Reload (⌘R) and Restart engine (⇧⌘R) in the menu; the engine restarts once by itself if it exits.
+
 ## 1.0.3 (2026-10-24)
 
 - Install from this repository or PyPI; worldlines.gg is online play. Installs update themselves at launch.

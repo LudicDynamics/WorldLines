@@ -35,6 +35,19 @@ Under it is **NeonRP**, a world-simulation engine built on one idea: *let the mo
 - **The world is files.** Plain JSON / Markdown you can read, diff and version; every turn is a commit you can roll back
   or branch from.
 
+## Vision
+
+- **Stories from simulation.** NeonRP writes stories out of the friction between a simulated world and character agents
+  with their own goals.
+- **Orchestration anyone can write.** How a turn runs, from tabletop role-play to murder mystery, is designed in plain
+  words and shared as content.
+- **Characters, worlds and play kept apart.** A character's assets and settings, a world's, and the rules of play are
+  separate pieces that combine freely.
+- **A fast engine under any front end.** The AI engine stays fast, robust and open-ended; put a front end on top and it
+  becomes a full game client.
+- **Open engine, hosted platform.** The engine is open source and runs with your own API key. [worldlines.gg](https://worldlines.gg)
+  is the platform for everyone else. The community builds on both.
+
 ## What's in this repository
 
 | Folder | What | License |
@@ -44,6 +57,19 @@ Under it is **NeonRP**, a world-simulation engine built on one idea: *let the mo
 | [`documents/`](./documents) | Specs (world · soul · template · contract · pack) and the source of [docs.worldlines.gg](https://docs.worldlines.gg) | CC BY 4.0 |
 | [`benchmarks/`](./benchmarks) | The test suites behind the engine's design decisions | code Apache-2.0 · data CC BY 4.0 |
 | `CLAUDE.md` · `AGENTS.md` · `.claude/` · `.agents/` | A card-crafting workbench for Claude Code / Codex (see below) | AGPL-3.0 |
+
+## This repository and the PyPI packages
+
+The PyPI packages are built from the same code and add components that are not open source
+([`neonrp/LICENSE-PROPRIETARY.md`](./neonrp/LICENSE-PROPRIETARY.md)):
+
+| | This repository | PyPI `neonrp` / `worldlines` |
+|---|---|---|
+| Turn | Resolve beat | Planning beat + resolve beat, and the bundled orchestrations |
+| Web UI | Workbench, test bench, play page | Also the Hub, the standard player and the phone chat page |
+| Bundled worlds | Greyoak House, Stoneford | The same; other official worlds come from worldlines.gg after sign-in |
+
+Everything in this repository runs on its own with your own API key.
 
 ## Quick start
 

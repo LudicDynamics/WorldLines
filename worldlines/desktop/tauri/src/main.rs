@@ -5,7 +5,12 @@
 //   1. 起引擎:装机 = 已安装 neonrp;开发机 = uv run neonrp web
 //      (cwd = WORLDLINES_ENGINE_REPO 指到的引擎签出)
 //   2. 等就绪:轮询 /api/v1/meta 到 200(裸 TCP HTTP,不引 reqwest)
-//   3. 窗口从内置 splash 跳到 http://127.0.0.1:8792/local;退出时杀引擎
+//   3. 窗口从内置 splash 跳到 http://127.0.0.1:<端口>/local;退出时杀引擎
+//
+// 端口池(10-24,niko):8792–8799 里挑一个空的(上次用的优先,网页的本地设置跟着端口走),
+// 全被占就让系统给一个;只认自己拉起的那个进程(别的引擎占着 8792 时不会跳过去)。
+// 菜单「重新加载」⌘R /「重启引擎」⇧⌘R;启动失败 / 引擎退出的画面上有「重启引擎」按钮
+// (链接 neonrp://restart,壳在 on_navigation 里拦下);引擎中途退出先自动重启一次。
 //
 // 解析顺序:WORLDLINES_ENGINE_REPO 显式指到引擎签出(开发机)→ 开发引擎
 // 优先;否则找已安装 neonrp,并用能力探针把旧引擎(< v0.3.0,`web --help`
@@ -22,19 +27,64 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use std::io::{BufRead, BufReader, Read, Write};
-use std::net::TcpStream;
+use std::net::{TcpListener, TcpStream};
 use std::path::PathBuf;
 use std::process::{Child, Command, Stdio};
+use std::sync::atomic::{AtomicBool, AtomicU16, AtomicU64, Ordering};
 use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
+use tauri::menu::{Menu, MenuItem, Submenu};
 use tauri::{Manager, RunEvent};
 
-const PORT: u16 = 8792;
+/// 端口池:先试上次用的,再按顺序试这几个,都被占就让系统给一个
+const PORT_POOL: std::ops::RangeInclusive<u16> = 8792..=8799;
 const APP_VERSION: &str = env!("CARGO_PKG_VERSION");
 /// uv tool install 冷缓存可达数分钟 —— 给足,progress 行让等待可读。
 const INSTALL_CAP: Duration = Duration::from_secs(600);
 
-struct Engine(Mutex<Option<Child>>);
+/// 引擎进程 + 它的端口 + 第几次启动(重启后旧的监视线程看到代数变了就退出)
+#[derive(Default)]
+struct Engine {
+    child: Mutex<Option<Child>>,
+    port: AtomicU16,
+    generation: AtomicU64,
+    resolved: Mutex<Option<Resolved>>,
+    /// 重启进行中(菜单连按 / 自动重启和按钮同时来时只跑一次)
+    restarting: AtomicBool,
+    /// 上一次自动重启的时间:两分钟里又退出就不再自动重启,给按钮
+    last_auto: Mutex<Option<Instant>>,
+}
+
+fn port_file(handle: &tauri::AppHandle) -> Option<PathBuf> {
+    handle.path().app_data_dir().ok().map(|d| d.join("engine-port"))
+}
+
+fn port_free(port: u16) -> bool {
+    TcpListener::bind(("127.0.0.1", port)).is_ok()
+}
+
+/// 挑端口:上次用的 → 池里第一个空的 → 系统给的。挑到就记下来。
+fn pick_port(handle: &tauri::AppHandle) -> u16 {
+    let last = port_file(handle)
+        .and_then(|f| std::fs::read_to_string(f).ok())
+        .and_then(|s| s.trim().parse::<u16>().ok());
+    let port = last
+        .into_iter()
+        .chain(PORT_POOL)
+        .find(|p| port_free(*p))
+        .or_else(|| {
+            TcpListener::bind(("127.0.0.1", 0))
+                .ok()
+                .and_then(|l| l.local_addr().ok())
+                .map(|a| a.port())
+        })
+        .unwrap_or(*PORT_POOL.start());
+    if let Some(f) = port_file(handle) {
+        let _ = std::fs::create_dir_all(f.parent().unwrap_or(&f));
+        let _ = std::fs::write(f, port.to_string());
+    }
+    port
+}
 
 // GUI 进程的 PATH 不含 homebrew/.local(双击启动时)— 显式找 uv
 fn find_uv() -> Option<PathBuf> {
@@ -199,12 +249,12 @@ fn engine_capable(bin: &PathBuf) -> bool {
         .unwrap_or(false)
 }
 
-fn engine_args(head: &[&str]) -> Vec<String> {
+fn engine_args(head: &[&str], port: u16) -> Vec<String> {
     let mut args: Vec<String> = head.iter().map(|s| s.to_string()).collect();
     for a in [
         "web",
         "--port",
-        &PORT.to_string(),
+        &port.to_string(),
         "--parent-pid",
         &std::process::id().to_string(),
         "--no-browser",
@@ -214,6 +264,7 @@ fn engine_args(head: &[&str]) -> Vec<String> {
     args
 }
 
+#[derive(Clone)]
 enum Resolved {
     /// 开发机:仓库根 + uv run
     Dev(PathBuf),
@@ -249,17 +300,17 @@ fn resolve_engine() -> Result<Resolved, ResolveFail> {
     }
 }
 
-fn spawn_resolved(r: &Resolved) -> std::io::Result<Child> {
+fn spawn_resolved(r: &Resolved, port: u16) -> std::io::Result<Child> {
     match r {
         Resolved::Dev(root) => Command::new(find_uv().unwrap_or_else(|| PathBuf::from("uv")))
-            .args(engine_args(&["run", "neonrp"]))
+            .args(engine_args(&["run", "neonrp"], port))
             .current_dir(root)
             .env("PYTHONUTF8", "1")
             .stdout(Stdio::null())
             .stderr(Stdio::piped())
             .spawn(),
         Resolved::Installed(bin) => Command::new(bin)
-            .args(engine_args(&[]))
+            .args(engine_args(&[], port))
             .env("PYTHONUTF8", "1")
             .stdout(Stdio::null())
             .stderr(Stdio::piped())
@@ -268,10 +319,10 @@ fn spawn_resolved(r: &Resolved) -> std::io::Result<Child> {
 }
 
 // 等 /api/v1/meta 200(裸 HTTP/1.1,避免为一个健康检查拖依赖)
-fn probe_ready() -> bool {
-    if let Ok(mut s) = TcpStream::connect(("127.0.0.1", PORT)) {
+fn probe_ready(port: u16) -> bool {
+    if let Ok(mut s) = TcpStream::connect(("127.0.0.1", port)) {
         let req = format!(
-            "GET /api/v1/meta HTTP/1.1\r\nHost: 127.0.0.1:{PORT}\r\nConnection: close\r\n\r\n"
+            "GET /api/v1/meta HTTP/1.1\r\nHost: 127.0.0.1:{port}\r\nConnection: close\r\n\r\n"
         );
         if s.write_all(req.as_bytes()).is_ok() {
             let mut buf = [0u8; 64];
@@ -429,7 +480,7 @@ fn bootstrap_install(progress: &mut Progress) -> Result<PathBuf, String> {
     // 步骤 2 — uv tool install --force worldlines==<壳版本>(壳↔引擎同版)。
     // 钉装失败(如该版本尚未上 PyPI)回退不钉;能力探针最终把关。
     progress.set_header(&format!(
-        "首次启动:正在安装 WorldLines 引擎 v{APP_VERSION}(约 1-3 分钟,需要联网)…"
+        "首次启动:正在安装 NeonRP 引擎 v{APP_VERSION}(约 1-3 分钟,需要联网)…"
     ));
     let pinned = format!("worldlines=={APP_VERSION}");
     let pinned_result = run_streaming(
@@ -438,7 +489,7 @@ fn bootstrap_install(progress: &mut Progress) -> Result<PathBuf, String> {
         INSTALL_CAP,
     );
     if pinned_result.is_err() {
-        progress.set_header("钉版安装失败,改装最新版 WorldLines 引擎…");
+        progress.set_header("钉版安装失败,改装最新版 NeonRP 引擎…");
         run_streaming(
             Command::new(&uv).args(["tool", "install", "--force", "worldlines"]),
             progress,
@@ -454,12 +505,53 @@ fn bootstrap_install(progress: &mut Progress) -> Result<PathBuf, String> {
     Ok(bin)
 }
 
-/// spawn + 就绪监控:stderr 收集,进程死亡快速失败,超时展示原因。
-fn run_engine(win: tauri::WebviewWindow, handle: tauri::AppHandle, resolved: Resolved) {
-    let mut child = match spawn_resolved(&resolved) {
+/// 引擎画面上的浮层(启动失败 / 退出 / 重启中):盖住当前页,带「重启引擎」「重新加载」两个按钮
+/// (链接 neonrp://…,壳在 on_navigation 里拦下)。buttons = false 只显示文字(重启进行中)。
+fn overlay(win: &tauri::WebviewWindow, text: &str, buttons: bool) {
+    let btns = if buttons {
+        "<div style=\"margin-top:22px;display:flex;gap:10px;font:600 13px -apple-system,sans-serif\">\
+<a href=\"neonrp://restart\" style=\"padding:9px 16px;border-radius:9px;background:#34E879;color:#0A0A0A;text-decoration:none\">重启引擎</a>\
+<a href=\"neonrp://reload\" style=\"padding:9px 16px;border-radius:9px;border:1px solid #3A3A40;color:#F5F5F7;text-decoration:none\">重新加载</a></div>"
+    } else {
+        ""
+    };
+    let _ = win.eval(&format!(
+        "(function(){{var d=document.getElementById('nrp-ov');if(!d){{d=document.createElement('div');d.id='nrp-ov';\
+d.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(10,10,12,.96);color:#FFB4C4;font:13px/1.7 ui-monospace,monospace;padding:44px;overflow:auto';\
+document.body.appendChild(d);}}var t=document.createElement('div');t.style.whiteSpace='pre-wrap';t.textContent='{}';d.replaceChildren(t);d.insertAdjacentHTML('beforeend','{}');}})()",
+        js_escape(text),
+        js_escape(btns)
+    ));
+}
+
+fn err_tail(err_buf: &Arc<Mutex<Vec<String>>>, n: usize) -> String {
+    let buf = err_buf.lock().unwrap();
+    let start = buf.len().saturating_sub(n);
+    buf[start..].join("\n")
+}
+
+/// 自己拉起的那个引擎退出了没有(Some = 已退出;None 且没有进程 = 已被关窗 / 重启收走)
+fn child_exit(handle: &tauri::AppHandle) -> Option<Option<String>> {
+    let state = handle.state::<Engine>();
+    let mut guard = state.child.lock().unwrap();
+    match guard.as_mut().map(|c| c.try_wait()) {
+        Some(Ok(Some(status))) => Some(Some(format!("{status}"))),
+        None => Some(None),
+        _ => None,
+    }
+}
+
+/// 挑端口 → spawn → 等就绪 → 跳到 back(重启时回到原来那一页;None = /local)→ 接着盯进程。
+/// 就绪 = 自己拉起的进程还活着,且它的端口上 /api/v1/meta 是 200(端口是空的才挑,别人的引擎接不进来)。
+fn run_engine(win: tauri::WebviewWindow, handle: tauri::AppHandle, resolved: Resolved, back: Option<String>) {
+    let state = handle.state::<Engine>();
+    *state.resolved.lock().unwrap() = Some(resolved.clone());
+    let port = pick_port(&handle);
+    state.port.store(port, Ordering::SeqCst);
+    let mut child = match spawn_resolved(&resolved, port) {
         Ok(c) => c,
         Err(e) => {
-            show_msg_text(&win, &format!("引擎启动失败:{e}"));
+            overlay(&win, &format!("引擎启动失败:{e}"), true);
             return;
         }
     };
@@ -467,37 +559,29 @@ fn run_engine(win: tauri::WebviewWindow, handle: tauri::AppHandle, resolved: Res
     if let Some(stderr) = child.stderr.take() {
         pipe_lines(stderr, Arc::clone(&err_buf));
     }
-    *handle.state::<Engine>().0.lock().unwrap() = Some(child);
+    *state.child.lock().unwrap() = Some(child);
+    let gen = state.generation.fetch_add(1, Ordering::SeqCst) + 1;
 
     let t0 = Instant::now();
     let timeout = Duration::from_secs(30);
     loop {
-        if probe_ready() {
-            let _ = win.eval(&format!(
-                "window.location.replace('http://127.0.0.1:{PORT}/local')"
-            ));
-            watch_engine_after_ready(win, handle, err_buf);
+        let exited = child_exit(&handle);
+        if let Some(status) = exited {
+            let status = status.unwrap_or_else(|| "已停止".into());
+            overlay(&win, &format!("引擎启动失败:进程已退出({status})\n{}", err_tail(&err_buf, 12).trim()), true);
             return;
         }
-        // 进程已死就立刻失败,别陪跑满 30s。
-        let exited = {
-            let state = handle.state::<Engine>();
-            let mut guard = state.0.lock().unwrap();
-            match guard.as_mut().map(|c| c.try_wait()) {
-                Some(Ok(Some(status))) => Some(format!("{status}")),
-                _ => None,
-            }
-        };
-        let fail = |reason: String| {
-            let tail = err_buf.lock().unwrap().join("\n");
-            show_msg_text(&win, &format!("引擎启动失败:{reason}\n{}", tail.trim()));
-        };
-        if let Some(status) = exited {
-            fail(format!("进程已退出({status})"));
+        if probe_ready(port) {
+            let path = back.clone().unwrap_or_else(|| "/local".into());
+            let _ = win.eval(&format!(
+                "window.location.replace('http://127.0.0.1:{port}{}')",
+                js_escape(&path)
+            ));
+            watch_engine_after_ready(win, handle, err_buf, gen);
             return;
         }
         if t0.elapsed() >= timeout {
-            fail("30s 未就绪".into());
+            overlay(&win, &format!("引擎启动失败:30 秒没有就绪(端口 {port})\n{}", err_tail(&err_buf, 12).trim()), true);
             return;
         }
         std::thread::sleep(Duration::from_millis(250));
@@ -506,65 +590,106 @@ fn run_engine(win: tauri::WebviewWindow, handle: tauri::AppHandle, resolved: Res
 
 /// 跳转进产品页之后继续盯引擎进程:此前引擎死了页面只是静默变砖
 /// (所有 fetch 失败、面板卡"读取中"),用户以为"没自动开引擎"。
-/// 死了就往当前页面注入全屏浮层,把退出码 + stderr 尾巴给出来。
+/// 退出了先自动重启一次(两分钟里又退出就不再自动重启),再退就给浮层 + 「重启引擎」按钮。
 fn watch_engine_after_ready(
     win: tauri::WebviewWindow,
     handle: tauri::AppHandle,
     err_buf: Arc<Mutex<Vec<String>>>,
+    gen: u64,
 ) {
     loop {
         std::thread::sleep(Duration::from_secs(1));
-        let exited = {
-            let state = handle.state::<Engine>();
-            let mut guard = state.0.lock().unwrap();
-            match guard.as_mut().map(|c| c.try_wait()) {
-                Some(Ok(Some(status))) => Some(format!("{status}")),
-                None => return, // 已被关窗清理,正常退出
-                _ => None,
-            }
+        if handle.state::<Engine>().generation.load(Ordering::SeqCst) != gen {
+            return; // 已经重启过,新的那一代自己有人盯
+        }
+        let status = match child_exit(&handle) {
+            None => continue,
+            Some(None) => return, // 已被关窗清理,正常退出
+            Some(Some(status)) => status,
         };
-        if let Some(status) = exited {
-            let tail: String = {
-                let buf = err_buf.lock().unwrap();
-                buf.iter()
-                    .rev()
-                    .take(12)
-                    .cloned()
-                    .collect::<Vec<_>>()
-                    .into_iter()
-                    .rev()
-                    .collect::<Vec<_>>()
-                    .join("\n")
-            };
-            let msg = format!(
-                "引擎进程已退出({status})\n\n{}\n\n请关闭本窗口重开;反复出现请在终端跑 worldlines 看完整日志。",
-                tail
-            );
-            let _ = win.eval(&format!(
-                "(function(){{var d=document.createElement('div');d.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(10,10,12,.96);color:#FFB4C4;font:13px/1.7 ui-monospace,monospace;padding:44px;white-space:pre-wrap;overflow:auto';d.textContent='{}';document.body.appendChild(d);}})()",
-                js_escape(&msg)
-            ));
+        let auto = {
+            let state = handle.state::<Engine>();
+            let mut last = state.last_auto.lock().unwrap();
+            let ok = last.map_or(true, |t| t.elapsed() > Duration::from_secs(120));
+            if ok {
+                *last = Some(Instant::now());
+            }
+            ok
+        };
+        if auto {
+            restart(win, handle, &format!("引擎意外退出({status}),正在自动重启…"));
             return;
         }
+        let msg = format!(
+            "引擎进程已退出({status})\n\n{}\n\n点「重启引擎」再试一次;反复出现请在终端跑 worldlines 看完整日志。",
+            err_tail(&err_buf, 12)
+        );
+        overlay(&win, &msg, true);
+        return;
+    }
+}
+
+/// 重启引擎:收走旧进程,重新挑端口拉起,回到原来那一页(只认 127.0.0.1 上的页面;splash 上就去 /local)。
+/// 引擎还没解析过(首次安装失败)就整套重来。
+fn restart(win: tauri::WebviewWindow, handle: tauri::AppHandle, note: &str) {
+    let state = handle.state::<Engine>();
+    if state.restarting.swap(true, Ordering::SeqCst) {
+        return;
+    }
+    overlay(&win, note, false);
+    state.generation.fetch_add(1, Ordering::SeqCst);
+    if let Some(mut child) = state.child.lock().unwrap().take() {
+        let _ = child.kill();
+        let _ = child.wait();
+    }
+    let back = win.url().ok().and_then(|u| {
+        (u.host_str() == Some("127.0.0.1")).then(|| {
+            let mut s = u.path().to_string();
+            if let Some(q) = u.query() {
+                s.push('?');
+                s.push_str(q);
+            }
+            if let Some(f) = u.fragment() {
+                s.push('#');
+                s.push_str(f);
+            }
+            s
+        })
+    });
+    let resolved = state.resolved.lock().unwrap().clone();
+    state.restarting.store(false, Ordering::SeqCst);
+    match resolved {
+        Some(r) => run_engine(win, handle, r, back),
+        None => boot(win, handle),
+    }
+}
+
+/// 重新加载:引擎还活着就刷新当前页;已经退出就等于重启引擎
+fn reload(win: tauri::WebviewWindow, handle: tauri::AppHandle) {
+    match child_exit(&handle) {
+        None => {
+            let _ = win.eval("window.location.reload()");
+        }
+        Some(_) => restart(win, handle, "引擎没有在运行,正在重启…"),
     }
 }
 
 /// 完整启动流:解析 → (必要时 S1 引导安装) → spawn+监控。全程后台线程。
 fn boot(win: tauri::WebviewWindow, handle: tauri::AppHandle) {
     match resolve_engine() {
-        Ok(resolved) => run_engine(win, handle, resolved),
+        Ok(resolved) => run_engine(win, handle, resolved, None),
         Err(fail) => {
             let mut progress = Progress::new(
                 win.clone(),
                 match fail {
-                    ResolveFail::TooOld => "检测到旧版引擎,正在升级 WorldLines 引擎…",
-                    ResolveFail::NotInstalled => "首次启动:正在安装 WorldLines 引擎…",
+                    ResolveFail::TooOld => "检测到旧版引擎,正在升级 NeonRP 引擎…",
+                    ResolveFail::NotInstalled => "首次启动:正在安装 NeonRP 引擎…",
                 },
             );
             match bootstrap_install(&mut progress) {
                 Ok(bin) => {
                     progress.set_header("引擎就绪,正在启动…");
-                    run_engine(win, handle, Resolved::Installed(bin));
+                    run_engine(win, handle, Resolved::Installed(bin), None);
                 }
                 Err(e) => {
                     let manual = if cfg!(windows) {
@@ -575,7 +700,7 @@ fn boot(win: tauri::WebviewWindow, handle: tauri::AppHandle) {
                     show_msg_html(
                         &win,
                         &format!(
-                            "{}<br><br>可手动安装后重开本应用:<br><code style=\"color:#34E879\">{}</code>",
+                            "{}<br><br>可手动安装后点重试:<br><code style=\"color:#34E879\">{}</code><br><br><a href=\"neonrp://restart\" style=\"color:#34E879\">重试</a>",
                             e.replace('<', "&lt;"),
                             manual
                         ),
@@ -586,11 +711,57 @@ fn boot(win: tauri::WebviewWindow, handle: tauri::AppHandle) {
     }
 }
 
+/// 在后台线程里对主窗口做 f(菜单 / 按钮都从 UI 线程来,不能在那里等引擎)
+fn on_main(handle: &tauri::AppHandle, f: fn(tauri::WebviewWindow, tauri::AppHandle)) {
+    if let Some(win) = handle.get_webview_window("main") {
+        let h = handle.clone();
+        std::thread::spawn(move || f(win, h));
+    }
+}
+
+fn do_restart(win: tauri::WebviewWindow, handle: tauri::AppHandle) {
+    restart(win, handle, "正在重启引擎…");
+}
+
 fn main() {
     tauri::Builder::default()
-        .manage(Engine(Mutex::new(None)))
+        .manage(Engine::default())
         .setup(|app| {
-            let win = app.get_webview_window("main").expect("main window");
+            // 默认菜单(编辑 / 窗口……,复制粘贴靠它)后面加一栏「引擎」
+            let menu = Menu::default(app.handle())?;
+            let reload_item = MenuItem::with_id(app, "reload", "重新加载", true, Some("CmdOrCtrl+R"))?;
+            let restart_item = MenuItem::with_id(app, "restart", "重启引擎", true, Some("CmdOrCtrl+Shift+R"))?;
+            menu.append(&Submenu::with_items(app, "引擎", true, &[&reload_item, &restart_item])?)?;
+            app.set_menu(menu)?;
+            app.on_menu_event(|app, event| match event.id().as_ref() {
+                "reload" => on_main(app, reload),
+                "restart" => on_main(app, do_restart),
+                _ => {}
+            });
+
+            // 主窗口在这里建(tauri.conf.json 里 create: false),好挂 on_navigation:neonrp://… 是壳的按钮
+            let cfg = app
+                .config()
+                .app
+                .windows
+                .iter()
+                .find(|w| w.label == "main")
+                .expect("main window config")
+                .clone();
+            let nav = app.handle().clone();
+            let win = tauri::WebviewWindowBuilder::from_config(app.handle(), &cfg)?
+                .on_navigation(move |url| {
+                    if url.scheme() != "neonrp" {
+                        return true;
+                    }
+                    match url.host_str() {
+                        Some("restart") => on_main(&nav, do_restart),
+                        Some("reload") => on_main(&nav, reload),
+                        _ => {}
+                    }
+                    false
+                })
+                .build()?;
             let handle = app.handle().clone();
             std::thread::spawn(move || boot(win, handle));
             Ok(())
@@ -599,7 +770,7 @@ fn main() {
         .expect("error building tauri app")
         .run(|app, event| {
             if let RunEvent::Exit = event {
-                if let Some(mut child) = app.state::<Engine>().0.lock().unwrap().take() {
+                if let Some(mut child) = app.state::<Engine>().child.lock().unwrap().take() {
                     let _ = child.kill();
                 }
             }

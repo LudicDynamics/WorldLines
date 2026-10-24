@@ -1,6 +1,6 @@
 [project]
 name = "neonrp"
-version = "1.0.3"
+version = "1.0.4"
 description = "Agentic engine for AI role-playing — agents as a game"
 authors = [
     {name = "Ludic Dynamics", email = "info@worldlines.gg"},
