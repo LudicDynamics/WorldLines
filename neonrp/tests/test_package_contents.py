@@ -2,7 +2,10 @@
 prompts, planning), no worldlines/ — and neither package carries the worlds whose rights are not cleared."""
 from __future__ import annotations
 
-import tomllib
+try:
+    import tomllib
+except ModuleNotFoundError:  # Python 3.10
+    import tomli as tomllib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]

@@ -205,7 +205,9 @@ class TestQuickResume:
         app = self._app(saves)
         with patch("neonrp.worlds.list_saved_games", return_value=saves), patch(
             "neonrp.cli.read_worldlines_last_preset", return_value=None
-        ), patch("neonrp.presets.default_model_ref", return_value="deepseek"):
+        ), patch("neonrp.presets.default_model_ref", return_value="deepseek"), patch(
+            "neonrp.presets.preset_ready", return_value=True
+        ):
             app._quick_resume()
         assert app.launch_selection.preset_id == "deepseek"
 

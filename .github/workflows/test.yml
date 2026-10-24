@@ -17,6 +17,8 @@ concurrency:
 jobs:
   engine:
     runs-on: ${{ matrix.os }}
+    # Windows runs but does not fail the check yet: timing, path-separator and BOM assumptions in some tests.
+    continue-on-error: ${{ matrix.os == 'windows-latest' }}
     strategy:
       fail-fast: false
       matrix:
