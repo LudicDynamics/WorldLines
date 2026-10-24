@@ -7,7 +7,7 @@
 //   2. 等就绪:轮询 /api/v1/meta 到 200(裸 TCP HTTP,不引 reqwest)
 //   3. 窗口从内置 splash 跳到 http://127.0.0.1:<端口>/local;退出时杀引擎
 //
-// 端口池(10-24,niko):8792–8799 里挑一个空的(上次用的优先,网页的本地设置跟着端口走),
+// 端口池(10-24):8792–8799 里挑一个空的(上次用的优先,网页的本地设置跟着端口走),
 // 全被占就让系统给一个;只认自己拉起的那个进程(别的引擎占着 8792 时不会跳过去)。
 // 菜单「重新加载」⌘R /「重启引擎」⇧⌘R;启动失败 / 引擎退出的画面上有「重启引擎」按钮
 // (链接 neonrp://restart,壳在 on_navigation 里拦下);引擎中途退出先自动重启一次。
@@ -84,6 +84,19 @@ fn pick_port(handle: &tauri::AppHandle) -> u16 {
         let _ = std::fs::write(f, port.to_string());
     }
     port
+}
+
+// Windows:壳是 GUI 子系统,直接起控制台程序(neonrp / uv / powershell)
+// 会给每个子进程弹一个黑窗 —— 一律带 CREATE_NO_WINDOW。
+fn cmd<S: AsRef<std::ffi::OsStr>>(program: S) -> Command {
+    #[allow(unused_mut)]
+    let mut c = Command::new(program);
+    #[cfg(windows)]
+    {
+        use std::os::windows::process::CommandExt;
+        c.creation_flags(0x0800_0000);
+    }
+    c
 }
 
 // GUI 进程的 PATH 不含 homebrew/.local(双击启动时)— 显式找 uv
@@ -232,7 +245,7 @@ fn engine_repo() -> Option<PathBuf> {
 // --version 选项(新旧皆无),所以直接探我们依赖的能力本身:`web --help`
 // 里有没有 --no-browser。旧引擎(≤0.2.x)没有 → 会因未知选项瞬退。
 fn engine_capable(bin: &PathBuf) -> bool {
-    Command::new(bin)
+    cmd(bin)
         .args(["web", "--help"])
         // Windows 管道下 Python stdio 默认本地代码页,帮助文案里的非 ASCII
         // 字符会崩掉命令,探针误判引擎太旧 —— 强制 UTF-8(老引擎也吃这个)。
@@ -302,14 +315,14 @@ fn resolve_engine() -> Result<Resolved, ResolveFail> {
 
 fn spawn_resolved(r: &Resolved, port: u16) -> std::io::Result<Child> {
     match r {
-        Resolved::Dev(root) => Command::new(find_uv().unwrap_or_else(|| PathBuf::from("uv")))
+        Resolved::Dev(root) => cmd(find_uv().unwrap_or_else(|| PathBuf::from("uv")))
             .args(engine_args(&["run", "neonrp"], port))
             .current_dir(root)
             .env("PYTHONUTF8", "1")
             .stdout(Stdio::null())
             .stderr(Stdio::piped())
             .spawn(),
-        Resolved::Installed(bin) => Command::new(bin)
+        Resolved::Installed(bin) => cmd(bin)
             .args(engine_args(&[], port))
             .env("PYTHONUTF8", "1")
             .stdout(Stdio::null())
@@ -452,7 +465,7 @@ fn bootstrap_install(progress: &mut Progress) -> Result<PathBuf, String> {
             progress.set_header("首次启动:正在安装 uv(约 30 秒,需要联网)…");
             if cfg!(windows) {
                 run_streaming(
-                    Command::new("powershell").args([
+                    cmd("powershell").args([
                         "-ExecutionPolicy",
                         "ByPass",
                         "-NoProfile",
@@ -464,7 +477,7 @@ fn bootstrap_install(progress: &mut Progress) -> Result<PathBuf, String> {
                 )
             } else {
                 run_streaming(
-                    Command::new("sh").args([
+                    cmd("sh").args([
                         "-c",
                         "curl -LsSf https://astral.sh/uv/install.sh | sh",
                     ]),
@@ -484,14 +497,14 @@ fn bootstrap_install(progress: &mut Progress) -> Result<PathBuf, String> {
     ));
     let pinned = format!("worldlines=={APP_VERSION}");
     let pinned_result = run_streaming(
-        Command::new(&uv).args(["tool", "install", "--force", &pinned]),
+        cmd(&uv).args(["tool", "install", "--force", &pinned]),
         progress,
         INSTALL_CAP,
     );
     if pinned_result.is_err() {
         progress.set_header("钉版安装失败,改装最新版 NeonRP 引擎…");
         run_streaming(
-            Command::new(&uv).args(["tool", "install", "--force", "worldlines"]),
+            cmd(&uv).args(["tool", "install", "--force", "worldlines"]),
             progress,
             INSTALL_CAP,
         )

@@ -31,7 +31,7 @@ description: "已经发了什么、正在做什么、接下来想做什么。不
 - 网页上也能撤销、回到某一回合
 - 文档的日语和韩语版本
 
-桌面安装包:仓库里有桌面壳的代码,但还没有发布。本地版请用 `pip install worldlines` 安装。
+桌面版:macOS(Apple 芯片)有 [NeonRP 桌面 app](https://worldlines.gg/downloads/NeonRP_aarch64.dmg),第一次启动时自己装好引擎;没有公证,首次打开要在「系统设置 › 隐私与安全性」点「仍要打开」。Windows 和 Intel Mac 还没有安装包,请用 `pip install worldlines`。
 
 <!-- section: protocol -->
 ## 开放规格

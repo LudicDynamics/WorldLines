@@ -31,7 +31,7 @@ The full record is in the [changelog](/docs/changelog). The main points:
 - Undo and going back to a turn on the web, too
 - Japanese and Korean versions of these docs
 
-Desktop installers: the repository has the desktop shell's code, but it has not been released. Install the local edition with `pip install worldlines`.
+Desktop app: macOS on Apple silicon has the [NeonRP desktop app](https://worldlines.gg/downloads/NeonRP_aarch64.dmg), which installs the engine on first launch. It is not notarized: on first open, go to System Settings › Privacy & Security and click "Open Anyway". There is no installer yet for Windows or Intel Macs; use `pip install worldlines`.
 
 <!-- section: protocol -->
 ## Open specs

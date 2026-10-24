@@ -62,7 +62,7 @@ packages = ["src/neonrp"]
 # DEV-ONLY assets — never ship in the pip package. webui/devtools/ holds the
 # local orchestration debug overlay (web.py injects it only when present), so
 # a pip-installed `neonrp web` has no debug surface.
-# webui/spa/:engine-only 瘦 wheel(形态 B,niko 2026-09 两仓 tag 彻底分开)——
+# webui/spa/:engine-only 瘦 wheel(形态 B,2026-09 两仓 tag 彻底分开)——
 # 引擎 wheel **不再内嵌** SPA。SPA 由开源壳仓(WorldLines)独立发布/伺服,引擎
 # 运行时经 NEONRP_SPA_DIR 找(_spa_root());不设则 API-only。release.yml 的
 # wheel 守门相应翻成「不得内嵌」。

@@ -31,7 +31,7 @@ description: "이미 낸 것, 지금 만드는 것, 다음에 하고 싶은 것.
 - 웹에서도 되돌리기, 특정 턴으로 돌아가기
 - 이 문서의 일본어판과 한국어판
 
-데스크톱 설치 파일: 저장소에 데스크톱 셸 코드는 있지만 아직 출시하지 않았습니다. 로컬 버전은 `pip install worldlines`로 설치하세요.
+데스크톱 앱: macOS(Apple 실리콘)용 [NeonRP 데스크톱 앱](https://worldlines.gg/downloads/NeonRP_aarch64.dmg)이 있으며, 처음 실행할 때 엔진을 자동으로 설치합니다. 공증(notarize)이 되어 있지 않아 처음 열 때 「시스템 설정 › 개인정보 보호 및 보안」에서 「확인 없이 열기」를 눌러야 합니다. Windows와 Intel Mac용 설치 파일은 아직 없으니 `pip install worldlines`를 사용하세요.
 
 <!-- section: protocol -->
 ## 공개 사양

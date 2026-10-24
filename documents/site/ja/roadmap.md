@@ -31,7 +31,7 @@ description: "出したもの、いま作っているもの、次にやりたい
 - Web でも元に戻す・特定のターンに戻るをできるようにする
 - このドキュメントの日本語版と韓国語版
 
-デスクトップ版のインストーラー:リポジトリにデスクトップシェルのコードはありますが、まだリリースしていません。ローカル版は `pip install worldlines` でインストールしてください。
+デスクトップ版:macOS(Apple シリコン)には [NeonRP デスクトップアプリ](https://worldlines.gg/downloads/NeonRP_aarch64.dmg)があり、初回起動時にエンジンを自動で入れます。公証(notarize)はまだなので、初めて開くときは「システム設定 › プライバシーとセキュリティ」で「このまま開く」を選んでください。Windows と Intel Mac のインストーラーはまだありません。`pip install worldlines` をお使いください。
 
 <!-- section: protocol -->
 ## 公開仕様
