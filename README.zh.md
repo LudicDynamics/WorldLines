@@ -44,7 +44,7 @@
 | 目录 | 是什么 | 许可 |
 |---|---|---|
 | [`neonrp/`](./neonrp) | 引擎:回合流程、schema、玩法包(`rpg`、`pct`、`werewolf`、`monopoly`、`economy`、`factions` …)、模板、命令行、终端界面、SDK | Apache-2.0 |
-| [`worldlines/`](./worldlines) | 产品:网页界面(3.0)、启动器包、模板、示例世界、教程;桌面壳(还没有发布) | AGPL-3.0 |
+| [`worldlines/`](./worldlines) | 产品:网页界面(3.0)、启动器包、模板、示例世界、教程;NeonRP 桌面版(macOS) | AGPL-3.0 |
 | [`documents/`](./documents) | 规格(world · soul · template · contract · pack)与 [docs.worldlines.gg](https://docs.worldlines.gg) 的正文 | CC BY 4.0 |
 | [`benchmarks/`](./benchmarks) | 引擎每个设计决定背后的测试套件 | 代码 Apache-2.0 · 数据 CC BY 4.0 |
 | `CLAUDE.md` · `AGENTS.md` · `.claude/` · `.agents/` | 给 Claude Code / Codex 用的捏卡工作台(见下) | AGPL-3.0 |
@@ -68,6 +68,8 @@ pip install worldlines          # 或:uv tool install worldlines —— 产品�
 worldlines                      # 本地网页 → http://127.0.0.1:8787/local
 neonrp                          # 终端:「Welcome to WorldLines」启动器
 ```
+
+**桌面版(macOS,Apple 芯片):**[下载 NeonRP](https://worldlines.gg/downloads/NeonRP_aarch64.dmg)。没有公证:第一次打开时到「系统设置 › 隐私与安全性」点「仍要打开」。第一次启动时 app 会自己装好引擎。
 
 本地版从这里安装(PyPI 包,这个仓库就是源码);[worldlines.gg](https://worldlines.gg) 是免安装的在线游玩。两个命令启动时都会检查新版并自动更新(想先问一声:进游戏后 `/update mode prompt`)。
 更新说明:[`neonrp/CHANGELOG.md`](./neonrp/CHANGELOG.md) · [GitHub Releases](https://github.com/LudicDynamics/WorldLines/releases)。一行安装器仍可用:

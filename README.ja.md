@@ -50,7 +50,7 @@
 | フォルダ | 内容 | ライセンス |
 |---|---|---|
 | [`neonrp/`](./neonrp) | エンジン:ターンループ、スキーマ、パック(`rpg`、`pct`、`werewolf`、`monopoly`、`economy`、`factions` …)、テンプレート、CLI、ターミナル UI、SDK | Apache-2.0 |
-| [`worldlines/`](./worldlines) | プロダクト:Web UI(3.0)、ランチャーパッケージ、テンプレート、サンプルワールド、チュートリアル。デスクトップシェル(未リリース) | AGPL-3.0 |
+| [`worldlines/`](./worldlines) | プロダクト:Web UI(3.0)、ランチャーパッケージ、テンプレート、サンプルワールド、チュートリアル。NeonRP デスクトップアプリ(macOS) | AGPL-3.0 |
 | [`documents/`](./documents) | 仕様(world · soul · template · contract · pack)と [docs.worldlines.gg](https://docs.worldlines.gg) のソース | CC BY 4.0 |
 | [`benchmarks/`](./benchmarks) | エンジンの設計判断を裏づけるテストスイート | コード Apache-2.0 · データ CC BY 4.0 |
 | `CLAUDE.md` · `AGENTS.md` · `.claude/` · `.agents/` | Claude Code / Codex 向けのキャラクター・ワールド制作ワークベンチ(後述) | AGPL-3.0 |
@@ -74,6 +74,8 @@ pip install worldlines          # または: uv tool install worldlines — プ�
 worldlines                      # ローカル Web UI → http://127.0.0.1:8787/local
 neonrp                          # ターミナル:「Welcome to WorldLines」ランチャー
 ```
+
+**デスクトップアプリ(macOS、Apple シリコン):**[NeonRP をダウンロード](https://worldlines.gg/downloads/NeonRP_aarch64.dmg)。公証されていないため、初回は「システム設定 › プライバシーとセキュリティ」で「このまま開く」を押してください。初回起動時にアプリがエンジンをインストールします。
 
 ローカル版はここから入れます(PyPI パッケージ。このリポジトリがそのソースです)。[worldlines.gg](https://worldlines.gg) はインストール不要のオンラインプレイです。
 どちらのコマンドも起動時に新しいリリースを確認して自動更新します(先に確認したい場合はゲーム内で `/update mode prompt`)。

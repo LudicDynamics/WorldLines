@@ -53,7 +53,7 @@ Under it is **NeonRP**, a world-simulation engine built on one idea: *let the mo
 | Folder | What | License |
 |---|---|---|
 | [`neonrp/`](./neonrp) | The engine: turn loop, schema, packs (`rpg`, `pct`, `werewolf`, `monopoly`, `economy`, `factions` …), templates, CLI, terminal UI, SDK | Apache-2.0 |
-| [`worldlines/`](./worldlines) | The product: web UI (3.0), launcher package, templates, example worlds, tutorials; a desktop shell (not released yet) | AGPL-3.0 |
+| [`worldlines/`](./worldlines) | The product: web UI (3.0), launcher package, templates, example worlds, tutorials; the NeonRP desktop app (macOS) | AGPL-3.0 |
 | [`documents/`](./documents) | Specs (world · soul · template · contract · pack) and the source of [docs.worldlines.gg](https://docs.worldlines.gg) | CC BY 4.0 |
 | [`benchmarks/`](./benchmarks) | The test suites behind the engine's design decisions | code Apache-2.0 · data CC BY 4.0 |
 | `CLAUDE.md` · `AGENTS.md` · `.claude/` · `.agents/` | A card-crafting workbench for Claude Code / Codex (see below) | AGPL-3.0 |
@@ -78,6 +78,8 @@ pip install worldlines          # or: uv tool install worldlines — the product
 worldlines                      # local web UI → http://127.0.0.1:8787/local
 neonrp                          # terminal: the "Welcome to WorldLines" launcher
 ```
+
+**Desktop app (macOS, Apple silicon):** [download NeonRP](https://worldlines.gg/downloads/NeonRP_aarch64.dmg). Not notarized: on first launch, open System Settings › Privacy & Security and click "Open Anyway". The app installs the engine on first launch.
 
 The local edition installs from here (PyPI packages; this repository is the source). [worldlines.gg](https://worldlines.gg)
 is online play, nothing to install. Both commands check for a newer release at launch and update themselves
