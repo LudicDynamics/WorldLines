@@ -12,6 +12,7 @@ import ast
 import difflib
 import json
 import re
+import sys
 from pathlib import Path
 
 import pytest
@@ -134,10 +135,11 @@ def _cjk_string_lines() -> dict[str, int]:
             if isinstance(node, ast.Constant) and isinstance(node.value, str) and id(node) not in doc_ids and cjk.search(node.value):
                 lines.update(range(node.lineno, (node.end_lineno or node.lineno) + 1))
         if lines:
-            out[str(rel)] = len(lines)
+            out[rel.as_posix()] = len(lines)
     return out
 
 
+@pytest.mark.skipif(sys.version_info < (3, 12), reason="the cap is counted with the 3.12 parser (f-strings split differently before 3.12)")
 def test_cjk_prompt_text_in_engine_code_only_goes_down():
     cap = json.loads((Path(__file__).parent / "data" / "prompt_cjk_cap.json").read_text(encoding="utf-8"))
     now = _cjk_string_lines()

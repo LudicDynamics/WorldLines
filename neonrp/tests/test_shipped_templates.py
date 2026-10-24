@@ -111,7 +111,10 @@ def test_lint_forkable(store, tmp_path):
 
 def test_open_source_export_carries_only_the_shipped_templates():
     import sys
-    import tomllib
+    try:
+        import tomllib
+    except ModuleNotFoundError:  # Python 3.10
+        import tomli as tomllib
 
     man_p = ENGINE_ROOT / "release" / "manifest.toml"
     if not man_p.is_file():
