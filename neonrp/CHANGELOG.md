@@ -3,6 +3,13 @@
 `neonrp` (engine and terminal launcher) and `worldlines` (local web UI) share version numbers from 1.0.3.
 Full notes for each version are on [GitHub Releases](https://github.com/LudicDynamics/WorldLines/releases).
 
+## 1.0.5 (2026-10-25)
+
+- The workbench interface is in Chinese, English, Japanese and Korean. Switching in Settings changes the interface at once; the narration language applies from the next run. The workbench and the local Hub share one language setting.
+- The workbench carries on with your newest save when it opens, instead of starting a new run on every visit. "Cannot reach the engine" no longer appears when a world's saves are full.
+- The local edition has no save limit, signed in or not.
+- Desktop app on Windows: no console windows when the engine starts. Windows installer.
+
 ## 1.0.4 (2026-10-24)
 
 - The local Hub shows the Free Zone only. Bundled worlds and your own templates are listed under "On this computer". The Default Zone opens on the online Hub.

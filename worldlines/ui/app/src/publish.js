@@ -3,7 +3,7 @@
    作品编号(ref)· 状态 · 驳回 / 下架理由;没登录 = 点一下用浏览器登录(POST /api/v1/local/account/login)。之后可以撤下 / 申请进默认区。 */
 (function () {
   const PB = window.PUBLISH = { tid: null, st: null, busy: '', msg: '', err: null, problems: null }
-  const lang = () => { let v = 'zh'; try { v = localStorage.getItem('wl-local-lang') || 'zh' } catch { /* private window */ } return /^(zh|en|ja|ko)/.test(v) ? v.slice(0, 2) : 'zh' }
+  const lang = () => { let v = 'zh'; try { v = localStorage.getItem('wl-local-lang') || window.WLANG || 'zh' } catch { /* private window */ } return /^(zh|en|ja|ko)/.test(v) ? v.slice(0, 2) : 'zh' }
   const W = {
     zh: { h: '发布到自由区', p: '用 Worldlines 账号发布:检查通过就直接公开在 Hub 自由区(先上后管),大家能下载到本地玩;之后可以申请进默认区。', go: '用账号发布到自由区', again: '发布新版本', busy: '正在检查并上传…', checking: '正在检查…',
       ok: '检查都过了', fix: '还要改', signin: '还没登录 Worldlines 账号', signGo: '用浏览器登录', signWait: '在浏览器里登录完,回到这里', ref: '作品编号', pub: '公开中 · 自由区', pubDef: '公开中 · 默认区', draft: '已撤下', pend: '申请默认区 · 审核中', rej: '默认区申请被驳回', down: '被管理员下架', why: '理由',
@@ -11,14 +11,14 @@
     en: { h: 'Publish to the Free Zone', p: 'Publish with your Worldlines account: once the checks pass it is public in the Hub Free Zone right away (moderated after), and anyone can download it to play locally. You can apply for the Default Zone later.', go: 'Publish to the Free Zone', again: 'Publish a new version', busy: 'Checking and uploading…', checking: 'Checking…',
       ok: 'All checks pass', fix: 'To fix', signin: 'Not signed in to Worldlines', signGo: 'Sign in in the browser', signWait: 'Finish signing in in the browser, then come back', ref: 'Work id', pub: 'Public · Free Zone', pubDef: 'Public · Default Zone', draft: 'Taken off', pend: 'Default Zone · in review', rej: 'Default Zone application rejected', down: 'Taken down by an admin', why: 'Reason',
       unpub: 'Take off', apply: 'Apply for the Default Zone', go2: 'Fix ↗', rev: n => `revision ${n}`, off: 'Publish as official', offP: 'Official account: to the Default Zone (work id = template id), where signed-in local players can get it. Raise the version before each publish.' },
-    ja: { h: 'フリーエリアに公開', p: 'Worldlines アカウントで公開します。チェックを通ればすぐ Hub のフリーエリアに公開され(管理はあとから)、だれでもダウンロードしてローカルで遊べます。あとでデフォルトエリアに申請できます。', go: 'アカウントでフリーエリアに公開', again: '新しい版を公開', busy: 'チェックしてアップロード中…', checking: 'チェック中…',
-      ok: 'チェックはすべて通過', fix: '直すところ', signin: 'Worldlines にログインしていません', signGo: 'ブラウザでログイン', signWait: 'ブラウザでログインを済ませてから戻ってください', ref: '作品 ID', pub: '公開中 · フリーエリア', pubDef: '公開中 · デフォルトエリア', draft: '取り下げ済み', pend: 'デフォルトエリア申請 · 審査中', rej: 'デフォルトエリア申請は差し戻し', down: '管理者により非公開', why: '理由',
-      unpub: '取り下げる', apply: 'デフォルトエリアに申請', go2: '直す ↗', rev: n => `第 ${n} 版`, off: '公式として公開', offP: '公式アカウント:デフォルトエリアに公開します(作品 ID = テンプレート id)。ログインしたローカルのプレイヤーが入手できます。公開のたびに先にバージョンを上げてください。' },
+    ja: { h: 'フリーゾーンに公開', p: 'Worldlines アカウントで公開します。チェックを通ればすぐ Hub のフリーゾーンに公開され(管理はあとから)、だれでもダウンロードしてローカルで遊べます。あとでデフォルトゾーンに申請できます。', go: 'アカウントでフリーゾーンに公開', again: '新しい版を公開', busy: 'チェックしてアップロード中…', checking: 'チェック中…',
+      ok: 'チェックはすべて通過', fix: '直すところ', signin: 'Worldlines にログインしていません', signGo: 'ブラウザでログイン', signWait: 'ブラウザでログインを済ませてから戻ってください', ref: '作品 ID', pub: '公開中 · フリーゾーン', pubDef: '公開中 · デフォルトゾーン', draft: '取り下げ済み', pend: 'デフォルトゾーン申請 · 審査中', rej: 'デフォルトゾーン申請は差し戻し', down: '管理者により非公開', why: '理由',
+      unpub: '取り下げる', apply: 'デフォルトゾーンに申請', go2: '直す ↗', rev: n => `第 ${n} 版`, off: '公式として公開', offP: '公式アカウント:デフォルトゾーンに公開します(作品 ID = テンプレート id)。ログインしたローカルのプレイヤーが入手できます。公開のたびに先にバージョンを上げてください。' },
     ko: { h: '자유 구역에 공개', p: 'Worldlines 계정으로 공개합니다. 검사를 통과하면 바로 Hub 자유 구역에 공개되고(관리는 나중에), 누구나 내려받아 로컬에서 플레이할 수 있습니다. 나중에 기본 구역을 신청할 수 있습니다.', go: '계정으로 자유 구역에 공개', again: '새 버전 공개', busy: '검사하고 올리는 중…', checking: '검사 중…',
       ok: '검사를 모두 통과', fix: '고칠 것', signin: 'Worldlines에 로그인하지 않았습니다', signGo: '브라우저로 로그인', signWait: '브라우저에서 로그인을 마치고 돌아오세요', ref: '작품 ID', pub: '공개 중 · 자유 구역', pubDef: '공개 중 · 기본 구역', draft: '내림', pend: '기본 구역 신청 · 심사 중', rej: '기본 구역 신청 반려', down: '관리자가 내림', why: '사유',
       unpub: '내리기', apply: '기본 구역 신청', go2: '고치기 ↗', rev: n => `${n}번째 버전`, off: '공식으로 공개', offP: '공식 계정: 기본 구역에 공개합니다(작품 ID = 템플릿 id). 로그인한 로컬 플레이어가 받을 수 있습니다. 공개할 때마다 먼저 버전을 올리세요.' },
   }
-  const w = k => (W[lang()] || W.zh)[k] ?? W.zh[k]
+  const w = k => (W[window.WLANG] || W[lang()] || W.zh)[k] ?? W.zh[k]   // 界面语言(real/i18n.js);发给引擎的 lang 照旧是叙事语言
   const send = async (method, path, body) => {
     const r = await fetch(V3.url(path), { method, credentials: 'include', headers: { 'Content-Type': 'application/json' }, ...(body ? { body: JSON.stringify(body) } : {}) }).catch(() => null)
     const b = r ? await r.json().catch(() => ({})) : {}
@@ -90,7 +90,7 @@
   }
   // 一览卡片上的状态 = 真实状态(10-16,原来一律「只在本地」):默认区(官方世界)· 自由区公开中 · 审核中 · 被下架 · 已撤下;
   //   账号里的作品读一次 /api/v1/local/hub/mine(没登录 = 读不到,只标默认区),发布 / 撤下 / 申请之后再读
-  Object.assign(STATUS, { def: ['默认区', 'sage'], free: ['自由区 · 公开中', 'sage'], pend: ['自由区 · 申请默认区中', 'blue'], down: ['被下架', 'rust'], off: ['已撤下', ''] })
+  Object.assign(STATUS, { def: [T('默认区'), 'sage'], free: [T('自由区 · 公开中'), 'sage'], pend: [T('自由区 · 申请默认区中'), 'blue'], down: [T('被下架'), 'rust'], off: [T('已撤下'), ''] })
   PB.works = null
   async function loadWorks() {
     const r = await send('GET', `/api/v1/local/hub/mine?lang=${lang()}`)

@@ -9,7 +9,7 @@
   const fitPct = (f, size, x, y) => [(f.px + (x - f.x0) * f.sx) / size[0] * 100, (f.py + (y - f.y0) * f.sy) / size[1] * 100];
   const FW = { px: 170, py: 150, x0: 5, y0: 3, sx: 70.3529, sy: 60.3333 }, FT = { px: 260, py: 190, x0: 236, y0: 153, sx: 1.8955, sy: 2.3333 }, SZ = [1536, 1024];
   const P = (f, x, y) => { const [a, b] = fitPct(f, SZ, x, y); return { x: +a.toFixed(1), y: +b.toFixed(1) }; };
-  const SCALE = ['世界', '镇 / 城', '地点', '室内'];
+  const SCALE = [T('世界'), T('镇 / 城'), T('地点'), T('室内')];
 
   const WORLDS = {
     stoneford: {
@@ -83,26 +83,26 @@
 
   function lint() {
     const out = [], lv = L();
-    Object.entries(lv.nodes).forEach(([id, n]) => (n.dangling || []).forEach(t => out.push({ lv: 'block', msg: `${n.name}.connections 里的 ${t} 不是这一层的地点`, hint: t === 'old-road' ? '它其实是出镇的路:接成端口' : '删掉或补这个地点', fix: t === 'old-road' ? `bind:${id}:${t}` : `drop:${id}:${t}` })));
-    (lv.ports || []).filter(p => !p.via).forEach(p => { const t = upTarget(lv, p); out.push({ lv: 'block', msg: `上一层的路 ${p.up}${t ? '(→ ' + t.name + ')' : ''} 进来后落在哪个点没写`, hint: '选一个节点,点端口上的「接到选中节点」' }); });
-    if (lv.parent === undefined) Object.entries(lv.nodes).forEach(([id, n]) => { if (!lv.edges.some(e => e.a === id || e.b === id)) out.push({ lv: 'warn', msg: `${n.name} 没有任何路连着`, hint: '孤点:玩家走不到' }); });
-    if (lv.oldForm) out.push({ lv: 'warn', msg: '还是旧格式(layout.json rooms)', hint: '迁移成文件夹:每个房间一个 location.json' });
-    if (!lv.frozen) out.push({ lv: 'info', msg: '这一层还没有地图:节点只有连通关系,没有坐标', hint: '「生成这一层的地图」后坐标才定下来' });
-    if (M.stale[M.level]) out.push({ lv: 'warn', msg: '冻结之后挪过节点:图和坐标对不上了', hint: '重新生成,或撤回挪动' });
+    Object.entries(lv.nodes).forEach(([id, n]) => (n.dangling || []).forEach(t => out.push({ lv: 'block', msg: T('{name}.connections 里的 {t} 不是这一层的地点', { name: n.name, t }), hint: t === 'old-road' ? T('它其实是出镇的路:接成端口') : T('删掉或补这个地点'), fix: t === 'old-road' ? `bind:${id}:${t}` : `drop:${id}:${t}` })));
+    (lv.ports || []).filter(p => !p.via).forEach(p => { const t = upTarget(lv, p); out.push({ lv: 'block', msg: T('上一层的路 {up} 进来后落在哪个点没写', { up: p.up + (t ? '(→ ' + t.name + ')' : '') }), hint: T('选一个节点,点端口上的「接到选中节点」') }); });
+    if (lv.parent === undefined) Object.entries(lv.nodes).forEach(([id, n]) => { if (!lv.edges.some(e => e.a === id || e.b === id)) out.push({ lv: 'warn', msg: T('{name} 没有任何路连着', { name: n.name }), hint: T('孤点:玩家走不到') }); });
+    if (lv.oldForm) out.push({ lv: 'warn', msg: T('还是旧格式(layout.json rooms)'), hint: T('迁移成文件夹:每个房间一个 location.json') });
+    if (!lv.frozen) out.push({ lv: 'info', msg: T('这一层还没有地图:节点只有连通关系,没有坐标'), hint: T('「生成这一层的地图」后坐标才定下来') });
+    if (M.stale[M.level]) out.push({ lv: 'warn', msg: T('冻结之后挪过节点:图和坐标对不上了'), hint: T('重新生成,或撤回挪动') });
     return out;
   }
 
   window.mapEditor = function (host) {
     if (!W()) { const k = Object.keys(WORLDS)[0]; const fail = (window.MAPHOOK || {}).openFail; if (!k) { host.innerHTML = fail
-      ? `<div class="mpempty"><div class="mpe"><b>这个世界打不开</b><span>${esc(fail.msg)}</span>${window.LIVE ? `<select class="btn" id="mwSel" style="text-transform:none;letter-spacing:0">${window.LIVE.templates.map(t => `<option value="${t.id}" ${t.id === fail.tid ? 'selected' : ''}>${esc((t.card && t.card.title) || t.id)}</option>`).join('')}</select>` : ''}<button class="btn" data-mretry>再试一次</button></div></div>`
-      : '<div class="mpempty"><div class="mpe"><b>正在打开这个世界……</b><span>第一次编辑一个世界要复制它的文件,十几秒</span></div></div>'; return; } M.world = k; M.level = WORLDS[k].root; }
+      ? `<div class="mpempty"><div class="mpe"><b>${T('这个世界打不开')}</b><span>${esc(fail.msg)}</span>${window.LIVE ? `<select class="btn" id="mwSel" style="text-transform:none;letter-spacing:0">${window.LIVE.templates.map(t => `<option value="${t.id}" ${t.id === fail.tid ? 'selected' : ''}>${esc((t.card && t.card.title) || t.id)}</option>`).join('')}</select>` : ''}<button class="btn" data-mretry>${T('再试一次')}</button></div></div>`
+      : '<div class="mpempty"><div class="mpe"><b>' + T('正在打开这个世界……') + '</b><span>' + T('第一次编辑一个世界要复制它的文件,十几秒') + '</span></div></div>'; return; } M.world = k; M.level = WORLDS[k].root; }
     if (!L()) M.level = W().root;
     const lv = L(), d = depth(M.level), issues = lint();
     host.innerHTML = `<div class="mp">
       <div class="mphd">
-        ${WORLDS.edit && window.LIVE ? `<select class="btn" id="mwSel" style="text-transform:none;letter-spacing:0" aria-label="编辑哪个世界">${window.LIVE.templates.map(t => `<option value="${t.id}" ${t.id === (window.MAPHOOK || {}).wtpl ? 'selected' : ''}>${esc((t.card && t.card.title) || t.id)}</option>`).join('')}</select>` : `<div class="seg">${Object.entries(WORLDS).map(([k, w]) => `<button class="${M.world === k ? 'on' : ''}" data-mw="${k}">${w.title}</button>`).join('')}</div>`}
+        ${WORLDS.edit && window.LIVE ? `<select class="btn" id="mwSel" style="text-transform:none;letter-spacing:0" aria-label="${T('编辑哪个世界')}">${window.LIVE.templates.map(t => `<option value="${t.id}" ${t.id === (window.MAPHOOK || {}).wtpl ? 'selected' : ''}>${esc((t.card && t.card.title) || t.id)}</option>`).join('')}</select>` : `<div class="seg">${Object.entries(WORLDS).map(([k, w]) => `<button class="${M.world === k ? 'on' : ''}" data-mw="${k}">${w.title}</button>`).join('')}</div>`}
         <div class="crumbs">${chain(M.level).map((a, i) => `${i ? '<span class="sep">›</span>' : ''}<button class="${a === M.level ? 'on' : ''}" data-ml="${a}"><span class="lvl">${W().levels[a].scale || SCALE[i]}</span>${W().levels[a].title}</button>`).join('')}</div>
-        <div class="seg r">${[['graph', '连通图'], ['map', '地图'], ['tree', '树'], ['json', 'JSON']].map(([k, l]) => `<button class="${M.view === k ? 'on' : ''}" data-mv="${k}">${l}</button>`).join('')}</div></div>
+        <div class="seg r">${[['graph', T('连通图')], ['map', T('地图')], ['tree', T('树')], ['json', 'JSON']].map(([k, l]) => `<button class="${M.view === k ? 'on' : ''}" data-mv="${k}">${l}</button>`).join('')}</div></div>
       ${banner()}
       <div class="mpbody"><div class="mpmain" id="mpmain"></div>
         <div class="mpside glass deep">${side(lv, issues)}</div></div></div>`;
@@ -115,54 +115,54 @@
   function side(lv, issues) {
     if (M.selEdge && lv.nodes[M.selEdge.a] && lv.nodes[M.selEdge.b]) {   // 选中一条路
       const { a, b } = M.selEdge, e = lv.edges.find(x => (x.a === a && x.b === b) || (x.a === b && x.b === a)) || {};
-      return `<div class="tag">路</div><h3 class="human" style="font-size:22px;margin:4px 0 6px">${esc(lv.nodes[a].name)} ↔ ${esc(lv.nodes[b].name)}</h3>
-        ${M.level === 'world' && lv.editable ? `<label class="tag" style="display:block;margin-top:10px">路程(天)</label><div class="row" style="gap:6px;margin-top:6px"><input class="cell mono" id="mroadD" value="${esc(e.d || '')}" style="width:90px"><button class="btn" data-mroadd>改</button></div>` : e.d ? `<p class="sub">路程 ${esc(e.d)}</p>` : ''}
-        ${lv.editable ? `<button class="btn" data-mroaddel style="width:100%;margin-top:14px">删掉这条路</button>` : ''}<button class="btn" data-mroadx style="width:100%;margin-top:6px">取消选中</button>`;
+      return `<div class="tag">${T('路')}</div><h3 class="human" style="font-size:22px;margin:4px 0 6px">${esc(lv.nodes[a].name)} ↔ ${esc(lv.nodes[b].name)}</h3>
+        ${M.level === 'world' && lv.editable ? `<label class="tag" style="display:block;margin-top:10px">${T('路程(天)')}</label><div class="row" style="gap:6px;margin-top:6px"><input class="cell mono" id="mroadD" value="${esc(e.d || '')}" style="width:90px"><button class="btn" data-mroadd>${T('改')}</button></div>` : e.d ? `<p class="sub">${T('路程')} ${esc(e.d)}</p>` : ''}
+        ${lv.editable ? `<button class="btn" data-mroaddel style="width:100%;margin-top:14px">${T('删掉这条路')}</button>` : ''}<button class="btn" data-mroadx style="width:100%;margin-top:6px">${T('取消选中')}</button>`;
     }
     const n = M.sel && lv.nodes[M.sel];
-    const portList = (lv.ports || []).map((p, i) => { const t = upTarget(lv, p); return `<div class="port ${p.via ? '' : 'open'}"><img src="img/icon-gate.png" alt=""><div><b>↑ ${p.up}${t ? ' · ' + esc(t.name) : ''}</b><small>${t ? esc(t.e.d) : ''} · ${p.via ? '落在 ' + esc(lv.nodes[p.via].name) : '<span style="color:var(--fail)">还没接</span>'}</small></div>${!p.via && M.sel ? `<button class="chip lime" data-mport="${i}">接到「${esc(lv.nodes[M.sel].name)}」</button>` : ''}</div>`; }).join('');
-    const nodeBox = n ? `<div class="tag">节点 · ${esc(n.type || '')}${n.child ? ' · 有子层(' + esc(W().levels[n.child].scale || '') + ')' : ''}</div><h3 class="human" style="font-size:22px;margin:4px 0 2px">${esc(n.name)}</h3>
+    const portList = (lv.ports || []).map((p, i) => { const t = upTarget(lv, p); return `<div class="port ${p.via ? '' : 'open'}"><img src="img/icon-gate.png" alt=""><div><b>↑ ${p.up}${t ? ' · ' + esc(t.name) : ''}</b><small>${t ? esc(t.e.d) : ''} · ${p.via ? T('落在 {name}', { name: esc(lv.nodes[p.via].name) }) : '<span style="color:var(--fail)">' + T('还没接') + '</span>'}</small></div>${!p.via && M.sel ? `<button class="chip lime" data-mport="${i}">${T('接到「{name}」', { name: esc(lv.nodes[M.sel].name) })}</button>` : ''}</div>`; }).join('');
+    const nodeBox = n ? `<div class="tag">${T('节点')} · ${esc(n.type || '')}${n.child ? ' · ' + T('有子层({scale})', { scale: esc(W().levels[n.child].scale || '') }) : ''}</div><h3 class="human" style="font-size:22px;margin:4px 0 2px">${esc(n.name)}</h3>
       <div class="mono" style="font-size:11.5px;color:var(--muted)">${lv.file}${lv.file.endsWith('/') ? M.sel + '/location.json' : ''}</div>
       ${n.img ? brick('mpimg', n.img, '') : ''}
-      <dl class="kv"><dt>地址</dt><dd class="mono">${M.level === 'world' ? M.sel : M.level + '/' + M.sel}</dd><dt>父</dt><dd>${esc(lv.title)}(${lv.scale || SCALE[depth(M.level)]})</dd>
-        <dt>子层</dt><dd>${n.child ? `<button class="chip" data-ml="${n.child}">▾ 进入 ${esc(W().levels[n.child].title)} · ${Object.keys(W().levels[n.child].nodes).length} 个</button>` : `<button class="chip" data-mkchild="${M.sel}">+ 建子层(文件夹)</button>`}</dd>
-        <dt>同层连接</dt><dd>${lv.edges.filter(e => e.a === M.sel || e.b === M.sel).map(e => `<span class="chip">${esc(lv.nodes[e.a === M.sel ? e.b : e.a].name)}${e.d ? ' · ' + esc(e.d) : ''}</span>`).join(' ') || '—'}</dd>
-        <dt>跨层端口</dt><dd>${(lv.ports || []).filter(p => p.via === M.sel).map(p => `<span class="chip lime">↑ ${p.up}</span>`).join(' ') || '—'}${lv.entry === M.sel ? ' <span class="chip">默认入口</span>' : ''}</dd>
-        <dt>pos</dt><dd class="mono">${n.pos ? (n.raw ? `[${n.raw.join(', ')}] → 图上 ${n.pos.x}%, ${n.pos.y}%` : `${n.pos.x}%, ${n.pos.y}%`) : '<span style="color:var(--muted)">null(连通图没有坐标)</span>'}</dd></dl>` : `<div class="tag">这一层</div><h3 class="human" style="font-size:22px;margin:4px 0 6px">${esc(lv.title)}</h3><p class="sub" style="font-size:12.5px">点节点看它的父、子、同层连接和跨层端口。双击有子层的节点往下走。</p>`;
+      <dl class="kv"><dt>${T('地址')}</dt><dd class="mono">${M.level === 'world' ? M.sel : M.level + '/' + M.sel}</dd><dt>${T('父')}</dt><dd>${esc(lv.title)}(${lv.scale || SCALE[depth(M.level)]})</dd>
+        <dt>${T('子层')}</dt><dd>${n.child ? `<button class="chip" data-ml="${n.child}">▾ ${T('进入 {title} · {n} 个', { title: esc(W().levels[n.child].title), n: Object.keys(W().levels[n.child].nodes).length })}</button>` : `<button class="chip" data-mkchild="${M.sel}">+ ${T('建子层(文件夹)')}</button>`}</dd>
+        <dt>${T('同层连接')}</dt><dd>${lv.edges.filter(e => e.a === M.sel || e.b === M.sel).map(e => `<span class="chip">${esc(lv.nodes[e.a === M.sel ? e.b : e.a].name)}${e.d ? ' · ' + esc(e.d) : ''}</span>`).join(' ') || '—'}</dd>
+        <dt>${T('跨层端口')}</dt><dd>${(lv.ports || []).filter(p => p.via === M.sel).map(p => `<span class="chip lime">↑ ${p.up}</span>`).join(' ') || '—'}${lv.entry === M.sel ? ' <span class="chip">' + T('默认入口') + '</span>' : ''}</dd>
+        <dt>pos</dt><dd class="mono">${n.pos ? (n.raw ? `[${n.raw.join(', ')}] → ${T('图上')} ${n.pos.x}%, ${n.pos.y}%` : `${n.pos.x}%, ${n.pos.y}%`) : '<span style="color:var(--muted)">' + T('null(连通图没有坐标)') + '</span>'}</dd></dl>` : `<div class="tag">${T('这一层')}</div><h3 class="human" style="font-size:22px;margin:4px 0 6px">${esc(lv.title)}</h3><p class="sub" style="font-size:12.5px">${T('点节点看它的父、子、同层连接和跨层端口。双击有子层的节点往下走。')}</p>`;
     return `${nodeBox}
-      ${lv.parent ? `<div class="tag" style="margin-top:14px">跨层端口 · 上一层的路从哪进来</div>${portList || `<span style="color:var(--muted);font-size:12.5px">${lv.live ? '这一层还没有跨层端口数据' : '没有'}</span>`}` : ''}
-      <div class="tag" style="margin-top:14px">这一层的图 · ${lv.frozen ? '已冻结' : '未生成'}</div>
+      ${lv.parent ? `<div class="tag" style="margin-top:14px">${T('跨层端口 · 上一层的路从哪进来')}</div>${portList || `<span style="color:var(--muted);font-size:12.5px">${lv.live ? T('这一层还没有跨层端口数据') : T('没有')}</span>`}` : ''}
+      <div class="tag" style="margin-top:14px">${T('这一层的图')} · ${lv.frozen ? T('已冻结') : T('未生成')}</div>
       ${lv.frozen ? `<div class="mono" style="font-size:11.5px;color:var(--muted);margin:4px 0 8px">${esc(lv.fitNote || 'assets/maps/' + M.level.replace('/', '_') + '.json')}</div>` : ''}
       ${genBox(lv)}
-      <div class="tag" style="margin-top:14px">检查</div>
-      ${issues.length ? '' : '<div class="iss"><span class="dot ok"></span><div><b>这一层没有问题</b><small>端口都接上了 · 没有悬空的连接</small></div></div>'}${issues.map(x => `<div class="iss ${x.lv}"><span class="dot ${x.lv === 'block' ? 'bad' : x.lv === 'warn' ? 'warn' : 'blue'}"></span><div><b>${esc(x.msg)}</b><small>${esc(x.hint)}</small></div>${x.fix ? `<button class="chip" data-mfix="${x.fix}">修</button>` : ''}</div>`).join('')}`;
+      <div class="tag" style="margin-top:14px">${T('检查')}</div>
+      ${issues.length ? '' : '<div class="iss"><span class="dot ok"></span><div><b>' + T('这一层没有问题') + '</b><small>' + T('端口都接上了 · 没有悬空的连接') + '</small></div></div>'}${issues.map(x => `<div class="iss ${x.lv}"><span class="dot ${x.lv === 'block' ? 'bad' : x.lv === 'warn' ? 'warn' : 'blue'}"></span><div><b>${esc(x.msg)}</b><small>${esc(x.hint)}</small></div>${x.fix ? `<button class="chip" data-mfix="${x.fix}">${T('修')}</button>` : ''}</div>`).join('')}`;
   }
   function banner() { return ''; }  // 世界 · 角色就是编辑界面:不再有「只读 / 另存」
   function saveBtn() {
     const h = window.MAPHOOK; if (!h) return '';
-    if (h.saving) return `<button class="btn" disabled style="width:100%;margin-top:8px">另存中……</button>`;
-    if (h.edit && WORLDS.edit) return `<button class="btn" data-mw="edit" style="width:100%;margin-top:8px">打开「我的世界 · ${esc(h.edit.name)}」</button><button class="btn" data-msave style="width:100%;margin-top:6px">再另存一份新的</button>`;
-    return `<button class="btn p" data-msave style="width:100%;margin-top:8px">另存成我的世界并编辑</button>`;
+    if (h.saving) return `<button class="btn" disabled style="width:100%;margin-top:8px">${T('另存中……')}</button>`;
+    if (h.edit && WORLDS.edit) return `<button class="btn" data-mw="edit" style="width:100%;margin-top:8px">${T('打开「我的世界 · {name}」', { name: esc(h.edit.name) })}</button><button class="btn" data-msave style="width:100%;margin-top:6px">${T('再另存一份新的')}</button>`;
+    return `<button class="btn p" data-msave style="width:100%;margin-top:8px">${T('另存成我的世界并编辑')}</button>`;
   }
   function genBox(lv) {
     if (lv.live) { const j = lv.job || {};
-      if (j.state === 'running') return `<div class="gen"><div class="gs now"><span>…</span>引擎在生成这一层的地图(连通图排版 → 指引图 → 出图 → 冻结坐标)</div></div>`;
-      return `${j.state === 'error' ? `<div class="iss block"><span class="dot bad"></span><div><b>上次生成失败</b><small>${esc(j.error || '')}</small></div></div>` : ''}<button class="btn ${lv.frozen && !lv.stale ? '' : 'p'}" data-mgen style="width:100%;margin-top:4px">${!lv.frozen ? '生成这一层的地图' : lv.stale ? '重新生成(钉子挪过了)' : '重新生成这一层的地图'}</button>`; }
-    const steps = ['用连通图排版 → 指引图(guide.png)', '模型照指引出图', '冻结换算:每个节点写入 pos'];
+      if (j.state === 'running') return `<div class="gen"><div class="gs now"><span>…</span>${T('引擎在生成这一层的地图(连通图排版 → 指引图 → 出图 → 冻结坐标)')}</div></div>`;
+      return `${j.state === 'error' ? `<div class="iss block"><span class="dot bad"></span><div><b>${T('上次生成失败')}</b><small>${esc(j.error || '')}</small></div></div>` : ''}<button class="btn ${lv.frozen && !lv.stale ? '' : 'p'}" data-mgen style="width:100%;margin-top:4px">${!lv.frozen ? T('生成这一层的地图') : lv.stale ? T('重新生成(钉子挪过了)') : T('重新生成这一层的地图')}</button>`; }
+    const steps = [T('用连通图排版 → 指引图(guide.png)'), T('模型照指引出图'), T('冻结换算:每个节点写入 pos')];
     if (M.gen === M.level) return `<div class="gen">${steps.map((s, i) => `<div class="gs ${i < M.genStep ? 'done' : i === M.genStep ? 'now' : ''}"><span>${i < M.genStep ? '✓' : i + 1}</span>${s}</div>`).join('')}</div>`;
-    if (!Object.keys(lv.nodes).length) return `<div class="sub" style="font-size:12.5px">先加节点,再生成</div>`;
-    return `<button class="btn ${lv.frozen ? '' : 'p'}" data-mgen style="width:100%;margin-top:4px">${lv.frozen ? (M.stale[M.level] ? '重新生成(坐标已改)' : '重新生成这一层的地图') : '生成这一层的地图'}</button>`;
+    if (!Object.keys(lv.nodes).length) return `<div class="sub" style="font-size:12.5px">${T('先加节点,再生成')}</div>`;
+    return `<button class="btn ${lv.frozen ? '' : 'p'}" data-mgen style="width:100%;margin-top:4px">${lv.frozen ? (M.stale[M.level] ? T('重新生成(坐标已改)') : T('重新生成这一层的地图')) : T('生成这一层的地图')}</button>`;
   }
 
   function drawLevel(main, lv) {
     const isMap = M.view === 'map';
-    if (isMap && !lv.frozen) { main.innerHTML = lv.live ? `<div class="mpempty"><div class="mpe"><img src="img/icon-frames.png" alt=""><b>这一层还没有地图</b><span>${lv.editable ? '只有连通图:生成之后坐标才定下来' : '只有连通图。另存成我的世界之后可以生成'}</span>${lv.editable ? (lv.job && lv.job.state === 'running' ? '<span>生成中……</span>' : '<button class="btn p" data-mgen>生成这一层的地图</button>') : ''}</div></div>` : `<div class="mpempty">${lv.image ? brick('ghostmap', lv.image, '') : ''}<div class="mpe"><img src="img/icon-frames.png" alt=""><b>这一层还没有地图</b><span>现在只有连通图:节点和路,没有坐标。生成之后,坐标才定下来。</span><button class="btn p" data-mgen>生成这一层的地图</button></div></div>`; return; }
+    if (isMap && !lv.frozen) { main.innerHTML = lv.live ? `<div class="mpempty"><div class="mpe"><img src="img/icon-frames.png" alt=""><b>${T('这一层还没有地图')}</b><span>${lv.editable ? T('只有连通图:生成之后坐标才定下来') : T('只有连通图。另存成我的世界之后可以生成')}</span>${lv.editable ? (lv.job && lv.job.state === 'running' ? '<span>' + T('生成中……') + '</span>' : '<button class="btn p" data-mgen>' + T('生成这一层的地图') + '</button>') : ''}</div></div>` : `<div class="mpempty">${lv.image ? brick('ghostmap', lv.image, '') : ''}<div class="mpe"><img src="img/icon-frames.png" alt=""><b>${T('这一层还没有地图')}</b><span>${T('现在只有连通图:节点和路,没有坐标。生成之后,坐标才定下来。')}</span><button class="btn p" data-mgen>${T('生成这一层的地图')}</button></div></div>`; return; }
     const lkey = M.world + ':' + M.level; M.layout = M.layout || {};
     const pos = isMap ? Object.fromEntries(Object.entries(lv.nodes).map(([k, n]) => [k, n.pos])) : { ...topo(lv), ...(M.layout[lkey] || {}) };
     const asp = isMap ? lv.aspect : null;
     main.innerHTML = `<div class="mpstage ${isMap ? 'map' : 'graph'}"><div class="mpframe" style="${asp ? `aspect-ratio:${asp};` : ''}">${isMap ? `<img class="mpbg" src="${IMG(lv.image)}" alt="">` : ''}<svg class="mpw"></svg><div class="mpn"></div></div>
-      ${!isMap ? `<div class="mpleg"><span class="tag">连通图没有坐标:排版只是为了看;生成地图时才冻结方位</span></div>` : ''}
-      <div class="mptb">${lv.live && !lv.canAdd ? '' : M.adding ? `<input class="btn" id="maddName" placeholder="新地点的名字" style="width:160px;text-transform:none" autocomplete="off" value="${esc(M.addName || '')}"><button class="btn p" data-maddok>加</button><button class="btn" data-maddno>取消</button>` : `<button class="btn" data-madd>+ 节点(新文件夹)</button>${lv.editable ? `<button class="btn ${M.linking ? 'p' : ''}" data-mlink>${M.linking ? (M.linking.from ? `从「${esc((lv.nodes[M.linking.from] || {}).name || '')}」连到…(点终点)` : '点起点') + ' · 取消' : '+ 路'}</button>` : ''}`}${lv.parent ? `<button class="btn" data-ml="${lv.parent}">↑ 回到${esc(W().levels[lv.parent].title)}</button>` : ''}</div></div>`;
+      ${!isMap ? `<div class="mpleg"><span class="tag">${T('连通图没有坐标:排版只是为了看;生成地图时才冻结方位')}</span></div>` : ''}
+      <div class="mptb">${lv.live && !lv.canAdd ? '' : M.adding ? `<input class="btn" id="maddName" placeholder="${T('新地点的名字')}" style="width:160px;text-transform:none" autocomplete="off" value="${esc(M.addName || '')}"><button class="btn p" data-maddok>${T('加')}</button><button class="btn" data-maddno>${T('取消')}</button>` : `<button class="btn" data-madd>+ ${T('节点(新文件夹)')}</button>${lv.editable ? `<button class="btn ${M.linking ? 'p' : ''}" data-mlink>${M.linking ? (M.linking.from ? T('从「{name}」连到…(点终点)', { name: esc((lv.nodes[M.linking.from] || {}).name || '') }) : T('点起点')) + ' · ' + T('取消') : '+ ' + T('路')}</button>` : ''}`}${lv.parent ? `<button class="btn" data-ml="${lv.parent}">↑ ${T('回到{title}', { title: esc(W().levels[lv.parent].title) })}</button>` : ''}</div></div>`;
     const frame = $('.mpframe', main);
     if (asp) { const st = $('.mpstage', main), W0 = st.clientWidth - 28, H0 = st.clientHeight - 28; let fw = W0, fh = W0 / asp; if (fh > H0) { fh = H0; fw = H0 * asp; } frame.style.width = fw + 'px'; frame.style.height = fh + 'px'; }
     else Object.keys(pos).forEach(k => { if (!(M.layout[lkey] || {})[k]) pos[k] = { x: 6 + pos[k].x * .7, y: pos[k].y }; });
@@ -209,10 +209,10 @@
 
   function drawTree(main) {
     const row = (addr, d) => { const lv = W().levels[addr];
-      return `<div class="tl-level" style="--d:${d}"><div class="tl-h" data-ml="${addr}"><span class="lvl">${lv.scale || SCALE[d]}</span><b>${esc(lv.title)}</b><span class="mono">${lv.file}</span><span class="chip ${lv.frozen ? 'sage' : ''}">${lv.frozen ? '有地图' : '只有连通图'}</span>${(lv.ports || []).length ? `<span class="chip lime">↑ ${(lv.ports || []).map(p => p.up + (p.via ? '→' + lv.nodes[p.via].name : '→?')).join(' · ')}</span>` : ''}</div>
-        <div class="tl-nodes">${Object.entries(lv.nodes).map(([id, n]) => `<span class="tl-n ${n.child ? 'has' : ''}" data-mpick="${addr}|${id}">${esc(n.name)}<em>${lv.edges.filter(e => e.a === id || e.b === id).length}</em></span>`).join('') || '<span style="color:var(--muted)">(空文件夹)</span>'}</div>
+      return `<div class="tl-level" style="--d:${d}"><div class="tl-h" data-ml="${addr}"><span class="lvl">${lv.scale || SCALE[d]}</span><b>${esc(lv.title)}</b><span class="mono">${lv.file}</span><span class="chip ${lv.frozen ? 'sage' : ''}">${lv.frozen ? T('有地图') : T('只有连通图')}</span>${(lv.ports || []).length ? `<span class="chip lime">↑ ${(lv.ports || []).map(p => p.up + (p.via ? '→' + lv.nodes[p.via].name : '→?')).join(' · ')}</span>` : ''}</div>
+        <div class="tl-nodes">${Object.entries(lv.nodes).map(([id, n]) => `<span class="tl-n ${n.child ? 'has' : ''}" data-mpick="${addr}|${id}">${esc(n.name)}<em>${lv.edges.filter(e => e.a === id || e.b === id).length}</em></span>`).join('') || '<span style="color:var(--muted)">' + T('(空文件夹)') + '</span>'}</div>
         ${Object.values(lv.nodes).filter(n => n.child).map(n => row(n.child, d + 1)).join('')}</div>`; };
-    main.innerHTML = `<div class="tlw scroll"><div class="sub" style="margin:0 0 14px">文件夹 = 层级(树);每一层自己是一张连通图(数字 = 这个点连着几条路);↑ = 上一层的路从哪个点进来。</div>${row(W().root, 0)}</div>`;
+    main.innerHTML = `<div class="tlw scroll"><div class="sub" style="margin:0 0 14px">${T('文件夹 = 层级(树);每一层自己是一张连通图(数字 = 这个点连着几条路);↑ = 上一层的路从哪个点进来。')}</div>${row(W().root, 0)}</div>`;
   }
   function drawJson(main) {
     const lv = L(), id = M.sel || Object.keys(lv.nodes)[0];
@@ -222,9 +222,9 @@
     const n = lv.nodes[id];
     const loc = n ? { id, name: n.name, type: n.type, pos: n.raw ? (M.level === 'world' ? n.raw : { x: n.raw[0], y: n.raw[1] }) : (n.pos || null),
       connections: lv.edges.filter(e => e.a === id || e.b === id).map(e => e.a === id ? e.b : e.a).concat(n.dangling || []), ...((lv.ports || []).some(p => p.via === id) ? { ports: { up: (lv.ports || []).filter(p => p.via === id).map(p => p.up) } } : {}) } : null;
-    main.innerHTML = `<div class="jw"><div class="glass deep jbox"><div class="tag">这一层的连通图 · 引擎导出(level_graph,建议)</div><pre class="code">${esc(JSON.stringify(graph, null, 2))}</pre></div>
-      <div class="glass deep jbox"><div class="tag">${lv.file}${lv.file.endsWith('/') ? id + '/location.json' : ''} · 磁盘上的样子</div><pre class="code">${esc(JSON.stringify(loc, null, 2))}</pre>
-      <div class="sub" style="font-size:12px;padding:0 18px 14px">一个地点只写自己的事:同层 connections + 在父层里的 pos;跨层靠 <span class="mono">ports.up</span>(新增)。</div></div></div>`;
+    main.innerHTML = `<div class="jw"><div class="glass deep jbox"><div class="tag">${T('这一层的连通图 · 引擎导出(level_graph,建议)')}</div><pre class="code">${esc(JSON.stringify(graph, null, 2))}</pre></div>
+      <div class="glass deep jbox"><div class="tag">${lv.file}${lv.file.endsWith('/') ? id + '/location.json' : ''} · ${T('磁盘上的样子')}</div><pre class="code">${esc(JSON.stringify(loc, null, 2))}</pre>
+      <div class="sub" style="font-size:12px;padding:0 18px 14px">${T('一个地点只写自己的事:同层 connections + 在父层里的 pos;跨层靠 <span class="mono">ports.up</span>(新增)。')}</div></div></div>`;
   }
 
   function generate() {
@@ -232,7 +232,7 @@
     const tick = () => { M.genStep++; if (M.genStep < 3) { renderDuo(); setTimeout(tick, 700); return; }
       const pos = lv.genPos || topo(lv); Object.entries(lv.nodes).forEach(([k, n]) => { n.pos = { ...(pos[k] || { x: 50, y: 50 }) }; delete n.raw; });
       if (!lv.image) lv.image = 'place-guild.jpg';
-      lv.frozen = true; lv.fitNote = `assets/maps/${M.level.replace('/', '_')}.json · 刚生成`; M.stale[M.level] = false; M.gen = null; M.view = 'map'; renderDuo(); };
+      lv.frozen = true; lv.fitNote = `assets/maps/${M.level.replace('/', '_')}.json · ${T('刚生成')}`; M.stale[M.level] = false; M.gen = null; M.view = 'map'; renderDuo(); };
     setTimeout(tick, 700);
   }
 
@@ -253,7 +253,7 @@
     if ((t = q('[data-mfix]'))) { const [k, id, tg] = t.dataset.mfix.split(':'); const n = L().nodes[id]; n.dangling = n.dangling.filter(x => x !== tg);
       if (k === 'bind') { const p = L().ports.find(p => p.up === 'R002'); if (p) p.via = id; } renderDuo(); return; }
     if ((t = q('[data-mkchild]'))) { const id = t.dataset.mkchild, addr = (M.level === 'world' ? '' : M.level + '/') + id, lv = L();
-      W().levels[addr] = { title: lv.nodes[id].name, scale: '下一层', parent: M.level, file: lv.file.replace(/\/?$/, '/') + id + '/', image: null, aspect: 1.5, frozen: false, nodes: {}, edges: [], ports: lv.edges.filter(e => e.a === id || e.b === id).map(e => ({ up: e.id, via: null })) };
+      W().levels[addr] = { title: lv.nodes[id].name, scale: T('下一层'), parent: M.level, file: lv.file.replace(/\/?$/, '/') + id + '/', image: null, aspect: 1.5, frozen: false, nodes: {}, edges: [], ports: lv.edges.filter(e => e.a === id || e.b === id).map(e => ({ up: e.id, via: null })) };
       lv.nodes[id].child = addr; M.level = addr; M.sel = null; renderDuo(); return; }
     if (q('[data-maddno]')) { M.adding = false; M.addName = ''; renderDuo(); return; }
     if (q('[data-mlink]')) { M.linking = M.linking ? null : {}; M.selEdge = null; renderDuo(); return; }

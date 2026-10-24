@@ -11,7 +11,7 @@ const V3 = (() => {
     const r = await fetch(BASE + path, { credentials: 'include', ...(opt || {}) });
     if (!r.ok) {
       const d = r.status === 409 ? await r.clone().json().catch(() => null) : null;
-      const msg = d && d.error === 'save_limit' ? `存档已满(这个世界最多 ${d.limit} 个):到 Hub 继续一局或删掉一局` : `${r.status} ${path}`;
+      const msg = d && d.error === 'save_limit' ? T('存档已满(这个世界最多 {n} 个):到 Hub 继续一局或删掉一局', { n: d.limit }) : `${r.status} ${path}`;
       throw Object.assign(new Error(msg), { status: r.status, body: d });
     }
     return r.json();
@@ -37,7 +37,7 @@ const V3 = (() => {
   async function bind() {
     const slug = q.get('save') || (q.get('tpl') ? `tpl--${q.get('tpl')}` : q.get('world') || '');
     // 本局输出语:开局时引擎按它发「开始游戏」并写进 run_state(不传会落到引擎默认语言)
-    const lang = (() => { const v = q.get('lang') || (() => { try { return localStorage.getItem('wl-local-lang'); } catch { return ''; } })() || 'zh'; return /^(zh|en|ja|ko)/i.test(v) ? v.slice(0, 2).toLowerCase() : 'zh'; })();
+    const lang = (() => { const v = q.get('lang') || (() => { try { return localStorage.getItem('wl-local-lang'); } catch { return ''; } })() || window.WLANG || 'zh'; return /^(zh|en|ja|ko)/i.test(v) ? v.slice(0, 2).toLowerCase() : 'zh'; })();
     // 新开一个模板:模板声明了 player.builder 就先出捏人屏(src/builder.js),捏完带着角色开局;没声明照旧
     if (q.get('tpl') && !q.get('save') && window.BUILDER) return window.BUILDER.start(q.get('tpl'), lang);
     if (slug) return post('/api/v1/play/session', { slug, output_lang: lang });
@@ -49,7 +49,7 @@ const V3 = (() => {
     if (last && last.session_id) return post('/api/v1/play/session', { slug: last.session_id, output_lang: lang });
     const ts = await j('/api/v1/local/templates').catch(() => ({ templates: [] }));
     const first = (ts.templates || []).find(t => t.publishable) || (ts.templates || [])[0];
-    if (!first) throw new Error('没有可开局的模板');
+    if (!first) throw new Error(T('没有可开局的模板'));
     return window.BUILDER ? window.BUILDER.start(first.id, 'zh') : post('/api/v1/play/session', { slug: `tpl--${first.id}`, output_lang: 'zh' });
   }
 
@@ -240,7 +240,7 @@ const E = (() => {
       const a = d.apply || {}, beat = a.beat || null;
       const input = d.player?.input || t.input || '';
       const changes = (a.applied || []).filter(x => x.op === 'set' || x.op === 'add').slice(0, 12).map(x => ({ kind: 'var', what: x.var, from: x.from, to: x.to }));
-      const whoName = w => (w === 'player' ? '你' : (Object.values(s.souls).find(so => so.iid === w || so.id === w) || {}).name || V3.names[w] || w);
+      const whoName = w => (w === 'player' ? T('你') : (Object.values(s.souls).find(so => so.iid === w || so.id === w) || {}).name || V3.names[w] || w);
       (a.applied || []).filter(x => x.op === 'move_to').forEach(x => changes.push({ kind: 'move', what: `${whoName(x.who)}.at`, to: x.to, who: x.who, arrive: true }));
       (a.created || []).forEach(c => changes.push({ kind: c.class === 'status' ? 'status' : 'node', what: c.id, to: c.name || c.id }));   // 状态效果(中毒 / 流血 …)单独标
       const refused = (a.refused || []).map(r => ({ op: r.op || {}, why: r.why || '', pending: /等创作者批准/.test(r.why || '') }));
@@ -321,7 +321,7 @@ const E = (() => {
       const by = String(p.by || (e.type === 'trigger.fired' ? 'hook' : 'world-agent')).replace(/^solve$/, 'world-agent').replace(/^tick:.*/, 'tick');
       const key = `${e.turn}|${by}`;
       let ev = byKey.get(key);
-      if (!ev) { ev = { id: ++s.seq, tick: e.turn, turn: e.turn, day: s.day, clock: '', by, why: by === 'tick' ? '世界规则(tick)' : '', ops: [], applied: [], refused: [], changes: [], hooks: [] }; byKey.set(key, ev); }
+      if (!ev) { ev = { id: ++s.seq, tick: e.turn, turn: e.turn, day: s.day, clock: '', by, why: by === 'tick' ? T('世界规则(tick)') : '', ops: [], applied: [], refused: [], changes: [], hooks: [] }; byKey.set(key, ev); }
       if (e.type === 'var.changed') { ev.changes.push({ kind: 'var', what: p.var, from: p.from, to: p.to }); ev.applied.push({ op: 'set', var: p.var, value: p.to }); }
       else if (e.type === 'entry.entered') ev.changes.push({ kind: 'move', what: `${p.who}.at`, to: p.entry, who: p.who, arrive: true });
       else if (e.type === 'entity.created') ev.changes.push({ kind: 'node', what: p.id, to: p.name || p.id });
@@ -335,7 +335,7 @@ const E = (() => {
       const w = t.when || {}; const c = (t.if || [])[0] || {};
       const cond = Object.keys(c).find(k => ['<', '<=', '>', '>=', '==', '!='].includes(k));
       return { id: t.id, kind: 'push', on: w.var || (w.entry ? `class:${w.entry}` : w.text ? 'text' : w.op ? `op:${w.op}` : 'turn'), cond: cond || 'change', val: cond ? c[cond] : undefined,
-        then: ((t.then || [])[0] || {}).to || 'event', text: t.doc || ((t.then || [])[0] || {}).text || t.id, by: t.source || '世界规则' };
+        then: ((t.then || [])[0] || {}).to || 'event', text: t.doc || ((t.then || [])[0] || {}).text || t.id, by: t.source || T('世界规则') };
     });
 
     // 审批
@@ -366,7 +366,7 @@ const E = (() => {
     if (commits) {
       for (const n of commits.nodes) {
         G.by[n.id] = { id: n.id, hash: n.id.slice(0, 7), parent: n.parent && commits.nodes.some(x => x.id === n.parent) ? n.parent : null, branch: n.branch, kind: n.turn_seq === 0 ? 'root' : 'turn',
-          label: n.label || `回合 ${n.turn_seq}`, day: s.day, clock: '', tick: n.turn_seq, turn: n.turn_seq, n: 0, tags: [], bits: [], snap: null, kids: [] };
+          label: n.label || T('回合 {t}', { t: n.turn_seq }), day: s.day, clock: '', tick: n.turn_seq, turn: n.turn_seq, n: 0, tags: [], bits: [], snap: null, kids: [] };
         G.list.push(n.id);
       }
       for (const id of G.list) { const p = G.by[id].parent; if (p && G.by[p]) G.by[p].kids.push(id); }
@@ -468,13 +468,13 @@ const E = (() => {
           if (tag && tag[1] !== live.who) { live.who = tag[1]; live.text += (live.text ? '\n' : '') + `${tag[1]}:`; }
           live.text += txt;
           // 角色的每个字都带 [[subagent:名字]];主持的叙事不带 —— 没带就是主持(之前沿用上一个说话人,主持的话会接进角色的气泡里)
-          const who = tag ? tag[1] : '主持', last = live.segs[live.segs.length - 1];
+          const who = tag ? tag[1] : T('主持'), last = live.segs[live.segs.length - 1];
           live.lastChunk = Date.now();
           if (!last || last.who !== who || last.beat !== live.beat) live.segs.push({ who, beat: live.beat, text: txt.replace(/^\n+/, ''), tools: [] });
           else last.text += txt;
           if (!t) t = setTimeout(() => { t = 0; notify(); }, 120);
         } else if (m.kind === 'tool' && !('request' in m)) {   // 回合进行中的工具调用(只有名字),不是拍事件
-          if (busy) { const last = live.segs[live.segs.length - 1]; (last ? last.tools : (live.segs.push({ who: live.who || '主持', beat: live.beat, text: '', tools: [] }), live.segs[0].tools)).push({ name: String(m.name || ''), at: Date.now() }); if (!t) t = setTimeout(() => { t = 0; notify(); }, 120); }
+          if (busy) { const last = live.segs[live.segs.length - 1]; (last ? last.tools : (live.segs.push({ who: live.who || T('主持'), beat: live.beat, text: '', tools: [] }), live.segs[0].tools)).push({ name: String(m.name || ''), at: Date.now() }); if (!t) t = setTimeout(() => { t = 0; notify(); }, 120); }
         } else if (m.kind === 'soul_status') {
           live.souls = m.statuses || {}; if (!t) t = setTimeout(() => { t = 0; notify(); }, 120);
         } else if (String(m.kind || '').startsWith('write_down.')) {
@@ -508,12 +508,12 @@ const E = (() => {
   function sysLine(text, n) { local.feed.push({ id: 900000 + local.feed.length, kind: 'sys', text, day: st.day, clock: clock(), turn: st.turn, after: n }); st.feed.push(local.feed[local.feed.length - 1]); notify(); }
   // Worldlines 额度用完 / 积分不够 / 今日额度没领(core/billing_stop.py):重试没用,告诉玩家怎么办 + 链接;留在记录里直到再跑两句
   function billingStop(b, before) {
-    const msg = String(b.message || '额度不够了'), url = String(b.billing_url || '');
+    const msg = String(b.message || T('额度不够了')), url = String(b.billing_url || '');
     sysLine(url ? `${msg} ${url}` : msg, before + 2);
     toastSafe(msg);
   }
   async function say(text) {
-    if (busy) return toastSafe('上一句还在跑');
+    if (busy) return toastSafe(T('上一句还在跑'));
     liveStream();
     busy = true; live.text = ''; live.who = ''; live.segs = []; live.beat = null; live.lastChunk = 0;
     const before = ((await V3.j('/traces').catch(() => ({ turns: [] }))).turns || []).length;
@@ -522,8 +522,8 @@ const E = (() => {
     try {
       const done = new Promise(r => { live.done = r; });
       const r = await fetch(V3.url('/cmd'), { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text }) });
-      if (r.status === 409) { live.done = null; toastSafe('上一句还在跑'); }
-      else { const m = await Promise.race([done, waitTurn(before).then(() => null)]); if (m && m.billing) billingStop(m.billing, before); else if (m && m.success === false && m.error) toastSafe('这一句没跑完:' + String(m.error).slice(0, 120)); }
+      if (r.status === 409) { live.done = null; toastSafe(T('上一句还在跑')); }
+      else { const m = await Promise.race([done, waitTurn(before).then(() => null)]); if (m && m.billing) billingStop(m.billing, before); else if (m && m.success === false && m.error) toastSafe(T('这一句没跑完:') + String(m.error).slice(0, 120)); }
     } finally { busy = false; live.done = null; live.text = ''; live.segs = []; live.beat = null; local.feed = local.feed.filter(f => f.after > before + 1); await refresh(); }
   }
   async function tick() {
@@ -534,12 +534,12 @@ const E = (() => {
   // 停止:让引擎做完当前这一步就停(POST /cancel = ConversationSession.cancel(),和 TUI 一样)
   async function cancel() { const r = await V3.post('/cancel', {}).catch(e => ({ ok: false, error: e.message })); return r; }
   function relisten() { try { live.es && live.es.close(); } catch { /* 已经关了 */ } live.on = false; liveStream(); }
-  async function approve(id, yes) { await V3.post(`/api/v1/play/engine/approvals/${encodeURIComponent(String(id))}`, { approve: !!yes }).catch(e => toastSafe('审批失败:' + e.message)); await refresh(); }
-  function register() { toastSafe('游玩中注册变量:在创作工坊里做(引擎只允许创作侧注册)'); return { refused: [{ why: '游玩侧不能注册' }], changes: [] }; }
-  function cast() { toastSafe('cast:引擎侧还没有游玩中把 NPC 升为主角的接口'); return { changes: [] }; }
+  async function approve(id, yes) { await V3.post(`/api/v1/play/engine/approvals/${encodeURIComponent(String(id))}`, { approve: !!yes }).catch(e => toastSafe(T('审批失败:') + e.message)); await refresh(); }
+  function register() { toastSafe(T('游玩中注册变量:在创作工坊里做(引擎只允许创作侧注册)')); return { refused: [{ why: T('游玩侧不能注册') }], changes: [] }; }
+  function cast() { toastSafe(T('cast:引擎侧还没有游玩中把 NPC 升为主角的接口')); return { changes: [] }; }
   async function branchFrom(id) {
     const r = await V3.post('/rollback', { commit: id }).catch(e => ({ ok: false, error: e.message }));
-    if (!r.ok) { toastSafe('分岔失败:' + (r.error || '')); return false; }
+    if (!r.ok) { toastSafe(T('分岔失败:') + (r.error || '')); return false; }
     await refresh(); return st.branch;
   }
   const branchNew = () => branchFrom(G.heads[st.branch]);
@@ -549,7 +549,7 @@ const E = (() => {
   const branchGet = name => (name === st.branch ? st : null);
   const stateAt = id => (id === G.heads[st.branch] ? st : null);
   async function reset() {
-    const id = V3.template?.id; if (!id) return toastSafe('不是从模板开的局');
+    const id = V3.template?.id; if (!id) return toastSafe(T('不是从模板开的局'));
     const r = await V3.post('/api/v1/play/session', { slug: `tpl--${id}` }); history.replaceState(null, '', `?save=${encodeURIComponent(r.slug || '')}`); traceCache.clear(); await refresh();
   }
   // 创作者操作:Mock 的 propose('creator', ops) → 引擎里有对应的就调
@@ -559,27 +559,27 @@ const E = (() => {
     rnd: () => Math.random(), reg() {}, cls() {}, continueTrip() {}, spend() {},
     propose(by, ops, why = '') {
       const ev = { id: ++st.seq, tick: st.tick, turn: st.turn, day: st.day, clock: clock(), by, why, ops, applied: [], refused: [], changes: [], hooks: [] };
-      if (by !== 'creator') { for (const op of ops) ev.refused.push({ op, why: '这一步由引擎决定,前端不能直接改世界' }); st.events.push(ev); notify(); return ev; }
+      if (by !== 'creator') { for (const op of ops) ev.refused.push({ op, why: T('这一步由引擎决定,前端不能直接改世界') }); st.events.push(ev); notify(); return ev; }
       const L = st.link, tpl = [], fills = [];
       for (const op of ops) {
         if (op.op === 'set_policy') {  // 这一局立刻生效;模板可写时也写进模板(之后新开的局继承)
           ev.applied.push(op); V3.post('/api/v1/play/engine/policy', { class: op.cls, policy: op.policy }).then(refresh).catch(e => toastSafe(e.message));
           if (L?.writable) tpl.push(op);
         } else if (op.op === 'fill_asset') {
-          if (!L) ev.refused.push({ op, why: '模板创作只在本地引擎上有' }); else { ev.applied.push(op); fills.push(op); }
+          if (!L) ev.refused.push({ op, why: T('模板创作只在本地引擎上有') }); else { ev.applied.push(op); fills.push(op); }
         } else if (V3.TPL_OPS.includes(op.op)) {
-          if (!L) ev.refused.push({ op, why: '模板创作只在本地引擎上有' });
-          else if (!L.writable) ev.refused.push({ op, why: `「${V3.template?.card?.title || L.tid}」是内置模板(只读)——先在世界页「＋ 新建世界」另存一份,再改` });
+          if (!L) ev.refused.push({ op, why: T('模板创作只在本地引擎上有') });
+          else if (!L.writable) ev.refused.push({ op, why: T('「{name}」是内置模板(只读)——先在世界页「＋ 新建世界」另存一份,再改', { name: V3.template?.card?.title || L.tid }) });
           else { ev.applied.push(op); tpl.push(op); }
-        } else ev.refused.push({ op, why: `引擎没有创作者操作 ${op.op}` });
+        } else ev.refused.push({ op, why: T('引擎没有创作者操作 {op}', { op: op.op }) });
       }
       if (tpl.length) V3.tplOps(tpl).then(d => {
-        if (d.ok) toastSafe(`已写进模板 ${L.tid}:${d.applied.map(a => a.what).join(' · ')}${tpl.some(o => ['set_mixins', 'register_class', 'set_world_data'].includes(o.op)) ? '(规则类修改在新开一局后生效)' : ''}`);
-        else toastSafe(`模板拒绝了:${(d.refused || []).map(r => r.why).join(';')}`);
+        if (d.ok) toastSafe(`${T('已写进模板 {tid}:', { tid: L.tid })}${d.applied.map(a => a.what).join(' · ')}${tpl.some(o => ['set_mixins', 'register_class', 'set_world_data'].includes(o.op)) ? T('(规则类修改在新开一局后生效)') : ''}`);
+        else toastSafe(T('模板拒绝了:') + (d.refused || []).map(r => r.why).join(';'));
         return reloadLink();
       }).catch(e => toastSafe(e.message));
-      for (const op of fills) V3.fillSlot(op.key).then(() => { toastSafe(`素材 ${op.key} 已生成 → 进模板,并留档到素材车间`); return reloadLink(); })
-        .catch(e => { toastSafe(`生成失败:${e.message}`); return reloadLink(); });
+      for (const op of fills) V3.fillSlot(op.key).then(() => { toastSafe(T('素材 {key} 已生成 → 进模板,并留档到素材车间', { key: op.key })); return reloadLink(); })
+        .catch(e => { toastSafe(T('生成失败:') + e.message); return reloadLink(); });
       st.events.push(ev); notify(); return ev;
     },
   };

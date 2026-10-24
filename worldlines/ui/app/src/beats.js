@@ -3,22 +3,22 @@
    (worldlines/private/ui/*.js,构建时有就带上):标签、颜色、分隔条、计划板、建议词都从这里取,界面不写死。
    没注册的拍,用编排图里的节点名。 */
 window.BEATS = {
-  kinds: { opening: { label: '开场' }, turn: { label: '回合' } },
+  kinds: { opening: { label: T('开场') }, turn: { label: T('回合') } },
   label(k) { return (this.kinds[k] && this.kinds[k].label) || String(k || ''); },
   // 回合进行中的一段流式文字:class + 「谁 · 在干什么」
-  seg(beat, last) { return { cls: 'res', who: '主持' + (last ? ' · 正在写' : '') }; },
+  seg(beat, last) { return { cls: 'res', who: T('主持') + (last ? ' · ' + T('正在写') : '') }; },
   // 两段之间的分隔(换拍时)
   divider(prev, next) { return ''; },
   // 对话里一条已落定的记录
-  you(f) { return '你'; },
-  host(f) { return '主持'; },
+  you(f) { return T('你'); },
+  host(f) { return T('主持'); },
   hostCls(f) { return ''; },
   narrDivider(f) { return ''; },
-  narrWho(f) { return this.kinds[f.kind] ? this.label(f.kind) : '叙事'; },
+  narrWho(f) { return this.kinds[f.kind] ? this.label(f.kind) : T('叙事'); },
   adv: {},                                  // 谁推进的这一拍(advanced_by → 显示名)
   board: null,                              // (b) → html:进行中的计划(有这种拍的玩法才有)
   chips(s, out) { return out; },            // 输入框下的建议词
-  placeholder: '说你想做什么',
+  placeholder: T('说你想做什么'),
   phase: null,                              // (raw chunk) → 这段属于哪一拍(引擎在流里写的阶段行)
   strip(t) { return t; },                   // 从流式文字里去掉阶段行
   tools: {},                                // 工具表:某种拍自带、规则包里没有的工具(op → 说明)
@@ -45,14 +45,14 @@ window.BEATS = {
     for (const [k, v] of Object.entries(K)) B.kinds[k] = { ...(B.kinds[k] || {}), label: v.label || k, noFiles: v.no_files, noWrites: v.no_writes };
     const res = k => (K[k] || {}).tone === 'res';
     B.seg = (beat, last) => { const k = beat || start, v = K[k] || {};
-      return res(k) ? { cls: 'res', who: `${v.live || B.label(k)} · ${last ? '正在写' : '叙事'}` }
-        : { cls: `host ${v.tone || ''}`.trim(), who: (v.live || B.label(k)) + (last ? ' · 正在说' : '') }; };
+      return res(k) ? { cls: 'res', who: `${v.live || B.label(k)} · ${last ? T('正在写') : T('叙事')}` }
+        : { cls: `host ${v.tone || ''}`.trim(), who: (v.live || B.label(k)) + (last ? ' · ' + T('正在说') : '') }; };
     B.divider = (prev, next) => { const t = ((K[next] || {}).divider_from || {})[prev]; return t ? DIV(t) : ''; };
-    B.you = f => '你 · ' + ((K[f.beat] || {}).you || '提出');
-    B.host = f => (K[f.beat || start] || {}).host || (K[f.beat || start] || {}).live || '主持';
+    B.you = f => T('你') + ' · ' + ((K[f.beat] || {}).you || T('提出'));
+    B.host = f => (K[f.beat || start] || {}).host || (K[f.beat || start] || {}).live || T('主持');
     B.hostCls = f => (K[f.beat || start] || {}).tone || '';
     B.narrDivider = f => { const d = (K[f.kind] || {}).divider_from; const t = d && (d[start] || Object.values(d)[0]); return t ? DIV(t) : ''; };
-    B.narrWho = f => K[f.kind] ? (K[f.kind].narr || B.label(f.kind)) : '叙事';
+    B.narrWho = f => K[f.kind] ? (K[f.kind].narr || B.label(f.kind)) : T('叙事');
     B.adv = Object.assign({}, ...Object.values(K).map(v => v.advanced_by || {}));
     B.chips = (s, out) => { if (s.board) out.push(...(S.chips_when_board || [])); out.push(...(S.chips || [])); return out; };
     B.placeholder = S.placeholder || snap().placeholder;

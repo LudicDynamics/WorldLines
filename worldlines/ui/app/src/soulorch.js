@@ -14,22 +14,22 @@
     lint: {}, sig: {}, saved: {}, msg: {}, chat: {}, amb: {}, stk: {}, busy: false, timer: null };
   // 下面几张表只是中文名字;有什么(节点种类 · 步骤 · 参数 · 触发)以接口 hooks 为准,没在 hooks 里的不画
   const SKIND = { chat: '直聊', tick: '自由行动', reflect: '记忆整理', in_world: '世界里那一拍' };
-  const STRIG = { chat: '收到消息', tick: '前台 tick', idle: '闲着(分钟)' };
-  const STEP_LBL = { docs: '读文档', history: '最近几条对话', reply: '回话', bubbles: '拆气泡 · 表情', ambient: '作息 · 简单世界观', doing: '做一件小事',
-    memory: '写回记忆', message: '可能发一条消息', reflect: '每 N 次 → 记忆整理', read: '读短期记忆', fold: '整理成几句', write: '写进长期 · 修剪短期',
-    called: '世界回合按 depth 点到', soul_step: '按变体走一拍', settle: '世界清算' };
-  const KNOB_LBL = { history: '带上最近几条对话', max_bubbles: '一次最多回几条', doc_cap: '角色文档最多读多少字', interval_min: '两次之间至少几分钟',
-    daily_max: '每天最多几次', proactive_daily: '每天最多主动发几条', prompt: '提示词(空 = 引擎默认)', every: '每几次 tick 整理一次(0 = 关)', keep: '短期记忆留几条' };
-  const DEPTH_LBL = { silent: '不出声', gesture: '小动作', speak: '说话', act: '行动', away: '不在玩家眼前' };
+  const STRIG = { chat: T('收到消息'), tick: T('前台 tick'), idle: T('闲着(分钟)') };
+  const STEP_LBL = { docs: T('读文档'), history: T('最近几条对话'), reply: T('回话'), bubbles: T('拆气泡 · 表情'), ambient: T('作息 · 简单世界观'), doing: T('做一件小事'),
+    memory: T('写回记忆'), message: T('可能发一条消息'), reflect: T('每 N 次 → 记忆整理'), read: T('读短期记忆'), fold: T('整理成几句'), write: T('写进长期 · 修剪短期'),
+    called: T('世界回合按 depth 点到'), soul_step: T('按变体走一拍'), settle: T('世界清算') };
+  const KNOB_LBL = { history: T('带上最近几条对话'), max_bubbles: T('一次最多回几条'), doc_cap: T('角色文档最多读多少字'), interval_min: T('两次之间至少几分钟'),
+    daily_max: T('每天最多几次'), proactive_daily: T('每天最多主动发几条'), prompt: T('提示词(空 = 引擎默认)'), every: T('每几次 tick 整理一次(0 = 关)'), keep: T('短期记忆留几条') };
+  const DEPTH_LBL = { silent: T('不出声'), gesture: T('小动作'), speak: T('说话'), act: T('行动'), away: T('不在玩家眼前') };
   const WKIND = Object.keys(KIND);
   Object.assign(KIND, SKIND);
-  const TABS = [['independent', '独立角色'], ['standalone', '可单独聊'], ['takeable', '可带走'], ['library', '角色库全部']];
+  const TABS = [['independent', T('独立角色')], ['standalone', T('可单独聊')], ['takeable', T('可带走')], ['library', T('角色库全部')]];
   const kinds = () => (SO.hooks && SO.hooks.node_kinds) || {};
   const stepsOf = k => ((kinds()[k] || {}).steps || []).map(x => [x.by, STEP_LBL[x.id] || x.doc]);
   const knobsOf = k => Object.entries((kinds()[k] || {}).params || {}).filter(([, v]) => v === null || typeof v !== 'object').map(([x]) => x);
-  const promptOf = (k, n) => k === 'chat' ? 'soul_chat · 角色自己的文件夹' : k === 'tick' ? (n.prompt ? '节点自己的(下面 prompt)' : 'soul_tick.PROMPT(引擎默认)')
-    : k === 'reflect' ? 'soul_tick.REFLECT_PROMPT · 便宜调用(≤ 400 token)' : k === 'in_world' ? '世界的 soul_step(见下面)' : '—';
-  const CHAT_LBL = { library: '角色库 · 直接能聊', standalone: '可单独聊', obtained: '已获得', locked: '还没获得' };
+  const promptOf = (k, n) => k === 'chat' ? T('soul_chat · 角色自己的文件夹') : k === 'tick' ? (n.prompt ? T('节点自己的(下面 prompt)') : T('soul_tick.PROMPT(引擎默认)'))
+    : k === 'reflect' ? T('soul_tick.REFLECT_PROMPT · 便宜调用(≤ 400 token)') : k === 'in_world' ? T('世界的 soul_step(见下面)') : '—';
+  const CHAT_LBL = { library: T('角色库 · 直接能聊'), standalone: T('可单独聊'), obtained: T('已获得'), locked: T('还没获得') };
   // 只在 Local:浏览器版引擎(Hub)的 /api/v1/souls/* 回 404,角色面就只显示一句说明
   const isSoul = () => SO.mode === 'soul';
   const curWorld = () => (window.WL_WORLD && window.WL_WORLD()) || '';
@@ -61,11 +61,11 @@
     ids.forEach((id, i) => { const n = G0.nodes[id]; nodes[id] = soulNode(n.kind in kinds() ? n.kind : 'chat', n, i); });
     // 世界里那一拍不是这张图的节点:有世界就画一个(只读的图位置,写回时不带),点开看 / 改它在那个世界的真实设置
     if (b.in_world && !Object.values(nodes).some(n => n.kind === 'in_world'))
-      nodes.in_world = { ...soulNode('in_world', { title: `世界里那一拍 · ${b.in_world.title}` }, ids.length), virtual: true };
+      nodes.in_world = { ...soulNode('in_world', { title: `${T('世界里那一拍')} · ${b.in_world.title}` }, ids.length), virtual: true };
     const edges = (G0.edges || []).map(e => { const on = Object.keys(e.on || {})[0] || 'always', v = (e.on || {})[on]; return { id: e.id, from: e.from, to: e.to, on, val: v === true ? '' : String(v ?? ''), engine: true }; })
       .filter(e => (e.from === '*' || nodes[e.from]) && nodes[e.to]);
     // 「从任何节点」的边(from: *)图上画不出来:原样留着,写回时带上
-    return { title: `角色 · ${b.name}`, start: G0.start || ids[0], nodes, edges: edges.filter(e => e.from !== '*'), any: (G0.edges || []).filter(e => e.from === '*'), raw: JSON.parse(JSON.stringify(G0)), soul: b.ref, edit: b.edit, base: b.base, live: true, iw: b.in_world || null, iwWorld: curWorld() };
+    return { title: `${T('角色')} · ${b.name}`, start: G0.start || ids[0], nodes, edges: edges.filter(e => e.from !== '*'), any: (G0.edges || []).filter(e => e.from === '*'), raw: JSON.parse(JSON.stringify(G0)), soul: b.ref, edit: b.edit, base: b.base, live: true, iw: b.in_world || null, iwWorld: curWorld() };
   }
   // 编排台的图 → 引擎的图:节点保留引擎原有字段,工具 / 参数 / 标题按界面上的改
   function toEngine(g, key) {
@@ -86,7 +86,7 @@
   async function loadRows() {
     if (SO.rows || SO.busy) return;
     SO.busy = true;
-    try { SO.rows = (await V3.j('/api/v1/souls/catalog')).souls || []; SO.err = ''; } catch (e) { SO.rows = []; SO.err = e.status === 404 ? '这个引擎没有角色编排台(只在 Local)' : `读不到角色列表:${e.message}`; }
+    try { SO.rows = (await V3.j('/api/v1/souls/catalog')).souls || []; SO.err = ''; } catch (e) { SO.rows = []; SO.err = e.status === 404 ? T('这个引擎没有角色编排台(只在 Local)') : T('读不到角色列表:') + e.message; }
     SO.busy = false;
     if (!SO.key && SO.rows.length) { const first = SO.rows.find(r => r.kinds.includes(SO.tab)) || SO.rows[0]; await openSoul(first.ref); return; }
     if (S.screen === 'orch') renderOrch();
@@ -96,7 +96,7 @@
     SO.key = key; SO.open = false;
     if (!SO.graphs[key]) {
       try { const b = await V3.j(benchUrl(ref)); SO.hooks = b.hooks; SO.graphs[key] = toUi(b.graph, b); SO.lint[key] = b.lint || []; SO.saved[key] = sigOf(SO.graphs[key], key); }
-      catch (e) { SO.msg[key] = `读不到这张图:${e.message}`; }
+      catch (e) { SO.msg[key] = T('读不到这张图:') + e.message; }
     }
     S.node = cur() ? cur().start : null; S.edge = null; S.layer = 'graph';
     if (S.screen === 'orch') renderOrch();
@@ -110,8 +110,8 @@
     if (g.iwWorld !== w) return;   // 又换过世界:慢回来的旧答案不盖新的
     g.iw = iw;
     const v = g.nodes.in_world;
-    if (g.iw && v && v.virtual) v.title = `世界里那一拍 · ${g.iw.title}`;
-    else if (g.iw && !v) g.nodes.in_world = { ...soulNode('in_world', { title: `世界里那一拍 · ${g.iw.title}` }, Object.keys(g.nodes).length), virtual: true };
+    if (g.iw && v && v.virtual) v.title = `${T('世界里那一拍')} · ${g.iw.title}`;
+    else if (g.iw && !v) g.nodes.in_world = { ...soulNode('in_world', { title: `${T('世界里那一拍')} · ${g.iw.title}` }, Object.keys(g.nodes).length), virtual: true };
     else if (!g.iw && v && v.virtual) { delete g.nodes.in_world; if (S.node === 'in_world') S.node = g.start; }
     if (isSoul() && SO.key === key && S.screen === 'orch') renderOrch();
   }
@@ -120,10 +120,10 @@
     const rows = SO.lint[key] || [], g = SO.graphs[key];
     const dirty = g && sigOf(g, key) !== SO.saved[key];
     const ro = g && g.edit && !g.edit.writable;
-    const where = g && g.edit ? (g.edit.to === 'library' ? `角色库 ${g.edit.id}` : `世界 ${g.edit.id}(只改这个世界)`) : '';
-    return `<div class="orchsave glass"><span class="tag">${esc(SO.msg[key] || (ro ? `${where} 是内置模板(只读):先在 Template 页复制成自己的` : dirty ? '图上有改动,还没写回' : '和写回的一致'))}</span>
-      <button class="btn ${dirty && !ro ? 'p' : ''}" data-sosave ${dirty && !ro ? '' : 'disabled'}>写回${esc(where ? ' · ' + where : '')}</button></div>
-      ${rows.length ? `<div class="orchlint glass"><b>检查 · ${rows.length}</b>${rows.map(w => `<div><span class="dot ${w.level === 'block' ? 'bad' : 'warn'}"></span>${esc(w.code)}<small>${esc(w.msg)}</small></div>`).join('')}</div>` : ''}`;
+    const where = g && g.edit ? (g.edit.to === 'library' ? T('角色库 {id}', { id: g.edit.id }) : T('世界 {id}(只改这个世界)', { id: g.edit.id })) : '';
+    return `<div class="orchsave glass"><span class="tag">${esc(SO.msg[key] || (ro ? T('{where} 是内置模板(只读):先在 Template 页复制成自己的', { where }) : dirty ? T('图上有改动,还没写回') : T('和写回的一致')))}</span>
+      <button class="btn ${dirty && !ro ? 'p' : ''}" data-sosave ${dirty && !ro ? '' : 'disabled'}>${T('写回')}${esc(where ? ' · ' + where : '')}</button></div>
+      ${rows.length ? `<div class="orchlint glass"><b>${T('检查')} · ${rows.length}</b>${rows.map(w => `<div><span class="dot ${w.level === 'block' ? 'bad' : 'warn'}"></span>${esc(w.code)}<small>${esc(w.msg)}</small></div>`).join('')}</div>` : ''}`;
   }
   function relint() {
     clearTimeout(SO.timer);
@@ -142,31 +142,31 @@
   }
   async function save() {
     const key = SO.key, g = cur(); if (!g) return;
-    SO.msg[key] = '写回中……'; paintBar();
+    SO.msg[key] = T('写回中……'); paintBar();
     try {
       const r = await send('POST', '/api/v1/souls/orchestration', { ref: g.soul, graph: toEngine(g, key) });
       const b = await V3.j(benchUrl(g.soul));
       Object.keys(S.toolsOver).filter(k => k.startsWith(key + ':')).forEach(k => delete S.toolsOver[k]);
       SO.graphs[key] = toUi(b.graph, b); SO.lint[key] = b.lint || []; SO.saved[key] = SO.sig[key] = sigOf(SO.graphs[key], key);
-      SO.msg[key] = r.to === 'library' ? '写回角色库 · 小手机下一句就按这张图回' : `写回世界 ${r.id} · 小手机下一句就按这张图回`;
-    } catch (e) { SO.msg[key] = '没写成:' + e.message; }
+      SO.msg[key] = r.to === 'library' ? T('写回角色库 · 小手机下一句就按这张图回') : T('写回世界 {id} · 小手机下一句就按这张图回', { id: r.id });
+    } catch (e) { SO.msg[key] = T('没写成:') + e.message; }
     renderOrch();
   }
 
   // 顶上「世界 / 角色」切换 + 角色面的选角色下拉(替掉世界那张图的下拉框)
   function chrome() {
     const r = document.querySelector('#s-orch .crumb .r'); if (!r) return;
-    r.insertAdjacentHTML('afterbegin', `<span class="somode"><button data-somode="world" class="${isSoul() ? '' : 'on'}">世界</button><button data-somode="soul" class="${isSoul() ? 'on' : ''}">角色</button></span>`);
+    r.insertAdjacentHTML('afterbegin', `<span class="somode"><button data-somode="world" class="${isSoul() ? '' : 'on'}">${T('世界')}</button><button data-somode="soul" class="${isSoul() ? 'on' : ''}">${T('角色')}</button></span>`);
     if (!isSoul()) return;
     const cr = document.querySelector('#s-orch .crumb');
     if (cr && !cr.querySelector('[data-solayer]')) {
       cr.querySelectorAll('[data-layer]').forEach(x => x.classList.toggle('on', !SO.layer && x.dataset.layer === S.layer));
-      r.insertAdjacentHTML('beforebegin', `<span class="sep">/</span><button class="${SO.layer === 'ambient' ? 'on' : ''}" data-solayer="ambient">简单世界观</button><span class="sep">/</span><button class="${SO.layer === 'stickers' ? 'on' : ''}" data-solayer="stickers">专属表情</button>`);
+      r.insertAdjacentHTML('beforebegin', `<span class="sep">/</span><button class="${SO.layer === 'ambient' ? 'on' : ''}" data-solayer="ambient">${T('简单世界观')}</button><span class="sep">/</span><button class="${SO.layer === 'stickers' ? 'on' : ''}" data-solayer="stickers">${T('专属表情')}</button>`);
     }
     const sel = r.querySelector('#gsel'), tag = sel && sel.previousElementSibling;
-    if (tag && tag.classList.contains('tag')) tag.textContent = '角色';
+    if (tag && tag.classList.contains('tag')) tag.textContent = T('角色');
     const row = (SO.rows || []).find(x => 'soul:' + x.ref === SO.key);
-    if (sel) sel.outerHTML = `<button class="btn" data-sopick>${esc(row ? row.name : '选一个角色')} ▾</button>`;
+    if (sel) sel.outerHTML = `<button class="btn" data-sopick>${esc(row ? row.name : T('选一个角色'))} ▾</button>`;
     r.style.position = 'relative';
     if (SO.open) r.insertAdjacentHTML('beforeend', pickPanel());
   }
@@ -175,10 +175,10 @@
     const rows = (SO.rows || []).filter(x => x.kinds.includes(SO.tab)).filter(x => !q || [x.name, x.world, x.ref].join(' ').toLowerCase().includes(q));
     const n = k => (SO.rows || []).filter(x => x.kinds.includes(k)).length;
     return `<div class="sopick glass"><div class="row" style="gap:6px;flex-wrap:wrap">${TABS.map(([k, l]) => `<button class="chip ${SO.tab === k ? 'solid' : ''}" data-sotab="${k}">${l} · ${n(k)}</button>`).join('')}</div>
-      <input class="cell" id="soq" placeholder="搜名字 / 世界" value="${esc(SO.q)}" autocomplete="off">
+      <input class="cell" id="soq" placeholder="${T('搜名字 / 世界')}" value="${esc(SO.q)}" autocomplete="off">
       <div class="rows">${rows.map(x => `<button class="row1 ${'soul:' + x.ref === SO.key ? 'on' : ''}" data-soref="${esc(x.ref)}">${x.avatar_thumb_url ? `<img src="${esc(V3.url(x.avatar_thumb_url))}" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'ph'}))">` : '<span class="ph"></span>'}
-        <span><b>${esc(x.name)}</b><small>${esc(x.world || (x.worlds && x.worlds.length ? x.worlds.map(w => w.title || w.template).join(' · ') : '不在任何世界里'))}</small></span>
-        <span class="k">${esc(CHAT_LBL[x.chat] || x.chat)}${x.edit && !x.edit.writable ? ' · 只读' : ''}</span></button>`).join('') || `<div class="sub" style="padding:8px">${esc(SO.err || (SO.rows ? '这一类还没有角色' : '读角色列表……'))}</div>`}</div></div>`;
+        <span><b>${esc(x.name)}</b><small>${esc(x.world || (x.worlds && x.worlds.length ? x.worlds.map(w => w.title || w.template).join(' · ') : T('不在任何世界里')))}</small></span>
+        <span class="k">${esc(CHAT_LBL[x.chat] || x.chat)}${x.edit && !x.edit.writable ? ' · ' + T('只读') : ''}</span></button>`).join('') || `<div class="sub" style="padding:8px">${esc(SO.err || (SO.rows ? T('这一类还没有角色') : T('读角色列表……')))}</div>`}</div></div>`;
   }
   // 右栏:真的和这个角色聊(按写回后的图;草稿要先写回)
   function chatSide() {
@@ -187,9 +187,9 @@
     if (!th) { SO.chat[g.soul] = { messages: null, sending: false, err: '' }; V3.j(`/api/v1/chat/thread?ref=${encodeURIComponent(g.soul)}`).then(t => { SO.chat[g.soul].messages = t.messages || []; SO.chat[g.soul].access = t.access; if (isSoul()) chatSide(); }).catch(e => { SO.chat[g.soul].err = e.message; SO.chat[g.soul].messages = []; if (isSoul()) chatSide(); }); }
     const t = SO.chat[g.soul], msgs = (t.messages || []).slice(-30);
     const locked = t.access === 'locked';
-    side.innerHTML = `<div class="side-h"><b>对话测试</b> <span class="tag">真角色 · 会花额度</span><div class="sub" style="font-size:12.5px">就是小手机里的那条对话:按写回后的图回话(草稿先写回)。${locked ? '这个角色玩家还没获得,小手机里聊不了。' : ''}</div></div>
-      <div class="chat sochat" id="sochat">${t.messages === null ? '<div class="m sys">读对话……</div>' : msgs.map(m => `<div class="m ${m.from === 'me' ? 'me' : 'soul human'}">${m.kind === 'sticker' ? `<span class="tag">表情 ${esc(m.sticker)}</span>` : esc(m.text)}</div>`).join('') || '<div class="m sys">还没聊过</div>'}${t.sending ? '<div class="m sys">正在输入……</div>' : ''}${t.err ? `<div class="m sys"><span class="bad">${esc(t.err)}</span></div>` : ''}</div>
-      <div class="compose"><div class="in"><input id="soin" placeholder="${locked ? '还不能聊' : '说一句'}" autocomplete="off" ${locked ? 'disabled' : ''}><button class="send" id="sosend" aria-label="发送" ${locked ? 'disabled' : ''}>➤</button></div></div>`;
+    side.innerHTML = `<div class="side-h"><b>${T('对话测试')}</b> <span class="tag">${T('真角色 · 会花额度')}</span><div class="sub" style="font-size:12.5px">${T('就是小手机里的那条对话:按写回后的图回话(草稿先写回)。')}${locked ? T('这个角色玩家还没获得,小手机里聊不了。') : ''}</div></div>
+      <div class="chat sochat" id="sochat">${t.messages === null ? `<div class="m sys">${T('读对话……')}</div>` : msgs.map(m => `<div class="m ${m.from === 'me' ? 'me' : 'soul human'}">${m.kind === 'sticker' ? `<span class="tag">${T('表情')} ${esc(m.sticker)}</span>` : esc(m.text)}</div>`).join('') || `<div class="m sys">${T('还没聊过')}</div>`}${t.sending ? `<div class="m sys">${T('正在输入……')}</div>` : ''}${t.err ? `<div class="m sys"><span class="bad">${esc(t.err)}</span></div>` : ''}</div>
+      <div class="compose"><div class="in"><input id="soin" placeholder="${locked ? T('还不能聊') : T('说一句')}" autocomplete="off" ${locked ? 'disabled' : ''}><button class="send" id="sosend" aria-label="${T('发送')}" ${locked ? 'disabled' : ''}>➤</button></div></div>`;
     const c = document.getElementById('sochat'); if (c) c.scrollTop = c.scrollHeight;
   }
   async function say(text) {
@@ -197,7 +197,7 @@
     const t = SO.chat[g.soul]; if (!t || t.sending) return;
     t.messages = [...(t.messages || []), { from: 'me', kind: 'text', text }]; t.sending = true; t.err = ''; chatSide();
     try { const r = await send('POST', '/api/v1/chat/send', { ref: g.soul, kind: 'text', text }); t.messages = [...t.messages, ...(r.messages || [])]; }
-    catch (e) { t.err = e.status === 409 ? '上一句还在回' : /no model configured/i.test(e.message) ? '还没选模型:到设置里选一个模型再聊' : '没发出去:' + e.message; t.messages = t.messages.slice(0, -1); }
+    catch (e) { t.err = e.status === 409 ? T('上一句还在回') : /no model configured/i.test(e.message) ? T('还没选模型:到设置里选一个模型再聊') : T('没发出去:') + e.message; t.messages = t.messages.slice(0, -1); }
     t.sending = false; chatSide();
   }
 
@@ -205,15 +205,15 @@
   function withSoulTools(fn) {
     const keep = { ...TOOLS };
     for (const k of Object.keys(TOOLS)) delete TOOLS[k];
-    Object.entries((SO.hooks && SO.hooks.tools) || {}).forEach(([k, v]) => { TOOLS[k] = { kind: 'tool', sync: !!v.sync, fields: '', validator: '', src: v.live ? 'engine' : '还没上线', doc: v.doc || '' }; });
+    Object.entries((SO.hooks && SO.hooks.tools) || {}).forEach(([k, v]) => { TOOLS[k] = { kind: 'tool', sync: !!v.sync, fields: '', validator: '', src: v.live ? 'engine' : T('还没上线'), doc: v.doc || '' }; });
     try { fn(); } finally { for (const k of Object.keys(TOOLS)) delete TOOLS[k]; Object.assign(TOOLS, keep); }
   }
 
   const _render = renderOrch;
   renderOrch = function () {
     if (!isSoul()) { for (const k of Object.keys(GRAPHS)) if (k.startsWith('soul:')) delete GRAPHS[k]; if (!G()) S.graph = Object.keys(GRAPHS)[0]; _render(); chrome(); return; }
-    if (!SO.rows) { loadRows(); $('#s-orch').innerHTML = '<div class="ws"><div class="sub">读角色列表……</div></div>'; return; }
-    if (!cur()) { $('#s-orch').innerHTML = `<div class="ws"><div class="ws-main"><div class="crumb"><div class="r"><span class="tag">角色</span><select class="btn" id="gsel"></select></div></div><div class="sub">${esc(SO.msg[SO.key] || SO.err || (SO.rows.length ? '选一个角色' : '还没有可以编排的角色'))}</div></div></div>`; chrome(); return; }
+    if (!SO.rows) { loadRows(); $('#s-orch').innerHTML = `<div class="ws"><div class="sub">${T('读角色列表……')}</div></div>`; return; }
+    if (!cur()) { $('#s-orch').innerHTML = `<div class="ws"><div class="ws-main"><div class="crumb"><div class="r"><span class="tag">${T('角色')}</span><select class="btn" id="gsel"></select></div></div><div class="sub">${esc(SO.msg[SO.key] || SO.err || (SO.rows.length ? T('选一个角色') : T('还没有可以编排的角色')))}</div></div></div>`; chrome(); return; }
     GRAPHS[SO.key] = cur(); S.graph = SO.key;
     if (cur().iwWorld !== curWorld()) refreshIw(SO.key);   // 别的角色看的时候换过世界
     if (!cur().nodes[S.node]) S.node = cur().start;
@@ -224,37 +224,37 @@
 
   // 专属表情(S5):图(PNG)+ 含义(四语)+ 什么时候发 —— 小手机的表情面板显示含义,角色回话时照「什么时候发」挑
   const LG = ['zh', 'en', 'ja', 'ko'];
-  async function loadStk(ref) { const k = SO.stk[ref] = { ...(SO.stk[ref] || {}), busy: true }; try { Object.assign(k, await V3.j(`/api/v1/souls/stickers?ref=${encodeURIComponent(ref)}`), { msg: '' }); } catch (e) { k.msg = '读不到:' + e.message; k.stickers = k.stickers || []; } k.busy = false; stickers(); }
+  async function loadStk(ref) { const k = SO.stk[ref] = { ...(SO.stk[ref] || {}), busy: true }; try { Object.assign(k, await V3.j(`/api/v1/souls/stickers?ref=${encodeURIComponent(ref)}`), { msg: '' }); } catch (e) { k.msg = T('读不到:') + e.message; k.stickers = k.stickers || []; } k.busy = false; stickers(); }
   function stickers() {
     const g = cur(), b = document.getElementById('board'); if (!g || !b || SO.layer !== 'stickers') return;
     const k = SO.stk[g.soul]; if (!k) { loadStk(g.soul); return; }
     const rows = k.stickers || [], ro = k.writable === false;
-    b.innerHTML = `<div class="flow scroll" style="overflow:auto"><div class="tag">stickers/*.png · stickers.json</div><h2 class="h1" style="font-size:26px">专属表情</h2>
-      <p class="sub">这个角色自己的表情:小手机的「TA 专属」页签里列出来,角色回话时也会发(模型看得到每张的含义和什么时候发)。图只用 GPT 生成或作者上传的 PNG。</p>
-      ${k.msg || ro ? `<div class="note" style="position:relative;margin:10px 0">${esc(k.msg || '内置模板只读:先在 Template 页复制成自己的')}</div>` : ''}
-      <table class="t" style="margin-top:12px"><tr><th></th><th>id</th>${LG.map(l => `<th>含义 · ${l}</th>`).join('')}<th>什么时候发</th><th></th></tr>
+    b.innerHTML = `<div class="flow scroll" style="overflow:auto"><div class="tag">stickers/*.png · stickers.json</div><h2 class="h1" style="font-size:26px">${T('专属表情')}</h2>
+      <p class="sub">${T('这个角色自己的表情:小手机的「TA 专属」页签里列出来,角色回话时也会发(模型看得到每张的含义和什么时候发)。图只用 GPT 生成或作者上传的 PNG。')}</p>
+      ${k.msg || ro ? `<div class="note" style="position:relative;margin:10px 0">${esc(k.msg || T('内置模板只读:先在 Template 页复制成自己的'))}</div>` : ''}
+      <table class="t" style="margin-top:12px"><tr><th></th><th>id</th>${LG.map(l => `<th>${T('含义')} · ${l}</th>`).join('')}<th>${T('什么时候发')}</th><th></th></tr>
       ${rows.map(r => `<tr><td>${r.url ? `<img src="${esc(V3.url(r.url))}" alt="" style="width:44px;height:44px;object-fit:contain">` : ''}</td><td class="mono">${esc(r.id)}</td>
         ${LG.map(l => `<td><input class="cell" data-sol="${esc(r.id)}:${l}" value="${esc((r.label && typeof r.label === 'object' ? r.label[l] : l === 'zh' ? r.label : '') || '')}" style="width:96px" ${ro ? 'disabled' : ''}></td>`).join('')}
-        <td><input class="cell" data-sowhen="${esc(r.id)}" value="${esc(r.when || '')}" style="width:100%" ${ro ? 'disabled' : ''}></td><td>${ro ? '' : `<button class="chip" data-sostkdel="${esc(r.id)}">移走</button>`}</td></tr>`).join('') || `<tr><td colspan="8" class="muted">还没有专属表情</td></tr>`}</table>
-      ${ro ? '' : `<div class="row" style="gap:8px;margin-top:12px;align-items:center"><input class="cell" id="sostkid" placeholder="新表情的 id(a-z 0-9 _ -)" style="width:200px"><label class="btn">选一张 PNG 上传<input type="file" accept="image/png" id="sostkfile" hidden></label></div>`}</div>`;
+        <td><input class="cell" data-sowhen="${esc(r.id)}" value="${esc(r.when || '')}" style="width:100%" ${ro ? 'disabled' : ''}></td><td>${ro ? '' : `<button class="chip" data-sostkdel="${esc(r.id)}">${T('移走')}</button>`}</td></tr>`).join('') || `<tr><td colspan="8" class="muted">${T('还没有专属表情')}</td></tr>`}</table>
+      ${ro ? '' : `<div class="row" style="gap:8px;margin-top:12px;align-items:center"><input class="cell" id="sostkid" placeholder="${T('新表情的 id(a-z 0-9 _ -)')}" style="width:200px"><label class="btn">${T('选一张 PNG 上传')}<input type="file" accept="image/png" id="sostkfile" hidden></label></div>`}</div>`;
   }
   async function stkMeta(id) {
     const g = cur(), k = SO.stk[g.soul]; if (!k) return;
     const label = Object.fromEntries(LG.map(l => [l, ((document.querySelector(`[data-sol="${CSS.escape(id)}:${l}"]`) || {}).value || '').trim()]));
     const when = ((document.querySelector(`[data-sowhen="${CSS.escape(id)}"]`) || {}).value || '').trim();
-    try { Object.assign(k, await send('POST', '/api/v1/souls/stickers/meta', { ref: g.soul, id, label, when }), { msg: '存好了' }); } catch (e) { k.msg = '没存成:' + e.message; }
+    try { Object.assign(k, await send('POST', '/api/v1/souls/stickers/meta', { ref: g.soul, id, label, when }), { msg: T('存好了') }); } catch (e) { k.msg = T('没存成:') + e.message; }
     const n = document.querySelector('#board .flow .note'); if (n) n.textContent = k.msg; else stickers();
   }
 
   // 简单世界观(S3,core/soul_ambient):tick 在哪儿发生 —— 复刻原来的世界 / 自动生成 / 自己写;世界里的角色只改这个世界
-  const SLOT = { morning: '早上', afternoon: '下午', evening: '傍晚', night: '夜里' };
-  const SRC = { replicated: '复刻自原来的世界', generated: '自动生成', authored: '自己写的' };
+  const SLOT = { morning: T('早上'), afternoon: T('下午'), evening: T('傍晚'), night: T('夜里') };
+  const SRC = { replicated: T('复刻自原来的世界'), generated: T('自动生成'), authored: T('自己写的') };
   async function loadAmb(ref, how) {
     const a = SO.amb[ref] = { ...(SO.amb[ref] || {}), busy: how || 'read', msg: '' }; ambient();
     try {
-      if (how === 'generate') { a.world = (await send('POST', '/api/v1/souls/ambient/generate', { ref })).world; a.dirty = true; a.msg = '生成好了 · 还没保存'; }
-      else { const r = await V3.j(`/api/v1/souls/ambient?ref=${encodeURIComponent(ref)}${how === 'replicate' ? '&replicate=1' : ''}`); a.world = r.world; a.layers = r.layers; a.can = r.can_replicate; a.dirty = how === 'replicate'; if (how === 'replicate') a.msg = '复刻好了 · 还没保存'; }
-    } catch (e) { a.msg = (how === 'generate' ? '没生成:' : '读不到:') + e.message; }
+      if (how === 'generate') { a.world = (await send('POST', '/api/v1/souls/ambient/generate', { ref })).world; a.dirty = true; a.msg = T('生成好了 · 还没保存'); }
+      else { const r = await V3.j(`/api/v1/souls/ambient?ref=${encodeURIComponent(ref)}${how === 'replicate' ? '&replicate=1' : ''}`); a.world = r.world; a.layers = r.layers; a.can = r.can_replicate; a.dirty = how === 'replicate'; if (how === 'replicate') a.msg = T('复刻好了 · 还没保存'); }
+    } catch (e) { a.msg = (how === 'generate' ? T('没生成:') : T('读不到:')) + e.message; }
     a.busy = ''; ambient();
   }
   function ambient() {
@@ -264,22 +264,22 @@
     const w = a.world, ro = g.edit && !g.edit.writable;
     const places = (w && w.places) || [];
     const opt = v => places.map(p => `<option value="${esc(p.id)}" ${p.id === v ? 'selected' : ''}>${esc(p.name)}</option>`).join('');
-    b.innerHTML = `<div class="flow scroll" style="overflow:auto"><div class="row" style="align-items:flex-end;gap:12px;flex-wrap:wrap"><div><div class="tag">ambient/world.json · ${esc(w ? SRC[w.source] || w.source : '还没有')}</div><h2 class="h1" style="font-size:26px">简单世界观</h2>
-      <p class="sub">角色自由行动(tick)时住在这里:一段设定 · 常去的地方 · 作息 · 认识的人。不是一个世界:不跑世界主持,只给 tick 读。</p></div>
-      <div class="row" style="margin-left:auto;gap:8px">${a.can ? `<button class="btn" data-soamb="replicate" ${a.busy ? 'disabled' : ''}>复刻原来的世界</button>` : ''}<button class="btn" data-soamb="generate" ${a.busy ? 'disabled' : ''}>${a.busy === 'generate' ? '生成中……' : '自动生成(会花额度)'}</button>
-      <button class="btn ${a.dirty && !ro ? 'p' : ''}" data-soamb="save" ${a.dirty && !ro && w ? '' : 'disabled'}>保存${g.edit ? (g.edit.to === 'library' ? ' · 角色库' : ' · 只改这个世界') : ''}</button></div></div>
-      ${a.msg || ro ? `<div class="note" style="position:relative;margin:10px 0">${esc(a.msg || '内置模板只读:先在 Template 页复制成自己的')}</div>` : ''}
-      ${!w ? `<div class="well" style="padding:16px;margin-top:14px">${a.busy ? '读……' : '这个角色还没有世界观。角色库的角色没有原来的世界可以复刻:点「自动生成」,或者直接在下面写。'}<div class="row" style="margin-top:10px"><button class="btn" data-soamb="blank">从空白开始写</button></div></div>` : `
-      <div class="tag" style="margin-top:16px">设定</div><textarea class="cell" data-sow="setting" rows="3" style="width:100%">${esc(w.setting)}</textarea>
-      <div class="tag" style="margin-top:14px">常去的地方 · 第一个是家(最多 6 个)</div>
-      <table class="t"><tr><th>id</th><th>名字</th><th>一句话</th><th></th></tr>${places.map((p, i) => `<tr><td><input class="cell" data-sop="${i}:id" value="${esc(p.id)}" style="width:110px"></td><td><input class="cell" data-sop="${i}:name" value="${esc(p.name)}"></td><td><input class="cell" data-sop="${i}:summary" value="${esc(p.summary)}" style="width:100%"></td><td><button class="chip" data-sodel="places:${i}">移走</button></td></tr>`).join('')}</table>
-      ${places.length < 6 ? '<button class="btn" data-soadd="places" style="margin-top:6px">+ 地方</button>' : ''}
-      <div class="tag" style="margin-top:14px">作息</div>
-      <table class="t"><tr><th>时段</th><th>在哪</th><th>在做什么</th></tr>${Object.keys(SLOT).map(k => { const r = (w.routine || []).find(x => x.at === k) || { place: '', doing: '' };
-        return `<tr><td>${SLOT[k]}</td><td><select class="btn" data-sor="${k}:place"><option value="">—</option>${opt(r.place)}</select></td><td><input class="cell" data-sor="${k}:doing" value="${esc(r.doing)}" style="width:100%" placeholder="tick 时模型会照着这个来"></td></tr>`; }).join('')}</table>
-      <div class="tag" style="margin-top:14px">认识的人(最多 4 个)</div>
-      <table class="t"><tr><th>名字</th><th>是什么人</th><th></th></tr>${(w.people || []).map((x, i) => `<tr><td><input class="cell" data-sopp="${i}:name" value="${esc(x.name)}"></td><td><input class="cell" data-sopp="${i}:line" value="${esc(x.line)}" style="width:100%"></td><td><button class="chip" data-sodel="people:${i}">移走</button></td></tr>`).join('')}</table>
-      ${(w.people || []).length < 4 ? '<button class="btn" data-soadd="people" style="margin-top:6px">+ 人</button>' : ''}`}</div>`;
+    b.innerHTML = `<div class="flow scroll" style="overflow:auto"><div class="row" style="align-items:flex-end;gap:12px;flex-wrap:wrap"><div><div class="tag">ambient/world.json · ${esc(w ? SRC[w.source] || w.source : T('还没有'))}</div><h2 class="h1" style="font-size:26px">${T('简单世界观')}</h2>
+      <p class="sub">${T('角色自由行动(tick)时住在这里:一段设定 · 常去的地方 · 作息 · 认识的人。不是一个世界:不跑世界主持,只给 tick 读。')}</p></div>
+      <div class="row" style="margin-left:auto;gap:8px">${a.can ? `<button class="btn" data-soamb="replicate" ${a.busy ? 'disabled' : ''}>${T('复刻原来的世界')}</button>` : ''}<button class="btn" data-soamb="generate" ${a.busy ? 'disabled' : ''}>${a.busy === 'generate' ? T('生成中……') : T('自动生成(会花额度)')}</button>
+      <button class="btn ${a.dirty && !ro ? 'p' : ''}" data-soamb="save" ${a.dirty && !ro && w ? '' : 'disabled'}>${T('保存')}${g.edit ? (g.edit.to === 'library' ? ' · ' + T('角色库') : ' · ' + T('只改这个世界')) : ''}</button></div></div>
+      ${a.msg || ro ? `<div class="note" style="position:relative;margin:10px 0">${esc(a.msg || T('内置模板只读:先在 Template 页复制成自己的'))}</div>` : ''}
+      ${!w ? `<div class="well" style="padding:16px;margin-top:14px">${a.busy ? T('读……') : T('这个角色还没有世界观。角色库的角色没有原来的世界可以复刻:点「自动生成」,或者直接在下面写。')}<div class="row" style="margin-top:10px"><button class="btn" data-soamb="blank">${T('从空白开始写')}</button></div></div>` : `
+      <div class="tag" style="margin-top:16px">${T('设定')}</div><textarea class="cell" data-sow="setting" rows="3" style="width:100%">${esc(w.setting)}</textarea>
+      <div class="tag" style="margin-top:14px">${T('常去的地方 · 第一个是家(最多 6 个)')}</div>
+      <table class="t"><tr><th>id</th><th>${T('名字')}</th><th>${T('一句话')}</th><th></th></tr>${places.map((p, i) => `<tr><td><input class="cell" data-sop="${i}:id" value="${esc(p.id)}" style="width:110px"></td><td><input class="cell" data-sop="${i}:name" value="${esc(p.name)}"></td><td><input class="cell" data-sop="${i}:summary" value="${esc(p.summary)}" style="width:100%"></td><td><button class="chip" data-sodel="places:${i}">${T('移走')}</button></td></tr>`).join('')}</table>
+      ${places.length < 6 ? `<button class="btn" data-soadd="places" style="margin-top:6px">+ ${T('地方')}</button>` : ''}
+      <div class="tag" style="margin-top:14px">${T('作息')}</div>
+      <table class="t"><tr><th>${T('时段')}</th><th>${T('在哪')}</th><th>${T('在做什么')}</th></tr>${Object.keys(SLOT).map(k => { const r = (w.routine || []).find(x => x.at === k) || { place: '', doing: '' };
+        return `<tr><td>${SLOT[k]}</td><td><select class="btn" data-sor="${k}:place"><option value="">—</option>${opt(r.place)}</select></td><td><input class="cell" data-sor="${k}:doing" value="${esc(r.doing)}" style="width:100%" placeholder="${T('tick 时模型会照着这个来')}"></td></tr>`; }).join('')}</table>
+      <div class="tag" style="margin-top:14px">${T('认识的人(最多 4 个)')}</div>
+      <table class="t"><tr><th>${T('名字')}</th><th>${T('是什么人')}</th><th></th></tr>${(w.people || []).map((x, i) => `<tr><td><input class="cell" data-sopp="${i}:name" value="${esc(x.name)}"></td><td><input class="cell" data-sopp="${i}:line" value="${esc(x.line)}" style="width:100%"></td><td><button class="chip" data-sodel="people:${i}">${T('移走')}</button></td></tr>`).join('')}</table>
+      ${(w.people || []).length < 4 ? `<button class="btn" data-soadd="people" style="margin-top:6px">+ ${T('人')}</button>` : ''}`}</div>`;
   }
   function ambEdit(el) {
     const g = cur(), a = g && SO.amb[g.soul], w = a && a.world; if (!w) return false;
@@ -310,7 +310,7 @@
     for (const n of Object.values(g.nodes)) if (!n.soul) Object.assign(n, soulNode(n.kind in kinds() ? n.kind : 'chat', { title: n.title }, 0), { x: n.x, y: n.y });   // 刚加的节点:照 hooks 补步骤 / 参数
     withSoulTrig(() => _graph.apply(this, arguments));
     document.querySelectorAll('#board .tb [data-add]').forEach(x => { const k = kinds()[x.dataset.add]; if (!k || k.addable === false) x.remove(); });
-    const note = document.querySelector('#board .ednote'); if (note) note.innerHTML = '拖节点移动 · 从右边小圆点拖到另一个节点 = 新建迁移<small>直聊 = 小手机收到一句话怎么回 · 自由行动 = 前台 tick(触发:前台 tick / 闲着 N 分钟)· 记忆整理 = 每 N 次 tick 一次 · 世界里那一拍 = 它的世界怎么叫它</small>';
+    const note = document.querySelector('#board .ednote'); if (note) note.innerHTML = `${T('拖节点移动 · 从右边小圆点拖到另一个节点 = 新建迁移')}<small>${T('直聊 = 小手机收到一句话怎么回 · 自由行动 = 前台 tick(触发:前台 tick / 闲着 N 分钟)· 记忆整理 = 每 N 次 tick 一次 · 世界里那一拍 = 它的世界怎么叫它')}</small>`;
     paintBar(); relint();
   };
   const _node = drawNode;
@@ -325,32 +325,32 @@
       dt.title = KNOB_LBL[k] || k;
       if (R[k]) el.placeholder = `${R[k][0]}–${R[k][1]}`;
       let box = el;
-      if (k === 'prompt') { box = document.createElement('textarea'); box.className = 'cell'; box.rows = 5; box.style.width = '100%'; box.placeholder = '空 = 引擎默认(soul_tick.PROMPT);可用 {name} {slot} {clock} {lang}'; box.value = n.knobs[k] || ''; el.replaceWith(box); }
+      if (k === 'prompt') { box = document.createElement('textarea'); box.className = 'cell'; box.rows = 5; box.style.width = '100%'; box.placeholder = T('空 = 引擎默认(soul_tick.PROMPT);可用 {name} {slot} {clock} {lang}'); box.value = n.knobs[k] || ''; el.replaceWith(box); }
       box.oninput = () => { n.knobs[k] = box.value; relint(); };
     });
     const ks = Object.keys(n.knobs || {});
-    const nt = document.querySelector('#board .well .note'); if (nt) nt.innerHTML = `${ks.length ? ks.map(k => `${esc(k)} = ${esc(KNOB_LBL[k] || k)}`).join(' · ') : '这个节点没有参数'}<small>改完回「状态机图」写回</small>`;
+    const nt = document.querySelector('#board .well .note'); if (nt) nt.innerHTML = `${ks.length ? ks.map(k => `${esc(k)} = ${esc(KNOB_LBL[k] || k)}`).join(' · ') : T('这个节点没有参数')}<small>${T('改完回「状态机图」写回')}</small>`;
   };
   // 世界里那一拍:这个角色在它世界里的真实设置(soul_orchestration.in_world)· 变体可改,写进世界的 engine 配置(只改这个世界)
   function inWorld(g) {
     const w = g.iw, well = document.querySelector('#board .well'); if (!well) return;
-    if (!w) { well.innerHTML = '<div class="tag">世界里那一拍</div><div class="sub">这个角色不在任何世界里</div>'; return; }
+    if (!w) { well.innerHTML = `<div class="tag">${T('世界里那一拍')}</div><div class="sub">${T('这个角色不在任何世界里')}</div>`; return; }
     const ro = !w.writable, pick = w.pick ?? (w.per_soul || '');
-    well.innerHTML = `<div class="tag">世界 ${esc(w.title)} · ${esc(w.template)} · 回合 ${esc(w.mode)}${w.v3 ? '' : '(不是 v3:角色一律 legacy)'}</div>
-      <dl class="kv"><dt>变体</dt><dd><select class="btn" data-soiw ${ro ? 'disabled' : ''}><option value="" ${pick ? '' : 'selected'}>跟世界默认(${esc(w.default_variant)})</option>${w.variants.map(v => `<option value="${esc(v)}" ${pick === v ? 'selected' : ''}>${esc(v)}</option>`).join('')}</select></dd>
-        <dt>现在跑的</dt><dd class="mono" data-soiwnow>${esc(w.variant)} · ${esc(w.source)}</dd><dt>写在</dt><dd class="mono" style="font-size:12px">template.json → pack.engine.${esc(w.key)}</dd></dl>
-      <table class="t" style="margin-top:10px"><tr><th>depth</th><th>这一拍怎么跑</th></tr>${w.depth.map(r => `<tr><td>${esc(DEPTH_LBL[r.depth] || r.depth)} <span class="mono muted">${esc(r.depth)}</span></td><td class="mono" style="font-size:12px">${esc(r.path)}</td></tr>`).join('')}</table>
-      <div class="tag" style="margin-top:10px">用到的提示词(只列名字;私有层的不显示正文)</div>
-      ${w.prompts.map(p => `<div class="sub" style="font-size:12px"><b>${esc(p.for === 'away' ? '不在眼前' : p.for)}</b> · ${esc(p.table)}:${p.keys.map(k => `<span class="mono">${esc(k)}</span>${p.private.includes(k) ? '<span class="tag">私有层</span>' : ''}`).join(' · ')}</div>`).join('')}
-      <div class="row" style="gap:8px;margin-top:12px;align-items:center"><button class="btn ${!ro && pick !== (w.per_soul || '') ? 'p' : ''}" data-soiwsave ${ro || pick === (w.per_soul || '') ? 'disabled' : ''}>写回 · 只改世界 ${esc(w.template)}</button>
-        <span class="tag" data-soiwmsg>${esc(w.msg || (ro ? '内置模板只读:先在 Template 页复制成自己的' : ''))}</span></div>`;
+    well.innerHTML = `<div class="tag">${T('世界')} ${esc(w.title)} · ${esc(w.template)} · ${T('回合')} ${esc(w.mode)}${w.v3 ? '' : T('(不是 v3:角色一律 legacy)')}</div>
+      <dl class="kv"><dt>${T('变体')}</dt><dd><select class="btn" data-soiw ${ro ? 'disabled' : ''}><option value="" ${pick ? '' : 'selected'}>${T('跟世界默认({v})', { v: esc(w.default_variant) })}</option>${w.variants.map(v => `<option value="${esc(v)}" ${pick === v ? 'selected' : ''}>${esc(v)}</option>`).join('')}</select></dd>
+        <dt>${T('现在跑的')}</dt><dd class="mono" data-soiwnow>${esc(w.variant)} · ${esc(w.source)}</dd><dt>${T('写在')}</dt><dd class="mono" style="font-size:12px">template.json → pack.engine.${esc(w.key)}</dd></dl>
+      <table class="t" style="margin-top:10px"><tr><th>depth</th><th>${T('这一拍怎么跑')}</th></tr>${w.depth.map(r => `<tr><td>${esc(DEPTH_LBL[r.depth] || r.depth)} <span class="mono muted">${esc(r.depth)}</span></td><td class="mono" style="font-size:12px">${esc(r.path)}</td></tr>`).join('')}</table>
+      <div class="tag" style="margin-top:10px">${T('用到的提示词(只列名字;私有层的不显示正文)')}</div>
+      ${w.prompts.map(p => `<div class="sub" style="font-size:12px"><b>${esc(p.for === 'away' ? T('不在眼前') : p.for)}</b> · ${esc(p.table)}:${p.keys.map(k => `<span class="mono">${esc(k)}</span>${p.private.includes(k) ? `<span class="tag">${T('私有层')}</span>` : ''}`).join(' · ')}</div>`).join('')}
+      <div class="row" style="gap:8px;margin-top:12px;align-items:center"><button class="btn ${!ro && pick !== (w.per_soul || '') ? 'p' : ''}" data-soiwsave ${ro || pick === (w.per_soul || '') ? 'disabled' : ''}>${T('写回 · 只改世界 {tpl}', { tpl: esc(w.template) })}</button>
+        <span class="tag" data-soiwmsg>${esc(w.msg || (ro ? T('内置模板只读:先在 Template 页复制成自己的') : ''))}</span></div>`;
     const drop = document.getElementById('drop'); if (drop) { drop.parentElement.style.display = 'none'; drop.parentElement.parentElement.style.gridTemplateColumns = '1fr'; }   // 世界那一拍不调角色的工具
   }
   async function saveInWorld() {
     const g = cur(), w = g && g.iw; if (!w) return;
-    w.msg = '写回中……'; inWorld(g);
-    try { const r = await send('POST', '/api/v1/souls/in_world', { ref: g.soul, variant: w.pick ?? '', world: w.template }); g.iw = { ...r.in_world, msg: `写进世界 ${r.id} · 下一回合按 ${r.in_world.variant} 跑` }; }
-    catch (e) { w.msg = '没写成:' + e.message; }
+    w.msg = T('写回中……'); inWorld(g);
+    try { const r = await send('POST', '/api/v1/souls/in_world', { ref: g.soul, variant: w.pick ?? '', world: w.template }); g.iw = { ...r.in_world, msg: T('写进世界 {id} · 下一回合按 {v} 跑', { id: r.id, v: r.in_world.variant }) }; }
+    catch (e) { w.msg = T('没写成:') + e.message; }
     inWorld(g);
   }
   const _tools = drawTools;
@@ -370,7 +370,7 @@
     if ((t = q('[data-sostkdel]'))) { const g = cur(); send('POST', '/api/v1/souls/stickers/remove', { ref: g.soul, id: t.dataset.sostkdel }).then(r => { Object.assign(SO.stk[g.soul], r); stickers(); }).catch(e => { SO.stk[g.soul].msg = e.message; stickers(); }); return; }
     if (q('.crumb [data-layer]')) SO.layer = '';
     if ((t = q('[data-soamb]'))) { const g = cur(), how = t.dataset.soamb, a = SO.amb[g.soul];
-      if (how === 'save') { (async () => { try { const r = await send('POST', '/api/v1/souls/ambient', { ref: g.soul, world: a.world }); a.world = r.world; a.dirty = false; a.msg = r.to === 'library' ? '存进角色库了' : `存进世界 ${r.id}(只改这个世界)`; } catch (e) { a.msg = '没存成:' + e.message; } ambient(); })(); return; }
+      if (how === 'save') { (async () => { try { const r = await send('POST', '/api/v1/souls/ambient', { ref: g.soul, world: a.world }); a.world = r.world; a.dirty = false; a.msg = r.to === 'library' ? T('存进角色库了') : T('存进世界 {id}(只改这个世界)', { id: r.id }); } catch (e) { a.msg = T('没存成:') + e.message; } ambient(); })(); return; }
       if (how === 'blank') { a.world = { schema: 'worldlines.soul-ambient/1', source: 'authored', setting: '', places: [{ id: 'home', name: '家', summary: '' }], routine: [], people: [], clock: 'real' }; a.dirty = true; ambient(); return; }
       loadAmb(g.soul, how); return; }
     if ((t = q('[data-soadd]'))) { const a = SO.amb[cur().soul], w = a.world; if (t.dataset.soadd === 'places') w.places.push({ id: 'place' + (w.places.length + 1), name: '', summary: '' }); else (w.people = w.people || []).push({ name: '', line: '' }); a.dirty = true; ambient(); return; }
@@ -389,7 +389,7 @@
     if (e.target.id === 'sostkfile' && e.target.files[0]) {
       const g = cur(), k = SO.stk[g.soul], id = (($('#sostkid') || {}).value || e.target.files[0].name.replace(/\.png$/i, '')).trim().toLowerCase().replace(/[^a-z0-9_-]/g, '_').slice(0, 32);
       fetch(V3.url(`/api/v1/souls/stickers?ref=${encodeURIComponent(g.soul)}&id=${encodeURIComponent(id)}`), { method: 'POST', credentials: 'include', body: e.target.files[0] })
-        .then(async r => { const j = await r.json().catch(() => ({})); if (!r.ok) throw new Error(j.error || r.status); Object.assign(k, j, { msg: `上传好了:${id}` }); }).catch(err => { k.msg = '没传上:' + err.message; }).finally(stickers);
+        .then(async r => { const j = await r.json().catch(() => ({})); if (!r.ok) throw new Error(j.error || r.status); Object.assign(k, j, { msg: T('上传好了:{id}', { id }) }); }).catch(err => { k.msg = T('没传上:') + err.message; }).finally(stickers);
     }
   });
 })();

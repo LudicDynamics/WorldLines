@@ -45,7 +45,7 @@ V3.slotInstances = function (s) {
     if (r.cls === 'card' || r.cls === 'ending') continue;  // 模板级(封面 / 结局图)不在类槽位里
     const sl = L.slots.find(x => x.cls === r.cls && x.slot === r.name) || { cls: r.cls, slot: r.name, kind: r.kind || 'image', required: r.required || 'optional', recipe: r.recipe };
     const key = r.slot;
-    if (r.empty) { out.push({ sl, key, inst: '∅', name: '（还没有实例）', filled: true, empty: true }); continue; }
+    if (r.empty) { out.push({ sl, key, inst: '∅', name: T('（还没有实例）'), filled: true, empty: true }); continue; }
     out.push({ sl, key, inst: r.inst, name: r.label || r.inst, img: r.have ? `slot:${key}` : null, filled: !!r.have, gen: false, stale: !!r.stale, grown: !!r.grown,
       prompt: r.prompt, row: r });
   }
@@ -55,13 +55,13 @@ V3.slotInstances = function (s) {
 // 检查:引擎的聚合 lint(meta / 引用 / 包 / 角色 / 提示词 / 剧情 / 闭环 / 素材 / token)→ Mock 的四格
 V3.linkChecks = function (s) {
   const R = [], lint = V3.LINK.lint;
-  if (!lint) return [{ cat: 'schema', lvl: 'warn', text: V3.LINK.error ? `拿不到模板检查:${V3.LINK.error}` : '检查结果加载中…', fix: '' }];
+  if (!lint) return [{ cat: 'schema', lvl: 'warn', text: V3.LINK.error ? T('拿不到模板检查:{e}', { e: V3.LINK.error }) : T('检查结果加载中…'), fix: '' }];
   const cat = code => (/^asset/.test(code) ? 'asset' : /^prompt/.test(code) ? 'prompt' : /^token/.test(code) ? 'token' : 'schema');
   for (const p of lint.problems || []) {
     if (p.code === 'v3.lint' && p.where && /^(asset|prompt|token|schema)/.test(p.where)) continue;
     R.push({ cat: cat(p.code), lvl: p.level === 'block' ? 'block' : 'warn', text: `${p.msg}${p.where ? `  · ${p.where}` : ''}`, fix: '' });
   }
-  const ok = { schema: `模板 ${V3.LINK.tid} · ${s.link?.views.length || 0} 个视图 · 引用的变量和 op 全部解析得到`, asset: '必需槽位全部就绪', prompt: `${Object.keys(s.link?.prompts || {}).length} 段提示词的占位符全部可解析`, token: '每回合 token 在预算内' };
+  const ok = { schema: T('模板 {tid} · {n} 个视图 · 引用的变量和 op 全部解析得到', { tid: V3.LINK.tid, n: s.link?.views.length || 0 }), asset: T('必需槽位全部就绪'), prompt: T('{n} 段提示词的占位符全部可解析', { n: Object.keys(s.link?.prompts || {}).length }), token: T('每回合 token 在预算内') };
   for (const k of Object.keys(ok)) if (!R.some(r => r.cat === k)) R.push({ cat: k, lvl: 'ok', text: ok[k], fix: '' });
   return R;
 };
@@ -78,7 +78,7 @@ V3.buildContract = function () {
 // 创作者 op → 模板(全有或全无)。set_policy 同时改这一局(立刻生效)。返回 Promise<{ok, applied, refused}>
 V3.tplOps = async function (ops) {
   const L = V3.LINK;
-  if (!L.tid) throw new Error('这一局不是从模板开的');
+  if (!L.tid) throw new Error(T('这一局不是从模板开的'));
   const r = await fetch(V3.url(V3.tplUrl(L.tid, 'ops')), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ops }) });
   const d = await r.json().catch(() => ({}));
   if (!r.ok && !d.refused) throw new Error(d.error || `HTTP ${r.status}`);
@@ -105,7 +105,7 @@ V3.uploadSlot = async function (slot, file) {
 // 另存为新模板(世界页「＋ 新建世界」/ 组装页的只读提示):fork → 用新模板开一局
 V3.forkTemplate = async function (title) {
   const base = V3.template && V3.template.id;
-  if (!base) throw new Error('这一局不是从模板开的');
+  if (!base) throw new Error(T('这一局不是从模板开的'));
   const id = `${base.replace(/-f[a-z0-9]{4}$/, '').slice(0, 42)}-f${Date.now().toString(36).slice(-4)}`;  // 另存的再另存:换掉上一次的 -fXXXX
   const r = await fetch(V3.url(V3.tplUrl(base, 'fork')), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, title: title || undefined }) });
   const d = await r.json().catch(() => ({}));

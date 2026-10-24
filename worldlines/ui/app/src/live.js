@@ -57,10 +57,10 @@
     return L.templates.map(t => {
       const pc = String(t.play_contract || '').split('@')[0] || null;
       const ctr = pc && CONTRACTS[pc] ? pc : null;
-      const modes = [{ open: '开放结局', single: '有结局', multi: '多结局' }[t.mode && t.mode.ending] || '', { free: '沙盒', semi: '半沙盒', guided: '引导' }[t.mode && t.mode.freedom] || ''].filter(Boolean).join(' · ');
-      const gaps = ctr ? [{ t: '合约检查要等引擎 R1(按合约 lint)', code: 'contract.*', go: 'tpl' }] : [{ t: '没有声明玩法合约 → 还不能进 Hub', code: 'contract.unknown', go: 'tpl' }];
+      const modes = [{ open: T('开放结局'), single: T('有结局'), multi: T('多结局') }[t.mode && t.mode.ending] || '', { free: T('沙盒'), semi: T('半沙盒'), guided: T('引导') }[t.mode && t.mode.freedom] || ''].filter(Boolean).join(' · ');
+      const gaps = ctr ? [{ t: T('合约检查要等引擎 R1(按合约 lint)'), code: 'contract.*', go: 'tpl' }] : [{ t: T('没有声明玩法合约 → 还不能进 Hub'), code: 'contract.unknown', go: 'tpl' }];
       return { id: t.id, title: tplTitle(t), img: t.card && t.card.cover ? V3.url(`/api/v1/local/templates/${encodeURIComponent(t.id)}/cover`) : 'cover-elena.jpg',
-        ctr, pitch: (t.card && t.card.pitch) || '', status: 'local', meta: [t.id === L.bound ? '当前这一局' : '', modes, String(t.pack || '').split('+').slice(1).join(' · ')].filter(Boolean).join(' · ') || (t.pack || ''),
+        ctr, pitch: (t.card && t.card.pitch) || '', status: 'local', meta: [t.id === L.bound ? T('当前这一局') : '', modes, String(t.pack || '').split('+').slice(1).join(' · ')].filter(Boolean).join(' · ') || (t.pack || ''),
         gaps, mine: true, bound: t.id === L.bound };
     });
   };
@@ -72,7 +72,7 @@
 
   /* ---------- 测试台 ---------- */
   // 还没好时说清楚在干什么(10-08 实测被当成「引擎没打开」:其实是正在开局,十几秒)
-  const waitText = () => { const t = L.tpl && (L.templates.find(x => x.id === L.tpl) || {}); return L.tpl && L.tpl !== L.bound ? `正在开一局「${t && t.card ? tplTitle(t) : L.tpl}」…(复制世界 + 生成开场,第一次要十几秒)` : '连接引擎……'; };
+  const waitText = () => { const t = L.tpl && (L.templates.find(x => x.id === L.tpl) || {}); return L.tpl && L.tpl !== L.bound ? T('正在开一局「{t}」…(复制世界 + 生成开场,第一次要十几秒)', { t: t && t.card ? tplTitle(t) : L.tpl }) : T('连接引擎……'); };
   async function ensureBound() {
     if (!L.tpl || L.tpl === L.bound || L.binding) return;
     L.binding = true; render();
@@ -85,22 +85,22 @@
     L.binding = false; render();
   }
   // 地点 / 角色的显示名:没去过的地方引擎不给名字(信息边界),就说「哪个镇 · 没去过的地方」
-  const placeName = a => { a = String(a || ''); if (!a) return ''; const n = nm(a); if (n && n !== a) return n; const t = a.split('/')[0], tn = nm(t); return a.includes('/') && tn && tn !== t ? `${tn} · 没去过的地方` : a; };
-  const whoName = id => { id = String(id || '').replace(/\.at$/, ''); if (id === 'player') return '你'; const ss = Object.values((E.s && E.s.souls) || {}), bare = id.replace(/^si-/, '').replace(/\d+$/, '');
+  const placeName = a => { a = String(a || ''); if (!a) return ''; const n = nm(a); if (n && n !== a) return n; const t = a.split('/')[0], tn = nm(t); return a.includes('/') && tn && tn !== t ? T('{tn} · 没去过的地方', { tn }) : a; };
+  const whoName = id => { id = String(id || '').replace(/\.at$/, ''); if (id === 'player') return T('你'); const ss = Object.values((E.s && E.s.souls) || {}), bare = id.replace(/^si-/, '').replace(/\d+$/, '');
     const so = ss.find(x => x.iid === id || x.id === id || 'si-' + x.iid === id) || ss.find(x => x.id === bare);   // 实例 id(si-elena0001)也认
     return so ? so.name : nm(id) || id; };
   window.LIVE_placeName = placeName;
   // ── 游玩层的文字渲染(10-08:以叙事的流式文字为主线,先把文字体验做好;拍的样子查 BEATS) ──
   // 叙事里的引擎标记:[op 参数] = 同步(这一拍等它回来)· [~op 参数] = 异步(后台去做)· <…> = 引擎的话 —— 不再原文漏出来
   const richText = t => esc(String(t || ''))
-    .replace(/\[(~?)([a-z_]+)([^\]\n]*)\]/g, (_, a, op, rest) => `<span class="opp ${a ? 'async' : 'sync'}" title="${a ? '异步:后台去做,不挡这一拍' : '同步:这一拍等它回来'}">${a ? '↻ ' : ''}${op}${rest.trim() ? ' ' + rest.trim() : ''}</span>`)
+    .replace(/\[(~?)([a-z_]+)([^\]\n]*)\]/g, (_, a, op, rest) => `<span class="opp ${a ? 'async' : 'sync'}" title="${a ? T('异步:后台去做,不挡这一拍') : T('同步:这一拍等它回来')}">${a ? '↻ ' : ''}${op}${rest.trim() ? ' ' + rest.trim() : ''}</span>`)
     .replace(/&lt;([^&\n]{1,80})&gt;/g, '<span class="engmsg">$1</span>');
   const paras = t => String(t || '').split(/\n+/).filter(Boolean).map(p => `<p>${richText(p)}</p>`).join('');
   const LV = { 大成功: 'crit', 极难成功: 'great', 困难成功: 'good', 成功: 'ok', 失败: 'bad', 大失败: 'fumble' };
   function diceHtml(d) {
     const lv = d.level || (d.ok ? '成功' : d.res ? '失败' : '');
-    const kind = d.sides === 100 ? '百分骰' : d.sides ? 'd' + d.sides : '骰';
-    return `<div class="dicecard ${LV[lv] || (d.ok ? 'ok' : 'bad')}"><span class="die">${kind}</span><div class="dmain"><b>${esc(whoName(d.who) || d.who || '')}</b> ${esc(d.skill || d.attr || '')}<small>${d.total != null ? esc(d.total) : '?'}${d.dc != null ? ` ${d.under ? '≤' : '≥'} ${esc(d.dc)}` : ''}${d.vs ? ' · 对抗' : ''}${d.why ? ' · ' + esc(d.why) : ''}</small></div><span class="dres">${esc(lv || d.res || '')}</span></div>`;
+    const kind = d.sides === 100 ? T('百分骰') : d.sides ? 'd' + d.sides : T('骰');
+    return `<div class="dicecard ${LV[lv] || (d.ok ? 'ok' : 'bad')}"><span class="die">${kind}</span><div class="dmain"><b>${esc(whoName(d.who) || d.who || '')}</b> ${esc(d.skill || d.attr || '')}<small>${d.total != null ? esc(d.total) : '?'}${d.dc != null ? ` ${d.under ? '≤' : '≥'} ${esc(d.dc)}` : ''}${d.vs ? ' · ' + T('对抗') : ''}${d.why ? ' · ' + esc(d.why) : ''}</small></div><span class="dres">${esc(lv ? T(lv) : d.res || '')}</span></div>`;
   }
   // 状态变化:扣血红 · 加血绿 · 归零 = 倒地 · SAN 紫;移动是普通标签
   function changeChip(c) {
@@ -108,10 +108,10 @@
     if (c.kind === 'node') return `<span class="chip">＋${esc(c.to)}</span>`;
     if (c.kind === 'move') return `<span class="chip">${esc(`${whoName(c.who || String(c.what).replace(/\.at$/, ''))} → ${placeName(c.to)}`)}</span>`;
     const what = String(c.what || ''), owner = what.includes('.') ? what.split('.')[0] : '', key = what.split('.').pop();
-    const name = owner && owner !== 'player' ? whoName(owner) : owner === 'player' ? '你' : '';
+    const name = owner && owner !== 'player' ? whoName(owner) : owner === 'player' ? T('你') : '';
     const a = Number(c.from), b = Number(c.to), num = !isNaN(a) && !isNaN(b) && c.from !== undefined;
     let cls = 'rust', tag = '';
-    if (num && /^(hp|health|生命)$/i.test(key)) { cls = b < a ? 'hurt' : 'heal'; if (b <= 0) tag = b < 0 ? '阵亡' : '倒地'; }
+    if (num && /^(hp|health|生命)$/i.test(key)) { cls = b < a ? 'hurt' : 'heal'; if (b <= 0) tag = b < 0 ? T('阵亡') : T('倒地'); }
     else if (num && /^san$/i.test(key)) cls = 'san';
     else if (num) cls = b < a ? 'dn' : 'up';
     return `<span class="chip st ${cls}">${esc(name ? name + ' ' : '')}${esc(key)} ${num ? `${esc(c.from)} → ${esc(c.to)}` : `→ ${esc(c.to)}`}${tag ? ` · <b>${tag}</b>` : ''}</span>`;
@@ -130,14 +130,14 @@
   const CONDTONE = s => /毒|poison/i.test(s) ? 'poison' : /血|bleed/i.test(s) ? 'bleed' : /倒地|昏|down|unconscious/i.test(s) ? 'down' : /疯|恐|san|panic/i.test(s) ? 'san' : '';
   function statusBox() {
     const v = Object.values(E.s.vars || {}), hp = v.find(x => x.name === 'player.hp'), san = v.find(x => x.name === 'player.san');
-    const rows = PX.status.map(e => { const p = e.props || {}; return `<div class="cond ${CONDTONE(e.name + (p.rule || ''))}"><b>${esc(e.name)}</b>${p.turns != null ? `<span class="chip">剩 ${esc(p.turns)} 次结算</span>` : ''}${p.until_text ? `<span class="chip">到 ${esc(p.until_text)}</span>` : ''}${p.rule || p.note ? `<small>${esc([p.rule, p.note].filter(Boolean).join(' · '))}</small>` : ''}</div>`; }).join('');
+    const rows = PX.status.map(e => { const p = e.props || {}; return `<div class="cond ${CONDTONE(e.name + (p.rule || ''))}"><b>${esc(e.name)}</b>${p.turns != null ? `<span class="chip">${esc(T('剩 {n} 次结算', { n: p.turns }))}</span>` : ''}${p.until_text ? `<span class="chip">${esc(T('到 {t}', { t: p.until_text }))}</span>` : ''}${p.rule || p.note ? `<small>${esc([p.rule, p.note].filter(Boolean).join(' · '))}</small>` : ''}</div>`; }).join('');
     if (!hp && !san && !rows) return '';
     const down = hp && Number(hp.value) <= 0;
-    return `<div class="glass box"><span class="tag">你的状态</span>
-      ${hp ? `<div class="r"><span>生命</span><span class="${down ? 'vhurt' : ''}">${esc(hp.value)}${down ? ' · 倒地' : ''}</span></div>` : ''}${san ? `<div class="r"><span>理智 SAN</span><span class="vsan">${esc(san.value)}</span></div>` : ''}
-      ${rows ? `<div class="conds">${rows}</div>` : '<div class="sub2">身上没有状态</div>'}</div>`;
+    return `<div class="glass box"><span class="tag">${T('你的状态')}</span>
+      ${hp ? `<div class="r"><span>${T('生命')}</span><span class="${down ? 'vhurt' : ''}">${esc(hp.value)}${down ? ' · ' + T('倒地') : ''}</span></div>` : ''}${san ? `<div class="r"><span>${T('理智 SAN')}</span><span class="vsan">${esc(san.value)}</span></div>` : ''}
+      ${rows ? `<div class="conds">${rows}</div>` : `<div class="sub2">${T('身上没有状态')}</div>`}</div>`;
   }
-  const KINDZH = { true: '真相', alt: '分支', fail: '失败', death: '死亡' };
+  const KINDZH = { true: T('真相'), alt: T('分支'), fail: T('失败'), death: T('死亡') };
   function endingCard() {
     const st = PX.settle; if (!st) return '';
     const id = st.exit && st.exit.id, rows = (PX.plots && PX.plots.plots) || [];
@@ -148,12 +148,12 @@
     const truth = st.truth_reveal && st.truth_reveal.text;
     const rw = st.rewards && st.rewards.player ? Object.entries(st.rewards.player).filter(([, v]) => v && (!Array.isArray(v) || v.length)) : [];
     return `<div class="ending-card ${esc(kind)}">${cg ? `<img class="ecg" src="${cg}" alt="">` : ''}<div class="ebody">
-      <div class="tag">结局 · ${esc(KINDZH[kind] || kind)} · 第 ${esc(st.exit.turn ?? '?')} 回合</div>
+      <div class="tag">${T('结局')} · ${esc(KINDZH[kind] || kind)} · ${esc(T('第 {n} 回合', { n: st.exit.turn ?? '?' }))}</div>
       <h2 class="human">${esc((ending && ending.title) || st.epilogue || id)}</h2>
       ${st.epilogue && ending && st.epilogue !== ending.title ? `<p>${esc(st.epilogue)}</p>` : ''}
-      ${truth ? `<div class="truth"><span class="tag">真相</span><p>${esc(truth)}</p></div>` : ''}
-      ${(st.deaths || []).length ? `<div class="sub2">倒下的:${esc(st.deaths.map(d => whoName(d.who || d.id || '')).join('、'))}</div>` : ''}
-      ${rw.length ? `<div class="row" style="flex-wrap:wrap;gap:6px;margin-top:10px">${rw.map(([k, v]) => `<span class="chip lime">${esc({ ending_cg: '结局 CG', clue_codex: '线索图鉴', debrief_scripts: '复盘剧本', memory_carry: '角色记得你' }[k] || k)}${Array.isArray(v) ? ' · ' + v.length : ''}</span>`).join('')}</div>` : ''}
+      ${truth ? `<div class="truth"><span class="tag">${T('真相')}</span><p>${esc(truth)}</p></div>` : ''}
+      ${(st.deaths || []).length ? `<div class="sub2">${T('倒下的:')}${esc(st.deaths.map(d => whoName(d.who || d.id || '')).join('、'))}</div>` : ''}
+      ${rw.length ? `<div class="row" style="flex-wrap:wrap;gap:6px;margin-top:10px">${rw.map(([k, v]) => `<span class="chip lime">${esc({ ending_cg: T('结局 CG'), clue_codex: T('线索图鉴'), debrief_scripts: T('复盘剧本'), memory_carry: T('角色记得你') }[k] || k)}${Array.isArray(v) ? ' · ' + v.length : ''}</span>`).join('')}</div>` : ''}
       </div></div>`;
   }
   // 回合进行中:按引擎的流式片段画(谁在说 · 哪一拍,样子查 BEATS),工具调用挂在片段后面,最后一段有光标
@@ -161,7 +161,7 @@
     const v = E.liveView || { segs: [] }, souls = Object.values(E.s.souls || {});
     if (!v.segs.length) {   // 还没出字:写上等了几秒,太久了说清楚是模型慢(deepseek 首字常要 20 秒上下),不是卡死
       const sec = Math.round((Date.now() - (L.sentAt || Date.now())) / 1000);
-      return `<div class="bt host live"><div class="who">主持 · 在想<span class="dots">…</span> <span class="mono" style="opacity:.7">${sec}s</span></div>${sec >= 15 ? '<div class="sub" style="font-size:12px;margin:4px 0 0">模型这回比较慢,第一个字还没出来;回合没有卡住,出字后会接着往下写</div>' : ''}</div>`;
+      return `<div class="bt host live"><div class="who">${T('主持 · 在想')}<span class="dots">…</span> <span class="mono" style="opacity:.7">${sec}s</span></div>${sec >= 15 ? `<div class="sub" style="font-size:12px;margin:4px 0 0">${T('模型这回比较慢,第一个字还没出来;回合没有卡住,出字后会接着往下写')}</div>` : ''}</div>`;
     }
     let prev = null;
     return v.segs.map((g, i) => {
@@ -171,9 +171,9 @@
       const tools = (g.tools || []).map(t => `<span class="opp ${String(t.name).startsWith('~') ? 'async' : 'sync'} run">${esc(t.name)}</span>`).join('');
       // 最后一个字出来 2.5 秒后还没结束 = 引擎在把这一拍落成状态(校验 · 写入 · 角色事后结算),说清楚,别像卡住
       const idle = last && v.lastChunk ? Math.round((Date.now() - v.lastChunk) / 1000) : 0;
-      const tail = !last ? '' : idle >= 3 ? `<div class="settling"><span class="dots">…</span> 落定中:校验 · 写入 · 角色事后结算 · ${idle}s</div>` : '<span class="cursor"></span>';
+      const tail = !last ? '' : idle >= 3 ? `<div class="settling"><span class="dots">…</span> ${T('落定中:校验 · 写入 · 角色事后结算')} · ${idle}s</div>` : '<span class="cursor"></span>';
       const body = `${paras(g.text)}${tools ? `<div class="ops">${tools}</div>` : ''}${tail}`;
-      if (so) return div + `<div class="bt soul live">${so.av ? `<img src="${V3.IMG[so.av]}" alt="">` : ''}<div><div class="who">${esc(so.name)} · ${last ? '正在说' : '说'}</div>${body}</div></div>`;
+      if (so) return div + `<div class="bt soul live">${so.av ? `<img src="${V3.IMG[so.av]}" alt="">` : ''}<div><div class="who">${esc(so.name)} · ${last ? T('正在说') : T('说')}</div>${body}</div></div>`;
       const sg = BEATS.seg(g.beat, last);
       return div + `<div class="bt ${sg.cls} live"><div class="who">${esc(sg.who)}</div>${body}</div>`;
     }).join('');
@@ -184,14 +184,14 @@
     if (f.kind === 'you') return `<div class="bt you"><div class="who">${esc(BEATS.you(f))}</div>${esc(f.text)}</div>`;
     if (f.kind === 'opening') return `<div class="bt open">${esc(f.text)}</div>`;
     if (f.kind === 'host') return `<div class="bt host ${esc(BEATS.hostCls(f))}"><div class="who">${esc(BEATS.host(f))}</div>${richText(f.text)}</div>`;
-    if (f.kind === 'mic') return `<div class="bt mic">递话筒给 <b>${esc(f.to)}</b>${f.text ? ' · ' + esc(f.text) : ''}</div>`;
-    if (f.kind === 'soul') return `<div class="bt soul">${av ? `<img src="${av}" alt="">` : ''}<div><div class="who">${esc((so && so.name) || f.name || '')}</div>${richText(f.text)}${f.intent ? `<span class="int">打算:${esc(f.intent)}</span>` : ''}</div></div>`;
+    if (f.kind === 'mic') return `<div class="bt mic">${T('递话筒给')} <b>${esc(f.to)}</b>${f.text ? ' · ' + esc(f.text) : ''}</div>`;
+    if (f.kind === 'soul') return `<div class="bt soul">${av ? `<img src="${av}" alt="">` : ''}<div><div class="who">${esc((so && so.name) || f.name || '')}</div>${richText(f.text)}${f.intent ? `<span class="int">${T('打算:')}${esc(f.intent)}</span>` : ''}</div></div>`;
     if (f.kind === 'sys') return `<div class="bt mic">${esc(f.text)}</div>`;
     const dice = (f.dice || []).map(diceHtml).join('');
     const who = whoName, place = placeName;
     void who; void place;
     const ch = (f.changes || []).filter(c => c.kind === 'move' || String(c.from) !== String(c.to)).map(changeChip).join('');   // 没变的不列
-    const ref = (f.refused || []).map(r => `<span class="chip">没成:${esc(r.why || '')}</span>`).join('');
+    const ref = (f.refused || []).map(r => `<span class="chip">${T('没成:')}${esc(r.why || '')}</span>`).join('');
     return BEATS.narrDivider(f) + brick('bt res', null, `<div class="who">${esc(BEATS.narrWho(f))}${f.by ? ' · ' + esc(BEATS.adv[f.by] || f.by) : ''}</div>${dice}<div class="prose">${paras(f.text)}</div>${ch || ref ? `<div class="chgs">${ch}${ref}</div>` : ''}`);
   }
   function chips() {
@@ -202,14 +202,14 @@
     return out;
   }
   // 右栏「角色」页:每个角色的状态(回合进行中显示在想 / 在说)和她身上的变量(hp、SAN、状态……)
-  const SST = { thinking: '在想', speaking: '在说', planning: '在想', acting: '在做', idle: '空闲', done: '说完了' };
+  const SST = { thinking: T('在想'), speaking: T('在说'), planning: T('在想'), acting: T('在做'), idle: T('空闲'), done: T('说完了') };
   function castPanel(cast) {
-    if (!cast.length) return '<div class="glass box"><span class="tag">角色</span><div class="sub" style="font-size:12.5px">这一局没有角色</div></div>';
+    if (!cast.length) return `<div class="glass box"><span class="tag">${T('角色')}</span><div class="sub" style="font-size:12.5px">${T('这一局没有角色')}</div></div>`;
     const st = (E.liveView && E.liveView.souls) || {}, V = Object.values(E.s.vars || {});
     return cast.map(so => { const status = st[so.iid] || st[so.id] || st[so.name], mine = V.filter(v => v.name.startsWith((so.iid || so.id) + '.') || v.name.startsWith(so.id + '.')).slice(0, 6);
       const hp = mine.find(v => /\.hp$/.test(v.name)), down = hp && Number(hp.value) <= 0;
       return `<div class="glass box"><div class="cast">${so.av ? `<img src="${V3.IMG[so.av]}" alt="">` : ''}<div style="flex:1"><b class="human">${esc(so.name)}</b><small>${esc(placeName((E.where(so.id) || {}).at))}</small></div>
-        ${down ? '<span class="chip st hurt"><b>倒地</b></span>' : status && E.busy ? `<span class="chip ${/speak|act/.test(status) ? 'lime' : 'sage'}">${esc(SST[status] || status)}</span>` : ''}</div>
+        ${down ? `<span class="chip st hurt"><b>${T('倒地')}</b></span>` : status && E.busy ? `<span class="chip ${/speak|act/.test(status) ? 'lime' : 'sage'}">${esc(SST[status] || status)}</span>` : ''}</div>
         ${mine.map(v => `<div class="r"><span>${esc(v.name.split('.').slice(1).join('.'))}</span><span>${esc(typeof v.value === 'object' ? JSON.stringify(v.value) : v.value)}</span></div>`).join('')}
         ${so.mood || so.intention ? `<div class="sub2">${esc([so.mood, so.intention].filter(Boolean).join(' · '))}</div>` : ''}</div>`; }).join('');
   }
@@ -235,9 +235,9 @@
     const dots = kids.map(n => { const [x, y] = pos[n.addr], me = n.addr === at, sub = Object.values(s.nodes).some(c => c.parent === n.addr);
       return `<g class="mg ${me ? 'me' : ''}" data-mgo="${esc(n.name)}"><circle cx="${x}" cy="${y}" r="${me ? 3.2 : 2.4}"/>${sub ? `<circle cx="${x}" cy="${y}" r="4.4" class="ring"/>` : ''}
         <text x="${x}" y="${y + 6.6}">${esc(n.name)}</text>${(who[n.addr] || []).map((nm2, k) => `<text class="who" x="${x + 4}" y="${y - 3 - k * 3.4}">● ${esc(nm2)}</text>`).join('')}</g>`; }).join('');
-    return `<div class="glass box mapg"><span class="tag">地图 · ${esc(top ? top.name : level)}</span>
+    return `<div class="glass box mapg"><span class="tag">${T('地图')} · ${esc(top ? top.name : level)}</span>
       <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">${lines}${dots}</svg>
-      <div class="sub2">点一个地点 = 把「我去……」放进输入框 · 订阅 location · map</div></div>`;
+      <div class="sub2">${T('点一个地点 = 把「我去……」放进输入框')} · ${T('订阅')} location · map</div></div>`;
   }
   // pointerdown, not click: the bench redraws while a turn streams, and a node replaced between press and release eats the click
   document.addEventListener('pointerdown', e => {
@@ -251,7 +251,7 @@
   }
   renderTest = function () {
     const el = $('#s-test');
-    if (!L.ok) { el.innerHTML = `<div class="mk"><div></div><div class="glass gl pad" style="display:grid;place-items:center">${L.err ? `连不上引擎:${esc(L.err)}` : esc(waitText())}</div></div>`; return; }
+    if (!L.ok) { el.innerHTML = `<div class="mk"><div></div><div class="glass gl pad" style="display:grid;place-items:center">${L.err ? `${T('连不上引擎:')}${esc(L.err)}` : esc(waitText())}</div></div>`; return; }
     if (L.tpl && L.tpl !== L.bound) { ensureBound(); el.innerHTML = `<div class="mk"><div></div><div class="glass gl pad" style="display:grid;place-items:center">${esc(waitText())}</div></div>`; return; }
     loadPlayExtras();
     const old = $('#mfeed'), keep = old ? { top: old.scrollTop, near: old.scrollHeight - old.scrollTop - old.clientHeight < 80 } : null;   // 往上翻的时候别把人拉回底部
@@ -263,28 +263,28 @@
     const cast = Object.values(s.souls || {});
     const center = U.ptab === 'play'
       ? `${benchStrip()}<div class="feed" id="mfeed">${(s.feed || []).slice(-80).map(feedItem).join('')}${E.busy ? streamCards() : endingCard()}</div>
-        <div class="mcomp"><div class="in"><input id="min" placeholder="${esc(BEATS.placeholder)}" autocomplete="off" value="${esc(U.minDraft || '')}" ${E.busy ? 'disabled' : ''}>${E.busy ? `<button class="btn stopb" id="mstop" ${L.stopping ? 'disabled' : ''}>${L.stopping ? '停下中…' : '■ 停止'}</button>` : '<button class="send" id="msend" aria-label="发送">➤</button>'}</div>
+        <div class="mcomp"><div class="in"><input id="min" placeholder="${esc(BEATS.placeholder)}" autocomplete="off" value="${esc(U.minDraft || '')}" ${E.busy ? 'disabled' : ''}>${E.busy ? `<button class="btn stopb" id="mstop" ${L.stopping ? 'disabled' : ''}>${L.stopping ? T('停下中…') : T('■ 停止')}</button>` : `<button class="send" id="msend" aria-label="${T('发送')}">➤</button>`}</div>
         <div class="sugg">${chips().map(c => `<button class="chip" data-lsay="${esc(c)}">${esc(c)}</button>`).join('')}</div></div>`
       : null;
     el.innerHTML = `<div class="mk">
-      <div class="mk-left"><div class="glass gl pad"><span class="tag">当前世界</span><div style="margin-top:10px">${brick('wcard', t.card && t.card.cover ? V3.url(`/api/v1/local/templates/${encodeURIComponent(t.id)}/cover`) : 'cover-elena.jpg', `<b>${esc(tplTitle(t))}</b><small>${esc((t.card && t.card.pitch || '').slice(0, 40))}</small>`)}</div></div>
-        <div class="glass gl pad"><span class="tag">时间 · 回合</span><div class="clock" style="margin:6px 0 2px">第 ${s.day} 天 · ${E.clock()}</div><div class="tag" style="text-transform:none;letter-spacing:.04em">回合 ${s.turn} · ${(s.rounds || []).length} 拍 · tick ${s.tick}</div>
-          <div class="row" style="margin-top:12px;flex-wrap:wrap"><button class="btn" data-ltick>推进一格</button></div></div>
-        <div class="glass gl pad"><span class="tag">出口检查 · 合约的固定输出</span><div class="sub" style="font-size:12.5px;margin-top:6px">${t.play_contract ? '合约 ' + esc(t.play_contract) + ' · ' : '这个模板没声明合约 · '}结算产物要等引擎 R5</div></div></div>
+      <div class="mk-left"><div class="glass gl pad"><span class="tag">${T('当前世界')}</span><div style="margin-top:10px">${brick('wcard', t.card && t.card.cover ? V3.url(`/api/v1/local/templates/${encodeURIComponent(t.id)}/cover`) : 'cover-elena.jpg', `<b>${esc(tplTitle(t))}</b><small>${esc((t.card && t.card.pitch || '').slice(0, 40))}</small>`)}</div></div>
+        <div class="glass gl pad"><span class="tag">${T('时间 · 回合')}</span><div class="clock" style="margin:6px 0 2px">${T('第 {n} 天', { n: s.day })} · ${E.clock()}</div><div class="tag" style="text-transform:none;letter-spacing:.04em">${T('回合 {turn} · {n} 拍', { turn: s.turn, n: (s.rounds || []).length })} · tick ${s.tick}</div>
+          <div class="row" style="margin-top:12px;flex-wrap:wrap"><button class="btn" data-ltick>${T('推进一格')}</button></div></div>
+        <div class="glass gl pad" data-exitbox><span class="tag">${T('出口检查 · 合约的固定输出')}</span><div class="sub" style="font-size:12.5px;margin-top:6px">${t.play_contract ? T('合约') + ' ' + esc(t.play_contract) + ' · ' : T('这个模板没声明合约') + ' · '}${T('结算产物要等引擎 R5')}</div></div></div>
       <div class="glass gl mk-mid">${center !== null ? center : '<div id="lbench" style="display:flex;flex-direction:column;flex:1;min-height:0"></div>'}</div>
-      <div class="mk-right"><div class="seg rsw">${[['player', '玩家'], ['cast', '角色'], ...(L.card ? [['card', window.BUILDER ? window.BUILDER.t('preview') : '面板']] : [])].map(([k, l]) => `<button class="${(U.rside || 'player') === k ? 'on' : ''}" data-rside="${k}">${l}</button>`).join('')}</div>${(U.rside || 'player') === 'card' && L.card ? cardPanel() : (U.rside || 'player') === 'cast' ? castPanel(cast) : `${scene ? brick('loc', scene, `<b>${esc(place ? place.name : '在路上')}</b><small>${esc(nm(String(at || '').split('/')[0]) || '')}</small>`) : ''}
+      <div class="mk-right"><div class="seg rsw">${[['player', T('玩家')], ['cast', T('角色')], ...(L.card ? [['card', window.BUILDER ? window.BUILDER.t('preview') : T('面板')]] : [])].map(([k, l]) => `<button class="${(U.rside || 'player') === k ? 'on' : ''}" data-rside="${k}">${l}</button>`).join('')}</div>${(U.rside || 'player') === 'card' && L.card ? cardPanel() : (U.rside || 'player') === 'cast' ? castPanel(cast) : `${scene ? brick('loc', scene, `<b>${esc(place ? place.name : T('在路上'))}</b><small>${esc(nm(String(at || '').split('/')[0]) || '')}</small>`) : ''}
         ${mapGraph(s, at)}
-        <div class="glass box"><span class="tag">位置 · 时间</span><div class="r"><span>在</span><span>${esc(nm(at) || at || '—')}</span></div><div class="r"><span>时间</span><span>第 ${s.day} 天 ${E.clock()}</span></div><div class="sub2">订阅 · location · time.*</div></div>
-        ${vars.length ? `<div class="glass box"><span class="tag">玩家</span>${vars.map(v => `<div class="r"><span>${esc(v.name.replace(/^player\./, ''))}</span><span>${esc(v.value)}</span></div>`).join('')}<div class="sub2">订阅 · player.*</div></div>` : ''}
+        <div class="glass box"><span class="tag">${T('位置 · 时间')}</span><div class="r"><span>${T('在')}</span><span>${esc(nm(at) || at || '—')}</span></div><div class="r"><span>${T('时间')}</span><span>${T('第 {n} 天', { n: s.day })} ${E.clock()}</span></div><div class="sub2">${T('订阅')} · location · time.*</div></div>
+        ${vars.length ? `<div class="glass box"><span class="tag">${T('玩家')}</span>${vars.map(v => `<div class="r"><span>${esc(v.name.replace(/^player\./, ''))}</span><span>${esc(v.value)}</span></div>`).join('')}<div class="sub2">${T('订阅')} · player.*</div></div>` : ''}
         ${statusBox()}
         ${boardBox()}
 
-        <div class="glass box"><span class="tag">最近的世界变化</span>${(s.events || []).slice(-6).reverse().flatMap(ev => ev.changes.slice(0, 2).map(c => c.kind === 'move' || /\.at$/.test(c.what) ? `<div class="r" style="font-size:12.5px"><span>${esc(whoName(c.who || c.what))}</span><span>→ ${esc(placeName(c.to))}</span></div>` : `<div class="r" style="font-size:12.5px"><span>${esc(c.what)}</span><span>${esc(c.to)}</span></div>`)).join('') || '<div class="sub" style="font-size:12.5px">还没有变化</div>'}</div>`}</div></div>`;
+        <div class="glass box"><span class="tag">${T('最近的世界变化')}</span>${(s.events || []).slice(-6).reverse().flatMap(ev => ev.changes.slice(0, 2).map(c => c.kind === 'move' || /\.at$/.test(c.what) ? `<div class="r" style="font-size:12.5px"><span>${esc(whoName(c.who || c.what))}</span><span>→ ${esc(placeName(c.to))}</span></div>` : `<div class="r" style="font-size:12.5px"><span>${esc(c.what)}</span><span>${esc(c.to)}</span></div>`)).join('') || `<div class="sub" style="font-size:12.5px">${T('还没有变化')}</div>`}</div>`}</div></div>`;
     if (center === null) { const host = $('#lbench'); renderBenchInto(host); }
     const f = $('#mfeed');
     if (f) {
       f.scrollTop = !keep || keep.near ? f.scrollHeight : keep.top;
-      if (keep && !keep.near) f.insertAdjacentHTML('afterend', '<button class="chip lime tolatest" data-tolatest>↓ 回到最新</button>');
+      if (keep && !keep.near) f.insertAdjacentHTML('afterend', `<button class="chip lime tolatest" data-tolatest>${T('↓ 回到最新')}</button>`);
     }
     wireStrip(el);
   };
@@ -316,7 +316,7 @@
     if (S.screen !== 'test') return;
     const rs = e.target.closest('[data-rside]'); if (rs) { U.rside = rs.dataset.rside; render(); return; }
     if (e.target.closest('[data-tolatest]')) { const f = $('#mfeed'); if (f) f.scrollTop = f.scrollHeight; render(); return; }
-    if (e.target.closest('#mstop')) { L.stopping = true; render(); E.cancel().then(r => { if (r && r.ok === false && typeof toast === 'function') toast('停不下来:' + (r.error || '')); }).finally(() => { setTimeout(() => { L.stopping = false; render(); }, 800); }); return; }
+    if (e.target.closest('#mstop')) { L.stopping = true; render(); E.cancel().then(r => { if (r && r.ok === false && typeof toast === 'function') toast(T('停不下来:') + (r.error || '')); }).finally(() => { setTimeout(() => { L.stopping = false; render(); }, 800); }); return; }
     const b = e.target.closest('[data-lsay]'); if (b) { const v = b.dataset.lsay; if (v.startsWith('@') && !/^@(DM|GM|主持)$/i.test(v)) { const i = $('#min'); if (i) { i.value = v + ' '; i.focus(); } return; } say(v); return; }
     if (e.target.closest('#msend')) { const i = $('#min'), v = ((i && i.value) || U.minDraft || '').trim(); if (v) { U.minDraft = ''; say(v); } return; }
     if (e.target.closest('[data-ltick]')) { E.tick(true); }
@@ -326,19 +326,19 @@
   /* ---------- 世界面 · 地图 = /api/v1/play/map ---------- */
   // 地图层:编辑会话读的是世界源文件(全部真相,可写)
   const EDIT = '/api/v1/create/session/edit-local';
-  const scaleOf = n => ({ world: '世界', town: '镇', city: '城', dungeon: '地穴', region: '地区' })[n && n.kind] || '地点';
+  const scaleOf = n => ({ world: T('世界'), town: T('镇'), city: T('城'), dungeon: T('地穴'), region: T('地区') })[n && n.kind] || T('地点');
   function levelsFrom(map, img, editable) {
     const N = map.nodes || {}, levels = {};
     const lvKeys = new Set(['world', ...Object.keys(map.levels || {}), ...Object.values(N).filter(n => (n.children || []).length).map(n => n.addr)]);
     for (const lv of lvKeys) {
-      const self = N[lv] || { name: map.root && map.root.name || '世界', kind: 'world' }, info = (map.levels || {})[lv] || {};
+      const self = N[lv] || { name: map.root && map.root.name || T('世界'), kind: 'world' }, info = (map.levels || {})[lv] || {};
       const kids = Object.values(N).filter(n => (n.parent || null) === (lv === 'world' ? 'world' : lv) && n.addr !== lv);
       if (!kids.length) continue;
       const nodes = {};
-      kids.forEach(n => { const hs = (info.hotspots || {})[n.addr]; nodes[n.addr] = { name: n.name || '未探索 · ' + n.addr.split('/').pop(), fog: !n.name, type: n.kind, pos: hs ? { x: hs[0], y: hs[1] } : null, child: (n.children || []).length ? n.addr : undefined, img: n.has_scene ? img.scene(n.addr) : undefined }; });
+      kids.forEach(n => { const hs = (info.hotspots || {})[n.addr]; nodes[n.addr] = { name: n.name || T('未探索') + ' · ' + n.addr.split('/').pop(), fog: !n.name, type: n.kind, pos: hs ? { x: hs[0], y: hs[1] } : null, child: (n.children || []).length ? n.addr : undefined, img: n.has_scene ? img.scene(n.addr) : undefined }; });
       const edges = (self.edges || []).filter(e => nodes[e.from] && nodes[e.to]).map((e, i) => ({ id: e.id || `${lv}#${i}`, a: e.from, b: e.to, d: e.distance != null ? String(e.distance) : '' }));
       const drawable = editable && (map.levels || {})[lv] !== undefined;
-      levels[lv] = { title: lv === 'world' ? (self.name || '世界') : self.name, scale: lv === 'world' ? '世界' : scaleOf(self), parent: lv === 'world' ? undefined : (self.parent || 'world'),
+      levels[lv] = { title: lv === 'world' ? (self.name || T('世界')) : self.name, scale: lv === 'world' ? T('世界') : scaleOf(self), parent: lv === 'world' ? undefined : (self.parent || 'world'),
         file: self.source || (lv === 'world' ? 'game/world/world_map.json' : `game/locations/${lv}/`), image: info.has_image ? img.map(lv) + (info.generated_at ? '&v=' + encodeURIComponent(info.generated_at) : '') : null, aspect: 1.5, frozen: !!info.has_image,
         stale: !!info.stale, fitNote: info.has_image ? `assets/maps/${lv}.json · ${info.backend || ''} ${info.stale ? '· stale' : ''}` : '', nodes, edges, ports: [], live: true,
         editable: drawable, canAdd: drawable && self.kind !== 'dungeon', job: (map.jobs || {})['map:' + lv] };
@@ -394,22 +394,22 @@
     async add(level, name, x, y, link) { const r = await fetch(V3.url(EDIT + '/map/node'), { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ level, name, x, y, link_to: link || '' }) }); const d = await r.json().catch(() => ({})); await loadEdit(); return d; },
     async road(level, a, b, opt) {   // 建路 / 删路 / 改路程(1.0 创作写回):POST map/edge
       const r = await fetch(V3.url(EDIT + '/map/edge'), { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ level, a, b, ...(opt || {}) }) });
-      const d = await r.json().catch(() => ({})); if (!r.ok) L.err = '路没写成:' + (d.error || r.status);
+      const d = await r.json().catch(() => ({})); if (!r.ok) L.err = T('路没写成:') + (d.error || r.status);
       await loadEdit(); return d;
     },
-    async generate(level) { await V3.post(EDIT + '/map/generate', { level }).catch(e => { L.err = '生成失败:' + e.message; }); await loadEdit(); },
+    async generate(level) { await V3.post(EDIT + '/map/generate', { level }).catch(e => { L.err = T('生成失败:') + e.message; }); await loadEdit(); },
     get edit() { return L.edit; }, get opening() { return !!L.opening; }, get openFail() { return L.openFail; }, get wtpl() { return L.wtpl; },
   };
 
   // 顶栏右侧:这一页读的是什么(10-17:以前编排 / Template / 前端 / 世界·角色写着过时的「演示数据 · 等引擎 …」)
   const what = () => ({
-    orch: window.SOULORCH && window.SOULORCH.mode === 'soul' ? '角色图读自引擎 · 写回后小手机下一句就按它回' : '编排图读自引擎 · 写回后下一局生效',
-    tpl: '真引擎 · 模板库', fe: '真引擎 · 前端文件夹 · 预览连本机引擎',
-    duo: L.edit && !L.opening ? `真引擎 · 编辑副本${L.edit.name ? ' ' + L.edit.name : ''}` : L.openFail ? '这个世界没打开' : '正在打开世界……',
+    orch: window.SOULORCH && window.SOULORCH.mode === 'soul' ? T('角色图读自引擎 · 写回后小手机下一句就按它回') : T('编排图读自引擎 · 写回后下一局生效'),
+    tpl: T('真引擎 · 模板库'), fe: T('真引擎 · 前端文件夹 · 预览连本机引擎'),
+    duo: L.edit && !L.opening ? `${T('真引擎 · 编辑副本')}${L.edit.name ? ' ' + L.edit.name : ''}` : L.openFail ? T('这个世界没打开') : T('正在打开世界……'),
   })[S.screen];
   // Hub(/hub.html)的入口:只在本机引擎(浏览器版没有这一页)。小手机不放顶栏(10-24:本地顶栏不要,小手机在测试台右栏和线上网页里)
   //   (这次构建有哪几页:build.mjs 写进 window.WL_PAGES)
-  const NAVX = [['hub', '/hub.html', 'Hub ↗', 'Hub:世界 · 角色 · 我的']];
+  const NAVX = [['hub', '/hub.html', 'Hub ↗', T('Hub:世界 · 角色 · 我的')]];
   const navLinks = () => {
     const n = $('#nav'), pages = window.WL_PAGES || { hub: true }; if (!n || !L.ok || V3.base !== '') return;
     NAVX.forEach(([k, u, l, tt]) => { if (pages[k] && !n.querySelector(`[data-navx=${k}]`)) n.insertAdjacentHTML('beforeend', `<a class="navx" href="${u}" target="_blank" rel="noopener" data-navx="${k}" title="${tt}">${l}</a>`); });
@@ -420,8 +420,8 @@
     if (S.screen === 'duo' && L.ok && window.MAPW && !window.MAPW.edit && !L.opening && !L.openFail) buildMapWorld();
     _render();
     const t = L.templates.find(x => x.id === L.bound), w = what();
-    $('#ctx').innerHTML = !L.ok ? `<span class="chip" ${L.err ? `title="${esc(L.err)}" data-err="${esc(L.err)}"` : ''}>${L.err ? (/^\d{3} \//.test(L.err) || /fetch|network/i.test(L.err) ? '连不上引擎' : esc(L.err)) : esc(waitText())}</span>`
-      : w ? `<span class="chip blue">${esc(w)}</span>` : `<span class="chip" title="引擎绑着的这一局">${esc(t ? '这一局 · ' + tplTitle(t) : '未开局')}</span><span class="chip sage">真引擎 · neonrp</span>`;
+    $('#ctx').innerHTML = !L.ok ? `<span class="chip" ${L.err ? `title="${esc(L.err)}" data-err="${esc(L.err)}"` : ''}>${L.err ? (/^\d{3} \//.test(L.err) || /fetch|network/i.test(L.err) ? T('连不上引擎') : esc(L.err)) : esc(waitText())}</span>`
+      : w ? `<span class="chip blue">${esc(w)}</span>` : `<span class="chip" title="${T('引擎绑着的这一局')}">${esc(t ? T('这一局') + ' · ' + tplTitle(t) : T('未开局'))}</span><span class="chip sage">${T('真引擎')} · neonrp</span>`;
     worldSel(); testBanner(); navLinks();
   };
   // 10-17「前端没法选用哪个世界」:一个全局的「当前世界」S.world(模板 id)—— 顶栏一个选择器,各页都跟着它:
@@ -457,7 +457,7 @@
       if (id === L.bound && !L.graphPicked) return;   // 当前世界就是这一局:等引擎生效图(live2.loadGraph 会选它),不另取模板图
       if (id === L.bound && GRAPHS.live) { S.graph = 'live'; S.node = GRAPHS.live.start; S.edge = null; S.cur = null; S.chat = null; S.stack = []; return; }
       const k = 'tpl:' + id, t = L.templates.find(x => x.id === id) || {};
-      if (!GRAPHS[k]) GRAPHS[k] = { title: `模板 · ${tplTitle(t)}`, start: 'plan', nodes: {}, edges: [], pending: true, tpl: id };
+      if (!GRAPHS[k]) GRAPHS[k] = { title: `${T('模板')} · ${tplTitle(t)}`, start: 'plan', nodes: {}, edges: [], pending: true, tpl: id };
       if (GRAPHS[k].pending) delete GRAPHS[k].err;   // 上次没取到:再来就再取
       S.graph = k; S.node = GRAPHS[k].start; S.edge = null; S.cur = null; S.chat = null; S.stack = []; S.layer = 'graph';
       L.graphPicked = true;   // 编排图第一次读回来时不再跳回「这一局」(live2.loadGraph)
@@ -469,19 +469,19 @@
   function worldSel() {
     if (!L.ok || !L.templates.length || !SEL_ON.includes(S.screen)) return;
     const cur = S.world;   // 角色面也显示:角色在「当前世界」里的那一拍(in_world)按它读
-    $('#ctx').insertAdjacentHTML('afterbegin', `<select class="btn" id="wlWorld" aria-label="当前世界" title="当前世界:编排 · 世界·角色 · Template · 测试台 · 前端都跟着它" style="text-transform:none;letter-spacing:0;max-width:160px;overflow:hidden;text-overflow:ellipsis">${known(cur) ? '' : '<option value="" selected>选一个世界</option>'}${L.templates.map(t => `<option value="${esc(t.id)}" ${t.id === cur ? 'selected' : ''}>${esc(tplTitle(t))}</option>`).join('')}</select>`);
+    $('#ctx').insertAdjacentHTML('afterbegin', `<select class="btn" id="wlWorld" aria-label="${T('当前世界')}" title="${T('当前世界:编排 · 世界·角色 · Template · 测试台 · 前端都跟着它')}" style="text-transform:none;letter-spacing:0;max-width:160px;overflow:hidden;text-overflow:ellipsis">${known(cur) ? '' : `<option value="" selected>${T('选一个世界')}</option>`}${L.templates.map(t => `<option value="${esc(t.id)}" ${t.id === cur ? 'selected' : ''}>${esc(tplTitle(t))}</option>`).join('')}</select>`);
   }
   // 测试台:当前世界不是这一局的世界 → 一条横幅,点了(确认后)才开那一局
   function testBanner() {
     if (S.screen !== 'test' || !L.ok || L.binding || !known(S.world) || S.world === L.bound) return;
     const el = $('#s-test .mk-main') || $('#s-test .mk'); if (!el || $('#wlTestBar')) return;
     const w = L.templates.find(x => x.id === S.world) || {}, b = L.templates.find(x => x.id === L.bound);
-    el.insertAdjacentHTML('afterbegin', `<div class="mbanner ro" id="wlTestBar" style="grid-column:1/-1;order:-1"><b>当前世界是「${esc(tplTitle(w))}」</b><span>测试台还开着${b ? `「${esc(tplTitle(b))}」` : '别的'}这一局</span>
-      <div class="r"><button class="btn p" data-wlopen>开「${esc(tplTitle(w))}」的一局</button>${b ? `<button class="btn" data-wlback>回到这一局的世界</button>` : ''}</div></div>`);
+    el.insertAdjacentHTML('afterbegin', `<div class="mbanner ro" id="wlTestBar" style="grid-column:1/-1;order:-1"><b>${esc(T('当前世界是「{w}」', { w: tplTitle(w) }))}</b><span>${b ? esc(T('测试台还开着「{b}」这一局', { b: tplTitle(b) })) : T('测试台还开着别的这一局')}</span>
+      <div class="r"><button class="btn p" data-wlopen>${esc(T('开「{w}」的一局', { w: tplTitle(w) }))}</button>${b ? `<button class="btn" data-wlback>${T('回到这一局的世界')}</button>` : ''}</div></div>`);
   }
   function openTest(id) {
     const t = L.templates.find(x => x.id === id) || {};
-    if (!confirm(`开一局「${tplTitle(t)}」?\n现在这一局留在存档里,之后还能继续。`)) return false;
+    if (!confirm(T('开一局「{t}」?\n现在这一局留在存档里,之后还能继续。', { t: tplTitle(t) }))) return false;
     L.tpl = id; ensureBound(); return true;
   }
   document.addEventListener('change', e => {

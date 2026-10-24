@@ -12,14 +12,14 @@ const LOC = v => {
   if (Array.isArray(v)) return v.map(LOC).join(' · ');
   if ('name' in v && !('zh' in v || 'en' in v)) return LOC(v.name);
   if ('title' in v && !('zh' in v || 'en' in v)) return LOC(v.title);
-  let lg = 'zh'; try { lg = localStorage.getItem('wl-local-lang') || 'zh'; } catch { /* storage off */ }
+  let lg = 'zh'; try { lg = localStorage.getItem('wl-local-lang') || window.WLANG || 'zh'; } catch { /* storage off */ }
   return String(v[lg] || (lg === 'zh' ? v.zh || v.en : v.en || v.zh) || Object.values(v).find(x => typeof x === 'string') || '');
 };
 // 改名写回时保住原来的形状:字符串 → 新字符串;{zh, en, …} → 只改当前语言那一格;{name, goal} → 只改 name(别的语言 / goal 不丢)
 const LOCSET = (old, v) => {
   if (old == null || typeof old !== 'object' || Array.isArray(old)) return v;
   if ('name' in old && !('zh' in old || 'en' in old)) return { ...old, name: LOCSET(old.name, v) };
-  let lg = 'zh'; try { lg = localStorage.getItem('wl-local-lang') || 'zh'; } catch { /* storage off */ }
+  let lg = 'zh'; try { lg = localStorage.getItem('wl-local-lang') || window.WLANG || 'zh'; } catch { /* storage off */ }
   return { ...old, [lg]: v };
 };
 const FAC_COLORS = ['#A594FF', '#5CC8E8', '#F0616D', '#F2B84B', '#3DDC97', '#E58CFF'];
@@ -36,13 +36,13 @@ function v3ApplyWorldData(eco, fac) {
 }
 const relKey = (a, b) => (REL0[`${a}.${b}`] !== undefined ? `rel.${a}.${b}` : `rel.${b}.${a}`);
 const coin = A => (+(A.st.vars['player.gold']?.value || 0)) * 100 + (+(A.st.vars['player.silver']?.value || 0)) * 10 + (+(A.st.vars['player.copper']?.value || 0));
-const fmtCoin = c => { const g = Math.floor(c / 100), s = Math.floor(c % 100 / 10), k = c % 10; return [g && `${g} 金`, s && `${s} 银`, (k || (!g && !s)) && `${k} 铜`].filter(Boolean).join(' '); };
+const fmtCoin = c => { const g = Math.floor(c / 100), s = Math.floor(c % 100 / 10), k = c % 10; return [g && T('{n} 金', { n: g }), s && T('{n} 银', { n: s }), (k || (!g && !s)) && T('{n} 铜', { n: k })].filter(Boolean).join(' '); };
 const goodOf = t => Object.entries(GOODS).find(([, g]) => t.includes(g.name))?.[0];
 
 // 扩展登记:只给页面「这个 op 归哪个扩展」「扩展开没开」用;init 不建状态(状态是引擎的)
-const ECON = { id: 'economy', name: '经济', init() {}, ops: { trade: {}, new_caravan: {}, haul: {}, deliver: {}, rob: {} } };
+const ECON = { id: 'economy', name: T('经济'), init() {}, ops: { trade: {}, new_caravan: {}, haul: {}, deliver: {}, rob: {} } };
 const FAC = {
-  id: 'factions', name: '势力', init() {},
+  id: 'factions', name: T('势力'), init() {},
   ops: { rumor: {}, spread: {}, new_quest: {}, quest: {}, take_quest: {}, strike: {} },
   repKey: k => (FACTIONS[k]?.rep_var || `rep.${k}`),
   premium: () => 0,

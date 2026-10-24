@@ -10,22 +10,22 @@ const AMB = { cat: 'cover-elena.jpg', orch: 'map-t001.jpg', duo: 'map-t001.jpg',
 
 /* ================================================================ 数据 */
 const CONTRACTS = {
-  'mystery-trpg': { short: '沙盒跑团', title: '沙盒跑团', pitch: '一桩案子、一组固定的人;谈好再查,骰子决定线索,走到结局才揭晓真相。',
-    entry: '开场必须由世界自带;角色固定', exit: '到达结局;谜底必须在结局时揭晓', endings: { min: 3, require: 'true' },
+  'mystery-trpg': { short: T('沙盒跑团'), title: T('沙盒跑团'), pitch: T('一桩案子、一组固定的人;谈好再查,骰子决定线索,走到结局才揭晓真相。'),
+    entry: T('开场必须由世界自带;角色固定'), exit: T('到达结局;谜底必须在结局时揭晓'), endings: { min: 3, require: 'true' },
     rewards: { player: ['结局 CG', '线索图鉴'], soul: ['信任', '记忆延续'], world: ['案件结果写回世界'] },
-    outputs: ['结局 id', '解锁的 CG', '尾声', '奖励发放', '回放包'], publish: '跑通一个结局' },
-  'open-adventure': { short: '开放冒险', title: '开放冒险', pitch: '自选出发点,世界自己在走;不要求结局,按天结算,带走地图、关系和新长出来的地方。',
-    entry: '开场由世界自带;可以带自己的角色', exit: '按「一天」结算一段', endings: { min: 0 },
+    outputs: ['结局 id', '解锁的 CG', '尾声', '奖励发放', '回放包'], publish: T('跑通一个结局') },
+  'open-adventure': { short: T('开放冒险'), title: T('开放冒险'), pitch: T('自选出发点,世界自己在走;不要求结局,按天结算,带走地图、关系和新长出来的地方。'),
+    entry: T('开场由世界自带;可以带自己的角色'), exit: T('按「一天」结算一段'), endings: { min: 0 },
     rewards: { player: ['地图解锁', '收藏'], soul: ['关系成长'], world: ['新长出的地点保留'] },
-    outputs: ['段落 id', '奖励发放', '尾声', '回放包'], publish: '结算一段' },
-  'murder-mystery': { short: '剧本杀', title: '解谜型剧本杀', pitch: '一桌人各有一份剧本和秘密;搜证、对质、指认真凶,复盘时所有剧本摊开。',
-    entry: '开场由世界自带;角色固定,按剧本分配身份', exit: '指认真凶后进入结局;真相必须揭晓', endings: { min: 2, require: 'true' },
+    outputs: ['段落 id', '奖励发放', '尾声', '回放包'], publish: T('结算一段') },
+  'murder-mystery': { short: T('剧本杀'), title: T('解谜型剧本杀'), pitch: T('一桌人各有一份剧本和秘密;搜证、对质、指认真凶,复盘时所有剧本摊开。'),
+    entry: T('开场由世界自带;角色固定,按剧本分配身份'), exit: T('指认真凶后进入结局;真相必须揭晓'), endings: { min: 2, require: 'true' },
     rewards: { player: ['结局 CG', '复盘剧本'], soul: ['记忆延续'], world: ['案件结果写回世界'] },
-    outputs: ['结局 id', '指认结果', '真相揭晓', '解锁的 CG', '奖励发放', '回放包'], publish: '跑通一个结局' },
-  'romance-companion': { short: '恋爱陪伴', title: '恋爱陪伴', pitch: '和固定的那个人过日子:每次约会结算一段,好感和回忆留下来;线路结局可选。',
-    entry: '开场由世界自带;对象固定', exit: '按「一次约会」结算一段', endings: { min: 0 },
+    outputs: ['结局 id', '指认结果', '真相揭晓', '解锁的 CG', '奖励发放', '回放包'], publish: T('跑通一个结局') },
+  'romance-companion': { short: T('恋爱陪伴'), title: T('恋爱陪伴'), pitch: T('和固定的那个人过日子:每次约会结算一段,好感和回忆留下来;线路结局可选。'),
+    entry: T('开场由世界自带;对象固定'), exit: T('按「一次约会」结算一段'), endings: { min: 0 },
     rewards: { player: ['约会 CG', '回忆相册'], soul: ['好感', '记忆延续'], world: [] },
-    outputs: ['段落 id', '好感变化', '解锁的 CG', '尾声', '奖励发放', '回放包'], publish: '结算一段' },
+    outputs: ['段落 id', '好感变化', '解锁的 CG', '尾声', '奖励发放', '回放包'], publish: T('结算一段') },
 };
 
 const TOOLS = {
@@ -61,10 +61,10 @@ const GRAPHS = {
     edges: [{ id: 't1', from: 'turn', to: 'ticks', on: 'always', val: '' }, { id: 't2', from: 'ticks', to: 'turn', on: 'always', val: '' }] },
   ...(PRIV.graphs || {}),
 };
-const TRIG = { words: '玩家用词', dm: '@主持', judge: '判断器', gate: 'gate 预判', op: 'op 调用', here: '地点类', var: '变量条件', tick: '时钟', always: '总是' };
-const KIND = { loop: 'agent loop', mode: '模式层', one: '一次性', tick: '后台单位' };
+const TRIG = { words: T('玩家用词'), dm: T('@主持'), judge: T('判断器'), gate: T('gate 预判'), op: T('op 调用'), here: T('地点类'), var: T('变量条件'), tick: T('时钟'), always: T('总是') };
+const KIND = { loop: T('agent loop'), mode: T('模式层'), one: T('一次性'), tick: T('后台单位') };
 // 只显示、不出「+ 加节点」按钮的节点种类(插件自己的节点:游戏客户端的交互)
-const kindName = k => KIND[k] || ({ interaction: '交互 · 客户端' })[k] || k;
+const kindName = k => KIND[k] || ({ interaction: T('交互 · 客户端') })[k] || k;
 
 const PLACES = {
   gate:   { name: '北门', x: 17, y: 17, img: 'place-gate.jpg', data: { id: 'T001/gate_north', 'links': '主街 8 分钟', '守卫': '夜里换岗' } },
@@ -101,7 +101,7 @@ const S = {
 const G = () => GRAPHS[S.graph];
 // 10-17:引擎读来的世界图上,节点的步骤 / 工具 / 提示词 / 参数引擎还不读(只读 state 和边)—— 画成灰的只读,不让人以为改了会生效
 const unreadOf = g => !!(g && g.raw && !g.soul);
-const UNREAD = '<span class="unread-tag">引擎尚未读取</span>';
+const UNREAD = `<span class="unread-tag">${T('引擎尚未读取')}</span>`;
 const C = () => CONTRACTS[S.ctr];
 const nodeTools = id => S.toolsOver[S.graph + ':' + id] || (G().nodes[id] ? G().nodes[id].tools : []);
 const packTools = () => [...new Set(Object.keys(G().nodes).flatMap(nodeTools))].concat(S.accuse ? ['accuse'] : []);
@@ -109,33 +109,33 @@ const packTools = () => [...new Set(Object.keys(G().nodes).flatMap(nodeTools))].
 /* ================================================================ lint(按合约) */
 function lint() {
   const c = C(), out = [], ends = S.endings, tl = packTools();
-  if (c.endings.min && ends.length < c.endings.min) out.push({ lv: 'block', code: 'contract.endings', msg: `至少 ${c.endings.min} 个结局,现在 ${ends.length} 个`, go: 'duo' });
-  if (c.endings.require && !ends.some(e => e.kind === 'true')) out.push({ lv: 'block', code: 'contract.endings', msg: '缺真相结局(kind=true)', go: 'duo' });
-  if (c.rewards.player.includes('结局 CG')) ends.filter(e => !e.cg).forEach(e => out.push({ lv: 'block', code: 'contract.rewards', msg: `结局 ${e.id}「${e.title}」没有 CG`, fix: 'cg:' + e.id }));
-  if (c.rewards.player.includes('线索图鉴') && !S.clues) out.push({ lv: 'block', code: 'contract.rewards', msg: '合约要线索图鉴,世界里没有 clue 数据', fix: 'clues', go: 'duo' });
-  if (c.rewards.player.includes('复盘剧本') && !S.scripts) out.push({ lv: 'block', code: 'contract.entry', msg: '每个角色要一份剧本和秘密(按剧本分配身份)', fix: 'scripts', go: 'duo' });
-  if (S.ctr === 'murder-mystery' && !tl.includes('accuse')) out.push({ lv: 'block', code: 'contract.exit', msg: '出口是「指认」,Pack 的编排里没有 accuse 工具', fix: 'accuse', go: 'orch' });
-  if (c.rewards.soul.includes('好感') && !S.affection) out.push({ lv: 'block', code: 'contract.rewards', msg: '合约要好感,角色 schema 里没有 affection 变量', fix: 'affection', go: 'duo' });
-  if (c.rewards.player.includes('约会 CG') && !S.dateCg) out.push({ lv: 'warn', code: 'contract.rewards', msg: '约会 CG 槽是空的,结算时不会解锁图', fix: 'dateCg' });
-  if (c.rewards.player.includes('收藏')) out.push({ lv: 'warn', code: 'contract.rewards', msg: '没有声明可收藏物,收藏奖励会是空的' });
-  out.push({ lv: 'ok', code: 'contract.entry', msg: '开场写在 game-start.json,开局不调模型' });
+  if (c.endings.min && ends.length < c.endings.min) out.push({ lv: 'block', code: 'contract.endings', msg: T('至少 {min} 个结局,现在 {n} 个', { min: c.endings.min, n: ends.length }), go: 'duo' });
+  if (c.endings.require && !ends.some(e => e.kind === 'true')) out.push({ lv: 'block', code: 'contract.endings', msg: T('缺真相结局(kind=true)'), go: 'duo' });
+  if (c.rewards.player.includes('结局 CG')) ends.filter(e => !e.cg).forEach(e => out.push({ lv: 'block', code: 'contract.rewards', msg: T('结局 {id}「{title}」没有 CG', { id: e.id, title: e.title }), fix: 'cg:' + e.id }));
+  if (c.rewards.player.includes('线索图鉴') && !S.clues) out.push({ lv: 'block', code: 'contract.rewards', msg: T('合约要线索图鉴,世界里没有 clue 数据'), fix: 'clues', go: 'duo' });
+  if (c.rewards.player.includes('复盘剧本') && !S.scripts) out.push({ lv: 'block', code: 'contract.entry', msg: T('每个角色要一份剧本和秘密(按剧本分配身份)'), fix: 'scripts', go: 'duo' });
+  if (S.ctr === 'murder-mystery' && !tl.includes('accuse')) out.push({ lv: 'block', code: 'contract.exit', msg: T('出口是「指认」,Pack 的编排里没有 accuse 工具'), fix: 'accuse', go: 'orch' });
+  if (c.rewards.soul.includes('好感') && !S.affection) out.push({ lv: 'block', code: 'contract.rewards', msg: T('合约要好感,角色 schema 里没有 affection 变量'), fix: 'affection', go: 'duo' });
+  if (c.rewards.player.includes('约会 CG') && !S.dateCg) out.push({ lv: 'warn', code: 'contract.rewards', msg: T('约会 CG 槽是空的,结算时不会解锁图'), fix: 'dateCg' });
+  if (c.rewards.player.includes('收藏')) out.push({ lv: 'warn', code: 'contract.rewards', msg: T('没有声明可收藏物,收藏奖励会是空的') });
+  out.push({ lv: 'ok', code: 'contract.entry', msg: T('开场写在 game-start.json,开局不调模型') });
   out.push({ lv: 'ok', code: 'contract.exit', msg: c.exit });
-  out.push({ lv: 'ok', code: 'schema.view', msg: '7 个 view 的 widget 都认识' });
-  out.push({ lv: 'ok', code: 'assets.card', msg: '封面 assets/cover.png 已填' });
+  out.push({ lv: 'ok', code: 'schema.view', msg: T('7 个 view 的 widget 都认识') });
+  out.push({ lv: 'ok', code: 'assets.card', msg: T('封面 assets/cover.png 已填') });
   return out;
 }
 const blocks = () => lint().filter(x => x.lv === 'block');
 
 /* ================================================================ 外壳 */
-const SCREENS = [['cat', '游玩一览', 'dusk'], ['orch', '编排', ''], ['duo', '世界 · 角色', ''], ['tpl', 'Template', ''], ['test', '测试台', 'dusk'], ['fe', '前端', '']];
+const SCREENS = [['cat', T('游玩一览'), 'dusk'], ['orch', T('编排'), ''], ['duo', T('世界 · 角色'), ''], ['tpl', 'Template', ''], ['test', T('测试台'), 'dusk'], ['fe', T('前端'), '']];
 function go(s) { S.screen = s; render(); }
 function render() {
   const sc = SCREENS.find(x => x[0] === S.screen);
   const amb = $('#amb'); if (amb && !amb.src.endsWith(AMB[S.screen])) amb.src = IMG(AMB[S.screen]);
   $('#nav').innerHTML = SCREENS.map(([k, l]) => `<button class="${S.screen === k ? 'on' : ''}" data-go="${k}">${l}</button>`).join('');
   const b = blocks().length;
-  $('#ctx').innerHTML = S.screen === 'cat' ? `<span class="chip">本地 · 6 个世界</span>` :
-    `<span class="chip">stoneford-elena</span><span class="chip ${b ? 'rust' : 'sage'}">${C().short} · ${b ? b + ' 个 block' : 'lint 清零'}</span>`;
+  $('#ctx').innerHTML = S.screen === 'cat' ? `<span class="chip">${T('本地 · {n} 个世界', { n: 6 })}</span>` :
+    `<span class="chip">stoneford-elena</span><span class="chip ${b ? 'rust' : 'sage'}">${C().short} · ${b ? T('{n} 个 block', { n: b }) : T('lint 清零')}</span>`;
   $$('.screen').forEach(e => e.classList.toggle('on', e.id === 's-' + S.screen));
   ({ cat: renderCat, orch: renderOrch, duo: renderDuo, tpl: renderTpl, test: renderTest, fe: renderFe })[S.screen]();
 }
@@ -166,21 +166,21 @@ function catalog() {
     { id: 'werewolf', title: '夜半村 · 狼人杀', img: 'place-guild.jpg', ctr: null, pitch: '六个座位、两只狼、一位预言家。', status: 'local', meta: '本地可玩', gaps: [{ t: '没有声明玩法合约 → 不能进 Hub', code: 'contract.unknown', go: 'tpl' }] },
   ];
 }
-const STATUS = { draft: ['草稿', 'rust'], review: ['审核中', 'blue'], live: ['已上架', 'sage'], local: ['只在本地', ''], rejected: ['被退回', 'rust'] };
+const STATUS = { draft: [T('草稿'), 'rust'], review: [T('审核中'), 'blue'], live: [T('已上架'), 'sage'], local: [T('只在本地'), ''], rejected: [T('被退回'), 'rust'] };
 function renderCat() {
   const list = catalog();
   const counts = { all: list.length }; list.forEach(w => { const k = w.ctr || 'none'; counts[k] = (counts[k] || 0) + 1; });
-  $('#catbar').innerHTML = [['all', '全部'], ...Object.entries(CONTRACTS).map(([k, v]) => [k, v.short]), ['none', '未声明合约']]
+  $('#catbar').innerHTML = [['all', T('全部')], ...Object.entries(CONTRACTS).map(([k, v]) => [k, v.short]), ['none', T('未声明合约')]]
     .map(([k, l]) => `<button class="${S.catFilter === k ? 'on' : ''}" data-cf="${k}">${l} <span style="opacity:.6">${counts[k] || 0}</span></button>`).join('');
   const shown = list.filter(w => S.catFilter === 'all' || (w.ctr || 'none') === S.catFilter);
   const cards = [...shown, { make: true }];
   $('#catPlane').style.transform = `translate(${S.pan.x}px,${S.pan.y}px)`;
   $('#catPlane').innerHTML = cards.map((w, i) => {
     const col = i % 3, row = Math.floor(i / 3), x = 60 + col * 480 + (row % 2) * 120, y = 120 + row * 300;
-    if (w.make) return brick('wc make hov', null, `<div class="meta"><span><i>${String(i + 1).padStart(2, '0')}</i>WORKSHOP</span></div><div class="plus">+</div><div class="cap"><b style="opacity:.8">做一个世界</b><small>世界和角色一起捏 · 选一份合约 · 跑到出口就能提交</small></div>`, `style="left:${x}px;top:${y}px" data-go="duo"`);
+    if (w.make) return brick('wc make hov', null, `<div class="meta"><span><i>${String(i + 1).padStart(2, '0')}</i>WORKSHOP</span></div><div class="plus">+</div><div class="cap"><b style="opacity:.8">${T('做一个世界')}</b><small>${T('世界和角色一起捏 · 选一份合约 · 跑到出口就能提交')}</small></div>`, `style="left:${x}px;top:${y}px" data-go="duo"`);
     const st = STATUS[w.status];
-    return brick(`wc hov ${S.sel === w.id ? 'on' : ''}`, w.img, `<div class="meta"><span><i>${String(i + 1).padStart(2, '0')}</i>${w.ctr ? CONTRACTS[w.ctr].short : '未声明合约'}</span><span>${esc(w.meta)}</span></div>
-      <div class="state"><span class="chip ${st[1]}">${st[0]}${w.gaps.length ? ' · 缺 ' + w.gaps.length : ''}</span></div>
+    return brick(`wc hov ${S.sel === w.id ? 'on' : ''}`, w.img, `<div class="meta"><span><i>${String(i + 1).padStart(2, '0')}</i>${w.ctr ? CONTRACTS[w.ctr].short : T('未声明合约')}</span><span>${esc(w.meta)}</span></div>
+      <div class="state"><span class="chip ${st[1]}">${st[0]}${w.gaps.length ? T(' · 缺 {n}', { n: w.gaps.length }) : ''}</span></div>
       <div class="cap"><b>${esc(w.title)}</b><small>${esc(w.pitch)}</small></div>`, `style="left:${x}px;top:${y}px" data-w="${w.id}"`);
   }).join('');
   renderShelf(list);
@@ -191,23 +191,23 @@ function renderShelf(list) {
   if (!w) return;
   const st = STATUS[w.status], ok = !w.gaps.length;
   const reviewing = w.status === 'review';
-  el.innerHTML = `<button class="x" data-shx aria-label="关闭">×</button>
-    <div class="tag">WORLD SHELF · ${w.ctr ? CONTRACTS[w.ctr].short : '未声明合约'}</div>
+  el.innerHTML = `<button class="x" data-shx aria-label="${T('关闭')}">×</button>
+    <div class="tag">WORLD SHELF · ${w.ctr ? CONTRACTS[w.ctr].short : T('未声明合约')}</div>
     <h2>${esc(w.title)}</h2><div class="row" style="gap:6px;margin-bottom:10px"><span class="chip ${st[1]}">${st[0]}</span><span class="chip">${esc(w.meta)}</span></div>
     <div class="scroll" style="flex:1;min-height:0">
-      <div class="tag" style="margin:6px 0 2px">合约体检 · ${ok ? '都满足' : '还缺 ' + w.gaps.length + ' 项'}</div>
-      <ul class="sh-list">${ok ? `<li><span class="n">✓</span><div><b>入口 · 出口 · 结局 · 奖励都满足</b><small>${w.ctr ? '有试玩凭证 · 回放包已附' : ''}</small></div></li>` :
-        w.gaps.map((g, i) => `<li><span class="n">${String(i + 1).padStart(2, '0')}</span><div style="flex:1"><b>${esc(g.t)}</b><small class="mono">${g.code}</small></div>${w.mine ? `${g.fix ? `<button class="chip rust" data-fix="${g.fix}">修</button>` : ''}<button class="chip" data-go="${g.go}">去改 ↗</button>` : ''}</li>`).join('')}</ul>
-      ${w.ctr ? `<div class="tag" style="margin:14px 0 2px">玩家会带走</div><ul class="sh-list"><li><span class="n">◆</span><div><b>${[...CONTRACTS[w.ctr].rewards.player, ...CONTRACTS[w.ctr].rewards.soul].join(' · ')}</b><small>勋章:走过全部结局 · 一局里没人倒下</small></div></li></ul>` : ''}
-      ${w.review && reviewing ? `<div class="review well"><div class="tag">审查 · 你是审核人</div>
-        ${['内容:无密钥 / 无他人版权图', '合约:静态 lint 无 block', '凭证:回放能播到出口', '四语卡面齐全'].map((t, i) => `<label><input type="checkbox" data-rv="${i}" ${S['rv' + i] ? 'checked' : ''}> ${t}</label>`).join('')}
-        <textarea placeholder="给作者的话(退回时必填)" id="rvNote"></textarea>
-        <div class="row" style="margin-top:8px"><button class="btn p" data-rvok>通过 · 上架</button><button class="btn" data-rvno>退回</button></div></div>` : ''}
+      <div class="tag" style="margin:6px 0 2px">${T('合约体检')} · ${ok ? T('都满足') : T('还缺 {n} 项', { n: w.gaps.length })}</div>
+      <ul class="sh-list">${ok ? `<li><span class="n">✓</span><div><b>${T('入口 · 出口 · 结局 · 奖励都满足')}</b><small>${w.ctr ? T('有试玩凭证 · 回放包已附') : ''}</small></div></li>` :
+        w.gaps.map((g, i) => `<li><span class="n">${String(i + 1).padStart(2, '0')}</span><div style="flex:1"><b>${esc(g.t)}</b><small class="mono">${g.code}</small></div>${w.mine ? `${g.fix ? `<button class="chip rust" data-fix="${g.fix}">${T('修')}</button>` : ''}<button class="chip" data-go="${g.go}">${T('去改 ↗')}</button>` : ''}</li>`).join('')}</ul>
+      ${w.ctr ? `<div class="tag" style="margin:14px 0 2px">${T('玩家会带走')}</div><ul class="sh-list"><li><span class="n">◆</span><div><b>${[...CONTRACTS[w.ctr].rewards.player, ...CONTRACTS[w.ctr].rewards.soul].map(x => T(x)).join(' · ')}</b><small>${T('勋章:走过全部结局 · 一局里没人倒下')}</small></div></li></ul>` : ''}
+      ${w.review && reviewing ? `<div class="review well"><div class="tag">${T('审查 · 你是审核人')}</div>
+        ${[T('内容:无密钥 / 无他人版权图'), T('合约:静态 lint 无 block'), T('凭证:回放能播到出口'), T('四语卡面齐全')].map((t, i) => `<label><input type="checkbox" data-rv="${i}" ${S['rv' + i] ? 'checked' : ''}> ${t}</label>`).join('')}
+        <textarea placeholder="${T('给作者的话(退回时必填)')}" id="rvNote"></textarea>
+        <div class="row" style="margin-top:8px"><button class="btn p" data-rvok>${T('通过 · 上架')}</button><button class="btn" data-rvno>${T('退回')}</button></div></div>` : ''}
     </div>
     <div class="sh-act">
-      <button data-go="test">▶ 试玩</button>
-      ${w.mine ? `<button class="p" data-submit ${ok && !S.submitted ? '' : 'disabled'}>${S.submitted ? '已提交 · 等审核' : '提交审查'}</button>` : ''}
-      <button>回放 · 看别人的一局</button>
+      <button data-go="test">${T('▶ 试玩')}</button>
+      ${w.mine ? `<button class="p" data-submit ${ok && !S.submitted ? '' : 'disabled'}>${S.submitted ? T('已提交 · 等审核') : T('提交审查')}</button>` : ''}
+      <button>${T('回放 · 看别人的一局')}</button>
     </div>`;
 }
 (function wireCat() {
@@ -225,29 +225,29 @@ function renderShelf(list) {
     if (e.target.closest('[data-shx]')) { S.sel = null; renderCat(); return; }
     if (e.target.closest('[data-submit]')) { S.submitted = true; render(); return; }
     const rv = e.target.closest('[data-rv]'); if (rv) { S['rv' + rv.dataset.rv] = rv.checked; return; }
-    if (e.target.closest('[data-rvok]')) { if (![0, 1, 2, 3].every(i => S['rv' + i])) { $('#rvNote').placeholder = '四项都勾上才能通过'; return; } S.reviews['fog-lamp'] = 'live'; renderCat(); return; }
-    if (e.target.closest('[data-rvno]')) { if (!$('#rvNote').value.trim()) { $('#rvNote').placeholder = '退回要写一句原因'; $('#rvNote').focus(); return; } S.reviews['fog-lamp'] = 'rejected'; renderCat(); }
+    if (e.target.closest('[data-rvok]')) { if (![0, 1, 2, 3].every(i => S['rv' + i])) { $('#rvNote').placeholder = T('四项都勾上才能通过'); return; } S.reviews['fog-lamp'] = 'live'; renderCat(); return; }
+    if (e.target.closest('[data-rvno]')) { if (!$('#rvNote').value.trim()) { $('#rvNote').placeholder = T('退回要写一句原因'); $('#rvNote').focus(); return; } S.reviews['fog-lamp'] = 'rejected'; renderCat(); }
   });
 })();
 
 /* ================================================================ ① 编排台 */
 function renderOrch() {
   const el = $('#s-orch'), g = G();
-  const crumbs = [['graph', '状态机图'], ['node', '节点 · ' + (g.nodes[S.node] ? g.nodes[S.node].title : '—')], ['tools', '工具注册表']];
+  const crumbs = [['graph', T('状态机图')], ['node', T('节点 · ') + (g.nodes[S.node] ? g.nodes[S.node].title : '—')], ['tools', T('工具注册表')]];
   el.innerHTML = `<div class="ws"><div class="ws-main">
     <div class="crumb">${crumbs.map(([k, l], i) => `${i ? '<span class="sep">/</span>' : ''}<button class="${S.layer === k ? 'on' : ''}" data-layer="${k}">${l}</button>`).join('')}
-      <div class="r"><span class="tag">编排图</span><select class="btn" id="gsel">${Object.entries(GRAPHS).map(([k, v]) => `<option value="${k}" ${k === S.graph ? 'selected' : ''}>${v.title}</option>`).join('')}</select></div></div>
+      <div class="r"><span class="tag">${T('编排图')}</span><select class="btn" id="gsel">${Object.entries(GRAPHS).map(([k, v]) => `<option value="${k}" ${k === S.graph ? 'selected' : ''}>${v.title}</option>`).join('')}</select></div></div>
     <div class="board" id="board"></div></div>
-    <div class="side"><div class="glass"><div class="side-h"><b>对话测试</b> ${g.raw && g.tpl ? (window.ORCHLINT && window.ORCHLINT.sideHead ? window.ORCHLINT.sideHead() : '') : g.raw ? '<span class="tag" style="color:#f2c66b">演示 · 不跑引擎</span><div class="sub" style="font-size:12.5px">只在页面里按图上的边走一遍:推进词靠关键字猜,回复是占位,不是引擎的回合。真的回合去测试台跑。</div>' : '<span class="tag">空白世界 · stub 模型</span><div class="sub" style="font-size:12.5px">像玩家一样说话,看状态怎么走、调了哪些工具。不定 schema。</div>'}</div>
+    <div class="side"><div class="glass"><div class="side-h"><b>${T('对话测试')}</b> ${g.raw && g.tpl ? (window.ORCHLINT && window.ORCHLINT.sideHead ? window.ORCHLINT.sideHead() : '') : g.raw ? `<span class="tag" style="color:#f2c66b">${T('演示 · 不跑引擎')}</span><div class="sub" style="font-size:12.5px">${T('只在页面里按图上的边走一遍:推进词靠关键字猜,回复是占位,不是引擎的回合。真的回合去测试台跑。')}</div>` : `<span class="tag">${T('空白世界 · stub 模型')}</span><div class="sub" style="font-size:12.5px">${T('像玩家一样说话,看状态怎么走、调了哪些工具。不定 schema。')}</div>`}</div>
       <div class="chat" id="ochat"></div>
-      <div class="compose"><div class="in"><input id="oin" placeholder="说一句,例如「拔剑」" autocomplete="off"><button class="send" id="osend" aria-label="发送">➤</button></div>
-      <div class="sugg">${['去杂货铺', '定', '拔剑', '[end_combat]', '[referee] 能偷袭吗', '@DM'].map(s => `<button class="chip" data-os="${esc(s)}">${esc(s)}</button>`).join('')}<button class="chip solid" data-orun>跑全套</button><button class="chip" data-oreset>重来</button></div></div></div></div></div>`;
+      <div class="compose"><div class="in"><input id="oin" placeholder="${T('说一句,例如「拔剑」')}" autocomplete="off"><button class="send" id="osend" aria-label="${T('发送')}">➤</button></div>
+      <div class="sugg">${['去杂货铺', '定', '拔剑', '[end_combat]', '[referee] 能偷袭吗', '@DM'].map(s => `<button class="chip" data-os="${esc(s)}">${esc(s)}</button>`).join('')}<button class="chip solid" data-orun>${T('跑全套')}</button><button class="chip" data-oreset>${T('重来')}</button></div></div></div></div></div>`;
   $('#gsel').onchange = e => { S.graph = e.target.value; S.node = G().start; S.edge = null; S.cur = null; S.chat = null; S.stack = []; if (G().tpl && window.WL_setWorld) window.WL_setWorld(G().tpl, { quiet: true }); render(); };   // 这张图的模板 = 当前世界
   if (!S.chat) resetChat();
   drawChat();
   ({ graph: drawGraph, node: drawNode, tools: drawTools })[S.layer]();
 }
-function resetChat() { S.cur = G().start; S.stack = []; S.liveEdge = null; S.hit = new Set(); S.chat = [{ t: 'sys', h: `<span class="go">● 开局</span> 当前节点:${G().nodes[G().start].title}` }]; }
+function resetChat() { S.cur = G().start; S.stack = []; S.liveEdge = null; S.hit = new Set(); S.chat = [{ t: 'sys', h: `<span class="go">${T('● 开局')}</span> ${T('当前节点:{name}', { name: G().nodes[G().start].title })}` }]; }
 function drawChat() { const c = $('#ochat'); if (!c) return; c.innerHTML = S.chat.map(m => `<div class="m ${m.t}">${m.h}</div>`).join(''); c.scrollTop = c.scrollHeight; }
 
 function drawGraph() {
@@ -265,16 +265,16 @@ function drawGraph() {
       else { const mx = (x1 + x2) / 2; d = `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`; lx = mx; ly = (y1 + y2) / 2 - 2; } }
     const cls = ['w', S.edge === e.id ? 'on' : '', S.liveEdge === e.id ? 'live' : '', e.to === '@return' ? 'ret' : ''].join(' ');
     wires += `<path class="hit" d="${d}" data-e="${e.id}"/><path class="${cls}" d="${d}" marker-end="url(#ah)" data-e="${e.id}"/>`;
-    const txt = e.to === '@return' ? `${e.val} → 返回` : (e.on === 'always' ? (e.val || '总是') : `${TRIG[e.on]}:${e.val}`);
+    const txt = e.to === '@return' ? T('{val} → 返回', { val: e.val }) : (e.on === 'always' ? (e.val || T('总是')) : `${TRIG[e.on]}:${e.val}`);
     labels += `<div class="elabel ${S.edge === e.id ? 'on' : ''}" style="left:${lx}px;top:${ly}px" data-e="${e.id}">${esc(txt)}</div>`;
   });
   const nodes = Object.entries(g.nodes).map(([id, n]) => `<div class="nd ${n.kind} ${S.node === id && !S.edge ? 'sel' : ''} ${S.cur === id ? 'cur' : ''}" style="left:${n.x}px;top:${n.y}px" data-n="${id}">
     ${g.start === id ? '<span class="start">START</span>' : ''}${brick('sm', null, `<div class="k"><i>●</i>${kindName(n.kind)}</div><div class="n">${esc(n.title)}</div>
-    <div class="tl">${nodeTools(id).slice(0, 6).map(t => `<span>${t}</span>`).join('')}${nodeTools(id).length > 6 ? `<span>+${nodeTools(id).length - 6}</span>` : ''}${!nodeTools(id).length ? '<span>不调工具</span>' : ''}</div>`)}
-    <span class="port i"></span><span class="port o" data-port="${id}" title="拖到另一个节点上 = 新建迁移"></span></div>`).join('');
+    <div class="tl">${nodeTools(id).slice(0, 6).map(t => `<span>${t}</span>`).join('')}${nodeTools(id).length > 6 ? `<span>+${nodeTools(id).length - 6}</span>` : ''}${!nodeTools(id).length ? `<span>${T('不调工具')}</span>` : ''}</div>`)}
+    <span class="port i"></span><span class="port o" data-port="${id}" title="${T('拖到另一个节点上 = 新建迁移')}"></span></div>`).join('');
   b.innerHTML = `<div class="pzv"><svg class="wires"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="rgba(255,255,255,.5)"/></marker></defs>${wires}<path class="ghost" id="ghost" d=""/></svg>${labels}${nodes}</div>
-    <div class="tb">${Object.entries(KIND).map(([k, l]) => `<button class="btn" data-add="${k}">+ ${l}</button>`).join('')}<button class="btn" data-layer="node">打开节点内部 →</button></div>
-    <div class="note ednote" style="position:absolute;transform:rotate(1deg)">拖节点移动 · 从右边小圆点拖到另一个节点 = 新建迁移<small>点连线改触发条件;双击节点看里面的 agent loop</small></div>
+    <div class="tb">${Object.entries(KIND).map(([k, l]) => `<button class="btn" data-add="${k}">+ ${l}</button>`).join('')}<button class="btn" data-layer="node">${T('打开节点内部 →')}</button></div>
+    <div class="note ednote" style="position:absolute;transform:rotate(1deg)">${T('拖节点移动 · 从右边小圆点拖到另一个节点 = 新建迁移')}<small>${T('点连线改触发条件;双击节点看里面的 agent loop')}</small></div>
     <div id="pop"></div>`;
   wireBoard(b);
   if (S.edge) edgePop();
@@ -305,7 +305,7 @@ function wireBoard(b) {
   b.ondblclick = e => { const n = e.target.closest('[data-n]'); if (n) { S.node = n.dataset.n; S.layer = 'node'; renderOrch(); } };
   b.onclick = e => {
     const ed = e.target.closest('[data-e]'); if (ed) { S.edge = ed.dataset.e; drawGraph(); return; }
-    const a = e.target.closest('[data-add]'); if (a) { const k = a.dataset.add, id = k + Object.keys(g.nodes).length; g.nodes[id] = { kind: k, title: '新的' + KIND[k], x: 120 + Math.random() * 300, y: 60 + Math.random() * 60, tools: [], prompt: '(未设)', knobs: {}, steps: [['llm', '主调用']] }; S.node = id; S.edge = null; drawGraph(); return; }
+    const a = e.target.closest('[data-add]'); if (a) { const k = a.dataset.add, id = k + Object.keys(g.nodes).length; g.nodes[id] = { kind: k, title: T('新的{k}', { k: KIND[k] }), x: 120 + Math.random() * 300, y: 60 + Math.random() * 60, tools: [], prompt: '(未设)', knobs: {}, steps: [['llm', '主调用']] }; S.node = id; S.edge = null; drawGraph(); return; }
     if (e.target.closest('[data-pdel]')) { g.edges = g.edges.filter(x => x.id !== S.edge); S.edge = null; drawGraph(); return; }
     if (e.target.closest('[data-pclose]')) { S.edge = null; drawGraph(); }
   };
@@ -314,14 +314,14 @@ function edgePop() {
   const g = G(), e = g.edges.find(x => x.id === S.edge); if (!e) return;
   const a = g.nodes[e.from];
   const pop = $('#pop'); pop.className = 'pop glass'; pop.style.left = Math.min(a.x + 200, $('#board').clientWidth - 310) + 'px'; pop.style.top = (a.y + 100) + 'px';
-  pop.innerHTML = `<h4>迁移 ${e.id}</h4><div class="tag">从 ${g.nodes[e.from].title} → ${e.to === '@return' ? '返回栈顶' : e.to === e.from ? '自己' : g.nodes[e.to].title}</div>
-    <label class="tag" style="display:block;margin-top:10px">触发</label><select id="pon" ${e.all ? 'disabled' : ''}>${Object.entries(TRIG).map(([k, l]) => `<option value="${k}" ${k === e.on ? 'selected' : ''}>${l}</option>`).join('')}</select>
-    <label class="tag">值</label><input id="pval" value="${esc(e.val)}" placeholder="例:combat / 定 · @DM / here_class room" ${e.all ? 'disabled' : ''}>
-    ${e.all ? '<div class="sub" style="font-size:12px;margin-top:4px">几条推进合成了一条显示,不能在这里一起改;要改先删掉,再连一条新的</div>' : ''}
-    <label class="tag">守卫(读变量,可空)${g.soul ? UNREAD : ''}</label><input id="pgd" value="${esc(e.guard || '')}" placeholder="例:journey.stop != null" ${g.soul ? 'disabled' : ''}>
+  pop.innerHTML = `<h4>${T('迁移 {id}', { id: e.id })}</h4><div class="tag">${T('从 {name}', { name: g.nodes[e.from].title })} → ${e.to === '@return' ? T('返回栈顶') : e.to === e.from ? T('自己') : g.nodes[e.to].title}</div>
+    <label class="tag" style="display:block;margin-top:10px">${T('触发')}</label><select id="pon" ${e.all ? 'disabled' : ''}>${Object.entries(TRIG).map(([k, l]) => `<option value="${k}" ${k === e.on ? 'selected' : ''}>${l}</option>`).join('')}</select>
+    <label class="tag">${T('值')}</label><input id="pval" value="${esc(e.val)}" placeholder="${T('例:combat / 定 · @DM / here_class room')}" ${e.all ? 'disabled' : ''}>
+    ${e.all ? `<div class="sub" style="font-size:12px;margin-top:4px">${T('几条推进合成了一条显示,不能在这里一起改;要改先删掉,再连一条新的')}</div>` : ''}
+    <label class="tag">${T('守卫(读变量,可空)')}${g.soul ? UNREAD : ''}</label><input id="pgd" value="${esc(e.guard || '')}" placeholder="${T('例:journey.stop != null')}" ${g.soul ? 'disabled' : ''}>
     <div class="sub" id="pgdw" style="font-size:12px;margin-top:4px;color:var(--rust,#d98a6f)"></div>
-    <div class="row"><button class="btn" data-pdel>删除</button><button class="btn ink" data-pclose style="margin-left:auto">好</button></div>`;
-  const gw = () => { const w = $('#pgdw'); if (w) w.textContent = e.guard && window.ORCH_guard && window.ORCH_guard(e.guard) === null ? '看不懂这个守卫:写成「变量 比较 值」(== != < <= > >=),或者引擎的 JSON' : ''; };
+    <div class="row"><button class="btn" data-pdel>${T('删除')}</button><button class="btn ink" data-pclose style="margin-left:auto">${T('好')}</button></div>`;
+  const gw = () => { const w = $('#pgdw'); if (w) w.textContent = e.guard && window.ORCH_guard && window.ORCH_guard(e.guard) === null ? T('看不懂这个守卫:写成「变量 比较 值」(== != < <= > >=),或者引擎的 JSON') : ''; };
   $('#pon').onchange = ev => { e.on = ev.target.value; };
   $('#pval').oninput = ev => { e.val = ev.target.value; };
   $('#pgd').oninput = ev => { e.guard = ev.target.value; gw(); };
@@ -329,21 +329,21 @@ function edgePop() {
 }
 function drawNode() {
   const b = $('#board'), g = G(), id = g.nodes[S.node] ? S.node : g.start, n = g.nodes[id], on = nodeTools(id), ro = unreadOf(g);
-  const stepH = s => s[0] === 'par' ? `<div class="par"><span class="k">并行组 · ${esc(s[2] || '')}</span>${s[1].map(x => brick('stp llm sm', null, `<div class="k">LLM</div><b>${esc(x)}</b>`)).join('')}</div>`
-    : brick(`stp ${s[0]} sm`, null, `<div class="k">${{ engine: '引擎', llm: 'LLM', hook: '钩子' }[s[0]]}</div><b>${esc(s[1])}</b>`);
+  const stepH = s => s[0] === 'par' ? `<div class="par"><span class="k">${T('并行组 · ')}${esc(s[2] || '')}</span>${s[1].map(x => brick('stp llm sm', null, `<div class="k">LLM</div><b>${esc(x)}</b>`)).join('')}</div>`
+    : brick(`stp ${s[0]} sm`, null, `<div class="k">${{ engine: T('引擎'), llm: 'LLM', hook: T('钩子') }[s[0]]}</div><b>${esc(s[1])}</b>`);
   b.innerHTML = `<div class="flow">
     <div class="row" style="align-items:flex-end"><div><div class="tag">${kindName(n.kind)}${g.start === id ? ' · START' : ''}</div><h2 class="h1" style="font-size:26px">${esc(n.title)}</h2></div>
       <div style="margin-left:auto" class="row">${Object.keys(g.nodes).map(k => `<button class="chip ${k === id ? 'solid' : ''}" data-pick="${k}">${g.nodes[k].title}</button>`).join('')}</div></div>
-    <div class="tag" style="margin-top:20px">FLOW · 线性步骤 + 并行组(不做任意分支)${ro ? UNREAD + '<span class="muted" style="text-transform:none;letter-spacing:0;margin-left:6px">步骤是引擎写死的说明,改这里不改回合</span>' : ''}</div>
+    <div class="tag" style="margin-top:20px">FLOW · ${T('线性步骤 + 并行组(不做任意分支)')}${ro ? UNREAD + `<span class="muted" style="text-transform:none;letter-spacing:0;margin-left:6px">${T('步骤是引擎写死的说明,改这里不改回合')}</span>` : ''}</div>
     <div class="lane ${ro ? 'unread' : ''}">${n.steps.map((s, i) => (i ? '<span class="arrow"></span>' : '') + stepH(s)).join('')}</div>
     <div style="display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px">
-      <div><div class="tag">${ro ? '这个节点能用的工具' + UNREAD + '<span class="muted" style="text-transform:none;letter-spacing:0;margin-left:6px">这份清单只是说明:能调什么由玩法包注册表和所在的层决定,verify 把关</span>' : '这个节点能用的工具 · 把下面的工具拖进来,点一下移走'}</div>
-        <div class="drop ${ro ? 'unread' : ''}" id="drop">${on.map(t => `<span class="tool on ${TOOLS[t] && !TOOLS[t].sync ? 'async' : ''}" data-untool="${t}">${t}</span>`).join('') || '<span class="muted" style="font-size:12.5px">一个工具都没有:这个节点只能写文字或输出 JSON</span>'}</div>
-        <div class="tag" style="margin-top:14px">工具注册表 · 实线同步 / 虚线异步</div>
+      <div><div class="tag">${ro ? T('这个节点能用的工具') + UNREAD + `<span class="muted" style="text-transform:none;letter-spacing:0;margin-left:6px">${T('这份清单只是说明:能调什么由玩法包注册表和所在的层决定,verify 把关')}</span>` : T('这个节点能用的工具 · 把下面的工具拖进来,点一下移走')}</div>
+        <div class="drop ${ro ? 'unread' : ''}" id="drop">${on.map(t => `<span class="tool on ${TOOLS[t] && !TOOLS[t].sync ? 'async' : ''}" data-untool="${t}">${t}</span>`).join('') || `<span class="muted" style="font-size:12.5px">${T('一个工具都没有:这个节点只能写文字或输出 JSON')}</span>`}</div>
+        <div class="tag" style="margin-top:14px">${T('工具注册表 · 实线同步 / 虚线异步')}</div>
         <div class="tray ${ro ? 'unread' : ''}">${Object.keys(TOOLS).filter(t => !on.includes(t)).map(t => `<span class="tool ${TOOLS[t].sync ? '' : 'async'}" draggable="true" data-tool="${t}" title="${esc(TOOLS[t].doc)}">${t}</span>`).join('')}</div></div>
-      <div class="well" style="padding:16px"><div class="tag">提示词与参数${ro ? UNREAD : ''}</div>
-        <dl class="kv ${ro ? 'unread' : ''}"><dt>提示词</dt><dd class="mono" style="font-size:12px">${esc(n.prompt)}</dd>${Object.entries(n.knobs).map(([k, v]) => `<dt>${k}</dt><dd><input class="btn" style="width:120px;padding:4px 10px" value="${esc(v)}" ${ro ? 'disabled' : ''}></dd>`).join('')}</dl>
-        <div class="note" style="position:relative;margin-top:8px">提示词覆盖要等引擎 O2<small>现在回合的提示词还在引擎包里</small></div></div></div></div>`;
+      <div class="well" style="padding:16px"><div class="tag">${T('提示词与参数')}${ro ? UNREAD : ''}</div>
+        <dl class="kv ${ro ? 'unread' : ''}"><dt>${T('提示词')}</dt><dd class="mono" style="font-size:12px">${esc(n.prompt)}</dd>${Object.entries(n.knobs).map(([k, v]) => `<dt>${k}</dt><dd><input class="btn" style="width:120px;padding:4px 10px" value="${esc(v)}" ${ro ? 'disabled' : ''}></dd>`).join('')}</dl>
+        <div class="note" style="position:relative;margin-top:8px">${T('提示词覆盖要等引擎 O2')}<small>${T('现在回合的提示词还在引擎包里')}</small></div></div></div></div>`;
   b.onpointerdown = b.onpointermove = b.onpointerup = b.ondblclick = null;
   b.onclick = e => {
     const p = e.target.closest('[data-pick]'); if (p) { S.node = p.dataset.pick; renderOrch(); return; }
@@ -360,13 +360,13 @@ function setTools(id, list) { S.toolsOver[S.graph + ':' + id] = list; }
 function drawTools() {
   const b = $('#board'), g = G();
   const used = t => Object.keys(g.nodes).filter(id => nodeTools(id).includes(t));
-  b.innerHTML = `<div class="flow"><div class="row" style="align-items:flex-end"><div><div class="tag">registry · ActionSpec</div><h2 class="h1" style="font-size:26px">工具注册表</h2>
-    <p class="sub">引擎、玩法包、mixin 各自注册;编排图里的节点只能从这里选。kind 决定它是动作、更新、请求、工具还是进入模式层;同步的工具会让正文停下等结果。</p></div></div>
-    <div class="glass deep" style="margin-top:14px;overflow:auto;padding:6px 8px"><table class="t"><tr><th>工具</th><th>kind</th><th>同步</th><th>字段</th><th>校验</th><th>来源</th><th>用在哪些节点</th><th>说明</th></tr>
-    ${Object.entries(TOOLS).map(([k, t]) => `<tr><td class="mono"><b>${k}</b></td><td class="mono">${t.kind}</td><td>${t.sync ? '同步' : '<span style="color:var(--blue)">异步</span>'}</td><td class="mono" style="font-size:11.5px">${t.fields || '—'}</td><td class="mono" style="font-size:11.5px">${t.validator || '—'}</td><td><span class="chip ${t.src.startsWith('mixin') ? 'sage' : t.src.startsWith('pack') ? 'blue' : ''}">${t.src}</span></td>
-      <td>${used(k).map(id => `<button class="chip" data-pick="${id}">${g.nodes[id].title}</button>`).join(' ') || '<span class="muted">没用到</span>'}</td><td>${esc(t.doc)}</td></tr>`).join('')}
-    ${g.raw ? `<tr><td colspan="8" class="muted" style="font-size:12.5px;padding:10px">工具由引擎、玩法包、mixin 在代码里注册${UNREAD}这里还不能新注册:加一行只是画在页面上,回合不会调用</td></tr>` : `<tr><td><input class="btn" id="ntName" placeholder="新工具名" style="width:110px;padding:4px 10px"></td><td><select class="btn" id="ntKind" style="padding:4px 8px">${['action', 'update', 'request', 'tool', 'mode'].map(k => `<option>${k}</option>`).join('')}</select></td>
-      <td><label class="mono" style="font-size:12px"><input type="checkbox" id="ntAsync"> 异步</label></td><td colspan="4"><input class="btn" id="ntDoc" placeholder="说明(四语之一)" style="width:100%;padding:4px 10px"></td><td><button class="btn p" id="ntAdd">注册</button></td></tr>`}</table></div></div>`;
+  b.innerHTML = `<div class="flow"><div class="row" style="align-items:flex-end"><div><div class="tag">registry · ActionSpec</div><h2 class="h1" style="font-size:26px">${T('工具注册表')}</h2>
+    <p class="sub">${T('引擎、玩法包、mixin 各自注册;编排图里的节点只能从这里选。kind 决定它是动作、更新、请求、工具还是进入模式层;同步的工具会让正文停下等结果。')}</p></div></div>
+    <div class="glass deep" style="margin-top:14px;overflow:auto;padding:6px 8px"><table class="t"><tr><th>${T('工具')}</th><th>kind</th><th>${T('同步')}</th><th>${T('字段')}</th><th>${T('校验')}</th><th>${T('来源')}</th><th>${T('用在哪些节点')}</th><th>${T('说明')}</th></tr>
+    ${Object.entries(TOOLS).map(([k, t]) => `<tr><td class="mono"><b>${k}</b></td><td class="mono">${t.kind}</td><td>${t.sync ? T('同步') : `<span style="color:var(--blue)">${T('异步')}</span>`}</td><td class="mono" style="font-size:11.5px">${t.fields || '—'}</td><td class="mono" style="font-size:11.5px">${t.validator || '—'}</td><td><span class="chip ${t.src.startsWith('mixin') ? 'sage' : t.src.startsWith('pack') ? 'blue' : ''}">${t.src}</span></td>
+      <td>${used(k).map(id => `<button class="chip" data-pick="${id}">${g.nodes[id].title}</button>`).join(' ') || `<span class="muted">${T('没用到')}</span>`}</td><td>${esc(t.doc)}</td></tr>`).join('')}
+    ${g.raw ? `<tr><td colspan="8" class="muted" style="font-size:12.5px;padding:10px">${T('工具由引擎、玩法包、mixin 在代码里注册')}${UNREAD}${T('这里还不能新注册:加一行只是画在页面上,回合不会调用')}</td></tr>` : `<tr><td><input class="btn" id="ntName" placeholder="${T('新工具名')}" style="width:110px;padding:4px 10px"></td><td><select class="btn" id="ntKind" style="padding:4px 8px">${['action', 'update', 'request', 'tool', 'mode'].map(k => `<option>${k}</option>`).join('')}</select></td>
+      <td><label class="mono" style="font-size:12px"><input type="checkbox" id="ntAsync"> ${T('异步')}</label></td><td colspan="4"><input class="btn" id="ntDoc" placeholder="${T('说明(四语之一)')}" style="width:100%;padding:4px 10px"></td><td><button class="btn p" id="ntAdd">${T('注册')}</button></td></tr>`}</table></div></div>`;
   b.onpointerdown = b.onpointermove = b.onpointerup = b.ondblclick = null;
   b.onclick = e => { const p = e.target.closest('[data-pick]'); if (p) { S.node = p.dataset.pick; S.layer = 'node'; renderOrch(); } };
   if ($('#ntAdd')) $('#ntAdd').onclick = () => { const n = $('#ntName').value.trim().replace(/\W+/g, '_'); if (!n || TOOLS[n]) return; TOOLS[n] = { kind: $('#ntKind').value, sync: !$('#ntAsync').checked, fields: '', validator: '', src: 'template', doc: $('#ntDoc').value || '(创作者注册)' }; drawTools(); };
@@ -397,11 +397,11 @@ function step(text) {
   log.push({ t: 'me', h: esc(text) });
   let moves = 0, first = true;
   const run = (nodeId, auto) => {
-    const n = g.nodes[nodeId], stub = STUB[nodeId] || { say: n.title + (g.raw ? ':(演示占位 · 没跑引擎)' : ':(stub)'), calls: [] };
+    const n = g.nodes[nodeId], stub = STUB[nodeId] || { say: n.title + (g.raw ? T(':(演示占位 · 没跑引擎)') : ':(stub)'), calls: [] };
     const allowed = nodeTools(nodeId);
     const calls = nodeId === 'combat' && text.includes('[end_combat]') ? ['end_combat'] : stub.calls;
     const bad = calls.filter(c => !allowed.includes(c));
-    log.push({ t: 'sys', h: `<span class="go">● ${n.title}</span> · 调用 ${calls.length ? calls.map(c => bad.includes(c) ? `<span class="bad">${c}✗</span>` : `<span class="ok">${c}</span>`).join(' ') : '—'}${bad.length ? ` <span class="bad">没注册 → verify 拒绝</span>` : ''}` });
+    log.push({ t: 'sys', h: `<span class="go">● ${n.title}</span> · ${T('调用')} ${calls.length ? calls.map(c => bad.includes(c) ? `<span class="bad">${c}✗</span>` : `<span class="ok">${c}</span>`).join(' ') : '—'}${bad.length ? ` <span class="bad">${T('没注册 → verify 拒绝')}</span>` : ''}` });
     if (!(nodeId === 'combat' && text.includes('[end_combat]'))) log.push({ t: 'human', h: esc(stub.say) });
   };
   const follow = (e) => {
@@ -409,7 +409,7 @@ function step(text) {
     let to = e.to;
     if (to === '@return') { to = S.stack.pop() || g.start; }
     else if (['mode', 'one'].includes(g.nodes[to].kind)) S.stack.push(S.cur !== g.start && g.nodes[S.cur].kind === 'loop' && g.nodes[g.start] ? g.start : S.cur);   // 从另一个主循环进层:回到起点那个
-    log.push({ t: 'sys', h: `<span class="go">→ ${e.id}</span> ${e.on === 'always' ? '总是' : TRIG[e.on] + ':' + esc(e.val)} → ${g.nodes[to].title}` });
+    log.push({ t: 'sys', h: `<span class="go">→ ${e.id}</span> ${e.on === 'always' ? T('总是') : TRIG[e.on] + ':' + esc(e.val)} → ${g.nodes[to].title}` });
     S.cur = to;
   };
   // 当前节点先处理这句话,再看出边;自动节点(起点以外的主循环 / 后台 / 一次性)跑完继续走
@@ -422,7 +422,7 @@ function step(text) {
     else { run(S.cur, false); e = null; }
   }
   const tot = g.edges.length, cov = S.hit.size;
-  log.push({ t: 'sys', h: `<span class="mono" style="color:var(--muted)">停在 ${g.nodes[S.cur].title}${S.stack.length ? ' · 返回栈 ' + S.stack.map(x => g.nodes[x].title).join('›') : ''} · 边覆盖 ${cov}/${tot}</span>` });
+  log.push({ t: 'sys', h: `<span class="mono" style="color:var(--muted)">${T('停在 {name}', { name: g.nodes[S.cur].title })}${S.stack.length ? T(' · 返回栈 ') + S.stack.map(x => g.nodes[x].title).join('›') : ''} · ${T('边覆盖 {a}/{b}', { a: cov, b: tot })}</span>` });
 }
 document.addEventListener('click', e => {
   if (S.screen !== 'orch') return;
@@ -434,7 +434,7 @@ document.addEventListener('click', e => {
     resetChat(); const script = G().demo || ['看看四周'];
     script.forEach(x => step(x));
     const un = G().edges.filter(x => !S.hit.has(x.id)).map(x => x.id);
-    S.chat.push({ t: 'agent', h: `<b>全套脚本跑完</b> · ${script.length} 句 · 边覆盖 ${S.hit.size}/${G().edges.length}${un.length ? ` · 没走到 ${un.join(', ')}` : ' · 每条边都走到了'}<span class="call">检查:状态切换 · 每个节点只调注册给它的工具 · 返回栈弹回正确</span>` });
+    S.chat.push({ t: 'agent', h: `<b>${T('全套脚本跑完')}</b> · ${T('{n} 句', { n: script.length })} · ${T('边覆盖 {a}/{b}', { a: S.hit.size, b: G().edges.length })}${un.length ? T(' · 没走到 {ids}', { ids: un.join(', ') }) : T(' · 每条边都走到了')}<span class="call">${T('检查:状态切换 · 每个节点只调注册给它的工具 · 返回栈弹回正确')}</span>` });
     renderOrch();
   }
 });
@@ -478,7 +478,7 @@ S.duoTab = { world: 'map', soul: 'cards' }; S.rtab = 'agent'; S.gsel = null; S.s
 S.wagent = [
   { t: 'agent', h: '我按 <span class="mono">documents/spec/world</span> 和 <span class="mono">soul</span> 读了这个文件夹:6 个地点、3 个类、2 个角色、1 条主线 3 个结局。想改什么直接说,我改完会在左边的图里亮出来。<span class="call">read game/** · souls/** · registry/classes.json</span>' },
 ];
-const WTABS = { world: [['map', '地图'], ['plot', '剧情'], ['schema', 'Schema'], ['data', '数据']], soul: [['cards', '卡片'], ['rel', '关系'], ['schema', 'Schema'], ['data', '数据']] };
+const WTABS = { world: [['map', T('地图')], ['plot', T('剧情')], ['schema', 'Schema'], ['data', T('数据')]], soul: [['cards', T('卡片')], ['rel', T('关系')], ['schema', 'Schema'], ['data', T('数据')]] };
 
 /* 通用节点编辑器:位置用百分比,随容器缩放 */
 /* 画板的平移 / 缩放(10-06:「拖动背景这个 board 不会移动」):
@@ -569,14 +569,14 @@ function renderDuo() {
     ['f', '  souls/_schema.json', 'soul', 'schema', null], ['f', '  souls/_relations.json', 'soul', 'rel', null], ['d', '  registry/'], ['f', '    classes.json', 'world', 'schema', null],
   ];
   el.innerHTML = `<div class="duo2 ${f === 'world' && tab === 'map' ? 'wide' : ''}">
-    <div class="glass tree"><div class="tag" style="margin-bottom:8px">一个文件夹 · 两面</div>${tree.map(([k, t, fc, tb, id]) => k === 'd' ? `<span class="d" style="white-space:pre">${esc(t)}</span><br>` :
+    <div class="glass tree"><div class="tag" style="margin-bottom:8px">${T('一个文件夹 · 两面')}</div>${tree.map(([k, t, fc, tb, id]) => k === 'd' ? `<span class="d" style="white-space:pre">${esc(t)}</span><br>` :
       `<span class="f ${fc === 'soul' ? 'soulf' : 'worldf'} ${fc === f && tb === tab ? 'on' : ''}" style="white-space:pre" data-tf="${fc}:${tb}:${id || ''}">${esc(t)}</span>`).join('')}</div>
     <div class="ed">
-      <div class="edhd"><div class="seg">${[['world', '世界面'], ['soul', '角色面']].map(([k, l]) => `<button class="${f === k ? 'on' : ''}" data-face="${k}">${l}</button>`).join('')}</div>
+      <div class="edhd"><div class="seg">${[['world', T('世界面')], ['soul', T('角色面')]].map(([k, l]) => `<button class="${f === k ? 'on' : ''}" data-face="${k}">${l}</button>`).join('')}</div>
         <div class="tabs sm">${WTABS[f].map(([k, l]) => `<button class="${tab === k ? 'on' : ''}" data-dt="${k}">${l}</button>`).join('')}</div>
         <div class="r">${edActions(f, tab)}${window.WL_newBtn ? window.WL_newBtn(f) : ''}</div></div>
       <div class="edbody ${S.flipping ? 'flipin' : ''}" id="edbody">${edBody(f, tab)}</div></div>
-    <div class="glass rside"><div class="rtabs"><div class="seg">${[['agent', '创作 agent'], ['insp', '检查器']].map(([k, l]) => `<button class="${S.rtab === k ? 'on' : ''}" data-rt="${k}">${l}</button>`).join('')}</div></div>
+    <div class="glass rside"><div class="rtabs"><div class="seg">${[['agent', T('创作 agent')], ['insp', T('检查器')]].map(([k, l]) => `<button class="${S.rtab === k ? 'on' : ''}" data-rt="${k}">${l}</button>`).join('')}</div></div>
       ${S.rtab === 'agent' ? agentPane() : `<div class="insp">${inspector2()}</div>`}</div></div>`;
   S.flipping = false;
   const me = $('#mapEd'); if (me && window.mapEditor) window.mapEditor(me);
@@ -586,44 +586,44 @@ function renderDuo() {
       const here = Object.entries(SOULS).filter(([, s]) => s.at === id);
       return `<span class="lb">${esc(n.title)}</span><span class="pin"></span>${here.length ? `<span class="row" style="gap:0;justify-content:center">${here.map(([k, s]) => `<img class="tok" src="${IMG(s.img)}" alt="${s.name}">`).join('')}</span>` : ''}`; } });
     if (S.face === 'world' && tab === 'plot') graphEdit(g, PLOT, { bend: .16, newLabel: '条件?', node: (n, id) => n.kind === 'ending'
-      ? brick(`pn end ${(S.endings.find(x => x.id === id) || {}).kind || ''}`, null, `<div class="k">结局 · ${(S.endings.find(x => x.id === id) || { kind: 'alt' }).kind}</div><b>${esc(n.title)}</b><div class="row" style="gap:6px;margin-top:6px">${(S.endings.find(x => x.id === id) || {}).cg ? '<span class="chip sage">CG ✓</span>' : `<button class="chip rust" data-fix="cg:${id}">去生成 CG</button>`}</div>`)
-      : brick('pn', null, `<div class="k">阶段</div><b>${esc(n.title)}</b><div class="mono" style="font-size:11px;color:var(--muted);margin-top:4px">${esc(n.note || '')}</div>`) });
+      ? brick(`pn end ${(S.endings.find(x => x.id === id) || {}).kind || ''}`, null, `<div class="k">${T('结局 · ')}${(S.endings.find(x => x.id === id) || { kind: 'alt' }).kind}</div><b>${esc(n.title)}</b><div class="row" style="gap:6px;margin-top:6px">${(S.endings.find(x => x.id === id) || {}).cg ? '<span class="chip sage">CG ✓</span>' : `<button class="chip rust" data-fix="cg:${id}">${T('去生成 CG')}</button>`}</div>`)
+      : brick('pn', null, `<div class="k">${T('阶段')}</div><b>${esc(n.title)}</b><div class="mono" style="font-size:11px;color:var(--muted);margin-top:4px">${esc(n.note || '')}</div>`) });
     if (S.face === 'soul' && tab === 'rel') graphEdit(g, REL, { bend: .2, newLabel: '关系?', node: (n) => n.img ? `<img class="relp" src="${IMG(n.img)}" alt=""><span class="lb">${esc(n.title)}</span>` : `<span class="relp blank">${esc(n.title.slice(0, 1))}</span><span class="lb">${esc(n.title)}</span>` });
   }
   const c = $('#achat'); if (c) c.scrollTop = c.scrollHeight;
 }
 function edActions(f, tab) {
-  if (tab === 'map') return `<span class="tag">文件夹 = 层级 · 每层一张连通图 · 生成后才有坐标</span>`;
-  if (tab === 'plot') return `<button class="btn" data-addn="stage">+ 阶段</button><button class="btn" data-addn="ending">+ 结局</button>`;
-  if (tab === 'rel') return `<button class="btn" data-addn="npc">+ 人物</button><span class="tag">连线 = 关系</span>`;
-  if (tab === 'schema') return `<span class="tag">改这里 → 数据页的表单跟着变</span>`;
-  if (tab === 'cards') return `<button class="btn" data-gen="soul">+ 让 agent 捏一个</button>`;
-  return `<span class="tag">表单由 Schema 生成</span>`;
+  if (tab === 'map') return `<span class="tag">${T('文件夹 = 层级 · 每层一张连通图 · 生成后才有坐标')}</span>`;
+  if (tab === 'plot') return `<button class="btn" data-addn="stage">${T('+ 阶段')}</button><button class="btn" data-addn="ending">${T('+ 结局')}</button>`;
+  if (tab === 'rel') return `<button class="btn" data-addn="npc">${T('+ 人物')}</button><span class="tag">${T('连线 = 关系')}</span>`;
+  if (tab === 'schema') return `<span class="tag">${T('改这里 → 数据页的表单跟着变')}</span>`;
+  if (tab === 'cards') return `<button class="btn" data-gen="soul">${T('+ 让 agent 捏一个')}</button>`;
+  return `<span class="tag">${T('表单由 Schema 生成')}</span>`;
 }
 function edBody(f, tab) {
   if (tab === 'map') return `<div class="mapEd" id="mapEd"></div>`;
   if (['plot', 'rel'].includes(tab)) return `<div class="gcanvas ${tab}" id="gcanvas"></div>`;
   if (tab === 'cards') return `<div class="souls">${Object.entries(SOULS).map(([k, s]) => brick(`sc hov ${S.pick.t === 'soul' && S.pick.id === k ? 'on' : ''}`, s.img, `<div class="meta"><span><i>${k === 'elena' ? '01' : '02'}</i>souls/${k}</span><span>${SVAL[k].mood}</span></div>
-    <div class="cap"><b>${s.name}</b><small class="human" style="font-size:15px">${s.line}</small><div class="hs">${s.haunts.map(h => `<button class="chip" data-goplace="${h}">常去 · ${PLACES[h].name}</button>`).join('')}</div></div>`, `data-soul="${k}"`)).join('')}</div>`;
+    <div class="cap"><b>${s.name}</b><small class="human" style="font-size:15px">${s.line}</small><div class="hs">${s.haunts.map(h => `<button class="chip" data-goplace="${h}">${T('常去 · ')}${PLACES[h].name}</button>`).join('')}</div></div>`, `data-soul="${k}"`)).join('')}</div>`;
   if (tab === 'schema') return f === 'world' ? schemaWorld() : schemaSoul();
   return f === 'world' ? dataWorld() : dataSoul();
 }
 const TYPES = ['str', 'int', 'enum', 'bool', 'list', 'ref', 'open'];
 const propRow = (p, i, scope) => `<tr><td><input class="cell mono" value="${esc(p.k)}" data-sp="${scope}:${i}:k"></td><td><select class="cell" data-sp="${scope}:${i}:t">${TYPES.map(t => `<option ${t === p.t ? 'selected' : ''}>${t}</option>`).join('')}</select></td>
-  <td><input class="cell" value="${esc(p.v || '')}" placeholder="约束 / 取值" data-sp="${scope}:${i}:v"></td><td style="text-align:center"><input type="checkbox" ${p.mut ? 'checked' : ''} data-sp="${scope}:${i}:mut"></td><td><button class="chip" data-sdel="${scope}:${i}">删</button></td></tr>`;
+  <td><input class="cell" value="${esc(p.v || '')}" placeholder="${T('约束 / 取值')}" data-sp="${scope}:${i}:v"></td><td style="text-align:center"><input type="checkbox" ${p.mut ? 'checked' : ''} data-sp="${scope}:${i}:mut"></td><td><button class="chip" data-sdel="${scope}:${i}">${T('删')}</button></td></tr>`;
 function schemaWorld() {
   const cls = WSCHEMA[S.schemaCls];
-  return `<div class="schw scroll"><div class="row" style="flex-wrap:wrap;gap:8px;margin-bottom:12px"><span class="tag">开放 schema 的类</span>${Object.keys(WSCHEMA).map(k => `<button class="chip ${k === S.schemaCls ? 'solid' : ''}" data-scls="${k}">${k}</button>`).join('')}<button class="chip" data-snew>+ 类</button></div>
-    <div class="glass deep" style="padding:8px 10px"><div class="row" style="padding:6px 6px 10px"><b style="font-size:17px">${S.schemaCls}</b><span class="mono" style="font-size:12px;color:var(--muted)">${cls.folder}/*.json</span><span class="tag" style="margin-left:auto">mutable = 游玩时能被 patch</span></div>
-      <table class="t"><tr><th>属性</th><th>类型</th><th>约束</th><th>可变</th><th></th></tr>${cls.props.map((p, i) => propRow(p, i, 'c')).join('')}</table><button class="btn" data-sadd="c" style="margin:10px 6px 4px">+ 属性</button></div>
-    <div class="tag" style="margin:18px 0 8px">世界变量 · 树形存储(game/meta/*.json)</div>
-    <div class="glass deep" style="padding:8px 10px"><table class="t"><tr><th>变量</th><th>类型</th><th>约束</th><th>可变</th><th></th></tr>${WVARS.map((p, i) => propRow(p, i, 'v')).join('')}</table><button class="btn" data-sadd="v" style="margin:10px 6px 4px">+ 变量</button></div></div>`;
+  return `<div class="schw scroll"><div class="row" style="flex-wrap:wrap;gap:8px;margin-bottom:12px"><span class="tag">${T('开放 schema 的类')}</span>${Object.keys(WSCHEMA).map(k => `<button class="chip ${k === S.schemaCls ? 'solid' : ''}" data-scls="${k}">${k}</button>`).join('')}<button class="chip" data-snew>${T('+ 类')}</button></div>
+    <div class="glass deep" style="padding:8px 10px"><div class="row" style="padding:6px 6px 10px"><b style="font-size:17px">${S.schemaCls}</b><span class="mono" style="font-size:12px;color:var(--muted)">${cls.folder}/*.json</span><span class="tag" style="margin-left:auto">${T('mutable = 游玩时能被 patch')}</span></div>
+      <table class="t"><tr><th>${T('属性')}</th><th>${T('类型')}</th><th>${T('约束')}</th><th>${T('可变')}</th><th></th></tr>${cls.props.map((p, i) => propRow(p, i, 'c')).join('')}</table><button class="btn" data-sadd="c" style="margin:10px 6px 4px">${T('+ 属性')}</button></div>
+    <div class="tag" style="margin:18px 0 8px">${T('世界变量 · 树形存储(game/meta/*.json)')}</div>
+    <div class="glass deep" style="padding:8px 10px"><table class="t"><tr><th>${T('变量')}</th><th>${T('类型')}</th><th>${T('约束')}</th><th>${T('可变')}</th><th></th></tr>${WVARS.map((p, i) => propRow(p, i, 'v')).join('')}</table><button class="btn" data-sadd="v" style="margin:10px 6px 4px">${T('+ 变量')}</button></div></div>`;
 }
 function schemaSoul() {
-  return `<div class="schw scroll"><div class="tag" style="margin-bottom:10px">角色 schema · 每个角色按这份来(souls/_schema.json)</div>
-    <div class="glass deep" style="padding:8px 10px"><table class="t"><tr><th>字段</th><th>类型</th><th>约束</th><th>可变</th><th></th></tr>${SSCHEMA.map((p, i) => propRow(p, i, 's')).join('')}</table>
-    <div class="row" style="margin:10px 6px 4px"><button class="btn" data-sadd="s">+ 字段</button>${SSCHEMA.some(x => x.k === 'affection') ? '' : '<button class="btn" data-fix="affection">+ affection(恋爱陪伴要)</button>'}</div></div>
-    <div class="note" style="position:relative;margin-top:16px;transform:rotate(-.6deg)">open = 开放文本,模型读;其余是闭 schema<small>引擎每回合结算 trust / memory / mood,不用预先写满</small></div></div>`;
+  return `<div class="schw scroll"><div class="tag" style="margin-bottom:10px">${T('角色 schema · 每个角色按这份来(souls/_schema.json)')}</div>
+    <div class="glass deep" style="padding:8px 10px"><table class="t"><tr><th>${T('字段')}</th><th>${T('类型')}</th><th>${T('约束')}</th><th>${T('可变')}</th><th></th></tr>${SSCHEMA.map((p, i) => propRow(p, i, 's')).join('')}</table>
+    <div class="row" style="margin:10px 6px 4px"><button class="btn" data-sadd="s">${T('+ 字段')}</button>${SSCHEMA.some(x => x.k === 'affection') ? '' : `<button class="btn" data-fix="affection">${T('+ affection(恋爱陪伴要)')}</button>`}</div></div>
+    <div class="note" style="position:relative;margin-top:16px;transform:rotate(-.6deg)">${T('open = 开放文本,模型读;其余是闭 schema')}<small>${T('引擎每回合结算 trust / memory / mood,不用预先写满')}</small></div></div>`;
 }
 function field(p, val, path) {
   const v = val === undefined ? '' : val;
@@ -637,38 +637,38 @@ function field(p, val, path) {
 }
 function dataWorld() {
   const id = S.pick.t === 'place' && MAPG.nodes[S.pick.id] ? S.pick.id : 'gate', cls = WSCHEMA.location, vals = { name: MAPG.nodes[id].title, ...(PVAL[id] || {}) };
-  return `<div class="schw scroll"><div class="row" style="flex-wrap:wrap;gap:6px;margin-bottom:12px"><span class="tag">location 实例</span>${Object.entries(MAPG.nodes).map(([k, n]) => `<button class="chip ${k === id ? 'solid' : ''}" data-pickp="${k}">${esc(n.title)}</button>`).join('')}</div>
-    <div class="dform">${PLACES[id] && PLACES[id].img ? brick('placeimg', PLACES[id].img, '') : brick('placeimg', null, `<div style="position:absolute;inset:0;display:grid;place-items:center"><button class="btn" data-gen="${id}">${S.gen[id] ? '生成中…' : '生成地点图'}</button></div>`)}
+  return `<div class="schw scroll"><div class="row" style="flex-wrap:wrap;gap:6px;margin-bottom:12px"><span class="tag">${T('location 实例')}</span>${Object.entries(MAPG.nodes).map(([k, n]) => `<button class="chip ${k === id ? 'solid' : ''}" data-pickp="${k}">${esc(n.title)}</button>`).join('')}</div>
+    <div class="dform">${PLACES[id] && PLACES[id].img ? brick('placeimg', PLACES[id].img, '') : brick('placeimg', null, `<div style="position:absolute;inset:0;display:grid;place-items:center"><button class="btn" data-gen="${id}">${S.gen[id] ? T('生成中…') : T('生成地点图')}</button></div>`)}
       <div class="glass deep" style="padding:16px 18px"><div class="row"><b style="font-size:20px" class="human">${esc(vals.name)}</b><span class="mono" style="font-size:12px;color:var(--muted)">${cls.folder}/${id}.json</span></div>
       <dl class="kv">${cls.props.map(p => `<dt>${p.k} <span style="opacity:.6">${p.t}</span></dt><dd>${field(p, vals[p.k], 'place:' + id + ':' + p.k)}</dd>`).join('')}</dl>
-      <div class="tag">这里的人</div><div class="row" style="margin-top:6px">${Object.entries(SOULS).filter(([, s]) => s.at === id).map(([k, s]) => `<button class="chip" data-soul="${k}">${s.name} ↺ 角色面</button>`).join('') || '<span style="color:var(--muted)">没人</span>'}</div></div></div></div>`;
+      <div class="tag">${T('这里的人')}</div><div class="row" style="margin-top:6px">${Object.entries(SOULS).filter(([, s]) => s.at === id).map(([k, s]) => `<button class="chip" data-soul="${k}">${s.name} ${T('↺ 角色面')}</button>`).join('') || `<span style="color:var(--muted)">${T('没人')}</span>`}</div></div></div></div>`;
 }
 function dataSoul() {
   const id = S.pick.t === 'soul' ? S.pick.id : 'elena', s = SOULS[id], vals = SVAL[id];
-  return `<div class="schw scroll"><div class="row" style="gap:6px;margin-bottom:12px"><span class="tag">角色</span>${Object.entries(SOULS).map(([k, x]) => `<button class="chip ${k === id ? 'solid' : ''}" data-soul="${k}">${x.name}</button>`).join('')}</div>
+  return `<div class="schw scroll"><div class="row" style="gap:6px;margin-bottom:12px"><span class="tag">${T('角色')}</span>${Object.entries(SOULS).map(([k, x]) => `<button class="chip ${k === id ? 'solid' : ''}" data-soul="${k}">${x.name}</button>`).join('')}</div>
     <div class="dform">${brick('placeimg tall', s.img, '')}
       <div class="glass deep" style="padding:16px 18px"><div class="row"><b style="font-size:22px" class="human">${s.name}</b><span class="mono" style="font-size:12px;color:var(--muted)">souls/${id}/persona.json</span></div>
       <div class="say">${s.say}</div>
-      <dl class="kv">${SSCHEMA.map(p => `<dt>${p.k} <span style="opacity:.6">${p.t}</span></dt><dd>${field(p, vals[p.k], 'soul:' + id + ':' + p.k)}</dd>`).join('')}<dt>现在在</dt><dd><button class="chip" data-goplace="${s.at}">${PLACES[s.at].name} ↺ 世界面</button></dd></dl>
-      <div class="row"><button class="btn" data-gen="${id}">${S.gen[id] ? '生成中…' : '重生一张立绘'}</button></div></div></div></div>`;
+      <dl class="kv">${SSCHEMA.map(p => `<dt>${p.k} <span style="opacity:.6">${p.t}</span></dt><dd>${field(p, vals[p.k], 'soul:' + id + ':' + p.k)}</dd>`).join('')}<dt>${T('现在在')}</dt><dd><button class="chip" data-goplace="${s.at}">${PLACES[s.at].name} ${T('↺ 世界面')}</button></dd></dl>
+      <div class="row"><button class="btn" data-gen="${id}">${S.gen[id] ? T('生成中…') : T('重生一张立绘')}</button></div></div></div></div>`;
 }
 function inspector2() {
   const M = curM(), sel = S.gsel;
-  if (sel && sel.t === 'edge') { const e = M.edges.find(x => x.id === sel.id); if (e) return `<div class="tag">${S.face === 'world' ? (S.duoTab.world === 'plot' ? '触发条件' : '路') : '关系'}</div><h3>${esc((M.nodes[e.from] || {}).title)} → ${esc((M.nodes[e.to] || {}).title)}</h3>
-    <label class="tag" style="display:block;margin-top:14px">${S.duoTab.world === 'plot' && S.face === 'world' ? '条件(读变量)' : '标签'}</label><input class="cell" style="width:100%;margin:6px 0 12px" value="${esc(e.label)}" data-elabel="${e.id}">
-    ${S.duoTab.world === 'plot' && S.face === 'world' ? '<div class="tag">可用变量</div><div class="row" style="flex-wrap:wrap;gap:5px;margin-top:6px">' + ['clue.found', 'elena.trust', 'player.hp', 'flag.woke', 'clock.day'].map(v => `<span class="chip">${v}</span>`).join('') + '</div>' : ''}
-    <div class="row" style="margin-top:16px"><button class="btn" data-edel="${e.id}">删除</button></div>`; }
+  if (sel && sel.t === 'edge') { const e = M.edges.find(x => x.id === sel.id); if (e) return `<div class="tag">${S.face === 'world' ? (S.duoTab.world === 'plot' ? T('触发条件') : T('路')) : T('关系')}</div><h3>${esc((M.nodes[e.from] || {}).title)} → ${esc((M.nodes[e.to] || {}).title)}</h3>
+    <label class="tag" style="display:block;margin-top:14px">${S.duoTab.world === 'plot' && S.face === 'world' ? T('条件(读变量)') : T('标签')}</label><input class="cell" style="width:100%;margin:6px 0 12px" value="${esc(e.label)}" data-elabel="${e.id}">
+    ${S.duoTab.world === 'plot' && S.face === 'world' ? `<div class="tag">${T('可用变量')}</div><div class="row" style="flex-wrap:wrap;gap:5px;margin-top:6px">` + ['clue.found', 'elena.trust', 'player.hp', 'flag.woke', 'clock.day'].map(v => `<span class="chip">${v}</span>`).join('') + '</div>' : ''}
+    <div class="row" style="margin-top:16px"><button class="btn" data-edel="${e.id}">${T('删除')}</button></div>`; }
   if (sel && sel.t === 'node' && M.nodes[sel.id]) { const n = M.nodes[sel.id];
-    return `<div class="tag">${S.face === 'world' ? (S.duoTab.world === 'plot' ? (n.kind === 'ending' ? '结局' : '阶段') : '地点') : '人物'}</div><h3>${esc(n.title)}</h3>
-      <label class="tag" style="display:block;margin-top:14px">名字</label><input class="cell" style="width:100%;margin:6px 0 12px" value="${esc(n.title)}" data-ntitle="${sel.id}">
-      <div class="tag">连着</div><div style="margin-top:6px">${M.edges.filter(e => e.from === sel.id || e.to === sel.id).map(e => `<div class="row" style="padding:4px 0;font-size:13px"><span class="dot"></span>${esc((M.nodes[e.from] || {}).title)} → ${esc((M.nodes[e.to] || {}).title)} <span class="mono" style="color:var(--muted);margin-left:auto">${esc(e.label)}</span></div>`).join('') || '<span style="color:var(--muted)">还没连线</span>'}</div>
-      <div class="row" style="margin-top:16px">${S.face === 'world' && S.duoTab.world === 'map' ? `<button class="btn" data-pickp="${sel.id}" data-dt2="data">编辑数据 →</button>` : ''}<button class="btn" data-ndel="${sel.id}">删除</button></div>`; }
-  return `<div class="tag">检查器</div><h3>点图里的节点或连线</h3><p class="sub">节点能改名、看它连着谁;连线能改条件 / 路程 / 关系。表格和表单的改动直接写回文件。</p>`;
+    return `<div class="tag">${S.face === 'world' ? (S.duoTab.world === 'plot' ? (n.kind === 'ending' ? T('结局') : T('阶段')) : T('地点')) : T('人物')}</div><h3>${esc(n.title)}</h3>
+      <label class="tag" style="display:block;margin-top:14px">${T('名字')}</label><input class="cell" style="width:100%;margin:6px 0 12px" value="${esc(n.title)}" data-ntitle="${sel.id}">
+      <div class="tag">${T('连着')}</div><div style="margin-top:6px">${M.edges.filter(e => e.from === sel.id || e.to === sel.id).map(e => `<div class="row" style="padding:4px 0;font-size:13px"><span class="dot"></span>${esc((M.nodes[e.from] || {}).title)} → ${esc((M.nodes[e.to] || {}).title)} <span class="mono" style="color:var(--muted);margin-left:auto">${esc(e.label)}</span></div>`).join('') || `<span style="color:var(--muted)">${T('还没连线')}</span>`}</div>
+      <div class="row" style="margin-top:16px">${S.face === 'world' && S.duoTab.world === 'map' ? `<button class="btn" data-pickp="${sel.id}" data-dt2="data">${T('编辑数据 →')}</button>` : ''}<button class="btn" data-ndel="${sel.id}">${T('删除')}</button></div>`; }
+  return `<div class="tag">${T('检查器')}</div><h3>${T('点图里的节点或连线')}</h3><p class="sub">${T('节点能改名、看它连着谁;连线能改条件 / 路程 / 关系。表格和表单的改动直接写回文件。')}</p>`;
 }
 function agentPane() {
   return `<div class="chat" id="achat">${S.wagent.map(m => `<div class="m ${m.t}">${m.h}</div>`).join('')}</div>
-    <div class="compose"><div class="in"><input id="ain" placeholder="例如:加一个结局「雾里的约定」" autocomplete="off"><button class="send" id="asend" aria-label="发送">➤</button></div>
-    <div class="sugg">${['加一个结局「雾里的约定」', '给角色加好感变量', '加一个地点:灯塔', '让罗文和老苇是旧识'].map(s => `<button class="chip" data-as="${s}">${s}</button>`).join('')}</div></div>`;
+    <div class="compose"><div class="in"><input id="ain" placeholder="${T('例如:加一个结局「雾里的约定」')}" autocomplete="off"><button class="send" id="asend" aria-label="${T('发送')}">➤</button></div>
+    <div class="sugg">${['加一个结局「雾里的约定」', '给角色加好感变量', '加一个地点:灯塔', '让罗文和老苇是旧识'].map(s => `<button class="chip" data-as="${s}">${T(s)}</button>`).join('')}</div></div>`;
 }
 function agentDo(x) {
   S.wagent.push({ t: 'me', h: esc(x) });
@@ -718,7 +718,7 @@ document.addEventListener('click', e => {
   if ((t = q('[data-gen]')) && window.LIVE && window.LIVE.ok) {   // 10-17:接着真引擎时不演「捏好了」—— 捏角色交给创作 agent(edit-local/message),图在 Template 的素材槽生成
     const k = t.dataset.gen;
     if (k === 'soul') agentDo('按 documents/spec/soul 给这个世界新建一个角色:先问我两三个问题(身份、性格、和主角的关系),再写 souls/ 下的文件。');
-    else { S.wagent.push({ t: 'agent', h: '图在 Template 页的「素材槽」里生成或上传(会真的写进模板)。这里先不生成。<span class="call">Template → Pack · 素材</span>' }); S.rtab = 'agent'; renderDuo(); }
+    else { S.wagent.push({ t: 'agent', h: T('图在 Template 页的「素材槽」里生成或上传(会真的写进模板)。这里先不生成。') + `<span class="call">Template → Pack · ${T('素材')}</span>` }); S.rtab = 'agent'; renderDuo(); }
     return;
   }
   if ((t = q('[data-gen]'))) { const k = t.dataset.gen; S.gen[k] = true; renderDuo(); setTimeout(() => { S.gen[k] = false; if (PLACES[k] && !PLACES[k].img) PLACES[k].img = 'place-inn.jpg'; if (k === 'soul') S.wagent.push({ t: 'agent', h: '按 soul spec 捏了一个草稿:「阿雾」,码头卖鱼的姑娘。还没立绘,确认后我再生成。<span class="call">write souls/awu/soul.json · persona.json</span>' }); if (S.screen === 'duo') renderDuo(); }, 1300); return; }

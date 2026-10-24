@@ -6,11 +6,11 @@
 # neonrp 引擎作为外部固定依赖引入；换引擎版本只改下面 neonrp 那一行。
 [project]
 name = "worldlines-shell"
-version = "1.0.4"
+version = "1.0.5"
 description = "WorldLines dev harness — runs the neonrp engine behind the WorldLines web shell (SPA self-served)"
 requires-python = ">=3.10"
 dependencies = [
-    "neonrp[discord]==1.0.4",
+    "neonrp[discord]==1.0.5",
 ]
 
 [project.scripts]

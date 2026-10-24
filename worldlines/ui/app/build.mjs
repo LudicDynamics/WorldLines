@@ -24,6 +24,9 @@ const privUi = process.env.WL_PRIVATE_UI === 'off' || !existsSync(PRIV_UI) ? []
   : readdirSync(PRIV_UI).filter((f) => f.endsWith('.js')).sort().map((f) => `../../private/ui/${f}`)
 const SRC = ['src/beats.js', ...privUi, 'src/app.js', 'src/map.js', 'src/builder.js', 'src/live.js', 'src/settings.js', 'src/publish.js', 'src/live2.js', 'src/orch.js', 'src/soulorch.js', 'src/plot.js', 'src/duo.js', 'src/fe.js', ...(existsSync(join(here, 'src', 'stdfe.js')) ? ['src/stdfe.js'] : []), 'src/frontends.js']   // stdfe.js = 嵌标准前端,不开源(导出里没有)· frontends.js = 前端台(10-17,真文件夹 / 真预览,排最后:接管 renderFe)
 
+// 界面语言(10-25):词典(i18n-en / ja / ko)+ T() / WLANG,排在所有脚本最前;页面里的字都经 T() 取
+const I18N = ['real/i18n-en.js', 'real/i18n-ja.js', 'real/i18n-ko.js', 'real/i18n.js']
+
 // bench.js(测试台自动视图)和页面代码有同名函数:包一层,只把三个入口挂出来;它要的 U 先备好
 // 私有层的演示数据(demo*.js:演示图 · 桩回复 · 演示回合)只在 ?demo=1 时生效(10-17 审计 2.x:以前正式界面里也在,
 // 引擎读来的图上冒出「d20=15」像真回合);包一层 if,不改私有层文件。demo*.js 里没有顶层声明,包进块里不影响别的脚本
@@ -32,12 +35,12 @@ const src = (f) => DEMO_ONLY(f) ? `if (/[?&]demo(=|&|$)/.test(location.search)) 
   ? `window.U = window.U || { ptab: 'play', bout: 'html', bround: null, bcls: null, bq: '' };\n(function () {\n${rd(f)}\nwindow.benchStrip = benchStrip; window.wireStrip = wireStrip; window.renderBench = renderBench;\n})();`
   : rd(f)
 const js = [
-  ...['real/ext.js', 'real/engine.js', 'real/link.js', 'real/bench.js'],
+  ...I18N, ...['real/ext.js', 'real/engine.js', 'real/link.js', 'real/bench.js'],
   ...SRC,
 ].map((f) => `<script>/* ${f.startsWith('../') ? 'private/ui/' + f.split('/').pop() : f} */\n${fixImg(src(f)).replace(/<\/script>/g, '<\\/script>')}\n</script>`).join('\n')
 
 // 每个文件先单独过一遍语法:模板字符串嵌套错一个反引号,整页脚本都不跑,而界面只会停在「连接引擎……」(10-08 踩过)
-for (const f of ['real/ext.js', 'real/engine.js', 'real/link.js', 'real/bench.js', ...SRC]) {
+for (const f of [...I18N, 'real/ext.js', 'real/engine.js', 'real/link.js', 'real/bench.js', ...SRC]) {
   try { new Function(src(f)) } catch (e) { throw new Error(`${f}: ${e.message}`) }
 }
 
