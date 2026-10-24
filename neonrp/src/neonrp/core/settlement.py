@@ -220,7 +220,7 @@ def _collected(root: Path, reg: Any, ending: dict[str, Any] | None) -> list[dict
         return []
     from neonrp.core import player_data
 
-    if player_data.free_zone(root):  # a Free-Zone run hands nobody out (niko 10-18)
+    if player_data.free_zone(root):  # a Free-Zone run hands nobody out (10-18)
         return []
     flags = {k.removeprefix("flag."): bool(v.value) for k, v in reg.variables.items() if k.startswith("flag.")}
     rows = creation.granted(plots, ending=ending, flags=flags)

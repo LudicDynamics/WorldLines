@@ -1,11 +1,11 @@
-"""The write-down after the prose, in two answers (10-22 niko): the straight one lands at once, the thinking one runs in
+"""The write-down after the prose, in two answers (10-22): the straight one lands at once, the thinking one runs in
 the background and corrects the state when it comes.
 
 Why: on 40 real resolve beats the thinking write-down moved the clock on in 22 against the straight one's 7 (and wrote a
 quarter more lines), but waiting for it held the beat — a stalled thinking call sat 40–90 s before its first token. Now the
 beat ends with the straight answer, the player reads and plays on, and the thinking answer replaces it from behind.
 
-Rules (niko 10-22):
+Rules (10-22):
 - the player is quicker than the thinking answer → the straight answer stays and the thinking one is cut (a new turn
   starts: :func:`cut`). An answer that comes while the beat is still finishing (its own tail holds the run's lock) waits
   for the lock — up to ``transition_slow_lock_wait_s`` — and lands then; only a new line cuts it (10-23: dropping it as

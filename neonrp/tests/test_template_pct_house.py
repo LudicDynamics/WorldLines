@@ -1,4 +1,4 @@
-"""灰橡宅 pct-house — the 10-14 supplements (niko): the butler is a soul with a name (奥斯温), the owner (埃德蒙) never
+"""灰橡宅 pct-house — the 10-14 supplements: the butler is a soul with a name (奥斯温), the owner (埃德蒙) never
 appears but is in the hall portrait and the stopped watch, the fresh plaster is an item (I803) beside the letter and the
 watch, five more places (宅前石阶 · 管家房 · 二楼走廊 · 宅主人卧室 on top of the four), opening / stage CG and a player
 avatar slot declared, 「心神」 shown for the sanity score (rules.json display names; op and variable keys unchanged), no
@@ -12,13 +12,13 @@ from pathlib import Path
 
 import pytest
 
-from _paths import PRODUCT_TEMPLATES
+from _paths import PRODUCT, PRODUCT_TEMPLATES
 from neonrp import template as TP
 from neonrp.core import effects, player_action, sdk, settlement
 from neonrp.core.registry import load_registry
 
 TPL = PRODUCT_TEMPLATES / "pct-house.template"
-ART = Path(__file__).resolve().parents[1] / "worldlines" / "examples" / "clients" / "art" / "pct-house" / "art.json"
+ART = PRODUCT / "examples" / "clients" / "art" / "pct-house" / "art.json"
 PNG = b"\x89PNG\r\n\x1a\n" + b"\x00" * 64
 FORBIDDEN = re.compile(r"cthulhu|克苏鲁|\bcoc\b|理智|(?-i:\bSAN\b)|类 ?COC|测试", re.IGNORECASE)
 PLACES = {"steps", "hall", "butler_room", "corridor", "study", "bedroom", "garden", "cellar"}
@@ -95,7 +95,7 @@ def test_opening_stage_cg_and_the_player_avatar_are_declared_slots(tmp_path):
     assert all(rows[s]["label"] for s in rows if s.startswith("opening.cg:")), "each carries its caption"
     assert {"stage.cg:P01.1", "stage.cg:P01.2", "stage.cg:P01.3"} <= set(rows)
     pr = rows["player.portrait:player"]
-    assert pr["need"] is False and "调查员" in pr["prompt"]  # 10-15 起已接 niko 出的调查员头像(have 可为 True)
+    assert pr["need"] is False and "调查员" in pr["prompt"]  # 10-15 起已接 作者出的调查员头像(have 可为 True)
     TP.put_asset(TP.load(d), "player.portrait:player", PNG)
     assert (d / "world-overlay" / "game" / "player" / "assets" / "portrait.png").is_file()
     assert {r["slot"]: r for r in TP.asset_slots(TP.load(d))}["player.portrait:player"]["have"]

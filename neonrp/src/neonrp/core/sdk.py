@@ -899,13 +899,13 @@ def parse_adv(text: str) -> SolveOutput:
         m_req = _REQUEST_RE.search(ln)
         if request_at is None and m_req and _adv_line_op(m_req.group(0)) not in (None, {"op": "noop"}):
             request_at = len(kept)
-            # … and so is the rest of its own line (niko 10-17: 「你摸着砖缝[dice 侦查]——大成功!」 then the engine rolled 64):
+            # … and so is the rest of its own line (10-17: 「你摸着砖缝[dice 侦查]——大成功!」 then the engine rolled 64):
             # the request and any requests right after it stay, the words after them were written before the answer
             end = m_req.end()
             while (m_nx := _REQUEST_RE.match(ln, len(ln) - len(ln[end:].lstrip()))) is not None:
                 end = m_nx.end()
             kept.append(ln[:end])
-            # … except a run of request-only lines right after it (niko 10-01 #3: several [dice] at one stop point,
+            # … except a run of request-only lines right after it (10-01 #3: several [dice] at one stop point,
             # the engine answers them all in one reply and the model continues once)
             for nxt in lines_iter[i + 1:]:
                 if _REQUEST_RE.fullmatch(nxt) or (nxt.startswith("[") and nxt.endswith("]") and _REQUEST_RE.search(nxt)):
@@ -1351,7 +1351,7 @@ def class_slug(name: str) -> str:
 
 
 def _soft_classes(root: Path, reg: Registry, ops: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Open schema (niko 10-20: 「class 只是给我们辅助,而不是让我们 refuse 所有不在 class list 里面的 entity」): a class
+    """Open schema (10-20: 「class 只是给我们辅助,而不是让我们 refuse 所有不在 class list 里面的 entity」): a class
     written in any spelling is the same handle, and `new <class> …` of a class nobody defined defines it first, its props
     taken as written. Only a world that forbids defining (turn.schema.define=forbid) keeps the refusal."""
     from neonrp.core import engine_config as _ec
@@ -1743,7 +1743,7 @@ def _verify_entity_and_world(root: Path, i: int, o: dict[str, Any], op: str, reg
                 return Refusal(i, o, "world", "props", why, fixable=False)
             n["_dropped"] = Refusal(i, o, "world", "props", why, fixable=False)  # her body lands now; no rewrite round for the rest
             props = {k: v for k, v in props.items() if k not in SOUL_OWN}
-        # 10-02 niko「新增属性是一个基本操作」: an undeclared prop is simply added (to that entity's own file); a declared
+        # 10-02「新增属性是一个基本操作」: an undeclared prop is simply added (to that entity's own file); a declared
         # prop must be one the class lets change in play; identity never changes.
         from neonrp.core import engine_config as _ec
 

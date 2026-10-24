@@ -78,7 +78,7 @@ select option{background:#14151f;color:var(--ink)}
 .brand{font:400 22px Georgia,"Times New Roman",serif;letter-spacing:.02em;white-space:nowrap}
 .brand span:not(.wlmark){opacity:.5}
 .brand{display:flex;align-items:center}.brand .wlmark{margin-right:10px}
-/* 产品图标小徽记(niko 10-24 新图标:三体轨道 · 深紫夜空 + 金 / 紫三颗星球):顶栏品牌前一枚;载入中换成它轻轻呼吸(少动模式不动) */
+/* 产品图标小徽记(10-24 新图标:三体轨道 · 深紫夜空 + 金 / 紫三颗星球):顶栏品牌前一枚;载入中换成它轻轻呼吸(少动模式不动) */
 .wlmark{display:inline-block;flex:none;width:26px;height:26px;border-radius:8px;background:#1e1a47 url("/icon-192.png") center/cover no-repeat;
   box-shadow:0 0 0 1px rgba(255,255,255,.16),0 2px 12px rgba(160,120,255,.32);vertical-align:middle}
 .wlmark.breathe{animation:wlbreathe 2.4s ease-in-out infinite}
@@ -612,7 +612,7 @@ input[type=range]{accent-color:var(--lime)}
   .mk-left{display:none}
   .board{min-height:520px} .stage{min-height:520px}
   .bench{grid-template-columns:repeat(2,minmax(0,1fr))}
-  /* 编排台一栏时:图和对话测试上下排、整页滚(niko 10-24:窄屏时对话测试盖住半张图)—— 行不许被压到比内容矮 */
+  /* 编排台一栏时:图和对话测试上下排、整页滚(10-24:窄屏时对话测试盖住半张图)—— 行不许被压到比内容矮 */
   .ws{grid-template-rows:auto auto;align-content:start} .ws-main{min-height:580px} .ws > .side{min-height:440px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
@@ -650,7 +650,7 @@ input[type=range]{accent-color:var(--lime)}
 .mcomp .sugg{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
 .mcomp .sugg .chip{flex:none}
 @media (max-width:1180px){ .top .nav{overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap;min-width:0;flex:1} .top .nav button{flex:none} .ctx .chip:not([data-setopen]):not(.eng){display:none} }
-/* 顶栏窄屏(niko 10-24:小屏时顶栏的按钮被切掉一半):先收字标只留徽记、按钮变紧;还放不下才横向滚,右边缘淡出提示还有 */
+/* 顶栏窄屏(10-24:小屏时顶栏的按钮被切掉一半):先收字标只留徽记、按钮变紧;还放不下才横向滚,右边缘淡出提示还有 */
 @media (max-width:1320px){ .top{gap:12px;padding:0 16px} .brand{font-size:0} .brand .wlmark{margin-right:0;width:30px;height:30px}
   .nav button{padding:8px 12px;letter-spacing:.1em} .nav a.navx{padding:8px 10px} }
 @media (max-width:1180px){ .top .nav{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);padding-right:24px} }

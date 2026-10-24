@@ -1,7 +1,7 @@
 """The collection on the Worldlines account (10-18, core/collection_sync; docs/planning/COLLECTION-SYNC-1018.md): cards,
 runs, characters (with their template version), achievements and endings go up to data ``hub/collection`` and come back
 on another device; only adds, the newer ``updated`` wins, duplicates from two devices fold into one, pictures come from
-the template. Plus the Free Zone: nobody comes home from a Free-Zone run (niko 10-18)."""
+the template. Plus the Free Zone: nobody comes home from a Free-Zone run (10-18)."""
 from __future__ import annotations
 
 import json
@@ -14,8 +14,9 @@ from neonrp import template
 from neonrp.core import collection_sync as CS
 from neonrp.core import player_data, rewards, sdk, truth_quiz
 from neonrp.core.registry import load_registry
+from _paths import PRODUCT
 
-TEMPLATES = Path(__file__).resolve().parents[1] / "worldlines" / "templates"
+TEMPLATES = PRODUCT / "templates"
 
 
 class FakeData:
@@ -100,7 +101,7 @@ def test_one_device_up_another_down_with_pictures_from_the_template(tmp_path, mo
     _device(tmp_path, monkeypatch, "a")
     root = _build("pct-house", tmp_path / "a-run")
     _play_pct(root)
-    iid = next(i for i, s in player_data.run_souls(root).items() if s["sid"] == "chara")  # Winnie: pct-house's one who can come home (niko 10-20)
+    iid = next(i for i, s in player_data.run_souls(root).items() if s["sid"] == "chara")  # Winnie: pct-house's one who can come home (10-20)
     assert player_data.take(root, iid, "settlement", memory="fresh")
     st = CS.sync()
     assert st["state"] == "ok" and st["pushed"] > 0

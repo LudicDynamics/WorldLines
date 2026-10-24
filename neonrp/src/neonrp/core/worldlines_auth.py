@@ -47,7 +47,7 @@ def _wl_login() -> Any:
     return m
 
 
-# 10-17 登录偶尔 timeout(niko):线上 identity 每个接口 0.15–0.45s(东京实测),慢的是网络那一跳。每个请求 10s 超时(原来 15s),
+# 10-17 登录偶尔 timeout:线上 identity 每个接口 0.15–0.45s(东京实测),慢的是网络那一跳。每个请求 10s 超时(原来 15s),
 # 网络错误自动再试两次(0.5s · 1.5s 后)—— 但会换掉凭证的请求(授权码换 token、续期)只在「请求根本没送到」时再试(DNS / 拒绝连接):
 # 送到了再发一次 = 重放,授权码已经用掉 / 续期令牌已经轮换,identity 会当成重放吊销整个会话。设备码轮询不在这里重试(它自己会接着轮询)。
 POST_TIMEOUT = 10.0
@@ -95,7 +95,7 @@ def _takes_post(fn: Any) -> bool:
     return "post" in ps or any(p.kind is p.VAR_KEYWORD for p in ps.values())
 
 
-# One token manager per session file, shared by every caller in the process (niko 10-19, iOS: every request 401 after the
+# One token manager per session file, shared by every caller in the process (10-19, iOS: every request 401 after the
 # access token expired). Its refresh is single-flight only within one manager: a fresh manager per call let the turn, the
 # chat, Jev and the chronicle each refresh with the same rotating refresh token at once — identity takes the second use
 # as replay and revokes the whole session, then every refresh is a 4xx and the session file is cleared.

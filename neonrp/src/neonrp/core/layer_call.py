@@ -1,4 +1,4 @@
-"""One-shot layer call (10-18, D-20261018-combat-one-shot-node): a node of the orchestration graph with its own prompt
+"""One-shot layer call (10-18): a node of the orchestration graph with its own prompt
 that the Resolve calls like a tool. The layer writes once with its own system prompt (``modes.layer_system``), its
 reads and its state block; it stops at its own tool requests (``[dice …]``), the engine answers them, it goes on; then
 it hands back what it wrote, the state changes it asked for (verified and applied with the rest of the beat) and its

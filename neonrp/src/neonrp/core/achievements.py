@@ -1,4 +1,4 @@
-"""Achievements (PLATFORM-PLAY-RULES-1015 §6 §9, niko 10-15): every game has them; the engine brings a set of its own,
+"""Achievements (PLATFORM-PLAY-RULES-1015 §6 §9, 10-15): every game has them; the engine brings a set of its own,
 a template may add its own, and an unlocked one goes into the player's record (core/player_data ``achievements``) with
 its points written as a pending reward (``rewards``, the platform pays out).
 

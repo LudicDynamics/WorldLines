@@ -1,4 +1,4 @@
-// tests/test_hub_official.py 用:本地 Hub(引擎模式)的官方世界(niko 10-17)—— 引擎接口用 page.route 假装。
+// tests/test_hub_official.py 用:本地 Hub(引擎模式)的官方世界(10-17)—— 引擎接口用 page.route 假装。
 //   没登录:只有本机的世界 + 「登录后可获取更多官方世界」;登录了:默认区远端世界进发现页(标「官方」),详情页「获取」,
 //   已装的官方世界不出复制按钮、有新版出「更新」;内置的(灰橡宅)照旧能复制。
 //   node tests/hub_official.mjs <page.html> <api.json> <playwright 所在的 package.json> <lang> [shots dir]
@@ -30,11 +30,15 @@ const cards = () => p.$$eval('.cards .wcard', a => a.map(x => decodeURIComponent
 const out = { errs, posts }
 await p.goto('http://hub.test/#/')
 await p.waitForSelector('.cards .wcard')
+// 线上 Hub 的世界(GET /api/v1/local/hub/remote,10-24)和「登录后可获取」都是后补进来的:等它们到了再读(机器忙时会晚)
+await p.waitForSelector('.cards .wcard[href$="/t/last-train"]', { timeout: 20000 }).catch(() => {})
+await p.waitForSelector('.ofmore', { timeout: 20000 }).catch(() => {})
 out.out = { cards: await cards(), more: await p.textContent('.ofmore').catch(() => null), moreBtn: !!(await p.$('.ofmore [data-wl-login]')) }
 if (shots) await p.screenshot({ path: `${shots}/signed-out-${lang}.png` })
 signed = true
 await p.goto('http://hub.test/#/?r=1'); await p.reload()
 await p.waitForSelector('.cards .wcard')
+await p.waitForSelector('.cards .wcard[href$="/t/guixiang"]', { timeout: 20000 }).catch(() => {})
 out.in = { cards: await cards(), more: !!(await p.$('.ofmore')),
   heads: await p.$$eval('.cards .wcard', a => Object.fromEntries(a.map(x => [decodeURIComponent(x.getAttribute('href').replace(/^.*\/t\//, '')), [...x.querySelectorAll('.head .ver')].map(v => v.textContent.trim())]))) }
 if (shots) await p.screenshot({ path: `${shots}/signed-in-${lang}.png` })
@@ -46,5 +50,6 @@ out.afterGet = p.url()
 out.cached = await ctas('wuwu')
 out.cachedNote = (await p.textContent('.hero .note')).trim()
 out.builtin = await ctas('pct-house')
+out.hubOnly = { ctas: await ctas('last-train'), href: await p.getAttribute('.ctas a.btn.p', 'href') }
 await b.close()
 console.log(JSON.stringify(out))

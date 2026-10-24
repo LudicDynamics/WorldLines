@@ -1,4 +1,4 @@
-"""「再给几个选项」(10-15, player2 / niko): a few more things the player could do right now — the beat does not move.
+"""「再给几个选项」(10-15, player2): a few more things the player could do right now — the beat does not move.
 
     POST /api/v1/play/engine/choices {n?: 3, avoid?: [options already on screen]}
     → {lang, options: [str…], by: "more"}           409 while a turn is running

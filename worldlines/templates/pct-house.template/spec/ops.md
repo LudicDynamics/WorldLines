@@ -9,7 +9,7 @@ Built on `rpg` (its layer prompts are the fallback)
 | op | alias | kind | fields | scope | validated | doc |
 |---|---|---|---|---|---|---|
 | `move_to` | move | action | who, to | world | ✓ | 移动:谁 = player 或在场角色 / NPC 的名字,去哪 = 本镇地点 id,或一个新地名(地图上还没有就当场建出来)。写这回合最终到达的地点,不写途经;镇内任何地点一回合都能到 |
-| `engage` |  | action | who, note | world |  | v2b 的转述;v3 的 ② 已并行跑过所有在场角色,世界侧不再出(niko 09-27 Q7) |
+| `engage` |  | action | who, note | world |  | v2b 的转述;v3 的 ② 已并行跑过所有在场角色,世界侧不再出(09-27 Q7) |
 | `need` | ask | request | who | world |  | 请求:需要某个在场角色先回话才能写下去;一回合最多两个 |
 | `set` |  | update | var, value | world |  | 变量表里的键 = 值 |
 | `add` |  | update | var, delta | world |  | 变量表里的整数键 += delta |

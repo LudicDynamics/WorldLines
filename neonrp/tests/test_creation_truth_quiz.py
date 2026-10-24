@@ -1,4 +1,4 @@
-"""The 「真相三问」 on the creation desk (PLATFORM-PLAY-RULES-1015 §11, niko 10-18 「都做」): a creator writes and edits a
+"""The 「真相三问」 on the creation desk (PLATFORM-PLAY-RULES-1015 §11, 10-18 「都做」): a creator writes and edits a
 plot's ``truth_quiz`` (three questions · options · the right answer · ``reward_soul`` from the world's cast) and can have
 the engine draft them from the truth (「点生成」, then edit).
 

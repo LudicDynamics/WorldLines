@@ -1,4 +1,4 @@
-"""Who can come home from the official templates (niko 10-20): only these characters can be taken at an ending, collected
+"""Who can come home from the official templates (10-20): only these characters can be taken at an ending, collected
 by a plot's rule, rewarded by the truth quiz or gained as a companion; everyone else stays an in-world character (not
 takeable, not chattable on the phone unless the author made them standalone). Template data only: ``takeable: false`` on
 the soul (every language layer — a layer over a builtin world replaces the file whole), the plot's ``collect`` rules (and

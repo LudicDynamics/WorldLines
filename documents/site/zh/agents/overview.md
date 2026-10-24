@@ -6,7 +6,6 @@ description: "Claude Code、Codex 或 WorldLines 自己的创作 agent:打开文
 <!-- section: who -->
 ## 这一部分写给谁
 
-> **状态:随 1.0 发布**
 
 写给替创作者干活的 agent:Claude Code、Codex 这类在文件夹里工作的编程 agent,以及 WorldLines 自己的创作 agent。人也可以读 —— 它就是「用文件创作」的说明书。
 
@@ -16,7 +15,7 @@ description: "Claude Code、Codex 或 WorldLines 自己的创作 agent:打开文
 | 文件夹 | 里面有 | 先读 |
 |---|---|---|
 | 一个模板 `<id>.template/` | 世界、演员表、剧情、素材、合约、编排 | `AGENTS.md`(Claude 读 `CLAUDE.md`,内容相同)→ `spec/` 里对应的一份 |
-| 模板库(你的模板都在这) | 很多 `<id>.template/` | `AGENTS.md` → 进你要改的那个模板 |
+| 模板库 `~/.worldlines/templates/`(你的模板都在这) | 很多 `<id>.template/` | `AGENTS.md` → 进你要改的那个模板 |
 | 角色库 `~/.worldlines/souls/` | 每个文件夹一个角色 | `AGENTS.md` → `spec/soul.md` |
 
 模板文件夹的 `spec/` 里:`template` · `world` · `soul` · `contract`(中英各一份)、这个模板玩法包的 `ops`(模型每回合能写什么)、`authoring`(引擎提供的作者操作)。它们跟着引擎版本生成,**不在外面查,就在文件夹里读**。人想先通读的话,同一套规格(另加规则包 RPG Pack)也在 [规格](/docs/developers/specs) 页,装好引擎后 `neonrp spec` 也能读。

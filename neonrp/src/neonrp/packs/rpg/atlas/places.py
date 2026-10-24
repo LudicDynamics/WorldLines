@@ -88,7 +88,7 @@ def judge_new_location(root: Path, reg: Registry, o: dict[str, Any]) -> Verdict:
     if have and split_location(have)[0] in (_target_town(reg, o), None):  # 10-21 PL4: one town's north gate is not another's
         return Verdict(False, reason=f"place {name!r} already exists", scope="world", field="name", fixable=False)
     same = same_place(reg, name)
-    if same:  # 10-02 niko「得看是否合理」: another name for a place we have is not a new place
+    if same:  # 10-02「得看是否合理」: another name for a place we have is not a new place
         return Verdict(False, reason=f"'{name}' is the existing {same} ({reg.entries[same].name}): use it", allowed=[same], scope="entity", field="name")
     rel, ids, why = _relation(reg, o)
     if why:  # a relation we cannot read: grow it anyway, beside the player, and let the after-turn pass place it

@@ -1677,7 +1677,7 @@ def test_canvas_story_and_relation_studio_files(tmp_path: Path) -> None:
 
 def test_fresh_bind_injects_localized_opening(tmp_path: Path) -> None:
     """新开 run 的 bind 必须注入开场指令(kickoff 进页即开演)——
-    niko 实测的「进入世界不立即开始」bug;resume 已有回合的存档则不注入。
+    实测的「进入世界不立即开始」bug;resume 已有回合的存档则不注入。
     续一局一个回合都没有的存档(开场那一拍当时没跑完,sessions/ 已经写了)= 再给开场,kickoff 照常开演(10-16 浏览器版续档空舞台)。"""
     _init_project(tmp_path / "cur")
     worlds_home, plays_home = _fake_library(tmp_path)

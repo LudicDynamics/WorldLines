@@ -1,11 +1,11 @@
-/* 前端台做实(niko 10-17):不再是写死的 FE_FILES / 假对话 / 假试玩。一排工作台,每个 = 一个真的重前端文件夹:
+/* 前端台做实(10-17):不再是写死的 FE_FILES / 假对话 / 假试玩。一排工作台,每个 = 一个真的重前端文件夹:
      Godot 客户端(examples/clients/godot)· TS 重前端(标准前端 ui/player → /player.html · 协议示例 examples/clients/ts,Vite 构建出 dist/)·
      小手机(ui/player/chat → /chat.html)· 这个世界自己的前端(模板里 frontends/<name>/ + frontend.json,「+ 新建」或从内置的派生)
    每个工作台四页:试玩(真预览)· 事件流(fe.js 那套,真 /engine/beats + /events)· 文件(真文件树,引擎 /api/v1/local/frontends 读)·
    契约(contract?fmt=ts|gd|json,能写进这个前端);左栏 = 前端 agent(引擎 …/agent:只改这个前端文件夹;内置的只读 → 先派生)。全部跟着当前世界 WL_WORLD(),听 'wl:world'。
    10-19 文件工作台:内置的只读 →「复制一份到这个世界」(…/fork)· 文件页先改草稿、明确「保存」、没存的看得见、离开页面提醒 ·
    agent 直接写盘、文件上标「已写入」· 导出 zip(内置的也能)· 导入 zip(引擎先查 frontend.json,不合格列原因不写盘)。
-   每个工作台两种模式(niko 10-19):试玩 = 真预览接本机引擎;编辑 = 文件 · 事件流 · 契约(+ 挂进来的页签)。内置的在编辑模式只读,先复制。
+   每个工作台两种模式(10-19):试玩 = 真预览接本机引擎;编辑 = 文件 · 事件流 · 契约(+ 挂进来的页签)。内置的在编辑模式只读,先复制。
    页签由 TABS 一张表声明:FXDESK.addTab({id, label, mode: 'edit', editable: true, own?: true, when(desk), render(desk)})
    (own: true = 这一页能不能写不看前端文件夹,内置台上也不出「只读 · 先复制」那条)
    (小手机的「编排」之后挂进编辑模式,可改:render 拿到 desk.writable 决定能不能写)。

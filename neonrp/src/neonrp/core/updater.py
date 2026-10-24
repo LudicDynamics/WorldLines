@@ -138,7 +138,7 @@ LAUNCH_MODES = ("auto", "prompt", "notify")
 
 
 def launch_mode(settings: dict[str, Any] | None = None) -> str:
-    """What the launch-time check does with a newer release (``updates.mode``): ``auto`` (10-24 niko: a released install
+    """What the launch-time check does with a newer release (``updates.mode``): ``auto`` (10-24: a released install
     upgrades itself and relaunches, one line says so) · ``prompt`` (ask: upgrade / skip / later; the old
     ``prompt-and-update``) · ``notify`` (the banner only). An editable / unknown install is always notify-only."""
     raw = str((settings or get_update_settings()).get("mode") or "auto").strip().lower()

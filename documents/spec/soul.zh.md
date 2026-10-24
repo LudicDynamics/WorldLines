@@ -96,6 +96,8 @@ elena-si-elena0001/
 | `name` | string | 是 | 主名(如 `Elena Vale`) | 已实装 |
 | `name_local` | string | 否 | 本地语言名(如 `艾琳娜`);场景里优先用它称呼 | 已实装 |
 | `schema_version` | int | 否 | 当前为 `1` | 已实装 |
+| `spec_version` | int | 否 | 这个角色文件夹按哪一版 soul spec 写的;缺省取 `schema_version`。角色编排图要求的版本比它新时 warn(§4.6) | 已实装 |
+| `assets` | object | 否 | 图片槽之间的别名,目前只认 `{"sprite": "portrait"}`(或反过来):站姿直接用立绘这张图,不复制文件。适合立绘本来就是全身图的角色(1.0.3) | 已实装 |
 | `version` | string | 否 | 作者版本,默认 `"1.0"`;cast 时写进 playthrough 的 `version_hash` | 已实装 |
 | `created_at` | string | 否 | ISO 时间 | 已实装 |
 | `source` | object | 否 | `{kind: soulhub\|builtin\|local-create, hash, version}` 来源 | 已实装 |
@@ -242,8 +244,8 @@ RPG 身体。soul agent 可写(在 `write_globs` 内)。
 | 文件 | 说明 | 状态 |
 |---|---|---|
 | `portrait.*` | 立绘(`.png/.jpg/.webp`);界面中作头像。cast 时随文件夹一起复制 | 已实装 |
-| `sprite.*` | 小人图 | 已实装 |
-| 发布前必须有立绘的校验 | template 层已声明"soul 需要 portrait",lint 尚未对 soul 强制检查 | 设计中 |
+| `sprite.*` | 站姿 / 小人图。没有这张时,`soul.json` 写 `"assets": {"sprite": "portrait"}` 就直接用立绘 | 已实装 |
+| 发布前必须有立绘 | 规则包在 `ui.slots` 里声明素材槽:rpg 包的 `soul.portrait` 是 `required: publish`,缺了 lint 报出来,挡发布(模板 `lint.level: draft` 时只是 warn);`soul.sprite` 是可选的(`src/neonrp/packs/rpg/ui.py`) | 已实装 |
 
 ---
 
@@ -275,7 +277,7 @@ RPG 身体。soul agent 可写(在 `write_globs` 内)。
 | `sid`、`instance_id` | 指向 `souls/<sid>-<instance_id>/` |
 | `version_hash` | 放入时 soul 的版本(cast 时取 `soul.json.version`) |
 | `head_commit` | 种子 commit 标记;cast 时为空字符串 |
-| `role` | `npc` 或 `player` |
+| `role` | `npc` · `companion`(同伴)· `player`。模板开局时照演员表那一行写进来 |
 | `active_souls` | 当前在场、会被调度的实例。运行中由引擎的场景理解步骤按回合改写;不在场的 soul 不调用 LLM |
 
 ### 4.2 `neonrp cast`
@@ -298,6 +300,8 @@ neonrp cast <sid|soul 文件夹路径> [--into <世界文件夹>] [--as npc|play
 ### 4.3 template 能改什么
 
 template 可以为某个 soul 提供"提示层覆盖"(`prompts/souls/<sid>/…`),但只允许覆盖 `soul.md`、`persona/`、`rules/`、`agents/`(`src/neonrp/template/__init__.py:SOUL_PROMPT_PATHS`)。`character/`、记忆、`soul.json`、`run_state.json` 属于 soul 数据,template 不能覆盖,lint 会报 `prompt.soul.data` 阻断。详见 [template.zh.md](template.zh.md)。
+
+> 已知问题(1.0.3):作者操作 `set_soul_orchestration` / `set_soul_ambient` 会写 `prompts/souls/<sid>/orchestration.json` 和 `prompts/souls/<sid>/ambient/world.json`(§4.6),但上面那份允许清单还没有放行这两个路径,所以现在 lint 会把它们报成 `prompt.soul.data`。要给某个世界改角色编排,暂时只能改角色文件夹自己的 `agents/orchestration.json`。
 
 ### 4.4 角色库与 link(10-08)
 
@@ -349,7 +353,7 @@ template 可以为某个 soul 提供"提示层覆盖"(`prompts/souls/<sid>/…`)
 | 节点种类 | `chat`(一条消息进来,回 1–5 条;参数 `history` · `docs` · `doc_cap` · `max_bubbles` · `tools`)· `tick`(自由行动;参数 `interval_min` 1–1440 · `daily_max` 1–288 · `proactive_daily` 0–20 · `prompt`,空 = 引擎默认)· `reflect`(记忆整理;参数 `every` 0–100,0 = 关,缺省 0 · `keep` 1–40)· `in_world`(世界的回合调它那一拍:不是这张图的节点,编排台显示它在世界里的真实设置,见下)。每种节点的真实步骤 / 参数 / 范围 = `describe()`(`GET /api/v1/souls/orchestration` 的 `hooks`),编排台照着画 | 已实装 |
 | 边 | `{id, from, to, on, when?}`;`on`:`{chat: "message"}` · `{tick: <名>}`(前台时钟,每 `interval_min` 一次)· `{idle: <分钟>}`(只有 idle 边时:小手机开着、玩家这么久没发消息 → tick 一次,一段安静只一次,玩家再发消息算新的一段)。`always` 没人读,不再列出 | 已实装 |
 | 记忆整理(reflect) | 图里有 reflect 节点且 `every` ≥ 1:每 `every` 次 tick 之后一次便宜模型调用(≤ 400 token),读 `short-term-memo/recent_events.json` + 已有的 `long-term-memo/reflections.md`,回 `{"keep": [≤ 5 句]}` → 追加进 `reflections.md`,短期只留最后 `keep` 条;模型失败什么都不动,下次 tick 再试 | 已实装 |
-| 世界里那一拍(in_world) | 角色在它世界里的真实设置:回合模式 · 变体(`turn.parallel.souls.per_soul[sid]`,没设用 `default_variant`;不是 v3 一律 legacy)和哪一层定的 · 按 depth 分流(silent 跳过 · gesture 无模型 · speak / act 走变体 · away 一律 S-direct)· 用到的提示词名(私有层替换了的只标出名字,不给正文)。角色库角色按绑定它的世界(`?world=`,缺省第一个)。变体写回 `POST /api/v1/souls/in_world {ref, variant, world?}` → 作者操作 `set_engine_setting`(写模板 `template.json` 的 `pack.engine`,build 时并进 `game/meta/engine.json`;内置模板只读)。一回合跑完 trace 的 `timing.soul_variants` 记每个角色实际用的变体 | 已实装 |
+| 世界里那一拍(in_world) | 角色在它世界里的真实设置:回合模式 · 变体(`turn.parallel.souls.per_soul[sid]`,没设用 `default_variant`;不是 v3 一律 legacy)和哪一层定的 · 按 depth 分流(silent 跳过 · gesture 无模型 · speak / act 走变体 · away 一律 S-direct)· 用到的提示词名(发布版替换了的只标出名字,不给正文)。角色库角色按绑定它的世界(`?world=`,缺省第一个)。变体写回 `POST /api/v1/souls/in_world {ref, variant, world?}` → 作者操作 `set_engine_setting`(写模板 `template.json` 的 `pack.engine`,build 时并进 `game/meta/engine.json`;内置模板只读)。一回合跑完 trace 的 `timing.soul_variants` 记每个角色实际用的变体 | 已实装 |
 | 自由行动(tick) | `src/neonrp/core/soul_tick.py`。只 tick 玩家自己的角色(角色库的 / 已获得的),图里要有 tick 节点,**玩家开关默认关**(花额度);没有后台:小手机在前台时每分钟问一次 `POST /api/v1/chat/tick {ref, catchup?}`,引擎管节奏(按 tick 节点的 `interval_min` · `daily_max`,缺省 10 分钟一次 · 每天 24 次);打开对话补一次。一次 = 一次模型调用(自己的文档 + 简单世界观里这个时段的作息 + 最近几条对话 + 最近做过的事)→ 写 `trajectory/action_log.md` 一行 + `short-term-memo/recent_events.json` 一条(`by: soul.tick`);每天最多 `proactive_daily`(缺省 2)条主动消息进对话(`origin: tick`)。`GET /api/v1/chat/tick?ref=` 状态 · `POST /api/v1/chat/tick/settings {ref, on}` | 已实装 |
 | 简单世界观 | `ambient/world.json`(`worldlines.soul-ambient/1`:setting · places ≤ 6 · routine 早上 / 下午 / 傍晚 / 夜里 · people ≤ 4 · clock real)。世界里的角色没有就从原来的世界复刻(卡面简介 · 它所在的镇 · 周围地点 · persona 里认识的人;不读 GM 真相 / notes / secrets);角色库的角色要自动生成(一次模型调用)或自己写。模板覆盖 `prompts/souls/<sid>/ambient/world.json`(作者操作 `set_soul_ambient`)。接口 `GET /api/v1/souls/ambient?ref=[&replicate=1]` · `POST /api/v1/souls/ambient {ref, world}` · `POST /api/v1/souls/ambient/generate {ref}`(Local) | 已实装 |
 | 从哪来(后者盖前者) | 引擎默认图(= 10-15 的小手机行为)→ 角色文件夹 `agents/orchestration.json` → 模板覆盖 `prompts/souls/<sid>/orchestration.json`(只改这个世界)。文件是整张图或补丁 `{nodes, remove, add}` | 已实装 |
@@ -386,7 +390,7 @@ soul 自己提出的移动也只是提案,同样经过移动裁判才落地。
 | 在场名单 | `.neonrp/playthrough.json` 的 `active_souls` | 每回合场景理解 | 已实装 |
 | 缺失的 agent 清单 | `agents/manifest.json`、`agents/contracts.md` | soul agent 首次被解析时自愈补写 | 已实装 |
 
-在 rpg pack 下,soul 每拍"判断 + 说话":判断是封闭选项(态度、语气、急迫度、是否想移动),之后一次 LLM 调用写 1–3 句台词;soul 结算不让 LLM 直接写记忆。在默认的旧回合引擎(world-agent 工具循环)下,soul agent 用工具在自己的 `write_globs` 内写 `recent_events.json`、`action_log.md`、`character/status.json`;越界写入被拒绝。
+在 rpg pack 下,soul 每拍"判断 + 说话":判断是封闭选项(态度、语气、急迫度、是否想移动),之后一次 LLM 调用写 1–3 句台词;soul 结算不让 LLM 直接写记忆。上面说的是 v3 回合:模板开出的局都走它(两个内置模板都在 `pack.engine` 里写了 `turn.mode: v3`)。没有这一项的旧世界仍走旧的 world-agent 工具循环(`v2b`),这时 soul agent 用工具在自己的 `write_globs` 内写 `recent_events.json`、`action_log.md`、`character/status.json`;越界写入被拒绝。
 
 ---
 

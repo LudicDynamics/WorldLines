@@ -1,4 +1,4 @@
-"""A character away from the player walks the party's cross-town rule on her own days (10-23 niko). 21 of 69 regression
+"""A character away from the player walks the party's cross-town rule on her own days (10-23). 21 of 69 regression
 runs had Rowan step from 碧石镇 (T004) to 石津镇's gate (T001) in one beat: the rule (set out, the road takes days) was the
 party's only, and a bare 「北门」 from T004 resolved to T001's gate."""
 from __future__ import annotations

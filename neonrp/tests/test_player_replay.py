@@ -1,4 +1,4 @@
-"""标准前端的回放播放器(niko 10-18:回放 = 把这一局按动画重播;worldlines/ui/player/src/replayer.js · player.html?replay=<id>):
+"""标准前端的回放播放器(10-18:回放 = 把这一局按动画重播;worldlines/ui/player/src/replayer.js · player.html?replay=<id>):
 同一套舞台(STAGE / FX),只读不绑局(一次引擎的游玩接口都不叫)、输入框收起;暂停 = 停住;16× 放到结局 → 结局演出带包里的结局插画;
 暂停着拖到某一拍 = 前面的字铺好、停在那。回放文档用 test_replay_pack 的同一局造(带拍事件 / 在场角色 / 图)。"""
 from __future__ import annotations

@@ -90,7 +90,7 @@ def test_ios_creation_desk_and_ugc(tmp_path):
     assert "comm-fog-aaaaaa" in r["findAfterUnblock"]
     assert ["/api/v1/local/hub/block", {"id": "comm-fog-aaaaaa", "lang": "zh"}] in r["posts"], "blocked on the account too (identity block-owner)"
     assert ["/api/v1/local/hub/unblock", {"id": "comm-fog-aaaaaa", "lang": "zh"}] in r["posts"]
-    assert r["cardFirst"] == "石津镇", "niko 10-23: the desk opens with the template's card filled in, not empty"
+    assert r["cardFirst"] == "石津镇", "10-23: the desk opens with the template's card filled in, not empty"
     assert r["revealFirst"] == "钥匙一直在井里", "and with the template's own truth"
     assert r["rowDir"] == "column" and r["overflow"] <= 0, "one column on the phone, no sideways scroll"
     assert r["artBtn"] and "积分不够" in r["artErr"]["text"] and r["artErr"]["links"] == 0, "iOS: no outside payment link"
@@ -102,7 +102,7 @@ def test_ios_creation_desk_and_ugc(tmp_path):
     assert "▶ 开局" in r["gotCtas"] and "✎ 在这个模板上创作" not in r["gotCtas"] and "举报" in " ".join(r["gotCtas"]), "someone else's work is played, not built on"
     assert "没有开放给创作者" in r["gotCreate"] and not r["gotForm"], "and the desk itself stays shut on it"
     assert "✎ 在这个模板上创作" not in r["closedCtas"], "a template not open to creators has no desk entry"
-    # niko 10-23 真机:进了「我的」以后开不了新的创作 → 「我的作品」里有「新的创作」(开放创作的官方模板)和本机存了没提交的那份
+    # 10-23 真机:进了「我的」以后开不了新的创作 → 「我的作品」里有「新的创作」(开放创作的官方模板)和本机存了没提交的那份
     assert r["meNew"] == "✎ 新的创作" and r["meDrafts"] == ["#/t/stoneford-town/create"], "the saved, unsubmitted work is one tap away"
     # 这个模板已经有一份了:「新的创作」另起一份(<模板>-mine-<6 位>),打开是新的(卡面是模板的,不是上一份的),存的时候带上新 id
     import re

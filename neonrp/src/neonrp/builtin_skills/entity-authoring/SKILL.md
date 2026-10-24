@@ -1,6 +1,6 @@
 ---
 name: entity-authoring
-description: Schema- and rules-aware workflow for creating or updating NeonRP entities. Use when adding/editing files under world/<kind>/<id>.json, fixing validation errors, or introducing new kinds/fields.
+description: Schema- and rules-aware workflow for creating or updating NeonRP entities. Use when adding/editing entity files under the world's game/ folder (items, NPCs, places, quests), fixing validation errors, or introducing new kinds/fields.
 ---
 
 > **Spec first.** Before writing, call `read_spec(name="world")` and `read_spec(name="ops", pack=…)` for the ops the world's play pack allows; it is the authoritative shape of what you write.
@@ -22,11 +22,12 @@ Use this workflow whenever world entities are created or updated.
 
 # 2) Author Entities Safely
 
-- Store entities at `world/<kind>/<id>.json`.
-- Keep these aligned:
-  - Path kind segment (`<kind>`)
-  - Filename (`<id>.json`)
-  - Entity fields: `id`, `kind`
+- Entities live under the world's `game/` folder (see `read_spec(name="world")` for the full layout):
+  - places: one folder per place, `game/locations/<T001>/<spot>/location.json` (the folder it sits in is the place it belongs to);
+  - towns: `game/towns/<T001>/town.json`, with lightweight NPCs in `game/towns/<T001>/npcs.json` and the guild board in `quests.json`;
+  - items: `game/item/**/<id>.json` (e.g. `game/item/relics/elena-locket.json`);
+  - dungeons: `game/dungeons/<D001>/`.
+- For a standalone entity file, keep the filename (`<id>.json`) and the `id` field aligned, and set `kind` (e.g. `item`).
 - Always include required fields:
   - `id`
   - `kind`
@@ -37,7 +38,7 @@ Use this workflow whenever world entities are created or updated.
 # 3) Consistency Checklist Before Finish
 
 - `id` matches filename.
-- `kind` matches parent folder.
+- `kind` is set and fits the entity.
 - Required fields are present.
 - Field types/ranges match schema definitions.
 - Cross-entity references point to real entities.

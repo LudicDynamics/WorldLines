@@ -1,4 +1,4 @@
-"""World localization layer — a template played in one language (niko 10-14:「本地化,不只是翻译」).
+"""World localization layer — a template played in one language (10-14:「本地化,不只是翻译」).
 
 A template is authored in one language (``card.lang``, the main language). ``i18n/<lang>/`` holds a localized
 version of it as an overlay: files at the same paths as the template's own (``world/…``, ``prompts/…``,

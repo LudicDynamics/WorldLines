@@ -149,7 +149,7 @@ def test_the_desk_stores_the_picked_template(tmp_path, monkeypatch):
     assert O.default_for(w) == "two_beat?pace=quick"
     assert r["reloaded"] == "two_beat" and r["reloadedParam"] == "pace=quick", "the draft remembers the pick"
     assert r["save"]["body"]["orchestration"] == "two_beat?pace=quick", "the work route says which template the work plays as"
-    assert r["rowPickers"] == 0, "no orchestration picker on a character's row (niko 10-19)"
+    assert r["rowPickers"] == 0, "no orchestration picker on a character's row (10-19)"
     assert not (w.dir / "prompts" / "souls").exists()
     assert r["askedWork"], "the desk asked the engine about the work"
     assert r["fromWork"] == "two_beat" and r["fromWorkParam"] == "pace=quick", f"{r.get('draft')}: a draft without the pick asks the engine about the work"

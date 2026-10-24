@@ -32,7 +32,7 @@ try {
   out.graph = await p.$eval('#cf-orch [data-orch]', x => x.dataset.orch)
   out.overflow = await p.evaluate(() => document.documentElement.scrollWidth - innerWidth)
   await p.locator('#cf-orch').screenshot({ path: join(shots, '07-desk-390-picked.png') })
-  out.rowPickers = await p.locator('[data-cf-sorch]').count()   // 角色那一行没有编排选择(niko 10-19:编排是模板的一整套)
+  out.rowPickers = await p.locator('[data-cf-sorch]').count()   // 角色那一行没有编排选择(10-19:编排是模板的一整套)
   out.check = await p.evaluate(async t => { const W = window.WLCreate; return W.post(W.path(t, 'creation/check'), { addition: { ...W.addition(), ending: [{ title: '雾散', kind: 'true' }] } }) }, tid)
   out.save = await p.evaluate(async t => { const W = window.WLCreate; return W.post(W.path(t, 'creation/work'), { addition: { ...W.addition(), ending: [{ title: '雾散', kind: 'true' }] }, card: { zh: { title: '雾夜', pitch: '雾里的一夜。' } }, lang: 'zh' }) }, tid)
   await p.reload()

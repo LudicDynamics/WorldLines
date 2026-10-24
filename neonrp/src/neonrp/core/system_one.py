@@ -287,7 +287,7 @@ def _llm_adapter() -> Any:
 
 def own_model_judge(root: Path | None) -> bool:
     """No Jev, no proxy, no judging preset — but the run has its own model: the planning beat asks that model its one
-    question (10-24 niko: deepseek alone, not signed in, the host kept handing the choice back because nothing could
+    question (10-24: deepseek alone, not signed in, the host kept handing the choice back because nothing could
     say the talk was settled). ``turn.plan_loop_own_judge`` (default on). Only the planning beat passes its root here: the
     roster plan's hundreds of questions stay off (fast_judge_available), as before."""
     if root is None or backend_name() != "off":

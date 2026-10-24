@@ -1,4 +1,4 @@
-// NeonRP 产品图标(niko 10-24 三体轨道新图):scripts/brand_icons.py 从 assets/brand/neonrp-icon-1024.png 出的一套,
+// NeonRP 产品图标(10-24 三体轨道新图):scripts/brand_icons.py 从 assets/brand/neonrp-icon-1024.png 出的一套,
 // 在 assets/brand/web/。本地界面(app/build.mjs)和标准前端 / 小手机(player/build.mjs · chat/build.mjs)从这里拿 <head> 的几行、
 // 把文件拷到站点根。Hub 线上构建(hub/build_static.py)走 scripts/brand_icons.py 的 head_links() —— 两边的几行保持一样。
 // 开源导出里没有 assets/brand → 不放图标,页面照旧。

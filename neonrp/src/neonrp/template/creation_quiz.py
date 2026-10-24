@@ -1,4 +1,4 @@
-"""The 「真相三问」 on the creation desk (PLATFORM-PLAY-RULES-1015 §11, niko 10-18): a creator writes and edits the plot's
+"""The 「真相三问」 on the creation desk (PLATFORM-PLAY-RULES-1015 §11, 10-18): a creator writes and edits the plot's
 ``truth_quiz`` — three questions, their options, the right answer, the ``reward_soul`` picked from the world's cast — and
 can have the engine write a first draft from the truth (「点生成」) to edit after. The questions are the run's
 (core/truth_quiz.py plays them at the settlement); this module is only the desk's half.

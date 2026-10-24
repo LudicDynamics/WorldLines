@@ -1,4 +1,4 @@
-"""模板发布到 Hub 自由区(niko 10-16 · core/template_publish · worldlines-platform docs/审核与分区-1015.md)。
+"""模板发布到 Hub 自由区(10-16 · core/template_publish · worldlines-platform docs/审核与分区-1015.md)。
 
 假的平台(identity 的资源 + storage 的上传 / 公开下载,一个进程,按平台的规则答):
 - 发布前本地三项检查 + 封面:密钥(模板和它链接的角色)· lint 无 block · 卡面四语 · 封面;不过 = 一个请求都不发
@@ -328,6 +328,15 @@ def test_a_work_moved_to_the_default_zone_goes_to_review(store, platform):
     assert out["zone"] == "reviewed" and out["review"]["state"] == "pending" and "审核" in out["message"]
     assert [b for m, p, b in platform.calls if p.endswith("/publish")][-1] == {}, "no zone asked: a published work keeps its zone"
 
+
+
+def test_the_official_copy_is_not_the_free_zone_work(store, platform):
+    # the official account has hub/template/<template id> in the default zone; publishing locally makes a separate free-zone copy
+    wid = tp.publish(_t())["id"]
+    platform.res["fz-test"] = {**platform.res.pop(wid), "zone": "curated"}
+    out = tp.publish(_t(), lang="zh")
+    assert out["id"] not in ("fz-test", wid) and out["id"].startswith("fz-test-") and out["zone"] == "open"
+    assert platform.res["fz-test"]["zone"] == "curated", "the official copy is left alone"
 
 # ── the free zone: list · cover · fetch · report · unpublish · submit ───────
 

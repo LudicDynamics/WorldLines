@@ -1,4 +1,4 @@
-"""The planning beat's second host round (niko 10-14: 「平均一拍 10 秒」): after the characters answered, System One
+"""The planning beat's second host round (10-14: 「平均一拍 10 秒」): after the characters answered, System One
 decides whether the host speaks again — not by default; that round reads a digest, not the whole context, and its reply
 is capped. Needs the private layer (tests/requires_private.txt).
 

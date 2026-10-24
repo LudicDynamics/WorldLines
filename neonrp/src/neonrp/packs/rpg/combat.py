@@ -1,4 +1,4 @@
-"""rpg combat — a one-shot node of the orchestration graph (10-18, D-20261018-combat-one-shot-node): the Resolve's
+"""rpg combat — a one-shot node of the orchestration graph (10-18): the Resolve's
 narrator calls ``[combat roster]what each one does this beat[/combat]``; the combat layer (its own prompt, the packed
 rules, the foes and the sheets) writes this exchange once, its dice thrown by the engine, its hp changes written as ops;
 the narrator gets the result back and goes on. No mode starts or ends: the foes are world data (``run_state.combat``)

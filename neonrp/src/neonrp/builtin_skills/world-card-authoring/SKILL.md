@@ -22,7 +22,7 @@ Do NOT use this skill:
 
 - To convert a tavern card INTO a NeonRP playable project — use
   `tavern-game-import` instead.
-- To author NeonRP-native `world/<kind>/<id>.json` entities — use
+- To author NeonRP-native entities under the world's `game/` folder — use
   `entity-authoring` + `world-building` for that.
 
 # Canonical File Layout In A NeonRP Project

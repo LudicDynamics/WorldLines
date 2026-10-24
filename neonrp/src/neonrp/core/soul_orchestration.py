@@ -1,4 +1,4 @@
-"""A character's own orchestration graph — the soul side of the orchestration bench (niko 10-16, PLATFORM-PLAY-RULES §3:
+"""A character's own orchestration graph — the soul side of the orchestration bench (10-16, PLATFORM-PLAY-RULES §3:
 「角色编排台和世界编排台一体两面」). Same shape as the world's ``worldlines.orchestration/1`` (core/orchestration) with
 ``subject: "soul"``; the node kinds and the tools are the soul's own:
 
@@ -321,7 +321,7 @@ def ref_of(tpl: str, sid: str) -> str:
 
 
 def catalog(lang: str | None = None) -> dict[str, Any]:
-    """Every character the bench can open and the phone can talk to (niko 10-16, hybrid), one row per copy:
+    """Every character the bench can open and the phone can talk to (10-16, hybrid), one row per copy:
     ① the library's own (``library``; ``independent`` when no world links it) · ② a world's ``standalone`` · ③ a world's
     ``takeable``. A row: ref · kinds · worlds · chat (library | standalone | obtained | locked) · edit (where a graph is
     written: the library folder, or the template — this world only) · the card."""
@@ -405,7 +405,7 @@ def save(ref: str, g: Any) -> dict[str, Any]:
     return {"ok": True, "to": "template", "id": c["t"].id, "applied": out.get("applied"), "graph": C.graph_of(C.resolve(tpl, sid))}
 
 
-# ── in_world: the beat a world asks of this character — its real settings in that world (niko 10-17, 工作台去 mock 3.2) ──
+# ── in_world: the beat a world asks of this character — its real settings in that world (10-17, 工作台去 mock 3.2) ──
 
 LEGACY = "legacy"
 VARIANT_KEY = "turn.parallel.souls.per_soul"

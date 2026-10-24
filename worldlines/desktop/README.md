@@ -1,5 +1,8 @@
 # desktop/ — 桌面壳(Tauri)
 
+> **状态:没有发布。** 这里只有代码,没有安装包;1.0.x 不提供桌面版下载。本地版请用
+> `pip install worldlines`(见仓库根 README)。
+
 **唯一 SoT 是 Web LocalShell**(`neonrp web` + 本仓 `ui/`)。
 这个壳是**薄皮**,不含任何产品逻辑,只做三件事:
 
@@ -15,20 +18,18 @@
 
 ## 引擎从哪来
 
-**引擎源码不在本仓** —— WorldLines 是开源壳(AGPL-3.0),NeonRP 引擎专有、
-单独分发。壳是 **installed-first**:找机器上已安装的 `neonrp`,找不到时
-在 splash 里引导安装(镜像 install.sh 的两步:装 uv → `uv tool install`
-钉壳版本,全程用户态不提权)。
+引擎 NeonRP 是开源的(Apache-2.0),源码就在同一个仓库的 `neonrp/` 下,
+以 `neonrp` 包发在 PyPI;这个壳属于产品 WorldLines(AGPL-3.0)。壳是
+**installed-first**:找机器上已安装的 `neonrp`,找不到时在 splash 里引导安装
+(镜像 install.sh 的两步:装 uv → `uv tool install` 钉壳版本,全程用户态不提权)。
 
 要对着本地引擎签出开发,显式指路:
 
 ```bash
-export WORLDLINES_ENGINE_REPO=/path/to/NeonRP   # 该目录须有 pyproject.toml
+export WORLDLINES_ENGINE_REPO=/path/to/WorldLines/neonrp   # 引擎签出,该目录须有 pyproject.toml
 ```
 
-设了就走 `uv run neonrp`(cwd = 该签出),否则走已安装引擎。这个变量是
-拆仓后加的:壳原本按 `<壳目录>/../..` 推断引擎仓根,在引擎仓里那正好是
-NeonRP 根,搬进壳仓后那个路径指向壳仓自己,永远探不到引擎。
+设了就走 `uv run neonrp`(cwd = 该签出),否则走已安装引擎。
 
 引擎太旧也会被拦下:能力探针跑 `neonrp web --help` 看有没有 `--no-browser`
 (< v0.3.0 没有),旧引擎会因未知选项瞬退、壳空等 30s。

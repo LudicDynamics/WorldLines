@@ -32,15 +32,20 @@ usually touches these directories:
   - `species.md`, `factions.json`, `calendar.json`, `cosmology.md`
 - `game/lore/` — narrative prose
   - `story.md` (main plot), `notes.md` (creator notes), `legends.md`
-- `game/towns/<town_id>/` — hub package
-  - `town_map.json` — location topology
+- `game/locations/<town_id>/location.json` — a town as a place; every place
+  inside it is a sub-folder: `game/locations/<town_id>/<spot>/location.json`
+  (`name`, `pos`, `connections` to sibling ids, `type`, `summary`). The folder
+  tree *is* the map; `game/world/world_map.json` keeps only world-level keys
+  (`name`, `routes`, `time`, `travel` …), no `nodes` list.
+- `game/towns/<town_id>/` — town package
+  - `town.json` — town properties
   - `npcs.json` — town roster
   - `quests.json` — local quest list
-- `game/location/<id>.json` — single location entity
-- `game/dungeon/<id>.json` — explorable hostile area
-- `game/npc/<id>.json` — named NPC entity
+- `game/dungeons/<dungeon_id>/` — explorable hostile area (`dungeon.json`,
+  `layout.json`, `rooms/`, `encounter_tables.json`, `loot_tables.json`)
+- `game/npc/<id>.json` — named NPC entity (optional; flat)
 - `game/character/<id>.json` — protagonist-candidate or major recurring
-- `game/item/<id>.json` — gear, consumables, artifacts
+- `game/item/**/<id>.json` — gear, consumables, artifacts
 - `game/quest/<id>.json` — top-level arcs
 
 Do NOT invent parallel directories when an existing one fits.
@@ -65,7 +70,7 @@ Do NOT invent parallel directories when an existing one fits.
 Every JSON entity under `game/` must include:
 
 - `id` — ASCII slug, must match filename stem
-- `kind` — matches parent folder name
+- `kind` — the entity kind (`item`, `npc`, …)
 - `name` — display name, may be Chinese/Japanese/Korean
 - `summary` — 1-2 sentence description for search and context
 
@@ -84,20 +89,22 @@ NeonRP worlds are multi-agent: each character is authored as a SOUL folder,
 not as a flat `game/npc/<id>.json`. Author `>=3` characters this way so the
 world is playable as a multi-agent cast.
 
-- A soul lives at `souls/<sid>-si<sid>0001/`, where `<sid>` is a short
+- A soul lives at `souls/<sid>-si-<sid>0001/`, where `<sid>` is a short
   lowercase ASCII slug of the character's name (e.g. `elena` →
-  `souls/elena-sielena0001/`). The instance suffix is literally
-  `si<sid>0001`.
-- `souls/<sid>-si<sid>0001/soul.json` — object:
+  `souls/elena-si-elena0001/`). The instance suffix is literally
+  `si-<sid>0001`.
+- `souls/<sid>-si-<sid>0001/soul.json` — object:
   `{"schema_version":1,"sid":"<sid>","name":"<English name>",`
   `"name_local":"<native name>","version":"1.0","tags":["npc"]}`
   (optional `intro_i18n`).
-- `souls/<sid>-si<sid>0001/soul.md` — the heart of the soul: prose persona
+- `souls/<sid>-si-<sid>0001/soul.md` — the heart of the soul: prose persona
   covering who they are, voice, personality, what they want, their
   relationship to the player, and secrets. Make it specific and grounded in
   THIS world's concept, never generic fantasy.
 - Optional but encouraged: `background/history.md`, `background/secrets.md`,
-  and `persona/core_traits.json` (`{"traits":{"brave":0.8,...}}`).
+  and `persona/core_traits.json` in this shape (the rpg pack reads it):
+  `{"personality_type":"<one line>","core_traits":[{"trait":"Brave","intensity":80,"description":"<how it shows>"}]}`
+  (`intensity` 0–100).
 - Do NOT author `run_state.json` — the deterministic finalizer adds a valid
   one for each soul.
 
@@ -107,8 +114,9 @@ When the user says "create a world around this idea":
 
 1. One `game/meta/game-start.json` with an opening paragraph + starting
    location id + player role note.
-2. One starting hub: `game/towns/<id>/town_map.json` + `npcs.json`
-   (2-5 NPCs) + `quests.json` (1 starter quest).
+2. One starting hub: `game/locations/<id>/location.json` with 3-6 place
+   sub-folders, plus `game/towns/<id>/town.json` + `npcs.json` (2-5 NPCs) +
+   `quests.json` (1 starter quest).
 3. One adjacent location or dungeon for exploration pressure.
 4. One main-plot hook written as `game/lore/story.md`.
 5. One brief creator notes file at `game/lore/notes.md`.
@@ -123,9 +131,9 @@ must be playable, not complete.
   point to an entity the index can find.
 - When you add a new NPC who lives somewhere, update that town's
   `npcs.json` array too.
-- When you add a new location to a town's `town_map.json.locations`,
-  write the corresponding `game/location/<id>.json` (unless the town's
-  map already defines inline location objects).
+- When you add a new place to a town, create its folder
+  `game/locations/<town_id>/<spot>/location.json` and list it in the
+  `connections` of the places it touches (connections go both ways).
 - Quests listed in `game/towns/*/quests.json` should reference real
   NPCs, items, and locations.
 
@@ -141,7 +149,7 @@ the hidden truth in a `game/secrets/<kind>--<id>.json` overlay:
 {
   "id": "secret-location--cellar",
   "kind": "secret",
-  "about": "location/cellar",                  // host entity, relpath under game/
+  "about": "locations/T001/cellar/location",   // host entity file, relpath under game/ without .json
   "audience": ["gm"],                          // gm | npc:<id> | soul:<sid> | agent:<id>
   "content": {
     "summary_hidden": "暗门后是走私者的地下码头。",  // *_hidden merges into the base field on reveal
@@ -196,6 +204,6 @@ Rules:
 - Do not overwrite `active-agent.json` manually; use
   `ensure_playable_scaffold(...)`.
 - Do not author characters as flat `game/npc/<id>.json` when creating a
-  world — author them as souls under `souls/<sid>-si<sid>0001/` instead.
+  world — author them as souls under `souls/<sid>-si-<sid>0001/` instead.
 - Do not exceed ~80KB per JSON entity — split into related entities
   (e.g., one per district) if you approach that budget.

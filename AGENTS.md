@@ -29,10 +29,12 @@
 | 完整的世界(石津镇,艾琳娜与罗文) | `neonrp/src/neonrp/templates/stoneford-elena/` |
 | 最小的世界 | `neonrp/src/neonrp/templates/white-blank/` |
 | 最小的角色 | `documents/spec/soul.zh.md` 里「最小可用角色」一节(手写示例;`soul-blank/` 目前是艾琳娜的副本,不要拿它当空白) |
-| 模板(多结局 / 经济 + 势力 / 三镇 / 狼人杀 / 百分骰调查) | `worldlines/templates/*.template/` |
-| 更多示例世界 | `worldlines/examples/worlds/` |
+| 模板:百分骰调查、多结局(灰橡宅) | `worldlines/templates/pct-house.template/`(自带世界在 `world/` 里) |
+| 模板:开放小镇 RPG、经济、多结局(石津镇·雾退之夜) | `worldlines/templates/stoneford-town.template/`(世界用内置的 `stoneford-elena`,差异放在 `world-overlay/`) |
+| 旧格式的小示例世界 | `worldlines/examples/worlds/` |
 
-做法:先复制最接近的参考到用户自己的目录(例如 `my/<id>/`),再按用户的设定逐个文件改。
+做法:世界和角色,先复制最接近的参考到用户自己的目录(例如 `my/<id>/`),再按用户的设定逐个文件改。
+模板用复制命令,它会顺手放好 `AGENTS.md` 和 `spec/`:`neonrp template fork stoneford-town my-town --store my/`。
 改之前读一遍对应的规格;不确定某个字段是否被引擎读取,就去规格里的「参考实现位置」看代码,不要编字段。
 
 ## 写的规矩
@@ -51,14 +53,22 @@ neonrp template lint my/<id>.template          # 模板:全部问题(block 会�
 neonrp template slots my/<id>.template         # 还缺哪些图(地图 / 立绘 / 场景 / 图标)
 cd my/<world> && neonrp validate               # 单独的世界:JSON、角色、开场能不能跑
 neonrp template build my/<id>.template /tmp/try-<id>   # 组装成一局
-cd /tmp/try-<id> && neonrp tui --play          # 试玩:第一句打「开始游戏」
+cd /tmp/try-<id> && neonrp tui --play          # 试玩:没玩过的局会自动开场
 ```
 
 lint 有 block 就先修再试玩;把每条 block 的原文和你的修法告诉用户。没装引擎:`uv tool install worldlines`(会带上 `neonrp`)。
 
 ## 游玩是怎么走的(写设定时要考虑)
 
-一回合 = 玩家说一句话 → 世界叙事并落账:引擎掷该掷的骰子,在场的角色轮流行动,主持叙述这一回合,再把一次校验过的变化写进世界。
+一回合怎么走,由模板 `uses` 点名的编排决定。两个内置模板都用两拍:
+
+1. **商量拍**:主持接住玩家的话,把话递给在场的角色,列出要花的钱、要过的检定、要用的时间。这一拍世界不动、时钟不走;
+   谈妥了(判官或本局模型判断,或玩家说「定」)才进下一拍。一句没什么可谈的话(走一步、没有花费)直接进清算。
+2. **清算拍**:在场的角色各自行动,引擎掷该掷的骰子,主持先写叙述,再把变化写进世界(引擎校验;工具和引擎的裁定优先)。
+   写状态先给一个快的结果,后台再用更细的一次修正(最多 90 秒),玩家先说下一句就取消修正。每回合落一个世界提交。
+
+PyPI 上的 `worldlines` / `neonrp` 包带完整的两拍编排;从本仓源码装的引擎只跑清算拍(一拍),同一个模板照样能玩。
+
 所以角色的设定要能「表态」(她会同意什么、拒绝什么、怎么讨价还价),世界要给主持能读的真实数据(价目、路程、谁在哪)。
 
 ## 可用的 skill

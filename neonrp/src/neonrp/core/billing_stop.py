@@ -17,7 +17,7 @@ from dataclasses import dataclass
 from typing import Any
 
 CODES = ("quota_exceeded", "insufficient_credits", "claim_required", "debt_limit", "plan_required")
-# not money but the same kind of stop (10-18 niko on the phone: a guest's call refused, the turn came back empty): the
+# not money but the same kind of stop (10-18, on the phone: a guest's call refused, the turn came back empty): the
 # player has to sign in — ``403 guest_not_allowed`` (this call needs an account) · ``403 guest_world_only`` (a guest plays
 # only inside a world). kind = "guest", so a page can offer 「登录后继续」 instead of a top-up.
 SIGN_IN_CODES = ("guest_not_allowed", "guest_world_only")

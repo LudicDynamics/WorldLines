@@ -25,19 +25,34 @@ Each row of a template's `souls` is one cast member:
 ```json
 "souls": [
   {"sid": "chara", "role": "npc"},
-  {"lib": "mira", "role": "companion"},
-  {"pool": [{"lib": "a"}, {"lib": "b"}, {"sid": "c"}], "pick": 2}
+  {"sid": "mira", "lib": "mira", "role": "companion"},
+  {"sid": "guide", "path": "souls/guide"},
+  {"pool": [{"sid": "a", "lib": "a"}, {"sid": "b", "lib": "b"}, {"sid": "c"}], "pick": 2}
 ]
 ```
 
 | Row | What it is |
 |---|---|
-| `{"sid": …}` | a character native to the world (the butler, Elena …) |
-| `{"lib": …}` | a character from the library — a link |
+| `{"sid": …}` | a character native to the world (Greyoak House's butler, Stoneford's Elena …) |
+| `{"sid": …, "lib": …}` | a character from the library — a link. When you write `template.json` by hand, `sid` is required: without it Lint reports `ref.soul` and the run skips the row |
+| `{"sid": …, "path": …}` | a character kept inside the template folder |
 | `{"pool": [...], "pick": N}` | a pool; each run draws N (werewolf, random line-ups) |
-| `role` | `npc` (default) · `companion` · `player` (at most one) |
+| `role` | `npc` a world NPC (default) · `companion` · `player` the lead, played by the player (at most one) |
 
-Authoring writes the whole list with the `set_cast` op: a broken link, a character cast twice, an unknown role or two players refuse the batch and nothing is written.
+Stoneford's cast is two world-native characters: `{"sid": "elena", "role": "npc"}`, `{"sid": "rowan", "role": "npc"}`.
+
+Authoring writes the whole list with the `set_cast` op: a `{"lib": …}` row without `sid` gets it from the character's `soul.json`; a broken link, a character cast twice, an unknown role or two players refuse the batch and nothing is written.
+
+<!-- section: switches -->
+## A character's own switches
+
+Written in the character's `soul.json`:
+
+| Field | Meaning |
+|---|---|
+| `standalone: true` | can be chatted with on its own without being gained first |
+| `takeable` (default `true`) · `take_when` | when the condition holds the player takes it home with its full memory. `take_when` is `companion_at_ending` (default: it is at the player's side when an ending lands) or `ending:<ending id>`. Free Zone runs let nobody be taken |
+| `assets: {"sprite": "portrait"}` | the sprite is the portrait (when the portrait is already full-body); no second picture is stored |
 
 <!-- section: per-world -->
 ## The same character, different in every world
@@ -54,7 +69,7 @@ Which worlds a character is in: `GET /api/v1/local/souls/<name>/bindings`.
 <!-- section: protocol -->
 ## The soul protocol: what a contract asks of characters
 
-> **Status: in design**
+> **Status: not built yet** — what follows is the settled direction.
 
 Different games ask different things of a character: a mystery TRPG needs an investigator sheet, a murder mystery hands everyone a role and a secret. Contracts will get a `souls` section:
 

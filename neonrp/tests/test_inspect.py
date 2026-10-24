@@ -1,4 +1,4 @@
-"""「查看」人 / 物 / 地方(niko 10-16:点了只把名字再显示一遍、没有详细介绍)—— core/inspect。
+"""「查看」人 / 物 / 地方(10-16:点了只把名字再显示一遍、没有详细介绍)—— core/inspect。
 
 GET /api/v1/play/engine/inspect?target= → 玩家知道的:人 = 一句简介 · 外貌 · 关系(不给 background / persona / truth);
 物 = 世界写的描述 · 来历;POST 同一个:没描述的东西 / 人(只写外在印象)/ 地方现写一段(一次模型调用,本局语言),存进这一局的 entries 覆盖层

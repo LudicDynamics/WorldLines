@@ -47,7 +47,7 @@ is the whole point of casting:
 ```
 
 Also reconcile the carried-over fields to this world:
-- **location** — a real node from `game/world/world_map.json` / locations.
+- **location** — a real place id: a folder under `game/locations/` (a town such as `T001`, or a spot inside it such as `gate_north`).
 - **relationships** in `soul.persona.relationships` — keep only what makes
   sense here; re-point or drop references to people not in this world.
 - **secrets** — keep the soul's GM-only secrets, and add any world-specific

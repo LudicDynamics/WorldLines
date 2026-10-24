@@ -6,7 +6,6 @@ description: "Claude Code, Codex or WorldLines' own authoring agent: open the fo
 <!-- section: who -->
 ## Who this is for
 
-> **Status: ships with 1.0**
 
 For agents working on a creator's behalf: coding agents that work in folders (Claude Code, Codex …) and WorldLines' own authoring agent. People can read it too — it is the manual for authoring with files.
 
@@ -16,7 +15,7 @@ For agents working on a creator's behalf: coding agents that work in folders (Cl
 | Folder | Holds | Read first |
 |---|---|---|
 | a template `<id>.template/` | the world, the cast, plots, assets, contract, orchestration | `AGENTS.md` (Claude reads `CLAUDE.md`, the same text) → the matching file in `spec/` |
-| the template store (all your templates) | many `<id>.template/` | `AGENTS.md` → the template you are changing |
+| the template store `~/.worldlines/templates/` (all your templates) | many `<id>.template/` | `AGENTS.md` → the template you are changing |
 | the character library `~/.worldlines/souls/` | one character per folder | `AGENTS.md` → `spec/soul.md` |
 
 A template's `spec/` holds `template` · `world` · `soul` · `contract` (each in en and zh), the `ops` of its play pack (what the model may write each turn) and `authoring` (the authoring ops the engine offers). They are generated for the engine version in use — **read them in the folder, not from somewhere else**. For a person who wants to read them through first, the same specs (plus the RPG Pack spec) are on the [Specs](/docs/developers/specs) page, and `neonrp spec` prints them once the engine is installed.

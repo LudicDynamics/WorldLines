@@ -10,9 +10,11 @@ NeonRP is the engine of [WorldLines](https://github.com/LudicDynamics/WorldLines
 
 ## What it does
 
-- **One line, one turn.** The player says what they want to do; the engine rolls the dice that apply, lets the characters
-  present act in turn, has the narrator write the turn (calling tools where an outcome decides what comes next), and
-  validates and commits one state transition. A turn is an orchestration graph that packs and templates can patch.
+- **Two beats per turn.** The player says what they want to do. In the planning beat the characters present answer and
+  a plan is agreed; when a judge says the talk is settled (Jev with a Worldlines account, otherwise the run's own model;
+  the player can also say 「定」 or `@dm`), the resolve beat rolls the dice that apply, writes what happens and commits one
+  validated state transition. State is written at once and re-checked in the background; a wrong value is corrected and
+  the player is told. A turn is an orchestration graph that packs and templates can patch.
 - **Three parties, isolated.** World, player and characters each have their own agency. What the player says is an
   *attempt*, not a fact; characters decide for themselves.
 - **State is files.** A world is a folder of JSON / Markdown you can read, diff and version. Closed schema (registered
@@ -27,18 +29,20 @@ NeonRP is the engine of [WorldLines](https://github.com/LudicDynamics/WorldLines
 
 ```bash
 uv tool install neonrp          # the engine + CLI + terminal UI
-uv tool install worldlines      # the WorldLines product (web UI + launcher), brings neonrp with it
+uv tool install worldlines      # the WorldLines product (local web UI), brings neonrp with it
 ```
 
+Python 3.10 or newer. `pip install` and `pipx install` work too. Both commands check for a new release at launch and update
+themselves (`/update mode prompt` or `notify` inside the game to change that).
+
 <details>
-<summary><b>One-line installer / desktop app / mirrors</b></summary>
+<summary><b>One-line installer / mirrors</b></summary>
 
 ```bash
 curl -LsSf https://worldlines.gg/install.sh | sh        # macOS / Linux (installs uv if missing, then worldlines)
 irm https://worldlines.gg/install.ps1 | iex             # Windows PowerShell
 ```
 
-Desktop builds are attached to the [WorldLines releases](https://github.com/LudicDynamics/WorldLines/releases).
 Behind a slow PyPI connection, point uv at a mirror first, e.g.
 `export UV_DEFAULT_INDEX=https://pypi.tuna.tsinghua.edu.cn/simple` — `neonrp self-update` honors it too.
 
@@ -47,10 +51,13 @@ Behind a slow PyPI connection, point uv at a mirror first, e.g.
 ## Play
 
 ```bash
-neonrp tui                      # pick a built-in world and play; the first line is 「开始游戏」 / "start the game"
+neonrp                          # the launcher: pick a world (or your latest run) and play; a new run opens by itself
+worldlines                      # the same library in your browser: http://127.0.0.1:8787/local
 ```
 
-Inside a world folder:
+Nothing to install: play online at [worldlines.gg](https://worldlines.gg) or in the iOS app.
+
+Inside a world folder (`neonrp tui` works on the current folder and opens in build mode; `--play` plays it):
 
 ```bash
 neonrp validate                 # is this world playable? (JSON, souls, opening, lint)

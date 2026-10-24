@@ -8,16 +8,12 @@
 
 Stoneford is the flagship example that ships with [WorldLines](https://github.com/LudicDynamics/WorldLines) — a complete, playable town with NPCs, quests, a dungeon, and siege mechanics, orchestrated by a multi-agent society.
 
-**[▶ Play online (no install) →](https://hub.worldlines.gg/play/worlds/stoneford)**
-
 ## How to play
 
 ```bash
-# Local TUI
-neonrp tui --from examples/orch/stoneford
-
-# Claude Code / MCP — open Claude Code inside this directory
-@world-agent 开始游戏
+# This is the older orchestrator format (before templates). Copy it first — play writes into the folder:
+cp -R worldlines/examples/worlds/stoneford /tmp/stoneford && cd /tmp/stoneford
+neonrp tui --play
 ```
 
 ## The village — a multi-agent society
@@ -61,10 +57,10 @@ This is the **village structure** in practice: the world remembers, NPCs have th
 | `game/towns/*/` | town data: NPCs, quests, facilities, maps |
 | `game/dungeons/D001/` | dungeon layout, rooms, encounter & loot tables |
 | `game/rules/combat_rules.md` | d20 combat rules |
-| `agents/*/` · `.claude/agents/*` | agent definitions (TUI + Claude Code mirrors) |
+| `agents/*/` · `.claude/agents/*` | agent definitions |
 
 ## License
 
-Stoneford is **AGPL-3.0**. Fork it, mod it, ship your own world. The WorldLines engine (`neonrp`) that runs it is a proprietary preview.
+Stoneford is **AGPL-3.0**. Fork it, mod it, ship your own world. The engine that runs it (`neonrp`) is open source under Apache-2.0.
 
 > *Stoneford is an original scenario co-authored by **nikoloside**, **redoctober**, and Claude, blending Eastern worldbuilding with Western medieval magic.*

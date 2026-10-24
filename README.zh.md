@@ -26,8 +26,8 @@
 
 它下面是 **NeonRP**,一个世界模拟引擎,核心只有一句话:**让模型讲故事,让世界讲道理。**
 
-- **一句话,一回合。** 说你想做什么。世界掷该掷的骰子,在场的角色轮流行动,写下这一回合的故事,
-  再把一次校验过的变化写进世界。
+- **先商量,再清算。** 说你想做什么。商量拍里在场的角色接话,你们谈好怎么做;判官说谈妥了(或者你说「定」/ `@dm`),
+  清算拍掷该掷的骰子、写下这一回合的故事,再把一次校验过的变化写进世界。
 - **三方。** 世界、你、每个角色各有主体性。你说的话是一次**尝试**,不是事实;角色自己拿主意。
 - **世界就是文件。** 纯 JSON / Markdown,能读、能 diff、能版本管理;每一回合都是一个提交,可以回滚、可以分岔。
 
@@ -36,7 +36,7 @@
 | 目录 | 是什么 | 许可 |
 |---|---|---|
 | [`neonrp/`](./neonrp) | 引擎:回合流程、schema、玩法包(`rpg`、`pct`、`werewolf`、`monopoly`、`economy`、`factions` …)、模板、命令行、终端界面、SDK | Apache-2.0 |
-| [`worldlines/`](./worldlines) | 产品:网页界面(3.0)、桌面壳、启动器包、模板、示例世界、教程 | AGPL-3.0 |
+| [`worldlines/`](./worldlines) | 产品:网页界面(3.0)、启动器包、模板、示例世界、教程;桌面壳(还没有发布) | AGPL-3.0 |
 | [`documents/`](./documents) | 规格(world · soul · template · contract · pack)与 [docs.worldlines.gg](https://docs.worldlines.gg) 的正文 | CC BY 4.0 |
 | [`benchmarks/`](./benchmarks) | 引擎每个设计决定背后的测试套件 | 代码 Apache-2.0 · 数据 CC BY 4.0 |
 | `CLAUDE.md` · `AGENTS.md` · `.claude/` · `.agents/` | 给 Claude Code / Codex 用的捏卡工作台(见下) | AGPL-3.0 |
@@ -52,7 +52,8 @@ neonrp                          # 终端:「Welcome to WorldLines」启动器
 本地版从这里安装(PyPI 包,这个仓库就是源码);[worldlines.gg](https://worldlines.gg) 是免安装的在线游玩。两个命令启动时都会检查新版并自动更新(想先问一声:进游戏后 `/update mode prompt`)。
 更新说明:[`neonrp/CHANGELOG.md`](./neonrp/CHANGELOG.md) · [GitHub Releases](https://github.com/LudicDynamics/WorldLines/releases)。一行安装器仍可用:
 `curl -LsSf https://worldlines.gg/install.sh | sh`(macOS / Linux)· `irm https://worldlines.gg/install.ps1 | iex`(Windows)。
-第一次运行会引导你选模型(DeepSeek、OpenRouter、本地 OpenAI 兼容服务……),密钥只存在你自己的机器上。
+需要 Python 3.10 或更新。第一次运行会引导你选模型:用 Worldlines 账号登录(`/login`:模型中转和 Jev 判官,不用自己的 key),
+或者填自己的 key(OpenCode Zen、DeepSeek、OpenRouter、Anthropic、OpenAI、GLM,或任何 OpenAI 兼容服务)。密钥只存在你自己的机器上。
 
 ## 游玩
 
@@ -64,14 +65,17 @@ neonrp                          # 终端:「Welcome to WorldLines」启动器
       金 18 → 8 · 两人到杂货铺 · +小治疗药水
 ```
 
-你说的每一句话就是一回合:世界(显示为「主持」)叙述发生了什么,并把变化写进世界。
+每一回合分两拍。**商量拍**里主持描述场面、在场的角色接话,你们谈好要做什么。谈妥之后(由判官判断:有 Worldlines 账号时是 Jev,
+否则是这一局自己的模型;你也可以说「定」或 `@dm` 直接推进),**清算拍**叙述发生了什么,并把变化写进世界。状态先马上写下,
+后台再复核一遍;复核发现不对就修正,并告诉你改了什么。
 
 | 模板 | 是什么 |
 |---|---|
 | 灰橡宅 · 关上的门 | 雾巷尽头的老宅,宅主人三天前走进一扇门再没出来;一夜、一个守口如瓶的管家,百分骰推理 |
 | 石津镇 · 雾退之夜 | 一年只有一夜雾会退开:两个夜晚、一个白天,在小镇里凑齐出北门的东西 |
 
-本地版只内置这两个世界。其他官方世界:在本地 Hub 里用 Worldlines 账号登录,就能看到并获取(下载到本机来玩)。
+本地版只内置这两个世界。其他官方世界在 Hub 里:不登录也能看,在 [worldlines.gg](https://worldlines.gg)(或本地网页的「Hub ↗」)
+直接在线玩;用 Worldlines 账号登录后,可以下载到本机来玩。
 
 <p align="center">
   <img src="./worldlines/assets/web-multi-agent.zh.png" alt="WorldLines — 活着的世界" width="860" />

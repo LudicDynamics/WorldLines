@@ -37,5 +37,7 @@ def test_generators_carry_beat_events():
     with v3._scratch(t, None) as root:
         c = v3.contract(t, root)
     assert "plan.beat" in c["beat_events"]
+    # 10-24: the routes as the local engine serves them (/cmd and /rollback are top-level, tick sits under /api/v1/play/engine)
+    assert "POST /cmd" in c["transport"]["rpc"] and "POST /rollback" in c["transport"]["rpc"] and "/api/v1/play/engine/tick" in c["transport"]["rpc"]
     assert "export type BeatEvent = " in v3.gen_ts(c) and "'run.settled'" in v3.gen_ts(c)
     assert "signal beat(event: String, data: Dictionary)" in v3.gen_gd(c)

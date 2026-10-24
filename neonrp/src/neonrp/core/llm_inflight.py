@@ -1,4 +1,4 @@
-"""Model streams in flight (niko 10-18, iOS: the app was suspended while a turn was running — back in the foreground the
+"""Model streams in flight (10-18, iOS: the app was suspended while a turn was running — back in the foreground the
 connection to the model is gone, and the turn hangs on a dead socket until its read timeout).
 
 Every streamed model call registers here while it runs and marks each chunk it receives. A host that knows when the

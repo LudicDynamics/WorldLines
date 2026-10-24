@@ -5,7 +5,7 @@
 // 页面代码(pages.js / app.js / link.js)原样使用。
 // ═══════════════════════════════════════════════════════════════════
 // 多语言的值(引擎 / 模板现在有不少名字是 {zh, en, ja, ko}):按设置里的叙事语言(wl-local-lang)取,缺了先退英文、再退中文;
-// 剧情阶段这种 {name, goal} 取 name。niko 10-24:剧情图上一排「[object Object]」= 界面直接把对象拼进了字符串
+// 剧情阶段这种 {name, goal} 取 name。10-24:剧情图上一排「[object Object]」= 界面直接把对象拼进了字符串
 const LOC = v => {
   if (v == null) return '';
   if (typeof v !== 'object') return String(v);

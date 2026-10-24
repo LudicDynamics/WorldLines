@@ -129,7 +129,7 @@ def _meta_rows():
 
 
 def test_open_zone_entry(tmp_path):
-    # 「开源区」入口(niko 10-15):默认视图只有审核区;开源区的作品切过去才看得到;没有作品时是空状态说明
+    # 「开源区」入口(10-15):默认视图只有审核区;开源区的作品切过去才看得到;没有作品时是空状态说明
     rows = _meta_rows()
     opened = {**rows[0], "id": "someones-open-work", "zone": "open"}
     got = _engine_mode(tmp_path, [*rows, opened])
@@ -185,7 +185,7 @@ def test_player_lead_has_portrait(bs, tid, tmp_path):
 
 
 def test_souls_page_owned_and_chattable_by_default(tmp_path):
-    # 角色页默认 = 已获得的 + 能直接聊的(standalone,niko 10-16:不用获得就能在小手机聊);其余在「可获得」里是灰的
+    # 角色页默认 = 已获得的 + 能直接聊的(standalone,10-16:不用获得就能在小手机聊);其余在「可获得」里是灰的
     from urllib.parse import parse_qs, urlparse
 
     from neonrp import template as TP
@@ -227,7 +227,7 @@ def test_chat_flag_from_template_standalone(tmp_path):
 
 
 def test_chat_button_opens_chat_page(tmp_path):
-    # niko 10-16:能直接聊的角色点开就聊 —— 世界详情的阵容 · 角色列表卡 · 角色详情都有「和 ta 聊聊」,直接进 chat.html?tpl=&sid=(本地 = 引擎同源 /chat.html)
+    # 10-16:能直接聊的角色点开就聊 —— 世界详情的阵容 · 角色列表卡 · 角色详情都有「和 ta 聊聊」,直接进 chat.html?tpl=&sid=(本地 = 引擎同源 /chat.html)
     from urllib.parse import parse_qs, urlparse
 
     from neonrp import template as TP
@@ -382,7 +382,7 @@ def test_favicon_at_site_root(bs, tmp_path):
 
 
 def test_brand_icon_set(bs, tmp_path):
-    # niko 10-24 新图标(三体轨道 · 深紫夜空 + 三颗星球):一张 1024 原图出的网页一套,尺寸 / 格式都对,manifest 指的文件都在
+    # 10-24 新图标(三体轨道 · 深紫夜空 + 三颗星球):一张 1024 原图出的网页一套,尺寸 / 格式都对,manifest 指的文件都在
     from PIL import Image
 
     bs.build_index(tmp_path, {"mode": "static"})
@@ -397,7 +397,7 @@ def test_brand_icon_set(bs, tmp_path):
                 assert im.mode == "RGB", "iOS: opaque, no rounded corners of our own"
     with Image.open(tmp_path / "favicon.ico") as im:
         assert {(16, 16), (32, 32), (48, 48)} <= set(im.info["sizes"])
-    # UI 象征性一点(niko 10-24):顶栏品牌前一枚小徽记;载入中徽记轻轻呼吸,少动模式不动
+    # UI 象征性一点(10-24):顶栏品牌前一枚小徽记;载入中徽记轻轻呼吸,少动模式不动
     page = (tmp_path / "index.html").read_text(encoding="utf-8")
     assert '<a class="logo" href="#/"><span class="wlmark" aria-hidden="true"></span>WorldLines <i>HUB</i></a>' in page
     assert 'url("icon-192.png")' in page and "@media (prefers-reduced-motion:reduce){.wlmark.breathe{animation:none}}" in page

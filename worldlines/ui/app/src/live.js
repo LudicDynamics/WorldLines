@@ -71,7 +71,7 @@
   }, true);
 
   /* ---------- 测试台 ---------- */
-  // 还没好时说清楚在干什么(10-08 niko 以为「引擎没打开」:其实是正在开局,十几秒)
+  // 还没好时说清楚在干什么(10-08 实测被当成「引擎没打开」:其实是正在开局,十几秒)
   const waitText = () => { const t = L.tpl && (L.templates.find(x => x.id === L.tpl) || {}); return L.tpl && L.tpl !== L.bound ? `正在开一局「${t && t.card ? tplTitle(t) : L.tpl}」…(复制世界 + 生成开场,第一次要十几秒)` : '连接引擎……'; };
   async function ensureBound() {
     if (!L.tpl || L.tpl === L.bound || L.binding) return;
@@ -90,7 +90,7 @@
     const so = ss.find(x => x.iid === id || x.id === id || 'si-' + x.iid === id) || ss.find(x => x.id === bare);   // 实例 id(si-elena0001)也认
     return so ? so.name : nm(id) || id; };
   window.LIVE_placeName = placeName;
-  // ── 游玩层的文字渲染(10-08 niko:以叙事的流式文字为主线,先把文字体验做好;拍的样子查 BEATS) ──
+  // ── 游玩层的文字渲染(10-08:以叙事的流式文字为主线,先把文字体验做好;拍的样子查 BEATS) ──
   // 叙事里的引擎标记:[op 参数] = 同步(这一拍等它回来)· [~op 参数] = 异步(后台去做)· <…> = 引擎的话 —— 不再原文漏出来
   const richText = t => esc(String(t || ''))
     .replace(/\[(~?)([a-z_]+)([^\]\n]*)\]/g, (_, a, op, rest) => `<span class="opp ${a ? 'async' : 'sync'}" title="${a ? '异步:后台去做,不挡这一拍' : '同步:这一拍等它回来'}">${a ? '↻ ' : ''}${op}${rest.trim() ? ' ' + rest.trim() : ''}</span>`)
@@ -213,7 +213,7 @@
         ${mine.map(v => `<div class="r"><span>${esc(v.name.split('.').slice(1).join('.'))}</span><span>${esc(typeof v.value === 'object' ? JSON.stringify(v.value) : v.value)}</span></div>`).join('')}
         ${so.mood || so.intention ? `<div class="sub2">${esc([so.mood, so.intention].filter(Boolean).join(' · '))}</div>` : ''}</div>`; }).join('');
   }
-  // 地图 · 节点图(niko 10-11):没有生成的地图图片时也能看 —— 这一层的地点 = 节点,连通的路 = 连线,
+  // 地图 · 节点图(10-11):没有生成的地图图片时也能看 —— 这一层的地点 = 节点,连通的路 = 连线,
   // 你在哪亮起来,角色在哪标点;点一个地点 = 把「我去……」填进输入框(不替你发)
   function mapGraph(s, at) {
     const here = s.nodes[at]; if (!here) return '';
@@ -346,7 +346,7 @@
     return levels;
   }
   window.LIVE_buildMap = () => loadEdit();
-  // 世界 · 角色是编辑界面:编辑的就是选中的那个世界(niko 10-06:「这个本来就是一个编辑界面,真正的游玩是在测试台里面」)。
+  // 世界 · 角色是编辑界面:编辑的就是选中的那个世界(10-06:「这个本来就是一个编辑界面,真正的游玩是在测试台里面」)。
   // 引擎只允许编辑「我的世界」,所以第一次编辑某个模板时在后台建一份工作副本(以后一直用它),界面上不出现这层。
   const COPIES = () => { try { return JSON.parse(localStorage.getItem('wl-edit-copies') || '{}'); } catch { return {}; } };
   const saveCopy = (tid, wid) => { try { const m = COPIES(); m[tid] = wid; localStorage.setItem('wl-edit-copies', JSON.stringify(m)); } catch { /* storage off */ } };
@@ -385,6 +385,9 @@
     if (rerender && S.screen === 'duo' && !(window.MAPM && window.MAPM.dragging)) render();
   }
   window.LIVE_openWorld = openWorld;
+  // 模板换了一份新世界(live2「＋ 新建世界」):旧的编辑副本作废,按新世界重建一份
+  window.LIVE_reopenWorld = tid => { try { const m = COPIES(); delete m[tid]; localStorage.setItem('wl-edit-copies', JSON.stringify(m)); } catch { /* storage off */ }
+    L.edit = null; L.wtpl = null; L.openFail = null; delete window.MAPW.edit; return openWorld(tid); };
   // 地图编辑器的写回(map.js 在可编辑的层上调这些)
   window.MAPHOOK = {
     async move(level, addr, x, y) { await fetch(V3.url(EDIT + '/map/node'), { method: 'PUT', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ level, addr, x, y }) }); await loadEdit(); },
@@ -404,7 +407,7 @@
     tpl: '真引擎 · 模板库', fe: '真引擎 · 前端文件夹 · 预览连本机引擎',
     duo: L.edit && !L.opening ? `真引擎 · 编辑副本${L.edit.name ? ' ' + L.edit.name : ''}` : L.openFail ? '这个世界没打开' : '正在打开世界……',
   })[S.screen];
-  // Hub(/hub.html)的入口:只在本机引擎(浏览器版没有这一页)。小手机不放顶栏(niko 10-24:本地顶栏不要,小手机在测试台右栏和线上网页里)
+  // Hub(/hub.html)的入口:只在本机引擎(浏览器版没有这一页)。小手机不放顶栏(10-24:本地顶栏不要,小手机在测试台右栏和线上网页里)
   //   (这次构建有哪几页:build.mjs 写进 window.WL_PAGES)
   const NAVX = [['hub', '/hub.html', 'Hub ↗', 'Hub:世界 · 角色 · 我的']];
   const navLinks = () => {
@@ -421,7 +424,7 @@
       : w ? `<span class="chip blue">${esc(w)}</span>` : `<span class="chip" title="引擎绑着的这一局">${esc(t ? '这一局 · ' + tplTitle(t) : '未开局')}</span><span class="chip sage">真引擎 · neonrp</span>`;
     worldSel(); testBanner(); navLinks();
   };
-  // 10-17 niko「前端没法选用哪个世界」:一个全局的「当前世界」S.world(模板 id)—— 顶栏一个选择器,各页都跟着它:
+  // 10-17「前端没法选用哪个世界」:一个全局的「当前世界」S.world(模板 id)—— 顶栏一个选择器,各页都跟着它:
   //   编排 = 那个模板的图 · 世界·角色 = 那个模板的编辑副本 · Template = 那个模板 · 前端 = 那个模板的契约 ·
   //   测试台 = 这一局(引擎绑着的那局,L.bound);和 S.world 不一样时先问一声再开(开局要十几秒),不自动开
   // 别的模块:读 S.world / window.WL_WORLD(),听 window 上的 'wl:world' 事件({detail: {id}});改用 window.WL_setWorld(id)

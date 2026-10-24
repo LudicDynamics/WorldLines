@@ -10,9 +10,10 @@ import subprocess
 from pathlib import Path
 
 import pytest
+from _paths import PRODUCT
 
 ROOT = Path(__file__).resolve().parents[1]
-REAL = ROOT / "worldlines" / "ui" / "app" / "real"
+REAL = PRODUCT / "ui" / "app" / "real"
 
 
 @pytest.fixture(scope="module")

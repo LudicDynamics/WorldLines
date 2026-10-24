@@ -31,6 +31,7 @@
     const tab = S.tplTab || 'pack', t = tplOf(T.id);
     el.innerHTML = `<div class="tplw"><div class="tplhd"><div><div class="tag">${esc(T.id || '')}.template ${T.ui ? (T.ui.writable ? '· 可写' : '· 内置(只读,复制后可改)') : ''}</div><h1 class="h1">${esc(title(t))}</h1></div>
       <div style="margin-left:auto" class="row"><select class="btn" id="tplSel" style="text-transform:none;letter-spacing:0">${L.templates.map(x => `<option value="${x.id}" ${x.id === T.id ? 'selected' : ''}>${esc(title(x))}</option>`).join('')}</select>
+        ${newBtn('tpl')}
         ${T.ui && !T.ui.writable ? (T.ui.forkable === false ? '<span class="tag">官方世界 · 只能玩,不能复制</span>' : '<button class="btn" data-tfork>复制一份来改</button>') : ''}
         ${t.zone === 'reviewed' ? `<span class="btn" data-noexport aria-disabled="true" style="opacity:.45;cursor:not-allowed" title="默认区的作品(官方世界也在默认区)只能玩、不能导出;只有自由区的作品可以导出。想在它上面改:先「复制一份来改」,改好用账号发到自由区">导出 · 默认区不可</span>`
           : `<a class="btn" href="${V3.url(`/api/v1/local/templates/${encodeURIComponent(T.id || '')}/export`)}" download="${esc(T.id || 'template')}.template.zip" title="打成一个包带走:模板 + 它链接的角色库角色">导出</a>`}
@@ -42,7 +43,7 @@
     const sel = $('#tplSel'); if (sel) sel.onchange = () => { T.msg = ''; loadTpl(sel.value); window.WL_setWorld && window.WL_setWorld(sel.value); };   // 这一页的选择器也改当前世界
     const imp = $('#tplImport'); if (imp) imp.onchange = () => importPackage(imp.files && imp.files[0]);
   };
-  // 导入(10-08 niko):包里的 pack.json 说是模板还是角色;模板进模板库,带着的角色进角色库,id 被占就 -2
+  // 导入(10-08):包里的 pack.json 说是模板还是角色;模板进模板库,带着的角色进角色库,id 被占就 -2
   async function importPackage(file) {
     if (!file) return;
     T.msg = `导入 ${file.name}……`; renderTpl();
@@ -233,6 +234,108 @@
   renderDuo = function () { syncSouls(); _duo(); };
   const _dataSoul = dataSoul;
   dataSoul = function () { syncSouls(); return Object.keys(SOULS).length ? _dataSoul() : '<div class="schw"><div class="sub">这一局没有角色</div></div>'; };
+
+  /* ================================================================ 新建(10-24):三个入口,模板 ≠ 世界 ≠ 角色
+     「＋ 新建 Template」(Template 页):Template = 玩法包 + 玩法合约 + 编排(POST /local/templates {pack, contract, orchestration});
+        模板总得绑一个世界,引擎给它一份空白世界当 world/。和「复制一份来改」落在同一个模板库,建完就是当前世界。
+     「＋ 新建世界」(世界·角色 · 世界面):引擎里世界不能脱离模板单独出现在工作台(世界选择器 = 模板;world 绑的是模板里的
+        文件夹或引擎内置世界)→ 在当前模板里换上一份空白世界数据(POST templates/<id>/world/new);旧世界挪进模板库的
+        .world-backups/,世界自带的角色跟着旧世界走,角色库 link 的留下;编辑副本按新世界重开。内置模板只读:先新建 / 复制模板。
+     「＋ 新建角色」(世界·角色 · 角色面):角色库里建一个空白角色(POST /local/souls/blank,不调模型);勾着就 link 进当前世界
+        (templates/<id>/souls/link —— 角色库独立,世界只放 link;编辑副本也带上它)。 */
+  const NEW = { kind: null, busy: false, opts: null };
+  const NEWL = { tpl: '＋ 新建 Template', world: '＋ 新建世界', soul: '＋ 新建角色' };
+  const NEWT = { tpl: '玩法包 + 玩法合约 + 编排;带一份空白世界(一个起点镇、一个玩家,没有角色)', world: '在当前模板里换上一份空白世界数据', soul: '在角色库里从零建一个角色,可以顺手加进当前世界' };
+  const newBtn = kind => L.ok ? `<button class="btn" data-wlnew="${kind}" title="${NEWT[kind]}">${NEWL[kind]}</button>` : '';
+  window.WL_newBtn = f => newBtn(f === 'soul' ? 'soul' : 'world');
+  const words = v => (v && typeof v === 'object' ? v.zh || v.en || Object.values(v)[0] : v) || '';
+  const PACKW = { rpg: 'rpg · 冒险', pct: 'pct · 百分骰调查', werewolf: 'werewolf · 狼人杀', monopoly: 'monopoly · 大富翁' };
+  async function newPop(kind, at) {
+    let el = $('#wlNewPop'); if (!el) { el = document.createElement('div'); el.id = 'wlNewPop'; el.className = 'pop glass'; el.style.position = 'fixed'; document.body.appendChild(el); }
+    NEW.kind = kind;
+    const w = L.templates.find(x => x.id === S.world), sel = (id, label, rows, def) => `<label class="tag" style="display:block">${label}</label><select id="${id}">${rows.map(([v, l]) => `<option value="${esc(v)}" ${v === def ? 'selected' : ''}>${esc(l)}</option>`).join('')}</select>`;
+    let body = '';
+    if (kind === 'tpl') {
+      NEW.opts = NEW.opts || await V3.j('/api/v1/local/templates/_new').catch(() => null);
+      const o = NEW.opts || { packs: { options: ['rpg'], default: 'rpg' }, contracts: { options: [] }, orchestration: { options: [] } };
+      const oa = (o.contracts.options.find(c => /^open-adventure@/.test(c.id)) || {}).id || '';
+      body = `<h4>新建 Template</h4><div class="sub" style="font-size:12.5px">Template = 玩法包 + 玩法合约 + 编排。模板总要绑一个世界:先给它一份空白世界,之后在世界·角色里改,或「新建世界」换掉</div>
+        <input id="wlNewName" placeholder="名字,例:雾港" maxlength="60"><input id="wlNewId" class="mono" placeholder="id(可选):小写字母 / 数字 / -,例 fog-port" maxlength="48">
+        ${sel('wlNewPack', '玩法包', o.packs.options.map(k => [k, PACKW[k] || k]), o.packs.default)}
+        ${sel('wlNewCtr', '玩法合约', [['', '不声明(本地能玩,进不了 Hub)'], ...o.contracts.options.map(c => [c.id, `${words(c.title)} · ${c.id}`])], oa)}
+        ${sel('wlNewOrch', '编排', o.orchestration.options.map(x => [x.id, words(x.title) || x.id]), o.orchestration.default)}`;
+    } else if (kind === 'world') {
+      const u = w ? await V3.j(`/api/v1/local/templates/${encodeURIComponent(w.id)}/ui`).catch(() => null) : null;
+      NEW.writable = !!(u && u.writable);
+      body = !w ? '<h4>新建世界</h4><div class="sub">先在顶栏选一个模板</div>' : NEW.writable
+        ? `<h4>新建世界</h4><div class="sub" style="font-size:12.5px">在模板「${esc(title(w))}」里换上一份空白世界(一个起点镇、一个玩家)。玩法包 / 合约 / 编排 / 剧情 / 角色库的角色都留着;旧世界(连同它自带的角色)挪进备份,不删</div>
+          <input id="wlNewName" placeholder="世界的名字,例:雾港" maxlength="60">`
+        : `<h4>新建世界</h4><div class="sub" style="font-size:12.5px">「${esc(title(w))}」是内置模板(只读),世界换不了。世界总是装在一个模板里:先新建一个 Template(自带空白世界),或在 Template 页「复制一份来改」</div>`;
+    } else {
+      body = `<h4>新建角色</h4><div class="sub" style="font-size:12.5px">进角色库(独立于世界);人设之后在角色面写,或交给创作 agent</div>
+        <input id="wlNewName" placeholder="名字,例:阿雾" maxlength="40"><input id="wlNewIntro" placeholder="一句话简介(可选)" maxlength="400">
+        ${w ? `<label class="row" style="gap:8px;font-size:13px;margin:0 0 10px"><input type="checkbox" id="wlNewLink" checked style="width:auto;margin:0">加进当前世界「${esc(title(w))}」</label>` : ''}`;
+    }
+    const go = kind !== 'world' || NEW.writable;
+    el.innerHTML = body + `<div class="setmsg" id="wlNewMsg" style="display:none;margin:0 0 9px"></div><div class="row" style="justify-content:flex-end;gap:6px">${go ? '<button class="btn" data-wlnewx>取消</button><button class="btn p" data-wlnewgo>建</button>' : `<button class="btn" data-wlnewx>好</button><button class="btn p" data-wlnewtpl>去新建 Template</button>`}</div>`;
+    const r = at.getBoundingClientRect();
+    el.hidden = false;
+    el.style.left = Math.max(8, Math.min(r.right - 300, innerWidth - 316)) + 'px'; el.style.top = Math.max(8, Math.min(r.bottom + 8, innerHeight - el.offsetHeight - 8)) + 'px';
+    const n = $('#wlNewName'); if (n) n.focus();
+  }
+  const closeNew = () => { const el = $('#wlNewPop'); if (el) el.hidden = true; NEW.kind = null; };
+  const newMsg = m => { const b = $('#wlNewMsg'); if (b) { b.style.display = m ? '' : 'none'; b.textContent = m; } };
+  const val = id => (($('#' + id) || {}).value || '').trim();
+  async function newGo() {
+    const name = val('wlNewName');
+    if (NEW.busy) return;
+    if (!name) { newMsg(NEW.kind === 'soul' ? '先起个名字' : '先起个名字'); return; }
+    NEW.busy = true; newMsg('建……');
+    try {
+      if (NEW.kind === 'tpl') {
+        const r = await send('POST', '/api/v1/local/templates', { title: name, id: val('wlNewId'), pack: val('wlNewPack'), contract: val('wlNewCtr'), orchestration: val('wlNewOrch'), lang: 'zh' });
+        const ts = await V3.j('/api/v1/local/templates'); L.templates = ts.templates || L.templates;
+        closeNew();
+        T.msg = `建好了「${name}」(${r.id}.template · 可写)`;
+        window.WL_setWorld && window.WL_setWorld(r.id);   // 当前世界 = 它:各页跟着它
+        if (S.screen === 'tpl') loadTpl(r.id);
+      } else if (NEW.kind === 'world') {
+        const tid = S.world, r = await send('POST', `/api/v1/local/templates/${encodeURIComponent(tid)}/world/new`, { title: name });
+        const ts = await V3.j('/api/v1/local/templates'); L.templates = ts.templates || L.templates;
+        closeNew();
+        T.msg = `「${title(r.template)}」换上了新世界「${name}」` + (r.dropped && r.dropped.length ? ` · 旧世界自带的角色不再出场:${r.dropped.join('、')}` : '');
+        if (window.DUO) { window.DUO.wid = null; window.DUO.msg = T.msg; }
+        window.LIVE_reopenWorld && window.LIVE_reopenWorld(tid);   // 编辑副本按新世界重建
+        if (T.id === tid) loadTpl(tid);
+      } else {
+        const r = await send('POST', '/api/v1/local/souls/blank', { name, intro: val('wlNewIntro'), lang: 'zh' });
+        let note = `「${name}」进了角色库`;
+        if ($('#wlNewLink') && $('#wlNewLink').checked && S.world) {
+          const w = L.templates.find(x => x.id === S.world) || {};
+          try {
+            const k = await send('POST', `/api/v1/local/templates/${encodeURIComponent(S.world)}/souls/link`, { lib: r.soul_dir });
+            note += `,也加进了「${title(w)}」`;
+            if (k.edit && window.DUO) { window.DUO.wid = null; S.face = 'soul'; S.duoTab.soul = 'cards'; }   // 编辑副本里有了它:重读角色卡
+            if (T.id === S.world) loadTpl(S.world);
+          } catch (err) {   // 角色已经进库了:把原因留在弹窗里(不再按「建」第二次)
+            newMsg(note + (/只读|read-only/.test(err.message) ? `;「${title(w)}」是内置模板(只读),先在 Template 页「复制一份来改」或新建一个 Template 再加进去` : `;没加进世界:${err.message}`));
+            $('#wlNewPop .row:last-child').innerHTML = '<button class="btn" data-wlnewx>好</button>'; NEW.busy = false; return;
+          }
+        }
+        closeNew();
+        T.msg = note;
+      }
+    } catch (err) { newMsg('没建成:' + err.message); NEW.busy = false; return; }
+    NEW.busy = false; render();
+  }
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-wlnew]'); if (b) { newPop(b.dataset.wlnew, b); return; }
+    if (e.target.closest('[data-wlnewgo]')) { newGo(); return; }
+    if (e.target.closest('[data-wlnewx]')) { closeNew(); return; }
+    if (e.target.closest('[data-wlnewtpl]')) { closeNew(); const nb = $('#nav [data-go=tpl]'); if (nb) nb.click(); setTimeout(() => { const t = $('[data-wlnew=tpl]'); if (t) newPop('tpl', t); }, 60); return; }
+    if (NEW.kind && !e.target.closest('#wlNewPop')) closeNew();
+  });
+  document.addEventListener('keydown', e => { if (!NEW.kind) return; if (e.key === 'Escape') closeNew(); else if (e.key === 'Enter' && e.target.tagName === 'INPUT' && e.target.closest('#wlNewPop')) newGo(); });
 
   /* 前端台的契约导出:frontends.js(契约页 = 当前世界 S.world || L.bound 的 contract?fmt=ts|gd|json,10-17) */
 

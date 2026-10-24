@@ -135,7 +135,7 @@ def s2_souls(self: Any, c: TurnCtx) -> None:
 
     _said_now = (getattr(player_intent, "declared_action", "") or user_text or "")[:300]
     _understood_block = ""
-    if _v3:  # P0 (niko 10-01): the player is one actor among the souls — their words reach the souls as an attempt,
+    if _v3:  # P0 (10-01): the player is one actor among the souls — their words reach the souls as an attempt,
         # with what the world says about each thing they mention (nobody vouches for a phantom)
         try:
             from neonrp.core import mechanics as _mech_u
@@ -147,7 +147,7 @@ def s2_souls(self: Any, c: TurnCtx) -> None:
     _situation = self._cs()["situation"].replace("{scene}", str(scene)) + (_understood_block or _said_now)
     self._gate_now = None
     _seen_now = ""
-    if _v3:  # 10-02 niko: the player and the souls are players alike — each reads the world's prose and acts.
+    if _v3:  # 10-02: the player and the souls are players alike — each reads the world's prose and acts.
         # The gate runs before the souls: its ``seen`` is the player's beat as a bystander meets it.
         try:
             from neonrp.core import player_gate as _pg_s, soul_view as _sv
@@ -182,7 +182,7 @@ def s2_souls(self: Any, c: TurnCtx) -> None:
         except Exception:  # noqa: BLE001
             return _situation
 
-    # niko 10-04, "in principle every character needs its 1 turn": in a talked-over Resolve only the characters who were in the talk
+    # 10-04, "in principle every character needs its 1 turn": in a talked-over Resolve only the characters who were in the talk
     # (here, with the player) skip their own turn — their part was agreed (D7) and they carry it out in the prose;
     # everyone elsewhere takes her turn as usual, in parallel (she was not in the talk, nothing was agreed for her)
     _talked_here: set[str] = set()
@@ -196,7 +196,7 @@ def s2_souls(self: Any, c: TurnCtx) -> None:
             _souls_here = {e.id for e in _reg_here.of_class("soul") if _here and e.parent == _here}
             if self._pl_resolve.get("advanced_by") != "world:trivial":
                 _talked_here = _souls_here
-            # niko 10-05, "Elena just stands still in the adventurers' guild": away souls were always `silent` (turn_plan) and never acted.
+            # 10-05, "Elena just stands still in the adventurers' guild": away souls were always `silent` (turn_plan) and never acted.
             # In a Resolve each takes her own turn where she is — off the player's screen (she is not written into
             # the player's prose); what she does lands as her own move + her memory, and shows as an "away" line.
             _away_now = {e.id for e in _reg_here.of_class("soul") if e.id not in _souls_here}
@@ -327,7 +327,7 @@ def followups(self: Any, c: TurnCtx) -> None:
     _s1_handled = c._s1_handled
     _s1_disable_tools = c._s1_disable_tools
     _s1_timing = c._s1_timing
-    # niko, "is a second round of talk needed?" — unless a soul's answer left a question
+    # "is a second round of talk needed?" — unless a soul's answer left a question
     # only it can settle, the world-agent integrates (no re-engage).
     if os.environ.get("NEONRP_S1_KEEP_TOOLS", "") != "1":
         _fu: dict[str, float] = {}

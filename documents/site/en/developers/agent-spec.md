@@ -6,8 +6,6 @@ description: "Specs sit in the folders agents work in: every template, the templ
 <!-- section: inside -->
 ## Inside the folders
 
-> **Status: ships with 1.0**
-
 Claude Code reads `CLAUDE.md`, Codex and most agents read `AGENTS.md`, and they all read the files next to them. So the specs go straight into every folder a creator (and their agent) edits:
 
 | Folder | Specs it carries |
@@ -26,7 +24,7 @@ How agents use them: [For agents](/docs/agents/overview).
 - an `AGENTS.md` / `CLAUDE.md` you wrote yourself (no "generated" mark) is never overwritten;
 - runs never get them; they are not part of a save.
 
-Sources: written specs live in the engine's `documents/spec/`; `ops` · `authoring` · `contracts` · `http` are generated from the code every time, so they never go stale.
+Sources: written specs live in the engine's `documents/spec/` (world · soul · template · contract · pack · player); `ops` · `authoring` · `contracts` · `http` are generated from the code every time, so they never go stale.
 
 <!-- section: tools -->
 ## For tools and scripts

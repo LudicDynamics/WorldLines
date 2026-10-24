@@ -1,4 +1,4 @@
-"""The prose never claims a tier the dice did not give (niko 10-17: the narration said 「大成功」, the engine rolled a
+"""The prose never claims a tier the dice did not give (10-17: the narration said 「大成功」, the engine rolled a
 plain 64).
 
 Three ways it happened: the narrator wrote the outcome in the same line after its own ``[dice]`` (the stop point only
@@ -19,13 +19,14 @@ from neonrp.core.registry import load_registry
 from neonrp.core.stream_lines import LinesFilter
 from neonrp.packs.pct import rules as R
 from neonrp.packs.pct import tools as T
+from _paths import PRODUCT
 
 try:  # the planning beat lives in the private layer (10-10 R1)
     from neonrp.core import plan_loop
 except ImportError:
     plan_loop = None
 
-TPL = Path(__file__).resolve().parents[1] / "worldlines" / "templates" / "pct-house.template"
+TPL = PRODUCT / "templates" / "pct-house.template"
 
 
 @pytest.fixture
@@ -169,7 +170,7 @@ def test_the_agreed_checks_reach_a_front_end_as_dice_events_with_their_tier():
     assert evs[0]["label"] == "侦查" and evs[0]["vs"] == 50 and evs[0]["under"] is True
 
 
-# ── the die plays the moment its tool returns (niko 10-17: 由这个 tool call 直接触发动画) ──────────────────────────
+# ── the die plays the moment its tool returns (10-17: 由这个 tool call 直接触发动画) ──────────────────────────
 
 
 def test_a_die_goes_out_as_dice_rolled_the_moment_its_tool_returns_and_only_for_its_own_world(world, tmp_path):

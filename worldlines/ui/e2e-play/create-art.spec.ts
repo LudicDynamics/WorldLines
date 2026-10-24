@@ -1,4 +1,4 @@
-// 创作台 AI 生图(create-art.js · niko 10-18):网页创作台每个图片槽旁的「生成」→ 选风格 / 改描述 → 剩余次数和价格 → 生成 →
+// 创作台 AI 生图(create-art.js · 10-18):网页创作台每个图片槽旁的「生成」→ 选风格 / 改描述 → 剩余次数和价格 → 生成 →
 // 预览 → 用这张(进草稿的槽位)。平台 ai 的 /v1/create/art 在这里拦掉,回一张占位图;不连真接口、不花额度。
 // 跑法:bash worldlines/ui/e2e-play/run.sh create-art.spec.ts(截图:WL_ART_SHOTS=<目录>)
 import { expect, test, type Page, type Route } from '@playwright/test'

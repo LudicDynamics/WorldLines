@@ -1,4 +1,4 @@
-// tests/test_player_settle_quiz.py 用:标准前端结算屏「真相三问」(settle.js)—— 发额度,不再选人带走(niko 10-20 / 10-21)。
+// tests/test_player_settle_quiz.py 用:标准前端结算屏「真相三问」(settle.js)—— 发额度,不再选人带走(10-20 / 10-21)。
 //   node tests/player_settle_quiz.mjs <player/src> <playwright 所在的 package.json> <截图目录>
 // 页面只装 i18n.js + settle.js,FX / API / WORLD / TOUCH / APP 是桩;引擎回包按三种情形给(真形状 = core/truth_quiz)。
 import { createRequire } from 'module'

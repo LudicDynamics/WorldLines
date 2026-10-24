@@ -1,4 +1,4 @@
-"""创作台「提交到默认区」的前端一半(niko 10-24「创作台能不能测试发布作品」;引擎那一半在 test_creation_publish_flow.py):
+"""创作台「提交到默认区」的前端一半(10-24「创作台能不能测试发布作品」;引擎那一半在 test_creation_publish_flow.py):
 网页创作台和 iOS 创作台是同一份 hub.js,这里按 iOS / 本地那样打开(window.HUB.createSubmit,账号在引擎里),手机宽度,
 引擎接口装成有状态的假引擎(tests/hub_create_publish.mjs)。"""
 from __future__ import annotations
@@ -84,3 +84,26 @@ def test_edit_flow_on_the_desk(tmp_path, mode):
     assert len(o["works"]) == 1 and o["works"][0][1] == 3, "one work on the platform, three versions"
     assert re.fullmatch(r"stoneford-town-mine-[0-9a-f]{6}", o["second"]) and o["secondSaved"]["card"]["zh"]["title"] == "雾里的第二封信"
     assert o["firstStill"] == {"zh": "雾夜猎人 · 改", "soul": "阿白"}, "editing the second work leaves the first one's draft alone"
+
+
+def test_desktop_local_desk_publishes_to_the_free_zone(tmp_path):
+    """10-24「local 可以自由上传到自由区」:worldlines web 起的 /hub.html(没有 window.HUB)创作台也有发布按钮,发的是自由区(zone open)。"""
+    node = shutil.which("node")
+    if not node or not (UI / "node_modules" / "playwright").is_dir():
+        pytest.skip("node + worldlines/ui/node_modules/playwright needed")
+    js = ";\n".join((HUB / f).read_text(encoding="utf-8") for f in ("create-art.js", "hub.js"))
+    page = (HUB / "index.html").read_text(encoding="utf-8").replace("<!--SCRIPT-->", f"<script>{js}</script>")
+    (tmp_path / "free.html").write_text(page, encoding="utf-8")
+    shots = tmp_path / "shots"
+    shots.mkdir()
+    r = subprocess.run([node, str(ROOT / "tests" / "hub_create_free.mjs"), str(tmp_path / "free.html"), str(UI / "package.json"), str(shots)],
+                       capture_output=True, text=True, timeout=240)
+    assert r.returncode == 0, r.stderr[-3000:]
+    o = json.loads(r.stdout.strip().splitlines()[-1])
+    assert o["errs"] == []
+    assert "发布到自由区" in o["button"] and "发布到自由区" in o["savedMsg"], (o["button"], o["savedMsg"])
+    assert o["unsigned"]["sign"] and not o["unsigned"]["go"] and "发布要先登录" in o["unsigned"]["text"]
+    assert "自由区先上后管" in o["sheet"] and "默认区走快审" not in o["sheet"]
+    assert "公开在自由区" in o["done"]["text"] and o["done"]["mine"]
+    assert o["publishBodies"] == [["/api/v1/local/templates/stoneford-town-mine/publish", "open"]]
+    assert len(o["mine"]) == 1 and "公开中" in o["mine"][0] and "撤下" in o["mine"][0] and "申请进默认区" in o["mine"][0], o["mine"]

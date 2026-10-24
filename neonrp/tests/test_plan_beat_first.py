@@ -1,4 +1,4 @@
-"""谈完接清算:商量拍的结果先推给玩家(niko 10-14)。
+"""谈完接清算:商量拍的结果先推给玩家(10-14)。
 
 A planning talk that ends in the switch lands as its own beat (its trace, its engine/beat events) before the Resolve
 runs. /events (and the browser's onEvent, the same broadcast) forwards each beat's events the moment they land — the

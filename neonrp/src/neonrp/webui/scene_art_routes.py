@@ -1,4 +1,4 @@
-"""「画这一幕」over HTTP (core/scene_art, niko 10-16).
+"""「画这一幕」over HTTP (core/scene_art, 10-16).
 
     GET  /api/v1/play/engine/scene-art                  the pictures this run drew {items: [{id, i, kind, caption, stored, local}],
                                                          cg: {i: {slot, label, by}}} (beats that showed the author's picture)

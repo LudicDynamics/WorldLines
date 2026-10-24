@@ -1,5 +1,5 @@
 """10-08 (1.0 UI E3): an ending image not generated yet must not stop a run from starting — prompt first, image later;
-10-16 (niko): the template lint only warns about it too — the slot stays declared, the image comes later."""
+10-16: the template lint only warns about it too — the slot stays declared, the image comes later."""
 from __future__ import annotations
 
 import json

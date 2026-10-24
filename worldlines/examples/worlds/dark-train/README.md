@@ -18,13 +18,12 @@
 
 ## 怎么玩
 
-```bash
-# 在游戏目录里：
-neonrp tui
-# 选择 import → examples/dark-train
-```
+旧格式(模板之前的 orchestrator 世界)。玩的时候会写进文件夹,先复制一份:
 
-进入后：`@world-agent 开始游戏`
+```bash
+cp -R worldlines/examples/worlds/dark-train /tmp/dark-train && cd /tmp/dark-train
+neonrp tui --play
+```
 
 ## 流程提示
 

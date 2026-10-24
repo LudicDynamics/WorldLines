@@ -1,4 +1,4 @@
-/* 发布到自由区(niko 10-16 · core/template_publish):书架抽屉里原型的「提交审查」换成真的 —— 用 Worldlines 账号把这个模板发到 Hub 自由区。
+/* 发布到自由区(10-16 · core/template_publish):书架抽屉里原型的「提交审查」换成真的 —— 用 Worldlines 账号把这个模板发到 Hub 自由区。
    检查(密钥 · lint · 四语卡面 · 封面)和上传都在引擎里(GET / POST /api/v1/local/templates/<id>/publish);这里只显示结果:
    作品编号(ref)· 状态 · 驳回 / 下架理由;没登录 = 点一下用浏览器登录(POST /api/v1/local/account/login)。之后可以撤下 / 申请进默认区。 */
 (function () {

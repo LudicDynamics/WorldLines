@@ -33,7 +33,7 @@ PR 请直接提到这个仓库。
 | 目录 | 是什么 | 许可 |
 |---|---|---|
 | `neonrp/` | 引擎(Python) | Apache-2.0 |
-| `worldlines/` | 产品:网页界面(`worldlines/ui`)、桌面壳、启动器包、模板、示例世界 | AGPL-3.0 |
+| `worldlines/` | 产品:网页界面(`worldlines/ui`)、桌面壳(只有代码,还没有发布)、启动器包、模板、示例世界 | AGPL-3.0 |
 | `documents/` | 规格与文档站正文 | CC BY 4.0 |
 | `benchmarks/` | 引擎设计决定背后的测试套件 | 代码 Apache-2.0 · 数据 CC BY 4.0 |
 

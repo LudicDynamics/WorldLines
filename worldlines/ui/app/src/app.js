@@ -481,7 +481,7 @@ S.wagent = [
 const WTABS = { world: [['map', '地图'], ['plot', '剧情'], ['schema', 'Schema'], ['data', '数据']], soul: [['cards', '卡片'], ['rel', '关系'], ['schema', 'Schema'], ['data', '数据']] };
 
 /* 通用节点编辑器:位置用百分比,随容器缩放 */
-/* 画板的平移 / 缩放(10-06 niko:「拖动背景这个 board 不会移动」):
+/* 画板的平移 / 缩放(10-06:「拖动背景这个 board 不会移动」):
    在空白处按住拖 = 平移 · 触控板双指 / 滚轮 = 平移 · ⌘/Ctrl + 滚轮或双指捏合 = 缩放(以指针为中心)· 双击空白 = 复位。
    host 收事件、画点阵背景;target 是被移动的那一层(节点 / 连线 / 标签)。每块板的视图按 key 记住,重画不丢。 */
 const VIEWS = {};
@@ -574,7 +574,7 @@ function renderDuo() {
     <div class="ed">
       <div class="edhd"><div class="seg">${[['world', '世界面'], ['soul', '角色面']].map(([k, l]) => `<button class="${f === k ? 'on' : ''}" data-face="${k}">${l}</button>`).join('')}</div>
         <div class="tabs sm">${WTABS[f].map(([k, l]) => `<button class="${tab === k ? 'on' : ''}" data-dt="${k}">${l}</button>`).join('')}</div>
-        <div class="r">${edActions(f, tab)}</div></div>
+        <div class="r">${edActions(f, tab)}${window.WL_newBtn ? window.WL_newBtn(f) : ''}</div></div>
       <div class="edbody ${S.flipping ? 'flipin' : ''}" id="edbody">${edBody(f, tab)}</div></div>
     <div class="glass rside"><div class="rtabs"><div class="seg">${[['agent', '创作 agent'], ['insp', '检查器']].map(([k, l]) => `<button class="${S.rtab === k ? 'on' : ''}" data-rt="${k}">${l}</button>`).join('')}</div></div>
       ${S.rtab === 'agent' ? agentPane() : `<div class="insp">${inspector2()}</div>`}</div></div>`;

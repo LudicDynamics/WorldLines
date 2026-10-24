@@ -1,4 +1,4 @@
-"""The write-down after the prose in two answers (10-22 niko): the straight one lands at once, the thinking one corrects
+"""The write-down after the prose in two answers (10-22): the straight one lands at once, the thinking one corrects
 the state from the background — unless the player moves on first (cut), the run is being written (cut), or it runs past
 its timeout; the beat's own rulings win over both; the player is told what happened (core/write_down_async)."""
 from __future__ import annotations

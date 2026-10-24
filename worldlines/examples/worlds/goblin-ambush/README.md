@@ -22,11 +22,11 @@
 | 한국어 | `ko/` |
 
 ## 怎么玩
-NeonRP TUI:
+旧格式(模板之前的 orchestrator 世界)。玩的时候会写进文件夹,先复制一份:
 ```
-neonrp tui --from examples/orch/goblin-ambush/zh
+cp -R worldlines/examples/worlds/goblin-ambush/zh /tmp/goblin-ambush && cd /tmp/goblin-ambush
+neonrp tui --play
 ```
-Claude Code / MCP:在该目录里 `@world-agent 掷先攻,开始战斗`。
 
 ## 文件
 ```
@@ -40,7 +40,6 @@ zh/
   game/rules/combat-5e.md        SRD 5.2 战斗速查
   agents/world-agent/            GM
   agents/referee/                掷骰裁判
-  .claude/agents/                Claude Code / MCP 镜像
 ```
 
 ## License

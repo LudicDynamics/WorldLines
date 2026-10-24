@@ -12,7 +12,7 @@ description: "在引擎里改好的模板和角色,打成一个包带走,再导�
 
 | 包 | 里面有 | 导入到 |
 |---|---|---|
-| 模板包 | 模板文件夹原样(世界 · 剧情 · prompt · 素材)+ 它 link 的每个角色库角色 | 模板 → 你的模板库;角色 → 角色库,模板里照旧是 link |
+| 模板包 | 模板文件夹(世界 · 剧情 · prompt · 素材,不含 `frontends/`)+ 它 link 的每个角色库角色 | 模板 → 你的模板库;角色 → 角色库,模板里照旧是 link |
 | 角色包 | 角色库里的一个角色 | 角色库 |
 
 <!-- section: how -->
@@ -20,14 +20,19 @@ description: "在引擎里改好的模板和角色,打成一个包带走,再导�
 
 **网页**:模板页头部「导出」下载 `.template.zip`;「导入…」选一个包,导完自动切到它。
 
-**命令行**:
+**命令行**:只有自由区的作品能导出。内置的灰橡宅、石津镇在默认区,先复制一份再导出:
 
 ```bash
-neonrp template export pct-house              # → ./pct-house.template.zip
-neonrp template export --soul mira            # → ./mira.soul.zip
-neonrp template import pct-house.template.zip # 模板进你的模板库,带着的角色进角色库
-neonrp template import x.zip --id my-copy     # 换一个 id 导入
+neonrp template fork pct-house my-house --store ~/.worldlines/templates
+neonrp template export ~/.worldlines/templates/my-house.template     # → ./my-house.template.zip
+neonrp template export --soul mira                                   # → ./mira.soul.zip(角色库里的角色)
+neonrp template import my-house.template.zip --store ~/.worldlines/templates           # 模板进你的模板库,带着的角色进角色库
+neonrp template import my-house.template.zip --id my-copy --store ~/.worldlines/templates   # 换一个 id 导入
 ```
+
+直接 `neonrp template export pct-house` 会被拒:默认区作品只能玩,不能导出。
+
+模板文件夹里的 `frontends/`(世界自己的前端)不进包,只留在本机。
 
 <!-- section: rules -->
 ## 撞名与安全

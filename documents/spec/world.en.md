@@ -1,6 +1,6 @@
 # World spec (the world folder)
 
-> Status labels: **implemented** = engine code reads or validates it; **convention** = engine code does not parse it, agents read it because their prompts tell them to; **in design** = documented or present in data, but no code reads it.
+> Status labels: **implemented** = engine code reads or validates it; **convention** = engine code does not parse it, agents read it because their prompts tell them to; **not read** = documented or present in data, but no code reads it.
 > This page matches the current engine source (`src/neonrp/`). Field tables list only the keys the code actually reads. Other keys are allowed (open schema) and the engine keeps them as they are.
 
 ---
@@ -26,14 +26,14 @@ This page covers only the world folder itself.
 
 ## 2. Directory layout
 
-Based on the built-in world `src/neonrp/templates/stoneford-elena` (`souls/` is left out because it belongs to the soul spec):
+Taken from the built-in world `src/neonrp/templates/stoneford-elena` (the one the `stoneford-town` template binds; `souls/` is left out, that layer belongs to the soul spec):
 
 ```
 <world>/
 ├── manifest.json                 optional · world language / pack name / prompt entries / triggers
-├── agents/                       the world's own agents (where the runtime actually loads them)
+├── agents/                       the world's own agents (where the runtime really reads them)
 │   ├── world-agent/
-│   │   ├── agent.json            router / narrator agent (one is required; added automatically at launch if missing)
+│   │   ├── agent.json            routing / narrating agent (one is required; added at startup if missing)
 │   │   ├── system.md
 │   │   └── voice.md              optional · narration voice for v3 turns
 │   └── town-agent/ …             optional · sub-agents, one folder each
@@ -43,52 +43,55 @@ Based on the built-in world `src/neonrp/templates/stoneford-elena` (`souls/` is 
 │   ├── maps/<level>.webp|.json|.guide.png
 │   └── places/<town>__<place>.webp
 └── game/                         data directory
-    ├── world/world_map.json      world level: town / dungeon / region nodes + roads
+    ├── world/world_map.json      the world itself: name, routes, time; places are not listed here
+    ├── locations/                the map = a folder tree, one folder per place
+    │   ├── T001/location.json                a world-level place (town / dungeon / region)
+    │   ├── T001/gate_north/location.json     a place in the town, address T001/gate_north
+    │   ├── T001/<place>/<room>/location.json a place inside a place, drawn one layer down
+    │   └── D001/D001_R001/location.json      a dungeon room
     ├── towns/<T###>/
     │   ├── town.json             town properties
-    │   ├── town_map.json         graph of places inside the town (with a gate)
+    │   ├── town_map.json         optional · the town level's own keys (state.discovered_nodes, scale); no nodes in tree form
     │   ├── npcs.json             optional · lightweight NPCs
-    │   ├── quests.json           optional · guild board
+    │   ├── quests.json           optional · guild commissions
     │   └── facilities/*.json     optional · facility details
     ├── dungeons/<D###>/          optional · dungeons
     │   ├── dungeon.json
-    │   ├── layout.json
-    │   ├── rooms/<room-id>.json
+    │   ├── rooms/<room id>.json  a room's description and state
     │   ├── encounter_tables.json
     │   └── loot_tables.json
-    ├── locations/*.json          optional · flat places (merged into town places)
     ├── npc/*.json                optional · flat NPCs
-    ├── item/**/*.json            optional · items (items/ also works)
+    ├── item/**/*.json            optional · items (items/ also accepted)
     ├── lore/
     │   ├── story.md              main story / world introduction
     │   ├── rumors.md             rumors
-    │   ├── notes.md              GM notes (characters cannot read)
-    │   └── gm-truth.md           GM truth (characters cannot read)
+    │   ├── notes.md              GM notes (souls cannot read)
+    │   └── gm-truth.md           GM truth (souls cannot read)
     ├── rules/*.md                optional · rules text (checks, combat)
     ├── secrets/*.json            optional · secrets overlay
-    ├── timeline/current.json     optional · current time / weather / active threads
-    ├── player/                   player's starting state
+    ├── timeline/current.json     optional · current time / weather / active leads
+    ├── player/                   the player's starting state
     │   ├── profile.json  stats.json  wallet.json
     │   ├── equipment.json  inventory.json  flags.json
     │   ├── controller.json  journal.md
     │   └── assets/portrait.png
-    ├── agents/manifest.json      optional · roster template for the world's agents
+    ├── agents/manifest.json      optional · template for the world's agent team
     └── meta/
         ├── run_state.json        player location / time / turn count
         ├── game-start.json       the opening
-        ├── active-agent.json     current routing agent (engine-maintained)
+        ├── active-agent.json     current routing agent (maintained by the engine)
         ├── prompt.json           optional · prompt entries
-        ├── engine.json           optional · turn-engine config
+        ├── engine.json           optional · turn engine config
         ├── variables.json  classes.json  entries.json
         ├── actions.json  triggers.json   optional · overlays for the five tables
-        ├── roster.json           optional · cast sheet (world-agent only)
-        ├── schedule.json         convention · scheduled events
+        ├── roster.json           optional · cast list (only the world-agent sees it)
+        ├── schedule.json         convention · timed events
         └── flag_aliases.json     convention · flag aliases
 ```
 
-`.neonrp/` is managed by the engine (sessions, events, saves, `manifest.json`, `runtime_contract.json`, `playthrough.json`). It is **not** authored content. Built-in templates keep `runtime_contract.json` and `playthrough.json` at the folder root as their source shape; setup copies them into `.neonrp/` (`src/neonrp/core/template_assets.py:copy_souls_and_playthrough_from_template`, and the new-run migration in `src/neonrp/worlds.py`).
+`.neonrp/` is managed by the engine (sessions, events, saves, `manifest.json`, `runtime_contract.json`, `playthrough.json`) and is **not** authored content. Built-in worlds and worlds shipped inside templates keep `runtime_contract.json` and `playthrough.json` at the root as source shapes, copied into `.neonrp/` when a run is set up (`src/neonrp/core/template_assets.py:copy_souls_and_playthrough_from_template`, and the new-run migration in `src/neonrp/worlds.py`).
 
-The data directory is `game` by default. The `data_dir` key in `.neonrp/runtime_contract.json` can rename it, but map navigation, the validator and the creation flow hard-code `game/` in a few places (`src/neonrp/core/place_nav.py:load_world_map`, `src/neonrp/core/validation.py:_known_locations`). **Keep it as `game`.**
+The data directory is named `game` by default. `.neonrp/runtime_contract.json` can rename it with `data_dir`, but some code still hard-codes `game/` (e.g. the town-folder lookup in `src/neonrp/core/place_nav.py`). **Keep it `game`.**
 
 ---
 
@@ -96,98 +99,91 @@ The data directory is `game` by default. The `data_dir` key in `.neonrp/runtime_
 
 ### 3.1 Addressing rules (read first)
 
-| Rule | Detail | Implementation |
+| Rule | Detail | Code |
 |---|---|---|
-| Town / dungeon / region ids | Must match `^[A-Z]{1,3}\d{2,4}$`, e.g. `T001`, `D001`, `R003`. An id that does not match is treated as a place id inside a town | `src/neonrp/core/place_nav.py:_TOWN_ID_RE` |
-| Place address inside a town | `T001/gate_north` (town id + `/` + node id). A bare `gate_north` is looked up in the player's current town first, then in the first town that has it | `place_nav.py:qualify_location`, `split_location` |
+| Town / dungeon / region id | Must match `^[A-Z]{1,3}\d{2,4}$`, e.g. `T001`, `D001`, `R003`. Ids that don't match are treated as in-town place ids | `src/neonrp/core/place_nav.py:_TOWN_ID_RE` |
+| Place id | The folder name (an `id` in `location.json` that differs from it becomes an alias) | `src/neonrp/core/place_tree.py:_node_of` |
+| In-town place address | `T001/gate_north` (town id + `/` + place id). A bare `gate_north` is looked up in the player's current town first, then in the first town that has it | `place_nav.py:qualify_location`, `split_location` |
+| One layer deeper | `game/locations/T001/guild/hall/` still has the address `T001/hall`; the map draws it one layer below `guild`, and you go in and out through `guild` | `place_tree.py` (module header) |
 | Dungeon room address | `D001/D001_R002` | `loaders.py:_load_dungeons` |
-| Gate | A node with `type: "gate"` (or an id starting with `gate`). Moving between towns goes through gates | `place_nav.py:_gate_of` |
+| Gate | A place with `type: "gate"` (or an id starting with `gate`). Travel between towns goes through a gate | `place_nav.py:_gate_of` |
 
-### 3.2 `game/world/world_map.json` — world level · implemented
+### 3.2 The map: `game/world/world_map.json` + `game/locations/` · implemented
 
-Readers: `src/neonrp/packs/rpg/loaders.py:_load_world` (registry), `src/neonrp/core/worldmap.py:build_map_tree` (map tree), `src/neonrp/core/place_nav.py:load_world_map` / `_world_route` (checks for moves between towns).
+The map is a folder tree: **a place = a folder holding a `location.json`; the folder it sits in is the place it belongs to.** `world_map.json` describes the world itself and lists no places. When `world_map.json` has **no** `nodes` list the engine reads the folder tree (`src/neonrp/core/place_tree.py:is_tree`); the worlds of both built-in templates are written this way. Older worlds that still have a `nodes` list read as before, see 3.5.
+
+Read by: `src/neonrp/core/place_tree.py` (`level_doc` / `folder_nodes`, turning the tree back into each level's map), `src/neonrp/packs/rpg/loaders.py:_load_world` / `_load_towns` (registry), `src/neonrp/core/worldmap.py:build_map_tree` (map tree), `src/neonrp/core/place_nav.py` (movement checks).
+
+**`world_map.json`** (tree form):
 
 | Field | Type | Required | Notes |
 |---|---|---|---|
 | `world_id` | str | recommended | id of the world entry; defaults to `"world"` |
 | `name` | str | recommended | world name |
-| `nodes[]` | list | yes (rpg) | world-level nodes |
-| `nodes[].id` | str | yes | `T001` / `D001` / `R003` (see §3.1) |
-| `nodes[].type` | str | yes | `town` / `city` / `village` / `dungeon` / `region` etc. In the registry only `town` becomes the town class; everything else becomes the region class (switched to the dungeon class when `game/dungeons/<id>/` exists). The route check between towns treats `town` / `city` / `village` as towns |
-| `nodes[].name` | str | yes | display name |
-| `nodes[].pos` | `[x, y]` | needed for map images | world-level coordinates. A level can only be drawn when all its children have coordinates |
-| `nodes[].links` | list[str] | no | neighbouring node ids or road ids. Road ids that are never declared as nodes still count as connection points, so two towns that both link `R001` are connected |
-| `nodes[].summary` / `state` / `lore` / `travel_info` / `region` | any | no | copied into entry props and the map tree |
-| `routes[]` | list | no | roads: `{id, from, to, kind, distance, tags, state: {blocked}}`, drawn as edges in the map tree |
-| `foreign_lands[]` | list | no | places beyond the map edge; go into the map tree's `frontier` |
-| `parent_territory` | str | no | caption of the map tree's root |
+| `routes[]` | list | no | world-level roads: `{id, from, to, kind, distance, tags, state: {blocked}}`, drawn as edges |
+| `foreign_lands[]` | list | no | places beyond the map's edge, become the map tree's `frontier` |
+| `parent_territory` | str | no | caption for the map tree's root |
+| `time` / `travel` / `layout` / `seed` | any | no | kept as is |
+
+**`game/locations/<…>/location.json`**: only the place's own facts.
+
+| Field | Type | Notes |
+|---|---|---|
+| `name` (or `name_i18n`) | str | display name |
+| `type` | str | world level: `town` / `city` / `village` / `dungeon` / `region` etc. (only `town` registers as the town class, the rest as region; dungeon when `game/dungeons/<id>/` exists). In a town: `gate` (each town needs one), `street`, `facility`, `dock`, `road` etc. |
+| `pos` | `[x, y]` or `{x, y}` | coordinates in the **parent** level; needed to draw the map. A level is drawn only when all its places have coordinates |
+| `connections` | list[str] | ids of neighbouring places on the same level (world level may also name route ids). Every in-town place should be reachable from a gate |
+| `summary` / `description` | str | summary, goes into the narration context and the map tree |
+| `aliases` | list[str] | other names (names, old ids) |
+| `tags` / `state` / `notes` / `region` / `travel_info` | any | kept as entry properties |
+| `entry` | str | on a level's own `location.json` (e.g. `T001/location.json`): the place you land on when you come in from the level above |
+| `ports.up` | list[str] | which parent-level routes (`routes[].id`) land here when you take them into this level |
+| `isolated` | bool | a world-level place deliberately left without roads (a plot opens the way later); lint stops reporting `map.isolated` |
+| `scale` | str | display and image prompts only: `world` · `region` · `town` · `district` · `building` · `indoor` · `dungeon` · `island` · `wilds` |
+| `facility_file` | str | path relative to the town folder (`game/towns/<T>/`), e.g. `facilities/guild.json`; merged into the place's `facility` property |
+| `enter_if` / `enter_refused` | list / `{zh,en,ja,ko}` | entry conditions (the trigger IF forms, all must hold) and the reason given to the host when the player is stopped; only player moves are checked |
+| `audio` | object | ambient sound / music for this place (and places inside it), see template spec 6.7 |
+
+Other files in the folder (`notes.md`, `scene_state.json`, `assets/`) travel with the place. `parent` / `within` need not be written and are not read: the folder alone says where a place sits.
 
 ```json
-{
-  "world_id": "W001",
-  "name": "灰雾北境",
-  "nodes": [
-    { "id": "T001", "type": "town", "name": "石津镇", "pos": [12, 7],
-      "summary": "河港贸易小镇,雾常年不散。", "links": ["R001", "R002"],
-      "state": { "discovered": true, "danger_nearby": 2 } }
-  ],
-  "routes": [
-    { "id": "R002", "from": "T001", "to": "D001", "kind": "trail", "distance": 6,
-      "tags": ["foggy", "beasts"], "state": { "blocked": false } }
-  ]
-}
+// game/locations/T001/location.json
+{ "type": "town", "name": "Stoneford", "pos": [12, 7], "summary": "A river-port trading town, fog all year.",
+  "state": { "discovered": true, "danger_nearby": 2 }, "connections": ["T002", "D001", "T004"], "entry": "gate_north" }
 ```
+```json
+// game/locations/T001/gate_north/location.json
+{ "name": "North Gate", "type": "gate", "pos": { "x": 236, "y": 153 },
+  "connections": ["main_street", "market-square"], "aliases": ["north-gate"],
+  "summary": "A crooked wooden gate, cold morning fog…", "ports": { "up": ["R001", "R002", "R004"] } }
+```
+
+A template adds or changes a place of a built-in world with `world-overlay/game/locations/<T>/<place>/location.json` (whole-file replacement); `stoneford-town`, for instance, adds `road_camp` outside the north gate.
 
 ### 3.3 `game/towns/<T###>/` — towns · implemented
 
-The folder name is the town id. The town should also appear as a node in `world_map.json`; otherwise the map tree reports `orphan`.
+The folder name is the town id; there should be a world-level place of the same id in `game/locations/`.
 
-**`town.json`** — readers: `loaders.py:_load_towns` (every key except `id` goes into the town entry), `worldmap.py:build_map_tree` (`overview`, `tags`, `economy`, `laws`, `state`), `loaders.py:_load_variables` (`state.alert` → variable `town.alert`, 0–5).
+**`town.json`** — read by `loaders.py:_load_towns` (every key except `id` goes into the town entry), `worldmap.py:build_map_tree` (`overview`, `tags`, `economy`, `laws`, `state`), `loaders.py:_load_variables` (`state.alert` → variable `town.alert`, 0–5).
 
 | Field | Type | Notes |
 |---|---|---|
 | `name` | str | town name (defaults to the folder name) |
-| `overview` | str | short introduction, goes into the narration context (the town class render template is `## 镇 {id} {name}\n{overview}`) |
-| `state.alert` | int | the `town.alert` variable is registered only when this key exists |
-| others (`tags`, `economy`, `laws`, `entry_points`…) | any | kept as they are |
+| `overview` | str | a paragraph that goes into the narration context (the `town` class renders as `## 镇 {id} {name}\n{overview}`) |
+| `state.alert` | int | the `town.alert` variable is registered only if this key exists |
+| others (`tags`, `economy`, `laws`, `entry_points`…) | any | kept as is |
 
-**`town_map.json`** — readers: `loaders.py:_load_towns`, `worldmap.py:build_map_tree`, `place_nav.py` (move checks), `validation.py:_travel_graph_issues`.
+**`town_map.json`** (optional) — in tree form it holds only the town level's own keys: `town_id`, `scale`, `state.discovered_nodes` (when present, only the listed places count as discovered), `entry`. The places themselves live under `game/locations/<T>/`.
 
-| Field | Type | Required | Notes |
-|---|---|---|---|
-| `town_id` | str | recommended | defaults to the folder name |
-| `nodes[].id` | str | yes | node id inside the town; its address is `T001/<id>` |
-| `nodes[].name` | str | recommended | display name |
-| `nodes[].type` | str | recommended | `gate` (every town on the world map needs at least one), `street`, `facility`, `dock`, etc. |
-| `nodes[].links` | list[str] | recommended | neighbouring node ids in the same town. Every node should be reachable from some gate through links |
-| `nodes[].pos` | `{x, y}` or `[x, y]` | needed for map images | town-level coordinates |
-| `nodes[].parent` | str | no | puts this node inside another node (one level down); you enter and leave through the parent |
-| `nodes[].facility_file` | str | no | path relative to the town folder, e.g. `facilities/inn.json`; its content goes into the place's `facility` prop |
-| `nodes[].description` | str | no | place summary in the map tree |
-| `state.discovered_nodes` | list[str] | no | when present, only the listed nodes count as discovered |
-
-```json
-{
-  "town_id": "T001",
-  "nodes": [
-    { "id": "gate_north", "name": "北门", "type": "gate",
-      "pos": { "x": 236, "y": 153 }, "links": ["main_street"] },
-    { "id": "inn", "name": "河灯旅店", "type": "facility",
-      "facility_file": "facilities/inn.json",
-      "pos": { "x": 621, "y": 268 }, "links": ["main_street"] }
-  ]
-}
-```
-
-**`npcs.json`** — lightweight NPCs (played by the narrator; they have **no** agent of their own). Readers: `loaders.py:_load_npcs`, `worldmap.py:build_map_tree`.
+**`npcs.json`** — lightweight NPCs (voiced by the narrator, **no** agent of their own). Read by `loaders.py:_load_npcs`, `worldmap.py:build_map_tree`.
 
 | Field | Type | Notes |
 |---|---|---|
-| `npcs[].id` | str | required; becomes `T001/<id>` when it clashes with another entry |
-| `npcs[].name` | str | a trailing role in parentheses is stripped to make the short name, e.g. `赫伦(公会管事)` → `赫伦` |
+| `npcs[].id` | str | required; becomes `T001/<id>` if it collides with another entry |
+| `npcs[].name` | str | a role in trailing parentheses is stripped to form the short name, e.g. `赫伦(公会管事)` → `赫伦` |
 | `npcs[].role` / `traits` / `state` | any | go into the npc entry |
-| `npcs[].location` | str | node id inside the town; defaults to the whole town |
-| `npcs[].state.soul_ref` | str | when it points to a soul folder, the map shows the soul instead of this NPC |
+| `npcs[].location` | str | in-town place id; defaults to the whole town |
+| `npcs[].state.soul_ref` | str | if it points to a soul folder, the map shows the soul instead of this NPC |
 
 ```json
 { "town_id": "T001", "npcs": [
@@ -195,42 +191,45 @@ The folder name is the town id. The town should also appear as a node in `world_
     "traits": ["热情", "消息灵通"], "state": { "met": false }, "location": "inn" } ] }
 ```
 
-**`quests.json`** — guild board; each row becomes one `job` entry with id `T001/<qid>`. Reader: `loaders.py:_load_quests`.
+**`quests.json`** — guild commissions; each row becomes a `job` entry with id `T001/<qid>`. Read by `loaders.py:_load_quests`.
 
 | Field | Type | Notes |
 |---|---|---|
 | `quests[].qid` (or `id`) | str | required |
-| `title` / `tier` / `summary` | str / int / str | display and ordering |
+| `title` / `tier` / `summary` | str / int / str | display and sorting |
 | `state` | str | defaults to `available` |
-| `reward` | `{gold, item: {id, name, qty}}` | used to build `reward_text` |
-| `hooks` / `unlocks` / others | any | kept as they are (progress keys written during play are kept when read back) |
+| `reward` | `{gold, item: {id, name, qty}}` | produces `reward_text` |
+| `hooks` / `unlocks` / others | any | kept as is (progress keys written during play are kept when read back) |
 
-**`facilities/*.json`** — read only when a `town_map.json` node references it through `facility_file`. All keys except `facility_id` and `rumor_pool_ref` go into the place props.
+**`facilities/*.json`** — read only when a place's `facility_file` references it; every key except `facility_id` and `rumor_pool_ref` goes into the place's properties.
 
 ### 3.4 `game/dungeons/<D###>/` — dungeons · implemented
 
-Readers: `loaders.py:_load_dungeons`, `worldmap.py:build_map_tree`. The folder name should appear in `world_map.json` as a node with `type: "dungeon"`.
+Read by `loaders.py:_load_dungeons`, `place_tree.py:dungeon_rooms`, `worldmap.py:build_map_tree`. There should be a world-level place with `type: "dungeon"` of the same id in `game/locations/`.
 
 | File | Keys read |
 |---|---|
 | `dungeon.json` | `id`, `name`, `theme`, `danger`, `recommended_level`, `boss`, `state.{discovered, cleared}`, `entrance_from` |
-| `layout.json` | `rooms[].{id, name, type, links, state}`, `state.current_room`. Rooms have no coordinates; the map lays them out by BFS |
+| `game/locations/<D###>/<room id>/location.json` | the room on the map: `name`, `type`, `connections`, `state`, `ports.up`. Without coordinates the map lays rooms out by BFS |
 | `rooms/<id>.json` | `name`, `description`, `features`, `state` |
-| `encounter_tables.json` | `tables.<room-id>[] = {enemy, count, chance}` |
+| `encounter_tables.json` | `tables.<room id>[] = {enemy, count, chance}` |
 | `loot_tables.json` | `tables` (attached to the dungeon entry) |
+| `layout.json` | optional: `state.current_room`, `entry`; the old form's `rooms[]`, see 3.5 |
 
-When `discovered` / `danger` differ between `world_map.json` and `dungeon.json`, the map tree reports `conflict`.
+If the world-level place and `dungeon.json` disagree on `discovered` / `danger`, the map tree reports `conflict`.
 
-### 3.5 `game/locations/` — flat places · implemented
+### 3.5 The old form: `nodes` lists and flat places (still accepted)
 
-Readers: `loaders.py:_load_locations`, `worldmap.py:build_map_tree`. Mainly used to add descriptions to town nodes. If a file matches a town node by id (normalized with `canonical_node`) or by name, only `summary`, `tags` and `notes` are copied over, and the file id is registered as an alias. If nothing matches, the file becomes a standalone place entry: `parent` defaults to the player's current town and `connections` are its exits. Scene folders `game/locations/<node>/location.json` are also supported.
+Worlds from before 1.0 write places in three spots: `world_map.json` `nodes[]` (world level), `towns/<T>/town_map.json` `nodes[]` (in town; fields `id / name / type / links / pos / parent / facility_file / description`), and flat `game/locations/*.json` (matched to an in-town place by id or `town name·place name`, adding `summary` / `tags` / `notes`); dungeon rooms in `layout.json` `rooms[]`. These worlds still play; lint reports `map.legacy_level` (warn).
 
-```json
-{ "id": "north-gate", "kind": "location", "name": "石津镇·北门",
-  "summary": "歪斜的木栅门,湿冷的晨雾…", "connections": ["market-square", "old-road"] }
+To turn one into the folder tree (a script in the source repo):
+
+```
+uv run python scripts/migrate_map_to_folders.py <world dir>            # dry run: print the plan
+uv run python scripts/migrate_map_to_folders.py <world dir> --write    # do it
 ```
 
-When the name has the form `town name·place name`, the map tree uses it to match a town node; if nothing matches, the map tree reports `unresolved`.
+It makes one folder per place, merges a flat record into the matching in-town place (the other id goes into `aliases`), then drops `nodes` from `world_map.json` and every `town_map.json` (other keys stay).
 
 ### 3.6 NPCs and items · implemented
 
@@ -292,7 +291,7 @@ Note: **a lightweight NPC is not a soul.** The people in `npcs.json` / `game/npc
   { "id": "rowan_legend", "text": "碧石镇有个年轻冒险者罗文…", "when": { "keyword": ["罗文", "碧石"] } } ] }
 ```
 
-**`engine.json`** — this world's turn-engine config. Layer order: built-in defaults < pack.loop < the contract's engine block < `game/meta/engine.json` < `.neonrp/playthrough.json["engine"]` < environment variables (`src/neonrp/core/engine_config.py`). Example: `{"turn": {"mode": "v3"}}`.
+**`engine.json`** — this world's turn-engine config. Layer order (later wins): builtin < pack (pack.loop) < contract (the contract's engine block) < orchestration (the orchestration template named in the template's `uses`) < world (`game/meta/engine.json`) < graph (the orchestration graph's step settings) < playthrough (`.neonrp/playthrough.json["engine"]`) < env (environment variables) (`src/neonrp/core/engine_config.py`; see template spec 8.2). Example: `{"turn": {"mode": "v3"}}`.
 
 **Overlays for the five tables** — `variables.json`, `classes.json`, `entries.json`, `actions.json`, `triggers.json`, each shaped `{id: spec}`. Readers: `src/neonrp/core/registry.py:_apply_overlays` / `_load_triggers`. Write them with `neonrp schema register`, which validates before writing (`registry.py:register`). Setting an op to `null` in `actions.json` disables that op.
 
@@ -443,7 +442,7 @@ Not the same file as `.neonrp/manifest.json` (the engine's project manifest).
 
 All images are optional; the world plays without any. Generate them with `neonrp map generate` / `neonrp map scene` (needs an image backend configured).
 
-### 3.16 In design
+### 3.16 Not read by the engine / read only with a mixin
 
 | Path | Status |
 |---|---|
@@ -454,15 +453,18 @@ All images are optional; the world plays without any. Generate them with `neonrp
 
 ## 4. Smallest valid world
 
-**Bottom line:** `neonrp validate` passes even on an empty folder (it is judged `build`, so there is nothing to check). The smallest world the rpg pack can actually play is the five files below. You can leave out the router agent; it is added at launch.
+**Bottom line:** `neonrp validate` passes even on an empty folder (it is judged `build`, so there is nothing to check). The smallest world the rpg pack can actually play is the files below. You can leave out the router agent; it is added at launch.
 
 ```
 mini/
 ├── manifest.json                    {"lang": "zh"}   (optional, but without lore a small world is detected as en)
 └── game/
     ├── world/world_map.json
-    ├── towns/T001/town.json
-    ├── towns/T001/town_map.json
+    ├── locations/T001/location.json
+    ├── locations/T001/gate/location.json
+    ├── locations/T001/square/location.json
+    ├── locations/T001/inn/location.json
+    ├── towns/T001/town.json             (optional: the town's overview and alert)
     └── meta/
         ├── run_state.json
         └── game-start.json
@@ -470,19 +472,23 @@ mini/
 
 ```json
 // game/world/world_map.json
-{ "world_id": "W001", "name": "灰岸",
-  "nodes": [ { "id": "T001", "type": "town", "name": "渡口镇", "pos": [0, 0], "links": [] } ] }
+{ "world_id": "W001", "name": "灰岸" }
+```
+```json
+// game/locations/T001/location.json   one town and no road out: mark it isolated
+{ "name": "渡口镇", "type": "town", "pos": [0, 0], "entry": "gate", "isolated": true }
+```
+```json
+// game/locations/T001/gate/location.json
+{ "name": "镇门", "type": "gate", "pos": { "x": 0, "y": 0 }, "connections": ["square"] }
+// game/locations/T001/square/location.json
+{ "name": "广场", "type": "street", "pos": { "x": 100, "y": 60 }, "connections": ["gate", "inn"] }
+// game/locations/T001/inn/location.json
+{ "name": "旅店", "type": "facility", "pos": { "x": 200, "y": 40 }, "connections": ["square"] }
 ```
 ```json
 // game/towns/T001/town.json
 { "name": "渡口镇", "overview": "河边的小镇,雾很重。" }
-```
-```json
-// game/towns/T001/town_map.json
-{ "town_id": "T001", "nodes": [
-  { "id": "gate",   "name": "镇门", "type": "gate",     "pos": { "x": 0,   "y": 0 },  "links": ["square"] },
-  { "id": "square", "name": "广场", "type": "street",   "pos": { "x": 100, "y": 60 }, "links": ["gate", "inn"] },
-  { "id": "inn",    "name": "旅店", "type": "facility", "pos": { "x": 200, "y": 40 }, "links": ["square"] } ] }
 ```
 ```json
 // game/meta/run_state.json
@@ -501,14 +507,13 @@ What we observed (this world, built in a temporary folder):
 
 | Check | Result |
 |---|---|
-| `neonrp validate` (no `agents/`) | `✓ playable — build · 3 location(s)`; only JSON and entities are checked, not the opening |
-| after adding the router agent (`ensure_playable_world` writes `agents/world-agent/` and `.neonrp/runtime_contract.json`) | `✓ playable — orchestrator · 3 location(s) · router 'world-agent'`, 0 blockers |
+| `neonrp validate` (no `agents/`) | `✓ playable — build · 0 soul(s) · 3 location(s) · 1 entities`; only JSON and entities are checked, not the opening |
+| after adding the router agent (`ensure_playable_world` writes `agents/world-agent/` and `.neonrp/runtime_contract.json`) | `✓ playable — orchestrator · 0 soul(s) · 3 location(s) · 1 entities · router 'world-agent'`, 0 blockers |
 | `neonrp schema list entries` | 6 entries: `W001` world, `T001` town, `T001/gate` / `T001/square` / `T001/inn` place, `player` (at `T001/gate`) |
 | `neonrp map status` | two levels, `world` and `T001`, both with image missing (expected) |
 | `authored_opening` | with `manifest.json {"lang":"zh"}`: the Chinese opening + `① 进镇 / ② 先看看四周`; without it: English |
-| `neonrp play "开始游戏"` (with one soul added, and the stub model that never calls a real model) | printed the opening narration and choices exactly as written, without calling the model; with no soul, the same cue went to the model |
 
-Warnings: this minimal world gets about 11 `structure` warnings; see the first row of §6. They are expected.
+Warnings: this minimal world gets a dozen or so `structure` warnings (`location.json`, `run_state.json` and others are not entity files but are checked against the entity schema); see the first row of §6. They are expected.
 
 For characters, put souls in the world (see [soul.md](./soul.en.md)) or add one with `neonrp cast <soul>`.
 
@@ -550,21 +555,23 @@ All messages below are actual validator or map-tree output (reproduced with a te
 
 | Message | Cause | Fix |
 |---|---|---|
-| `game/meta/run_state.json: 'id' is a required property` (same for `world_map.json`, `town_map.json`, `town.json`, `player/*.json`, `facilities/*.json`) | layer 7 checks **every** JSON under `game/` against the entity schema, and these files are not entities. Built-in worlds get them too (stoneford-elena has 116) | safe to ignore; does not affect playability |
+| `game/meta/run_state.json: 'id' is a required property` (same for `location.json`, `world_map.json`, `town_map.json`, `town.json`, `player/*.json`, `facilities/*.json`) | layer 7 checks **every** JSON under `game/` against the entity schema, and these files are not entities. Built-in worlds get them too (stoneford-elena has 116) | safe to ignore; does not affect playability |
 | `… is not of type 'string'` (`location` in `run_state.json`) | the entity schema's `location` is a string; `run_state` uses an object | safe to ignore |
 | `Invalid JSON: Expecting ',' delimiter (line 2, column 1)` | JSON syntax error; the runtime silently skips the file and its content is lost | **blocker**; fix the syntax |
 | `Duplicate id 'lamp' also appears in game/item/lamp.json` | two entity files share an id | **blocker**; make ids unique |
-| `kind 'location' does not match path segment 'locations'` | `kind` must equal the first folder under `game/`. The built-in world's `game/locations/*.json` gets this warning too | change `kind` or the folder (the loader accepts both) |
+| `kind 'location' does not match path segment 'locations'` | `kind` must equal the first folder under `game/`. A `location.json` that writes `"kind": "location"` gets this (the built-in world too) | safe to ignore; or leave `kind` out |
 | `id 'wrongname' does not match filename 'a'` | entity id must equal the file name | rename the id or the file |
-| `Town 'T001' has nodes unreachable from any gate: cellar` | the node is not linked to a gate: characters can be placed there but cannot walk there | add `links` |
+| `Town 'T001' has nodes unreachable from any gate: cellar` | the place is not connected to a gate: characters can be placed there but cannot walk there | add `connections` |
 | `Town 'T002' is on the world map but has no gate node — travel in/out can't be staged` | a town on the world map has no gate | add a node with `"type": "gate"` |
-| `Soul '<sid>' is at '<loc>', which no game/towns/*/town_map.json defines` | a soul's `run_state.location` points to a node that does not exist | change it to `T001/<node>` |
+| `Soul '<sid>' is at '<loc>', which no game/towns/*/town_map.json defines` | a soul's `run_state.location` points to a place that does not exist (the tree form reports the same line) | change it to `T001/<place>` |
 | `unknown audience token(s) ['friend']` | secret audience must be `gm` / `player` / `npc:` / `soul:` / `agent:` | fix the audience |
 | `Secret 's1' is about 'item/ghost', which has no entity file` | the `game/<kind>/<id>.json` named by `about` does not exist | point it at an existing entry |
 | `No game-start file — the world opens without an authored opening scene` | no `game/meta/game-start.json` | write one following §3.12 |
 | `Router agent '<id>' has no agents/<id>/agent.json` | no router agent | added at launch; or write your own |
 | `active-agent.json: active_agent '<id>' has no corresponding agent directory at …` | routing state names an agent that does not exist | launching once resets it |
-| map: `! orphan: towns/T009 不在 world_map.nodes 里` ("not in world_map.nodes") | a town folder exists but the world map has no such node (the town is left out of the map tree) | add the node to `world_map.json` |
+| map: `! orphan: towns/T009 不在 world_map.nodes 里` ("not in world_map.nodes") | a town folder exists but the world level has no such place (the town is left out of the map tree) | add `game/locations/T009/location.json` |
+| `game/locations: 渡口镇 has no route or link — nobody can walk there …` | a world-level place has no route and no connection | add `routes` / `connections`, or write `"isolated": true` if that is intended |
+| lint `map.legacy_level` | the world still uses the old `nodes` form | it plays as is; to convert it to the folder tree see 3.5 |
 | map: `<address> 指向的 facilities/x.json 不存在` ("the referenced file does not exist") | wrong `facility_file` | fix the path |
 | map: `locations/x.json「…」在层级地图里找不到对应节点` ("no matching node in the map hierarchy") | a flat place matched no town node | make the id or `town·place` name match |
 | (no message) a small world's opening comes out in English | no lore and no `lang` | add `{"lang": "zh"}` to the root `manifest.json` |
@@ -577,9 +584,10 @@ All messages below are actual validator or map-tree output (reproduced with a te
 | Topic | Location |
 |---|---|
 | Registry (five tables, normalized on read) | `src/neonrp/core/registry.py:load_registry`, `_apply_overlays`, `_load_class_folders`, `register`, `check_envelope` |
-| rpg pack world loader | `src/neonrp/packs/rpg/loaders.py:load`, `_load_world`, `_load_towns`, `_load_locations`, `_load_dungeons`, `_load_quests`, `_load_player`, `_load_npcs`, `_load_items`, `_load_variables` |
+| rpg pack world loader | `src/neonrp/packs/rpg/loaders.py:load`, `_load_world`, `_load_towns`, `_load_locations` (old-form flat places), `_load_dungeons`, `_load_quests`, `_load_player`, `_load_npcs`, `_load_items`, `_load_variables` |
 | rpg built-in classes | `src/neonrp/packs/rpg/pack.py:CLASSES` (world / town / place / region / player / soul / npc / item / job / dungeon / road / room / carry / status) |
 | Which pack is used | `src/neonrp/packs/__init__.py:resolve` |
+| Place folder tree | `src/neonrp/core/place_tree.py`; map lint `src/neonrp/core/map_lint.py`; old-form migration `scripts/migrate_map_to_folders.py` |
 | Map tree, images, hotspots | `src/neonrp/core/worldmap.py:build_map_tree`, `map_levels`, `hotspots`, `map_status`, `generate_map` |
 | Addresses and movement | `src/neonrp/core/place_nav.py:qualify_location`, `split_location`, `_gate_of`, `load_world_map`, `_world_route` |
 | Validation | `src/neonrp/commands/validate.py`, `src/neonrp/core/validation.py:check_world`, `validate_game_data`; entity schema `src/neonrp/schema/game_entity.schema.json` (can be overridden with `rules/game_entity.schema.json`) |

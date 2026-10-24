@@ -226,7 +226,7 @@ def test_picked_up_item_is_a_card(tmp_path: Path):
 
 
 def test_the_first_planning_beat_says_who_judges_when_jev_is_off(tmp_path: Path, monkeypatch):
-    """10-24 niko: no Jev, no account — say so once, low-key: the run's own model judges (or 「定」 / @dm), /login turns Jev on."""
+    """10-24: no Jev, no account — say so once, low-key: the run's own model judges (or 「定」 / @dm), /login turns Jev on."""
     monkeypatch.setenv("NEONRP_S1_BACKEND", "off")
     app = NeonRPApp(root=_setup_project(tmp_path), provider="stub")
 

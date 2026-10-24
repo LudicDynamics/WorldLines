@@ -1,5 +1,5 @@
-"""本地 Hub 的官方世界(niko 10-17 · core/template_publish.official_works / fetch_official):本地版只内置灰橡宅 / 石津镇;
-没登录 = 只有本机的 + 一张「登录后可获取更多官方世界」;登录后默认区的远端世界进发现页(标「官方」),详情页「获取」;
+"""本地 Hub 的官方世界(10-17 · core/template_publish.official_works / fetch_official):本地版只内置灰橡宅 / 石津镇;
+没登录 = 本机的 + 线上 Hub 的世界(10-24,点进去到线上 Hub 玩)+ 一张「登录后可获取更多官方世界」;登录后默认区的远端世界进发现页(标「官方」),详情页「获取」;
 获取下来的官方世界只能玩(不出复制 / 导出),有新版出「更新」;内置的两个照旧能「复制一份来改」。引擎接口全是假的(tests/hub_official.mjs)。"""
 from __future__ import annotations
 
@@ -38,6 +38,11 @@ def _run(tmp_path, lang="zh", shots=None):
              "forkable": False, "official": True, "hub_ref": "hub/template/wuwu", "hub_revision": 1},
             {"id": "mine", "card": {"title": "我自己的", "pitch": "p", "lang": "zh"}, "mode": {"ending": "open"}, "zone": None, "forkable": True}]},
         "/api/v1/local/hub/open": {"works": []},
+        # the online Hub's catalog (10-24): listed signed in or not; a world this machine has stays the local one
+        "/api/v1/local/hub/remote": {"base": "https://hub.example.test", "templates": [
+            {"id": "last-train", "title": {"zh": "末班车"}, "pitch": {"zh": "p"}, "lang": "zh", "zone": "reviewed", "mode": {"ending": "multi"},
+             "endings": ["E1", "E2"], "cast": [{"sid": "a", "name": "A", "img": "img/last-train/a.webp"}], "cover": {"src": "img/last-train/cover.webp"}},
+            {"id": "pct-house", "title": {"zh": "灰橡宅(线上)"}, "pitch": {"zh": "p"}, "zone": "reviewed", "endings": [], "cast": []}]},
         "official:out": {"signed_in": False, "works": []},
         "official:in": {"signed_in": True, "works": [
             _remote("guixiang", "归乡"),
@@ -56,7 +61,7 @@ def test_official_worlds_in_the_local_hub(tmp_path):
     r = _run(tmp_path, shots=shots)
     assert r["errs"] == []
     o = r["out"]
-    assert sorted(o["cards"]) == ["mine", "pct-house", "wuwu"], "signed out: only what this machine has"
+    assert sorted(o["cards"]) == ["last-train", "mine", "pct-house", "wuwu"], "signed out: this machine's worlds + the online Hub's"
     assert "登录后可获取更多官方世界" in o["more"] and o["moreBtn"]
     i = r["in"]
     assert "guixiang" in i["cards"] and not i["more"]
@@ -67,6 +72,8 @@ def test_official_worlds_in_the_local_hub(tmp_path):
     assert c[0].startswith("▶") and "⬆ 更新 到 v1.1" in c and not any("复制" in x for x in c) and not any("下载" in x for x in c)
     assert "只能玩" in r["cachedNote"]
     assert any("复制" in x for x in r["builtin"]), "the two shipped worlds keep 「复制一份来改」"
+    h = r["hubOnly"]
+    assert h["ctas"] == ["▶ 到 Hub 上玩 ↗"] and h["href"] == "https://hub.example.test/#/t/last-train", "an online-only world plays on the online Hub"
 
 
 @pytest.mark.parametrize("lang,more,get", [("en", "Sign in to get more official worlds", "⬇ Get"), ("ja", "ログインすると公式の世界をもっと入手できます", "⬇ 入手"),

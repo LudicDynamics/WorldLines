@@ -36,7 +36,7 @@ PR 하나에는 주제 하나만 담고, *무엇을* 왜 바꿨는지 적어 주
 | 폴더 | 내용 | 라이선스 |
 |---|---|---|
 | `neonrp/` | 엔진(Python) | Apache-2.0 |
-| `worldlines/` | 제품: 웹 UI(`worldlines/ui`), 데스크톱 셸, 런처 패키지, 템플릿, 예제 월드 | AGPL-3.0 |
+| `worldlines/` | 제품: 웹 UI(`worldlines/ui`), 데스크톱 셸(코드만 있고 아직 출시 안 됨), 런처 패키지, 템플릿, 예제 월드 | AGPL-3.0 |
 | `documents/` | 사양과 문서 사이트 원문 | CC BY 4.0 |
 | `benchmarks/` | 엔진의 설계 결정을 뒷받침하는 테스트 스위트 | 코드 Apache-2.0 · 데이터 CC BY 4.0 |
 

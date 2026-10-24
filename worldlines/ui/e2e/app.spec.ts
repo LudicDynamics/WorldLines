@@ -1,5 +1,5 @@
 // WorldLines 1.0 界面(app/,UI/UX 固定为 prototypes/v3)对着真引擎:一览读模板库 · 测试台读这一局 · 地图读引擎的层。
-// e2e 引擎没有模型:开场真跑。两拍(商量 / 清算)的展示属于私有层,它的测试在 NeonRP-private(跑的时候同步到 e2e/private/)。
+// e2e 引擎没有模型:开场真跑。两拍(商量 / 清算)的展示属于私有层,它的测试随私有层维护,不在本仓(跑的时候同步到 e2e/private/)。
 import { test, expect } from '@playwright/test'
 import { ready, SHOTS } from './helpers'
 
@@ -119,7 +119,7 @@ test('Template:Pack 读真实模板 + 素材槽 · Lint 读引擎 lint · 合约
   expect(await page.locator('.letter .clause').count()).toBe(6)
 })
 
-test('Template:导出一个包 → 再导入回来(10-08 niko:改好的东西能 extract / import)', async ({ page }) => {
+test('Template:导出一个包 → 再导入回来(10-08:改好的东西能 extract / import)', async ({ page }) => {
   await page.goto('/local?tpl=stoneford-elena')
   await ready(page)
   await page.locator('.nav [data-go=tpl]').click()

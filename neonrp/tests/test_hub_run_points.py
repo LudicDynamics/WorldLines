@@ -29,7 +29,7 @@ def test_me_shows_run_points_and_claims(tmp_path):
     assert res.returncode == 0, res.stderr[-2000:]
     r = json.loads(res.stdout.strip().splitlines()[-1])
     assert r["errs"] == []
-    assert not any("积分" in x for x in r["rows"]), "积分 = 额度 (niko 10-21)"
+    assert not any("积分" in x for x in r["rows"]), "积分 = 额度 (10-21)"
     rows = r["rows"]
     assert len(rows) == 5
     assert "核对中 · 计费对话 3/8 次 · 12/5 分钟" in rows[0] and "申请 60" in rows[0]

@@ -99,7 +99,7 @@ def test_intra_town_nonexistent_node_rejected_with_suggestions(tmp_path):
 
 
 def test_cross_town_away_from_gate_walks_out_and_arrives_in_one_beat(tmp_path):
-    """10-19 niko: one beat is the whole walk — out by the gate and into the next town (no beat stopped at the gate)."""
+    """10-19: one beat is the whole walk — out by the gate and into the next town (no beat stopped at the gate)."""
     root = _build_mapped_world(tmp_path)
     v = judge_move(root, current_location="T001/inn", target="T002/market")
     assert v.allowed and v.tier == "cross" and v.final == "T002/market"

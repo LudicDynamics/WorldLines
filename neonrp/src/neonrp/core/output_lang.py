@@ -105,7 +105,7 @@ def built_lang(root: Path) -> str | None:
     return lg if lg in ALL_LANGS else None
 
 
-# ── one language source for prompts (niko 10-05: 四语;玩家选的语言优先) ─────────────────────────────────────────────
+# ── one language source for prompts (10-05: 四语;玩家选的语言优先) ─────────────────────────────────────────────
 ALL_LANGS: tuple[str, ...] = ("zh", "en", "ja", "ko")
 
 

@@ -155,7 +155,7 @@ _ORIGINAL_WORK = re.compile(r"\bfate\b|圣杯|聖杯|holy grail|성배|从者|�
 
 
 def test_seven_nights_borrows_no_words_from_the_work_it_is_like():
-    """七夜 is original (niko 10-14): none of the words of the work it resembles, in any language layer either."""
+    """七夜 is original (10-14): none of the words of the work it resembles, in any language layer either."""
     tpl = TPLS / "neon-rebirth.template"
     hits = [f"{f.relative_to(tpl)}:{n}" for f in tpl.rglob("*") if f.is_file() and f.suffix in (".json", ".md")
             and "spec" not in f.relative_to(tpl).parts

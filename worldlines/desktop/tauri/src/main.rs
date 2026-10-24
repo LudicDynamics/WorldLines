@@ -161,7 +161,7 @@ fn version_lt(a: &str, b: &str) -> bool {
     false
 }
 
-// 引擎源码不在本仓 —— WorldLines 是开源壳,NeonRP 引擎专有、单独分发。
+// 引擎源码在同一个仓库的 neonrp/(Apache-2.0);桌面壳默认用装好的 neonrp 包。
 // 开发机想跑本地引擎签出,显式指路:
 //   WORLDLINES_ENGINE_REPO=/path/to/NeonRP
 // 未设、路径不存在、或该目录没有 pyproject.toml → None,走发行版形态

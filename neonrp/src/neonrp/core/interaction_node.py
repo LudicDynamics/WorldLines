@@ -1,4 +1,4 @@
-"""Interactions — the graphical game loop's interactions as node kinds (niko 10-10/11; in the open engine since 10-19,
+"""Interactions — the graphical game loop's interactions as node kinds (10-10/11; in the open engine since 10-19,
 it used to be a private-layer plugin).
 
 A game client (a Godot / TS town) owns the frame: walking, collision, the camera, the rings. Every time the

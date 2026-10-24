@@ -1,6 +1,6 @@
-"""The settlement's 「真相三问」 (PLATFORM-PLAY-RULES-1015 §5 §9, niko 10-15): a run of a sandbox mystery (沙盒跑团,
+"""The settlement's 「真相三问」 (PLATFORM-PLAY-RULES-1015 §5 §9, 10-15): a run of a sandbox mystery (沙盒跑团,
 play contract ``mystery-trpg``) ends with three single-choice questions about its truth. All three right and the
-author's chosen character comes home with this run's full memory; otherwise the floor is points (niko 10-20: no more
+author's chosen character comes home with this run's full memory; otherwise the floor is points (10-20: no more
 「take one character home」 as the floor).
 
     GET  /api/v1/play/engine/settlement/quiz
@@ -21,7 +21,7 @@ author's chosen character comes home with this run's full memory; otherwise the 
 - **locked** until the run has settled (no question shows before the ending — the quiz is the truth itself)
 - the questions: the plot's own ``truth_quiz.questions`` (the author's, ``q`` / ``options`` a string or ``{zh, en, ja,
   ko}``, ``answer`` the right index). A contract whose ``settlement.truth_quiz`` is ``required`` (``mystery-trpg``,
-  niko 10-16) **must** carry them: lint ``contract.truth_quiz`` / ``truth_quiz.*`` — 默认区 (reviewed) block, 自由区 warn
+  10-16) **must** carry them: lint ``contract.truth_quiz`` / ``truth_quiz.*`` — 默认区 (reviewed) block, 自由区 warn
 - the fallback, not the way (自由区 / an older template without them): three the engine writes once from the run's truth
   (the plot's ``reveal`` in the run's language, else ``game/lore/gm-truth.md``) through the run's own provider, kept in
   ``meta/truth_quiz.json``; a model that does not answer in shape leaves the quiz **unavailable** (the floor still stands)
@@ -388,7 +388,7 @@ def answer(root: Path, answers: list[Any] | None, take: str | None = None, *, la
     from neonrp.core import achievements, player_data, settlement
     from neonrp.core.output_lang import prompt_lang
 
-    del take  # niko 10-20: the floor is points now — an old client may still send its pick
+    del take  # 10-20: the floor is points now — an old client may still send its pick
     lang = lang or prompt_lang(root)
     if not applies(root) or settlement.read(root) is None:
         return {"error": "locked"}

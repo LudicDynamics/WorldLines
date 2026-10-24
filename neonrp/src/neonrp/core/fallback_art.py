@@ -1,4 +1,4 @@
-"""Stand-in pictures when a person or an item has no art of its own (niko 10-17: 没图的人显示问号不好看).
+"""Stand-in pictures when a person or an item has no art of its own (10-17: 没图的人显示问号不好看).
 
 The screen never guesses: the engine reads what the world already wrote and names one picture —
 

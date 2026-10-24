@@ -28,7 +28,9 @@ dependencies = [
 ]
 requires-python = ">=3.10"
 readme = "README.md"
-license = {text = "Apache-2.0"}
+# PyPI 的 wheel 带私有层(neonrp_private,专有);开源仓构建不带,见 LICENSE-PROPRIETARY.md
+license = "Apache-2.0 AND LicenseRef-WorldLines-Proprietary"
+license-files = ["LICENSE", "NOTICE", "LICENSE-PROPRIETARY.md"]
 
 [project.optional-dependencies]
 # Optional external-interface bridges. Install with:
@@ -52,7 +54,7 @@ neonrp = "neonrp.cli:cli"
 worldlines = "neonrp.cli:worldlines_cli"
 
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling>=1.27"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]

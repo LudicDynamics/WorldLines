@@ -1,6 +1,6 @@
 # Template 规范(`worldlines.template/1`)
 
-> 状态标记:**已实装** = 代码里有、本规范按代码写;**设计中** = 字段能写、能被读到或校验,但运行时还没有完整效果。
+> 状态标记:**已实装** = 代码里有,本规范按代码写(对应 neonrp 1.0.3)。只做元数据、运行时不读的字段会单独写明。
 > 相关规范:[World 规范](./world.zh.md) · [Soul 规范](./soul.zh.md)
 
 ---
@@ -32,8 +32,10 @@ Template 也是**发布单位**:上架、分享、"新开一局"都以一个 `<i
 | ui:slots / views / panels / 命名 prompt / budget | 已实装 |
 | 本地化层 `i18n/<lang>/`(按这一局的语言盖层 + glossary 残留检查,见 4.1) | 已实装 |
 | 素材槽位上传 / 生成 | 已实装(生成需要配置图像后端) |
-| `mode.freedom` 的运行时效果 | 设计中(目前只做元数据 + 校验) |
-| `lint.assets` 里 `soul` / `item` / `ending` 的规则 | 设计中(目前只有 `card.cover` 被强制;资产强制走 `ui.slots[].required`) |
+| 编排模板 `uses`(一回合走一拍还是两拍,见 §2a) | 已实装 |
+| 区(`zone`)、发布到 Hub、获取官方世界(见 §9) | 已实装 |
+| `mode.freedom` | 只是元数据:lint 检查取值,运行时不读 |
+| `lint.assets` 里 `soul` / `item` / `ending` 的规则 | 不强制。只有 `card.cover` 由它检查;立绘等素材的强制走 `ui.slots[].required`(rpg 包的 `soul.portrait` 是 `publish`,见 6.1) |
 
 ---
 
@@ -42,54 +44,71 @@ Template 也是**发布单位**:上架、分享、"新开一局"都以一个 `<i
 ```
 <id>.template/
   template.json                 必需。schema = "worldlines.template/1"
-  world/                        可选。模板自带的世界(world.path 指向它)
+  orchestration.json            可选。编排图补丁(template.json 的 orchestration 指向它,见 3.1)
+  world/                        可选。模板自带的世界(world.path 指向它;结构见 world spec)
+  world/runtime_contract.json   可选。自带世界的运行时契约源形状,开局时复制进这一局的 .neonrp/
+  world/playthrough.json        可选。自带世界的演员表源形状(同上)
   world-overlay/                可选。盖在世界上的数据补丁(默认目录名,存在即生效)
   souls/<sid>/                  可选。从外面带进来的灵魂(souls[].path 指向它)
   prompts/world.json | *.md     可选。世界侧 prompt 层
-  prompts/souls/<sid>/…         可选。角色侧 prompt 层:只能覆盖 soul.md / persona/ / rules/ / agents/
+  prompts/souls/<sid>/…         可选。角色侧 prompt 层:只能覆盖 soul.md / persona/ / rules/ / agents/(见 3.7)
   plots/<id>/plot.json          可选。剧情包(+ 它自己的 assets/)
-  assets/                       可选。卡面封面等
+  assets/                       可选。卡面封面、开场 CG、自带音频等
   i18n/<lang>/…                 可选。本地化层:和模板同路径的文件(见 4.1);i18n/glossary.json 专有名词对照
+  spec/  AGENTS.md  CLAUDE.md   生成的。给编码 agent 读的规范副本和说明(`neonrp spec sync` 写入;fork 时也会写)
+  frontends/<name>/             可选。这个世界自己的前端;只在本机用,导出和发布都不带
 ```
 
-四个参考模板的实际树:
+两个内置模板的实际树(省略图片和 `i18n/` 的内容):
 
-**stoneford-elena**(绑定内置世界,加剧情包,多结局)
+**pct-house 灰橡宅**(自带世界,`pct` 包,`mystery-trpg` 合约,多结局)
 ```
 template.json
+assets/cover.jpg  assets/opening/cg-*.webp
+plots/P01/plot.json
+world/                         整个世界:game/、souls/、agents/、playthrough.json、runtime_contract.json
+world-overlay/assets/maps/     地图图片和冻结的坐标变换
+i18n/{en,ja,ko}/template.json  i18n/glossary.json
+spec/  AGENTS.md  CLAUDE.md
+```
+
+**stoneford-town 石津镇 · 雾退之夜**(绑定内置世界 `stoneford-elena`,`rpg` 包 + `economy` mixin,`open-adventure` 合约,多结局)
+```
+template.json
+orchestration.json             编排图补丁(交互节点:换场景 / 查看 / 交谈 …)
 assets/cover.png
-plots/P10/plot.json
-prompts/voice.md
-prompts/world.json
-```
-
-**stoneford-market**(同一世界 + economy/factions mixin,开放结局)
-```
-template.json
-assets/cover.png
-prompts/world.md
+plots/P20/plot.json
+prompts/world.json  prompts/voice.md  prompts/town.json
 world-overlay/game/world/economy.json
-world-overlay/game/world/factions.json
+world-overlay/game/locations/T001/{gate_north,road_camp}/location.json
+world-overlay/game/meta/{game-start,run_state,interactions}.json
+world-overlay/game/towns/T001/{npcs,quests}.json  …
+i18n/{zh,en,ja,ko}/…  i18n/glossary.json
+spec/  AGENTS.md  CLAUDE.md
 ```
 
-**stoneford-three-towns**(在 market 基础上声明完整的 ui:槽位 / 视图 / 命名 prompt / 预算)
-```
-template.json
-assets/cover.jpg
-prompts/world.md
-world-overlay/game/meta/variables.json
-world-overlay/game/world/economy.json
-world-overlay/game/world/factions.json
-```
+## 2a. 回合 = 编排模板
 
-**werewolf-night-village**(自带世界,`werewolf` pack,每局重发身份)
-```
-template.json
-prompts/judge.md
-world/manifest.json
-world/game/meta/table.json
-world/game/seats/S01.json … S06.json
-```
+一个模板不自己写"一回合怎么走",而是在 `uses` 里点名一个**编排模板**(`core/orch_templates`)。编排模板只管回合的形状,不带玩法合约,也不带规则包;同一个编排模板可以给很多世界用。
+
+| 编排模板 | 一回合 | 在哪 |
+|---|---|---|
+| `one_beat` | 只有**清算拍**:世界写叙事,在场角色各自行动,引擎写状态、校验、落地 | 开源引擎自带(`neonrp/orchestrations/one_beat/`) |
+| `two_beat` | 先**商量拍**,再清算拍。商量拍里主持接住玩家的话、把话递给在场角色、列出花费 / 检定 / 时间;这一拍不改世界、时钟不走。谈妥(判官判断,或玩家说"定")后进清算拍 | PyPI 发布的 `neonrp` / `worldlines` 自带 |
+
+- 两个内置模板都写 `"uses": {"template": "two_beat", "version": "1.0", "soul": "S-judge"}`。
+- 从 PyPI 装的包含完整的两拍编排;从开源仓源码装的引擎只有一拍。引擎没有模板点名的编排时,退回第一个开源编排(`one_beat`),`uses.soul` 照旧——世界照样能玩,只是一回合走一拍。
+- `uses.soul` 是另一条轴:在场角色怎么出手(`legacy` · `S-judge` · `S-direct` · `S-free`);不写 = 编排模板的默认。
+- `uses.params` 选编排模板给的参数,例如两拍的 `pace: normal | quick`(quick = 商量拍更快收束)。参数选错 → lint `uses.param`(warn)。
+- 编排模板的设置在运行时叠加(见 8.2 的 `orchestration` 层),**不复制进存档**。
+- Hub 网页和 iOS 的创作台只能从几个编排选项里挑(如 `two_beat`、`two_beat?pace=quick`),看到的是只读图;能改图的只有本机的编排台,改动存成模板的 `orchestration`(见 3.1)。
+
+**清算拍里写状态的方式**(两种编排都一样):
+
+1. 叙事调用只写正文;结果决定下文的东西写成工具行——`[op]` 同步(引擎当场回答,模型接着写)、`[~op]` 不等待(地图、面板)。
+2. 一次干净上下文的"写状态"调用读正文和工具回答,输出 `<vars>`(已登记变量的新值)和 `<files>`(文件系统变化)。这是默认的 `pseudo` 方式;编排图里 `nodes.resolve.state = "jev"` 改成由判官逐行填工具调用,没有快速判官时退回 `pseudo`。
+3. 提供商支持按请求关掉思考时(如 deepseek),写状态分两份:关思考的快答案先落地,开思考的慢答案在后台跑,回来后逐个变量纠正(这期间被别的东西改过的不动;工具和引擎的裁定优先),最多等 `turn.transition_slow_timeout_s`(默认 90 s);玩家先说下一句就取消。前端收到 `write_down.pending`,然后是 `write_down.corrected` / `same` / `cut` / `timeout` / `failed`。不支持开关的提供商只发一次调用。
+4. 校验(字段 → 实体 → 世界);可修的拒绝只让第 2 步重写,正文不动。之后落地,每回合一个世界提交。
 
 ---
 
@@ -112,19 +131,23 @@ world/game/seats/S01.json … S06.json
 | `prompts` | list[str] | 否 | `[]` | prompt 文件 / 目录列表,见 3.7 | `template:prompt_layer` | 已实装 |
 | `plots` | list[str] | 否 | `[]` | 剧情包目录(相对模板),见 §5 | `template:build` | 已实装 |
 | `recipe` | object | 否 | `{backend:"", style:""}` | 素材生成配方的全局设置,见 §6 | `template.v3:ui` | 已实装 |
-| `ui` | object | 否 | 继承 pack | slots / views / panels / prompts / budget,见 §6 | `template.v3:ui` | 已实装 |
+| `ui` | object | 否 | 继承 pack | slots / views / panels / prompts / budget,见 §6;`ui.beats` = 节拍怎么显示:`{"start": <编排图节点 id>, "kinds": {<节点 id>: {…}}}`(如石津镇 `{"start": "interaction.move"}`),按节点合并,`start` 整个替换 | `template.v3:ui` · `core.orchestration` | 已实装 |
 | `slots` `views` `panels` `budget` | — | 否 | — | 也可以直接写在顶层,等价于写进 `ui` | `template.v3:ui` | 已实装 |
 | `lint` | object | 否 | `{}` | lint 规则,见 3.8 | `template:lint` | 部分实装 |
 | `models` | object | 否 | `{}` | 推荐模型,见 3.9 | `template:new_run` | 已实装 |
 | `seed` | str | 否 | run 目录名 | 抽池 / 洗牌的随机种子;固定后每次 build 演员和身份不变 | `template:build` | 已实装 |
 | `play_contract` | str | 否 | — | 这个模板承诺的体验:`"<合约 id>@<版本>"`,见 `contract` spec;lint 按合约查 | `template.contract` | 已实装 |
-| `uses` | obj | 否 | 按合约推断 | 这个世界用哪个编排模板:`{"template": "<模板 id>", "version": "<x.y>", "soul": "<角色编排>", "params": {…}}`。模板 = 世界编排(一拍走完 …)+ 参数;`soul` 是另一条轴:在场角色怎么出手(legacy · S-judge · S-direct · S-free),不写 = 模板的默认。开源引擎自带 `one_beat`(`neonrp/orchestrations/`),私有层可以再加;引擎没有的模板落回 `one_beat`,`soul` 照旧。不写 `uses` = 旧包:有合约的照旧按合约当时的打开方式跑 | `core.orch_templates` | 已实装 |
-| `orchestration` | object \| str | 否 | 玩法包的默认图 | 编排图:相对默认图的补丁 `{nodes, remove, add}`,或指向 `orchestration.json`;作者操作 `set_orchestration` 写它 | `core.orchestration:graph` | 已实装 |
-| `player` | object | 否 | — | 玩家:`player.builder` = 开局前让玩家自己捏角色(面板玩家),见 3.11;不写 = 照旧开局 | `template.builder` | 已实装 |
+| `uses` | obj | 否 | 见右 | 这个世界用哪个编排模板:`{"template": "<编排模板 id>", "version": "<x.y>", "soul": "<角色编排>", "params": {…}}`,见 §2a。形状不对 → `uses.shape`(block)。不写 `uses` = 旧包:有玩法合约的按合约当年对应的编排跑,没有合约的不叠编排设置 | `core.orch_templates` | 已实装 |
+| `orchestration` | object \| str | 否 | 玩法包的默认图 | 编排图:相对默认图的补丁 `{nodes, remove, add}`,或指向 `orchestration.json`;作者操作 `set_orchestration` 写它。`nodes.resolve.state` = `pseudo`(默认)\| `jev`,见 §2a | `core.orchestration:graph` | 已实装 |
+| `zone` | str | 否 | 不写 = 自由区 | 作品在 Hub 的哪个区:`reviewed` = 默认区(审核后上架;官方世界在这里)· `open` = 自由区。其他值 → `meta.zone`(block)。默认区作品不能导出;`truth_quiz`、`audio.credits` 等检查在默认区是 block、自由区是 warn;自由区作品不发奖励卡。官方世界写 `reviewed`;fork 出来的副本会去掉 `zone`,成为作者自己的作品(见 §9) | `template:load` · `core.template_publish` | 已实装 |
+| `player` | object | 否 | — | 玩家:`player.builder` = 开局前让玩家自己捏角色(面板玩家),见 3.11;`player.fixed: true \| false` = 直说这个世界有没有固定主角(不写时看世界 `playthrough.json` 的 `players[0].name` 是不是占位名)。不写 = 照旧开局 | `template.builder` · `template:pc_meta` | 已实装 |
+| `rewards` | list | 否 | `[]` | 奖励卡 `[{id, kind: "card", title, desc, rarity: common\|rare\|epic, when, image? \| slot?}]`(title / desc 四语);`when` 用成就的条件写法,写成列表 = 全部成立。玩法合约 `rewards.player` 里没有 `cards` 时不发;自由区不发。到手时把图复制进玩家记录,作者以后删掉也不收回。事件 `reward.granted` | `core.rewards` | 已实装 |
+| `creation` | object | 否 | 不写 = 不开放 | 这个模板对创作台开放哪一层:`{"add": [soul\|plot\|ending\|clue\|rule], "triggers": {"when": […], "then": […]}, "collect": [clear\|ending\|flag]}`。创作台只往这一层**加**数据,不改模板本身。未知名字 → `creation.schema`(warn) | `template.creation` | 已实装 |
+| `settlement` | object | 否 | 合约的 | 结算数额盖在玩法合约上:目前是 `{"truth_quiz_points": {settle, per_right, fallback}}`(非负整数),否则 `truth_quiz.points`(warn) | `core.truth_quiz:points` | 已实装 |
 | `opening` | object | 否 | — | 开场 CG:`{"cg": [{image, video?, caption?, camera?, prompt?, id?}, …]}`,按顺序在第一拍前播,见 6.6 | `core.scene_cg` / `template:build` | 已实装 |
 | `milestones` | bool | 否 | `open-adventure` 合约 = true,其余 false | 开放冒险的里程碑开关;作者只写有 / 没有,里程碑由引擎自己找(新地点 · 完成委托 · 过了一天),离开时结算,见 contract spec 5.1 | `core.milestones` | 已实装(10-15) |
-| `realtime_art` | string | 否 | `off` | 游玩中「画这一幕」(实时生图,平台按额度扣)的世界开关:`off` = 不实时画(作者预生成的图照常「看这一幕」)· `scene_only` = 只画地点、不画人 · `full` = 地点和在场的人;别的值 → `meta.realtime_art`(block)。默认关(niko 10-16:API 图和预生成图画风对不上,验过一个世界再开) | `core.scene_art` | 已实装(10-16) |
-| `forkable` | bool | 否 | false | 官方模板给不给「复制一份来改」(niko 10-17):本地版只内置的两个(灰橡宅 · 石津镇)写 true;其他官方世界只能玩,复制 / 导出都拒绝(`not_forkable`)。作者自己的作品(写入仓里的)总能复制,不用写;非 bool → `meta.forkable`(block),写在不是默认区的模板上 → warn。登录获取的官方世界由引擎写 `official: true` / `hub_ref` / `hub_revision`(作者别写) | `template.can_fork` | 已实装(10-17) |
+| `realtime_art` | string | 否 | `off` | 游玩中「画这一幕」(实时生图,平台按额度扣)的世界开关:`off` = 不实时画(作者预生成的图照常「看这一幕」)· `scene_only` = 只画地点、不画人 · `full` = 地点和在场的人;别的值 → `meta.realtime_art`(block)。默认关 | `core.scene_art` | 已实装(10-16) |
+| `forkable` | bool | 否 | false | 官方模板给不给「复制一份来改」:本地版只内置的两个(灰橡宅 · 石津镇)写 true;其他官方世界只能玩,复制 / 导出都拒绝(`not_forkable`)。作者自己的作品(写入仓里的)总能复制,不用写;非 bool → `meta.forkable`(block),写在不是默认区的模板上 → warn。登录获取的官方世界由引擎写 `official: true` / `hub_ref` / `hub_revision`(作者别写) | `template.can_fork` | 已实装(10-17) |
 | `achievements` | list | 否 | `[]` | 这个模板自己的成就 `[{id, title, desc?, when, points?}]`(title / desc 可四语);`when` 只从列表里选一个:`ending:<id>` · `flag:<key>` · `stage:<剧情>:<n>` · `places:<n>` · `character:<sid>` · `milestone:<n>` · `quiz_perfect`,不写 if / else;id 不能和内置的重名 | `core.achievements` | 已实装(10-15) |
 | `audio` | object | 否 | 按合约 + 地名给默认 | 声音:主题曲 / 环境音 / 紧张危机曲 / 按地点 / 自带音频的来源,见 6.7 | `core/audio` | 已实装(10-15) |
 
@@ -145,7 +168,7 @@ world/game/seats/S01.json … S06.json
 | 键 | 取值 | 默认 | 含义 | 状态 |
 |---|---|---|---|---|
 | `ending` | `open` \| `single` \| `multi` | `open` | `open`:可以没有结局;`single`:恰好 1 个可达结局;`multi`:≥2 个可达结局。其他值 → `meta.mode`(block) | 已实装 |
-| `freedom` | `free` \| `semi` \| `guided` | — | 玩家自由度。未知值 → `meta.mode`(warn) | 设计中(运行时还不读) |
+| `freedom` | `free` \| `semi` \| `guided` | — | 玩家自由度。未知值 → `meta.mode`(warn) | 只是元数据(运行时不读) |
 | `reveal` | bool | `false` | 开启后,每个剧情包都必须带 `reveal`(谜底),否则 `loop.reveal`(block) | 已实装 |
 
 ### 3.4 `world`
@@ -182,8 +205,10 @@ world/game/seats/S01.json … S06.json
 | 键 | 取值 | 引擎默认 | 含义 | 状态 |
 |---|---|---|---|---|
 | `turn.mode` | `v2b` \| `v3` | `v2b`(`rpg` pack 的 loop 设为 `v3`) | 回合循环。lint 只接受这两个值,否则 `pack.engine`(block) | 已实装 |
-| `turn.solve.structured` | `adv` \| `narrate` \| `json_object` \| `json_schema` \| `split` \| `split2` \| `parallel` \| `prose_json` | `adv` | 世界侧求解的输出方式。`narrate` = 先写带工具的叙事、再做一次状态转移(对外契约仍是 ADV) | 已实装 |
-| `turn.parallel.souls.default_variant` | `legacy` \| `S-judge` \| `S-direct` \| `S-free` | `legacy`(`rpg` pack 设为 `S-judge`) | 灵魂一步的形态 | 已实装 |
+| `turn.parallel.souls.default_variant` | `legacy` \| `S-judge` \| `S-direct` \| `S-free` | `legacy`(`rpg` pack 设为 `S-judge`) | 在场角色这一步的形态;`uses.soul` 写了时由编排层给 | 已实装 |
+| `turn.parallel.souls.per_soul.<sid>` | 同上 | — | 单个角色的形态;作者操作 `set_engine_setting` 写它 | 已实装 |
+
+叙事怎么转成状态不在 `pack.engine` 里,由编排图的 `nodes.resolve.state` 决定(§2a)。
 
 ### 3.6 `souls`
 
@@ -193,18 +218,18 @@ world/game/seats/S01.json … S06.json
 "souls": [
   {"sid": "elena", "role": "npc"},
   {"sid": "guest", "path": "souls/guest", "instance_id": "si-guest-1"},
-  {"lib": "mira", "role": "companion"},
+  {"sid": "mira", "lib": "mira", "role": "companion"},
   {"pool": [{"sid": "a"}, {"sid": "b", "path": "souls/b"}, "c"], "pick": 2, "role": "npc"}
 ]
 ```
 
 | 键 | 类型 | 含义 | 状态 |
 |---|---|---|---|
-| `sid` | str | 灵魂 id。没有 `path` / `lib` 时必须是世界自带的(世界 `playthrough.json` 的 `souls[]`);写了 `lib` 可省,取角色库 `soul.json` 的 sid | 已实装 |
+| `sid` | str | **每一行都必须写**(抽池里的元素也是)。没有 `path` / `lib` 时必须是世界自带的(世界 `playthrough.json` 的 `souls[]`)。缺 sid → `ref.soul`(block),开局时这一行被跳过 | 已实装 |
 | `lib` | str | **角色库里的角色**(`~/.worldlines/souls/<lib>/`)。模板里只是 link:开局 build 时才复制进这一局,角色库改了下一局就拿到新的。见 soul spec「角色库」 | 已实装 |
 | `path` | str | 带进来的灵魂目录(相对模板)。build 时复制到 run 的 `souls/<sid>-<instance_id>/` | 已实装 |
 | `instance_id` | str | 带进来的灵魂的实例 id;默认 `si-<sid>-<template id>`(截 48 字符) | 已实装 |
-| `role` | str | 角色定位:`npc`(默认)· `companion` · `player`;最多一个 `player` | 已实装(`player` 的 link 开局时接主角:设计中) |
+| `role` | str | 角色定位:`npc`(默认)· `companion` · `player`;最多一个 `player` | 已实装(`player` 目前只记下定位,开局不会把这个角色接成主角) |
 | `pool` | list | 候选列表(元素可为字符串 sid) | 已实装 |
 | `pick` | int | 从池里抽几个,默认 1;大于池子 → `ref.soul.pool`(block) | 已实装 |
 
@@ -235,14 +260,18 @@ world/game/seats/S01.json … S06.json
 
 **角色侧 prompt 层**:`prompts/souls/<sid>/` 下的文件按相对路径复制进对应灵魂目录,但只允许 `soul.md`、`persona/`、`rules/`、`agents/`(`SOUL_PROMPT_PATHS`)。其他路径属于灵魂数据,lint 报 `prompt.soul.data`(block),build 时跳过。
 
+> 已知问题:作者操作 `set_soul_orchestration` / `set_soul_ambient` 会写 `prompts/souls/<sid>/orchestration.json` 和 `prompts/souls/<sid>/ambient/world.json`,这两个路径目前不在上面的白名单里,lint 会把它们判成 `prompt.soul.data`。在修好之前,发布级模板别用这两个操作。
+
 ### 3.8 `lint`
 
 | 键 | 类型 | 默认 | 含义 | 状态 |
 |---|---|---|---|---|
 | `level` | `publish` \| `draft` | 见下 | 发布级:缺失/过期的必需素材、缺封面、超预算从 warn 升为 block | 已实装 |
-| `assets` | object `{cls: [kind, …]}` | `{soul:[portrait], card:[cover]}` | 素材要求;`"a\|b"` = 二选一 | 部分实装:只有 `card: [cover]` 被检查;其余键能写、会合并,但还不强制(设计中) |
+| `assets` | object `{cls: [kind, …]}` | `{soul:[portrait], card:[cover]}` | 素材要求;`"a\|b"` = 二选一 | 只有 `card: [cover]` 被检查;其余键能写、会合并,但不强制。立绘等素材的强制走 `ui.slots[].required`(6.1) |
 
 `level` 不写时有个不对称:素材槽位检查(`asset.missing` / `asset.stale` / `token.over`)按 **publish** 处理;封面检查 `asset.card` 只有显式写 `"publish"` 才是 block,否则 warn。
+
+两个内置模板都写 `"lint": {"level": "draft"}`:缺图、过期、超预算都只是 warn。按区分级的检查(`truth_quiz.*`、`contract.truth_quiz`、`audio.credits`)不看 `level`,看 `zone`。
 
 ### 3.9 `models`
 
@@ -263,17 +292,17 @@ world/game/seats/S01.json … S06.json
 }
 ```
 
-`neonrp template lint` 输出:
+`neonrp template lint ./min.template` 输出:
 
 ```
 [warn ] meta.card        card.pitch: no pitch (one line on the card)
-[warn ] asset.optional   slots: 14 个可选槽位没填(有兜底的用兜底)
+[warn ] asset.optional   slots: 15 个可选槽位没填(有兜底的用兜底)
 [warn ] token.unmeasured budget: 还没有回合——用这个模板玩一回合才量得出每回合 token
 [warn ] asset.card       card.cover: no cover file
 publishable — 0 block, 4 warn
 ```
 
-`neonrp template build` 输出:`built min → run-min  pack=rpg souls=elena,rowan plots=- prompt-overlays=0`。
+`neonrp template build ./min.template run-min` 输出:`built min → run-min  pack=rpg souls=elena,rowan plots=- prompt-overlays=0`。
 真正必需的只有 `card.title` 和 `world`;pack 默认 `rpg`,souls 默认用世界自带的。
 
 ### 3.11 `player.builder`(捏人 · 面板玩家)
@@ -345,14 +374,14 @@ HTTP:`GET /api/v1/local/templates/<id>/builder`(声明 + 解析好的 companion 
 
 ## 4. world-overlay
 
-overlay 是"盖在世界上的数据补丁",让同一个世界换一套数据就成为另一个模板(例:`stoneford-market` 给 `stoneford-elena` 加上经济与势力)。
+overlay 是"盖在世界上的数据补丁",让同一个世界换一套数据就成为另一个模板(例:`stoneford-town` 给内置世界 `stoneford-elena` 加上经济数据、北门外的驿路营地、新的开场和委托)。
 
 | 规则 | 说明 |
 |---|---|
 | 位置 | `world.overlay` 指定的目录;不写时用 `world-overlay/`,存在即生效 |
 | 时机 | 世界复制进 run 之后、shuffle / 选角 / 装 mixin / 装剧情之前 |
 | 粒度 | **整文件替换**,不是 JSON 合并:overlay 里的 `game/meta/variables.json` 会整个顶替世界的那份 |
-| 能放什么 | 任何世界路径:`game/world/<mixin>.json`、`game/meta/variables.json`、`game/meta/classes.json`、`assets/…`(地图 / 场景图)、`souls/<sid>-<iid>/assets/…`(自带灵魂的立绘) |
+| 能放什么 | 任何世界路径:`game/world/<mixin>.json`、`game/meta/variables.json`、`game/meta/classes.json`、`game/locations/<T>/<地点>/location.json`(加地点或改一个地点)、`assets/…`(地图 / 场景图)、`souls/<sid>-<iid>/assets/…`(自带灵魂的立绘) |
 | 素材落点 | 给内置世界的槽位填图时,图写进 overlay(模板里),不碰内置世界 |
 | 自带世界 | `world.path` 的模板通常不需要 overlay,直接改自己的 `world/` |
 
@@ -621,7 +650,7 @@ build 时有效 ui 写进 run 的 `game/meta/template.json["ui"]`,游玩界面�
 
 ---
 
-## 7. Lint(全部代码)
+## 7. Lint(代码一览)
 
 `neonrp template lint` 汇总所有检查,每条 `{level: block|warn, code, where, msg}`;有任何 block 即不可发布(退出码 1)。lint 会在临时目录做一次"全员到场"的参考 build,让剧情和槽位检查对着真实世界跑。
 
@@ -630,6 +659,12 @@ build 时有效 ui 写进 run 的 `game/meta/template.json["ui"]`,游玩界面�
 | `schema` | block / warn | template.json 读不到或不是 JSON(block);`schema` 不是 `worldlines.template/1`(warn) |
 | `meta.card` | block / warn | 缺 `card.title`(block);缺 `card.pitch`(warn) |
 | `meta.mode` | block / warn | `mode.ending` 非法(block);`mode.freedom` 未知(warn) |
+| `meta.zone` | block | `zone` 不是 `reviewed` / `open` |
+| `meta.forkable` | block / warn | 不是 bool(block);写在不是默认区的模板上(warn) |
+| `meta.milestones` · `meta.realtime_art` · `meta.achievements` | block | 取值不对 |
+| `meta.rewards` | block / warn | `rewards` 写法读不了(block);图不在模板里、自由区不发、合约不发卡等(warn) |
+| `soul.standalone` · `soul.takeable` · `soul.take_when` | block | 角色 `soul.json` 里这几个键的取值不对(见 soul spec) |
+| `uses.shape` · `uses.param` | block · warn | `uses` 形状不对;`uses.params` 选了编排模板没有的参数(§2a) |
 | `ref.world` | block | 没给世界,或世界目录不存在 |
 | `ref.pack` | block | pack(含 mixin 组合)加载失败 |
 | `pack.mixin` | block | mixin 名解析不到 |
@@ -673,6 +708,16 @@ build 时有效 ui 写进 run 的 `game/meta/template.json["ui"]`,游玩界面�
 | `loop.exit` | warn | `single`/`multi` 下没有 `fail`/`fallback`/`rule` 结局 |
 | `loop.epilogue` | warn | 结局没有标题 |
 | `loop.reveal` | block | `mode.reveal` 开着但剧情包没有 `reveal` |
+| `contract.unknown` · `contract.entry` · `contract.exit` · `contract.endings` · `contract.reveal` · `contract.rewards` | block | 玩法合约要求的东西缺了(见 contract spec) |
+| `contract.deaths` | warn | 合约规定某类死亡走某种结局,而模板没有这种结局(引擎会给一个普通的死亡退场) |
+| `contract.truth_quiz` · `truth_quiz.schema` · `truth_quiz.lang` · `truth_quiz.reward_soul` | 默认区 block / 自由区 warn | 合约要求「真相三问」而没写;写法不对;缺语言或某种语言改了正确答案;`reward_soul` 不在演员表里,或是 `takeable: false` |
+| `truth_quiz.points` | warn | `settlement.truth_quiz_points` 不是非负整数 |
+| `creation.schema` | block / warn | `creation` 不是对象(block);未知名字(warn,会被丢掉) |
+| `collect.who` · `collect.on` · `collect.contract` | block | 收集规则指向的不是世界里的角色;`on` 不对或结局不存在;合约不允许收集或数量不够 |
+| `collect.rarity` | warn | 稀有度不是 common / rare / epic |
+| `asset.variant` | warn | 按同伴的图版本:键不是这个模板的角色;写了 `image_shows` 但其他候选同伴没有自己的版本(6.6) |
+| `map.*` | warn | 绑定世界的地图问题:`map.dangling`(连接指向不存在的地点)· `map.port_unbound` · `map.port_dangling` · `map.isolated` · `map.legacy_level`(还是旧的 `nodes` 写法,见 world spec) |
+| `frontend.*` | warn | `frontends/` 里世界自带前端的问题(只在本机用,不挡发布) |
 | `player.builder` | block | 捏人声明不合法:字段缺 id / 重复 / 未知 kind、`to` 越出 game 目录、选项缺 id、grants 不是 set/append/add、点数分不完、头像图不在模板里、companion 候选不够 `pick` |
 | `i18n.id` | block | 本地化层改了一个 id(ASCII 的 id / sid / 地点 / flag / 变量引用);id 要保持原样 |
 | `i18n.parse` | block | 本地化层的 JSON 解析失败 |
@@ -681,6 +726,7 @@ build 时有效 ui 写进 run 的 `game/meta/template.json["ui"]`,游玩界面�
 | `i18n.partial` | warn | 本地化层还缺 N 个文件 / 字符串(回退主语言) |
 | `i18n.residue` | warn | 这种语言的本地化版本里还留着别的语言的专有名词(glossary) |
 | `i18n.key` / `i18n.list` / `i18n.orphan` | warn | 模板没有的键(可能打错;键是 id,不本地化)/ 数组长度不同被整个替换 / 模板没有的文件 |
+| `i18n.card_lang` · `i18n.replaces` · `i18n.lint` | warn | 本地化层卡面的 `lang` 不是这一层的语言;本地化的 overlay 文件整份替换了世界原文件、丢了键;本地化检查本身出错 |
 
 ---
 
@@ -693,7 +739,7 @@ build 时有效 ui 写进 run 的 `game/meta/template.json["ui"]`,游玩界面�
 2. 复制世界(`world.path` 或 `world.builtin`),跳过 `.neonrp/`、`__pycache__`。
 3. 盖 overlay(整文件替换)。
 4. `world.shuffle`:按 `seed` 洗牌发属性。
-5. 选角:按 `souls` 抽取 / 复制带进来的灵魂;写 `playthrough.json` 的 `souls` 和 `active_souls`。
+5. 选角:按 `souls` 抽取;`lib` / `path` 的角色**这时才**复制进这一局(`souls/<sid>-<instance_id>/`),世界自带的按 playthrough 行;写 `playthrough.json` 的 `souls` 和 `active_souls`。
 6. 角色侧 prompt 层:只覆盖 `soul.md` / `persona/` / `rules/` / `agents/`。
 7. 绑定 pack:`playthrough.json`(根目录和 `.neonrp/` 各一份)与 `manifest.json` 写 `"template": "<pack 名>"`,引擎靠它解析 pack。
 8. 每个 mixin 执行 `install(run)`,注册封闭 schema 变量并播种。
@@ -701,29 +747,34 @@ build 时有效 ui 写进 run 的 `game/meta/template.json["ui"]`,游玩界面�
 10. prompt 层合并,写 `game/meta/prompt.json`。
 11. 安装剧情包(去掉 `prompt` / `reveal` 后注册进世界,复制到 `game/plots/<id>/`;`reveal` 另存 `reveal.json`)。
 12. 封面复制到 `assets/template-cover.<ext>`;`card.title` 写进 `game/meta/game-start.json` 的 `name`。
-13. 写 `game/meta/template.json`:模板元数据 + `built`(souls / cast / plots / prompt_overlays / shuffled / mixins / dropped_soul_emits)+ 有效 `ui`。`neonrp template show` 和游玩界面都读这份记录。
+13. 写 `game/meta/template.json`:模板元数据(含 `uses`、`opening`、`audio`、`settlement`)+ `built`(souls / cast / plots / prompt_overlays / shuffled / mixins / dropped_soul_emits)+ 有效 `ui`。`neonrp template show` 和游玩界面都读这份记录。
+14. 有玩法合约时写 `game/meta/play_contract.json`;有 `orchestration` 时写 `game/meta/orchestration.json`。
 
 ### 8.2 引擎配置怎么生效
 
 ```
-builtin 默认  <  pack.loop  <  合约的 engine 段  <  game/meta/engine.json  <  .neonrp/playthrough.json["engine"]  <  环境变量
+builtin  <  pack(pack.loop)  <  contract(合约的 engine 段)  <  orchestration(uses 点名的编排模板)
+         <  world(game/meta/engine.json)  <  graph(编排图的步骤参数)  <  playthrough(.neonrp/playthrough.json["engine"])  <  env(环境变量)
 ```
 
-模板的 `pack.engine` 在第 9 步落进 `game/meta/engine.json`,所以它**盖过 pack 自带的 loop**,但仍可被某一局的 playthrough 或实验用的环境变量覆盖。用 `stoneford-elena` build 出来的 run,实测有效值:
+后者盖前者(`core/engine_config.py`)。模板的 `pack.engine` 在第 9 步落进 `game/meta/engine.json`,所以它**盖过 pack 自带的 loop 和编排模板**,但仍可被编排图、某一局的 playthrough 或实验用的环境变量覆盖。编排模板那一层不复制进存档,每次运行时叠上去。
+
+用 `stoneford-town` build 出来的 run,在开源引擎上实测的各层:
 
 | 键 | 值 | 来源层 |
 |---|---|---|
-| `turn.mode` | `v3` | world(来自模板 `pack.engine`) |
-| `turn.parallel.souls.default_variant` | `S-judge` | pack(`rpg` 的 loop) |
+| `turn.mode` | `v3` | pack(`rpg` 的 loop),world 层(模板 `pack.engine`)再写一次 |
+| `turn.parallel.souls.default_variant` | `S-judge` | pack,orchestration 层(`uses.soul`)再写一次 |
 
-参考模板的 `pack.engine` 都只写 `turn.mode: v3`;`werewolf-night-village` 不写 `pack.engine`,用 `werewolf` pack 自带的 loop。一回合里有哪些拍、叙事怎么转成状态,由编排图决定(3.1 `orchestration`),不在 `pack.engine` 里。
+在 PyPI 发布版上,orchestration 层还会带上两拍编排的设置(打开商量拍)。一回合里有哪些拍、叙事怎么转成状态,由编排模板和编排图决定(§2a),不在 `pack.engine` 里。
 
 ### 8.3 新开一局
 
 - `neonrp.template:new_run(ref)`:`ref` 可以是目录或模板 id;在 `~/.worldlines/plays/tpl-<id>-<YYYYMMDD-HHMMSS>/` 下 build,初始化 manifest,写入模型(见 3.9)。失败则删掉半成品。
 - HTTP:`POST /api/v1/play/session {"slug": "tpl--<id>"}` 即新开该模板的一局。
 - 模板声明了 `player.builder`(3.11):带上 `player: {fields, companion}` 即用玩家捏的角色开局;不带照旧开局。
-- 模板发现顺序(`template:search_dirs` / `discover`):`NEONRP_TEMPLATE_PATH`(按系统路径分隔符分隔)→ 源码运行时仓库里的 `worldlines/templates/`。同 id 先到先得。
+- 模板发现顺序(`template:search_dirs` / `discover`):`NEONRP_TEMPLATE_PATH`(按系统路径分隔符分隔;WorldLines 会把玩家自己的模板库 `~/.worldlines/templates` 放在最前)→ PyPI 发布版额外带的模板目录(从开源源码装的没有)→ 产品目录(源码运行时是仓库里的 `worldlines/templates/`,安装后是 `worldlines` wheel 自带的模板)→ 用账号获取的官方世界 `~/.worldlines/official`。同 id 先到先得。
+- 列表里 `shipped.json` 列出的两个内置模板(`pct-house`、`stoneford-town`)排最前。安装版只带这两个;其他官方世界登录后用 `neonrp template fetch <id>` 获取。源码运行时产品目录里的其他模板也会列出来,设 `NEONRP_TEMPLATES=shipped` 可以只看安装版那两个。
 
 ---
 
@@ -732,21 +783,33 @@ builtin 默认  <  pack.loop  <  合约的 engine 段  <  game/meta/engine.json 
 ```
 neonrp template list                        列出可发现的模板:id、pack 名、结局模式、标题、目录
 neonrp template lint <目录|id> [--json]     全部检查;不可发布时退出码 1
-neonrp template build <目录|id> <dest> [--force]
-                                            先 lint,有 block 就拒绝(--force 强行 build)
+neonrp template build <目录|id> <dest> [--force] [--lang L]
+                                            先 lint,有 block 就拒绝(--force 强行 build);--lang 盖本地化层
 neonrp template show [--world <run 目录>]    已 build 的 run:卡面 / 模式 / 剧情阶段 / 结局;谜底只在结局后
 neonrp template slots <目录|id>             每个素材槽位实例:ok / stale / MISSING(必需未填)/ -(可选未填)
 neonrp template contract <目录|id> [--ts|--gd]
                                             导出 worldlines.contract/0.1(vars / classes / ops / events / triggers /
                                             slots / views / panels),或生成 TypeScript / GDScript 绑定
 neonrp template contracts                   官方玩法合约,以及哪些模板声明了它
-neonrp template fork <目录|id> <new-id>      复制一份进你的模板库再改(内置的只读)
+neonrp template fork <目录|id> <new-id> [--store DIR] [--title T]
+                                            复制一份进你的模板库再改(内置的只读;官方世界只有 forkable 的能复制)
 neonrp template set-contract <id> <合约[@版本]>|--clear
                                             声明这个模板承诺的体验;改完重跑 lint
-neonrp template export <目录|id> [-o FILE]   打成一个包(.zip),它 link 的角色库角色一起带上
+neonrp template export <目录|id> [-o FILE]   打成一个包(.zip),它 link 的角色库角色一起带上;默认区作品拒绝(见 9.2)
 neonrp template export --soul <名字> [-o]    角色库里的一个角色打成包
 neonrp template import <FILE> [--id NEW] [--store DIR]
                                             导回来:模板进你的模板库,带着的角色进角色库(见 9.2)
+neonrp template publish <目录|id> --official 以官方身份发到默认区(只有官方账号能用;再发 = 新 revision,先升 version)
+neonrp template fetch <id>                  用 Worldlines 账号获取(或更新)一个默认区世界到 ~/.worldlines/official
+neonrp spec sync [DIR …]                    把 AGENTS.md / CLAUDE.md / spec/ 写进每个模板、模板库和角色库
+```
+
+`fork` / `import` 要写进你的模板库:用 `--store DIR` 指定,或设 `NEONRP_TEMPLATE_WRITE_DIR`(`worldlines` 启动时会设成 `~/.worldlines/templates`)。只在命令行里跑时,改完再用路径引用这个副本,例如:
+
+```
+neonrp template fork stoneford-town my-town --store ~/.worldlines/templates
+neonrp template lint ~/.worldlines/templates/my-town.template
+neonrp template export ~/.worldlines/templates/my-town.template -o my-town.zip
 ```
 
 `lint` 文本输出每行:`[level] code where: msg`,最后一行 `publishable|NOT publishable — N block, M warn`。`--json` 输出:
@@ -761,36 +824,60 @@ neonrp template import <FILE> [--id NEW] [--store DIR]
 }
 ```
 
-参考模板当前的 lint 结果:三个 stoneford 模板都是 `publishable — 0 block, 1 warn`(`asset.optional`);`werewolf-night-village`(`lint.level: draft`)是 `0 block, 3 warn`(`ref.souls`、`token.unmeasured`、`asset.card`)。
+两个内置模板(都是 `lint.level: draft`)当前的 lint 结果:`pct-house` 是 `publishable — 0 block, 1 warn`(`token.unmeasured`,本机还没玩过);`stoneford-town` 是 `0 block, 4 warn`(`asset.stale`、`asset.optional`、`token.unmeasured`、`i18n.residue`)。
 
 ### 9.1 Authoring API(简述)
 
 `neonrp.template.author` 提供创作者编辑:
 
-- 只能写 `NEONRP_TEMPLATE_WRITE_DIR` 下的模板;内置 / 示例模板只读,先 `fork(src, new_id)`。
-- `apply_ops(t, ops)`:所有 op 先验证,一条被拒则全部不写,写完自动重新 lint。op:`edit_card` `set_mode` `set_mixins` `add_slot` `remove_slot` `edit_prompt` `edit_recipe` `set_view` `remove_view` `set_budget` `register_class` `set_policy` `set_world_data` `set_orchestration` `set_play_contract` `set_cast`。每个 op 的字段:`neonrp spec authoring`。
+- 只能写 `NEONRP_TEMPLATE_WRITE_DIR` 下的模板;内置 / 示例模板只读,先 `fork(src, new_id)`。fork 出来的副本去掉 `zone` / `forkable` / `official`,是作者自己的作品(自由区,可以导出)。
+- `apply_ops(t, ops)`:所有 op 先验证,一条被拒则全部不写,写完自动重新 lint。op:`edit_card` `set_mode` `set_mixins` `add_slot` `remove_slot` `edit_prompt` `edit_recipe` `set_view` `remove_view` `set_budget` `register_class` `set_policy` `set_world_data` `set_orchestration` `set_play_contract` `set_soul_orchestration` `set_engine_setting` `set_soul_ambient` `set_cast`。每个 op 的字段:`neonrp spec authoring`。
+- `set_orchestration {graph}`:模板的编排图,存成相对玩法包默认图的补丁(`orchestration.json`);`nodes.resolve.state = pseudo | jev` 定清算拍怎么写状态(§2a)。
+- `set_soul_orchestration {sid, graph}`:一个角色在这个世界里自己的编排图,写 `prompts/souls/<sid>/orchestration.json`。`set_soul_ambient {sid, world}`:一个角色在这个世界里的简单世界观,写 `prompts/souls/<sid>/ambient/world.json`。(两者都撞上 3.7 的已知问题。)
+- `set_engine_setting {key, value}`:只允许白名单里的设置,写进 `pack.engine`:`turn.parallel.souls.default_variant`,或 `turn.parallel.souls.per_soul.<sid>`(这个模板的角色;`null` = 跟默认),取值 `legacy` · `S-judge` · `S-direct` · `S-free`。
 - `set_cast {souls: [...]}`:整张演员表(3.6 的行);link 断了 / 重复 / 定位不认识 / 两个主角 → 整批拒。
 - 设置 `WORLDLINES_ASSETS_DIR` 时,每张落进槽位的图另存一份到素材工坊,保留历史。
-- 对应 HTTP:`/api/v1/local/templates/<id>/{lint,cover,contract,assets,ui,fork,ops,plots,graph-lint,export}`;角色反查 `GET /api/v1/local/souls/<名字>/bindings`。
+- 对应 HTTP:`/api/v1/local/templates/<id>/{lint,cover,contract,assets,ui,fork,ops,plots,graph-lint,export,publish}`;角色反查 `GET /api/v1/local/souls/<名字>/bindings`。
 
 ### 9.2 包:导出 / 导入(`neonrp.template.package`)
 
 一种包装所有东西:zip,根目录一份 `pack.json`:
 
 ```json
-{"schema": "worldlines.package/1", "kind": "template", "id": "pct-house", "title": "灰橡宅",
+{"schema": "worldlines.package/1", "kind": "template", "id": "my-house", "title": "灰橡宅 · 关上的门",
  "exported": "2026-10-08T09:00:00+00:00", "links": ["mira"]}
 ```
 
 | kind | 包里有 | 导入到 |
 |---|---|---|
-| `template` | `<id>.template/…`(模板文件夹原样)+ `souls-lib/<名字>/…`(它 `lib` 的每个角色) | 模板 → `NEONRP_TEMPLATE_WRITE_DIR`;角色 → 角色库,行照旧 link |
+| `template` | `<id>.template/…`(模板文件夹原样,不带 `frontends/`)+ `souls-lib/<名字>/…`(它 `lib` 的每个角色) | 模板 → `NEONRP_TEMPLATE_WRITE_DIR`;角色 → 角色库,行照旧 link |
 | `soul` | `soul/…`(一个角色库角色) | 角色库 |
 
+- 只有自由区作品能导出:默认区作品(`zone: reviewed`,以及获取来的官方世界)导出被拒(`ExportRefused`,code `default_zone`)。官方世界写了 `forkable: true` 的,先 `fork` 一份,副本就能导出。
+- 导出前 link 的角色库角色必须都在,否则拒绝。
 - id 被占 → 下一个空的 `-2`、`-3`……(`--id` 指定时被占就拒)。
 - 角色库里已有同名角色:内容一模一样就复用;不一样就改名装进来,模板的行指过去,本机原来的不动。
 - 先解到临时目录检查再落地:绝对路径 / `..` / 链接 / 代码文件(`.py` `.js` `.sh` …)/ 超过 5000 个文件或 300 MB → 整包拒。
 - HTTP:`GET /api/v1/local/{templates|souls}/<id>/export` · `POST /api/v1/local/import/package[?id=]`(body = zip)。
+
+### 9.3 发布到 Hub(`core.template_publish`)
+
+Hub 分两个区。引擎里叫 `reviewed` / `open`,平台叫 `curated` / `open`:
+
+| 区 | 是什么 | 怎么进 |
+|---|---|---|
+| **自由区**(`open`) | 检查通过即公开,事后管理;不发奖励卡 | 本机创作台用 Worldlines 账号发布:`POST /api/v1/local/templates/<id>/publish {lang?}` |
+| **默认区**(`reviewed` / `curated`) | 审核后上架;官方世界也在这里 | 网页 Hub / iOS 创作台带 `{zone: "curated"}` 提交进审核队列;自由区作品之后可以 `POST /api/v1/local/hub/submit {id}` 申请;官方账号用 `neonrp template publish <id> --official` |
+
+发布前引擎先跑同样的检查(`preflight`;`GET …/publish` 只检查不上传):
+
+1. 模板 link 的角色库角色都在;
+2. 会进包的文本里(模板和每个 link 的角色)没有密钥形状的字符串或凭据文件;
+3. lint `publishable`(没有 block);
+4. 卡面的中 / 英 / 日 / 韩标题和简介齐全(卡面本身或本地化层的卡面);
+5. 有封面文件。
+
+上传的是 `package.zip`(同 9.2,link 的角色复制进包)和封面。作品 id = `<模板 id>-<6 位 hex>`;同一模板再发 = 同一作品加一个 revision。平台检查不过返回 422 `checks_failed {problems}`。作者自己的作品:`GET /api/v1/local/hub/mine`,`POST …/hub/{unpublish,submit,withdraw} {id}`。
 
 ---
 
@@ -811,4 +898,7 @@ neonrp template import <FILE> [--id NEW] [--store DIR]
 | 给 agent 读的 spec(`neonrp spec` · `/api/v1/spec` · `/llms.txt`) | `src/neonrp/spec.py` |
 | HTTP | `src/neonrp/webui/template_routes.py` |
 | 内置世界 | `src/neonrp/templates/<world id>/` |
-| 参考模板 | `worldlines/templates/{pct-house,stoneford-elena,stoneford-market,stoneford-three-towns,werewolf-night-village}.template/` |
+| 发布到 Hub / 获取官方世界 | `src/neonrp/core/template_publish.py` |
+| 编排模板 | `src/neonrp/core/orch_templates.py`、`src/neonrp/orchestrations/` |
+| 写状态的后台纠正 | `src/neonrp/core/write_down_async.py` |
+| 内置模板 | `worldlines/templates/{pct-house,stoneford-town}.template/`(`worldlines/templates/shipped.json`) |

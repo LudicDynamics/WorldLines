@@ -160,7 +160,7 @@ class LinesFilter:
 
     def _mid_line(self) -> str:
         """The part of an unfinished prose line that can go out now: up to a request in it (then the screen stops — the
-        words after a request in the same line were written before the engine answered, niko 10-17), else up to a
+        words after a request in the same line were written before the engine answered, 10-17), else up to a
         bracket still open (it may become a request)."""
         s = self.line
         m = _REQUEST_ANY.search(s) if self.stop_at_request else None

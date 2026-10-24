@@ -38,14 +38,14 @@ def _run(root: Path, *, turns: int = 3, feed: bool = True) -> Path:
 def test_bundle_is_a_whitelist_copy(tmp_path):
     run = _run(tmp_path / "stoneford-elena-20260911-101010")
     out = tmp_path / "r.zip"
-    meta = RE.build_replay_bundle(run, out, uploader="niko")
+    meta = RE.build_replay_bundle(run, out, uploader="mika")
     with zipfile.ZipFile(out) as zf:
         names = sorted(zf.namelist())
     assert names == sorted(
         ["stoneford-elena-replay/replay.json", "stoneford-elena-replay/timeline.json", "stoneford-elena-replay/story.md", "stoneford-elena-replay/feed.jsonl", "stoneford-elena-replay/cover.png"]
     ), "sessions / config / playthrough / game / souls / 原始回合轨迹(orchestration.jsonl)一律不进包"
     assert meta["world"] == {"slug": "stoneford-elena", "name": "石津镇·艾琳娜"} and meta["turns"] == 3
-    assert meta["kind"] == "replay" and meta["uploader"] == "niko"
+    assert meta["kind"] == "replay" and meta["uploader"] == "mika"
 
 
 def test_turns_fall_back_to_story_headings_and_slug_to_the_folder(tmp_path):

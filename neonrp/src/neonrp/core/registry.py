@@ -38,7 +38,7 @@ _ROLE_SUFFIX = re.compile(r"[\(（][^)）]*[\)）]\s*$")
 # ── envelopes & specs ────────────────────────────────────────────────────────
 
 
-# A character's own side (niko 10-20): what she feels, means, wants and is — set by her reply, never by the world. Everything
+# A character's own side (10-20): what she feels, means, wants and is — set by her reply, never by the world. Everything
 # else on her (hp, wounds, things, gear, what the world added) is the world's to write; where she is goes through move.
 SOUL_OWN = frozenset({"mood", "trust", "intention", "goals", "relationships", "persona", "personality", "traits", "rules",
                       "recent", "role", "sid", "name_en", "memory", "memories", "thoughts", "feelings"})

@@ -672,7 +672,7 @@ class OpenAIAdapter:
                     # Exhausted retries
                     raise RetryableError(f"{error_prefix} after {self.max_retries} retries: {classified}") from e
                 elif isinstance(classified, AuthError) and getattr(self, "_wl_token", None) and not self._api_key:
-                    # ai.worldlines.gg refused the session's token (expired / revoked, niko 10-19 iOS): renew it once and
+                    # ai.worldlines.gg refused the session's token (expired / revoked, 10-19 iOS): renew it once and
                     # send the same request again; renewal refused = the player has to sign in again (said so, not "no model")
                     if self._renew_after_401():
                         try:

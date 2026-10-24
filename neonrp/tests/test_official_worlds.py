@@ -1,4 +1,4 @@
-"""官方世界走账号(niko 10-17):本地版只内置灰橡宅 / 石津镇,其他官方世界由官方账号「发布为官方」进默认区,
+"""官方世界走账号(10-17):本地版只内置灰橡宅 / 石津镇,其他官方世界由官方账号「发布为官方」进默认区,
 登录的本地玩家在 Hub 里获取到官方缓存(NEONRP_OFFICIAL_DIR)—— 只能玩,不能导出 / 复制。
 
 假平台 = test_template_publish.Platform(identity /v1/me official · 公开列表标 official · curated 自动通过(P2)·

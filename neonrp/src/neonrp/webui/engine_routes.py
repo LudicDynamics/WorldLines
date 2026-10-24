@@ -1024,7 +1024,7 @@ class EngineRoutes(ModeRoutes, SchemaRoutes, MapRoutes, TemplateRoutes, CommitRo
                     _players.apply_avatar_to_run(self.server.runtime.root, stem or "")
                 except (OSError, ValueError):
                     pass
-            # 开局兜底 provider(niko 2026-09-03 实测):从世界选择器直接 bind
+            # 开局兜底 provider(2026-09-03 实测):从世界选择器直接 bind
             # 一个新 run 时没带 preset → run config 无 model → souls 停在 stub。
             # fresh 开局若没显式 preset,就用书房默认(create_provider)。resume
             # 已有存档不动(它自带本局 config)。auto=兜底(失败静默,不把成功的

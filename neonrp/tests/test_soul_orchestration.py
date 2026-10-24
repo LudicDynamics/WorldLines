@@ -34,7 +34,7 @@ def store(tmp_path, monkeypatch):
     s = tmp_path / "store"
     for t in ("wuwu", "spice-witch"):
         shutil.copytree(PRODUCT_TEMPLATES / f"{t}.template", s / f"{t}.template")
-    # niko 10-20 made Severin stay in his world (takeable: false); these tests use him as the takeable, not-standalone kind
+    # 10-20 made Severin stay in his world (takeable: false); these tests use him as the takeable, not-standalone kind
     for sj in (s / "spice-witch.template").rglob("severin-*/soul.json"):
         d = json.loads(sj.read_text(encoding="utf-8"))
         d["takeable"] = True
@@ -346,7 +346,7 @@ def test_a_gained_character_gets_stickers_added_after_it_was_taken(store, tmp_pa
     assert player_data.gain(run, soul_dir_iid(next((run / "souls").glob("severin-*"))), "companion_at_ending")
     monkeypatch.setenv("NEONRP_TEMPLATE_WRITE_DIR", str(store))
     SO.sticker_put("tpl:spice-witch/severin", "bow", PNG)
-    # 10-20 (niko): a taken character's stickers are the player's — the author's new one waits in the update's diff
+    # 10-20: a taken character's stickers are the player's — the author's new one waits in the update's diff
     assert [s["id"] for s in soul_chat.thread("spice-witch", "severin")["stickers"]["soul"]] == []
     from neonrp.core import soul_update
 

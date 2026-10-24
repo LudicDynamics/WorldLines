@@ -1,4 +1,4 @@
-"""网页 Hub 默认区创作台(niko 10-18 · PLATFORM-PLAY-RULES-1015 §1 §2):每个官方模板一个表单式创作台,作品进默认区、走快审。
+"""网页 Hub 默认区创作台(10-18 · PLATFORM-PLAY-RULES-1015 §1 §2):每个官方模板一个表单式创作台,作品进默认区、走快审。
 
 - 表单按模板的协议和合约生成:要填的(mode.reveal / 合约的谜底 → 谜底;rewards ending_cg → 每个结局的图必填)、卡面、哪些图
 - 「存」= 作者的作品(模板的一份拷贝,第一次存时建)里的一段 plot + 作者写的四语卡面;再存覆盖同一段;不能复制的官方世界也能在它开放的层里创作
@@ -18,6 +18,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 import pytest
+from _paths import PRODUCT_TEMPLATES
 
 from neonrp import template as TP
 from neonrp.core import template_publish as tp
@@ -25,7 +26,7 @@ from neonrp.template import author, creation
 
 from test_template_publish import platform  # noqa: F401 — the fake identity + storage
 
-TPLS = Path(__file__).resolve().parents[1] / "worldlines" / "templates"
+TPLS = PRODUCT_TEMPLATES
 PNG = b"\x89PNG\r\n\x1a\n" + b"\x00" * 64
 
 
@@ -34,6 +35,8 @@ def desk(tmp_path, monkeypatch):
     """Two official templates (read-only store) + the creator's write store: stoneford-town (forkable) · guixiang (not)."""
     ro, mine = tmp_path / "official", tmp_path / "mine"
     for n in ("stoneford-town", "guixiang"):
+        if n == "guixiang" and not (TPLS / f"{n}.template").is_dir():
+            continue  # not a shipped template: the open repo has only stoneford-town (the cases that need it skip)
         shutil.copytree(TPLS / f"{n}.template", ro / f"{n}.template", ignore=shutil.ignore_patterns("__pycache__"))
     mine.mkdir()
     monkeypatch.setenv("NEONRP_TEMPLATE_PATH", f"{mine}{os.pathsep}{ro}")
@@ -266,7 +269,7 @@ def test_block_an_author_by_a_work(desk, platform, monkeypatch):  # noqa: F811
 
 
 def test_an_approved_community_work_comes_down_to_play_not_labelled_official(desk, platform, monkeypatch, tmp_path):  # noqa: F811
-    """niko 10-21: iOS plays approved community works — fetched into the official cache like an official world, but it is
+    """10-21: iOS plays approved community works — fetched into the official cache like an official world, but it is
     the creator's, so it must not say official."""
     w = creation.save(_t("stoneford-town"), TOWN, work_id="stoneford-town-mine", card=CARD)
     wid = tp.publish(w, zone="curated")["id"]

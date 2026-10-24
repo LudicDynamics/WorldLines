@@ -1,4 +1,4 @@
-"""创作台的编排模板(niko 10-18 / 10-19 阶段 A):网页默认区 / iOS / 本地创作台从官方模板里选一套,选了看这套的执行图 —— 只读。
+"""创作台的编排模板(10-18 / 10-19 阶段 A):网页默认区 / iOS / 本地创作台从官方模板里选一套,选了看这套的执行图 —— 只读。
 
 - 世界的选项 = 编排模板(core/orch_templates:引擎 neonrp/orchestrations/ + 私有层 orchestrations/<id>/);开源引擎有
   「一句一拍 · legacy」「一句一拍 · S-judge」,私有层加「两拍 · S-judge」(快商量是它的参数 pace=quick,不再是单独一套)
@@ -21,8 +21,9 @@ from neonrp import template as TP
 from neonrp.core import node_kinds, orch_presets as O
 from neonrp.core.paths import private_dir
 from neonrp.template import creation
+from _paths import PRODUCT
 
-TPLS = Path(__file__).resolve().parents[1] / "worldlines" / "templates"
+TPLS = PRODUCT / "templates"
 LANGS = {"zh", "en", "ja", "ko"}
 PRIVATE = node_kinds.get("plan") is not None and private_dir("orchestrations") is not None
 needs_private = pytest.mark.skipif(not PRIVATE, reason="needs the private layer (the planning beat's presets)")
@@ -92,7 +93,7 @@ def test_the_private_layer_adds_the_two_beat_template():
 
 @needs_private
 def test_each_world_plays_the_template_it_names(desk):
-    assert O.default_for(_t("stoneford-town")) == "two_beat", "niko 10-19: every world plays the two beats in the private layer"
+    assert O.default_for(_t("stoneford-town")) == "two_beat", "10-19: every world plays the two beats in the private layer"
     assert O.default_for(_t("pct-house")) == "two_beat"
 
 
@@ -147,7 +148,7 @@ def test_every_preset_draws_a_graph(desk, tid):
 
 @needs_private
 def test_each_pace_draws_its_own_graph(desk):
-    """niko 10-23: 「As usual」 and 「Quick talk」 looked the same — one view per template, no setting on it. Now each
+    """10-23: 「As usual」 and 「Quick talk」 looked the same — one view per template, no setting on it. Now each
     parameter choice has its own view, and the node it changes carries those settings, so the two read differently."""
     vs = O.views(_t("stoneford-town"))["views"]
     assert {"two_beat", "two_beat?pace=quick"} <= set(vs) and "one_beat" in vs
@@ -307,7 +308,7 @@ def test_every_soul_preset_draws_a_graph_without_settings(soul_presets):
 
 
 def test_the_desk_has_no_per_character_picker(desk, soul_presets):
-    """niko 10-19: an orchestration is one system of the template (world and characters together), never a pick per
+    """10-19: an orchestration is one system of the template (world and characters together), never a pick per
     character — the form offers none, and a row that still carries one (an old draft) writes nothing into the work."""
     t = _t("stoneford-town")
     assert "soul_orchestration" not in creation.form(t)

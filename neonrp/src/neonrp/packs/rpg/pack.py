@@ -93,7 +93,7 @@ ACTIONS: list[ActionSpec] = [
     ActionSpec("mood", "update", "soul_mood", ["who", "value"], scope="souls", doc=_op_zh("op_mood"), doc_i18n=_op_i18n("op_mood")),
     ActionSpec("roll", "tool", "neonrp.packs.rpg.tools:roll", ["dice"], doc=_op_zh("op_roll"),
                doc_i18n=_op_i18n("op_roll")),
-    # 09-30 niko: 裁判 / 战斗 / 骰子 — v2's sub-agents as requests and a mode layer
+    # 09-30: 裁判 / 战斗 / 骰子 — v2's sub-agents as requests and a mode layer
     ActionSpec("dice", "tool", "neonrp.packs.rpg.tools:dice", ["dice", "vs"],
                doc=_op_zh("op_dice"),
                doc_i18n=_op_i18n("op_dice")),
@@ -111,7 +111,7 @@ ACTIONS: list[ActionSpec] = [
                doc_i18n=_op_i18n("op_end_combat")),
 ]
 
-# the layers = v2 sub-agents as one-shot nodes the Resolve calls (D-20261018-combat-one-shot-node): their system.md from
+# the layers = v2 sub-agents as one-shot nodes the Resolve calls (10-18): their system.md from
 # the world folder or the pack, reads packed by the engine, their dice thrown by the engine, writes through ops
 MODES: dict[str, dict] = {
     "combat": {"title": _T("combat_title"), "prompt": "agents/combat-referee/system.md", "reads": ["rules"], "reads_title": _T("combat_reads_title"),

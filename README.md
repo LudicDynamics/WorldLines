@@ -27,8 +27,9 @@ deal, pick a fight, and the world answers with consequences that stay.
 
 Under it is **NeonRP**, a world-simulation engine built on one idea: *let the model tell the story, let the world keep its rules.*
 
-- **One line, one turn.** Say what you want to do. The world rolls what needs rolling, the characters present act in turn,
-  the story is written, and one validated change is committed to the world.
+- **Talk first, then resolve.** Say what you want to do. In the planning beat the characters present answer and you
+  agree on a plan; once a judge says the talk is settled (or you say 「定」 / `@dm`), the resolve beat rolls what needs
+  rolling, writes the story and commits one validated change to the world.
 - **Three parties.** The world, you and every character keep their own agency. What you say is an *attempt*, not a fact;
   characters decide for themselves.
 - **The world is files.** Plain JSON / Markdown you can read, diff and version; every turn is a commit you can roll back
@@ -39,7 +40,7 @@ Under it is **NeonRP**, a world-simulation engine built on one idea: *let the mo
 | Folder | What | License |
 |---|---|---|
 | [`neonrp/`](./neonrp) | The engine: turn loop, schema, packs (`rpg`, `pct`, `werewolf`, `monopoly`, `economy`, `factions` …), templates, CLI, terminal UI, SDK | Apache-2.0 |
-| [`worldlines/`](./worldlines) | The product: web UI (3.0), desktop shell, launcher package, templates, example worlds, tutorials | AGPL-3.0 |
+| [`worldlines/`](./worldlines) | The product: web UI (3.0), launcher package, templates, example worlds, tutorials; a desktop shell (not released yet) | AGPL-3.0 |
 | [`documents/`](./documents) | Specs (world · soul · template · contract · pack) and the source of [docs.worldlines.gg](https://docs.worldlines.gg) | CC BY 4.0 |
 | [`benchmarks/`](./benchmarks) | The test suites behind the engine's design decisions | code Apache-2.0 · data CC BY 4.0 |
 | `CLAUDE.md` · `AGENTS.md` · `.claude/` · `.agents/` | A card-crafting workbench for Claude Code / Codex (see below) | AGPL-3.0 |
@@ -57,8 +58,9 @@ is online play, nothing to install. Both commands check for a newer release at l
 (`/update mode prompt` inside the game to be asked first). Release notes: [`neonrp/CHANGELOG.md`](./neonrp/CHANGELOG.md) ·
 [GitHub Releases](https://github.com/LudicDynamics/WorldLines/releases). The one-line installer still works:
 `curl -LsSf https://worldlines.gg/install.sh | sh` (macOS / Linux) · `irm https://worldlines.gg/install.ps1 | iex` (Windows).
-The first run walks you through choosing a model provider (DeepSeek, OpenRouter, local OpenAI-compatible servers …); keys
-stay on your machine.
+Python 3.10 or newer. The first run walks you through choosing a model: sign in with a Worldlines account (`/login`: model
+relay and the Jev judge, no key of your own), or bring your own key (OpenCode Zen, DeepSeek, OpenRouter, Anthropic, OpenAI,
+GLM, or any OpenAI-compatible server). Keys stay on your machine.
 
 ## Play
 
@@ -70,14 +72,19 @@ Pick a world, and the world opens with its own opening scene. Then just say what
       金 18 → 8 · 两人到杂货铺 · +小治疗药水
 ```
 
-Each line you say is one turn: the world (shown as the host, or GM) narrates what happens and writes the change into the world.
+Each turn has two beats. In the **planning** beat the host sets the scene and the characters present answer; you agree on
+what to do. When the talk is settled — a judge decides (Jev with a Worldlines account, otherwise your run's own model), or you
+say 「定」 / `@dm` — the **resolve** beat narrates what happens and writes the change into the world. The state is written at
+once and checked again in the background; if the check finds a mistake, it is corrected and you are told what changed.
 
 | Template | What it is |
 |---|---|
 | Greyoak House · The Closed Door | an old house at the end of Fog Lane whose master walked through a door three days ago and never came out; one night, a tight-lipped butler, percentile-dice mystery |
 | Stoneford · The Night the Fog Withdraws | the fog draws back one night a year: two nights and a day to gather what you need to leave by the north gate |
 
-The local edition ships these two worlds. For the other official worlds, sign in with your Worldlines account in the local Hub to see and get them (they download to your computer to play).
+The local edition ships these two worlds. The other official worlds are on the Hub: browse them without signing in and play
+them online at [worldlines.gg](https://worldlines.gg) (or from "Hub ↗" in the local web UI); sign in with a Worldlines account
+to download one and play it locally.
 
 <p align="center">
   <img src="./worldlines/assets/web-multi-agent.png" alt="WorldLines — a living world" width="860" />

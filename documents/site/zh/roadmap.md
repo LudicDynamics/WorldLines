@@ -1,33 +1,39 @@
 ---
 title: "路线图"
-description: "WorldLines 的走向。"
+description: "已经发了什么、正在做什么、接下来想做什么。不写日期。"
 ---
 
-<!-- section: v019 -->
-## v0.1.9 (2026-04)
+<!-- section: shipped -->
+## 已发布:1.0.x
 
-- 10-agent 四层编排器 / Stoneford 起始世界 / Claude Code 运行时 / 文件支撑的世界状态
+完整记录见[更新日志](/docs/changelog)。要点:
 
-<!-- section: v020 -->
-## v0.2.0 (2026-05–06)
+- **两种本地界面**:`worldlines`(本地网页)和 `neonrp`(终端启动器),从 PyPI 或 GitHub 安装,启动时自己更新;在线玩在 [worldlines.gg](https://worldlines.gg) 和 iOS App
+- **两拍回合**:先商量、再清算;判官(Jev,或这局自己的模型)判断谈没谈妥
+- **状态先写下、后台再复核**,改了什么会告诉你
+- **模板和玩法合约**:四份官方合约(解谜跑团 · 开放冒险 · 剧本杀 · 恋爱陪伴),发布前按合约检查
+- **角色库独立**:世界里只放角色的 link,一个角色进很多世界
+- **导出 / 导入**:模板和角色打成一个包带走;SillyTavern 角色卡直接导入
+- **本地内置两个世界**:灰橡宅、石津镇;其他官方世界在 Hub 里
+- **开源**:引擎 NeonRP(Apache-2.0)和产品 WorldLines(AGPL-3.0)都在 [GitHub](https://github.com/LudicDynamics/WorldLines)
 
-- **WebHub** hub.worldlines.gg / **在线游玩** / **Soul Talk**(elena) / **WorldHub & SoulHub** 目录 / **创作工坊** / **三栏编辑器,封面,继续存档**
+<!-- section: now -->
+## 正在做
 
-<!-- section: v030 -->
-## v0.3.0 已发布 (2026-07)
+- **发布流程**:上传的世界先成草稿,审核后上架;上传前检查密钥、封面、立绘和四种语言的标题简介
+- **存档变回放**:把玩过的一局导出成回放,分享到 Hub
+- **更多官方世界**,以及让现有两个世界更稳、更好玩
 
-- **Web 启动器 + LocalShell**(统一 Web/TUI,一份游玩代码)
-- **备团工作台**(白模创作流程)/ 更好的地图 / Obsidian 式世界图谱
-- **自托管 Web 版**
+<!-- section: next -->
+## 下一步
 
-<!-- section: v040 -->
-## v0.4.0 计划中
+- 开局时从角色库挑一个角色当你扮演的主角
+- 网页上也能撤销、回到某一回合
+- 文档的日语和韩语版本
 
-- **多 Agent 多人**
-- **Tauri 桌面** (Win / Mac / Linux)
-- 其他
+桌面安装包:仓库里有桌面壳的代码,但还没有发布。本地版请用 `pip install worldlines` 安装。
 
 <!-- section: protocol -->
-## 开放协议
+## 开放规格
 
-稳定的 **bundle 协议**(WORLD / SOUL)。Schema 版本化、Hash 寻址、公开注册表友好。
+世界、角色、模板、玩法合约和规则包的规格都是公开的,见[规格](/docs/developers/specs)。

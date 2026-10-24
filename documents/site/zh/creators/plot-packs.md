@@ -10,6 +10,8 @@ description: "关键道具、新地点、if/else、结局,和前端要展示的�
 
 放在 `plots/<id>/plot.json`:`stages`(自动声明 `<id>.stage` 变量)· `classes` / `vars` · `entries`(关键道具、新地点、NPC,可带 `assets`)· `triggers` · `endings`。
 
+还可以写:`stage_var`(用别的变量当阶段)· `stage_cg`(进某个阶段时播的图)· `prompt`(追加给讲述者的提示)· `reveal`(谜底,结局时揭晓)· `truth_quiz`(结算后的真相三问)· `collect`(世界里哪些角色、在什么条件下能被收集)。石津镇的 `plots/P20` 和灰橡宅的 `plots/P01` 是两个完整的例子。
+
 <!-- section: example -->
 ## 例子
 

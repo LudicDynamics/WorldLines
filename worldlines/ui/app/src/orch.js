@@ -92,7 +92,7 @@
     if (!rows.length) return;
     b.insertAdjacentHTML('beforeend', `<div class="orchlint glass"><b>引擎跑不了 · ${rows.length}</b>${rows.map(w => `<div><span class="dot warn"></span>${esc(WHY[w.code] || w.code)}<small>${esc(w.msg)}</small></div>`).join('')}<small class="tag">只是警告:局照样能玩,这些部分不会被执行</small></div>`);
   }
-  // 写回(1.0 带创作写回,niko 10-08):把编排台上这张图交给模板的 set_orchestration(存成相对玩法包默认图的补丁)
+  // 写回(1.0 带创作写回,10-08):把编排台上这张图交给模板的 set_orchestration(存成相对玩法包默认图的补丁)
   O.writable = {}; O.msg = {};
   async function writable(tid) {
     if (O.writable[tid] !== undefined) return O.writable[tid];
@@ -166,7 +166,7 @@
   // 侧栏对话测试接真引擎(10-17 第 2 批 2.3):POST /templates/<id>/graph-test {lines, graph} —— 引擎在子进程里把这一串话
   // 在一次性临时局里从头跑一遍(假模型),回来的是每句走到的节点 · 调的工具 · 谁推进的 · 走过的边;画布上的草稿一起带上
   O.lines = {}; O.running = {}; O.sess = {};
-  // ④ niko 10-17:默认用真模型(玩家自己配的那个,会花额度),可以切回假模型先空跑;记在本机
+  // ④ 10-17:默认用真模型(玩家自己配的那个,会花额度),可以切回假模型先空跑;记在本机
   O.model = (() => { try { return localStorage.getItem('wl-orch-model') === 'stub' ? 'stub' : 'real'; } catch { return 'real'; } })();
   O.sideHead = () => O.model === 'real'
     ? `<span class="seg osm"><button class="on" data-omodel="real">真模型</button><button data-omodel="stub">假模型</button></span><span class="tag" style="color:#f2c66b">会花额度</span><div class="sub" style="font-size:12.5px">用你在设置里选的模型,在一次性的临时局里真的跑一回合(每句一回合,几次模型调用);图上没写回的草稿一起带上。玩的这一局不受影响。</div>`

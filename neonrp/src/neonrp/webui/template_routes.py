@@ -62,7 +62,14 @@ Local (the template store: NEONRP_TEMPLATE_PATH + worldlines/templates from sour
 
 Authoring (template/author.py — only templates under NEONRP_TEMPLATE_WRITE_DIR; built-ins are read-only, fork first):
     GET  /api/v1/local/templates/<id>/ui        {ui, writable, mixins, mixins_available, world_data}
+    GET  /api/v1/local/templates/_new           what a new template is made of: {packs, contracts, orchestration} (author.new_options)
+    POST /api/v1/local/templates                {title?, id?, lang?, pack?, contract?, orchestration?}  → a new template from
+                                                nothing (author.blank; id from the title; the engine's blank world as its world/)
+    POST /api/v1/local/templates/<id>/world/new {title?}  a fresh blank world in place of the template's (author.new_world;
+                                                the old one moves to <store>/.world-backups/) → {template, backup, moved, dropped}
     POST /api/v1/local/templates/<id>/fork      {id, title?}  → a new template in the write store
+    POST /api/v1/local/templates/<id>/souls/link {lib, role?}  a library character into the cast (op link_soul); the edit
+                                                session's world, when built from this template, gets it too → {…, edit}
     POST /api/v1/local/templates/<id>/ops       {ops: [...]}  creator ops, all-or-nothing → {ok, applied, refused, lint, ui}
     (filled slot images are mirrored to $WORLDLINES_ASSETS_DIR/worlds/<id>/ when set)
 
@@ -82,6 +89,8 @@ import re
 from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qs, unquote, urlparse
+
+from neonrp.webui.http_util import web
 
 _PLAY = "/api/v1/play/engine/template"
 _TICK = "/api/v1/play/engine/tick"
@@ -352,6 +361,11 @@ class TemplateRoutes:
             return False  # the package download lives with the other downloads (launcher_routes · template/package.py)
         from neonrp import template as TP
 
+        if route == _LOCAL + "/_new":  # what a new template can be made of (packs · contracts · orchestrations); "_" is no id
+            from neonrp.template import author
+
+            self._send_json(author.new_options())
+            return True
         found = TP.discover()
         if route == _LOCAL:
             rows = []
@@ -565,7 +579,9 @@ class TemplateRoutes:
             return True
         if route.startswith(_LOCAL + "/") and route.endswith(("/assets/upload", "/assets/generate")):
             return self._template_asset_post(route)
-        if route.startswith(_LOCAL + "/") and route.endswith(("/fork", "/ops")):
+        if route == _LOCAL:  # a new template from nothing (template/author.blank): the workbench's「＋ 新建世界」
+            return self._template_new_post()
+        if route.startswith(_LOCAL + "/") and route.endswith(("/fork", "/ops", "/souls/link", "/world/new")):
             return self._template_author_post(route, rt)
         if route.startswith(_LOCAL + "/") and route.endswith("/plots"):
             return self._template_plot_post(route)
@@ -634,7 +650,7 @@ class TemplateRoutes:
             if tid not in TP.discover():
                 self.send_error(404, "no such template")
                 return True
-            if str(body.get("model") or "") == "real":   # ④ niko 10-17: the player's own model, clearly a paid run
+            if str(body.get("model") or "") == "real":   # ④ 10-17: the player's own model, clearly a paid run
                 return self._graph_test_real(rt, tid, lines, g, str(body.get("session") or ""))
             try:
                 # the host keeps a plan board (a line the player said), so the commit word has something to settle (plan_loop)
@@ -671,7 +687,7 @@ class TemplateRoutes:
         return True
 
     def _graph_test_real(self, rt: Any, tid: str, lines: list[str], g: Any, sid: str) -> bool:
-        """The orchestration editor's chat test on the player's own model (④ niko 10-17): a throwaway run kept per
+        """The orchestration editor's chat test on the player's own model (④ 10-17): a throwaway run kept per
         chat (``session``), so each new line plays one more turn instead of replaying the whole chat on a paid model;
         a changed draft or template starts the run over. Errors come back as {error: code, message: 人话}."""
         import hashlib
@@ -888,6 +904,38 @@ class TemplateRoutes:
         self._send_json({"ok": True, "slot": row})
         return True
 
+    def _template_new_post(self) -> bool:
+        from neonrp import template as TP
+        from neonrp.template import author
+
+        body = self._read_json_body() or {}
+        title = str(body.get("title") or "").strip()
+        try:
+            tid = str(body.get("id") or "").strip() or author.free_id(title)
+            t = author.blank(tid, title=title or None, lang=str(body.get("lang") or "zh"), pack=str(body.get("pack") or "rpg"),
+                             contract=str(body.get("contract") or ""), orchestration=str(body.get("orchestration") or ""))
+        except TP.TemplateError as exc:
+            self._send_json({"ok": False, "error": str(exc)}, status=400)
+            return True
+        except OSError as exc:  # read-only store / disk
+            self._send_json({"ok": False, "error": str(exc)[:300]}, status=502)
+            return True
+        self._send_json({"ok": True, "id": t.id, "template": t.meta()})
+        return True
+
+    def _link_into_edit(self, tid: str, lib: str) -> bool:
+        """The editor's working copy of this template (the edit session's world, built from it) gets the new link
+        too — what its next build would bring in. False when the session is some other world, or none."""
+        from neonrp import template as TP
+
+        ert = web._try_rebind_edit_runtime(self.server)
+        meta = TP_meta(ert.world_dir) if ert is not None else None
+        if not meta or str(meta.get("id") or "") != tid:
+            return False
+        t = TP.load(TP.discover()[tid])
+        row = next((r for r in t.souls if isinstance(r, dict) and str(r.get("lib") or "") == lib), None)
+        return bool(row) and TP.bring_in_world(t, row, ert.world_dir)
+
     def _template_author_post(self, route: str, rt: Any) -> bool:
         from neonrp import template as TP
         from neonrp.template import author
@@ -911,7 +959,18 @@ class TemplateRoutes:
                 t2 = author.fork(found[tid], str(body.get("id") or ""), title=str(body.get("title") or "") or None)
                 self._send_json({"ok": True, "template": t2.meta(), "workshop": bool(author.workshop(t2.id))})
                 return True
-            res = author.apply_ops(found[tid], body.get("ops"))
+            if sub == "world/new":   # 新建世界:这个模板换上一份空白世界(旧的挪进备份,author.new_world)
+                out = author.new_world(found[tid], title=str(body.get("title") or "") or None)
+                self._send_json({"ok": True, "template": out["template"].meta(), "backup": out["backup"], "moved": out["moved"],
+                                 "dropped": out["dropped"]})
+                return True
+            if sub == "souls/link":   # 角色库的角色 link 进这个世界(op link_soul),编辑中的副本也带上它
+                lib = str(body.get("lib") or "")
+                res = author.apply_ops(found[tid], [{"op": "link_soul", "lib": lib, **({"role": body["role"]} if body.get("role") else {})}])
+                if res.get("ok"):
+                    res["edit"] = self._link_into_edit(tid, lib)
+            else:
+                res = author.apply_ops(found[tid], body.get("ops"))
         except TP.TemplateError as exc:
             self._send_json({"ok": False, "error": str(exc)}, status=400)
             return True

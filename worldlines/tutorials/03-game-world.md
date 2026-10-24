@@ -1,102 +1,106 @@
-# 03 · 从零搭一个会呼吸的世界(orchestrator)
+# 03 · 照内置模板搭一整套模板
 
-**目标:** 用 AI 助手搭一个完整的、可在终端里玩的 **orchestrator 世界** ——
-一个 world-agent 当旁白主控,编排若干领域 agent,NPC 是它发声的数据。
-**用到的 skill:** `entity-authoring`(写 `game/` 实体时自动触发)。
-**参考范本:** [`worldlines/examples/worlds/sakura-hallway`](../examples/worlds/sakura-hallway)(校园恋爱)、
-[`worldlines/examples/worlds/otome-lamp`](../examples/worlds/otome-lamp)(国风乙女宫廷)。
-**产出:** 一个 `<世界>/zh/` 目录,`neonrp tui --from` 直接能跑。
+**目标:** 用 AI 助手做一个**模板(template)**:一个能直接开局、能检查、能发布的世界包。
+**用到的 skill:** `template-authoring`(写模板时自动触发),`entity-authoring`(改世界里的地点、NPC、物品时自动触发)。
+**参考范本:** [`worldlines/templates/pct-house.template`](../templates/pct-house.template)(灰橡宅:一夜的百分骰推理,世界就装在模板里)、
+[`worldlines/templates/stoneford-town.template`](../templates/stoneford-town.template)(石津镇:开放小镇,绑定引擎内置的世界,再用 `world-overlay/` 改数据)。
+**产出:** `my/<id>.template/`,`neonrp tui --from my/<id>.template` 直接能玩。
 
-> orchestrator 世界 = **结构 + 数据 + agent 提示词**。好消息是它有**固定骨架**,你不用从白纸开始 ——
-> 让助手「照着 sakura-hallway 的结构」改写成你的题材,是最快的路。
+> 模板 = **世界 + 角色 + 玩法包 + 卡面 + 剧情 + 玩法合约**。它有固定骨架,不要从白纸开始:
+> 让助手「照着灰橡宅的结构」改写成你的题材,是最快的路。
 
-## orchestrator 世界的骨架
+## 模板的骨架
 
-照 `worldlines/examples/worlds/sakura-hallway/zh/` 看,一个 orchestrator 世界长这样:
+以灰橡宅为例:
 
 ```
-<世界>/zh/
-  .neonrp/config.json            # LLM provider、narrator agent
-  .neonrp/runtime_contract.json  # 路由:玩家所在地点 → 哪个 agent
-  .claude/agents/*.md            # 每个 agent 的薄包装(给 Claude Code 跑时用)
-  agents/<id>/agent.json         # agent 的能力/读写权限/角色名
-  agents/<id>/system.md          # agent 的规范提示词(灵魂所在)
-  game/agents/manifest.json      # 编排说明:谁是 Layer1、谁返回 JSON
-  game/meta/game-start.json      # 开场场景 + 首批选项
-  game/meta/run_state.json       # 运行时状态(天数/计时器/焦点角色…)
-  game/meta/active-agent.json    # 当前活跃 agent
-  game/player/player.json        # 玩家是谁
-  game/npc/<id>.json             # 每个 NPC = 一份数据(性格/好感/记忆)
-  game/location/<id>.json        # 每个地点
-  game/rules/*.md                # 规则(好感系统、结局表…)
+my/<id>.template/
+  template.json          # 卡面(标题、一句话简介、标签、封面)、玩法包、玩法合约、角色、剧情、开场 CG
+  world/                 # 世界本身(也可以不放,改成绑定引擎内置的世界)
+    game/meta/game-start.json   # 开场叙述 + 首批选项
+    game/towns/ · game/locations/  # 地点
+    game/lore/*.md       # 设定、真相、传闻(主持读)
+    game/player/         # 玩家是谁、身上有什么
+    game/rules/          # 规则(检定、状态)
+    souls/<sid>-<实例>/  # 世界自带的角色
+  plots/P01/plot.json    # 剧情:分几段、每段目标、结局、线索
+  world-overlay/         # 覆盖到世界上的文件(地图、场景图、立绘……)
+  assets/                # 封面、开场 CG
+  spec/ · AGENTS.md · CLAUDE.md  # 给 AI 助手读的规格(跟着引擎版本生成)
 ```
 
-典型的 orchestrator 恋爱世界用**两个 agent**:
-- `world-agent`(Layer 1)—— 旁白主控:替所有 NPC 发声、推进时间线、调子 agent、**落盘**。
-- `heart`(Layer 2)—— 只做一件结构化判定(好感增减),返回 JSON,**不写文件**(world-agent 落盘)。
-
-这套「一个主控 + 一个只返回 JSON 的判定 agent」是 orchestrator 最容易上手的形态。
+规格在 `documents/spec/template.zh.md`(世界、角色、玩法合约、玩法包各有一份)。模板文件夹里的 `spec/` 是同一套,助手会先读它。
 
 ## 一步步
 
-### 1. 让助手照范本改写题材（可直接抄）
+### 1. 复制最接近的范本
 
-> 照 `worldlines/examples/worlds/sakura-hallway/zh/` 的**完整结构**,帮我搭一个新 orchestrator 世界,放到
-> `my/<我的slug>/zh/`。题材换成:**赛博朋克酒吧里的调酒师恋爱** ——
-> 玩家是新来的调酒学徒,攻略对象是 3 个常客。把「樱花飘落的计时器」换成「店要被收购前的倒计时」,
-> 「好感」保留。NPC、地点、开场、规则都按新题材重写,**结构和 agent 分层不要改**。
-> 中文写内容,id/字段名英文。
-
-助手会逐个文件改写,`entity-authoring` skill 会保证 `game/` 下实体的
-`id` / `kind` / 路径三者一致、引用不悬空。
-
-### 2. 先把「数据三件套」定下来
-
-最影响体验的是这三类文件,让助手一个个跟你确认:
-
-- **`game/npc/<id>.json`** —— 每个攻略对象。关键字段:`personality`(性格)、
-  `speaking_style`(声口)、`likes` / `cares_about`(在意什么)、`secret`(软肋/隐秘)、
-  `affection`+`affection_level`(好感)、`memory: []`(空数组,玩时填)。
-- **`game/meta/game-start.json`** —— `opening_scene`(开场叙述)+ `opening_choices`(首批选项)。
-  这是第一印象,值得多打磨。
-- **`game/rules/affection.md`** —— 好感分几级、每级什么表现、计时器怎么减。
-  world-agent 全靠它守基调。
-
-### 3. 写好两个 agent 的 system.md（世界的灵魂)
-
-- `agents/world-agent/system.md` —— 定**铁律**:每拍调 heart→立刻把好感/记忆写回文件、
-  一拍一停、记忆会回响、什么时候到结局。照范本的「⛔ 铁律」段改最稳。
-- `agents/heart/system.md` —— 定**判定边界**:delta 范围、什么加分什么减分、只回 JSON。
-
-> 想看一个**加了机制**的范本:`worldlines/examples/worlds/otome-lamp` 在恋爱骨架上加了
-> 「3 处命运抉择 × 8 种结局」和「四轴心迹」,都写在 `game/rules/endings.md` 里 ——
-> 可以直接让助手「参考 otome-lamp 的 endings.md 给我的世界加一套分支结局」。
-
-### 4. 校验 + 试玩
-
-```
-# JSON 全部合法?让助手跑一遍,或:
-find my/<我的slug> -name '*.json' -exec python3 -m json.tool {} \; >/dev/null
-
-# 装了引擎就能直接玩:
-neonrp tui --from my/<我的slug>/zh
+```bash
+mkdir -p my
+cp -R worldlines/templates/pct-house.template my/fog-bar.template
 ```
 
-进去打「开始游戏」,world-agent 会读 `game-start.json` 开场。玩几拍,检查:
-- 好感有没有**真的写回** `game/npc/<id>.json`?(玩完看文件 `affection` 变没变)
-- 角色会不会**提起你之前说的话**?(`memory` 数组有没有累积)
-- 计时器有没有在减?到点/满好感有没有走结局?
+想要开放小镇、有经济系统的,复制 `stoneford-town.template`。
 
-这三点对了,你的 orchestrator 世界就立住了。
+### 2. 让助手改写题材(可直接抄)
+
+> 用 template-authoring,把 `my/fog-bar.template` 改成一个新模板,id 用 `fog-bar`。
+> 题材:**赛博朋克酒吧的一夜**。玩家是新来的调酒学徒,酒吧明早就要被收购;
+> 三个常客各自藏着一件和收购有关的事。保留百分骰和「解谜跑团」玩法合约,
+> 剧情分四段,至少三个结局,其中一个是真相结局。
+> 地点、角色、开场、剧情都按新题材重写;`template.json` 里的 `uses` 和 `pack.engine` 两块照抄范本,不要改;
+> `zone`、`forkable` 是官方模板才写的,删掉。
+> 中文写内容,id、字段名、文件名用英文。
+
+助手会逐个文件改写;`entity-authoring` 会保证 `game/` 下实体的 id、类型、路径一致,引用不悬空。
+
+### 3. 先把最影响体验的几处定下来
+
+让助手一个个跟你确认:
+
+- **开场**:`world/game/meta/game-start.json` 的 `opening_scene`(开场叙述)和 `opening_choices`(首批选项)。
+  有角色的世界开局时原样给玩家,不调模型,所以这是第一印象,值得多打磨。
+- **角色**:每个角色要能「表态」:她会同意什么、拒绝什么、怎么讨价还价。世界自带的角色放在 `world/souls/`;
+  想用你角色库里的角色,在 `template.json` 的 `souls` 里写一行 `{"lib": "<角色 id>", "role": "npc"}`(见[教程 04](./04-soul-multi-agent.md))。
+- **剧情和结局**:`plots/P01/plot.json` 里每一段的目标、推进条件、结局。玩法合约会检查结局数量和真相结局。
+- **主持能读的真实数据**:价目、路程、谁在哪、真相写在哪(`game/lore/`)。主持靠这些落账,而不是靠编。
+
+### 4. 检查
+
+```bash
+neonrp template lint  my/fog-bar.template     # 全部问题;block 会挡发布,warn 只提醒
+neonrp template slots my/fog-bar.template     # 还缺哪些图(封面、立绘、场景、地图)
+```
+
+lint 有 block 就让助手修,并把每条 block 的原文和修法告诉你。
+
+### 5. 试玩
+
+```bash
+neonrp tui --from my/fog-bar.template
+```
+
+这会用模板在 `~/.worldlines/plays/` 里开一局新的,直接进游玩;模板文件夹本身不会被改。
+也可以先组装成一局再进去:`neonrp template build my/fog-bar.template /tmp/try-fog-bar`,然后 `cd /tmp/try-fog-bar && neonrp tui --play`。
+
+玩几回合,看这几件事:
+
+- 商量拍里角色有没有接话、有没有自己的主意?
+- 清算之后,钱、位置、物品有没有真的写进世界(`/status` 看得到)?
+- 推进条件能不能触发?能不能走到结局?
+
+### 6. 分享和发布
+
+- **打包给朋友**:放进 `~/.worldlines/templates/` 后,本地网页的 Template 页能「导出」成一个 `.zip`;对方「导入…」就能玩。
+- **上传到 Hub**:见 [docs.worldlines.gg 的发布说明](https://docs.worldlines.gg/docs/creators/publish)。上传前会检查密钥、封面、立绘和四种语言的标题简介。
 
 ## 小抄
 
-- **别从白纸搭,照范本改。** sakura-hallway 是最小恋爱范本,otome-lamp 是加机制的范本。
-- **world-agent 负责落盘,子 agent 只返回 JSON。** 这是 orchestrator 世界不失忆的关键,别让子 agent 写文件。
-- **一拍一停。** 在 system.md 里把这条写死,否则模型会一口气把关系演完。
-- 想让世界跑在云端 hub(别人浏览器直接玩):orchestrator 世界是支持的,做完后参考
-  [docs.worldlines.gg](https://docs.worldlines.gg) 的发布流程导入。
+- **别从白纸搭,照范本改。** 灰橡宅是自带世界的范本,石津镇是「绑定内置世界 + overlay」的范本。
+- **内容用目标语言写,id、字段名、文件名用 ASCII。**
+- **世界的词只写进数据。** 地名、状态名、阵营名都放在模板和世界的数据里。
+- `worldlines/examples/worlds/` 里是旧格式(orchestrator 时代)的示例世界,可以当题材和文风的素材看;新做的世界请用模板。
 
 ---
 
-下一篇:**[04 · Soul 与多 agent](./04-soul-multi-agent.md)** —— 做有独立心智的角色,搭多 agent 世界。
+下一篇:**[04 · 角色与多角色世界](./04-soul-multi-agent.md)** —— 做有独立心智的角色,放进你的模板。

@@ -10,6 +10,8 @@ description: "Key items, new places, if/else, endings, and the assets the front 
 
 Stored in `plots/<id>/plot.json`: `stages` (a `<id>.stage` variable is declared for you) · `classes` / `vars` · `entries` (key items, new places, NPCs, each with optional `assets`) · `triggers` · `endings`.
 
+Also available: `stage_var` (another variable serves as the stage) · `stage_cg` (a picture shown when a stage is reached) · `prompt` (text appended for the narrator) · `reveal` (the solution, revealed at the ending) · `truth_quiz` (the truth quiz after settlement) · `collect` (which of the world's characters can be collected, and when). Stoneford's `plots/P20` and Greyoak House's `plots/P01` are two complete examples.
+
 <!-- section: example -->
 ## Example
 

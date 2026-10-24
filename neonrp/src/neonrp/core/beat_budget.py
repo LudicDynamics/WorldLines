@@ -1,4 +1,4 @@
-"""A beat's time budget (niko 10-14: 「一拍的执行框架应该在 10 秒左右,不会超 20 秒,超过 20 秒可以直接 timeout」).
+"""A beat's time budget (10-14: 「一拍的执行框架应该在 10 秒左右,不会超 20 秒,超过 20 秒可以直接 timeout」).
 
 Every beat of a turn — the planning talk, the characters' own turns (S2), the world's narration — runs inside
 :func:`beat`. It sets a wall-clock deadline that the model calls under it read themselves:
@@ -15,7 +15,7 @@ synchronous XHR) or on iOS, so the budget is cooperative — every call checks i
 is left. A call that cannot start fails at once like any failed call, and the caller's existing fallback runs
 (the character this beat is skipped, the planning talk hands back what was said, the world settles with its prose).
 
-The whole turn has a budget too (niko 10-14: 「整回合总上限 30 秒」): :func:`turn` opens it, and every beat inside
+The whole turn has a budget too (10-14: 「整回合总上限 30 秒」): :func:`turn` opens it, and every beat inside
 shares what is left — a beat ends at ``min(its own 20 s, the turn's end − reserve)``. The beats before the world's
 (the planning talk, the characters' turns) keep ``world_reserve_s`` back for it, and the world's prose keeps
 ``settle_s`` back for its state transition, so the turn still lands inside its budget. Code between beats is not timed.
@@ -144,14 +144,14 @@ def call_cap(seconds: float) -> Any:
 
 
 def transition_think_wait_s(root: Path | None = None) -> float:
-    """How long the write-down waits for its thinking answer before it takes the straight one sent with it (10-21 niko:
+    """How long the write-down waits for its thinking answer before it takes the straight one sent with it (10-21:
     「cot和无思考可以并发,然后如果是40秒或者1分钟超时的话,就fall back」; the prose is on screen already)."""
     return _setting("NEONRP_TRANSITION_THINK_WAIT_S", "turn.transition_think_wait_s", 40.0, root)
 
 
 def transition_async(root: Path | None = None) -> bool:
     """The write-down after the prose lands its straight answer at once and the thinking one corrects it from the
-    background (10-22 niko: the thinking answer is fuller — time moved on in 22 of 40 beats against 7 — but waited for, a
+    background (10-22: the thinking answer is fuller — time moved on in 22 of 40 beats against 7 — but waited for, a
     stalled one held the beat 40–90 s). Off: the old race (the thinking answer within ``transition_think_wait_s``)."""
     return _setting("NEONRP_TRANSITION_ASYNC", "turn.transition_async", 1.0, root) > 0
 
@@ -240,8 +240,7 @@ def turn(seconds: float | None = None, *, root: Path | None = None,
 
 
 def talk_seconds(root: Path | None = None) -> float:
-    """A beat that may be the whole turn (the planning talk: when it does not resolve, no world beat follows it — 10-19
-    niko): it may use the turn's whole budget, not one beat's. Outside a turn budget (off): one beat's."""
+    """A beat that may be the whole turn (the planning talk: when it does not resolve, no world beat follows it — 10-19): it may use the turn's whole budget, not one beat's. Outside a turn budget (off): one beat's."""
     t = turn_timeout_s(root)
     return t if t > 0 else beat_timeout_s(root)
 

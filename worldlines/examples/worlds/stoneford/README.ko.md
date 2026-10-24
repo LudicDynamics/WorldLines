@@ -8,16 +8,12 @@
 
 Stoneford는 [WorldLines](https://github.com/LudicDynamics/WorldLines)에 기본 포함된 플래그십 예제 —— NPC, 퀘스트, 던전, 공성 메커니즘을 갖춘 완전히 플레이 가능한 마을을 멀티에이전트 사회가 편성하여 구동합니다.
 
-**[▶ 온라인 플레이(설치 불필요)→](https://hub.worldlines.gg/play/worlds/stoneford)**
-
 ## 플레이 방법
 
 ```bash
-# 로컬 TUI
-neonrp tui --from examples/orch/stoneford
-
-# Claude Code / MCP —— 이 디렉터리에서 Claude Code 열기
-@world-agent 开始游戏
+# 예전 형식(템플릿 이전의 orchestrator 월드)입니다. 플레이하면 폴더에 기록되므로 먼저 복사하세요:
+cp -R worldlines/examples/worlds/stoneford /tmp/stoneford && cd /tmp/stoneford
+neonrp tui --play
 ```
 
 ## 마을 —— 멀티에이전트 사회
@@ -61,10 +57,10 @@ world-agent（오케스트레이터）     — 상태 읽기 · 라우팅 · pat
 | `game/towns/*/` | 마을 데이터:NPC, 퀘스트, 시설, 맵 |
 | `game/dungeons/D001/` | 던전 레이아웃, 방, 조우·전리품 테이블 |
 | `game/rules/combat_rules.md` | d20 전투 규칙 |
-| `agents/*/` · `.claude/agents/*` | agent 정의（TUI + Claude Code 미러） |
+| `agents/*/` · `.claude/agents/*` | agent 정의 |
 
 ## 라이선스
 
-Stoneford는 **AGPL-3.0**. 포크, 수정, 자신의 세계를 출시하세요. 구동하는 WorldLines 엔진（`neonrp`）은 독점 프리뷰입니다.
+Stoneford는 **AGPL-3.0**. 포크, 수정, 자신의 세계를 출시하세요. 구동하는 엔진(`neonrp`)은 Apache-2.0 오픈 소스입니다.
 
 > *Stoneford는 **nikoloside**, **redoctober**, Claude가 공동 창작한 오리지널 시나리오로, 동양적 세계관과 서양 중세 마법을 융합했습니다.*

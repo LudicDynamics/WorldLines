@@ -3,26 +3,28 @@ title: "Changelog"
 description: "Release history. Full notes on [GitHub Releases](https://github.com/LudicDynamics/WorldLines/releases)."
 ---
 
+<!-- section: v103 -->
+## 1.0.3 (2026-10-24)
+
+- Install from [this repository](https://github.com/LudicDynamics/WorldLines) or PyPI; [worldlines.gg](https://worldlines.gg) is online play. Installs update themselves at launch
+- The local Hub lists the online Hub's worlds without signing in
+- Workbench: new template, new world, new character
+- Upload a world to the Free Zone from the local edition
+- Without a judging model, the run's own model decides when the planning talk is settled
+- Report AI content; character names follow the interface language; new icon
+- Fixes for plot graph names, the top bar on narrow screens and the TUI quick bar
+
+Full notes: [GitHub Releases](https://github.com/LudicDynamics/WorldLines/releases)
+
 <!-- section: dev10 -->
-## 1.0.3 — Install from GitHub, play online at worldlines.gg (2026-10-24)
+## 1.0.0–1.0.2 (2026-10)
 
-- **Where to get it** — the local edition (`worldlines` = local web UI · `neonrp` = terminal launcher) installs from [this repository](https://github.com/LudicDynamics/WorldLines) / PyPI; [worldlines.gg](https://worldlines.gg) is online play. Both commands update themselves at launch (`/update mode prompt` to be asked first)
-- **Write-down fast, then corrected** — a turn's state lands with a fast pass; a thinking pass re-reads the prose in the background and corrects it a few seconds later, visible in the TUI and the web
-- **No judge, still settles** — without Jev or an account, the run's own model decides when the planning talk is settled; `/login` turns Jev on
-- **Characters away from you travel** — a cross-town move walks the road and arrives by world date, no teleporting
-- **TUI** — tabbed `/status`, slash completion for skills · targets · people · places, a quick bar above the input, dice reasons; the `--mcp` mode is gone
-- **Creation desk on iOS and locally** — submit to the default zone, revise and resubmit, several works per template; new product icon
-
-- **Play layer** — planning and resolve beats in their own colors, dice cards, state-change chips, your conditions, an ending screen; prose streams in with the host and each character in their own blocks
-- **Stop, never stuck** — a running turn can be stopped; the page reconnects after a new run instead of hanging on "the host is thinking"; scrolling up no longer snaps back to the bottom
-- **Authoring writes back** — the orchestration graph, roads on the map and plot triggers are saved straight into the template
-- **Play contracts** — four official ones (mystery TRPG · open adventure · murder mystery · romance companion); a template declares one, lint checks it, the run settles at its exit
-- **A character library of its own** — worlds hold links to characters, made real only when a run starts; one character in many worlds, many characters in one world
-- **Export / import** — templates and characters as one package, out and back in
-- **Specs inside the folders** — every template, the template store and the library carry `AGENTS.md` · `CLAUDE.md` · `spec/`, ready for Claude Code and Codex
-- **Fix** — starting two runs in the same second no longer deletes the one being played
-- **Built-in rule packs** — besides `rpg` (d20, SRD 5.2 optional), new `pct` (sandbox tabletop, BRP percentile dice, built on `rpg`) and `monopoly`; see [Specs](/docs/developers/specs)
-- **No waiting on a stalled model** — a stream watchdog resends when the first token or the gap between tokens takes too long; thresholds are environment variables, see [Model providers](/docs/players/providers)
+- Planning and resolve beats shown apart, with dice cards, state changes and an ending screen
+- A running turn can be stopped; the page reconnects after a new run
+- The workbench saves the orchestration graph, map roads and plot triggers into the template
+- Play contracts; a character library linked into worlds; export and import of templates and characters
+- State changes are written fast, then corrected in the background; characters travel between towns by road
+- Rule packs `rpg`, `pct` and `monopoly`; see [Specs](/docs/developers/specs)
 
 <!-- section: v040 -->
 ## v0.4.0 — One engine, two products (2026-08)

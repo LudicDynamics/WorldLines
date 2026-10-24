@@ -221,7 +221,7 @@ def test_soul_workshop_is_an_initialized_project_without_a_game_dir(tmp_path, mo
 
     monkeypatch.setattr(S, "SOUL_HOME", tmp_path / "lib")
     monkeypatch.setattr("neonrp.presets.build_config_dict", lambda ref: {"llm": {"model_ref": ref}, "models": {ref: {"provider": "stub"}}})
-    d = S.create_soul_workshop("niko", model_ref="stub")
+    d = S.create_soul_workshop("mika", model_ref="stub")
     assert get_manifest_path(d).is_file()
     assert not (d / "game").exists() and S.is_soul_workshop(d)
     # an older workshop without the manifest gets it on app start
@@ -240,7 +240,7 @@ def test_workshop_turn_gets_past_the_init_check(tmp_path, monkeypatch):
 
     monkeypatch.setattr(S, "SOUL_HOME", tmp_path / "lib")
     monkeypatch.setattr("neonrp.presets.build_config_dict", lambda ref: {"llm": {"model_ref": "stub"}, "models": {"stub": {"provider": "stub", "model": "stub"}}})
-    d = S.create_soul_workshop("niko", model_ref="stub")
+    d = S.create_soul_workshop("mika", model_ref="stub")
     session = ConversationSession(root=d, agent_id="world-agent", mode="build")
     res = session.send("你好")
     assert "not initialized" not in str(getattr(res, "error", "") or ""), res

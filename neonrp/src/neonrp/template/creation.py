@@ -143,7 +143,7 @@ def template_reveal(t: Any) -> dict[str, str]:
 
 
 def _orch_options(t: Any) -> dict[str, Any]:
-    """The orchestration templates the desk offers (core/orch_presets · core/orch_templates, niko 10-18 / 10-19): pick
+    """The orchestration templates the desk offers (core/orch_presets · core/orch_templates, 10-18 / 10-19): pick
     one (the Default Zone's author may switch it any time), never edit it."""
     from neonrp.core import orch_presets
 

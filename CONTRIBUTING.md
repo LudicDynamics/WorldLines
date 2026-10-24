@@ -39,7 +39,7 @@ licenses and in the WorldLines products built on it (hosted services and app-sto
 | Folder | What | License |
 |---|---|---|
 | `neonrp/` | The engine (Python) | Apache-2.0 |
-| `worldlines/` | The product: web UI (`worldlines/ui`), desktop shell, launcher package, templates, example worlds | AGPL-3.0 |
+| `worldlines/` | The product: web UI (`worldlines/ui`), desktop shell (in the repository, not released yet), launcher package, templates, example worlds | AGPL-3.0 |
 | `documents/` | Specs and the docs source | CC BY 4.0 |
 | `benchmarks/` | Test suites behind the engine's design decisions | code Apache-2.0 · data CC BY 4.0 |
 

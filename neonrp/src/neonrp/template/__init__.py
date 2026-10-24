@@ -41,6 +41,9 @@ ZONES = ("reviewed", "open")  # 10-15: where a work sits — reviewed (checked b
 FREEDOM_MODES = ("free", "semi", "guided")
 # which paths inside a soul folder are PROMPT (swappable by the prompt layer) vs DATA (stay with the soul)
 SOUL_PROMPT_PATHS = ("soul.md", "persona", "rules", "agents")
+# …plus what the author tools write there and the engine reads from the template itself, never copied into the run's soul
+# folder: the character's orchestration patch (core/soul_orchestration) and its routine (core/soul_ambient) — 10-24
+SOUL_TEMPLATE_FILES = ("orchestration.json", "ambient")
 # pack-level default asset requirements; the template adds to them ("a|b" = either one)
 DEFAULT_ASSET_RULES: dict[str, list[str]] = {"soul": ["portrait"], "ending": [], "card": ["cover"]}
 PROMPT_FILE_EXTS = (".json", ".md", ".txt")
@@ -115,7 +118,7 @@ class Template:
 
     @property
     def forkable(self) -> bool:
-        """``template.json`` ``forkable: true`` (niko 10-17): an official template that offers 「复制一份来改」 — only the
+        """``template.json`` ``forkable: true`` (10-17): an official template that offers 「复制一份来改」 — only the
         two the local edition ships (灰橡宅 · 石津镇). The author's own works are always copyable; see ``can_fork``."""
         return self.data.get("forkable") is True
 
@@ -201,7 +204,7 @@ class Template:
 
 
 def can_fork(t: "Template") -> bool:
-    """Whether 「复制一份来改」 is offered (niko 10-17): the author's own work (in the write store) always; an official one
+    """Whether 「复制一份来改」 is offered (10-17): the author's own work (in the write store) always; an official one
     (fetched with an account, or ``zone: reviewed``) only when it says ``forkable: true``; anything else (a dev fixture
     with no zone) yes."""
     from neonrp.template import author
@@ -211,7 +214,7 @@ def can_fork(t: "Template") -> bool:
     return not (t.official or t.zone == "reviewed")
 
 
-# 「画这一幕」(core/scene_art, niko 10-16): off = no live drawing (the author's pictures still show) · scene_only = the
+# 「画这一幕」(core/scene_art, 10-16): off = no live drawing (the author's pictures still show) · scene_only = the
 # place without people · full = the place and who is in it. Left out = off.
 REALTIME_ART = ("off", "scene_only", "full")
 PLACEHOLDER_PLAYERS = ("", "player")   # the scaffold's own placeholder name, not a protagonist (any case)
@@ -507,6 +510,37 @@ def build(t: Template | Path | str, dest: Path | str, *, install_plots: bool = T
     return record
 
 
+def bring_in(t: Template, s: dict[str, Any], dest: Path) -> dict[str, Any]:
+    """Copy a linked soul (a ``{lib}`` / ``{path}`` cast row) into the world folder ``dest`` under its instance of this
+    template; returns its playthrough row (the caller lists it). What a run build does for every link."""
+    sid = str(s.get("sid") or "")
+    src = linked_src(t, s)
+    if not sid or src is None or not src.is_dir():
+        raise TemplateError(f"soul {sid or '?'}: {src} not found")
+    sj = _j(src / "soul.json", {}) or {}
+    iid = str(s.get("instance_id") or f"si-{sid}-{t.id}"[:48])
+    shutil.copytree(src, Path(dest) / "souls" / f"{sid}-{iid}", dirs_exist_ok=True)
+    return {"sid": sid, "instance_id": iid, "version_hash": str((sj.get("source") or {}).get("hash") or t.version or "t"),
+            "head_commit": f"seed-soul-{sid}", "role": str(s.get("role") or "npc")}
+
+
+def bring_in_world(t: Template, s: dict[str, Any], root: Path) -> bool:
+    """A link added after a world folder was built from the template (the editor's working copy): the soul copied in
+    and listed in its playthrough, as the build would have. False = that sid is already there (nothing changes)."""
+    root = Path(root)
+    pt_p = root / "playthrough.json"
+    pt = _j(pt_p, {}) or {}
+    if any(isinstance(r, dict) and str(r.get("sid")) == str(s.get("sid")) for r in pt.get("souls") or []):
+        return False
+    row = bring_in(t, s, root)
+    pt["souls"] = [*(pt.get("souls") or []), row]
+    pt["active_souls"] = [*(pt.get("active_souls") or []), row["instance_id"]]
+    _w(pt_p, pt)
+    if (root / ".neonrp").is_dir():
+        _w(root / ".neonrp" / "playthrough.json", pt)
+    return True
+
+
 def _build(t: Template, dest: Path, *, install_plots: bool, cast_all: bool) -> dict[str, Any]:
     dest = Path(dest)
     if dest.exists() and any(dest.iterdir()):
@@ -543,15 +577,7 @@ def _build(t: Template, dest: Path, *, install_plots: bool, cast_all: bool) -> d
             if not sid:
                 continue
             if s.get("path") or s.get("lib"):  # brought in (a link): copy the soul folder under a fresh instance only now
-                src = linked_src(t, s)
-                assert src is not None
-                if not src.is_dir():
-                    raise TemplateError(f"soul {sid}: {src} not found")
-                sj = _j(src / "soul.json", {}) or {}
-                iid = str(s.get("instance_id") or f"si-{sid}-{t.id}"[:48])
-                shutil.copytree(src, dest / "souls" / f"{sid}-{iid}", dirs_exist_ok=True)
-                row = {"sid": sid, "instance_id": iid, "version_hash": str((sj.get("source") or {}).get("hash") or t.version or "t"),
-                       "head_commit": f"seed-soul-{sid}", "role": str(s.get("role") or "npc")}
+                row = bring_in(t, s, dest)
             else:
                 row = dict(rows.get(sid) or {k: v for k, v in (native.get(sid) or {}).items() if k != "dir"})
                 if not row:
@@ -878,6 +904,9 @@ def lint(t: Template | Path | str, *, i18n: bool = True, i18n_deep: bool = False
         block("meta.forkable", "forkable", "must be true or false")
     elif t.data.get("forkable") is True and t.zone != "reviewed":
         warn("meta.forkable", "forkable", "only means something on a default-zone (official) template — your own works can always be copied")
+    mp = t.models.get("play") if isinstance(t.models, dict) else None
+    if mp is not None and not (isinstance(mp, str) and "/" in mp):  # 10-24: new_run only takes provider/model, else the user's default
+        warn("meta.models", "models.play", f"{mp!r} is not provider/model (e.g. deepseek/deepseek-v4-flash) — ignored, the player's own model is used")
     if "milestones" in t.data and not isinstance(t.data["milestones"], bool):  # 10-15: the author only says yes / no
         block("meta.milestones", "milestones", "must be true or false (the engine finds the milestones itself)")
     if "realtime_art" in t.data and t.data["realtime_art"] not in REALTIME_ART:  # 10-16: 画这一幕 per world (core/scene_art)
@@ -985,9 +1014,9 @@ def lint(t: Template | Path | str, *, i18n: bool = True, i18n_deep: bool = False
                 warn("prompt.soul", f"prompts/souls/{d.name}", "character prompts for a soul the template does not cast")
             if d.is_dir():
                 for f in d.rglob("*"):
-                    if f.is_file() and f.relative_to(d).parts[0] not in SOUL_PROMPT_PATHS:
+                    if f.is_file() and f.relative_to(d).parts[0] not in SOUL_PROMPT_PATHS + SOUL_TEMPLATE_FILES:
                         block("prompt.soul.data", f"prompts/souls/{d.name}/{f.relative_to(d).as_posix()}",
-                              f"the prompt layer may only overlay {', '.join(SOUL_PROMPT_PATHS)} (this is soul data)")
+                              f"the prompt layer may only overlay {', '.join(SOUL_PROMPT_PATHS + SOUL_TEMPLATE_FILES)} (this is soul data)")
 
     # plots — checked against a scratch build of the world, so cross refs resolve
     plots: list[dict[str, Any]] = []
@@ -1334,7 +1363,7 @@ def product_dirs() -> list[Path]:
 
 
 def shipped_ids() -> list[str]:
-    """niko 10-17: the local edition ships only 灰橡宅 and 石津镇 (in this order, at the top of every list); the other
+    """10-17: the local edition ships only 灰橡宅 and 石津镇 (in this order, at the top of every list); the other
     official worlds come down with a Worldlines account (core/template_publish.fetch_official). ``shipped.json``."""
     for d in product_dirs():
         try:

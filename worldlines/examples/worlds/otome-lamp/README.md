@@ -48,11 +48,14 @@
 
 ## 怎么玩
 
+旧格式(模板之前的 orchestrator 世界)。玩的时候会写进文件夹,先复制一份:
+
 ```
-neonrp tui --from examples/orch/otome-lamp/zh
+cp -R worldlines/examples/worlds/otome-lamp/zh /tmp/otome-lamp && cd /tmp/otome-lamp
+neonrp tui --play
 ```
 
-或导入 hub 游玩。每次进入都可能落在不同的时间线节点；灯火渐弱，抉择不可回头。
+每次进入都可能落在不同的时间线节点；灯火渐弱，抉择不可回头。
 
 ---
 

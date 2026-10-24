@@ -1,4 +1,4 @@
-"""A soul whose sprite *is* its portrait (niko 10-24, 香料魔女:作者的 portrait 本来就是全身图,sprite 删掉):
+"""A soul whose sprite *is* its portrait (10-24, 香料魔女:作者的 portrait 本来就是全身图,sprite 删掉):
 ``soul.json`` ``assets: {"sprite": "portrait"}`` — the sprite slot points at the portrait, no copy. The template's slots
 (Hub hero · lint) and a built run (stage ``has_sprite`` · ``/api/v1/play/sprite``) both see the portrait as the sprite,
 in every language; a pointer can only name the soul's own picture slots; without one a missing sprite stays missing."""

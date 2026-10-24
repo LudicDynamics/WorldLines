@@ -1,18 +1,20 @@
 ---
 title: "World lines"
-description: "Every turn is a commit; roll back, branch from anywhere, compare with another line."
+description: "Every turn is a world commit; you can go back to any turn and branch a new line from there, keeping the old one."
 ---
 
 <!-- section: dag -->
 ## The commit graph
 
-> **Status: ships with 1.0**
+Every run has a **commit graph**: each turn lands one world commit, recording its parent and a snapshot (content-addressed); each character's own commits live in her own folder. Commits are stored in `~/.worldlines/commits` by default.
 
-Every playthrough has a **commit graph (DAG)**: each turn lands a commit with its parent and a snapshot. `neonrp commit` provides `log` · `checkout` · `branch` · `gc` · `verify`; commits are stored in `~/.worldlines/commits` by default. In game, players use `/save` `/branch` `/undo` — see [Save · branch · undo](/docs/players/saves).
+- **In the game**: `/save` saves, `/load` loads a save or a snapshot of this run, `/undo` undoes the last step, `/undo list` lists this line's turns, `/undo <turn>` branches a new line from that turn. See [Save · branch · undo](/docs/players/saves).
+- **On the web**: the run's commit graph is drawn on screen; "roll back to here" forks a new branch at that turn and keeps the current line.
+- **On the command line**: `neonrp commit log · checkout · branch · gc · verify`.
+
+Going back never deletes anything: it opens a new line from an old commit.
 
 <!-- section: why -->
 ## Why it matters
 
-Worlds grow things by themselves (new places, caravans, rumors). The same opening can grow into two different worlds on two lines and be compared item by item — the basic tool for simulating and testing world rules.
-
-> In design: a visual commit graph in the studio, one-click branching from any commit, item-by-item diff of two lines (see the 3.0 mock).
+The world grows things by itself (new places, caravans, rumors). The same opening can grow into two different worlds on two lines — a basic tool for simulating and testing a world's rules.

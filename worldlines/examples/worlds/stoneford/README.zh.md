@@ -8,16 +8,12 @@
 
 石津镇是 [WorldLines](https://github.com/LudicDynamics/WorldLines) 自带的旗舰示例 —— 一座完整可玩的小镇,有 NPC、任务、地下城和攻防机制,由一个多智能体社会编排运行。
 
-**[▶ 在线游玩(无需安装)→](https://hub.worldlines.gg/play/worlds/stoneford)**
-
 ## 怎么玩
 
 ```bash
-# 本地 TUI
-neonrp tui --from examples/orch/stoneford
-
-# Claude Code / MCP —— 在本目录里打开 Claude Code
-@world-agent 开始游戏
+# 这是旧格式(模板之前的 orchestrator 世界)。玩的时候会写进文件夹,先复制一份:
+cp -R worldlines/examples/worlds/stoneford /tmp/stoneford && cd /tmp/stoneford
+neonrp tui --play
 ```
 
 ## 村庄 —— 一个多智能体社会
@@ -61,10 +57,10 @@ world-agent（编排器）             — 读状态 · 路由 · 合并 patch �
 | `game/towns/*/` | 城镇数据:NPC、任务、设施、地图 |
 | `game/dungeons/D001/` | 地下城布局、房间、遭遇与战利品表 |
 | `game/rules/combat_rules.md` | d20 战斗规则 |
-| `agents/*/` · `.claude/agents/*` | agent 定义（TUI + Claude Code 镜像） |
+| `agents/*/` · `.claude/agents/*` | agent 定义 |
 
 ## 许可证
 
-石津镇为 **AGPL-3.0**。fork、修改、发布你自己的世界。运行它的 WorldLines 引擎（`neonrp`）是专有预览版。
+石津镇为 **AGPL-3.0**。fork、修改、发布你自己的世界。运行它的引擎(`neonrp`)以 Apache-2.0 开源。
 
 > *石津镇是由 **nikoloside**、**redoctober** 与 Claude 共同创作的原创设定,融合了东方世界观与西方中世纪魔法。*

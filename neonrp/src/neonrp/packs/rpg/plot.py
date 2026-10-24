@@ -334,7 +334,7 @@ def _lint_one(w: str, kind: str, rel: Any, plot_dir: Path | None, out: list[Prob
     if Path(rel).suffix.lower() not in ASSET_KINDS[kind]:
         out.append(Problem("error", w, f"{rel!r} is not a {kind} file ({', '.join(ASSET_KINDS[kind])})"))
     if plot_dir is not None and not (Path(plot_dir) / rel).is_file():
-        # 10-16 (niko): an entry / ending image not made yet is an optional slot (warn, like stage_cg) — the screen shows
+        # 10-16: an entry / ending image not made yet is an optional slot (warn, like stage_cg) — the screen shows
         # its fallback; a malformed path / kind above still blocks
         out.append(Problem("warn", w, f"{_MISSING}{rel}"))
 

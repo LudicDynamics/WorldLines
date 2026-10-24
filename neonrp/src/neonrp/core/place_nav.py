@@ -503,7 +503,7 @@ def judge_move(
         # A gateless town can't stage the two-beat travel; don't trap the soul.
         return MoveVerdict(allowed=True, resolved=resolved, tier="cross")
 
-    # One beat walks out through the gate and arrives (niko 10-19: 「重点不是我是否能到北门,而是这中间发生的经过和结果」 —
+    # One beat walks out through the gate and arrives (10-19: 「重点不是我是否能到北门,而是这中间发生的经过和结果」 —
     # the old first beat stopped the player at their own gate while the prose had them arrive). The road's referee
     # (packs/rpg/travel) still decides whether a journey of days arrives this beat.
     if next_town != t_town:

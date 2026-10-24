@@ -1,32 +1,49 @@
 ---
-title: "Endings: two kinds of sandbox"
-description: "With an ending and open-ended are configurations of the same thing — and they nest."
+title: "Endings"
+description: "An ending is one kind of trigger output. When it fires, the run has reached its exit: epilogue, then settlement."
 ---
 
 <!-- section: emit -->
-## An ending = one kind of trigger output
+## An ending is a trigger's output
 
 > **Status: ships with 1.0**
 
+One rule from Stoneford's plot pack `P20`:
+
 ```json
-{"when": {"var": "P01.stage"}, "if": [{"var": "P01.stage", ">=": 3}], "then": [{"to": "end", "ending": "E01"}]}
+"P20.E1": {"when": {"flag": "coffin_answered"}, "if": [{"flag": "amu_found"}],
+           "then": [{"to": "end", "ending": "E1"}], "once": true}
 ```
 
-When it fires the run is marked as ended, the ending and epilogue are written, and the ledger records `turn.ended`.
+When `{"to": "end"}` fires, the **whole run** reaches its exit:
 
-<!-- section: two -->
-## Two sandboxes (in design)
+- `game/meta/ending.json` is written, the `ended` flag is set, the ledger records `turn.ended`;
+- the next narration is the epilogue: it closes this thread and opens nothing new;
+- the engine writes a settlement `game/meta/settlement.json` according to the [play contract](/docs/creators/contracts) (exit, unlocked CGs, deaths, rewards, truth), and the play screen draws the ending card from it.
 
-| | Open-ended | With an ending |
+A run has one ending: the first one to fire counts.
+
+<!-- section: modes -->
+## Three ending modes
+
+`mode.ending` in `template.json`:
+
+| Mode | Meaning | Example |
 |---|---|---|
-| The world | keeps moving and growing | holds a sealed truth (the answer) |
-| When it ends | you decide | an ending rule fires |
-| New instances in play | on by default | off, or allow-listed |
-| Example | Stoneford | Kagura Island (mystery · time loop) |
+| `open` | no required ending; play on as long as you like | |
+| `single` | one ending | |
+| `multi` | several endings | Stoneford (4: the true ending E1, two other endings E2 / E3, the fail ending E9); Greyoak House (3) |
 
-**Sealed truth**: the answer is written at creation, compiled into sealed facts committed by hash, and checked for solvability and leaks before publishing. Trust decides how many clues players and protagonists get.
+Endings are defined under `endings` in a plot pack, with `kind` set to `true` (the true ending), `alt` or `fail`. The number and kinds a contract requires are checked by [Lint](/docs/creators/lint) — `mystery-trpg`, for example, needs at least 3, one of them a true ending.
 
-<!-- section: nest -->
-## Nesting
+<!-- section: segment -->
+## Open worlds: settling by segment
 
-An open world can hold a plot pack with an ending (e.g. "The Key in the Fog" inside Stoneford); the ending closes that plot pack and the world keeps going.
+The `open-adventure` contract's exit is a **segment** (`exit.on: segment`, one segment = one day): each day the engine records a segment's settlement, and the run goes on.
+
+But whenever a plot pack's `{"to": "end"}` fires, the run ends, whatever the mode. Stoneford uses the open-adventure contract and also has 4 endings: reaching day 8 before the last stage, or the player falling, fires the fail ending E9.
+
+<!-- section: truth -->
+## The truth
+
+A plot pack writes `reveal` (the solution, per language), revealed at the ending. The `mystery-trpg` contract also asks for a "truth quiz" after settlement: three questions in the plot pack's `truth_quiz.questions`; right answers earn credits, and all three right can bring a named character home. See [Plot packs](/docs/creators/plot-packs).

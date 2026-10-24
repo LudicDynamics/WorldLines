@@ -1,4 +1,4 @@
-"""The creation desk's "say it in one sentence" (niko 10-18 · PLATFORM-PLAY-RULES-1015 §10, §5 "no if / else for the author").
+"""The creation desk's "say it in one sentence" (10-18 · PLATFORM-PLAY-RULES-1015 §10, §5 "no if / else for the author").
 
 The creator says a rule or an idea in their own words; a small agent turns it into rows of the creation form — fields,
 trigger conditions, collect conditions — using only what the template opens (:func:`creation.form`). It never touches

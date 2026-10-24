@@ -1,4 +1,4 @@
-"""Hub「我的 · 收集区」:角色的作者更新了 → diff 页(niko 10-20,core/soul_update):一项一项选「留我的 / 用作者的」(默认值来自引擎)、
+"""Hub「我的 · 收集区」:角色的作者更新了 → diff 页(10-20,core/soul_update):一项一项选「留我的 / 用作者的」(默认值来自引擎)、
 三个一键(全部按推荐 / 全用作者的 / 全留我的)、「按这样更新」POST choices + token、作者又改了(409)重新拉一次再更新。
 diff 是真引擎算出来的(灰橡宅 · 温妮:作者改了人设和一条记忆);引擎接口用 page.route 假装。截图:HUB_SOUL_UPDATE_SHOTS=<目录>。"""
 from __future__ import annotations
@@ -14,17 +14,18 @@ import pytest
 from test_soul_update import _author_changes, _take, store  # noqa: F401 — the store copy fixture
 
 from neonrp.core import soul_update as U
+from _paths import PRODUCT
 
 ROOT = Path(__file__).resolve().parents[1]
-UI = ROOT / "worldlines" / "ui"
+UI = PRODUCT / "ui"
 HUB = UI / "app" / "hub"
 
 
 @pytest.fixture
 def r(store, tmp_path):  # noqa: F811
     node = shutil.which("node")
-    if not node or not (UI / "node_modules" / "playwright").is_dir():
-        pytest.skip("node + worldlines/ui/node_modules/playwright needed")
+    if not node or not (UI / "node_modules" / "playwright").is_dir() or not (HUB / "hub.js").is_file():
+        pytest.skip("node + worldlines/ui/node_modules/playwright + the Hub source (not in the open repo) needed")
     snap = _take(store, tmp_path)
     U.diff("pct-house", "chara")
     _author_changes(store)

@@ -290,7 +290,7 @@ def rng_for(seed: str) -> random.Random:
 
 
 
-# ── the prose never claims a tier the dice did not give (niko 10-17: the narration said 大成功, the engine rolled 64) ──
+# ── the prose never claims a tier the dice did not give (10-17: the narration said 大成功, the engine rolled 64) ──
 
 def tier_guard(text: str, levels: list[str], words: dict, names: dict) -> tuple[str, list[dict]]:
     """``text`` with every tier word the beat's rolls did not reach put back to what was rolled. ``levels``: the tiers

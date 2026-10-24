@@ -202,6 +202,44 @@ def fork_cmd(ref: str, new_id: str, title: str | None, store: str | None) -> Non
     click.echo(f"forked {ref} → {t.id}  ({t.dir})")
 
 
+@template_group.command("new")
+@click.argument("new_id", required=False)
+@click.option("--title", default=None, help="Card title (also the world's name).")
+@click.option("--lang", default="zh", show_default=True, help="The card's language.")
+@click.option("--pack", default="rpg", show_default=True, help="The rule pack.")
+@click.option("--contract", default="", help="A play contract, <id>@<version> (see `template contracts`).")
+@click.option("--orchestration", default="", help="An orchestration template ref (default: the first this engine runs).")
+@click.option("--store", default=None, help="Your template folder (default: NEONRP_TEMPLATE_WRITE_DIR).")
+def new_cmd(new_id: str | None, title: str | None, lang: str, pack: str, contract: str, orchestration: str, store: str | None) -> None:
+    """A new template from nothing (pack + contract + orchestration; the engine's blank world, no characters) in your store."""
+    from neonrp.template import TemplateError, author
+
+    _store(store)
+    try:
+        t = author.blank(new_id or author.free_id(title or ""), title=title, lang=lang, pack=pack, contract=contract,
+                         orchestration=orchestration)
+    except TemplateError as e:
+        raise click.ClickException(f"{e} — pass --store DIR or set NEONRP_TEMPLATE_WRITE_DIR" if "WRITE_DIR" in str(e) else str(e)) from e
+    click.echo(f"new {t.id}  ({t.dir})")
+
+
+@template_group.command("new-world")
+@click.argument("ref")
+@click.option("--title", default=None, help="The new world's name.")
+@click.option("--store", default=None, help="Your template folder (default: NEONRP_TEMPLATE_WRITE_DIR).")
+def new_world_cmd(ref: str, title: str | None, store: str | None) -> None:
+    """Give one of your templates a fresh blank world (the old world moves to <store>/.world-backups/)."""
+    from neonrp.template import TemplateError, author
+
+    _store(store)
+    try:
+        out = author.new_world(_resolve(ref), title=title)
+    except TemplateError as e:
+        raise click.ClickException(str(e)) from e
+    click.echo(f"new world in {out['template'].id}" + (f"  (old world → {out['backup']})" if out["backup"] else "")
+               + (f"  no longer cast: {', '.join(out['dropped'])}" if out["dropped"] else ""))
+
+
 @template_group.command("set-contract")
 @click.argument("ref")
 @click.argument("contract", required=False, default="")
@@ -285,7 +323,7 @@ def import_cmd(file: str, new_id: str | None, store: str | None) -> None:
 @click.argument("ref")
 @click.option("--official", is_flag=True, required=True, help="Publish as an official world (the official account only).")
 def publish_cmd(ref: str, official: bool) -> None:
-    """「发布为官方」(niko 10-17): the default zone under the template's own id, a new revision each time (raise the version
+    """「发布为官方」(10-17): the default zone under the template's own id, a new revision each time (raise the version
     first). The free zone is published from the creation desk."""
     from neonrp import template as TP
     from neonrp.core import template_publish as _tp

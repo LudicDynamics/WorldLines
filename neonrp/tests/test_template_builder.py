@@ -1,4 +1,4 @@
-"""Player builder (面板玩家, niko 10-14): the template declares the sheet, the screen renders it, the engine checks
+"""Player builder (面板玩家, 10-14): the template declares the sheet, the screen renders it, the engine checks
 the made character and writes it into the run before the opening (template/builder.py)."""
 from __future__ import annotations
 
@@ -10,9 +10,10 @@ import pytest
 
 from neonrp import template as TP
 from neonrp.template import builder as B
+from _paths import PRODUCT
 
 REPO = Path(__file__).resolve().parents[1]
-PCT = REPO / "worldlines" / "templates" / "pct-house.template"
+PCT = PRODUCT / "templates" / "pct-house.template"
 PNG = b"\x89PNG\r\n\x1a\n" + b"\0" * 32
 
 BUILDER = {
@@ -316,7 +317,7 @@ def test_derive_from_the_points_after_the_grants(tpl, tmp_path):
 
 
 def test_generate_a_free_text_field(tpl):
-    """生平随便写(niko 10-14):没配模型 / stub → 模板的示例;配了模型 → 模型写,上下文只有玩家已经填的,不带世界设定。"""
+    """生平随便写(10-14):没配模型 / stub → 模板的示例;配了模型 → 模型写,上下文只有玩家已经填的,不带世界设定。"""
     t = _edit(tpl, lambda d: d["player"]["builder"]["fields"].append(
         {"id": "life", "kind": "text", "multiline": True, "max": 3000, "generate": {"zh": "写一段生平"}, "label": {"zh": "生平"},
          "example": [{"zh": "你在海边长大。", "en": "You grew up by the sea."}], "to": "player/profile.json:life"}))

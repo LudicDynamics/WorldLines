@@ -1,67 +1,74 @@
 ---
 title: "Propose → verify → apply"
-description: "Everyone can only propose; the world agent is the only one who changes the world."
+description: "Everyone can only propose; only the world (the world agent) changes the world. Which ops are tools in the prose and which are part of the state."
 ---
 
 <!-- section: loop -->
 ## One turn
 
-> **Status: ships with 1.0**
-
 ```text
-propose (a player line / a protagonist's decision / a rule / a hook / the director)
-   → the world agent writes the prose (anything whose result it needs is a tool call in the prose)
-   → one state transition: <vars> new values of registered variables · <files> file-system changes
-   → reconcile + verify (schema, ranges, who is present, the class policy)
+propose (a player line / a character's intent / a rule / a hook)
+   → the world writes the prose (anything whose result it needs is a tool in the prose; the engine answers on the spot)
+   → the state: <vars> new values of registered variables · <files> file-system changes
+   → verify (the tools' and the engine's rulings win; schema, ranges, who is present, the class's growth policy)
    → apply (written into the world folder)
    → events recorded in the ledger → subscribers, triggers, the UI
 ```
 
-> From 10-04 (designed · being implemented) the narrator no longer lists ops while writing. Today's release still writes `<lines>` and `<ops>` in one call.
+Each step inside a beat: [How a turn runs](/docs/concepts/turn-flow).
 
 <!-- section: routing -->
 ## Where each op goes
 
-The same op can land on either side. What decides it is not the op but **whether this beat's prose has to wait for its result to go on** — if it must wait, it is a tool in the prose; if not, it belongs to the state transition written after the prose.
+Ops are registered by each rules pack; the engine does not hard-code them. The table below is the `rpg` pack's (Stoneford). The `pct` pack (Greyoak House) builds on `rpg` and adds `san` (a sanity check); `werewolf` and `monopoly` have their own ops (vote, kill, phase; roll, buy, end turn).
 
-| Where | Ops | Why |
+The same op can land on either side. What decides it is not the op but **whether this beat's prose has to wait for its result to go on** — if it must wait, it is a tool in the prose; if not, it goes into the state written after the prose.
+
+| Where | Op | Why |
 |---|---|---|
-| **A tool in the prose** (stop here, take the result, go on) | `dice` · `roll` · `referee` | the roll or the referee decides |
-| | `need` (`[ask name]`) | what she says and does is hers |
-| | `combat` / `end_combat` | a layer switch: what follows is written another way |
-| | `new_town` | the engine sets the distance and the road; the prose follows it |
-| | `new_location` (walking into it this beat) | the engine decides whether the map can hold it and where it hangs |
-| | `move_to` the player travelling far | the engine decides: arrived, or stopped at a gate |
-| | `link` / `unlink` (taking the path this beat / a path cut in the way) | refused if it would cut a part of town off |
-| | `pay` (money may not suffice) | not enough, no purchase |
-| | `[~map]` · `[~sheet]` | shown to the player only, not awaited; drawn after the write-down |
-| | `options` | hands the player a choice; no call, no options |
-| **State transition · `<vars>`** (closed schema: new values) | `set` · `add` · `flag` | time, place in town, money, hp, alert, reputation, flags |
-| **State transition · `<files>`** (open schema: the file system) | `new` · `patch` · `remove` | instances of registered classes: items, jobs, status effects, things carried |
-| | `new_npc` · `move_to` for anyone but the player | new faces, where others went |
-| | `write` · `rm` · `edit` · `mkdir` · `rmdir` | text and files written, changed, removed |
-| | `new_location` / `new_town` / `link` / `unlink` (only heard of or mentioned) | not walked into this beat; no prose waits on it |
-| | `define` | the world needs a kind of thing it lacks (rare, checked on its own) |
-| **Neither** | `engage` · `mood` | the first is retired; the second is a character's own — the world does not write characters |
+| **Tool in the prose** (stop here, continue with the result) | `dice` · `roll` · `referee` | Success is decided by the dice or the referee |
+| | `need` (written `[ask name]`) | What she says and does is hers to decide |
+| | `combat` | Enters the combat layer: the layer resolves this turn and the prose follows its answer |
+| | `new_town` | The engine sets the distance and the town the road starts from; the prose follows it |
+| | `new_location` (walked into this beat) | The engine decides whether it fits on the map and where it hangs |
+| | `move_to` for a far trip by the player (written `[move player …]`) | The engine decides whether you arrive or are stopped on the way |
+| | `link` / `unlink` (a new road taken this beat / a road cut in your way) | Refused when cutting it would leave part of town unreachable |
+| | a variable change (written `[player.gold -12]`, when money may not be enough) | Not enough → it does not happen |
+| | `[~map]` · `[~sheet]` | Only shown to the player, not waited for; drawn after landing |
+| **State · `<vars>`** (closed schema: new values) | `set` · `add` · `flag` | Time, position (in town), money, hp, alert, flags |
+| **State · `<files>`** (open schema: the file system) | `new` · `patch` · `remove` | Instances of registered classes: items, quests, status effects, carried things |
+| | `new_npc` · `move_to` for anyone but the player | People who just appeared, where others went |
+| | `write` · `rm` · `edit` · `mkdir` · `rmdir` | Text and files written, changed or deleted |
+| | `new_location` / `new_town` / `link` / `unlink` (only heard of or mentioned) | Not walked into this beat; the prose does not wait for it |
+| | `define` | The world needs a kind of thing it does not have yet (rare, verified on its own) |
+| **The world does not write** | `mood` | For characters themselves only; the world does not write characters |
+| | `end_combat` | Used by the combat layer to end a fight |
+| | `engage` | Retired, off by default |
+
+`[options a | b | c]` is not an op: it hands the next move to the player, is picked up by the engine directly, and changes nothing in the world.
 
 <!-- section: refusal -->
-## Refusals
+## Refusal
 
-When verification fails it returns a **readable reason**, and the narration is rewritten around it instead of failing silently:
+When verify fails it returns a **readable reason** instead of failing silently:
 
 ```json
 [{"op": "move_to", "who": "player", "to": "T004/tavern"},   // ✓
- {"op": "need", "who": "rowan"}]                            // ✗ Rowan is not here — ask someone present
+ {"op": "need", "who": "rowan"}]                            // ✗ Rowan is not here — only those present can be asked
 ```
 
-An `add` beyond the range is clamped; read-only variables are written only by the engine; turning an op off means removing it from the `actions` table.
+A fixable refusal sends only the state back for a rewrite; the prose does not change. What still fails after the rewrite is dropped; what passed lands as usual. `add` beyond a range is clamped; read-only variables can be written only by the engine; switching an op off means removing it from the `actions` table.
 
 <!-- section: hooks -->
 ## Subscribers can only propose too
 
-A subscriber (hook) is called after events land, but it **cannot write files** — it can only queue an op, which goes through verify on the next turn. Logic outside the engine cannot break "only the world agent changes the world".
+A subscriber (hook) is called after events land, but it **cannot write files directly** — it can only queue an op (`sdk.enqueue`), which goes through verify on the next turn. So logic outside the engine cannot get around "only the world changes the world" either.
 
 <!-- section: tiers -->
 ## Who spends tokens
 
-Protagonists next to you speak through an LLM (T0); those elsewhere only decide (T1, no LLM call); rules such as the economy and factions are T2 and spend no tokens. All three propose through the same verify.
+- Characters at your place: one LLM call each, in parallel.
+- Characters elsewhere: take a beat where they are, through the same verify.
+- Background units such as the economy, factions and effect countdowns: plain code, no tokens, and they may write only the variables they declared.
+
+All three propose through the same verify.

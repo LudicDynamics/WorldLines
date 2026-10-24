@@ -56,9 +56,7 @@
  "plots": [
   "plots/P20"
  ],
- "models": {
-  "play": "deepseek-v4-flash"
- },
+ "models": {},
  "lint": {
   "level": "draft"
  },

@@ -7,7 +7,7 @@ description: World entity structure, map coherence, and NPC design guidance.
 
 # Entity Conventions
 
-- Store entities in `world/<kind>/<id>.json`.
+- Store entities under the world's `game/` folder: places as folders `game/locations/<T>/<spot>/location.json`, towns in `game/towns/<T>/`, items in `game/item/**/<id>.json` (full layout: `read_spec(name="world")`).
 - Keep `id`, `kind`, and `name` consistent.
 - Use stable IDs; avoid rewriting IDs unless required.
 

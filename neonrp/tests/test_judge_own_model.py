@@ -1,4 +1,4 @@
-"""10-24 niko: deepseek alone, not signed in — the planning talk never settled by itself and the host kept asking
+"""10-24: deepseek alone, not signed in — the planning talk never settled by itself and the host kept asking
 「要不就这么办?」. With no judge at all the run's own model answers the planning beat's one question."""
 from __future__ import annotations
 

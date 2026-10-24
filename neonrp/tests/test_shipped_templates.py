@@ -1,4 +1,4 @@
-"""niko 10-17: the local edition ships only 灰橡宅 and 石津镇 (worldlines/templates/shipped.json, at the top of every list);
+"""10-17: the local edition ships only 灰橡宅 and 石津镇 (worldlines/templates/shipped.json, at the top of every list);
 the other official worlds come down with a Worldlines account into the official cache (NEONRP_OFFICIAL_DIR) — played,
 never exported or copied. Only templates saying ``forkable: true`` (the two shipped ones) offer 「复制一份来改」."""
 
@@ -75,7 +75,7 @@ def test_official_cache_is_searched_last_and_read_only(store, tmp_path, monkeypa
         export_template(t)
     with pytest.raises(TP.TemplateError, match="not copied"):
         author.fork(t, "wuwu-mine")
-    # from source the repo's copy of an official world wins over a downloaded one (niko edits the source)
+    # from source the repo's copy of an official world wins over a downloaded one (the source is what the author edits)
     monkeypatch.delenv("NEONRP_TEMPLATES")
     assert TP.discover()["wuwu"] == PRODUCT_TEMPLATES / "wuwu.template"
 

@@ -1,4 +1,4 @@
-"""回放包 worldlines.replay/1(niko 10-15 / 10-18:打完一局主动分享):
+"""回放包 worldlines.replay/1(10-15 / 10-18:打完一局主动分享):
 - 引擎 core/replay_pack:从一局的回合轨迹只抄展示要的(叙事 · 台词 · 骰子 · 结局 · 角色 / 地点引用),计划 / 角色打算 / 提议 / 计时 / 用量一律不进;密钥形状的串打码;老局没轨迹拍点就读 story.md
 - 回放包 zip:timeline.json 进、原始轨迹 orchestration.jsonl 不进;v3 局没有 story.md 也能导出(从 timeline 渲染)
 - 本机回放库 core/replay_library + 本地接口 /api/v1/local/replays(列表 · 导出 · 文档 · 封面 · 分享 · 删除)"""
@@ -17,6 +17,7 @@ import pytest
 from neonrp.core import replay_export as RE
 from neonrp.core import replay_library as RL
 from neonrp.core import replay_pack as RP
+from _paths import PRODUCT
 
 PNG = b"\x89PNG\r\n\x1a\n" + b"\x00" * 16
 KEY = "sk-" + "a" * 40
@@ -221,7 +222,7 @@ def test_a_turn_that_ends_the_run_keeps_a_replay(tmp_path):
 
 
 def test_doc_carries_the_stage_events_and_the_pictures(tmp_path):
-    """For the player (niko 10-18): each beat's contract events (backstage keys out), who is on the scene, and the run's
+    """For the player (10-18): each beat's contract events (backstage keys out), who is on the scene, and the run's
     own pictures — scene · portrait · the ending's art — as bundle members."""
     run = _run(tmp_path / "mist-house-20261018-101010")
     meta, files = RE.pack_replay(run, lang="en")
@@ -260,12 +261,13 @@ def test_share_uploads_the_pictures(tmp_path):
     assert not RS._uploadable("local.json") and not RS._uploadable("orchestration.jsonl")
 
 
+@pytest.mark.skipif(not (PRODUCT / "ui" / "app" / "hub" / "play" / "wlweb.py").is_file(), reason="the Hub source (hub/play) is not in the open repo")
 def test_browser_bridge_carries_bytes_as_base64():
     """hub/play/wlweb._body: text as it is; a picture (not UTF-8) as base64 + the flag the worker decodes (10-18)."""
     import base64
     import importlib.util
 
-    spec = importlib.util.spec_from_file_location("wlweb_t", Path(__file__).resolve().parents[1] / "worldlines" / "ui" / "app" / "hub" / "play" / "wlweb.py")
+    spec = importlib.util.spec_from_file_location("wlweb_t", PRODUCT / "ui" / "app" / "hub" / "play" / "wlweb.py")
     W = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(W)
     assert W._body(None) == ("", 0) and W._body('{"a": "雾"}'.encode()) == ('{"a": "雾"}', 0)

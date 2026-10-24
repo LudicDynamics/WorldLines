@@ -94,7 +94,7 @@ def test_editor_chat_test_runs_the_real_engine_over_http(tmp_path):
 
 
 def test_editor_chat_test_on_the_real_model_goes_on_turn_by_turn(tmp_path, monkeypatch):
-    """④ niko 10-17: the editor's chat test on the player's own model — no model → 409 no_model; a chat keeps its run,
+    """④ 10-17: the editor's chat test on the player's own model — no model → 409 no_model; a chat keeps its run,
     so each new line plays one turn (not the whole chat again); a changed draft starts over; a provider error comes back
     as a code the page turns into 人话."""
     from neonrp.commands import web as W

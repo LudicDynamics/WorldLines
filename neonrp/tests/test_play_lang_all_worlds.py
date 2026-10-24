@@ -1,4 +1,4 @@
-"""Every world plays in every language (niko 10-16:「Hub 切到日文版,点灰橡宅,进去就变成英文」).
+"""Every world plays in every language (10-16:「Hub 切到日文版,点灰橡宅,进去就变成英文」).
 
 A run started in ``lang`` is in ``lang`` end to end: the run's own language, the opening and its choices, the world view
 the model reads each turn (``sdk.render_pack``), the op list and the variable docs, the "where is this character" line
@@ -12,9 +12,10 @@ from pathlib import Path
 import pytest
 
 from neonrp import template
+from _paths import PRODUCT
 
 ROOT = Path(__file__).resolve().parents[1]
-TPLS = ROOT / "worldlines" / "templates"
+TPLS = PRODUCT / "templates"
 WORLDS = sorted(p.name[: -len(".template")] for p in TPLS.glob("*.template") if (p / "template.json").is_file())
 LANGS = ("zh", "en", "ja", "ko")
 
@@ -110,14 +111,15 @@ def test_every_op_doc_has_four_languages(pack):
             assert not _HAN.search(a.doc_for(lg)), (pack, a.op, lg, a.doc_for(lg))
 
 
+@pytest.mark.skipif(not (PRODUCT / "ui" / "app" / "hub" / "hub.js").is_file(), reason="the Hub source is not in the open repo")
 def test_the_hub_hands_its_language_to_the_local_play_page():
     """The local play page (the engine's /local) is another origin than the Hub: it cannot read the Hub's wl.hub.lang,
     so every link / start into it carries ``lang`` (10-16: a ja Hub opened 灰橡宅 in English)."""
-    js = (ROOT / "worldlines" / "ui" / "app" / "hub" / "hub.js").read_text(encoding="utf-8")
+    js = (PRODUCT / "ui" / "app" / "hub" / "hub.js").read_text(encoding="utf-8")
     assert "/local?tpl=${" not in js  # every /local link is built with URLSearchParams({ tpl, lang })
     assert js.count("/local?${new URLSearchParams({ tpl: x.id, lang })}") == 2
     assert "avatar: 'current', output_lang: lang" in js
-    builder = (ROOT / "worldlines" / "ui" / "app" / "src" / "builder.js").read_text(encoding="utf-8")
+    builder = (PRODUCT / "ui" / "app" / "src" / "builder.js").read_text(encoding="utf-8")
     assert "localStorage.getItem('wl.hub.lang')" in builder
 
 
@@ -169,8 +171,9 @@ def test_a_save_keeps_the_language_it_was_built_in(tmp_path, monkeypatch):
             server.shutdown()
 
 
+@pytest.mark.skipif(not (PRODUCT / "ui" / "player" / "src").is_dir(), reason="the standard front end (ui/player) is not in the open repo")
 def test_the_player_offers_a_new_run_when_a_save_keeps_its_language():
-    src = (ROOT / "worldlines" / "ui" / "player" / "src")
+    src = (PRODUCT / "ui" / "player" / "src")
     app, i18n = (src / "app.js").read_text(encoding="utf-8"), (src / "i18n.js").read_text(encoding="utf-8")
     assert "r.lang_kept" in app and "function langKept" in app
     for key in ("langKept:", "langKeep:", "langNew:", "langNames:"):

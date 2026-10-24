@@ -97,7 +97,7 @@ def understand(root: Path, reg: Any, user_text: str) -> dict[str, Any]:
 
 
 def combat_grounds(root: Path, reg: Any, op: dict[str, Any]) -> Any:
-    """Validator for the <combat> switch. The world writing [combat …] is the encounter itself (niko 10-20: 「combat 这里
+    """Validator for the <combat> switch. The world writing [combat …] is the encounter itself (10-20: 「combat 这里
     其实就是遭遇了敌人,应该新建这个敌人,然后继续推进」): whoever its roster or hand-off names is spawned by the combat
     layer — a road stop's / a room's / the table's foe, someone here, or a new one by its own name. Only a tag that
     names nobody at all, with no stop, room encounter or fight under way to fall back on, is refused."""

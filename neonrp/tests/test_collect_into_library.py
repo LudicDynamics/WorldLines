@@ -16,8 +16,9 @@ from neonrp import template
 from neonrp.core import collection_sync as CS
 from neonrp.core import player_data, rewards, sdk, soul_chat, truth_quiz
 from neonrp.core.registry import load_registry
+from _paths import PRODUCT
 
-TEMPLATES = Path(__file__).resolve().parents[1] / "worldlines" / "templates"
+TEMPLATES = PRODUCT / "templates"
 
 
 @pytest.fixture(autouse=True)
@@ -50,7 +51,7 @@ def _edit_json(p: Path, fn) -> None:
 
 
 def _amu_back(cp: Path) -> None:
-    """阿沐 (N201) may come home again: niko 10-20 made only Elena takeable in 石津镇 (props.takeable: false and no collect
+    """阿沐 (N201) may come home again: 10-20 made only Elena takeable in 石津镇 (props.takeable: false and no collect
     rule); these tests use the stoneford copy as it was to test the NPC paths themselves."""
     def f(d):
         d["entries"]["N201"]["props"]["takeable"] = True

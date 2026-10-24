@@ -1,5 +1,5 @@
 {
-  "_doc": "How many runs (saves) of one world a player may keep, by billing tier (free · story = Traveler · vivid = Voyager). null = no count limit. niko 10-15, docs/planning/PLATFORM-PLAY-RULES-1015.md §4; adventure = 1 main + 3 (lead 10-21, to be confirmed with niko). core/save_limits.py; the platform's entitlements.limits.saves_sandbox / saves_adventure win when present.",
+  "_doc": "How many runs (saves) of one world a player may keep, by billing tier (free · story = Traveler · vivid = Voyager). null = no count limit. 10-15 play rules §4; adventure = 1 main + 3 (10-21, to be confirmed). core/save_limits.py; the platform's entitlements.limits.saves_sandbox / saves_adventure win when present.",
   "free": {"sandbox": 1, "adventure": 1},
   "story": {"sandbox": 3, "adventure": 4},
   "vivid": {"sandbox": null, "adventure": 4}

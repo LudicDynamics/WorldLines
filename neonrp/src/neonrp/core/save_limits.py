@@ -1,4 +1,4 @@
-"""How many runs (saves) of one world a player may keep (niko 10-15, docs/planning/PLATFORM-PLAY-RULES-1015.md §4).
+"""How many runs (saves) of one world a player may keep (10-15).
 
     sandbox (a mystery / TRPG world)   guest · free 1 per world · Traveler 3 per world · Voyager no count limit
     open adventure                     guest · free 1 · Traveler / Voyager 1 main + 3 = 4 runs of that adventure

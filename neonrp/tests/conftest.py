@@ -22,7 +22,7 @@ _REQUIRES_PRIVATE = {
 }
 
 
-# niko 10-17: the open-source repo carries only the templates the local edition ships (worldlines/templates/shipped.json);
+# 10-17: the open-source repo carries only the templates the local edition ships (worldlines/templates/shipped.json);
 # the other official worlds' sources stay in the development repo. A test that names one of them is skipped where it
 # is not there (the whole module when its fixtures / constants name it, else just that test).
 OFFICIAL_UNSHIPPED = ("guixiang", "kagura-island", "last-train", "neon-rebirth", "spice-witch", "stoneford-elena",

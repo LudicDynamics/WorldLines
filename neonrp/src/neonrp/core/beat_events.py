@@ -10,7 +10,7 @@ traces a player line produced — one list per line, in order.
                               what changed hands, who has it now, where it came from (core/holdings.py)
     run.settled               the run reached its exit (settlement.json written)
 
-10-14 (the standard front end, docs/planning/STANDARD-FRONTEND-1014.md §5):
+10-14 (the standard front end):
 
     party.join / party.leave  a soul came along with the player / stayed behind  {sid, iid, name, why}
     stage.changed             a plot's stage variable moved  {plot, var, from, to, name, cg?: {slot, image, video, caption, camera}}
@@ -60,7 +60,7 @@ _DICE_KEYS = ("rolls", "total", "vs", "passed", "under", "reason", "dice", "leve
 
 def live_dice(ev: dict[str, Any]) -> dict[str, Any] | None:
     """A die the moment its tool returns (core/tool_watch's event for dice / san) → ``dice.rolled``: the same numbers
-    as the beat's ``dice`` event, sent before the prose lands so a front end plays it right away (niko 10-17). Not part
+    as the beat's ``dice`` event, sent before the prose lands so a front end plays it right away (10-17). Not part
     of the trace: the beat's own ``dice`` event still comes when the beat lands (a front end that played this one skips
     that one by total / vs). None when it is not a roll (a bad spec, no total)."""
     r = ev.get("result") if isinstance(ev.get("result"), dict) else {}

@@ -65,7 +65,7 @@ def _linked(t: Any) -> list[str]:
 
 class ExportRefused(TemplateError):
     """A default-zone work (``zone: reviewed`` — the official worlds among them) is played, not taken out: only free-zone
-    works export (niko 10-16). ``code`` = default_zone."""
+    works export (10-16). ``code`` = default_zone."""
 
     code = "default_zone"
 

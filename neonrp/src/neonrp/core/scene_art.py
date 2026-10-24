@@ -1,4 +1,4 @@
-"""「画这一幕」— a picture of one beat, drawn on demand (niko 10-16; worldlines-platform docs/实时生图-1015.md).
+"""「画这一幕」— a picture of one beat, drawn on demand (10-16; worldlines-platform docs/实时生图-1015.md).
 
 The author's pictures come first and are free: a beat that already showed one (opening CG · a ``show`` · a stage CG · a
 milestone's own CG) answers with that slot, and the front end shows it. Only a moment without a picture is drawn, by the
@@ -115,7 +115,7 @@ def style(root: Path) -> str:
 
 
 def mode(root: Path) -> str:
-    """The world's switch (template.json ``realtime_art``: off | scene_only | full; left out = off, niko 10-16)."""
+    """The world's switch (template.json ``realtime_art``: off | scene_only | full; left out = off, 10-16)."""
     from neonrp.template import REALTIME_ART
 
     rec = _j(_meta(root) / "template.json", {}) or {}

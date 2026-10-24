@@ -1,5 +1,5 @@
 {
-  "_doc": "没有真图时用的占位图怎么选(core/fallback_art.py 读;niko 10-17)。词表 = 四语里常见的说法,按长度从长到短先匹配、匹配过的字不再算(彼女 不会再算成 彼)。ASCII 词按整词匹配(he 不命中 the;连字符也算词的一部分:spice-witch 不算 witch)。strip = 先拿掉、不计数的词(其他 / 他们 …)。改词只改这里,引擎代码里不写具体的词。",
+  "_doc": "没有真图时用的占位图怎么选(core/fallback_art.py 读;10-17)。词表 = 四语里常见的说法,按长度从长到短先匹配、匹配过的字不再算(彼女 不会再算成 彼)。ASCII 词按整词匹配(he 不命中 the;连字符也算词的一部分:spice-witch 不算 witch)。strip = 先拿掉、不计数的词(其他 / 他们 …)。改词只改这里,引擎代码里不写具体的词。",
   "portrait": {
     "ids": ["f-child", "f-young", "f-adult", "f-elder", "m-child", "m-young", "m-adult", "m-elder", "n-adult"],
     "neutral": "n-adult",

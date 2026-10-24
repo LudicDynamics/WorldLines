@@ -96,6 +96,8 @@ When the engine mints a new soul it creates these subfolders: `agents persona ba
 | `name` | string | yes | primary name (e.g. `Elena Vale`) | implemented |
 | `name_local` | string | no | local-language name (e.g. `艾琳娜`); preferred in scenes | implemented |
 | `schema_version` | int | no | currently `1` | implemented |
+| `spec_version` | int | no | which soul spec version this folder was written to; defaults to `schema_version`. A characters' orchestration graph that needs a newer one warns (§4.6) | implemented |
+| `assets` | object | no | an alias between picture slots; today only `{"sprite": "portrait"}` (or the reverse): the sprite *is* the portrait, no copy. For characters whose portrait is already full-body (1.0.3) | implemented |
 | `version` | string | no | author version, default `"1.0"`; written into the playthrough's `version_hash` on cast | implemented |
 | `created_at` | string | no | ISO timestamp | implemented |
 | `source` | object | no | `{kind: soulhub\|builtin\|local-create, hash, version}` provenance | implemented |
@@ -242,8 +244,8 @@ Note: `profile.json`'s `role` is only a fallback when there is no playthrough. T
 | File | Meaning | Status |
 |---|---|---|
 | `portrait.*` | portrait (`.png/.jpg/.webp`); used as the avatar in the UI. Copied with the folder on cast | implemented |
-| `sprite.*` | sprite | implemented |
-| "a portrait is required before publishing" check | the template layer declares "souls need a portrait", but lint does not enforce it for souls yet | in design |
+| `sprite.*` | standing sprite. Without one, `"assets": {"sprite": "portrait"}` in `soul.json` uses the portrait | implemented |
+| a portrait is required before publishing | the rule pack declares asset slots in `ui.slots`: the rpg pack's `soul.portrait` is `required: publish`, so lint reports a missing one and it blocks publishing (only a warn when the template sets `lint.level: draft`); `soul.sprite` is optional (`src/neonrp/packs/rpg/ui.py`) | implemented |
 
 ---
 
@@ -275,7 +277,7 @@ A world registers its souls in `.neonrp/playthrough.json` (in a template, `playt
 | `sid`, `instance_id` | point at `souls/<sid>-<instance_id>/` |
 | `version_hash` | the soul's version when it was placed (cast uses `soul.json.version`) |
 | `head_commit` | seed commit marker; empty string on cast |
-| `role` | `npc` or `player` |
+| `role` | `npc` · `companion` · `player`, copied from the template's cast row when a run is built |
 | `active_souls` | instances currently on stage and scheduled. Rewritten each turn by the engine's scene-understanding step; off-stage souls make no LLM call |
 
 ### 4.2 `neonrp cast`
@@ -298,6 +300,8 @@ neonrp cast <sid|soul-folder-path> [--into <world folder>] [--as npc|player] [--
 ### 4.3 What a template may change
 
 A template can supply a "prompt-layer overlay" for a soul (`prompts/souls/<sid>/…`), but may only overlay `soul.md`, `persona/`, `rules/`, `agents/` (`src/neonrp/template/__init__.py:SOUL_PROMPT_PATHS`). `character/`, memory, `soul.json` and `run_state.json` are soul data; a template cannot overlay them, and lint blocks the attempt with `prompt.soul.data`. See [template.en.md](template.en.md).
+
+> Known issue (1.0.3): the authoring ops `set_soul_orchestration` / `set_soul_ambient` write `prompts/souls/<sid>/orchestration.json` and `prompts/souls/<sid>/ambient/world.json` (§4.6), but the allow-list above does not include those paths yet, so lint reports them as `prompt.soul.data`. To change a character's orchestration for now, edit the soul folder's own `agents/orchestration.json`.
 
 ### 4.4 Character library and links (10-08)
 
@@ -349,7 +353,7 @@ The graph the soul orchestration bench (Local only) edits. Same format as the wo
 | Node kinds | `chat` (a message in, 1–5 replies out; params `history` · `docs` · `doc_cap` · `max_bubbles` · `tools`) · `tick` (acting on its own; params `interval_min` 1–1440 · `daily_max` 1–288 · `proactive_daily` 0–20 · `prompt`, empty = the engine's) · `reflect` (folding memory; params `every` 0–100, 0 = off, the default · `keep` 1–40) · `in_world` (the beat a world's turn asks of it: not a node of this graph — the bench shows its real settings in the world, below). Each kind's real steps / params / ranges = `describe()` (`hooks` of `GET /api/v1/souls/orchestration`); the bench draws from it | implemented |
 | Edges | `{id, from, to, on, when?}`; `on`: `{chat: "message"}` · `{tick: <name>}` (the foreground clock, every `interval_min`) · `{idle: <minutes>}` (only idle edges: the phone open and the player silent that long → one tick, once per quiet stretch; the player's next message starts a new one). `always` is read by nothing and no longer offered | implemented |
 | Reflect | a reflect node with `every` ≥ 1: after every `every` ticks one cheap model call (≤ 400 tokens) reads `short-term-memo/recent_events.json` + the existing `long-term-memo/reflections.md`, answers `{"keep": [≤ 5 lines]}` → appended to `reflections.md`; short-term keeps its last `keep` events. A model failure changes nothing; the next tick tries again | implemented |
-| In the world (in_world) | the character's real settings in its world: turn mode · variant (`turn.parallel.souls.per_soul[sid]`, else `default_variant`; legacy whenever the world is not v3) and which layer set it · the depth rules (silent skipped · gesture no model · speak / act under the variant · away always S-direct) · the prompt names its path reads (the private layer's marked by name, never their text). A library character: the world that links it (`?world=`, else the first). The variant is written by `POST /api/v1/souls/in_world {ref, variant, world?}` → author op `set_engine_setting` (the template's `template.json` `pack.engine`, merged into `game/meta/engine.json` at build; built-in templates are read-only). A turn's trace records the variant each character ran under in `timing.soul_variants` | implemented |
+| In the world (in_world) | the character's real settings in its world: turn mode · variant (`turn.parallel.souls.per_soul[sid]`, else `default_variant`; legacy whenever the world is not v3) and which layer set it · the depth rules (silent skipped · gesture no model · speak / act under the variant · away always S-direct) · the prompt names its path reads (those the released package replaces are marked by name, never their text). A library character: the world that links it (`?world=`, else the first). The variant is written by `POST /api/v1/souls/in_world {ref, variant, world?}` → author op `set_engine_setting` (the template's `template.json` `pack.engine`, merged into `game/meta/engine.json` at build; built-in templates are read-only). A turn's trace records the variant each character ran under in `timing.soul_variants` | implemented |
 | Free time (tick) | `src/neonrp/core/soul_tick.py`. Only the player's own characters tick (the library's, or gained ones), only with a tick node in the graph, and **the player's switch is off by default** (it spends credits); no background: while the phone is in the foreground it asks `POST /api/v1/chat/tick {ref, catchup?}` once a minute and the engine keeps the pace (the tick node's `interval_min` · `daily_max`, by default once per 10 minutes · 24 a day); opening a thread catches up once. One tick = one model call (its documents + the routine for this time of day from its simple world + the last messages + its last doings) → one line in `trajectory/action_log.md` + one event in `short-term-memo/recent_events.json` (`by: soul.tick`); at most `proactive_daily` (default 2) messages a day into the thread on its own (`origin: tick`). `GET /api/v1/chat/tick?ref=` status · `POST /api/v1/chat/tick/settings {ref, on}` | implemented |
 | Simple world view | `ambient/world.json` (`worldlines.soul-ambient/1`: setting · places ≤ 6 · routine morning / afternoon / evening / night · people ≤ 4 · clock real). A world's character without one gets one replicated from its world (the card's pitch · its town · the places around · the people its persona knows; never the GM's truth / notes / secrets); a library character needs one generated (one model call) or written. Template override `prompts/souls/<sid>/ambient/world.json` (author op `set_soul_ambient`). Endpoints `GET /api/v1/souls/ambient?ref=[&replicate=1]` · `POST /api/v1/souls/ambient {ref, world}` · `POST /api/v1/souls/ambient/generate {ref}` (Local) | implemented |
 | Where it comes from (later wins) | the engine default (= the 10-15 phone) → the soul folder's `agents/orchestration.json` → the template override `prompts/souls/<sid>/orchestration.json` (this world only). A file is a whole graph or a patch `{nodes, remove, add}` | implemented |
@@ -386,7 +390,7 @@ A move proposed by the soul itself is also just a proposal and goes through the 
 | who is on stage | `active_souls` in `.neonrp/playthrough.json` | scene understanding, each turn | implemented |
 | missing agent manifest | `agents/manifest.json`, `agents/contracts.md` | self-healed the first time the soul agent is resolved | implemented |
 
-Under the rpg pack, a soul's beat is "judge + speak": the judgment is closed-choice (attitude, register, urgency, whether to move), then one LLM call writes 1–3 sentences. Soul settle never lets an LLM write memory directly. Under the default older turn engine (the world-agent tool loop), the soul agent uses tools to write `recent_events.json`, `action_log.md` and `character/status.json` within its own `write_globs`; writes outside that scope are refused.
+Under the rpg pack, a soul's beat is "judge + speak": the judgment is closed-choice (attitude, register, urgency, whether to move), then one LLM call writes 1–3 sentences. Soul settle never lets an LLM write memory directly. That is the v3 turn, which every run built from a template uses (both shipped templates set `turn.mode: v3` in `pack.engine`). An older world without that setting still runs the world-agent tool loop (`v2b`); there the soul agent uses tools to write `recent_events.json`, `action_log.md` and `character/status.json` within its own `write_globs`; writes outside that scope are refused.
 
 ---
 

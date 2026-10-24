@@ -162,7 +162,7 @@ def ensure_template_store() -> Path:
 
 
 def official_dir() -> Path | None:
-    """Official worlds fetched with a Worldlines account (niko 10-17: the local edition ships two; the rest are downloaded
+    """Official worlds fetched with a Worldlines account (10-17: the local edition ships two; the rest are downloaded
     to play): ``NEONRP_OFFICIAL_DIR`` (``ensure_template_store`` sets ``~/.worldlines/official``). Read-only to the
     author tools (not the write store): played, never exported or copied. None when not set."""
     import os

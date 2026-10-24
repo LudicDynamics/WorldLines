@@ -1,4 +1,4 @@
-"""Orchestration presets — what a limited creation desk lets a creator pick from (niko 10-18: the web Hub's Default Zone and
+"""Orchestration presets — what a limited creation desk lets a creator pick from (10-18: the web Hub's Default Zone and
 the iOS desk offer a few orchestrations; the chosen one is drawn as a read-only graph that explains what a turn does — the
 local orchestration bench stays the only editor).
 
@@ -328,7 +328,7 @@ def view(t: Any, pid: str, *, pk: Any = None, tb: dict[str, dict[str, Any]] | No
 def views(t: Any) -> dict[str, Any]:
     """Every preset's view for ``t`` plus the form's part (the desk switches presets without asking again). A template
     with parameters gets one view per combination of their choices, keyed by its ref (``two_beat`` = the default
-    choices, ``two_beat?pace=quick`` …; niko 10-23: the two paces looked the same), each node carrying the settings that
+    choices, ``two_beat?pace=quick`` …; 10-23: the two paces looked the same), each node carrying the settings that
     choice changes."""
     from neonrp.core import orch_templates as OT
 
@@ -344,7 +344,7 @@ def views(t: Any) -> dict[str, Any]:
 
 # ── soul presets (subject: soul) ─────────────────────────────────────────────
 # A soul preset carries the graph itself (core/soul_orchestration's shape, structure only: no parameter values — the
-# node kinds give the defaults). Not offered anywhere for now (niko 10-19: an orchestration is one system of the
+# node kinds give the defaults). Not offered anywhere for now (10-19: an orchestration is one system of the
 # template — world and characters together — not a pick per character; the creation desk's per-row picker is gone).
 SOUL_DEFAULT = "chat_only"
 

@@ -1,4 +1,4 @@
-"""A character's simple world view — the background its free action (tick) happens in, outside any run (niko 10-16:
+"""A character's simple world view — the background its free action (tick) happens in, outside any run (10-16:
 「背景用一个简单的世界观,复刻它原来的世界背景或自动生成」). Not a world: no world agent, no registry — one small file
 the character's tick reads, ``ambient/world.json``:
 

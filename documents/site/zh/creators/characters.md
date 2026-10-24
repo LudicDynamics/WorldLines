@@ -25,19 +25,34 @@ description: "角色不属于任何世界:放在角色库里,模板只放 link,�
 ```json
 "souls": [
   {"sid": "chara", "role": "npc"},
-  {"lib": "mira", "role": "companion"},
-  {"pool": [{"lib": "a"}, {"lib": "b"}, {"sid": "c"}], "pick": 2}
+  {"sid": "mira", "lib": "mira", "role": "companion"},
+  {"sid": "guide", "path": "souls/guide"},
+  {"pool": [{"sid": "a", "lib": "a"}, {"sid": "b", "lib": "b"}, {"sid": "c"}], "pick": 2}
 ]
 ```
 
 | 写法 | 是什么 |
 |---|---|
-| `{"sid": …}` | 世界自带的角色(管家、Elena 这类) |
-| `{"lib": …}` | 角色库里的角色 —— link |
+| `{"sid": …}` | 世界自带的角色(灰橡宅的管家、石津镇的艾琳娜这类) |
+| `{"sid": …, "lib": …}` | 角色库里的角色 —— link。手写 `template.json` 时 `sid` 必须写,缺了 Lint 报 `ref.soul`、开局会跳过这一行 |
+| `{"sid": …, "path": …}` | 放在模板文件夹里的角色 |
 | `{"pool": [...], "pick": N}` | 卡池,每局抽 N 个(狼人杀、随机组合) |
-| `role` | `npc`(默认)· `companion` 同伴 · `player` 主角(最多一个) |
+| `role` | `npc` 世界 NPC(默认)· `companion` 同伴 · `player` 主角,由玩家扮演(最多一个) |
 
-创作时用作者操作 `set_cast` 整张写入:link 断了、同一个角色写两次、定位写错、两个主角,都会整批拒绝,什么都不写。
+石津镇的演员表是两个世界原生角色:`{"sid": "elena", "role": "npc"}`、`{"sid": "rowan", "role": "npc"}`。
+
+创作时用作者操作 `set_cast` 整张写入:`{"lib": …}` 没写 `sid` 时它从角色的 `soul.json` 补上;link 断了、同一个角色写两次、定位写错、两个主角,都会整批拒绝,什么都不写。
+
+<!-- section: switches -->
+## 角色自己的开关
+
+写在角色的 `soul.json` 里:
+
+| 字段 | 意思 |
+|---|---|
+| `standalone: true` | 没获得也能单独聊 |
+| `takeable`(默认 `true`)· `take_when` | 满足条件时玩家能把它带回家,带着完整记忆。`take_when` 是 `companion_at_ending`(默认:结局时跟在玩家身边)或 `ending:<结局 id>`。自由区的局不让带走 |
+| `assets: {"sprite": "portrait"}` | 站姿直接用立绘(立绘本身是全身像时),不另存一张 |
 
 <!-- section: per-world -->
 ## 同一个角色,在每个世界里不一样
@@ -54,7 +69,7 @@ description: "角色不属于任何世界:放在角色库里,模板只放 link,�
 <!-- section: protocol -->
 ## 角色协议:合约对角色的要求
 
-> **状态:设计中**
+> **状态:还没实装** —— 下面是已定的方向。
 
 不同玩法对角色的要求不一样:解谜跑团要一张调查员卡,剧本杀要给每人发身份和秘密。合约里会加一节 `souls`:
 

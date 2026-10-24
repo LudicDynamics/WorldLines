@@ -42,7 +42,7 @@
 | `flags` | {path, key} | `game/meta/flags.json` · `flags` | story flag 存在哪(`rpg` 用 `game/player/flags.json` · `story_flags`) | 已实装 |
 | `blocks` | [str] | `["lines","ops","options"]` | 每回合要模型输出的块 | 已实装 |
 | `modes` | {层名: 定义} | `{}` | 子层(战斗、地城、裁判):`prompt` / `reads` / `ops` / `exit` / `state` / `one_shot` / `output` / `tail` … | 已实装 |
-| `loop` | object | `{}` | 回合循环配置片段;叠加顺序 内置默认 < `pack.loop` < `game/meta/engine.json` < playthrough < 环境变量 | 已实装 |
+| `loop` | object | `{}` | 回合循环配置片段;叠加顺序见 §2.3「回合循环」 | 已实装 |
 | `ticks` | ["module:function"] | `[]` | 每次结算(apply)里、本回合 op 之后跑的确定性规则 | 已实装 |
 | `mixins` | [str] | `[]` | 叠加的 mixin | 已实装 |
 | `base` | str | `""` | 这个包基于哪个内置包(`pct` → `rpg`):层提示词找不到时回落到它的 | 已实装(仅 Python 包会设,见 §2.4) |
@@ -124,10 +124,10 @@
 | 层提示词(战斗 / 地城 / 裁判) | 模板 / 世界覆盖(`ui.prompts["modes.<层>"]` 或 `game/meta/prompt.json` 的 `modes.<层>`)→ 世界自带 `agents/<id>/system.md` → 包的 `prompts/<层>.<lang>.md` → base 包的同名文件 | `core/modes.py:prompt_source` |
 | 机制接缝 | 引擎通用默认 < `pack.mechanics` < `manifest.json` 的 `mechanics` < `game/meta/mechanics.json` | `core/mechanics.py` |
 | 提示词条目 | `pack.prompt` < `manifest.json` 的 `prompt` < `game/meta/prompt.json` | `core/adv.py:prompt_spec` |
-| 回合循环 | 内置默认 < `pack.loop` < `game/meta/engine.json` < playthrough 的 `engine` < 环境变量 | `core/engine_config.py` |
+| 回合循环 | 内置默认 < `pack.loop` < 玩法合约的 `engine` < 编排模板(模板 `uses` 点名的那个,运行时叠上)< 世界的 `game/meta/engine.json` < 编排图的步骤参数 < playthrough 的 `engine` < 环境变量 | `core/engine_config.py:_layers` |
 | 呈现 ui | 包(+ mixin)< 模板 `ui` | `packs:merge_ui` |
 
-接缝(`core/mechanics.py:SEAMS`):`contract` · `soul_turn` · `observe` · `settle` · `participation` · `load` · `pack_hints` · `companions` · `speech_rule` · `gate` · `post_solve` · `understand` · `after_turn` · `roll_check` · `plan_event` · `run_outputs`。`rpg` 填了其中 15 个;`pct` 只换 `roll_check` 和 `load`。
+接缝(`core/mechanics.py:SEAMS`):`contract` · `soul_turn` · `observe` · `settle` · `participation` · `load` · `pack_hints` · `companions` · `speech_rule` · `gate` · `post_solve` · `understand` · `after_turn` · `roll_check` · `plan_event` · `run_outputs` · `sheet` · `skill_check`,共 18 个。`rpg` 填了其中 16 个(没填 `run_outputs`、`skill_check`);`pct` 换掉 `roll_check`、`load`、`sheet`、`skill_check`。
 
 ### 2.4 自己写的 JSON 包 extends rpg 时要知道的 · 已实装(行为如此)
 

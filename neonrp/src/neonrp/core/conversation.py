@@ -1423,7 +1423,7 @@ class ConversationSession:
     def _watch_dice(self) -> None:
         """Every die this world rolls (the narrator's [dice], an agreed check, a skill command, the referee, [san]) goes
         out on engine/beat as ``dice.rolled`` the moment the tool returns — a front end plays it then, not when the
-        turn is over (niko 10-17). Held weakly: a session that is gone unwatches itself."""
+        turn is over (10-17). Held weakly: a session that is gone unwatches itself."""
         import weakref
 
         from neonrp.core import beat_events as _be

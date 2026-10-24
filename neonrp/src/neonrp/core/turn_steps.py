@@ -1,4 +1,4 @@
-"""The turn's step catalog (10-17 batch 4 · S1 · niko: the orchestration bench is a real editor; step names may show).
+"""The turn's step catalog (10-17 batch 4 · S1: the orchestration bench is a real editor; step names may show).
 
 What a beat actually runs, step by step, as data: each step's id · the node it belongs to · its backend (python / llm /
 jev) · the engine settings it owns (their dotted ``turn.*`` keys and defaults) · the mechanics seam whose handler it calls

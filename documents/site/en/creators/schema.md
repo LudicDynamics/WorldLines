@@ -8,7 +8,7 @@ description: "Use neonrp schema to register variables, classes and instances, re
 
 > **Status: ships with 1.0**
 
-Run every command inside a **world folder** (the one with `game/`), or pass `--world <path>`. `--json` prints one-line JSON. Registration writes to `game/meta/<table>.json` and **validates before writing** — if it fails, nothing is written.
+Run every command inside a **run's folder** (the one with `game/`, under `~/.worldlines/plays/`; the examples use a Stoneford run), or pass `--world <path>`. `--json` prints one-line JSON. Registration writes to `game/meta/<table>.json` and **validates before writing** — if it fails, nothing is written.
 
 ```bash
 neonrp schema list variables          # what exists now (template pack + world files + registrations)
@@ -19,16 +19,18 @@ neonrp schema list entries --class npc
 <!-- section: var -->
 ## 1. Register a variable (closed schema)
 
-Stoneford's grain price:
+The lanterns at Stoneford's North Gate:
 
 ```bash
-neonrp schema register variables price.T001.grain --spec '{
-  "type": "int", "path": "game/towns/T001/market.json", "key": "price.grain",
-  "value": 12, "min": 1, "max": 99,
-  "doc": "Stoneford grain price (copper/measure). Fog season +1~3, caravan arrival −2~4"
+neonrp schema register variables town.T001.lanterns --spec '{
+  "type": "int", "path": "game/towns/T001/town.json", "key": "lanterns",
+  "min": 0, "max": 20,
+  "doc": "Lanterns still lit at Stoneford North Gate. The thicker the fog, the more go out"
 }'
-neonrp schema get price.T001.grain
+neonrp schema get town.T001.lanterns
 ```
+
+Keep names clear of a fragment's variables: Stoneford has the economy fragment, which already owns market variables like `price.T001.grain` (read-only), and registering the same name would overwrite it.
 
 | Field | Meaning |
 |---|---|
@@ -36,7 +38,7 @@ neonrp schema get price.T001.grain
 | `path` + `key` | **required**: which file and which (dotted) key holds the value |
 | `min` · `max` · `max_key` | range; an `add` beyond it is clamped; `max_key` points at a dynamic max (e.g. `hp.max`) |
 | `readonly` | only the engine may write it |
-| `doc` | **the rule the model sees**, shown to the world agent next to the value |
+| `doc` | **the rule the model sees**, shown to the narrator next to the value |
 
 Common errors: `variable type must be int|float|str|bool` · `variable needs path + key`.
 
@@ -81,7 +83,7 @@ neonrp schema register triggers bandits_strong --spec '{
   "then": [{"to": "narration", "text": "Caravans on the post road start travelling in convoys."}]
 }'
 neonrp schema unregister actions new_npc        # turn an op off (writes a tombstone)
-neonrp schema unregister variables price.T001.grain
+neonrp schema unregister variables town.T001.lanterns
 ```
 
 Full trigger syntax: [Triggers](/docs/creators/triggers).
@@ -90,7 +92,7 @@ Full trigger syntax: [Triggers](/docs/creators/triggers).
 ## 4. Read (pull)
 
 ```bash
-neonrp schema get player.gold                    # current value + definition
+neonrp schema get player.gold                    # the variable's definition
 neonrp schema history player.gold                # every change of this variable
 neonrp schema events --since 120 --type var.changed
 ```

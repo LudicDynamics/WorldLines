@@ -1,10 +1,10 @@
-"""Hub 的自由区(niko 10-16 · core/template_publish):hub.js 运行时拉公开列表进发现页;远端作品详情 =「下载到本地玩」+「举报」;
+"""Hub 的自由区(10-16 · core/template_publish):hub.js 运行时拉公开列表进发现页;远端作品详情 =「下载到本地玩」+「举报」;
 已经下载过的(同 id 的本机模板)并到本机那一项上、标自由区;「我的作品」按默认区 / 自由区分两栏,带状态和驳回 / 下架理由;
 iOS(window.HUB.openZone === false)整个不拉、不显示。引擎接口全部是假的(tests/hub_free_zone.mjs)。
 
-两个区两个地址(niko 10-16):本地 /hub.html#/ ⇄ #/free/…;线上 / ⇄ /free/(同一份页面 + <base href="../">,tests/hub_free_web.mjs);
+两个区两个地址(10-16):本地 /hub.html#/ ⇄ #/free/…;线上 / ⇄ /free/(同一份页面 + <base href="../">,tests/hub_free_web.mjs);
 顶上的「默认区 ⇄ 自由区」开关跳到另一个地址,直达 / 刷新落在那一区;线上自由区作品的主按钮 =「在浏览器里玩」(play/?ref=hub/template/<id>);
-默认区(官方世界)不出世界包下载。"""
+默认区(官方世界)不出世界包下载,也不出「在本地玩」(只在浏览器里玩)。"""
 from __future__ import annotations
 
 import json
@@ -105,17 +105,20 @@ def test_two_addresses_on_the_web(tmp_path):
     assert r["errs"] == []
     assert r["root"]["cards"] == ["official"] and r["root"]["toggle"] == [["默认区", "./#/", "on"], ["自由区", "free/#/", ""]]
     assert "下载世界包" not in " ".join(r["officialCtas"]), "the default zone gives no package download"
+    assert "在本地玩" not in " ".join(r["officialCtas"]), "the default zone plays in the browser only"
     f = r["free"]
     assert f["url"] == "http://hub.test/free/#/" and f["cards"] == ["w-free-abc123"] and f["toggleOn"] == "自由区"
     assert f["hrefs"] == ["free/#/t/w-free-abc123"], "a free work's detail lives under /free/"
     d = r["freeDetail"]
     assert d["url"] == "http://hub.test/free/#/t/w-free-abc123" and d["cover"] == "https://s3.test/cover.png"
     assert d["ctas"][0][0] == "▶ 在浏览器里玩" and d["ctas"][0][1].startswith("play/?ref=hub%2Ftemplate%2Fw-free-abc123&")
+    assert "▶ 在本地玩" in [c[0] for c in d["ctas"]], "a free work can be taken home"
     assert r["back"]["url"] == "http://hub.test/#/" and r["back"]["cards"] == ["official"]
 
 
 def test_local_free_zone_address(tmp_path):
     r = _run(tmp_path)
+    assert r["landing"] == "#/free/", "hub.html opened without a hash lands in the free zone"
     assert sorted(r["openHrefs"]) == ["#/free/t/mine-local", "#/free/t/remote-abc123"], "local: #/free/… is the free zone, details under it"
     assert r["toggle"] == [["#/", ""], ["#/free/", "on"]]
 

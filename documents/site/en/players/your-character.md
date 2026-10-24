@@ -1,31 +1,50 @@
 ---
 title: "Your character"
-description: "Characters live in your own library and can join many worlds; worlds and characters others share are one import away."
+description: "Characters live in your own library and can join many worlds; worlds and characters others share, and SillyTavern cards, are one import away."
 ---
 
 <!-- section: library -->
 ## The character library
 
-> **Status: ships with 1.0** (choosing your player from the library: in design)
-
 Your characters live in the library (`~/.worldlines/souls/`) and belong to no single world. One character can join many worlds:
 
-- who they are can differ per world (the client's friend in Greyoak House, a traveller without a memory in Stoneford), but it is the same personality;
+- who they are can differ per world, but it is the same personality;
 - what happens in a run belongs to that run; at the end, only what that kind of game promises to carry (memories, trust, affection) comes back to the character;
 - a role and secret handed out in a murder mystery never follow the character into another world.
 
 <!-- section: bring -->
-## Bring your own character in
+## Bringing a character into a world
 
-> **Status: in design**
+In the terminal game:
 
-At the start of a run you will pick a character from the library as your player, or create one there and then. Some games need a sheet (an investigator's skills and sanity): if your character has none, one is made from the character's own background — you can look at it and reroll.
+- `/cast` lists the characters you can bring in; `/cast <character>` brings one into this world;
+- `/who <character>` shows where they are and what they remember;
+- `/remove <character>` takes them out of this world (the library copy is untouched);
+- `/reset <character>` makes them forget what happened in this world, back to how they arrived.
+
+Not built yet: choosing a library character as **the protagonist you play** when a run starts. For now you play the role the world gives you (the investigator in Greyoak House, for example).
 
 <!-- section: share -->
-## Worlds and characters others share
+## Importing worlds and characters others share
 
-> **Status: ships with 1.0**
+Someone sends you a `.zip`:
 
-Someone sends you a `.zip`: on the Template page choose "Import…" and pick it. The world goes into your template store, the characters it carries into your library; one with the same name as yours but different gets a new name, never overwriting yours.
+- **web**: on the Template page, choose "Import…" and pick the file;
+- **terminal**: `/import <file>`.
 
-To share your own: "Export" on the Template page. See [Export and import](/docs/creators/export-import).
+The world goes into your template store and the characters it carries into your library; one with the same name as yours but different content gets a new name, never overwriting yours.
+
+To share your own: "Export" on the Template page. Works in the default zone (including official worlds) can be played but not exported. See [Export and import](/docs/creators/export-import).
+
+<!-- section: tavern -->
+## Importing a SillyTavern card
+
+Got a SillyTavern character card (`.png` or `.json`)? In the terminal game:
+
+```text
+/import my-character.png
+```
+
+The engine reads the card and uses your current model to fill it out into a complete character in your library. When it is done it suggests `/cast <character>` to bring them into the current world.
+
+Filling out the card calls the model, so an import takes a little while and uses a little of your model budget.

@@ -7,7 +7,10 @@ import json
 import re
 from pathlib import Path
 
+import pytest
+
 from neonrp.tui.i18n import get_message
+from _paths import PRODUCT
 
 ROOT = Path(__file__).resolve().parents[1]
 KEYS = ("pending", "corrected", "same", "cut", "timeout", "failed")
@@ -15,7 +18,7 @@ LANGS = ("zh", "en", "ja", "ko")
 
 
 def test_test_bench_strings_are_the_tuis():
-    src = (ROOT / "worldlines/ui/app/real/engine.js").read_text(encoding="utf-8")
+    src = (PRODUCT / "ui/app/real/engine.js").read_text(encoding="utf-8")
     m = re.search(r"const WD_T = (\{.*?\});\n", src)
     assert m, "WD_T in engine.js"
     tab = json.loads(m.group(1))
@@ -24,8 +27,9 @@ def test_test_bench_strings_are_the_tuis():
             assert tab[lang][k] == get_message(lang, f"wd.{k}"), (lang, k)
 
 
+@pytest.mark.skipif(not (PRODUCT / "ui" / "player" / "src").is_dir(), reason="the standard front end (ui/player) is not in the open repo")
 def test_standard_front_end_strings_are_the_tuis():
-    src = (ROOT / "worldlines/ui/player/src/i18n.js").read_text(encoding="utf-8")
+    src = (PRODUCT / "ui/player/src/i18n.js").read_text(encoding="utf-8")
     rows = [ln for ln in src.splitlines() if "wdPending:" in ln]
     assert len(rows) == 4, "one row per language, in zh · en · ja · ko order"
 

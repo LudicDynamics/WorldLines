@@ -142,7 +142,7 @@ _ALIAS_STEMS = ("portrait", "sprite")
 
 def asset_alias(sd: Path, stem: str) -> str | None:
     """``soul.json`` ``assets: {"sprite": "portrait"}`` = this soul's sprite *is* its portrait (the author's portrait is
-    already a full-body picture, niko 10-24): the slot points at the other picture — no copy. Only between the soul's
+    already a full-body picture, 10-24): the slot points at the other picture — no copy. Only between the soul's
     own picture slots."""
     sj = _rj(Path(sd) / "soul.json") or {}
     a = sj.get("assets") if isinstance(sj, dict) and isinstance(sj.get("assets"), dict) else {}

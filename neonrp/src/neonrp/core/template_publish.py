@@ -1,4 +1,4 @@
-"""Publish a template to the Hub's free zone with the author's Worldlines account (niko 10-16 · PLATFORM-PLAY-RULES-1015 §1:
+"""Publish a template to the Hub's free zone with the author's Worldlines account (10-16 · PLATFORM-PLAY-RULES-1015 §1:
 Local creation desk → submit with the account → fields complete and the checks pass = public in the free zone at once,
 moderated after; the author may later ask for the default zone). worldlines-platform docs/审核与分区-1015.md is the
 platform side: ``hub:template`` is a work (storage files, publishable); ``publish {zone: "open"}`` runs the automatic
@@ -256,7 +256,9 @@ def mine(*, lang: str | None = None, token: str | None = None) -> list[dict[str,
 
 
 def work_of(tid: str, works: list[dict[str, Any]]) -> dict[str, Any] | None:
-    hits = [w for w in works if w.get("source") == tid]
+    # the official copy (``hub/template/<template id>``, publish_official) is not the author's work: the official account
+    # can also put a separate copy up in the free zone
+    hits = [w for w in works if w.get("source") == tid and w.get("id") != tid]
     return sorted(hits, key=lambda w: str(w.get("updated_at") or ""))[-1] if hits else None
 
 
@@ -558,7 +560,7 @@ def fetch(wid: str, *, lang: str | None = None) -> dict[str, Any]:
             "souls": out.get("souls") or [], **({"renamed_from": wid} if out["id"] != wid else {}), "message": _msg("fetched", lang)}
 
 
-# ── official worlds (niko 10-17) ─────────────────────────────────────────────
+# ── official worlds (10-17) ─────────────────────────────────────────────
 # The local edition ships two worlds; every other official world goes up from the official account's local creation
 # desk to the default zone (identity: curated) and comes down to signed-in local players. Its work id is the template id
 # itself (no hex suffix): what a player fetches, a replay cites and a character link names stays the same id. Who is
@@ -697,7 +699,7 @@ def _installed() -> dict[str, dict[str, Any]]:
 
 
 def official_works(*, lang: str | None = None) -> dict[str, Any]:
-    """The default zone's worlds for the local Hub (niko 10-17): signed out → nothing (only what this machine has);
+    """The default zone's worlds for the local Hub (10-17): signed out → nothing (only what this machine has);
     signed in → every published default-zone template, the official ones marked, each with what is installed here and
     whether a newer revision is up. → {signed_in, works: [row + installed? + update + official]}."""
     from neonrp.core import worldlines_auth
@@ -725,7 +727,7 @@ def official_works(*, lang: str | None = None) -> dict[str, Any]:
 
 def _is_official(wid: str, token: str, lang: str | None) -> bool:
     """Is this default-zone work the official account's (identity's mark on the listing)? A community work fetched to play
-    (niko 10-21: iOS plays approved community works) must not come down labelled official. Unknown = False."""
+    (10-21: iOS plays approved community works) must not come down labelled official. Unknown = False."""
     q = urllib.parse.urlencode({"product": PRODUCT, "kind": KIND, "zones": "curated", "client": "local", "limit": 100})
     try:
         st, body = _call("GET", f"{_auth()}/v1/public/resources?{q}", token, lang=lang, step="official")
@@ -774,3 +776,38 @@ def fetch_official(wid: str, *, lang: str | None = None, busy: Any = None) -> di
         msg += " " + _msg("official_shadowed", lang, id=wid)
     return {"ok": True, "id": wid, "ref": f"{PRODUCT}/{KIND}/{wid}", "revision": rev, "updated": had, "title": out.get("title"),
             "souls": out.get("souls") or [], **({"shadowed": True} if shadowed else {}), "message": msg}
+
+
+# ── the online Hub's list for the local Hub (10-24) ─────────────────────
+# The online Hub lists every official world without signing in; the local Hub shows the same list (through the engine:
+# the site sends no CORS header) and its worlds open on the online Hub, played there — nothing is installed here.
+
+HUB_SITE = "https://neonrp.worldlines.gg"
+_REMOTE: dict[str, Any] = {"at": 0.0, "body": None}
+
+
+def hub_site() -> str:
+    import os
+
+    return (os.environ.get("NEONRP_HUB_SITE") or HUB_SITE).rstrip("/")
+
+
+def remote_catalog(*, ttl: float = 300.0) -> dict[str, Any]:
+    """The online Hub's catalog.json, read without a credential and kept ``ttl`` seconds. Relative paths stay
+    relative; ``base`` is the site they are relative to. Unreachable → {base, templates: []}."""
+    import time
+
+    base = hub_site()
+    now = time.monotonic()
+    if _REMOTE["body"] is not None and _REMOTE.get("base") == base and now - _REMOTE["at"] < ttl:
+        return _REMOTE["body"]
+    try:
+        req = urllib.request.Request(f"{base}/catalog.json", headers={"Accept": "application/json", "User-Agent": "neonrp-local-hub"})
+        with urllib.request.urlopen(req, timeout=8) as r:  # noqa: S310 — a fixed https site
+            data = json.loads(r.read().decode("utf-8"))
+        rows = [t for t in (data.get("templates") or []) if isinstance(t, dict) and t.get("id")]
+    except Exception:  # noqa: BLE001 — offline: the local Hub shows what this machine has
+        return {"base": base, "templates": []}
+    body = {"base": base, "templates": rows}
+    _REMOTE.update(at=now, base=base, body=body)
+    return body

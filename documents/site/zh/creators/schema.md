@@ -8,7 +8,7 @@ description: "用 neonrp schema 注册变量、类、实例,读值,订阅变化�
 
 > **状态:随 1.0 发布**
 
-所有命令都在**世界文件夹**里跑(有 `game/` 的那个),或者加 `--world <路径>`。加 `--json` 输出单行 JSON。注册写进 `game/meta/<表>.json`,**写之前先校验**,过不了就报错、不写。
+所有命令都在**一局的文件夹**里跑(有 `game/` 的那个,在 `~/.worldlines/plays/` 下;下面的例子用石津镇的一局),或者加 `--world <路径>`。加 `--json` 输出单行 JSON。注册写进 `game/meta/<表>.json`,**写之前先校验**,过不了就报错、不写。
 
 ```bash
 neonrp schema list variables          # 看现在有哪些变量(模板包 + 世界文件 + 注册)
@@ -19,16 +19,18 @@ neonrp schema list entries --class npc
 <!-- section: var -->
 ## 1. 注册一个变量(闭 schema)
 
-石津的粮价:
+石津北门的灯笼:
 
 ```bash
-neonrp schema register variables price.T001.grain --spec '{
-  "type": "int", "path": "game/towns/T001/market.json", "key": "price.grain",
-  "value": 12, "min": 1, "max": 99,
-  "doc": "石津粮价(铜/斗)。雾季 +1~3,商队到货 −2~4"
+neonrp schema register variables town.T001.lanterns --spec '{
+  "type": "int", "path": "game/towns/T001/town.json", "key": "lanterns",
+  "min": 0, "max": 20,
+  "doc": "石津北门还亮着的灯笼数。雾越浓灭得越多"
 }'
-neonrp schema get price.T001.grain
+neonrp schema get town.T001.lanterns
 ```
+
+名字别和片段的变量撞:石津装了经济片段,`price.T001.grain` 这类集市变量已经被它占用(只读),同名注册会把它覆盖掉。
 
 | 字段 | 说明 |
 |---|---|
@@ -36,7 +38,7 @@ neonrp schema get price.T001.grain
 | `path` + `key` | **必填**:值存在哪个文件的哪个键(点号路径) |
 | `min` · `max` · `max_key` | 范围;`add` 超出会被钳位;`max_key` 指向动态上限(如 `hp.max`) |
 | `readonly` | 只有引擎能写 |
-| `doc` | **模型看到的规则**,和值放在一起给 world agent 看 |
+| `doc` | **模型看到的规则**,和值放在一起给讲述者看 |
 
 常见报错:`variable type must be int|float|str|bool` · `variable needs path + key`。
 
@@ -81,7 +83,7 @@ neonrp schema register triggers bandits_strong --spec '{
   "then": [{"to": "narration", "text": "驿路上的商队开始结伴而行。"}]
 }'
 neonrp schema unregister actions new_npc        # 关掉一个 op(写入墓碑)
-neonrp schema unregister variables price.T001.grain
+neonrp schema unregister variables town.T001.lanterns
 ```
 
 触发规则的完整写法见 [触发规则](/docs/creators/triggers)。
@@ -90,7 +92,7 @@ neonrp schema unregister variables price.T001.grain
 ## 4. 读(pull)
 
 ```bash
-neonrp schema get player.gold                    # 当前值 + 定义
+neonrp schema get player.gold                    # 这个变量的定义
 neonrp schema history player.gold                # 这个变量的每次变化
 neonrp schema events --since 120 --type var.changed
 ```

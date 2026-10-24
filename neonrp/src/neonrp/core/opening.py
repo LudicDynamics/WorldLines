@@ -70,7 +70,7 @@ def authored_opening(root: Path) -> str:
 # ── the opening as a node kind (10-11): the world's own first beat, in any orchestration ──────────────────────────────
 class _OpeningNode:
     """A world nobody has played yet, the start cue, an authored opening scene: that scene is the first beat — no model,
-    no talk (niko 10-03: 「主持的第一句应该是主持的开场」). It takes that beat before any other node kind, whatever the
+    no talk (10-03: 「主持的第一句应该是主持的开场」). It takes that beat before any other node kind, whatever the
     orchestration (10-17: a node kind opening its own way left out the companions' party.join and the mentions)."""
 
     kind = "opening"

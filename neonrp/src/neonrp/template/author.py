@@ -4,6 +4,8 @@ A template is edited only where it is writable: under ``NEONRP_TEMPLATE_WRITE_DI
 Built-in / example templates are read-only — fork first. Every edit goes through ``apply_ops``: all ops are verified
 before anything is written (one refused → nothing lands), then the template is re-linted.
 
+A template can also start from nothing (``blank``): the engine's blank world as its own ``world/``, no characters.
+
 Ops (the mock's creator ops, now against the template on disk):
 
     edit_card     {title?, pitch?, tags?, lang?}
@@ -33,6 +35,8 @@ Ops (the mock's creator ops, now against the template on disk):
     set_cast      {souls: [...]}                     who plays: {sid} world-native · {lib} a link into the character
                                                      library (copied in only when a run is built) · {path} · {pool, pick};
                                                      role npc / companion / player
+    link_soul     {lib, role?}                       add one library character to the cast (set_cast with one more {lib} row;
+                                                     an implicit all-native cast is written out first)
 
 The asset workshop: when ``WORLDLINES_ASSETS_DIR`` is set, every image that lands in a slot is also copied to
 ``$WORLDLINES_ASSETS_DIR/worlds/<template id>/<cls>/<slot>/<inst>.<ext>`` (the production workshop; generated
@@ -82,6 +86,11 @@ def writable(t: Template) -> bool:
     return bool(root and t.dir.resolve().is_relative_to(root))
 
 
+
+def _read_only(t: Template) -> str:
+    """What a write to a built-in template says (the editor shows it as is)."""
+    return f"模板 {t.id} 是内置的(只读)——先另存一份再改"
+
 def mixins_available() -> list[str]:
     from neonrp.packs import mixins as _m
 
@@ -98,19 +107,9 @@ def fork(src: Template | Path | str, new_id: str, *, title: str | None = None, c
     from neonrp.template import creation as _creation
 
     t = src if isinstance(src, Template) else load(src)
-    if not can_fork(t) and not (creation and _creation.spec(t)["open"]):  # niko 10-17: of the official worlds only the two the local edition ships offer a copy
+    if not can_fork(t) and not (creation and _creation.spec(t)["open"]):  # 10-17: of the official worlds only the two the local edition ships offer a copy
         raise TemplateError(f"{t.id}: this official world can be played, not copied (only forkable templates are)")
-    root = write_root()
-    if root is None:
-        raise TemplateError("no writable template store (NEONRP_TEMPLATE_WRITE_DIR)")
-    if not ID_RE.match(new_id or ""):
-        raise TemplateError("id: 2–48 chars, lowercase letters / digits / '-'")
-    if new_id in discover():
-        raise TemplateError(f"template {new_id!r} already exists")
-    dest = root / f"{new_id}.template"
-    if dest.exists():
-        raise TemplateError(f"{dest.name} already exists")
-    root.mkdir(parents=True, exist_ok=True)
+    dest = _new_dest(new_id)
     shutil.copytree(t.dir, dest, ignore=COPY_IGNORE)
     d = json.loads((dest / "template.json").read_text(encoding="utf-8"))
     d["schema"] = d.get("schema") or SCHEMA
@@ -129,6 +128,196 @@ def fork(src: Template | Path | str, new_id: str, *, title: str | None = None, c
     t2 = load(dest)
     _agent_files(t2)
     return t2
+
+
+def _new_dest(new_id: str) -> Path:
+    """``<write store>/<new_id>.template`` for a new template (the id checked, the store made); not created yet."""
+    root = write_root()
+    if root is None:
+        raise TemplateError("no writable template store (NEONRP_TEMPLATE_WRITE_DIR)")
+    if not ID_RE.match(new_id or ""):
+        raise TemplateError("id: 2–48 chars, lowercase letters / digits / '-'")
+    if new_id in discover():
+        raise TemplateError(f"template {new_id!r} already exists")
+    dest = root / f"{new_id}.template"
+    if dest.exists():
+        raise TemplateError(f"{dest.name} already exists")
+    root.mkdir(parents=True, exist_ok=True)
+    return dest
+
+
+# ── new (from nothing) ───────────────────────────────────────────────────────
+
+BLANK_WORLD = "white-blank"   # the engine's blank world (neonrp/templates/): a start town, a player, the agent team
+
+
+def free_id(base: str = "") -> str:
+    """An unused template id from ``base`` (``-2``, ``-3`` … when taken); a base with no latin letters / digits (a
+    Chinese title) falls back to "my-world"."""
+    base = re.sub(r"[^a-z0-9-]+", "-", (base or "").lower()).strip("-")[:40]
+    if not ID_RE.match(base):
+        base = "my-world"
+    taken = set(discover())
+    root = write_root()
+    n, cand = 1, base
+    while cand in taken or (root is not None and (root / f"{cand}.template").exists()):
+        n += 1
+        cand = f"{base}-{n}"
+    return cand
+
+
+def _blank_world_into(wdir: Path, wid: str, title: str) -> None:
+    """The engine's blank world copied to ``wdir`` (must not exist), named ``title``; its two placeholder characters stay
+    behind — a new world's cast comes from the character library."""
+    from neonrp import templates as _tpls
+
+    src = Path(_tpls.__file__).parent / BLANK_WORLD
+    if not src.is_dir():
+        raise TemplateError(f"blank world {BLANK_WORLD!r} not found")
+    shutil.copytree(src, wdir, ignore=shutil.ignore_patterns("souls", "__pycache__", ".DS_Store", "*.pyc"))
+    pt = _read_json(wdir / "playthrough.json") or {}
+    pt["souls"], pt["active_souls"] = [], []
+    w = pt.get("world") if isinstance(pt.get("world"), dict) else {}
+    pt["world"] = {**w, "wid": wid}
+    pt["playthrough_id"] = f"pt-{wid}"
+    _write_json(wdir / "playthrough.json", pt)
+    if title:   # the world's own name (what /init does to a blank world, worlds.create_blank_world)
+        gs = _read_json(wdir / "game" / "meta" / "game-start.json")
+        if isinstance(gs, dict):
+            gs["name"] = title
+            if isinstance(gs.get("world_info"), dict):
+                gs["world_info"]["world_name"] = title
+            _write_json(wdir / "game" / "meta" / "game-start.json", gs)
+        wm = _read_json(wdir / "game" / "world" / "world_map.json")
+        if isinstance(wm, dict):
+            wm["name"] = title
+            _write_json(wdir / "game" / "world" / "world_map.json", wm)
+
+
+def new_options() -> dict[str, Any]:
+    """What a new template can be made of: the packs, the play contracts, the orchestration templates this engine runs
+    (the creation form's words, ``core/orch_presets``), each list with its default."""
+    from types import SimpleNamespace
+
+    from neonrp.core import orch_presets, orch_templates
+    from neonrp.packs import BUILTIN
+    from neonrp.template import contract as _contract
+
+    ts = orch_templates.templates()
+    orch = orch_presets.options(SimpleNamespace(data={"uses": {"template": ts[0]["id"]}})) if ts else {"default": "", "options": []}
+    contracts = []
+    for cid in _contract.available():
+        try:
+            c = _contract.load(cid)
+        except TemplateError:
+            continue
+        contracts.append({"id": f"{cid}@{c.get('version') or 1}", "title": c.get("title") or cid, "pitch": c.get("pitch") or ""})
+    return {"packs": {"default": "rpg", "options": list(BUILTIN)}, "contracts": {"default": "", "options": contracts},
+            "orchestration": orch}
+
+
+def blank(new_id: str, *, title: str | None = None, lang: str = "zh", pack: str = "rpg", contract: str = "",
+          orchestration: str = "") -> Template:
+    """A new template from nothing, in the write store. A template is the pack + the play contract + the orchestration
+    (``uses``); it still has to bind a world, so it gets the engine's blank world as its own ``world/`` (replace it
+    later with :func:`new_world`) and no characters (linked from the character library: op ``link_soul``). An open
+    ending. ``orchestration`` = an orchestration template ref (``orch_templates.ref``); '' = the first this engine runs.
+    With no contract (or ``open-adventure``-like ones) lint has no block; a contract that asks for endings / an opening
+    blocks until the template has them."""
+    from neonrp.core import orch_templates
+    from neonrp.packs import BUILTIN
+    from neonrp.template import contract as _contract
+
+    pack = (pack or "rpg").strip()
+    if pack not in BUILTIN:
+        raise TemplateError(f"pack: one of {', '.join(BUILTIN)}")
+    contract = (contract or "").strip()
+    if contract and _contract.parse_ref(contract)[0] not in _contract.available():
+        raise TemplateError(f"play_contract: one of {', '.join(_contract.available())}")
+    orchestration = (orchestration or "").strip()
+    why = orch_templates.check_ref(orchestration) if orchestration else None
+    if why:
+        raise TemplateError(f"orchestration: {why}")
+    dest = _new_dest(new_id)
+    title = (title or "").strip()[:60]
+    try:
+        _blank_world_into(dest / "world", new_id, title)
+        d: dict[str, Any] = {
+            "schema": SCHEMA, "id": new_id, "version": "0.1",
+            "card": {"title": title or new_id, "pitch": "", "lang": lang or "zh", "tags": []},
+            "mode": {"ending": "open", "freedom": "free"},
+            **({"play_contract": contract} if contract else {}),
+            "world": {"path": "world"},
+            "pack": {"name": pack, "mixins": [], **({"engine": {"turn": {"mode": "v3"}}} if pack in ("rpg", "pct") else {})},
+            "lint": {"level": "draft"},
+        }
+        u = orch_templates.from_ref(orchestration) if orchestration else None
+        if u is None:
+            ts = orch_templates.templates()
+            u = {"template": ts[0]["id"], "version": ts[0]["version"]} if ts else None
+        if u is not None:
+            d["uses"] = {k: v for k, v in u.items() if v}
+        _write_json(dest / "template.json", d)
+    except BaseException:
+        shutil.rmtree(dest, ignore_errors=True)
+        raise
+    workshop(new_id, create=True)
+    t = load(dest)
+    _agent_files(t)
+    return t
+
+
+def new_world(t: Template | Path | str, *, title: str | None = None) -> dict[str, Any]:
+    """A fresh blank world named ``title`` (the world's name, not the card's) for a writable template, in place of the one it binds (the template = pack + contract +
+    orchestration + plots + cast links stays). A world cannot live outside a template here: the workbench's worlds
+    are its templates, and ``world`` binds a folder inside it (``path``) or an engine one (``builtin``) — so a new world
+    is the template's new ``world/``. Nothing is deleted: the old ``world/`` and ``world-overlay/`` (the overlay patches
+    the old world) move to ``<store>/.world-backups/<id>-<time>/``. World-native characters leave with the old world;
+    the cast keeps the library links (``lib``) and the template's own souls (``path``).
+    Returns {template, backup, dropped: [sids no longer cast]}."""
+    t = t if isinstance(t, Template) else load(t)
+    if not writable(t):
+        raise TemplateError(_read_only(t))
+    root = write_root()
+    assert root is not None
+    title = (title or "").strip()[:60]
+    stamp = time.strftime("%Y%m%d-%H%M%S")
+    tmp = t.dir / f".new-world-{stamp}"
+    shutil.rmtree(tmp, ignore_errors=True)
+    _blank_world_into(tmp, t.id, title)
+    backup = root / ".world-backups" / f"{t.id}-{stamp}"
+    d = copy.deepcopy(t.data)
+    w = d.get("world") if isinstance(d.get("world"), dict) else ({"path": d["world"]} if isinstance(d.get("world"), str) else {})
+    moved = []
+    rels = {str(w.get("path") or "world"), str(w.get("overlay") or "world-overlay")}
+    # the i18n layer's copies of the old world's files (i18n/<lang>/world/…) would lay over the new one: they go too
+    rels |= {f"i18n/{lg.name}/{r}" for lg in (t.dir / "i18n").glob("*") if lg.is_dir() for r in list(rels)}
+    for rel in sorted(rels):
+        src = t.dir / rel
+        if src.exists() and src.resolve().is_relative_to(t.dir.resolve()):
+            backup.mkdir(parents=True, exist_ok=True)
+            shutil.move(str(src), str(backup / rel.replace("/", "_")))
+            moved.append(rel)
+    tmp.rename(t.dir / "world")
+    d["world"] = {"path": "world"}   # builtin / overlay / shuffle / prompts: all about the old world
+    kept, dropped = [], []
+    for r in d.get("souls") or []:
+        rows = r.get("pool") if isinstance(r, dict) and isinstance(r.get("pool"), list) else None
+        if rows is not None:
+            keep = [x for x in rows if isinstance(x, dict) and (x.get("lib") or x.get("path"))]
+            dropped += [str(x.get("sid") if isinstance(x, dict) else x) for x in rows if not (isinstance(x, dict) and (x.get("lib") or x.get("path")))]
+            if keep:
+                kept.append({**r, "pool": keep, "pick": min(int(r.get("pick") or 1), len(keep))})
+        elif isinstance(r, dict) and (r.get("lib") or r.get("path")):
+            kept.append(r)
+        else:
+            dropped.append(str(r.get("sid") if isinstance(r, dict) else r))
+    if kept:
+        d["souls"] = kept
+    else:
+        d.pop("souls", None)
+    _write_json(t.dir / "template.json", d)
+    return {"template": load(t.dir), "backup": str(backup) if moved else "", "moved": moved, "dropped": dropped}
 
 
 def _agent_files(t: Template) -> None:
@@ -276,7 +465,7 @@ def _one(ed: _Edit, op: dict[str, Any], classes: "_Classes | set[str]") -> dict[
                 "to": f"nodes +{sum(1 for v in n.values() if v is not None)} -{sum(1 for v in n.values() if v is None)} · "
                       f"edges +{len(patch.get('add') or [])} -{len(patch.get('remove') or [])}"}
     if name == "set_soul_orchestration":
-        # a character's graph for this world only (niko 10-16, 角色编排台:默认只改这个世界);the character library is not touched
+        # a character's graph for this world only (10-16, 角色编排台:默认只改这个世界);the character library is not touched
         from neonrp.core import soul_orchestration as SO
 
         sid = str(op.get("sid") or "")
@@ -300,7 +489,7 @@ def _one(ed: _Edit, op: dict[str, Any], classes: "_Classes | set[str]") -> dict[
         ed.files[rel] = patch   # {} = the same as without one
         return {"what": f"soul.{sid}.orchestration", "from": before, "to": "default (same as the character's own)" if not patch else rel}
     if name == "set_engine_setting":
-        # the world's engine settings a bench may write (niko 10-17, 角色编排台 in_world:变体写进模板 engine 配置) — a whitelist
+        # the world's engine settings a bench may write (10-17, 角色编排台 in_world:变体写进模板 engine 配置) — a whitelist
         from neonrp.core import soul_orchestration as SO
 
         key, value = str(op.get("key") or ""), op.get("value")
@@ -338,7 +527,7 @@ def _one(ed: _Edit, op: dict[str, Any], classes: "_Classes | set[str]") -> dict[
             cur[parts[-1]] = str(value)
         return {"what": f"pack.engine.{key}", "from": before or "", "to": "" if value is None else str(value)}
     if name == "set_soul_ambient":
-        # the background a character's tick happens in, for this world only (niko 10-16: 复刻原来的世界背景或自动生成)
+        # the background a character's tick happens in, for this world only (10-16: 复刻原来的世界背景或自动生成)
         from neonrp.core import soul_ambient
 
         sid = str(op.get("sid") or "")
@@ -358,6 +547,25 @@ def _one(ed: _Edit, op: dict[str, Any], classes: "_Classes | set[str]") -> dict[
         before = "override" if (ed.t.dir / rel).is_file() else "none"
         ed.files[rel] = soul_ambient.normal(op["world"])
         return {"what": f"soul.{sid}.ambient", "from": before, "to": rel}
+    if name == "link_soul":
+        # one more character from the library in this world: a {lib} row added to the cast. A template without a cast
+        # list plays every world-native soul — those are written out first, so the link adds to them instead of
+        # replacing them. Linking one that is already cast changes nothing (its role is set when one is given).
+        from neonrp.template import _world_souls, world_dir
+
+        lib = str(op.get("lib") or "").strip()
+        rows = [copy.deepcopy(r) for r in d.get("souls") or []]
+        if not rows:
+            wd = world_dir(ed.t)
+            rows = [{"sid": sid, **({"role": str(v["role"])} if v.get("role") else {})}
+                    for sid, v in (_world_souls(wd) if wd is not None and wd.is_dir() else {}).items()]
+        hit = next((r for r in rows if isinstance(r, dict) and str(r.get("lib") or "") == lib), None)
+        if hit is not None:
+            if op.get("role"):
+                hit["role"] = str(op["role"])
+        else:
+            rows.append({"lib": lib, **({"role": str(op["role"])} if op.get("role") else {})})
+        return {**_one(ed, {"op": "set_cast", "souls": rows}, classes), "what": "souls", "linked": lib}
     if name == "set_cast":
         # who plays in this template: a row is a world-native soul {sid}, a link into the character library
         # {lib} (copied in only when a run is built), a soul inside the template {path}, or a pool {pool, pick}.
@@ -606,7 +814,7 @@ def apply_ops(t: Template | Path | str, ops: list[dict[str, Any]]) -> dict[str, 
 
     t = t if isinstance(t, Template) else load(t)
     if not writable(t):
-        raise TemplateError(f"模板 {t.id} 是内置的(只读)——先另存一份再改")
+        raise TemplateError(_read_only(t))
     if not isinstance(ops, list) or not ops:
         raise TemplateError("ops 要是非空列表")
     ed = _Edit(t)

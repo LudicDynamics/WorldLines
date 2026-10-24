@@ -1,4 +1,4 @@
-"""Worldlines session renewal (niko 10-19, iOS: every request 401 after the access token expired).
+"""Worldlines session renewal (10-19, iOS: every request 401 after the access token expired).
 
 - every caller shares one token manager: an expired session is refreshed ONCE even when many threads ask at the same
   moment (a fresh manager per call refreshed in parallel with the same rotating refresh token = replay → revoked);

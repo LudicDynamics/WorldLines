@@ -89,7 +89,7 @@ def test_no_contract_keeps_engine_defaults(monkeypatch):
 
         assert OR.state_mode(root)["mode"] == "pseudo"
         assert "plan_loop" not in (EC._contract_engine(root).get("turn") or {}), "no contract: nothing from a contract"
-        # 10-19: it stays on the single beat for now (its uses: one_beat) — pending niko, the two beats do not land its votes yet
+        # 10-19: it stays on the single beat for now (its uses: one_beat) — pending, the two beats do not land its votes yet
         assert t.uses["template"] == "one_beat" and EC.get(root, "turn.plan_loop", "off") == "off"
         rec = root / get_data_dir_name(root) / "meta" / "template.json"
         d = json.loads(rec.read_text(encoding="utf-8"))

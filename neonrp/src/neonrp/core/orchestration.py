@@ -245,8 +245,8 @@ def node_kind_live(root: Path, kind: str) -> bool:
     return bool(mine & set(graph(root).get("nodes") or {}))
 
 
-# How the Resolve beat turns its prose into state — a parameter of the Resolve node the author sets (decision
-# D-20261011-state-param), both open:
+# How the Resolve beat turns its prose into state — a parameter of the Resolve node the author sets (10-11),
+# both open:
 #   pseudo  the prose, then one model call writes the changes as pseudo-code lines → parsed to the JSON changes (default)
 #   jev     the prose ends with the changes in plain words (same call); Jev fills our registered tools' JSON line by
 #           line, and only the lines it is unsure of go to the pseudo-code call

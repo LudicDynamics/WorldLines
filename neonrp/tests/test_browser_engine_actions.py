@@ -11,8 +11,11 @@ import sys
 from pathlib import Path
 
 import pytest
+from _paths import PRODUCT
 
 REPO = Path(__file__).resolve().parents[1]
+# the browser engine bridge (worldlines/ui/app/hub/play/wlweb.py) is part of the Hub, which is not in the open repo
+pytestmark = pytest.mark.skipif(not (PRODUCT / "ui" / "app" / "hub" / "play" / "wlweb.py").is_file(), reason="the Hub source is not in the open repo")
 
 SCRIPT = r'''
 import json, os, shutil, sys, tempfile, importlib.util

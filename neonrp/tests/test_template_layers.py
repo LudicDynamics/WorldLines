@@ -30,7 +30,7 @@ TPLS = ROOT / "worldlines" / "templates"
 DATA = Path(__file__).resolve().parent / "data"
 WORLDS = ("guixiang", "kagura-island", "last-train", "neon-rebirth", "pct-house", "spice-witch", "stoneford-elena",
           "stoneford-market", "stoneford-three-towns", "stoneford-town", "werewolf-night-village", "wuwu")
-ONE_BEAT: set[str] = {"werewolf-night-village"}   # niko 10-19: all twelve play the two beats — 狼人村 waits (pending niko: its resolve does not land vote / kill on two beats yet)
+ONE_BEAT: set[str] = {"werewolf-night-village"}   # 10-19: all twelve play the two beats — 狼人村 waits (pending: its resolve does not land vote / kill on two beats yet)
 # switched to the two beats after parity was proven (their own commit): the only settings that differ from the old loading
 SWITCHED = {"private": {"stoneford-town": {".desk_engine.turn.plan_loop": ("off", "on"), ".engine.turn.plan_loop": ("off", "on")},
                         },
@@ -176,7 +176,7 @@ def test_an_old_package_without_uses_plays_the_same(official, tid):
 
 @pytest.mark.skipif(not PRIVATE, reason="needs the private layer (the planning beat)")
 def test_neon_rebirth_plays_the_two_beats(official):
-    """七夜: a plain sandbox mystery (niko 10-19) — the two beats, from its template, no longer a copy of the single beat."""
+    """七夜: a plain sandbox mystery (10-19) — the two beats, from its template, no longer a copy of the single beat."""
     from neonrp.core import engine_config as EC
     from neonrp.template import v3
 

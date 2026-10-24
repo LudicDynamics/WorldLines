@@ -1,4 +1,4 @@
-"""What a world sounds like right now (10-15, niko: 「neonrp 接上音乐库」): one music channel and one ambient bed.
+"""What a world sounds like right now (10-15: 「neonrp 接上音乐库」): one music channel and one ambient bed.
 
 The engine decides; a front end only plays (效果归引擎,定制只管控制). An author may write nothing — the world still has
 a theme, a mood track when things turn tense and a bed that fits the place — or steer any part of it:

@@ -113,12 +113,16 @@ Decide which of these cases you are handling:
 
 Use this default mapping:
 
-- Protagonist / player surrogate -> `game/player/player.json`
-- Main imported persona(s) -> `game/character/*.json` or `game/npc/*.json`
-- Hubs / cities / sect bases -> `game/town/*.json` or `game/location/*.json`
-- Dangerous explorable areas -> `game/dungeon/*.json` or `game/location/*.json`
+- Protagonist / player surrogate -> `game/player/profile.json`
+- Main imported persona(s) -> a soul folder under `souls/` (see the soul spec);
+  minor people -> the town's `game/towns/<T>/npcs.json` or `game/npc/*.json`
+- Hubs / cities / sect bases -> a place folder `game/locations/<T>/location.json`
+  (its spots as sub-folders `game/locations/<T>/<spot>/location.json`) plus
+  `game/towns/<T>/town.json`
+- Dangerous explorable areas -> `game/dungeons/<D>/` or a place folder
 - Lore-only directives / opening instructions / quest briefs -> `game/meta/*.json`
-- Gear / pills / artifacts / manuals -> `game/item/*.json`
+  (the opening goes in `game/meta/game-start.json`)
+- Gear / pills / artifacts / manuals -> `game/item/**/<id>.json`
 
 Prefer existing kinds already used by the project before inventing new kinds.
 

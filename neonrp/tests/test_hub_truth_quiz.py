@@ -74,7 +74,7 @@ def test_desk_edit_generate_edit_check_save(tmp_path, monkeypatch):
     assert r["en"] == QS[0]["q"]["en"], "the four languages came with the draft"
     assert r["preview"][0].startswith("是谁把祠堂钥匙藏进井里的?") and "族长" in r["preview"][0]
     assert "完成这一局 200 额度,每答对一题再加 100" in r["pvHint"] and "积分" not in r["pvHint"] and "选一个角色带走" not in r["pvHint"], \
-        "the preview promises the run's credits (niko 10-21: 积分 = 额度)"
+        "the preview promises the run's credits (10-21: 积分 = 额度)"
     assert "✓" in r["check"], r["check"]
     assert "存好了" in r["save"] or "没存成" not in r["save"], r["save"]
     plot = json.loads((next(mine.glob("guixiang-mine*")) / "plots" / "mine" / "plot.json").read_text(encoding="utf-8"))

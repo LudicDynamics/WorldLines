@@ -1,4 +1,4 @@
-"""The player's collection on their Worldlines account (10-18, niko; docs/planning/COLLECTION-SYNC-1018.md): the cards a
+"""The player's collection on their Worldlines account (10-18): the cards a
 world handed out, the runs finished, the characters taken home (with the template version), achievements and endings go
 up to the platform's data service (``hub/collection``, hub manifest v9) and come back on every other device.
 

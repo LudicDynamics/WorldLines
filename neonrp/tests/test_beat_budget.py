@@ -1,4 +1,4 @@
-"""A beat's time budget (core/beat_budget, niko 10-14: 「一拍 ~10 秒、不超 20 秒,超过直接 timeout」).
+"""A beat's time budget (core/beat_budget, 10-14: 「一拍 ~10 秒、不超 20 秒,超过直接 timeout」).
 
 Timings are scaled down (a 1 s beat stands for the 20 s default) so the suite stays fast; what is checked is the shape:
 a hanging model, a stalled stream and an endless tool loop all end inside the beat (plus the world's settle grace),
@@ -49,7 +49,7 @@ def test_the_turn_budget_reads_the_engine_config(tmp_path, monkeypatch):
     assert bb.turn_timeout_s(tmp_path) == 12.0
 
 
-# ── the whole turn (niko 10-14: 「整回合总上限 30 秒」) ─────────────────────────
+# ── the whole turn (10-14: 「整回合总上限 30 秒」) ─────────────────────────
 
 def test_beats_share_what_is_left_of_the_turn():
     with bb.turn() as sink:
@@ -475,7 +475,7 @@ def test_a_turn_with_a_hanging_model_lands_with_a_timeout_mark(tmp_path, monkeyp
 
 @pytest.mark.timeout(120)
 def test_a_whole_turn_on_a_hanging_model_ends_inside_the_turn_budget(tmp_path, monkeypatch):
-    """niko 10-14: the whole turn ≤ 30 s (here 1.5 s), each beat ≤ 20 s (here 1 s). Without the turn budget the
+    """10-14: the whole turn ≤ 30 s (here 1.5 s), each beat ≤ 20 s (here 1 s). Without the turn budget the
     characters' beat (1 s) + the world's (1 s) + its settle (0.4 s) = 2.4 s of model waiting; with it every beat of the
     turn — its settle grant included — ends by the turn's deadline, and the world's beat keeps its settle share.
     Checked on the deadlines themselves (wall time on a loaded CI box is not the budget's to keep)."""

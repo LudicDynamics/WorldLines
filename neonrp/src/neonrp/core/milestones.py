@@ -1,4 +1,4 @@
-"""Open-adventure milestones (PLATFORM-PLAY-RULES-1015 §5 §9, niko 10-15): the author only says whether a world has
+"""Open-adventure milestones (PLATFORM-PLAY-RULES-1015 §5 §9, 10-15): the author only says whether a world has
 them (``template.json`` ``milestones: true | false``; unset = on for an ``open-adventure`` run); the engine finds them
 itself, and settles them when the player leaves.
 
@@ -14,7 +14,7 @@ itself, and settles them when the player leaves.
     → {milestones: [...settled now], points, art: [...], rewards: [...pending], since}           (again: only what is new)
     GET  /api/v1/play/engine/settlement/milestones → {enabled, milestones: [...all], settled}
 
-The picture (niko 10-15: an endless run outgrows any author's CG, and a milestone need not have its own):
+The picture (10-15: an endless run outgrows any author's CG, and a milestone need not have its own):
 
     art: {kind: "cg", slot}                                         the author's picture for it (a plot picture of the
                                                                     place / the commission), when there is one
@@ -35,7 +35,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-# provisional (niko to set): the open adventure's milestones give more — the first values × 1.5 (lead 10-15)
+# provisional (to be set): the open adventure's milestones give more — the first values × 1.5 (lead 10-15)
 POINTS = {"place": 30, "job": 75, "day": 45, "stretch": 30}
 PLACE_MAX = 10
 STRETCH = 12  # beats without a milestone before the road itself counts as one

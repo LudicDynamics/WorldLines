@@ -20,7 +20,7 @@ Do NOT use this skill:
 
 - To convert a tavern character card INTO NeonRP game data — run
   `neonrp import sillytavern-card <card.json|card.png>` instead.
-- To author NeonRP-native `world/<kind>/<id>.json` entities — use
+- To author NeonRP-native entities (`game/locations/<T>/<spot>/location.json`, `game/towns/<T>/npcs.json`, `game/item/…`) — use
   `entity-authoring` (and `documents/spec/world.zh.md`) for that.
 
 # Canonical File Layout In A NeonRP Project

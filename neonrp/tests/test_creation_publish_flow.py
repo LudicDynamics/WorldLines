@@ -1,4 +1,4 @@
-"""创作台「发布作品」全流程(niko 10-24「创作台能不能测试发布作品」):网页创作台和 iOS 创作台是同一套前端,
+"""创作台「发布作品」全流程(10-24「创作台能不能测试发布作品」):网页创作台和 iOS 创作台是同一套前端,
 本地 / iOS 都打这几条引擎路由(网页版是浏览器里的同一个引擎),平台是本机假的 identity + storage(test_template_publish.Platform)。
 
     存作品 POST …/<模板>/creation/work → 发布前检查 GET …/<作品>/publish → 提交 POST …/<作品>/publish {zone: curated}
@@ -227,3 +227,19 @@ def test_two_works_on_one_template_never_overwrite_each_other(desk, platform, tm
         npc = lambda p: [e.get("name") for e in p["entries"].values() if e.get("class") == "npc"]  # noqa: E731
         assert npc(a) == ["阿青"] and npc(b) == ["阿黑"]
         assert i18n.card(ta, "zh")["title"] == CARD["zh"]["title"] and i18n.card(tb, "zh")["title"] == "第二封信 · 改"
+
+
+def test_local_desk_publishes_straight_to_the_free_zone(desk, platform, tmp_path, monkeypatch):  # noqa: F811
+    """10-24「local 可以自由上传到自由区」:桌面本地版的创作台发 zone=open —— 检查过了就公开,不进审核;再发 = 同一件作品出新版本。"""
+    with engine(tmp_path, monkeypatch) as call:
+        _save(call)
+        st, out = call("POST", "/api/v1/local/templates/stoneford-town-mine/publish", {"lang": "zh", "zone": "open"})
+        assert st == 200 and out["zone"] == "open" and out["status"] == "published" and "review" not in out, out
+        r = platform.res[out["id"]]
+        assert r["status"] == "published" and r["zone"] == "open", "public in the free zone at once"
+        st, mine = call("GET", "/api/v1/local/hub/mine?lang=zh")
+        row = next(x for x in mine["works"] if x["id"] == out["id"])
+        assert row["zone"] == "open" and row["status"] == "published" and row["source"] == "stoneford-town-mine"
+        st, again = call("POST", "/api/v1/local/templates/stoneford-town-mine/publish", {"lang": "zh"})
+        assert st == 200 and again["id"] == out["id"] and again["updated"] and again["zone"] == "open", again
+        assert len(platform.res) == 1

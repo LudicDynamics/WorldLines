@@ -25,17 +25,19 @@ Put it in `game/meta/triggers.json` (`neonrp schema register triggers …`) or `
 | Form | Meaning |
 |---|---|
 | `{"var": "player.gold"}` | a variable changed |
-| `{"entry": "T001/inn", "event": "enter", "who": "player"}` | an instance event: enter / leave / talk / patch / created |
+| `{"entry": "T001/inn", "event": "enter", "who": "player"}` | an instance event: enter / leave / talk / patch / created / set / inspect / pick |
 | `{"entry": "F_bandits", "prop": "power"}` | an instance prop changed |
 | `{"flag": "met_guard"}` | a flag was set |
 | `{"text": "player"}` | text arrived this turn (player / narration / both) |
 | `{"turn": true}` | poll every turn |
+| `{"op": "trade"}` | an op landed (`"*"` = any op) |
+| `{"check": "First Aid"}` | that check was rolled this turn (`"*"` = any check; `who` for someone else) |
 
 <!-- section: if -->
 ## IF and THEN / ELSE
 
-**IF** (all must hold): variable comparisons, `delta<=` (change in this apply), flags, instance props, text keywords, `{"who": "player", "at": "T001/inn"}`, `{"any": [...]}`.
+**IF** (all must hold): variable comparisons (the other side may be a variable too), `delta<=` (change in this apply), flags, instance props, text keywords, `{"who": "player", "at": "T001/inn"}`, a check's result `{"check": "First Aid", "passed": true}`, `{"any": [...]}`.
 
-**THEN / ELSE** emit to: `narration` · `soul` · `flag` · `var` (set / add) · `tool` · `end` (an ending) · `log`.
+**THEN / ELSE** emit to: `narration` · `soul` · `flag` · `var` (set / add) · `tool` · `end` (an ending; the whole run ends, see [Endings](/docs/creators/endings)) · `move` (the world moves a character somewhere) · `status` (add / remove an effect on the player) · `audio` (change music or ambience) · `show` (show one of the template's pictures) · `form` (a character takes another of her forms) · `log`.
 
 `edge: true` = fire only when the condition turns from false to true; `once` / `cooldown` limit repeats. If a rule changes a variable, the remaining rules are re-evaluated in the same apply (at most 3 levels). Every firing is recorded in the ledger (`trigger.fired`) with its reason chain.

@@ -433,7 +433,7 @@ def parse_transition(text: str) -> list[dict[str, Any]]:
     ops: list[dict[str, Any]] = []
     for ln in (_sdk._block("vars", text or "") or "").splitlines():
         rel = re.match(r"\s*[-*•]?\s*([A-Za-z_][\w.]*)\s*([+-])=?\s*(\d+(?:\.\d+)?)\s*$", ln)
-        if rel:  # 10-23 niko: pseudocode — 09-27 var_op reads a signed amount as an add; this parser (10-04) dropped it
+        if rel:  # 10-23: pseudocode — 09-27 var_op reads a signed amount as an add; this parser (10-04) dropped it
             ops.append(_sdk.var_op(rel.group(1), rel.group(2) + rel.group(3)))
             continue
         m = re.match(r"\s*[-*•]?\s*([A-Za-z_][\w.\-]*)\s*[=:：]\s*(.+?)\s*$", ln)

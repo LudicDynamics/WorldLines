@@ -3573,7 +3573,7 @@ def test_plan_loop_two_planning_beats_in_a_row_and_no_check_means_none(tmp_path,
 
 
 def test_plan_loop_the_players_own_agreed_check_ends_the_talk_unless_he_asked(tmp_path, monkeypatch):
-    """Private 2cd1fa4 (niko 10-15, 「对温妮使用心理学」): the player's own action, its check agreed this beat and not a
+    """Private 2cd1fa4 (10-15, 「对温妮使用心理学」): the player's own action, its check agreed this beat and not a
     question he asked, is settled for him — straight to the resolve (player:check-agreed), the check on the board.
     A question keeps the talk going; the rule is a knob (turn.plan_loop_check_agreed_advances)."""
     from neonrp.core import plan_loop
@@ -3593,7 +3593,7 @@ def test_plan_loop_the_players_own_agreed_check_ends_the_talk_unless_he_asked(tm
 
 
 def test_plan_loop_an_opposed_action_with_nothing_to_roll_gets_its_contest_by_the_gap_judge(tmp_path, monkeypatch):
-    """Private e176151 (niko 10-15, rules-1014 C1: he drew on the crowd, she stood in the way, the host asked him again
+    """Private e176151 (10-15, rules-1014 C1: he drew on the crowd, she stood in the way, the host asked him again
     three beats running): someone else on the board, no check agreed — the gap judge decides. Yes: the host sets the
     contest in one more call and the talk goes to the resolve (player:contest). No: the talk stays, no extra call."""
     from neonrp.core import plan_loop
@@ -4052,7 +4052,7 @@ class _ThinkingProvider:
     ("<vars>\nplayer.gold = 14\n</vars>\n<files>\n</files>", 3.0, 15, "straight"),  # thinking past the wait
 ])
 def test_the_write_down_sends_thinking_and_straight_together(tmp_path, monkeypatch, think, think_s, gold, used):
-    """10-21 niko: 「cot和无思考可以并发,然后如果是40秒或者1分钟超时的话,就fall back」 — fixc: the thinking
+    """10-21: 「cot和无思考可以并发,然后如果是40秒或者1分钟超时的话,就fall back」 — fixc: the thinking
     write-down ran 15–31 s on a slow provider; before that, timed by the prose's leftovers, it came back empty and PL12's
     coins and night never landed. Both go out at once; the thinking one wins if it comes within the wait."""
     root = _install(tmp_path)
@@ -4636,7 +4636,7 @@ def test_one_combat_round_per_beat_and_the_reply_shows_hp_after_it(tmp_path, fak
 
 
 def test_the_world_writing_combat_is_the_encounter_and_its_foes_are_spawned(tmp_path):
-    """10-20 niko: [combat …] means the party has met the foe — spawn whoever it names and go on, never 「nothing to
+    """10-20: [combat …] means the party has met the foe — spawn whoever it names and go on, never 「nothing to
     fight」 (N2 T1 r4: 苔原狼 / 雾狼 refused; 1019: 食尸鬼 refused, then the transition beat tried to define a Ghoul class)."""
     from neonrp.packs.rpg import combat
     from neonrp.packs.rpg.understand import combat_grounds
@@ -4687,7 +4687,7 @@ def test_a_room_shows_the_foes_there_now_not_its_encounter_odds(tmp_path):
 
 
 def test_plan_loop_host_asking_the_player_hands_back_not_settled(tmp_path, monkeypatch):
-    """niko 10-19 (N2 combatT1 r1 t1: the host's last line was 「登记写谁的名字?」, the beat was settled and the Resolve
+    """10-19 (N2 combatT1 r1 t1: the host's last line was 「登记写谁的名字?」, the beat was settled and the Resolve
     wrote the name, took the job and walked him to the path): a host line that asks the player goes back to him."""
     from test_conversation import _setup_project
     from test_system_one_turn import _world
@@ -4867,7 +4867,7 @@ def test_a_placeholder_handed_back_is_the_name_again(tmp_path, monkeypatch):
 
 
 def test_the_schema_is_open_a_class_nobody_defined_grows_when_used(tmp_path):
-    """N2 1019 (niko 10-20: 「class 只是给我们辅助,而不是让我们 refuse 所有不在 class list 里面的 entity」): the world
+    """N2 1019 (10-20: 「class 只是给我们辅助,而不是让我们 refuse 所有不在 class list 里面的 entity」): the world
     wrote `define class Ghoul … hp:int` and `new Ghoul …` — refused for the capital letter, then 「not a registrable
     class」 three times. Any spelling is the same handle, unknown types are text, and `new` of an undefined class defines it."""
     root = _install(tmp_path)
@@ -4887,7 +4887,7 @@ def test_the_schema_is_open_a_class_nobody_defined_grows_when_used(tmp_path):
 
 
 def test_the_world_writes_what_happens_to_a_character_not_what_she_feels(tmp_path):
-    """N2 1019 (niko 10-20: 「世界会决定角色的装备和其他物品,可能改不了角色的心理描写」): `patch 艾琳娜 箭=…` was refused
+    """N2 1019 (10-20: 「世界会决定角色的装备和其他物品,可能改不了角色的心理描写」): `patch 艾琳娜 箭=…` was refused
     whole. Her body and things are the world's — written on her sheet (character/) and read back; her mood is hers."""
     root = _install(tmp_path)
     reg = load_registry(root)
@@ -4899,13 +4899,13 @@ def test_the_world_writes_what_happens_to_a_character_not_what_she_feels(tmp_pat
     assert (e.props.get("箭"), e.props.get("hp")) == ("3", 7)
     vr = sdk.verify(root, [sdk._adv_line_op(f"patch {sid} mood=害怕")], load_registry(root))
     assert vr.refused and "mood" in vr.refused[0].why
-    vr = sdk.verify(root, [sdk._adv_line_op(f"patch {sid} hp=5 mood=害怕")], load_registry(root))  # niko 10-20: only her mood goes back, fast
+    vr = sdk.verify(root, [sdk._adv_line_op(f"patch {sid} hp=5 mood=害怕")], load_registry(root))  # 10-20: only her mood goes back, fast
     assert [o["props"] for o in vr.accepted] == [{"hp": 5}] and [r.fixable for r in vr.refused] == [False]
     assert "_dropped" not in vr.accepted[0]
 
 
 def test_the_world_writing_about_what_is_not_there_costs_no_rewrite(tmp_path):
-    """N2 M12 r3 (niko 10-20「鲁棒性问题」): `patch {{user}}/轻伤` after it ended, `patch towns/T001/contracts/Q002.md`
+    """N2 M12 r3 (10-20「鲁棒性问题」): `patch {{user}}/轻伤` after it ended, `patch towns/T001/contracts/Q002.md`
     (the file for the entry), `set foe.foe_14.hp` after the fight — a stale or file-shaped reference is read or let go,
     never a rewrite round."""
     root = _install(tmp_path)
@@ -4955,7 +4955,7 @@ def test_a_commit_word_opening_the_line_settles_the_talk():
 
 
 def test_vars_take_a_change_by_an_amount_as_files_do():
-    """10-23 niko: the write-down is pseudocode — deepseek wrote `player.gold -6` in <vars> (5 of 40 beats) and the
+    """10-23: the write-down is pseudocode — deepseek wrote `player.gold -6` in <vars> (5 of 40 beats) and the
     parser only knew `name = value`, so the payment never landed. A signed amount is an add, as <files> reads it."""
     from neonrp.core.turn_v3 import parse_transition
 

@@ -1,4 +1,4 @@
-"""World rewards (10-18, niko 「都得做,同步做」): what a world hands the player when a condition holds — declared as data in
+"""World rewards (10-18 「都得做,同步做」): what a world hands the player when a condition holds — declared as data in
 the template (``template.json`` ``rewards``; the engine names no world's things), allowed by the play contract, and kept
 in the player's record on the launcher's side (core/player_data ``cards``, ``~/.worldlines/player-data``).
 

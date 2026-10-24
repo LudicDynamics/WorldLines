@@ -75,7 +75,7 @@ AGE = {"zh": "七十八", "en": "seventy-eight", "ja": "七十八", "ko": "일�
 
 
 def test_the_companion_is_lianmei_and_the_reveal_is_kept_back():
-    """niko 10-16 (as Living Canvas): the companion is 「莲妹」, Granny Xiulian at nineteen, and nothing says so before the
+    """10-16 (as Living Canvas): the companion is 「莲妹」, Granny Xiulian at nineteen, and nothing says so before the
     reveal (the granny is only missed: 「今夜没看见她」) — same sid (the truth quiz still takes her home), same young portrait; her soul.json carries the elder form
     (name + charter only: portrait and voice stay). Each language's stage names her its own way."""
     import json

@@ -69,7 +69,7 @@ def _no_quiz(cp: Path) -> None:
 
 
 def _yuto_back(cp: Path) -> None:
-    """Yuto may come home again (niko 10-20 made only Hane takeable in 神乐岛): the quiz's floor and reward need a second
+    """Yuto may come home again (10-20 made only Hane takeable in 神乐岛): the quiz's floor and reward need a second
     character to pick from."""
     sj = next((cp / "world" / "souls").glob("yuto-*")) / "soul.json"
     d = json.loads(sj.read_text(encoding="utf-8"))
@@ -124,7 +124,7 @@ def test_the_engine_writes_three_questions_from_the_truth_and_three_right_bring_
     assert q["state"] == "open" and q["by"] == "model" and len(q["questions"]) == 3
     assert all("answer" not in x for x in q["questions"]), "the answers stay with the engine"
     assert q["reward_soul"]["sid"] == "hane", "default: the companion at the ending"
-    assert "takeable" not in q and q["points"] == {"settle": 200, "per_right": 100, "fallback": 0}, "credits, from the contract (niko 10-21)"
+    assert "takeable" not in q and q["points"] == {"settle": 200, "per_right": 100, "fallback": 0}, "credits, from the contract (10-21)"
     truth_quiz.quiz(root, adapter=m)
     assert m.calls == 1, "written once, kept"
     res = truth_quiz.answer(root, [0, 1, 2], take="yuto", adapter=m)  # an old client's pick: ignored
@@ -295,7 +295,7 @@ def _copy(name: str, tmp_path: Path, edit=None, zone: str | None = None) -> Path
 
 
 def test_the_sandbox_contract_requires_the_quiz():
-    """niko 10-16: the three truths are written in the plot — the contract says they must be."""
+    """10-16: the three truths are written in the plot — the contract says they must be."""
     from neonrp.template import contract
 
     assert truth_quiz.required(contract.load("mystery-trpg@1"))

@@ -1,4 +1,4 @@
-"""「查看」a person / a thing / a place, as the player knows it (niko 10-16: a click showed the name again and nothing else).
+"""「查看」a person / a thing / a place, as the player knows it (10-16: a click showed the name again and nothing else).
 
     GET  /api/v1/play/engine/inspect?target=<entry id | name>
     → {lang, found, kind: person|item|place, id, name, ...}

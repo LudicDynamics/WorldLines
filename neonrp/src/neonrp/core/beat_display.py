@@ -172,7 +172,7 @@ def _names_town(place: str, town: str) -> bool:
 def away_items(reg: Any, turns: list[dict[str, Any]], lang: str = "zh") -> list[dict[str, str]]:
     """[{iid, name, where, text}] — each character elsewhere who took her own turn, with her WHOLE line (the prose line
     above is cut at 80; a renderer that folds it shows this one when opened, 10-08). A place in another town than the
-    player's carries its town (10-23 niko: 「冒险者公会」 read as the player's town's guild)."""
+    player's carries its town (10-23: 「冒险者公会」 read as the player's town's guild)."""
     from neonrp import prompts as _prompts
 
     in_town = str(_prompts.strings("beat_display", lang).get("away_place_in_town") or "{place} ({town})")

@@ -10,17 +10,15 @@ picks souls, picks a play pack, and adds the card, mode, prompts, plots and asse
 (English: `template.en.md`). World and soul folders have their own specs (`world.*.md`, `soul.*.md`); the play contract a
 template promises is in `contract.*.md`, and what each play pack provides is in `pack.*.md`.
 
-## 1. Pick the closest reference and copy it
+## 1. Start from a built-in template
 
-| Want | Copy |
+| Want | Start from |
 |---|---|
-| story with endings, two companions | `worldlines/templates/stoneford-elena.template/` |
-| sandbox with a living economy and factions | `worldlines/templates/stoneford-market.template/` or `stoneford-three-towns.template/` |
-| a social deduction game | `worldlines/templates/werewolf-night-village.template/` |
+| an open town RPG with a living economy, two characters and several endings (d20 rules) | `worldlines/templates/stoneford-town.template/` (on the built-in world `stoneford-elena`, changed through `world-overlay/`) |
 | an investigation with clues and endings (sandbox TTRPG, BRP percentile rules) | `worldlines/templates/pct-house.template/` |
 
 ```bash
-cp -R worldlines/templates/stoneford-three-towns.template my/<id>.template
+neonrp template fork stoneford-town <id> --store my/   # copies it into my/<id>.template (a fork is your own Free Zone work)
 ```
 
 Then edit `template.json`: set a new ASCII `id`, `version`, and the card (`title`, `pitch`, `lang`, `tags`, `cover`).
@@ -52,7 +50,7 @@ Then edit `template.json`: set a new ASCII `id`, `version`, and the card (`title
 neonrp template lint my/<id>.template            # fix every block; read every warn
 neonrp template slots my/<id>.template
 neonrp template build my/<id>.template /tmp/try-<id>
-cd /tmp/try-<id> && neonrp tui --play            # first line: 开始游戏
+cd /tmp/try-<id> && neonrp tui --play            # an unplayed run opens by itself
 ```
 
 Report to the user: each lint block you fixed and how, what is still a warn, and how the first two beats of the play test went

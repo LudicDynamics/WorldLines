@@ -61,7 +61,7 @@ def test_tui_slash_panel_quick_bar_and_status_sheet(tmp_path):
             bar = app.query_one("#quick-bar", QuickBar)
             assert bar.display and ("/快斩", "/快斩") in bar.items
             # 10-24: the words are drawn, not just the buttons — a one-line Button needs Textual's compact variant;
-            # Button's own border-top / border-bottom ate the line and the labels never showed (niko, real terminal)
+            # Button's own border-top / border-bottom ate the line and the labels never showed (seen in a real terminal)
             btn = bar.query("Button").first()
             assert btn.content_region.height == 1 and "/快斩" in app.export_screenshot()
             rows = app._compute_slash_suggestions("/")
@@ -94,7 +94,7 @@ def _built(tmp_path: Path, tid: str, lang: str) -> Path:
 
 
 def test_the_hints_are_in_the_runs_language_and_names_may_hold_spaces(tmp_path):
-    """10-23 niko: skills and people are not always Chinese — an English run lists English skills and names, a name with a
+    """10-23: skills and people are not always Chinese — an English run lists English skills and names, a name with a
     space still completes (「/Quick S」「@Elena V」「#North G」)."""
     H.invalidate()
     m = H.menu(_built(tmp_path, "stoneford-elena", "en"), ttl=0)

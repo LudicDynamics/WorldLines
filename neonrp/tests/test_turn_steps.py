@@ -7,8 +7,11 @@ import threading
 import urllib.request
 from unittest.mock import patch
 
+import pytest
+
 from neonrp.core import turn_steps
 from neonrp.template import v3
+from _paths import PRODUCT_TEMPLATES
 
 
 def test_resolve_steps_are_the_catalog_and_every_setting_has_a_key_and_default():
@@ -39,6 +42,7 @@ def test_planning_beat_brings_its_own_steps():
     assert {p["key"] for p in host["params"]} >= {"turn.plan_loop_max_rounds", "turn.plan_loop_talk_limit"}
 
 
+@pytest.mark.skipif(not (PRODUCT_TEMPLATES / "stoneford-elena.template").is_dir(), reason="stoneford-elena is not a shipped template (not in the open repo)")
 def test_hooks_route_gives_the_editor_steps_and_seams(tmp_path):
     from neonrp.commands.web import make_server
 

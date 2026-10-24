@@ -1,6 +1,6 @@
 # Player-side data spec (avatars · player data · chat threads)
 
-What belongs to the player: the avatars they make for themselves, their record across runs (characters gained, characters talked with, endings, achievements, rewards waiting to be paid out) and their private chats with characters. All of it lives under `~/.worldlines/`, owned by the launcher, and is **never written into a template or a run folder** (the engine / launcher line). Local and browser builds use the same HTTP.
+What belongs to the player: the avatars they make for themselves, their record across runs (characters gained, characters talked with, endings, achievements, rewards waiting to be paid out) and their private chats with characters. All of it lives under `~/.worldlines/`, owned by the launcher, and is **not stored in a template or a run folder** (the engine / launcher line). The one exception is when you choose to start a run as your avatar: the avatar's fields are copied into that run's protagonist profile (see 2.3); the avatar itself stays in `~/.worldlines/players/`. Local and browser builds use the same HTTP.
 
 > Status: **implemented** (in the code, with tests) · **convention** (an agreed practice) · **in design**.
 
@@ -62,7 +62,9 @@ One file per player, `GET /api/v1/local/player-data[?player=<id>&lang=]`:
  talked:     [{sid, name, world, at}],
  endings:    [{id, title, world, at}],
  achievements: [{id, world, source, at, title?, desc?, points?, scope?}],
- rewards:    [{id, kind, amount?, cg?, world, source, status: pending, at}]}
+ rewards:    [{id, kind, amount?, cg?, world, source, status: pending, at}],
+ cards:      [{id, world, kind, title, desc, rarity, image?, version, run, source, at}],
+ runs:       [{world, run, exit, ending?, version, at}]}
 ```
 
 `world` is always a template id (the `id` in the run's `game/meta/template.json`; for a run not built from a template, the run folder's name).
@@ -74,6 +76,12 @@ One file per player, `GET /api/v1/local/player-data[?player=<id>&lang=]`:
 | `endings` | when a run's ending lands (one row per ending per world) | implemented |
 | `achievements` | on unlock (`core/achievements.py`). On read, each row carries `title` / `desc` / `points` / `scope` in `lang`: built-ins from the four-language table, a template's own from that template's `template.json` `achievements`; unknown ids come back as they are | implemented |
 | `rewards` | earned by a settlement / milestone / achievement and not yet paid out by the platform: written `pending`, the platform marks them `granted` | implemented |
+| `cards` | cards a template's `rewards` handed out (`core/rewards.py`). Each is a copy of the card as it was when earned (its picture copied into the player's folder) and is never taken back, even if the author drops it; `version` is the template's version then, and the player may pull the new face when the author ships one | implemented |
+| `runs` | one row per run that reached its exit (settlement): `exit` is the kind of exit, plus `ending` when an ending landed | implemented |
+
+`memory` on `characters`: `full` = with this run's memory (a snapshot is taken); `fresh` = the character as its author wrote it, without this run's memory (collection rules, the settlement's floor). A later `full` take upgrades the record.
+
+A run made from a Free Zone work (`zone: open`) hands out no cards, and no character comes home from it.
 
 The two switches on a character (`standalone`, `takeable` / `take_when`) live in its `soul.json`; see [soul.en.md](soul.en.md) 3.1.
 

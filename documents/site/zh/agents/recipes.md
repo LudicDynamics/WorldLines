@@ -6,7 +6,6 @@ description: "新建模板、选角、声明合约、加结局、导出 —— �
 <!-- section: new -->
 ## 从一个现成的模板开始
 
-> **状态:随 1.0 发布**
 
 ```bash
 neonrp template list                              # 有哪些

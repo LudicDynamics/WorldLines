@@ -1,28 +1,44 @@
 ---
 title: "Growth policy"
-description: "Who may add instances of a class during play: auto / approve / forbid / creator only."
+description: "When the narration wants a new instance of a class during play, who decides: auto / approve / creator only / forbid."
 ---
 
 <!-- section: policy -->
 ## Four policies
 
-> **Status: in design · interfaces are provisional** — the settled 3.0 design; names and fields may still change before it ships.
+> **Status: ships with 1.0**
 
-| Policy | Meaning | Stoneford |
-|---|---|---|
-| `auto` | the world agent may propose new instances directly | `place` (with a daily budget), `caravan` |
-| `approve` | proposals go to "pending"; you approve them in the studio | `npc` |
-| `forbid` | no new instances during play | common in worlds with an ending |
-| `creator` | only you add them, while creating | `faction` |
+Every class carries a `policy`. It governs new instances the **narration** creates with `new`:
 
-Switch `caravan` to `approve` and every caravan the economy rules want to send waits for you.
+| Policy | Meaning |
+|---|---|
+| `auto` | lands at once (the default; every world that never set a policy) |
+| `approve` | goes to the "pending" queue (`game/meta/pending.json`); it lands when you approve, or you reject it |
+| `creator` | only the creator adds them (`neonrp schema register` or the workbench); the narration is refused |
+| `forbid` | nobody adds more |
+
+The world's own rules (a fragment's per-turn rule, op handlers) are not gated: the economy fragment sends caravans without asking you.
+
+<!-- section: set -->
+## How to set it
+
+Give `policy` when registering a class, or change only the policy of an existing class:
+
+```bash
+neonrp schema register classes npc --spec '{"policy": "approve"}'
+```
+
+The creator op `set_policy {cls, policy}` writes the policy into the template, so every later run follows it. During play you can change it for that run:
+
+```
+GET  /api/v1/play/engine/approvals          {pending: [...], policies: {class: policy}}
+POST /api/v1/play/engine/approvals/<id>     {approve: true|false}
+POST /api/v1/play/engine/policy             {class, policy}
+```
 
 <!-- section: grow -->
-## New places on an edge
+## Walking somewhere that isn't there
 
-While you travel, the world may discover a new place on the road: **insert** (A–C–B, splitting the road in two) or **branch** (a waypoint W first, then a new place C connected to it). Every new instance records where it came from: day and time, who proposed it, which commit.
+When the player heads for a place the map doesn't have yet, the engine first grows that place next to where the player stands (`new_location`), then walks in; it is not simply refused. Another town's id, or a place under a town nobody knows, is still refused. The new place appears on the map and a `place.discovered` event is sent.
 
-<!-- section: today -->
-## What exists today
-
-Adding instances during play is implemented: `new` (a new instance of a registered class that has a folder), `new_location`, `new_npc`; worlds with an ending can switch the writers off through the manifest mode. The policy table itself is in design.
+Ops that add instances during play: `new` (a new instance of a registered class; the class needs a `folder`), `new_location`, `new_npc`.

@@ -1,4 +1,4 @@
-// WorldLines 1.0 的界面(niko 10-05 定:UI/UX 固定为 docs/planning/prototypes/v3 这一版,旧 React LocalShell 与 Mock 3.0 舍弃)。
+// WorldLines 1.0 的界面(10-05 定:UI/UX 固定为 docs/planning/prototypes/v3 这一版,旧 React LocalShell 与 Mock 3.0 舍弃)。
 // 源:app/src(页面 · 样式 · 原型逻辑 · live.js 真引擎层)+ app/real(引擎适配层,源自 3.0)。
 // 产物:dist-local/index.html(单页,脚本内联)+ dist-local/assets/wl/*(图)。引擎把 /local/* 指到 index.html、/assets/* 指到静态文件,
 // 所以 worldlines 打开根路径就是这个界面;sync_play_ui.sh 照旧把 dist-local 拷进 wheel。
@@ -44,7 +44,9 @@ for (const f of ['real/ext.js', 'real/engine.js', 'real/link.js', 'real/bench.js
 let html = fixImg(rd('src/index.html'))
 if (!html.includes('<!--SCRIPTS-->')) throw new Error('index.html has no <!--SCRIPTS--> slot')
 // 这次构建有哪几页(10-17 导航「小手机 / Hub」入口):chat.html 跟着标准前端出(下面),开源导出 / WL_PLAYER=off 没有
-const pages = { hub: true, chat: process.env.WL_PLAYER !== 'off' && existsSync(join(here, '..', 'player', 'build.mjs')) }
+// Hub 不开源(10-15:导出白名单不带 ui/app/hub/):没有就不出 hub.html,顶栏也不放「Hub ↗」
+const HAS_HUB = existsSync(join(here, 'hub', 'hub.js'))
+const pages = { hub: HAS_HUB, chat: process.env.WL_PLAYER !== 'off' && existsSync(join(here, '..', 'player', 'build.mjs')) }
 html = html.replace('<!--SCRIPTS-->', () => `<script>window.WL_PAGES = ${JSON.stringify(pages)}</script>\n` + js)
 
 rmSync(out, { recursive: true, force: true })
@@ -53,7 +55,7 @@ writeFileSync(join(out, 'index.html'), withIcons(html))
 copyIcons(out)
 cpSync(join(here, 'src', 'img'), join(out, 'assets', 'wl'), { recursive: true })
 // Hub 新版(10-11 · docs/planning/HUB-V3-PLAN-1011.md):单页 hub.html,引擎把顶层文件原样服务(/hub.html)
-{
+if (HAS_HUB) {
   // 几段脚本拼成一个 <script>:每段之间补 `;`,前一段结尾的 `})()` 没分号时下一段 `(() => {` 不会被当成函数调用(10-18 打挂过本地 Hub)
   const glue = (...xs) => xs.join(';\n')
   const hubJs = glue(rd('hub/create_assist.js'), rd('hub/hub.js'))   // 创作台「用一句话说」(10-18)在 hub.js 前面
@@ -72,7 +74,7 @@ cpSync(join(here, 'src', 'img'), join(out, 'assets', 'wl'), { recursive: true })
   writeFileSync(join(out, 'hub.html'), withIcons(rd('hub/index.html')).replace('<!--SCRIPT-->', () => `${fbJs}<script>\n${glue(caJs, ovJs, tqJs, rpJs, hubJs).replace(/<\/script>/g, '<\\/script>')}\n</script>`))
 }
 console.log('app built', join(out, 'index.html'), Math.round(html.length / 1024), 'KB ·', readdirSync(join(out, 'assets', 'wl')).length, 'images ·', privUi.length ? `private ui: ${privUi.map((f) => f.split('/').pop()).join(', ')}` : 'public ui (no private layer)')
-// 标准前端(Hub / iOS 的重前端,worldlines/ui/player,不开源;niko 10-15):有就调它自己的 build.mjs 出 dist-local/player.html,
+// 标准前端(Hub / iOS 的重前端,worldlines/ui/player,不开源;10-15):有就调它自己的 build.mjs 出 dist-local/player.html,
 // 测试台右栏的「标准前端」页签和前端台「网页 TS」的试玩打开的就是它(src/stdfe.js)。开源导出没有 ui/player → 跳过;WL_PLAYER=off 也跳过
 {
   const player = join(here, '..', 'player', 'build.mjs')

@@ -28,8 +28,9 @@
 그 밑에서 돌아가는 것이 **NeonRP**, 하나의 생각에서 출발한 세계 시뮬레이션 엔진입니다 —
 *이야기는 모델이 들려주고, 규칙은 세계가 지킨다.*
 
-- **한 마디, 한 턴.** 하고 싶은 일을 말하면 됩니다. 세계가 굴려야 할 주사위를 굴리고, 그 자리의 캐릭터들이 차례로
-  움직이고, 이야기가 쓰이고, 검증을 거친 변경 하나가 세계에 반영됩니다.
+- **먼저 상의, 다음에 해결.** 하고 싶은 일을 말하면 됩니다. 상의 박자에서는 그 자리의 캐릭터들이 대답하고 어떻게 할지
+  이야기합니다. 판정자가 정리됐다고 보면(또는 당신이 「결정」/ `@dm`이라고 하면) 해결 박자에서 굴려야 할 주사위를 굴리고,
+  이야기를 쓰고, 검증을 거친 변경 하나를 세계에 반영합니다.
 - **세 주체.** 세계, 당신, 그리고 각 캐릭터가 저마다의 주체성을 가집니다. 당신의 말은 사실이 아니라 *시도*이며,
   캐릭터는 스스로 결정합니다.
 - **세계는 파일이다.** 읽고, diff를 보고, 버전 관리할 수 있는 평범한 JSON / Markdown입니다. 턴마다 커밋이 하나씩
@@ -40,7 +41,7 @@
 | 폴더 | 내용 | 라이선스 |
 |---|---|---|
 | [`neonrp/`](./neonrp) | 엔진: 턴 루프, 스키마, 팩(`rpg`, `pct`, `werewolf`, `monopoly`, `economy`, `factions` …), 템플릿, CLI, 터미널 UI, SDK | Apache-2.0 |
-| [`worldlines/`](./worldlines) | 제품: 웹 UI(3.0), 데스크톱 셸, 런처 패키지, 템플릿, 예제 월드, 튜토리얼 | AGPL-3.0 |
+| [`worldlines/`](./worldlines) | 제품: 웹 UI(3.0), 런처 패키지, 템플릿, 예제 월드, 튜토리얼. 데스크톱 셸(아직 출시 안 됨) | AGPL-3.0 |
 | [`documents/`](./documents) | 사양(world · soul · template · contract · pack)과 [docs.worldlines.gg](https://docs.worldlines.gg)의 원문 | CC BY 4.0 |
 | [`benchmarks/`](./benchmarks) | 엔진의 설계 결정을 뒷받침하는 테스트 스위트 | 코드 Apache-2.0 · 데이터 CC BY 4.0 |
 | `CLAUDE.md` · `AGENTS.md` · `.claude/` · `.agents/` | Claude Code / Codex용 캐릭터·월드 제작 워크벤치(아래 참고) | AGPL-3.0 |
@@ -57,7 +58,9 @@ neonrp                          # 터미널: 「Welcome to WorldLines」 런처
 두 명령 모두 실행 시 새 릴리스를 확인해 스스로 업데이트합니다(먼저 물어보게 하려면 게임 안에서 `/update mode prompt`).
 릴리스 노트: [`neonrp/CHANGELOG.md`](./neonrp/CHANGELOG.md) · [GitHub Releases](https://github.com/LudicDynamics/WorldLines/releases). 한 줄 설치도 계속 쓸 수 있습니다:
 `curl -LsSf https://worldlines.gg/install.sh | sh` (macOS / Linux) · `irm https://worldlines.gg/install.ps1 | iex` (Windows).
-처음 실행하면 모델 제공자(DeepSeek, OpenRouter, 로컬 OpenAI 호환 서버 …)를 고르는 과정을 안내합니다. API 키는 당신의 컴퓨터에만 저장됩니다.
+Python 3.10 이상이 필요합니다. 처음 실행하면 모델을 고르는 과정을 안내합니다. Worldlines 계정으로 로그인하거나(`/login`: 모델 중계와
+Jev 판정자, 내 키 불필요) 내 키를 씁니다(OpenCode Zen, DeepSeek, OpenRouter, Anthropic, OpenAI, GLM, 또는 OpenAI 호환 서버).
+API 키는 당신의 컴퓨터에만 저장됩니다.
 
 ## 플레이
 
@@ -69,14 +72,19 @@ neonrp                          # 터미널: 「Welcome to WorldLines」 런처
       金 18 → 8 · 两人到杂货铺 · +小治疗药水
 ```
 
-당신의 한 마디가 곧 한 턴입니다. 세계(「主持」= 진행자 / GM으로 표시)가 무슨 일이 일어났는지 이야기하고, 변화를 세계에 기록합니다.
+한 턴은 두 박자입니다. **상의** 박자에서는 진행자(「主持」= GM으로 표시)가 장면을 그리고 그 자리의 캐릭터들이 대답하며, 무엇을 할지
+이야기합니다. 이야기가 정리되면(판정은 Worldlines 계정이 있으면 Jev, 없으면 그 판의 모델이 합니다. 「결정」이나 `@dm`으로 바로
+넘어갈 수도 있습니다) **해결** 박자에서 일어난 일을 이야기하고 변화를 세계에 기록합니다. 상태는 먼저 바로 기록되고, 뒤에서 한 번 더
+확인됩니다. 확인에서 잘못이 보이면 고치고, 무엇이 바뀌었는지 알려 줍니다.
 
 | 템플릿 | 내용 |
 |---|---|
 | 그레이오크 저택 · 닫힌 문 | 안개 골목 끝의 낡은 저택, 사흘 전 주인이 문으로 들어간 뒤 나오지 않았다. 하룻밤, 입이 무거운 집사, 백분위 주사위 추리 |
 | 스톤포드 · 안개가 물러나는 밤 | 일 년에 하룻밤만 안개가 물러난다. 이틀 밤과 하루 낮 동안 북문을 나설 채비를 마을에서 갖춘다 |
 
-로컬판에는 이 두 세계가 들어 있습니다. 다른 공식 세계는 로컬 Hub에서 Worldlines 계정으로 로그인하면 보이고 받을 수 있습니다(이 컴퓨터에 내려받아 플레이).
+로컬판에는 이 두 세계가 들어 있습니다. 다른 공식 세계는 Hub에 있습니다. 로그인하지 않아도 볼 수 있고,
+[worldlines.gg](https://worldlines.gg)(또는 로컬 웹 UI의 「Hub ↗」)에서 바로 온라인으로 플레이합니다. Worldlines 계정으로
+로그인하면 내려받아 로컬에서 플레이할 수 있습니다.
 
 <p align="center">
   <img src="./worldlines/assets/web-multi-agent.ko.png" alt="WorldLines — 살아 있는 세계" width="860" />

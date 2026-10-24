@@ -25,11 +25,11 @@
 | 한국어 | `ko/` |
 
 ## 怎么玩
-NeonRP TUI:
+旧格式(模板之前的 orchestrator 世界)。玩的时候会写进文件夹,先复制一份:
 ```
-neonrp tui --from examples/orch/worldline/zh
+cp -R worldlines/examples/worlds/worldline/zh /tmp/worldline && cd /tmp/worldline
+neonrp tui --play
 ```
-Claude Code / MCP:在该目录里 `@world-agent 开始游戏`。
 
 ## 文件
 ```
@@ -44,5 +44,4 @@ zh/
   agents/world-agent/            叙述 + 短信解析 + 调度
   agents/worldline-agent/        算分歧率 + 定域
   agents/drift-agent/            算漂移 + 收束判定
-  .claude/agents/                Claude Code / MCP 镜像
 ```

@@ -38,8 +38,11 @@
 
 ## 怎么玩
 
+旧格式(模板之前的 orchestrator 世界)。玩的时候会写进文件夹,先复制一份:
+
 ```
-neonrp tui --from examples/orch/sakura-hallway/zh
+cp -R worldlines/examples/worlds/sakura-hallway/zh /tmp/sakura-hallway && cd /tmp/sakura-hallway
+neonrp tui --play
 ```
 
-或导入 hub 游玩。每次进入都可能触发不同的季节和时间线。
+每次进入都可能触发不同的季节和时间线。

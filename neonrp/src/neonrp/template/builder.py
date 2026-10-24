@@ -1,4 +1,4 @@
-"""Player builder — the player makes their own character before the run opens (niko 10-14, 面板玩家).
+"""Player builder — the player makes their own character before the run opens (10-14, 面板玩家).
 
 **The template declares the sheet; the screen renders it; the engine checks and writes it.** No builder block = the run
 opens as before. ``template.json``::

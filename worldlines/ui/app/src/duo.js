@@ -36,7 +36,7 @@
         const relPath = `souls/${dir}/persona/relationships.json`;
         const rel = D.files.includes(relPath) ? parse(await getFile(relPath).catch(() => '{}')) || {} : {};
         const sid = soul.sid || dir.split('-si-')[0];
-        const intro = soul.intro_i18n || {};
+        const intro = soul.intro_i18n || soul.summary_i18n || {};   // 角色库新建的角色写的是 summary_i18n(POST /local/souls/blank)
         got[dir] = { sid, dir, name: soul.name_local || soul.name || sid, intro: intro.zh || intro.en || soul.intro || '', relPath, rel, tags: soul.tags || [] };
       }));
       dirs.forEach(dir => { if (got[dir]) D.souls[got[dir].sid] = got[dir]; });

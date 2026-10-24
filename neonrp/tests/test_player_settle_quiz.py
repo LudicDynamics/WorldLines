@@ -1,4 +1,4 @@
-"""标准前端结算屏「真相三问」(worldlines/ui/player/src/settle.js · niko 10-20):发的是额度(niko 10-21:积分是口误),不再「选一个人带走」——
+"""标准前端结算屏「真相三问」(worldlines/ui/player/src/settle.js · 10-20):发的是额度(10-21:积分是口误),不再「选一个人带走」——
 答题页不出选人、提示写保底积分数(引擎 quiz() 的 points);交卷不带 take;结果页:答错 = 保底积分一行,全对但那位早就带着完整记忆
 在收藏里 = 说清楚改送积分,没题的局 = 「这一局没有题」+ 领取积分。截图:PLAYER_QUIZ_SHOTS=<目录>(默认 tmp)。"""
 from __future__ import annotations
@@ -36,5 +36,5 @@ def test_settlement_quiz_floor_is_points(tmp_path):
     assert n["ask"]["go"] == "领取额度" and "直接领 200 额度" in n["ask"]["hint"] and n["posted"] == {"answers": []}
     assert "这一局没有题" in n["res"]["text"] and "额度 +200(待发放)" in n["res"]["text"]
     assert "用自己的 key 时,额度不进平台账户" in w["res"]["text"], "own key: said plainly (lead 10-21)"
-    assert not any("积分" in c["res"]["text"] or "积分" in c["ask"]["hint"] for c in r.values()), "积分 = 额度 (niko 10-21)"
+    assert not any("积分" in c["res"]["text"] or "积分" in c["ask"]["hint"] for c in r.values()), "积分 = 额度 (10-21)"
     assert "核对后记进你的 Worldlines 账户" in n["res"]["text"] and "不进平台账户" not in h["res"]["text"]

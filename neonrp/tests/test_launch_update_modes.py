@@ -1,4 +1,4 @@
-"""10-24 niko: neonrp did not update itself — a released install only *offered* the upgrade. ``updates.mode``: auto
+"""10-24: neonrp did not update itself — a released install only *offered* the upgrade. ``updates.mode``: auto
 (default: upgrade and relaunch, one line) · prompt (ask) · notify (banner only); editable installs stay notify-only."""
 from __future__ import annotations
 

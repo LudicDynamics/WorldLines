@@ -18,7 +18,6 @@ async function say(page: Page, text: string) {
   await page.locator('[data-cfa-go]').click()
   await expect(page.locator('[data-cfa-go]')).not.toHaveAttribute('aria-busy', 'true', { timeout: 90_000 })   // 机器忙时一句要几十秒
 }
-const rows = (page: Page, sec: string) => page.locator(`.cfrow:has([data-sec="${sec}"])`)
 
 test('say it in one sentence → preview → into the form → check → save', async ({ page }) => {
   const errors: string[] = []   // 页面不许有 pageerror(几段脚本拼成一个 <script> 时,拼接处断句错会整页停在「…」)

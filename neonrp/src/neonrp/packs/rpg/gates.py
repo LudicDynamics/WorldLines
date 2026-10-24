@@ -1,5 +1,5 @@
 """rpg pre-turn gate — what the engine itself does before the narrator writes: draw the map when the player asks the way,
-show the sheet when asked. Whether a fight happens is not the gate's (D-20261018-combat-one-shot-node): the talk decides
+show the sheet when asked. Whether a fight happens is not the gate's (10-18): the talk decides
 who does what, the narrator calls [combat] (a road stop's foes come from the hazards table), and the fight settles the stop.
 """
 from __future__ import annotations

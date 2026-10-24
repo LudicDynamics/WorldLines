@@ -1,6 +1,6 @@
 # 玩家侧数据规范(分身 · 玩家数据 · 聊天记录)
 
-玩家自己的东西:捏的分身、跨局的记录(获得的角色、聊过的角色、结局、成就、待发奖励)、和角色的私聊。全部在 `~/.worldlines/` 下,归 launcher 管,**从不写进模板或一局的文件夹**(引擎 / launcher 主权线)。本机和浏览器版用同一套 HTTP。
+玩家自己的东西:捏的分身、跨局的记录(获得的角色、聊过的角色、结局、成就、待发奖励)、和角色的私聊。全部在 `~/.worldlines/` 下,归 launcher 管,**不存进模板或一局的文件夹**(引擎 / launcher 主权线)。唯一的例外是你主动选「用分身开局」:分身的字段会复制进那一局的主角档案(见 2.3),分身本身仍在 `~/.worldlines/players/`。本机和浏览器版用同一套 HTTP。
 
 > 状态标注:**已实装**(代码里有、有测试)· **约定**(约好的做法)· **设计中**。
 
@@ -62,7 +62,9 @@
  talked:     [{sid, name, world, at}],
  endings:    [{id, title, world, at}],
  achievements: [{id, world, source, at, title?, desc?, points?, scope?}],
- rewards:    [{id, kind, amount?, cg?, world, source, status: pending, at}]}
+ rewards:    [{id, kind, amount?, cg?, world, source, status: pending, at}],
+ cards:      [{id, world, kind, title, desc, rarity, image?, version, run, source, at}],
+ runs:       [{world, run, exit, ending?, version, at}]}
 ```
 
 `world` 都是模板 id(一局 `game/meta/template.json` 的 `id`;不是从模板建的局就是那一局的文件夹名)。
@@ -74,6 +76,12 @@
 | `endings` | 一局落下结局时(每个世界每个结局一条) | 已实装 |
 | `achievements` | 解锁时(`core/achievements.py`)。读的时候按 `lang` 带上 `title` / `desc` / `points` / `scope`:内置成就从四语表来,模板自带的从那个模板的 `template.json` `achievements` 来;认不出的 id 原样返回 | 已实装 |
 | `rewards` | 结算 / 里程碑 / 成就挣到、平台还没发的奖励,写成 `pending`,平台发完改 `granted` | 已实装 |
+| `cards` | 模板 `rewards` 发的卡(`core/rewards.py`)。存的是拿到那一刻的卡面(图片复制到玩家目录),作者以后删了也不收回;`version` 是当时的模板版本,作者出新版时玩家可以换新卡面 | 已实装 |
+| `runs` | 每一局走到出口(结算)记一行:`exit` 是出口种类,到了结局再带 `ending` | 已实装 |
+
+`characters` 的 `memory`:`full` = 带着这一局的记忆(同时做记忆快照);`fresh` = 按作者写的样子带走,没有这一局的记忆(收集规则、结算保底这类)。之后满足 `full` 的条件时会升级成 `full`。
+
+自由区(`zone: open`)作品开的局不发卡,也不能带走角色。
 
 角色的两个开关(`standalone`、`takeable` / `take_when`)写在角色的 `soul.json`,见 [soul.zh.md](soul.zh.md) 3.1。
 

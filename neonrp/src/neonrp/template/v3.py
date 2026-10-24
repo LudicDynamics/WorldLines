@@ -720,7 +720,7 @@ def contract(t: Any, root: Path, *, u: dict[str, Any] | None = None) -> dict[str
                    "dir": f"assets/{s['cls']}/{s['slot']}/"} for s in u["slots"]],
         "views": [{k: v.get(k) for k in ("id", "title", "widget", "bind", "actions", "layout")} for v in u["views"]],
         "panels": [{k: p.get(k) for k in ("id", "tag", "tool", "format", "schema", "layout") if k in p} for p in u.get("panels") or []],
-        "transport": {"rpc": "POST /api/v1/play/engine/{cmd,tick,rollback}  GET /api/v1/play/schema[/history|/events]",
+        "transport": {"rpc": "POST /cmd · POST /rollback · POST /api/v1/play/engine/tick  GET /api/v1/play/schema[/history|/events]",
                       "stream": "GET /api/v1/play/schema/stream?pattern=…  (SSE)"},
     }
     try:  # the pack's stop tags / layer switches / exits / panels / engine-initiated points (engine side, core/interaction)

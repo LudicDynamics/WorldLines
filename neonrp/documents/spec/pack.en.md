@@ -42,7 +42,7 @@ Defined in `src/neonrp/packs/__init__.py:Pack`. A JSON pack (`pack.json`) uses t
 | `flags` | {path, key} | `game/meta/flags.json` · `flags` | where story flags live (`rpg`: `game/player/flags.json` · `story_flags`) | implemented |
 | `blocks` | [str] | `["lines","ops","options"]` | the blocks the model writes each turn | implemented |
 | `modes` | {layer: definition} | `{}` | sub-layers (combat, dungeon, referee): `prompt` / `reads` / `ops` / `exit` / `state` / `one_shot` / `output` / `tail` … | implemented |
-| `loop` | object | `{}` | a turn-loop config fragment; layered builtin defaults < `pack.loop` < `game/meta/engine.json` < playthrough < environment | implemented |
+| `loop` | object | `{}` | a turn-loop config fragment; layer order: see §2.3 "turn loop" | implemented |
 | `ticks` | ["module:function"] | `[]` | deterministic rules run inside every apply, after the turn's ops | implemented |
 | `mixins` | [str] | `[]` | mixins composed in | implemented |
 | `base` | str | `""` | the built-in pack this one is built on (`pct` → `rpg`): its layer prompts are the fallback | implemented (set only by Python packs, see §2.4) |
@@ -124,10 +124,10 @@ Later wins.
 | layer prompts (combat / dungeon / referee) | template / world override (`ui.prompts["modes.<layer>"]` or `modes.<layer>` in `game/meta/prompt.json`) → the world's own `agents/<id>/system.md` → the pack's `prompts/<layer>.<lang>.md` → the base pack's file of the same name | `core/modes.py:prompt_source` |
 | mechanics seams | the engine's generic defaults < `pack.mechanics` < `mechanics` in `manifest.json` < `game/meta/mechanics.json` | `core/mechanics.py` |
 | prompt entries | `pack.prompt` < `prompt` in `manifest.json` < `game/meta/prompt.json` | `core/adv.py:prompt_spec` |
-| turn loop | builtin defaults < `pack.loop` < `game/meta/engine.json` < the playthrough's `engine` < environment | `core/engine_config.py` |
+| turn loop | builtin defaults < `pack.loop` < the play contract's `engine` < the orchestration template (the one the template names in `uses`, laid on at run time) < the world's `game/meta/engine.json` < the orchestration graph's step settings < the playthrough's `engine` < environment | `core/engine_config.py:_layers` |
 | ui | pack (+ mixins) < template `ui` | `packs:merge_ui` |
 
-Seams (`core/mechanics.py:SEAMS`): `contract` · `soul_turn` · `observe` · `settle` · `participation` · `load` · `pack_hints` · `companions` · `speech_rule` · `gate` · `post_solve` · `understand` · `after_turn` · `roll_check` · `plan_event` · `run_outputs`. `rpg` fills 15 of them; `pct` replaces only `roll_check` and `load`.
+Seams (`core/mechanics.py:SEAMS`): `contract` · `soul_turn` · `observe` · `settle` · `participation` · `load` · `pack_hints` · `companions` · `speech_rule` · `gate` · `post_solve` · `understand` · `after_turn` · `roll_check` · `plan_event` · `run_outputs` · `sheet` · `skill_check` — 18 in all. `rpg` fills 16 of them (not `run_outputs` or `skill_check`); `pct` replaces `roll_check`, `load`, `sheet` and `skill_check`.
 
 ### 2.4 Your own JSON pack extending rpg · implemented (this is how it behaves)
 

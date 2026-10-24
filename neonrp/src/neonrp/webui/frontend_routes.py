@@ -1,4 +1,4 @@
-"""The studio's 前端 desk over HTTP (template/frontends.py, niko 10-17) — the local engine only.
+"""The studio's 前端 desk over HTTP (template/frontends.py, 10-17) — the local engine only.
 
     GET  /api/v1/local/frontends/<tpl>                       builtin + this world's own front ends ({frontends, writable, bound})
     GET  /api/v1/local/frontends/<tpl>/<fid>/tree            the folder's files (node_modules / .godot / dist left out)

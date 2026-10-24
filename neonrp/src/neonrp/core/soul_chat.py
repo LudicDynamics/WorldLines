@@ -1,4 +1,4 @@
-"""Talking with a character outside its world (10-15, niko · PLATFORM-PLAY-RULES §3; the chat-fe phone screen).
+"""Talking with a character outside its world (10-15 · PLATFORM-PLAY-RULES §3; the chat-fe phone screen).
 
     GET  /api/v1/chat/souls[?lang=]                 → {souls: [{tpl, sid, name, avatar_url, standalone, obtained, talked,
                                                         memory: full|trial, last: {from, kind, text, at} | null}]}
@@ -29,7 +29,7 @@ player talks with a standalone character it is noted in ``talked`` — not gaine
 
 Stickers: the built-in set ``wl:<id>`` (:data:`STICKERS`, drawn by the front end) and a character's own ``soul:<id>``.
 
-Three kinds of character (niko 10-16, hybrid): one in the character library that no world links (``tpl = "lib:<folder>"``:
+Three kinds of character (10-16, hybrid): one in the character library that no world links (``tpl = "lib:<folder>"``:
 the player's own, always open, its memory is that folder) · one a world lets talk on its own (``standalone``) · one a world
 lets the player take home (``takeable``, open once gained). :func:`catalog` lists all three for the bench and the phone.
 How a character answers is its orchestration graph's chat node (core/soul_orchestration: history · docs · tools), read
@@ -597,7 +597,7 @@ def send(tpl: str, sid: str, *, kind: str = "text", text: str = "", sticker: str
         lock.release()
 
 
-# ── the player is on the phone with her (10-19 niko: 连线的时候对方知道玩家在线) ───────────────────────────────
+# ── the player is on the phone with her (10-19: 连线的时候对方知道玩家在线) ───────────────────────────────
 
 def presence(tpl: str, sid: str, *, typing: bool = False, lang: str | None = None, rt: Any = None, now: float | None = None) -> dict[str, Any]:
     """A heartbeat from the phone while this thread is open and visible (``POST /api/v1/chat/presence``): the player is
@@ -707,7 +707,7 @@ def answer(tpl: str, sid: str, mid: str, answer: str) -> dict[str, Any]:
         lock.release()
 
 
-# ── the first time (10-17, niko: 头几条要有引导) ─────────────────────────────
+# ── the first time (10-17: 头几条要有引导) ─────────────────────────────
 
 def _own_greeting(sj: dict[str, Any], lang: str) -> str:
     """Her opening line as her author wrote it: ``greeting_i18n`` (per language) or ``greeting`` in soul.json."""

@@ -1,4 +1,4 @@
-"""结局 / 开场 / 阶段 CG 按玩家选的同伴取不同版本(niko 10-15,七夜)。
+"""结局 / 开场 / 阶段 CG 按玩家选的同伴取不同版本(10-15,七夜)。
 
 声明:结局 ``assets: {image, variants: {<sid>: 图}}``;开场 ``opening.cg[i]`` / 阶段 ``stage_cg.<n>`` 里 ``variants`` 同形。
 槽位 ``<slot>@<sid>``;这一局的同伴 = 捏人选的(game/player/card.json),没有对应版本 → 通用版。

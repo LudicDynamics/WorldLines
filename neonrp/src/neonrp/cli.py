@@ -1006,7 +1006,7 @@ def _launch_time_update_check() -> None:
         mode = updater.launch_mode(settings)
         if mode == "notify":
             return
-        if mode == "auto":  # 10-24 niko: it should just update — one line, then the new version takes over
+        if mode == "auto":  # 10-24: it should just update — one line, then the new version takes over
             click.echo("    " + get_message(locale, "update.launch_auto"))
             choice = "y"
         else:

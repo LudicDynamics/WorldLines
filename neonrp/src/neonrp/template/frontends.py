@@ -1,4 +1,4 @@
-"""Heavy front ends of a world (niko 10-17: the studio's front-end desk made real).
+"""Heavy front ends of a world (10-17: the studio's front-end desk made real).
 
 Two sources:
   builtin    the product's own — the Godot client (worldlines/examples/clients/godot), the standard web front end
@@ -37,7 +37,9 @@ _MAX_TREE = 2000
 _MAX_READ = 1_000_000
 _MAX_WRITE = 512 * 1024
 
-_REPO = Path(__file__).resolve().parents[3] / "worldlines"
+# dev repo: worldlines/ beside src/ · public repo: worldlines/ beside neonrp/ (same as template.product_dirs)
+_ROOT = Path(__file__).resolve().parents[3]
+_REPO = next((d for d in (_ROOT / "worldlines", _ROOT.parent / "worldlines") if d.is_dir()), _ROOT / "worldlines")
 # id → what it is; dir is relative to worldlines/ (only a source checkout has it)
 # (title = a key of the prompts table "frontends": the words live in src/neonrp/prompts/frontends.<lang>.json)
 BUILTIN: dict[str, dict[str, Any]] = {
@@ -432,7 +434,7 @@ def create(t: Any, name: str, kind: str, title: str = "", lang: str | None = Non
     return {"id": name, **m}
 
 
-# ── copy · export · import (niko 10-19: the desk reads, saves, exports, imports) ──────────────────────────────────
+# ── copy · export · import (10-19: the desk reads, saves, exports, imports) ──────────────────────────────────
 
 _ZIP_MAX = 20 * 1024 * 1024  # unpacked bytes
 _ZIP_FILES = 2000

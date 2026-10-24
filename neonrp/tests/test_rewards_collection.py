@@ -15,8 +15,9 @@ from neonrp import template
 from neonrp.core import achievements, beat_events, player_data, rewards, sdk
 from neonrp.core.registry import load_registry
 from neonrp.template import contract as C
+from _paths import PRODUCT
 
-TEMPLATES = Path(__file__).resolve().parents[1] / "worldlines" / "templates"
+TEMPLATES = PRODUCT / "templates"
 
 
 @pytest.fixture(autouse=True)

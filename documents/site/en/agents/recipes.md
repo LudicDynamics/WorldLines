@@ -6,7 +6,6 @@ description: "New template, casting, declaring a contract, adding an ending, exp
 <!-- section: new -->
 ## Start from an existing template
 
-> **Status: ships with 1.0**
 
 ```bash
 neonrp template list                              # what there is

@@ -68,3 +68,13 @@ def test_engine_has_no_code_copied_from_product():
         if p.stat().st_size >= 200 and (d := digest(p)) in product_code
     ]
     assert not copied, "engine contains code identical to AGPL product files:\n" + "\n".join(copied)
+
+
+def test_pypi_license_files_in_step():
+    # the worldlines package is built from worldlines/packaging/worldlines and can only ship files under it
+    product = _product_dir()
+    if product is None:
+        pytest.skip("product folder (worldlines/) not present")
+    pkg = product / "packaging" / "worldlines"
+    assert (pkg / "LICENSE-PROPRIETARY.md").read_bytes() == (ENGINE_ROOT / "LICENSE-PROPRIETARY.md").read_bytes()
+    assert (pkg / "LICENSE").read_bytes() == (product / "LICENSE").read_bytes()

@@ -1,4 +1,4 @@
-/* 捏人(面板玩家,niko 10-14):模板的 player.builder 声明字段和规则,这一屏照着渲染,不 fit 任何字段。
+/* 捏人(面板玩家,10-14):模板的 player.builder 声明字段和规则,这一屏照着渲染,不 fit 任何字段。
    引擎 template/builder.py 是唯一的规则:这里的检查只为了提示(剩余点数、还差什么),开局时引擎再校验一遍,不过就 400 不开局。
    入口:BUILDER.start(模板 id, 语言) —— 模板没声明 = 照旧直接开局;声明了 = 先捏人 → 选同伴 → 开场。
    BUILDER.panel(card) 是同一张面板,游玩中右栏的「面板」页签用它画这一局的玩家卡。 */
@@ -29,7 +29,7 @@
   const h = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
   const enc = encodeURIComponent;
   const pick1 = a => a[Math.floor(Math.random() * a.length)];
-  // 头像跟着性别走(niko 10-15:七夜选「女」随机出男性头像):不认字段名,认选项 id 的写法 —— 选择题的选项 id 是 female / male(f / m),
+  // 头像跟着性别走(10-15:七夜选「女」随机出男性头像):不认字段名,认选项 id 的写法 —— 选择题的选项 id 是 female / male(f / m),
   // 头像选项 id 以 -f / -m 结尾(后面可带数字),两边按这个字母对上;别的(不指定 · 中性头像 -n / -hood)不对。
   // 模板要指定跟哪个字段就在头像字段写 follows: "<选择字段 id>"。
   const sexOf = id => { const x = String(id || '').toLowerCase(); return /^(female|woman|f)$/.test(x) ? 'f' : /^(male|man|m)$/.test(x) ? 'm' : ''; };

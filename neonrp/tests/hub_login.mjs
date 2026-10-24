@@ -1,4 +1,4 @@
-// tests/test_hub_login.py 用:Hub 登录 / 退出的进行中状态 + 超时 / 重试(niko 10-17:点了没反应像卡住,偶尔 timeout)。
+// tests/test_hub_login.py 用:Hub 登录 / 退出的进行中状态 + 超时 / 重试(10-17:点了没反应像卡住,偶尔 timeout)。
 // 线上(静态)Hub:auth.test 是假的 identity,可以拖慢 / 断开 / 永远不回;本地(引擎模式):/api/v1/local/account* 是假的引擎。
 //   node tests/hub_login.mjs <hub/index.html> <hub/hub.js> <playwright 所在的 package.json> <截图目录>
 import { createRequire } from 'module'

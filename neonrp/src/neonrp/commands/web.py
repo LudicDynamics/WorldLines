@@ -2328,7 +2328,7 @@ def _switch_runtime(server: Any, slug: str, locale: str | None = None, player: d
         agent = get_startup_entry_agent(target) or fallback_agent
         # 新开的 run 注入本地化开场指令(与 TUI 启动链同一份 handoff)——
         # gateway_start 的 kickoff 会把它发给 world-agent,进页即开演。
-        # 不注入的话玩家落在空屏幕上等着(niko 实测的「不立即开始」bug)。
+        # 不注入的话玩家落在空屏幕上等着(实测的「不立即开始」bug)。
         # 接着的这一局一个回合都没有(开场那一拍当时没跑完)= 同样给开场指令,用这一局建的语言(kickoff 再看一眼回合记录)
         startup: list[str] | None = None
         if fresh or not read_turn_traces(target, _run_branch(target), last=1):

@@ -1,6 +1,6 @@
 # Template spec (`worldlines.template/1`)
 
-> Status: **implemented** = in the code, and this spec follows the code; **in design** = the field can be written and is read or checked, but has no full runtime effect yet.
+> Status: **implemented** = in the code, and this spec follows the code (neonrp 1.0.3). Fields that are metadata only, not read at run time, say so.
 > Related specs: [World spec](./world.en.md) · [Soul spec](./soul.en.md)
 
 ---
@@ -32,8 +32,10 @@ A template is also **the unit you publish**. Listing, sharing and "new game" all
 | ui: slots / views / panels / named prompts / budget | implemented |
 | Localization layers `i18n/<lang>/` (laid by the run's language + a glossary residue check, see 4.1) | implemented |
 | filling asset slots by upload / generation | implemented (generation needs a configured image backend) |
-| runtime effect of `mode.freedom` | in design (metadata + validation only) |
-| `soul` / `item` / `ending` rules under `lint.assets` | in design (only `card.cover` is enforced; asset requirements are enforced through `ui.slots[].required`) |
+| orchestration template `uses` (one beat or two per turn, see §2a) | implemented |
+| zones (`zone`), publishing to the Hub, fetching official worlds (see §9) | implemented |
+| `mode.freedom` | metadata only: lint checks the value, the run does not read it |
+| `soul` / `item` / `ending` rules under `lint.assets` | not enforced. Only `card.cover` is checked there; portraits and other assets are enforced through `ui.slots[].required` (the rpg pack's `soul.portrait` is `publish`, see 6.1) |
 
 ---
 
@@ -42,54 +44,71 @@ A template is also **the unit you publish**. Listing, sharing and "new game" all
 ```
 <id>.template/
   template.json                 required. schema = "worldlines.template/1"
-  world/                        optional. a world shipped inside the template (world.path points here)
+  orchestration.json            optional. orchestration graph patch (template.json's orchestration points here, see 3.1)
+  world/                        optional. a world shipped inside the template (world.path points here; layout in the world spec)
+  world/runtime_contract.json   optional. the shipped world's runtime contract, copied into the run's .neonrp/ at start
+  world/playthrough.json        optional. the shipped world's cast record (same)
   world-overlay/                optional. data patches laid over the world (default name; used if present)
   souls/<sid>/                  optional. a soul brought in (souls[].path points here)
   prompts/world.json | *.md     optional. world-side prompt layer
-  prompts/souls/<sid>/…         optional. character prompt layer: may overlay only soul.md / persona/ / rules/ / agents/
+  prompts/souls/<sid>/…         optional. character prompt layer: may overlay only soul.md / persona/ / rules/ / agents/ (see 3.7)
   plots/<id>/plot.json          optional. plot packs (+ their own assets/)
-  assets/                       optional. card cover etc.
+  assets/                       optional. card cover, opening CG, the template's own audio etc.
   i18n/<lang>/…                 optional. localization layers: files at the template's paths (see 4.1); i18n/glossary.json the proper nouns
+  spec/  AGENTS.md  CLAUDE.md   generated. spec copies and notes for coding agents (written by `neonrp spec sync`, and on fork)
+  frontends/<name>/             optional. the world's own front ends; local only, never exported or published
 ```
 
-The actual trees of the four reference templates:
+The actual trees of the two built-in templates (pictures and the contents of `i18n/` left out):
 
-**stoneford-elena** (binds a built-in world, adds a plot, multiple endings)
+**pct-house — Greyoak House · The Closed Door** (ships its own world, `pct` pack, `mystery-trpg` contract, multiple endings)
 ```
 template.json
+assets/cover.jpg  assets/opening/cg-*.webp
+plots/P01/plot.json
+world/                         the whole world: game/, souls/, agents/, playthrough.json, runtime_contract.json
+world-overlay/assets/maps/     map pictures and their frozen transforms
+i18n/{en,ja,ko}/template.json  i18n/glossary.json
+spec/  AGENTS.md  CLAUDE.md
+```
+
+**stoneford-town — Stoneford · The Night the Fog Withdraws** (binds the built-in world `stoneford-elena`, `rpg` pack + `economy` mixin, `open-adventure` contract, multiple endings)
+```
+template.json
+orchestration.json             orchestration graph patch (interaction nodes: change scene / examine / talk …)
 assets/cover.png
-plots/P10/plot.json
-prompts/voice.md
-prompts/world.json
-```
-
-**stoneford-market** (same world + the economy / factions mixins, open ending)
-```
-template.json
-assets/cover.png
-prompts/world.md
+plots/P20/plot.json
+prompts/world.json  prompts/voice.md  prompts/town.json
 world-overlay/game/world/economy.json
-world-overlay/game/world/factions.json
+world-overlay/game/locations/T001/{gate_north,road_camp}/location.json
+world-overlay/game/meta/{game-start,run_state,interactions}.json
+world-overlay/game/towns/T001/{npcs,quests}.json  …
+i18n/{zh,en,ja,ko}/…  i18n/glossary.json
+spec/  AGENTS.md  CLAUDE.md
 ```
 
-**stoneford-three-towns** (market plus a full ui: slots / views / named prompts / budget)
-```
-template.json
-assets/cover.jpg
-prompts/world.md
-world-overlay/game/meta/variables.json
-world-overlay/game/world/economy.json
-world-overlay/game/world/factions.json
-```
+## 2a. A turn is an orchestration template
 
-**werewolf-night-village** (ships its own world, `werewolf` pack, roles dealt anew each run)
-```
-template.json
-prompts/judge.md
-world/manifest.json
-world/game/meta/table.json
-world/game/seats/S01.json … S06.json
-```
+A template does not write out how a turn runs. It names an **orchestration template** in `uses` (`core/orch_templates`). An orchestration template only shapes the turn; it carries no play contract and no rules pack, and many worlds can share one.
+
+| Orchestration template | One turn | Where |
+|---|---|---|
+| `one_beat` | only the **Resolve beat**: the world writes the prose, the characters present act, the engine writes state, verifies and lands it | ships with the open engine (`neonrp/orchestrations/one_beat/`) |
+| `two_beat` | a **Planning beat**, then the Resolve beat. In the Planning beat the host takes the player's words, passes the word to the characters present, and lays out costs / checks / time; this beat changes nothing in the world and the clock does not move. Once the talk is settled (the judge decides, or the player says "deal") the Resolve beat runs | ships with `neonrp` / `worldlines` from PyPI |
+
+- Both built-in templates write `"uses": {"template": "two_beat", "version": "1.0", "soul": "S-judge"}`.
+- The PyPI package includes the full two-beat orchestration; an engine built from the open-source repo has the single beat only. When the engine lacks the orchestration a template names, it falls back to the first open one (`one_beat`) and keeps `uses.soul` — the world still plays, one beat per turn.
+- `uses.soul` is a separate axis: how the characters present act (`legacy` · `S-judge` · `S-direct` · `S-free`); left out = the orchestration template's default.
+- `uses.params` picks the orchestration template's parameters, e.g. the two beats' `pace: normal | quick` (quick = the Planning beat wraps up sooner). A choice the template does not have → lint `uses.param` (warn).
+- The orchestration template's settings are laid on at run time (the `orchestration` layer in 8.2), **never copied into the save**.
+- The web Hub and iOS creation desks only pick from a few orchestration choices (e.g. `two_beat`, `two_beat?pace=quick`) and show a read-only graph; only the local orchestration bench edits the graph, and the edit is stored as the template's `orchestration` (see 3.1).
+
+**How the Resolve beat writes state** (the same in both):
+
+1. The prose call writes only the prose; whatever decides what happens next is written as a tool line — `[op]` synchronous (the engine answers on the spot and the model writes on), `[~op]` not waited for (maps, panels).
+2. One clean-context "write-down" call reads the prose and the tool answers and outputs `<vars>` (new values of registered variables) and `<files>` (file-system changes). This is the default `pseudo` way; `nodes.resolve.state = "jev"` in the orchestration graph has the judge fill the tool calls line by line instead, and falls back to `pseudo` without a fast judge.
+3. When the provider takes a per-request switch for thinking (e.g. deepseek), the write-down runs twice: the straight answer (thinking off) lands at once, the thinking answer runs in the background and corrects variables one by one when it comes back (a variable something else changed meanwhile is left alone; the tools' and the engine's rulings win), waiting at most `turn.transition_slow_timeout_s` (90 s by default); a new line from the player cancels it. The front end gets `write_down.pending`, then `write_down.corrected` / `same` / `cut` / `timeout` / `failed`. A provider without the switch gets one call.
+4. Verify (fields → entities → world); a fixable refusal re-runs step 2 only, the prose stays. Then it lands: one world commit per turn.
 
 ---
 
@@ -112,19 +131,23 @@ Entry point: `neonrp.template:load`. Every field is tolerant: a missing object r
 | `prompts` | list[str] | no | `[]` | prompt files / folders, see 3.7 | `template:prompt_layer` | implemented |
 | `plots` | list[str] | no | `[]` | plot folders (relative to the template), see §5 | `template:build` | implemented |
 | `recipe` | object | no | `{backend:"", style:""}` | global settings for asset recipes, see §6 | `template.v3:ui` | implemented |
-| `ui` | object | no | inherited from the pack | slots / views / panels / prompts / budget, see §6 | `template.v3:ui` | implemented |
+| `ui` | object | no | inherited from the pack | slots / views / panels / prompts / budget, see §6; `ui.beats` = how the beats are shown: `{"start": <graph node id>, "kinds": {<node id>: {…}}}` (Stoneford writes `{"start": "interaction.move"}`), merged per node, `start` replaced | `template.v3:ui` · `core.orchestration` | implemented |
 | `slots` `views` `panels` `budget` | — | no | — | may also sit at the top level; same as inside `ui` | `template.v3:ui` | implemented |
 | `lint` | object | no | `{}` | lint rules, see 3.8 | `template:lint` | partly implemented |
 | `models` | object | no | `{}` | recommended models, see 3.9 | `template:new_run` | implemented |
 | `seed` | str | no | run folder name | seed for soul pools and shuffles; fix it and every build gets the same cast and roles | `template:build` | implemented |
 | `play_contract` | str | no | — | the experience the template promises: `"<contract id>@<version>"`, see the `contract` spec; lint checks against it | `template.contract` | implemented |
-| `uses` | obj | no | inferred from the contract | the orchestration template this world plays: `{"template": "<template id>", "version": "<x.y>", "soul": "<characters' orchestration>", "params": {…}}`. A template = a world orchestration (a single beat …) + parameters; `soul` is a separate axis: how the characters present act (legacy · S-judge · S-direct · S-free), left out = the template's default. The open engine ships `one_beat` (`neonrp/orchestrations/`), a private layer may add more; a template the engine lacks falls back to `one_beat`, keeping `soul`. Left out = an old package: a world with a contract plays as its contract used to turn it on | `core.orch_templates` | implemented |
-| `orchestration` | object \| str | no | the pack's default graph | the orchestration graph: a patch on the default `{nodes, remove, add}`, or a path to `orchestration.json`; written by the `set_orchestration` op | `core.orchestration:graph` | implemented |
-| `player` | object | no | — | the player: `player.builder` = the player makes their own character before the run (panel player), see 3.11; absent = the run opens as before | `template.builder` | implemented |
+| `uses` | obj | no | see right | the orchestration template this world plays: `{"template": "<orchestration template id>", "version": "<x.y>", "soul": "<characters' orchestration>", "params": {…}}`, see §2a. Wrong shape → `uses.shape` (block). Left out = an old package: a world with a play contract runs the orchestration its contract used to stand for; one without gets no orchestration settings | `core.orch_templates` | implemented |
+| `orchestration` | object \| str | no | the pack's default graph | the orchestration graph: a patch on the default `{nodes, remove, add}`, or a path to `orchestration.json`; written by the `set_orchestration` op. `nodes.resolve.state` = `pseudo` (default) \| `jev`, see §2a | `core.orchestration:graph` | implemented |
+| `zone` | str | no | unset = Free Zone | which Hub zone the work sits in: `reviewed` = Default Zone (listed after review; the official worlds live here) · `open` = Free Zone. Anything else → `meta.zone` (block). Default Zone works cannot be exported; checks such as `truth_quiz` and `audio.credits` block in the Default Zone and warn in the Free Zone; Free Zone works hand out no reward cards. Official worlds write `reviewed`; a fork drops `zone` and becomes the author's own work (see §9) | `template:load` · `core.template_publish` | implemented |
+| `player` | object | no | — | the player: `player.builder` = the player makes their own character before the run (panel player), see 3.11; `player.fixed: true \| false` = says outright whether the world has a fixed protagonist (unset: whether the world's `playthrough.json` `players[0].name` is a real name, not the placeholder). Absent = the run opens as before | `template.builder` · `template:pc_meta` | implemented |
+| `rewards` | list | no | `[]` | reward cards `[{id, kind: "card", title, desc, rarity: common\|rare\|epic, when, image? \| slot?}]` (title / desc in four languages); `when` uses the achievements' conditions, a list = all of them hold. None are handed out when the play contract's `rewards.player` lacks `cards`, nor in the Free Zone. When earned, the picture is copied beside the player's record, so a card is never taken back. Event `reward.granted` | `core.rewards` | implemented |
+| `creation` | object | no | unset = nothing open | the layer the template opens to creation desks: `{"add": [soul\|plot\|ending\|clue\|rule], "triggers": {"when": […], "then": […]}, "collect": [clear\|ending\|flag]}`. A desk only **adds** data inside this layer, never edits the template. Unknown names → `creation.schema` (warn) | `template.creation` | implemented |
+| `settlement` | object | no | the contract's | settlement amounts laid over the play contract's: for now `{"truth_quiz_points": {settle, per_right, fallback}}` (whole numbers ≥ 0), else `truth_quiz.points` (warn) | `core.truth_quiz:points` | implemented |
 | `opening` | object | no | — | opening CG: `{"cg": [{image, video?, caption?, camera?, prompt?, id?}, …]}`, played in order before the first beat, see 6.6 | `core.scene_cg` / `template:build` | implemented |
 | `milestones` | bool | no | true for an `open-adventure` contract, else false | open-adventure milestones on / off; the author only says yes or no, the engine finds them itself (a new place · a commission completed · a day gone by) and settles them when the player leaves, see contract spec 5.1 | `core.milestones` | implemented (10-15) |
-| `realtime_art` | string | no | `off` | the world's switch for 「画这一幕」 (drawing a beat live while playing, paid in platform credits): `off` = nothing drawn live (the author's pictures still show as 「看这一幕」) · `scene_only` = the place, nobody in it · `full` = the place and who is in it; any other value → `meta.realtime_art` (block). Off by default (niko 10-16: API pictures do not match the pre-made art; turn it on once a world is checked) | `core.scene_art` | implemented (10-16) |
-| `forkable` | bool | no | false | whether an official template offers 「Make a copy」 (niko 10-17): true on the two the local edition ships (Greyoak House · Stoneford); every other official world can be played, not copied or exported (`not_forkable`). The author's own works (in the write store) can always be copied — no need to say it; not a bool → `meta.forkable` (block), on a template outside the default zone → warn. An official world fetched with an account gets `official: true` / `hub_ref` / `hub_revision` from the engine (authors do not write them) | `template.can_fork` | implemented (10-17) |
+| `realtime_art` | string | no | `off` | the world's switch for 「画这一幕」 (drawing a beat live while playing, paid in platform credits): `off` = nothing drawn live (the author's pictures still show as 「看这一幕」) · `scene_only` = the place, nobody in it · `full` = the place and who is in it; any other value → `meta.realtime_art` (block). Off by default | `core.scene_art` | implemented (10-16) |
+| `forkable` | bool | no | false | whether an official template offers 「Make a copy」: true on the two the local edition ships (Greyoak House · Stoneford); every other official world can be played, not copied or exported (`not_forkable`). The author's own works (in the write store) can always be copied — no need to say it; not a bool → `meta.forkable` (block), on a template outside the default zone → warn. An official world fetched with an account gets `official: true` / `hub_ref` / `hub_revision` from the engine (authors do not write them) | `template.can_fork` | implemented (10-17) |
 | `achievements` | list | no | `[]` | this template's own achievements `[{id, title, desc?, when, points?}]` (title / desc may be four-language); `when` is one condition from a list: `ending:<id>` · `flag:<key>` · `stage:<plot>:<n>` · `places:<n>` · `character:<sid>` · `milestone:<n>` · `quiz_perfect` — no if / else; an id may not repeat a built-in | `core.achievements` | implemented (10-15) |
 | `audio` | object | no | the contract's + a guess from place names | sound: theme / bed / tense & crisis tracks / per place / where the template's own audio comes from, see 6.7 | `core/audio` | implemented (10-15) |
 
@@ -145,7 +168,7 @@ Entry point: `neonrp.template:load`. Every field is tolerant: a missing object r
 | Key | Values | Default | Meaning | Status |
 |---|---|---|---|---|
 | `ending` | `open` \| `single` \| `multi` | `open` | `open`: endings are optional; `single`: exactly one reachable ending; `multi`: at least two. Anything else → `meta.mode` (block) | implemented |
-| `freedom` | `free` \| `semi` \| `guided` | — | how free the player is. Unknown value → `meta.mode` (warn) | in design (not read at runtime yet) |
+| `freedom` | `free` \| `semi` \| `guided` | — | how free the player is. Unknown value → `meta.mode` (warn) | metadata only (not read at run time) |
 | `reveal` | bool | `false` | when on, every plot must carry a `reveal` (the solution), else `loop.reveal` (block) | implemented |
 
 ### 3.4 `world`
@@ -182,8 +205,10 @@ If neither the world nor the overlay has the file → `pack.mixin.data` (warn) a
 | Key | Values | Engine default | Meaning | Status |
 |---|---|---|---|---|
 | `turn.mode` | `v2b` \| `v3` | `v2b` (the `rpg` pack's loop sets `v3`) | the turn loop. Lint accepts only these two, else `pack.engine` (block) | implemented |
-| `turn.solve.structured` | `adv` \| `narrate` \| `json_object` \| `json_schema` \| `split` \| `split2` \| `parallel` \| `prose_json` | `adv` | how the world side writes its output. `narrate` = prose with tools first, then one state transition (the external contract stays ADV) | implemented |
-| `turn.parallel.souls.default_variant` | `legacy` \| `S-judge` \| `S-direct` \| `S-free` | `legacy` (the `rpg` pack sets `S-judge`) | the shape of a soul's step | implemented |
+| `turn.parallel.souls.default_variant` | `legacy` \| `S-judge` \| `S-direct` \| `S-free` | `legacy` (the `rpg` pack sets `S-judge`) | the shape of the characters' step; given by the orchestration layer when `uses.soul` is set | implemented |
+| `turn.parallel.souls.per_soul.<sid>` | same | — | one character's shape; written by the `set_engine_setting` op | implemented |
+
+How the prose turns into state is not a `pack.engine` key: the orchestration graph's `nodes.resolve.state` decides it (§2a).
 
 ### 3.6 `souls`
 
@@ -193,18 +218,18 @@ Each item is **one soul** or **a pool**:
 "souls": [
   {"sid": "elena", "role": "npc"},
   {"sid": "guest", "path": "souls/guest", "instance_id": "si-guest-1"},
-  {"lib": "mira", "role": "companion"},
+  {"sid": "mira", "lib": "mira", "role": "companion"},
   {"pool": [{"sid": "a"}, {"sid": "b", "path": "souls/b"}, "c"], "pick": 2, "role": "npc"}
 ]
 ```
 
 | Key | Type | Meaning | Status |
 |---|---|---|---|
-| `sid` | str | soul id. Without `path` / `lib` it must be native to the world (`souls[]` in the world's `playthrough.json`); with `lib` it may be left out (taken from the library soul's `soul.json`) | implemented |
+| `sid` | str | soul id, **required on every row** (pool items too). Without `path` / `lib` it must be native to the world (`souls[]` in the world's `playthrough.json`). A row without sid → `ref.soul` (block), and the run skips it | implemented |
 | `lib` | str | **a soul in the character library** (`~/.worldlines/souls/<lib>/`). The template only links it: it is copied into a run when the run is built, so a change in the library reaches the next run. See the soul spec, "Character library" | implemented |
 | `path` | str | folder of a brought-in soul (relative to the template). Build copies it to the run's `souls/<sid>-<instance_id>/` | implemented |
 | `instance_id` | str | instance id of a brought-in soul; default `si-<sid>-<template id>` (cut to 48 chars) | implemented |
-| `role` | str | `npc` (default) · `companion` · `player`; at most one `player` | implemented (a linked `player` becoming the run's player: in design) |
+| `role` | str | `npc` (default) · `companion` · `player`; at most one `player` | implemented (`player` only records the role for now; the run does not make that soul its protagonist) |
 | `pool` | list | candidates (items may be plain sid strings) | implemented |
 | `pick` | int | how many to draw, default 1; larger than the pool → `ref.soul.pool` (block) | implemented |
 
@@ -235,14 +260,18 @@ world's own prompt.json (dropped when world.prompts = "replace")  <  template pr
 
 **Character prompt layer**: files under `prompts/souls/<sid>/` are copied into that soul's folder at the same relative path, but only under `soul.md`, `persona/`, `rules/`, `agents/` (`SOUL_PROMPT_PATHS`). Any other path is soul data: lint reports `prompt.soul.data` (block) and build skips it.
 
+> Known issue: the authoring ops `set_soul_orchestration` / `set_soul_ambient` write `prompts/souls/<sid>/orchestration.json` and `prompts/souls/<sid>/ambient/world.json`, which are not on the list above yet, so lint reports them as `prompt.soul.data`. Until that is fixed, keep those two ops out of templates you mean to publish.
+
 ### 3.8 `lint`
 
 | Key | Type | Default | Meaning | Status |
 |---|---|---|---|---|
 | `level` | `publish` \| `draft` | see below | release level: missing / stale required assets, a missing cover and an over-budget turn go from warn to block | implemented |
-| `assets` | object `{cls: [kind, …]}` | `{soul:[portrait], card:[cover]}` | asset requirements; `"a\|b"` = either | partly: only `card: [cover]` is checked; other keys are accepted and merged but not enforced yet (in design) |
+| `assets` | object `{cls: [kind, …]}` | `{soul:[portrait], card:[cover]}` | asset requirements; `"a\|b"` = either | only `card: [cover]` is checked; other keys are accepted and merged but not enforced. Portraits and other assets are enforced through `ui.slots[].required` (6.1) |
 
 When `level` is unset there is an asymmetry: the slot checks (`asset.missing` / `asset.stale` / `token.over`) behave as **publish**; the cover check `asset.card` blocks only when `"publish"` is written explicitly, otherwise it warns.
+
+Both built-in templates write `"lint": {"level": "draft"}`: missing or stale pictures and an over-budget turn are warnings only. The zone-graded checks (`truth_quiz.*`, `contract.truth_quiz`, `audio.credits`) follow `zone`, not `level`.
 
 ### 3.9 `models`
 
@@ -263,19 +292,19 @@ Verified in a temp folder (binding the built-in world `stoneford-elena`):
 }
 ```
 
-`neonrp template lint` prints:
+`neonrp template lint ./min.template` prints:
 
 ```
 [warn ] meta.card        card.pitch: no pitch (one line on the card)
-[warn ] asset.optional   slots: 14 个可选槽位没填(有兜底的用兜底)
+[warn ] asset.optional   slots: 15 个可选槽位没填(有兜底的用兜底)
 [warn ] token.unmeasured budget: 还没有回合——用这个模板玩一回合才量得出每回合 token
 [warn ] asset.card       card.cover: no cover file
 publishable — 0 block, 4 warn
 ```
 
-(Some lint messages are currently emitted in Chinese only: "14 optional slots unfilled (fallbacks used where available)", "no turns yet — play one turn with this template to measure tokens per turn".)
+(Some lint messages are currently emitted in Chinese only: "15 optional slots unfilled (fallbacks used where available)", "no turns yet — play one turn with this template to measure tokens per turn".)
 
-`neonrp template build` prints: `built min → run-min  pack=rpg souls=elena,rowan plots=- prompt-overlays=0`.
+`neonrp template build ./min.template run-min` prints: `built min → run-min  pack=rpg souls=elena,rowan plots=- prompt-overlays=0`.
 Only `card.title` and `world` are truly required; the pack defaults to `rpg`, the souls to the world's own.
 
 ### 3.11 `player.builder` (character builder · panel player)
@@ -348,14 +377,14 @@ HTTP: `GET /api/v1/local/templates/<id>/builder` (declaration + resolved compani
 
 ## 4. world-overlay
 
-An overlay is a data patch laid over the world, so one world plus another set of data becomes another template (e.g. `stoneford-market` adds an economy and factions to `stoneford-elena`).
+An overlay is a data patch laid over the world, so one world plus another set of data becomes another template (e.g. `stoneford-town` gives the built-in world `stoneford-elena` an economy, a bandit camp on the road past the north gate, a new opening and new commissions).
 
 | Rule | Detail |
 |---|---|
 | Location | the folder named by `world.overlay`; by default `world-overlay/`, used if present |
 | When | after the world is copied into the run, before shuffle / casting / mixin install / plot install |
 | Granularity | **whole-file replacement**, not a JSON merge: an overlay `game/meta/variables.json` replaces the world's copy entirely |
-| What it may hold | any world path: `game/world/<mixin>.json`, `game/meta/variables.json`, `game/meta/classes.json`, `assets/…` (maps / scenes), `souls/<sid>-<iid>/assets/…` (portraits of world-native souls) |
+| What it may hold | any world path: `game/world/<mixin>.json`, `game/meta/variables.json`, `game/meta/classes.json`, `game/locations/<T>/<spot>/location.json` (a new place, or a changed one), `assets/…` (maps / scenes), `souls/<sid>-<iid>/assets/…` (portraits of world-native souls) |
 | Where assets land | filling a slot of a built-in world writes the image into the overlay (inside the template), never into the built-in world |
 | Own world | a template with `world.path` usually needs no overlay; it edits its own `world/` |
 
@@ -627,7 +656,7 @@ Values: a pool id (`worldlines/audio/catalog.json`: music `calm` `tense` `crisis
 
 ---
 
-## 7. Lint (every code)
+## 7. Lint (the codes)
 
 `neonrp template lint` aggregates every check as `{level: block|warn, code, where, msg}`; any block makes the template unpublishable (exit code 1). Lint does a reference build (every pool candidate present) in a temp folder so plot and slot checks run against the real world.
 
@@ -636,6 +665,12 @@ Values: a pool id (`worldlines/audio/catalog.json`: music `calm` `tense` `crisis
 | `schema` | block / warn | template.json missing or not JSON (block); `schema` is not `worldlines.template/1` (warn) |
 | `meta.card` | block / warn | no `card.title` (block); no `card.pitch` (warn) |
 | `meta.mode` | block / warn | invalid `mode.ending` (block); unknown `mode.freedom` (warn) |
+| `meta.zone` | block | `zone` is not `reviewed` / `open` |
+| `meta.forkable` | block / warn | not a bool (block); written on a template outside the default zone (warn) |
+| `meta.milestones` · `meta.realtime_art` · `meta.achievements` | block | a bad value |
+| `meta.rewards` | block / warn | `rewards` cannot be read (block); a picture not in the template, the Free Zone hands none out, the contract hands no cards out, etc. (warn) |
+| `soul.standalone` · `soul.takeable` · `soul.take_when` | block | a bad value for these keys in a soul's `soul.json` (see the soul spec) |
+| `uses.shape` · `uses.param` | block · warn | `uses` has the wrong shape; `uses.params` picks a choice the orchestration template does not have (§2a) |
 | `ref.world` | block | no world given, or the folder does not exist |
 | `ref.pack` | block | the pack (incl. its mixin composition) does not load |
 | `pack.mixin` | block | a mixin name does not resolve |
@@ -679,6 +714,16 @@ Values: a pool id (`worldlines/audio/catalog.json`: music `calm` `tense` `crisis
 | `loop.exit` | warn | `single`/`multi` without a `fail`/`fallback`/`rule` ending |
 | `loop.epilogue` | warn | an ending without a title |
 | `loop.reveal` | block | `mode.reveal` is on but a plot has no `reveal` |
+| `contract.unknown` · `contract.entry` · `contract.exit` · `contract.endings` · `contract.reveal` · `contract.rewards` | block | something the play contract requires is missing (see the contract spec) |
+| `contract.deaths` | warn | the contract sends a kind of death to a kind of ending the template does not have (the engine gives a plain death exit) |
+| `contract.truth_quiz` · `truth_quiz.schema` · `truth_quiz.lang` · `truth_quiz.reward_soul` | Default Zone block / Free Zone warn | the contract asks for the three truth questions and they are missing; malformed; a language missing or a layer changing a right answer; `reward_soul` not in the cast, or `takeable: false` |
+| `truth_quiz.points` | warn | `settlement.truth_quiz_points` is not whole numbers ≥ 0 |
+| `creation.schema` | block / warn | `creation` is not an object (block); an unknown name (warn; it is dropped) |
+| `collect.who` · `collect.on` · `collect.contract` | block | a collect rule names someone who is not a character of the world; a bad `on` or a missing ending; the contract allows no collecting or wants more |
+| `collect.rarity` | warn | rarity is not common / rare / epic |
+| `asset.variant` | warn | per-companion picture versions: a key that is not a soul of this template; `image_shows` written while other companion candidates lack their own version (6.6) |
+| `map.*` | warn | the bound world's map: `map.dangling` (a connection to nothing) · `map.port_unbound` · `map.port_dangling` · `map.isolated` · `map.legacy_level` (still the old `nodes` form, see the world spec) |
+| `frontend.*` | warn | the world's own front ends under `frontends/` (local only, never blocks publishing) |
 | `player.builder` | block | a bad builder declaration: a field without id / duplicate / unknown kind, `to` outside the game dir, an option without id, grants other than set/append/add, points that cannot be spent, a portrait image not inside the template, fewer companion candidates than `pick` |
 | `i18n.id` | block | A localization layer changes an id (an ASCII id / sid / place / flag / variable reference); ids stay as authored |
 | `i18n.parse` | block | A localization layer's JSON does not parse |
@@ -687,6 +732,7 @@ Values: a pool id (`worldlines/audio/catalog.json`: music `calm` `tense` `crisis
 | `i18n.partial` | warn | The layer still lacks N files / strings (they fall back to the main language) |
 | `i18n.residue` | warn | That language's localized version still holds another language's proper nouns (the glossary) |
 | `i18n.key` / `i18n.list` / `i18n.orphan` | warn | A key the template lacks (a typo? keys are ids and are not localized) / an array of another length replaced whole / a file the template lacks |
+| `i18n.card_lang` · `i18n.replaces` · `i18n.lint` | warn | a layer's card `lang` is not the layer's language; a localized overlay file replaces the world's file whole and drops keys; the localization check itself failed |
 
 ---
 
@@ -699,7 +745,7 @@ Values: a pool id (`worldlines/audio/catalog.json`: music `calm` `tense` `crisis
 2. Copy the world (`world.path` or `world.builtin`), skipping `.neonrp/` and `__pycache__`.
 3. Lay the overlay over it (whole-file replacement).
 4. `world.shuffle`: deal properties with `seed`.
-5. Casting: draw from pools / copy brought-in souls; write `souls` and `active_souls` in `playthrough.json`.
+5. Casting: draw from pools; `lib` / `path` souls are copied into the run **only now** (`souls/<sid>-<instance_id>/`), world-native ones follow their playthrough rows; write `souls` and `active_souls` in `playthrough.json`.
 6. Character prompt layer: overlay only `soul.md` / `persona/` / `rules/` / `agents/`.
 7. Bind the pack: write `"template": "<pack name>"` into `playthrough.json` (root and `.neonrp/`) and `manifest.json`; the engine resolves the pack from it.
 8. Run each mixin's `install(run)`: register and seed its closed-schema variables.
@@ -707,29 +753,34 @@ Values: a pool id (`worldlines/audio/catalog.json`: music `calm` `tense` `crisis
 10. Merge the prompt layer into `game/meta/prompt.json`.
 11. Install plots (registered into the world with `prompt` / `reveal` removed, copied to `game/plots/<id>/`; `reveal` stored as `reveal.json`).
 12. Copy the cover to `assets/template-cover.<ext>`; write `card.title` to `name` in `game/meta/game-start.json`.
-13. Write `game/meta/template.json`: template meta + `built` (souls / cast / plots / prompt_overlays / shuffled / mixins / dropped_soul_emits) + the effective `ui`. `neonrp template show` and the play UI read this record.
+13. Write `game/meta/template.json`: template meta (with `uses`, `opening`, `audio`, `settlement`) + `built` (souls / cast / plots / prompt_overlays / shuffled / mixins / dropped_soul_emits) + the effective `ui`. `neonrp template show` and the play UI read this record.
+14. With a play contract, write `game/meta/play_contract.json`; with an `orchestration`, write `game/meta/orchestration.json`.
 
 ### 8.2 How engine config takes effect
 
 ```
-builtin defaults  <  pack.loop  <  the contract's engine block  <  game/meta/engine.json  <  .neonrp/playthrough.json["engine"]  <  env
+builtin  <  pack (pack.loop)  <  contract (the contract's engine block)  <  orchestration (the template named in uses)
+         <  world (game/meta/engine.json)  <  graph (the orchestration graph's step settings)  <  playthrough (.neonrp/playthrough.json["engine"])  <  env
 ```
 
-The template's `pack.engine` lands in `game/meta/engine.json` (step 9), so it **overrides the pack's own loop** but can still be overridden by a run's playthrough or by experiment env vars. Measured on a run built from `stoneford-elena`:
+Later wins (`core/engine_config.py`). The template's `pack.engine` lands in `game/meta/engine.json` (step 9), so it **overrides the pack's own loop and the orchestration template** but can still be overridden by the orchestration graph, a run's playthrough or experiment env vars. The orchestration layer is never copied into the save; it is laid on at every run.
+
+Measured on a run built from `stoneford-town`, on the open-source engine:
 
 | Key | Value | Source layer |
 |---|---|---|
-| `turn.mode` | `v3` | world (from the template's `pack.engine`) |
-| `turn.parallel.souls.default_variant` | `S-judge` | pack (the `rpg` loop) |
+| `turn.mode` | `v3` | pack (the `rpg` loop), written again by world (the template's `pack.engine`) |
+| `turn.parallel.souls.default_variant` | `S-judge` | pack, written again by orchestration (`uses.soul`) |
 
-The reference templates' `pack.engine` only sets `turn.mode: v3`; `werewolf-night-village` sets no `pack.engine` and uses the `werewolf` pack's own loop. Which beats a turn has, and how the narration becomes state, is the orchestration graph's job (3.1 `orchestration`), not `pack.engine`'s.
+On the PyPI release the orchestration layer also carries the two-beat settings (the Planning beat on). Which beats a turn has, and how the prose becomes state, is the orchestration template's and graph's job (§2a), not `pack.engine`'s.
 
 ### 8.3 New run
 
 - `neonrp.template:new_run(ref)`: `ref` is a folder or a template id; builds into `~/.worldlines/plays/tpl-<id>-<YYYYMMDD-HHMMSS>/`, initializes the manifest, seeds the model (see 3.9). A failed build is removed.
 - HTTP: `POST /api/v1/play/session {"slug": "tpl--<id>"}` starts a fresh run of that template.
 - A template with `player.builder` (3.11): add `player: {fields, companion}` to start with the character the player made; without it the run opens as before.
-- Discovery order (`template:search_dirs` / `discover`): `NEONRP_TEMPLATE_PATH` (OS path separator) → the repo's `worldlines/templates/` when running from source. First hit per id wins.
+- Discovery order (`template:search_dirs` / `discover`): `NEONRP_TEMPLATE_PATH` (OS path separator; WorldLines puts the player's own store `~/.worldlines/templates` first) → the extra template folder of the PyPI release (absent when built from the open-source repo) → the product folders (from source the repo's `worldlines/templates/`, installed the `worldlines` wheel's own templates) → official worlds fetched with an account, `~/.worldlines/official`. First hit per id wins.
+- The two built-in templates listed in `shipped.json` (`pct-house`, `stoneford-town`) come first in every list. An installed release carries only these two; the other official worlds come down after signing in, with `neonrp template fetch <id>`. From source the product folder lists other templates too; `NEONRP_TEMPLATES=shipped` shows only the two an install has.
 
 ---
 
@@ -738,21 +789,35 @@ The reference templates' `pack.engine` only sets `turn.mode: v3`; `werewolf-nigh
 ```
 neonrp template list                        discoverable templates: id, pack name, ending mode, title, folder
 neonrp template lint <dir|id> [--json]      every check; exit 1 when not publishable
-neonrp template build <dir|id> <dest> [--force]
-                                            lints first and refuses on any block (--force builds anyway)
+neonrp template build <dir|id> <dest> [--force] [--lang L]
+                                            lints first and refuses on any block (--force builds anyway); --lang lays a localization layer
 neonrp template show [--world <run dir>]    a built run: card / mode / plot stages / ending; the reveal only after the ending
 neonrp template slots <dir|id>              every asset slot instance: ok / stale / MISSING (required, unfilled) / - (optional, unfilled)
 neonrp template contract <dir|id> [--ts|--gd]
                                             worldlines.contract/0.1 (vars / classes / ops / events / triggers /
                                             slots / views / panels), or generated TypeScript / GDScript bindings
 neonrp template contracts                   the official play contracts, and which templates promise each
-neonrp template fork <dir|id> <new-id>      copy a template into your store to edit it (built-ins are read-only)
+neonrp template fork <dir|id> <new-id> [--store DIR] [--title T]
+                                            copy a template into your store to edit it (built-ins are read-only; of the
+                                            official worlds only forkable ones can be copied)
 neonrp template set-contract <id> <contract[@v]>|--clear
                                             declare the experience it promises; re-linted
-neonrp template export <dir|id> [-o FILE]   a package (.zip); the library souls it links come along
+neonrp template export <dir|id> [-o FILE]   a package (.zip); the library souls it links come along; Default Zone works refused (9.2)
 neonrp template export --soul <name> [-o]   one character-library soul as a package
 neonrp template import <FILE> [--id NEW] [--store DIR]
                                             bring a package back: the template into your store, its souls into the library (9.2)
+neonrp template publish <dir|id> --official publish to the Default Zone as an official world (the official account only;
+                                            again = a new revision, raise version first)
+neonrp template fetch <id>                  get (or update) a Default Zone world into ~/.worldlines/official with your account
+neonrp spec sync [DIR …]                    write AGENTS.md / CLAUDE.md / spec/ into every template, the store and the library
+```
+
+`fork` / `import` write into your template store: pass `--store DIR`, or set `NEONRP_TEMPLATE_WRITE_DIR` (`worldlines` sets it to `~/.worldlines/templates` at start). From the command line alone, refer to the copy by its path afterwards, e.g.:
+
+```
+neonrp template fork stoneford-town my-town --store ~/.worldlines/templates
+neonrp template lint ~/.worldlines/templates/my-town.template
+neonrp template export ~/.worldlines/templates/my-town.template -o my-town.zip
 ```
 
 `lint` text output, one line per problem: `[level] code where: msg`, then `publishable|NOT publishable — N block, M warn`. With `--json`:
@@ -767,36 +832,60 @@ neonrp template import <FILE> [--id NEW] [--store DIR]
 }
 ```
 
-Current lint results of the reference templates: the three stoneford templates are `publishable — 0 block, 1 warn` (`asset.optional`); `werewolf-night-village` (`lint.level: draft`) is `0 block, 3 warn` (`ref.souls`, `token.unmeasured`, `asset.card`).
+Current lint results of the two built-in templates (both `lint.level: draft`): `pct-house` is `publishable — 0 block, 1 warn` (`token.unmeasured`: not played on this machine yet); `stoneford-town` is `0 block, 4 warn` (`asset.stale`, `asset.optional`, `token.unmeasured`, `i18n.residue`).
 
 ### 9.1 Authoring API (brief)
 
 `neonrp.template.author` provides creator edits:
 
-- Only templates under `NEONRP_TEMPLATE_WRITE_DIR` are writable; built-in / example templates are read-only, `fork(src, new_id)` first.
-- `apply_ops(t, ops)`: every op is verified first; one refusal and nothing is written; the template is re-linted afterwards. Ops: `edit_card` `set_mode` `set_mixins` `add_slot` `remove_slot` `edit_prompt` `edit_recipe` `set_view` `remove_view` `set_budget` `register_class` `set_policy` `set_world_data` `set_orchestration` `set_play_contract` `set_cast`. Each op's fields: `neonrp spec authoring`.
+- Only templates under `NEONRP_TEMPLATE_WRITE_DIR` are writable; built-in / example templates are read-only, `fork(src, new_id)` first. A fork drops `zone` / `forkable` / `official`: it is the author's own work (Free Zone, exportable).
+- `apply_ops(t, ops)`: every op is verified first; one refusal and nothing is written; the template is re-linted afterwards. Ops: `edit_card` `set_mode` `set_mixins` `add_slot` `remove_slot` `edit_prompt` `edit_recipe` `set_view` `remove_view` `set_budget` `register_class` `set_policy` `set_world_data` `set_orchestration` `set_play_contract` `set_soul_orchestration` `set_engine_setting` `set_soul_ambient` `set_cast`. Each op's fields: `neonrp spec authoring`.
+- `set_orchestration {graph}`: the template's orchestration graph, stored as a patch on the pack's default graph (`orchestration.json`); `nodes.resolve.state = pseudo | jev` sets how the Resolve beat writes state (§2a).
+- `set_soul_orchestration {sid, graph}`: one character's own graph in this world, written to `prompts/souls/<sid>/orchestration.json`. `set_soul_ambient {sid, world}`: one character's simple world view in this world, written to `prompts/souls/<sid>/ambient/world.json`. (Both hit the known issue in 3.7.)
+- `set_engine_setting {key, value}`: whitelisted settings only, written into `pack.engine`: `turn.parallel.souls.default_variant`, or `turn.parallel.souls.per_soul.<sid>` (a character of this template; `null` = follow the default), values `legacy` · `S-judge` · `S-direct` · `S-free`.
 - `set_cast {souls: [...]}`: the whole cast (rows as in 3.6); a broken link / a duplicate / an unknown role / two players → the batch is refused.
 - With `WORLDLINES_ASSETS_DIR` set, every image that lands in a slot is also copied to the asset workshop, which keeps the history.
-- HTTP: `/api/v1/local/templates/<id>/{lint,cover,contract,assets,ui,fork,ops,plots,graph-lint,export}`; which templates link a soul: `GET /api/v1/local/souls/<name>/bindings`.
+- HTTP: `/api/v1/local/templates/<id>/{lint,cover,contract,assets,ui,fork,ops,plots,graph-lint,export,publish}`; which templates link a soul: `GET /api/v1/local/souls/<name>/bindings`.
 
 ### 9.2 Packages: export / import (`neonrp.template.package`)
 
 One format for everything: a zip with `pack.json` at its root:
 
 ```json
-{"schema": "worldlines.package/1", "kind": "template", "id": "pct-house", "title": "Greyoak House",
+{"schema": "worldlines.package/1", "kind": "template", "id": "my-house", "title": "Greyoak House · The Closed Door",
  "exported": "2026-10-08T09:00:00+00:00", "links": ["mira"]}
 ```
 
 | kind | holds | imported into |
 |---|---|---|
-| `template` | `<id>.template/…` (the folder as on disk) + `souls-lib/<name>/…` (every soul it `lib`-links) | template → `NEONRP_TEMPLATE_WRITE_DIR`; souls → the library, rows still link |
+| `template` | `<id>.template/…` (the folder as on disk, without `frontends/`) + `souls-lib/<name>/…` (every soul it `lib`-links) | template → `NEONRP_TEMPLATE_WRITE_DIR`; souls → the library, rows still link |
 | `soul` | `soul/…` (one library soul) | the library |
 
+- Only Free Zone works export: a Default Zone work (`zone: reviewed`, and any fetched official world) is refused (`ExportRefused`, code `default_zone`). An official world with `forkable: true` can be forked first; the copy exports.
+- Every library soul the template links must be present, else the export is refused.
 - A taken id → the next free `-2`, `-3` … (with `--id`, a taken id is refused).
 - A library soul of the same name: identical content → reused; different → installed under a new name and the rows repointed; yours is left alone.
 - Unpacked into a scratch dir and checked first: absolute / `..` paths, links, code files (`.py` `.js` `.sh` …), over 5000 files or 300 MB → the whole package is refused.
 - HTTP: `GET /api/v1/local/{templates|souls}/<id>/export` · `POST /api/v1/local/import/package[?id=]` (body = the zip).
+
+### 9.3 Publishing to the Hub (`core.template_publish`)
+
+The Hub has two zones. The engine calls them `reviewed` / `open`, the platform `curated` / `open`:
+
+| Zone | What | How a work gets in |
+|---|---|---|
+| **Free Zone** (`open`) | public as soon as the checks pass, moderated afterwards; hands out no reward cards | the local creation desk publishes with your Worldlines account: `POST /api/v1/local/templates/<id>/publish {lang?}` |
+| **Default Zone** (`reviewed` / `curated`) | listed after review; the official worlds live here | the web Hub / iOS desks submit with `{zone: "curated"}` into the review queue; a Free Zone work can ask later with `POST /api/v1/local/hub/submit {id}`; the official account uses `neonrp template publish <id> --official` |
+
+Before anything goes up the engine runs the same checks (`preflight`; `GET …/publish` checks without uploading):
+
+1. every library soul the template links is present;
+2. nothing that ships (the template and every linked soul) holds a key-shaped string or a credential file;
+3. lint `publishable` (no block);
+4. title and pitch in Chinese / English / Japanese / Korean (the card or the localization layers' cards);
+5. a cover file.
+
+The upload is `package.zip` (as in 9.2, linked souls copied in) plus the cover. The work id is `<template id>-<6 hex>`; publishing the same template again adds a revision to the same work. When the platform's checks fail it answers 422 `checks_failed {problems}`. Your own works: `GET /api/v1/local/hub/mine`, `POST …/hub/{unpublish,submit,withdraw} {id}`.
 
 ---
 
@@ -817,4 +906,7 @@ One format for everything: a zip with `pack.json` at its root:
 | specs for agents (`neonrp spec` · `/api/v1/spec` · `/llms.txt`) | `src/neonrp/spec.py` |
 | HTTP | `src/neonrp/webui/template_routes.py` |
 | built-in worlds | `src/neonrp/templates/<world id>/` |
-| reference templates | `worldlines/templates/{pct-house,stoneford-elena,stoneford-market,stoneford-three-towns,werewolf-night-village}.template/` |
+| publishing to the Hub / fetching official worlds | `src/neonrp/core/template_publish.py` |
+| orchestration templates | `src/neonrp/core/orch_templates.py`, `src/neonrp/orchestrations/` |
+| the background write-down correction | `src/neonrp/core/write_down_async.py` |
+| built-in templates | `worldlines/templates/{pct-house,stoneford-town}.template/` (`worldlines/templates/shipped.json`) |

@@ -360,7 +360,7 @@ class LauncherRoutes:
                   "/api/v1/souls/stickers", "/api/v1/souls/stickers/meta", "/api/v1/souls/stickers/remove", "/api/v1/souls/in_world")
         if path not in routes:
             return False
-        if os.environ.get("WORLDLINES_PRODUCT") == "hub":  # the browser engine (Hub web): no bench (niko 10-16: 编排台只在 Local)
+        if os.environ.get("WORLDLINES_PRODUCT") == "hub":  # the browser engine (Hub web): no bench (10-16: 编排台只在 Local)
             self._send_json({"error": "the orchestration bench is local only"}, status=404)
             return True
         try:
@@ -588,6 +588,7 @@ class LauncherRoutes:
             GET  /api/v1/local/hub/official?lang=  the default zone for a signed-in player (10-17): {signed_in, works: [row +
                                                   official · version · installed {where, version, revision} · update · cover_url]}
             POST /api/v1/local/hub/official/fetch {id}   get / update a default-zone world into the official cache
+            GET  /api/v1/local/hub/remote         the online Hub's catalog (no credential): {base, templates}; its worlds play there
             GET  /api/v1/local/account            {signed_in, login: idle|running|error|cancelled, login_url?, login_error?, login_code?}
             POST /api/v1/local/account/login      sign in through the browser (the TUI's /login), in the background
             POST /api/v1/local/account/login/cancel · /logout   stop waiting for that sign-in · sign out (the revoke runs behind)
@@ -653,6 +654,8 @@ class LauncherRoutes:
                 for w in d["works"]:
                     w["cover_url"] = f"/api/v1/local/hub/cover?id={w['id']}&rev={w.get('published_revision') or ''}" if w["meta"].get("cover") else None
                 self._send_json(d)
+            elif method == "GET" and sub == "remote":   # the online Hub's list, signed in or not (10-24)
+                self._send_json(_tp.remote_catalog())
             elif method == "POST" and sub == "official/fetch":
                 b = self._read_json_body() or {}
                 self._send_json(_tp.fetch_official(str(b.get("id") or ""), lang=(str(b.get("lang") or "") or None)))
@@ -1135,6 +1138,35 @@ class LauncherRoutes:
             return True
         if self.path.startswith("/api/v1/local/import/"):
             self._post_local_import()
+            return True
+        # POST /api/v1/local/souls/blank {name, intro?} — 角色库里从零新建一个角色(本地工作台「＋ 新建角色」):
+        # 不调模型,只有 soul.json + soul.md 骨架;写人设交给编辑 / 创作 agent。建完可 link 进世界(templates/<id>/souls/link)
+        if self.path == "/api/v1/local/souls/blank":
+            body = self._read_json_body() or {}
+            name = str(body.get("name") or "").strip()[:40]
+            if not name:
+                self._send_json({"ok": False, "error": "missing name"}, status=400)
+                return True
+            from neonrp.core.importers.sillytavern import name_to_id, resolve_id_conflict
+            from neonrp.core.souls import SoulSource, create_soul_dir, list_souls, read_soul_json, write_soul_json
+
+            existing = {str(s.get("sid")) for s in list_souls() if s.get("sid")}
+            sid = resolve_id_conflict(name_to_id(name), existing)
+            ascii_name = name.isascii()
+            try:
+                soul_dir = create_soul_dir(sid, name=name if ascii_name else sid, name_local="" if ascii_name else name,
+                                           source=SoulSource(kind="local-create"))
+                lang, intro = str(body.get("lang") or "zh"), str(body.get("intro") or "").strip()[:400]
+                meta = read_soul_json(soul_dir)
+                if meta is not None:
+                    meta.source_lang = lang
+                    if intro:
+                        meta.summary_i18n = {lang: intro}
+                    write_soul_json(soul_dir, meta)
+            except (OSError, ValueError) as exc:
+                self._send_json({"ok": False, "error": str(exc)[:300]}, status=400)
+                return True
+            self._send_json({"ok": True, "soul_dir": soul_dir.name, "sid": sid, "name": name})
             return True
         # POST /api/v1/local/souls {name, seed, preset?} — 创作角色(B1):
         # 名 + 一句话种子 → soul-authoring skill 一次生成完整 soul 进库

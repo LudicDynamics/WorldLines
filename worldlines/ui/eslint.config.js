@@ -14,5 +14,5 @@ export default tseslint.config(
     },
   },
   // 用例要伸进页面全局(window.MAPW 等)和引擎 JSON,any 在这里是常态
-  { files: ['e2e/**', 'e2e-legacy/**'], rules: { '@typescript-eslint/no-explicit-any': 'off' } },
+  { files: ['e2e/**', 'e2e-legacy/**', 'e2e-play/**', 'app/e2e-*/**', 'player/e2e/**'], rules: { '@typescript-eslint/no-explicit-any': 'off' } },
 )

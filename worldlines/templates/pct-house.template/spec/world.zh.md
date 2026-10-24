@@ -1,6 +1,6 @@
 # World 规范(世界文件夹)
 
-> 状态标记:**已实装** = 引擎代码会读 / 会校验;**约定** = 引擎代码不解析,由 agent 按提示词自行读取;**设计中** = 有文档或数据,但没有代码读取。
+> 状态标记:**已实装** = 引擎代码会读 / 会校验;**约定** = 引擎代码不解析,由 agent 按提示词自行读取;**不读** = 有文档或数据,但没有代码读取。
 > 本页对应引擎当前源码(`src/neonrp/`)。字段表只列代码实际读取的键,其余键允许存在(开放 schema),引擎会原样保留。
 
 ---
@@ -26,7 +26,7 @@ template   = 可选的上层,把三者绑在一起
 
 ## 2. 目录结构
 
-以内置世界 `src/neonrp/templates/stoneford-elena` 为准(省略了 `souls/`,那一层属于 soul 规范):
+以内置世界 `src/neonrp/templates/stoneford-elena` 为准(`stoneford-town` 模板绑的就是它;省略了 `souls/`,那一层属于 soul 规范):
 
 ```
 <world>/
@@ -43,20 +43,23 @@ template   = 可选的上层,把三者绑在一起
 │   ├── maps/<层级>.webp|.json|.guide.png
 │   └── places/<镇>__<地点>.webp
 └── game/                         数据目录
-    ├── world/world_map.json      世界层:镇 / 地下城 / 区域节点 + 道路
+    ├── world/world_map.json      世界本身:名字、道路 routes、时间;地点不写在这里
+    ├── locations/                地图 = 文件夹树,一个地点一个文件夹
+    │   ├── T001/location.json                世界层的地点(镇 / 地下城 / 区域)
+    │   ├── T001/gate_north/location.json     镇里的地点,地址 T001/gate_north
+    │   ├── T001/<地点>/<房间>/location.json   地点里面的地点,画在下一层
+    │   └── D001/D001_R001/location.json      地下城的房间
     ├── towns/<T###>/
     │   ├── town.json             镇的属性
-    │   ├── town_map.json         镇内地点图(带门)
+    │   ├── town_map.json         可选 · 镇层自己的键(state.discovered_nodes、scale);树形写法里没有 nodes
     │   ├── npcs.json             可选 · 轻量 NPC
     │   ├── quests.json           可选 · 公会委托
     │   └── facilities/*.json     可选 · 设施细节
     ├── dungeons/<D###>/          可选 · 地下城
     │   ├── dungeon.json
-    │   ├── layout.json
-    │   ├── rooms/<房间id>.json
+    │   ├── rooms/<房间id>.json   房间的描述和状态
     │   ├── encounter_tables.json
     │   └── loot_tables.json
-    ├── locations/*.json          可选 · 扁平地点(合并进镇内地点)
     ├── npc/*.json                可选 · 扁平 NPC
     ├── item/**/*.json            可选 · 道具(也认 items/)
     ├── lore/
@@ -86,9 +89,9 @@ template   = 可选的上层,把三者绑在一起
         └── flag_aliases.json     约定 · flag 别名
 ```
 
-`.neonrp/` 由引擎管理(会话、事件、存档、`manifest.json`、`runtime_contract.json`、`playthrough.json`),**不是**创作内容。内置模板把 `runtime_contract.json` 和 `playthrough.json` 放在根目录作为源形状,搭建时复制进 `.neonrp/`(`src/neonrp/core/template_assets.py:copy_souls_and_playthrough_from_template`,`src/neonrp/worlds.py` 里新局的迁移)。
+`.neonrp/` 由引擎管理(会话、事件、存档、`manifest.json`、`runtime_contract.json`、`playthrough.json`),**不是**创作内容。内置世界和模板自带的世界把 `runtime_contract.json` 和 `playthrough.json` 放在根目录作为源形状,搭建时复制进 `.neonrp/`(`src/neonrp/core/template_assets.py:copy_souls_and_playthrough_from_template`,`src/neonrp/worlds.py` 里新局的迁移)。
 
-数据目录名默认是 `game`,可以由 `.neonrp/runtime_contract.json` 的 `data_dir` 改名,但地图导航、校验器和创建流程里有几处直接写死 `game/`(`src/neonrp/core/place_nav.py:load_world_map`、`src/neonrp/core/validation.py:_known_locations`)。**请保持 `game`。**
+数据目录名默认是 `game`,可以由 `.neonrp/runtime_contract.json` 的 `data_dir` 改名,但还有代码直接写死 `game/`(例如 `src/neonrp/core/place_nav.py` 查镇文件夹)。**请保持 `game`。**
 
 ---
 
@@ -99,48 +102,67 @@ template   = 可选的上层,把三者绑在一起
 | 规则 | 说明 | 实现 |
 |---|---|---|
 | 镇 / 地下城 / 区域 id | 必须匹配 `^[A-Z]{1,3}\d{2,4}$`,例如 `T001`、`D001`、`R003`。不匹配的 id 会被当成镇内地点 id | `src/neonrp/core/place_nav.py:_TOWN_ID_RE` |
-| 镇内地点地址 | `T001/gate_north`(镇 id + `/` + 节点 id)。单写 `gate_north` 时,先在玩家当前所在的镇里找,找不到再取第一个含有它的镇 | `place_nav.py:qualify_location`、`split_location` |
+| 地点 id | 就是文件夹名(`location.json` 里写的 `id` 和文件夹名不同时,当作别名) | `src/neonrp/core/place_tree.py:_node_of` |
+| 镇内地点地址 | `T001/gate_north`(镇 id + `/` + 地点 id)。单写 `gate_north` 时,先在玩家当前所在的镇里找,找不到再取第一个含有它的镇 | `place_nav.py:qualify_location`、`split_location` |
+| 更深一层 | `game/locations/T001/guild/hall/` 的地址仍是 `T001/hall`;它在地图上画在 `guild` 的下一层,进出经过 `guild` | `place_tree.py`(文件头) |
 | 地下城房间地址 | `D001/D001_R002` | `loaders.py:_load_dungeons` |
-| 门 | 节点 `type: "gate"`(或 id 以 `gate` 开头)。在镇与镇之间移动要经过门 | `place_nav.py:_gate_of` |
+| 门 | 地点 `type: "gate"`(或 id 以 `gate` 开头)。在镇与镇之间移动要经过门 | `place_nav.py:_gate_of` |
 
-### 3.2 `game/world/world_map.json` — 世界层 · 已实装
+### 3.2 地图:`game/world/world_map.json` + `game/locations/` · 已实装
 
-读取方:`src/neonrp/packs/rpg/loaders.py:_load_world`(注册表)、`src/neonrp/core/worldmap.py:build_map_tree`(地图树)、`src/neonrp/core/place_nav.py:load_world_map` / `_world_route`(跨镇移动判定)。
+地图是一棵文件夹树:**一个地点 = 一个带 `location.json` 的文件夹,它所在的文件夹就是它属于的地方**。`world_map.json` 只写世界本身,不列地点。`world_map.json` 里**没有** `nodes` 列表时,引擎按文件夹树读(`src/neonrp/core/place_tree.py:is_tree`);两个内置模板的世界都是这种写法。还有 `nodes` 列表的旧世界照旧能读,见 3.5。
+
+读取方:`src/neonrp/core/place_tree.py`(`level_doc` / `folder_nodes`,把树还原成每一层的地图)、`src/neonrp/packs/rpg/loaders.py:_load_world` / `_load_towns`(注册表)、`src/neonrp/core/worldmap.py:build_map_tree`(地图树)、`src/neonrp/core/place_nav.py`(移动判定)。
+
+**`world_map.json`**(树形写法):
 
 | 字段 | 类型 | 必需 | 说明 |
 |---|---|---|---|
 | `world_id` | str | 建议 | 世界条目的 id;缺省为 `"world"` |
 | `name` | str | 建议 | 世界名 |
-| `nodes[]` | list | 是(rpg) | 世界层节点 |
-| `nodes[].id` | str | 是 | `T001` / `D001` / `R003`(见 §3.1) |
-| `nodes[].type` | str | 是 | `town` / `city` / `village` / `dungeon` / `region` 等。注册表里只有 `town` 注册为 town 类,其余都注册为 region 类(有 `game/dungeons/<id>/` 时改为 dungeon 类);跨镇路线判定把 `town` / `city` / `village` 都当成镇 |
-| `nodes[].name` | str | 是 | 显示名 |
-| `nodes[].pos` | `[x, y]` | 画地图时需要 | 世界层坐标;只有所有子节点都有坐标的层级才能出图 |
-| `nodes[].links` | list[str] | 否 | 相邻节点或道路 id。没有声明成节点的道路 id 也算连接点,所以两个镇 link 同一个 `R001` 就算连通 |
-| `nodes[].summary` / `state` / `lore` / `travel_info` / `region` | 任意 | 否 | 原样进条目属性和地图树 |
-| `routes[]` | list | 否 | 道路:`{id, from, to, kind, distance, tags, state: {blocked}}`,地图树画成边 |
+| `routes[]` | list | 否 | 世界层的道路:`{id, from, to, kind, distance, tags, state: {blocked}}`,地图上画成边 |
 | `foreign_lands[]` | list | 否 | 地图边界外的地方,进地图树的 `frontier` |
 | `parent_territory` | str | 否 | 地图树根节点的说明文字 |
+| `time` / `travel` / `layout` / `seed` | 任意 | 否 | 原样保留 |
+
+**`game/locations/<…>/location.json`**:只写这个地点自己的事实。
+
+| 字段 | 类型 | 说明 |
+|---|---|---|
+| `name`(或 `name_i18n`) | str | 显示名 |
+| `type` | str | 世界层:`town` / `city` / `village` / `dungeon` / `region` 等(只有 `town` 注册为 town 类,其余是 region 类;有 `game/dungeons/<id>/` 时是 dungeon 类)。镇里:`gate`(门,每个镇至少一个)、`street`、`facility`、`dock`、`road` 等 |
+| `pos` | `[x, y]` 或 `{x, y}` | 在**上一层**里的坐标;画地图时需要。这一层所有地点都有坐标才能出图 |
+| `connections` | list[str] | 同一层相邻地点的 id(世界层也可以写道路 id)。所有镇内地点都应当能从某个门走到 |
+| `summary` / `description` | str | 摘要,进叙述上下文和地图树 |
+| `aliases` | list[str] | 别名(名字、旧 id) |
+| `tags` / `state` / `notes` / `region` / `travel_info` | 任意 | 原样进条目属性 |
+| `entry` | str | 写在一个层级自己的 `location.json` 上(如 `T001/location.json`):从上一层走进来时默认落在哪个地点 |
+| `ports.up` | list[str] | 这个地点接哪些上一层的道路(`routes[].id`):从那条路走进这一层时落在这里 |
+| `isolated` | bool | 有意不连路的世界层地点(等剧情开路),lint 不再报 `map.isolated` |
+| `scale` | str | 只用于显示和出图提示:`world` · `region` · `town` · `district` · `building` · `indoor` · `dungeon` · `island` · `wilds` |
+| `facility_file` | str | 相对镇文件夹(`game/towns/<T>/`)的路径,如 `facilities/guild.json`;内容并进地点属性 `facility` |
+| `enter_if` / `enter_refused` | list / `{zh,en,ja,ko}` | 进入条件(触发器 IF 的写法,全部成立才能进)和拦下时给主持的理由;只拦玩家的移动 |
+| `audio` | object | 这个地点(和它里面的地点)的环境音 / 曲子,见 template spec 6.7 |
+
+文件夹里的其他文件(`notes.md`、`scene_state.json`、`assets/`)跟着地点走。`parent` / `within` 不用写,写了也不读:位置只由文件夹决定。
 
 ```json
-{
-  "world_id": "W001",
-  "name": "灰雾北境",
-  "nodes": [
-    { "id": "T001", "type": "town", "name": "石津镇", "pos": [12, 7],
-      "summary": "河港贸易小镇,雾常年不散。", "links": ["R001", "R002"],
-      "state": { "discovered": true, "danger_nearby": 2 } }
-  ],
-  "routes": [
-    { "id": "R002", "from": "T001", "to": "D001", "kind": "trail", "distance": 6,
-      "tags": ["foggy", "beasts"], "state": { "blocked": false } }
-  ]
-}
+// game/locations/T001/location.json
+{ "type": "town", "name": "石津镇", "pos": [12, 7], "summary": "河港贸易小镇,雾常年不散。",
+  "state": { "discovered": true, "danger_nearby": 2 }, "connections": ["T002", "D001", "T004"], "entry": "gate_north" }
 ```
+```json
+// game/locations/T001/gate_north/location.json
+{ "name": "北门", "type": "gate", "pos": { "x": 236, "y": 153 },
+  "connections": ["main_street", "market-square"], "aliases": ["north-gate"],
+  "summary": "歪斜的木栅门,湿冷的晨雾……", "ports": { "up": ["R001", "R002", "R004"] } }
+```
+
+模板用 `world-overlay/game/locations/<T>/<地点>/location.json` 给内置世界加地点或改一个地点(整文件替换),例如 `stoneford-town` 在北门外加了 `road_camp`。
 
 ### 3.3 `game/towns/<T###>/` — 镇 · 已实装
 
-文件夹名就是镇 id;它应当同时作为节点出现在 `world_map.json` 里,否则地图树报 `orphan`。
+文件夹名就是镇 id;它应当在 `game/locations/` 里有同名的世界层地点。
 
 **`town.json`** — 读取方 `loaders.py:_load_towns`(除 `id` 外所有键并进 town 条目)、`worldmap.py:build_map_tree`(`overview`、`tags`、`economy`、`laws`、`state`)、`loaders.py:_load_variables`(`state.alert` → 变量 `town.alert`,0–5)。
 
@@ -151,33 +173,7 @@ template   = 可选的上层,把三者绑在一起
 | `state.alert` | int | 有这个键才会注册 `town.alert` 变量 |
 | 其他(`tags`、`economy`、`laws`、`entry_points`…) | 任意 | 原样保留 |
 
-**`town_map.json`** — 读取方 `loaders.py:_load_towns`、`worldmap.py:build_map_tree`、`place_nav.py`(移动判定)、`validation.py:_travel_graph_issues`。
-
-| 字段 | 类型 | 必需 | 说明 |
-|---|---|---|---|
-| `town_id` | str | 建议 | 缺省用文件夹名 |
-| `nodes[].id` | str | 是 | 镇内节点 id;地址是 `T001/<id>` |
-| `nodes[].name` | str | 建议 | 显示名 |
-| `nodes[].type` | str | 建议 | `gate`(门,每个在世界地图上的镇至少要一个)、`street`、`facility`、`dock` 等 |
-| `nodes[].links` | list[str] | 建议 | 同一镇内相邻的节点 id。所有节点都应当能从某个门沿 links 走到 |
-| `nodes[].pos` | `{x, y}` 或 `[x, y]` | 画地图时需要 | 镇层坐标 |
-| `nodes[].parent` | str | 否 | 把这个节点放进另一个节点里面(下一层),进出都经过父节点 |
-| `nodes[].facility_file` | str | 否 | 相对镇文件夹的路径,例如 `facilities/inn.json`;内容并进地点属性 `facility` |
-| `nodes[].description` | str | 否 | 地图树里的地点摘要 |
-| `state.discovered_nodes` | list[str] | 否 | 有这个列表时,只有列出的节点算已发现 |
-
-```json
-{
-  "town_id": "T001",
-  "nodes": [
-    { "id": "gate_north", "name": "北门", "type": "gate",
-      "pos": { "x": 236, "y": 153 }, "links": ["main_street"] },
-    { "id": "inn", "name": "河灯旅店", "type": "facility",
-      "facility_file": "facilities/inn.json",
-      "pos": { "x": 621, "y": 268 }, "links": ["main_street"] }
-  ]
-}
-```
+**`town_map.json`**(可选)— 树形写法里只放镇这一层自己的键:`town_id`、`scale`、`state.discovered_nodes`(有这个列表时,只有列出的地点算已发现)、`entry`。地点本身在 `game/locations/<T>/` 下。
 
 **`npcs.json`** — 轻量 NPC(由叙述者扮演,**没有**自己的 agent)。读取方 `loaders.py:_load_npcs`、`worldmap.py:build_map_tree`。
 
@@ -186,7 +182,7 @@ template   = 可选的上层,把三者绑在一起
 | `npcs[].id` | str | 必需;和其他条目重名时变成 `T001/<id>` |
 | `npcs[].name` | str | 末尾括号里的身份会被去掉作为短名,例如 `赫伦(公会管事)` → `赫伦` |
 | `npcs[].role` / `traits` / `state` | 任意 | 进 npc 条目 |
-| `npcs[].location` | str | 镇内节点 id;缺省就在整个镇 |
+| `npcs[].location` | str | 镇内地点 id;缺省就在整个镇 |
 | `npcs[].state.soul_ref` | str | 指向一个 soul 文件夹时,地图上用 soul 代替这个 NPC |
 
 ```json
@@ -205,32 +201,35 @@ template   = 可选的上层,把三者绑在一起
 | `reward` | `{gold, item: {id, name, qty}}` | 生成 `reward_text` |
 | `hooks` / `unlocks` / 其他 | 任意 | 原样保留(游玩中写进去的进度键读回时也保留) |
 
-**`facilities/*.json`** — 只在被 `town_map.json` 的 `facility_file` 引用时读取;除 `facility_id`、`rumor_pool_ref` 外的键进地点属性。
+**`facilities/*.json`** — 只在被地点的 `facility_file` 引用时读取;除 `facility_id`、`rumor_pool_ref` 外的键进地点属性。
 
 ### 3.4 `game/dungeons/<D###>/` — 地下城 · 已实装
 
-读取方 `loaders.py:_load_dungeons`、`worldmap.py:build_map_tree`。文件夹名应当作为 `type: "dungeon"` 的节点出现在 `world_map.json` 里。
+读取方 `loaders.py:_load_dungeons`、`place_tree.py:dungeon_rooms`、`worldmap.py:build_map_tree`。文件夹名应当在 `game/locations/` 里有一个 `type: "dungeon"` 的世界层地点。
 
 | 文件 | 读取的键 |
 |---|---|
 | `dungeon.json` | `id`、`name`、`theme`、`danger`、`recommended_level`、`boss`、`state.{discovered, cleared}`、`entrance_from` |
-| `layout.json` | `rooms[].{id, name, type, links, state}`、`state.current_room`。房间没有坐标,地图按 BFS 自动排版 |
+| `game/locations/<D###>/<房间id>/location.json` | 房间在地图上的样子:`name`、`type`、`connections`、`state`、`ports.up`。没有坐标时地图按 BFS 自动排版 |
 | `rooms/<id>.json` | `name`、`description`、`features`、`state` |
 | `encounter_tables.json` | `tables.<房间id>[] = {enemy, count, chance}` |
 | `loot_tables.json` | `tables`(挂在地下城条目上) |
+| `layout.json` | 可选:`state.current_room`、`entry`;旧写法的 `rooms[]` 见 3.5 |
 
-`world_map.json` 与 `dungeon.json` 的 `discovered` / `danger` 不一致时,地图树报 `conflict`。
+世界层地点与 `dungeon.json` 的 `discovered` / `danger` 不一致时,地图树报 `conflict`。
 
-### 3.5 `game/locations/` — 扁平地点 · 已实装
+### 3.5 旧写法:`nodes` 列表与扁平地点(仍兼容)
 
-读取方 `loaders.py:_load_locations`、`worldmap.py:build_map_tree`。主要用于给镇内节点补充描述:按 id(经 `canonical_node` 归一)或名字匹配到镇内节点后,只补 `summary`、`tags`、`notes` 三个键,并把文件 id 登记成别名。匹配不到时成为独立的 place 条目,`parent` 缺省为玩家当前所在的镇,`connections` 作为出口。也支持场景文件夹 `game/locations/<节点>/location.json`。
+1.0 之前的世界把地点写在三处:`world_map.json` 的 `nodes[]`(世界层)、`towns/<T>/town_map.json` 的 `nodes[]`(镇内,字段 `id / name / type / links / pos / parent / facility_file / description`)、扁平的 `game/locations/*.json`(按 id 或 `镇名·地点名` 匹配到镇内地点,补 `summary` / `tags` / `notes`);地下城房间写在 `layout.json` 的 `rooms[]`。这些世界照旧能玩,lint 报 `map.legacy_level`(warn)。
 
-```json
-{ "id": "north-gate", "kind": "location", "name": "石津镇·北门",
-  "summary": "歪斜的木栅门,湿冷的晨雾…", "connections": ["market-square", "old-road"] }
+转成文件夹树(源码仓里的脚本):
+
+```
+uv run python scripts/migrate_map_to_folders.py <世界目录>            # 只打印计划
+uv run python scripts/migrate_map_to_folders.py <世界目录> --write    # 真的改
 ```
 
-名字写成 `镇名·地点名` 时,地图树也能据此匹配到镇内节点;匹配不到时地图树报 `unresolved`。
+它给每个地点建一个文件夹,把扁平地点并进同一个镇内地点(另一个 id 进 `aliases`),然后从 `world_map.json` 和每个 `town_map.json` 里去掉 `nodes`(其他键保留)。
 
 ### 3.6 NPC 与道具 · 已实装
 
@@ -292,7 +291,7 @@ template   = 可选的上层,把三者绑在一起
   { "id": "rowan_legend", "text": "碧石镇有个年轻冒险者罗文…", "when": { "keyword": ["罗文", "碧石"] } } ] }
 ```
 
-**`engine.json`** — 本世界的回合引擎配置,叠加顺序是内置默认 < pack.loop < 合约的 engine 段 < `game/meta/engine.json` < `.neonrp/playthrough.json["engine"]` < 环境变量(`src/neonrp/core/engine_config.py`)。例:`{"turn": {"mode": "v3"}}`。
+**`engine.json`** — 本世界的回合引擎配置。叠加顺序(后者赢):builtin < pack(pack.loop)< contract(合约的 engine 段)< orchestration(模板 `uses` 点名的编排模板)< world(`game/meta/engine.json`)< graph(编排图的步骤参数)< playthrough(`.neonrp/playthrough.json["engine"]`)< env(环境变量)(`src/neonrp/core/engine_config.py`;见 template spec 8.2)。例:`{"turn": {"mode": "v3"}}`。
 
 **五张表的覆盖层** — `variables.json`、`classes.json`、`entries.json`、`actions.json`、`triggers.json`,形状是 `{id: spec}`。读取方 `src/neonrp/core/registry.py:_apply_overlays` / `_load_triggers`。请用 `neonrp schema register` 写入,它会先校验再写(`registry.py:register`)。`actions.json` 里某个 op 写成 `null` 就是禁用这个 op。
 
@@ -443,7 +442,7 @@ template   = 可选的上层,把三者绑在一起
 
 图片全部可选,没有图也能玩。用 `neonrp map generate` / `neonrp map scene` 生成(需要配置出图后端)。
 
-### 3.16 设计中
+### 3.16 引擎不读 / 只在 mixin 下读
 
 | 路径 | 现状 |
 |---|---|
@@ -454,15 +453,18 @@ template   = 可选的上层,把三者绑在一起
 
 ## 4. 最小可用世界
 
-**结论:** `neonrp validate` 对空文件夹也会通过(判为 `build` 状态,没有任何检查对象)。真正能被 rpg pack 玩起来的最小世界是下面 5 个文件,路由 agent 可以不写(开玩时自动补)。
+**结论:** `neonrp validate` 对空文件夹也会通过(判为 `build` 状态,没有任何检查对象)。真正能被 rpg pack 玩起来的最小世界是下面这些文件,路由 agent 可以不写(开玩时自动补)。
 
 ```
 mini/
 ├── manifest.json                    {"lang": "zh"}   (可选,但小世界没有 lore 时语言会被判成 en)
 └── game/
     ├── world/world_map.json
-    ├── towns/T001/town.json
-    ├── towns/T001/town_map.json
+    ├── locations/T001/location.json
+    ├── locations/T001/gate/location.json
+    ├── locations/T001/square/location.json
+    ├── locations/T001/inn/location.json
+    ├── towns/T001/town.json             (可选:镇的介绍和警戒值)
     └── meta/
         ├── run_state.json
         └── game-start.json
@@ -470,19 +472,23 @@ mini/
 
 ```json
 // game/world/world_map.json
-{ "world_id": "W001", "name": "灰岸",
-  "nodes": [ { "id": "T001", "type": "town", "name": "渡口镇", "pos": [0, 0], "links": [] } ] }
+{ "world_id": "W001", "name": "灰岸" }
+```
+```json
+// game/locations/T001/location.json   只有一个镇,没有路通出去:标 isolated
+{ "name": "渡口镇", "type": "town", "pos": [0, 0], "entry": "gate", "isolated": true }
+```
+```json
+// game/locations/T001/gate/location.json
+{ "name": "镇门", "type": "gate", "pos": { "x": 0, "y": 0 }, "connections": ["square"] }
+// game/locations/T001/square/location.json
+{ "name": "广场", "type": "street", "pos": { "x": 100, "y": 60 }, "connections": ["gate", "inn"] }
+// game/locations/T001/inn/location.json
+{ "name": "旅店", "type": "facility", "pos": { "x": 200, "y": 40 }, "connections": ["square"] }
 ```
 ```json
 // game/towns/T001/town.json
 { "name": "渡口镇", "overview": "河边的小镇,雾很重。" }
-```
-```json
-// game/towns/T001/town_map.json
-{ "town_id": "T001", "nodes": [
-  { "id": "gate",   "name": "镇门", "type": "gate",     "pos": { "x": 0,   "y": 0 },  "links": ["square"] },
-  { "id": "square", "name": "广场", "type": "street",   "pos": { "x": 100, "y": 60 }, "links": ["gate", "inn"] },
-  { "id": "inn",    "name": "旅店", "type": "facility", "pos": { "x": 200, "y": 40 }, "links": ["square"] } ] }
 ```
 ```json
 // game/meta/run_state.json
@@ -501,14 +507,13 @@ mini/
 
 | 检查 | 结果 |
 |---|---|
-| `neonrp validate`(没有 `agents/`) | `✓ playable — build · 3 location(s)`,只检查 JSON 和实体,不检查开场 |
-| 补上路由 agent 后(`ensure_playable_world` 写入 `agents/world-agent/` 和 `.neonrp/runtime_contract.json`) | `✓ playable — orchestrator · 3 location(s) · router 'world-agent'`,0 个阻断项 |
+| `neonrp validate`(没有 `agents/`) | `✓ playable — build · 0 soul(s) · 3 location(s) · 1 entities`,只检查 JSON 和实体,不检查开场 |
+| 补上路由 agent 后(`ensure_playable_world` 写入 `agents/world-agent/` 和 `.neonrp/runtime_contract.json`) | `✓ playable — orchestrator · 0 soul(s) · 3 location(s) · 1 entities · router 'world-agent'`,0 个阻断项 |
 | `neonrp schema list entries` | 6 条:`W001` world、`T001` town、`T001/gate` / `T001/square` / `T001/inn` place、`player`(位于 `T001/gate`) |
 | `neonrp map status` | `world`、`T001` 两个层级,图片都是 missing(正常) |
 | `authored_opening` | 加了 `manifest.json {"lang":"zh"}` 时输出中文开场 + `① 进镇 / ② 先看看四周`;不加时输出英文 |
-| `neonrp play "开始游戏"`(另外放入一个 soul,使用不调用真实模型的 stub 模型) | 原样输出开场旁白和选项,没有调用模型;不放 soul 时,同一指令交给了模型 |
 
-警告:这个最小世界会有约 11 条 `structure` 警告,见 §6 的第一条,属于正常现象。
+警告:这个最小世界会有十几条 `structure` 警告(`location.json`、`run_state.json` 等不是实体文件,却被实体 schema 检查),见 §6 的第一条,属于正常现象。
 
 想要角色:在世界里放 soul(见 [soul.md](./soul.zh.md)),或者用 `neonrp cast <soul>` 投放。
 
@@ -550,21 +555,23 @@ neonrp validate --json   # {ok, playable, flavor, blockers[], warnings[], stats}
 
 | 信息 | 原因 | 怎么修 |
 |---|---|---|
-| `game/meta/run_state.json: 'id' is a required property`(同类还有 `world_map.json`、`town_map.json`、`town.json`、`player/*.json`、`facilities/*.json`) | 第 7 层的实体 schema 会检查 `game/` 下**每一个** JSON,而这些文件本来就不是实体。内置世界也有这类警告(stoneford-elena 有 116 条) | 可以忽略,不影响能不能玩 |
+| `game/meta/run_state.json: 'id' is a required property`(同类还有 `location.json`、`world_map.json`、`town_map.json`、`town.json`、`player/*.json`、`facilities/*.json`) | 第 7 层的实体 schema 会检查 `game/` 下**每一个** JSON,而这些文件本来就不是实体。内置世界也有这类警告(stoneford-elena 有 116 条) | 可以忽略,不影响能不能玩 |
 | `… is not of type 'string'`(`run_state.json` 的 `location`) | 实体 schema 的 `location` 是字符串,而 `run_state` 用的是对象 | 可以忽略 |
 | `Invalid JSON: Expecting ',' delimiter (line 2, column 1)` | JSON 语法错;运行时会悄悄跳过这个文件,内容丢失 | **阻断**,修语法 |
 | `Duplicate id 'lamp' also appears in game/item/lamp.json` | 两个实体文件 id 相同 | **阻断**,改成唯一 id |
-| `kind 'location' does not match path segment 'locations'` | `kind` 必须等于 `game/` 下的第一层文件夹名。内置世界的 `game/locations/*.json` 也有这条警告 | 改 `kind`,或换文件夹(加载器两种都认) |
+| `kind 'location' does not match path segment 'locations'` | `kind` 必须等于 `game/` 下的第一层文件夹名。`location.json` 里写了 `"kind": "location"` 就会有这条(内置世界也有) | 可以忽略;或者不写 `kind` |
 | `id 'wrongname' does not match filename 'a'` | 实体 id 必须等于文件名 | 改 id 或文件名 |
-| `Town 'T001' has nodes unreachable from any gate: cellar` | 节点没有被 links 接到门上:角色可以被放在那里,但走不过去 | 补 `links` |
+| `Town 'T001' has nodes unreachable from any gate: cellar` | 地点没有被 `connections` 接到门上:角色可以被放在那里,但走不过去 | 补 `connections` |
 | `Town 'T002' is on the world map but has no gate node — travel in/out can't be staged` | 世界地图上的镇没有门 | 加一个 `"type": "gate"` 的节点 |
-| `Soul '<sid>' is at '<loc>', which no game/towns/*/town_map.json defines` | soul 的 `run_state.location` 指向不存在的节点 | 改成 `T001/<节点>` |
+| `Soul '<sid>' is at '<loc>', which no game/towns/*/town_map.json defines` | soul 的 `run_state.location` 指向不存在的地点(树形写法也报这句) | 改成 `T001/<地点>` |
 | `unknown audience token(s) ['friend']` | 秘密的 audience 只能是 `gm` / `player` / `npc:` / `soul:` / `agent:` | 改 audience |
 | `Secret 's1' is about 'item/ghost', which has no entity file` | `about` 指向的 `game/<kind>/<id>.json` 不存在 | 指向已有条目 |
 | `No game-start file — the world opens without an authored opening scene` | 没有 `game/meta/game-start.json` | 按 §3.12 写一个 |
 | `Router agent '<id>' has no agents/<id>/agent.json` | 没有路由 agent | 开玩时自动补;也可以自己写 |
 | `active-agent.json: active_agent '<id>' has no corresponding agent directory at …` | 路由状态指向不存在的 agent | 开玩一次即可重置 |
-| 地图:`! orphan: towns/T009 不在 world_map.nodes 里` | 有镇文件夹,但世界地图上没有这个节点(这个镇不会出现在地图树里) | 在 `world_map.json` 里加节点 |
+| 地图:`! orphan: towns/T009 不在 world_map.nodes 里` | 有镇文件夹,但世界层没有这个地点(这个镇不会出现在地图树里) | 加 `game/locations/T009/location.json` |
+| `game/locations: 渡口镇 has no route or link — nobody can walk there …` | 世界层地点没有路也没有连接 | 加 `routes` / `connections`,或者有意如此就写 `"isolated": true` |
+| lint `map.legacy_level` | 世界还是旧的 `nodes` 写法 | 照常能玩;要转成文件夹树见 3.5 |
 | 地图:`<地址> 指向的 facilities/x.json 不存在` | `facility_file` 写错 | 修正路径 |
 | 地图:`locations/x.json「…」在层级地图里找不到对应节点` | 扁平地点没有匹配到镇内节点 | 让 id 或 `镇名·地点名` 对得上 |
 | (不报错)小世界的开场变成英文 | 没有 lore,也没写 `lang` | 根目录 `manifest.json` 写 `{"lang": "zh"}` |
@@ -577,9 +584,10 @@ neonrp validate --json   # {ok, playable, flavor, blockers[], warnings[], stats}
 | 主题 | 位置 |
 |---|---|
 | 注册表(五张表,读时归一) | `src/neonrp/core/registry.py:load_registry`、`_apply_overlays`、`_load_class_folders`、`register`、`check_envelope` |
-| rpg pack 的世界加载器 | `src/neonrp/packs/rpg/loaders.py:load`、`_load_world`、`_load_towns`、`_load_locations`、`_load_dungeons`、`_load_quests`、`_load_player`、`_load_npcs`、`_load_items`、`_load_variables` |
+| rpg pack 的世界加载器 | `src/neonrp/packs/rpg/loaders.py:load`、`_load_world`、`_load_towns`、`_load_locations`(旧写法的扁平地点)、`_load_dungeons`、`_load_quests`、`_load_player`、`_load_npcs`、`_load_items`、`_load_variables` |
 | rpg 的内置类 | `src/neonrp/packs/rpg/pack.py:CLASSES`(world / town / place / region / player / soul / npc / item / job / dungeon / road / room / carry / status) |
 | 选用哪个 pack | `src/neonrp/packs/__init__.py:resolve` |
+| 地点文件夹树 | `src/neonrp/core/place_tree.py`;地图 lint `src/neonrp/core/map_lint.py`;旧写法迁移 `scripts/migrate_map_to_folders.py` |
 | 地图树、出图、热点 | `src/neonrp/core/worldmap.py:build_map_tree`、`map_levels`、`hotspots`、`map_status`、`generate_map` |
 | 地址与移动 | `src/neonrp/core/place_nav.py:qualify_location`、`split_location`、`_gate_of`、`load_world_map`、`_world_route` |
 | 校验 | `src/neonrp/commands/validate.py`、`src/neonrp/core/validation.py:check_world`、`validate_game_data`;实体 schema `src/neonrp/schema/game_entity.schema.json`(可用 `rules/game_entity.schema.json` 覆盖) |

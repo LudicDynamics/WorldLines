@@ -10,7 +10,7 @@ const TID = 'stoneford-town', PLAYING = 'pct-house'
 
 test('到编排台编辑:落到这个模板的编排台,不开局', async ({ page, request }) => {
   mkdirSync(SHOTS, { recursive: true })
-  // 先有一局在玩(niko 手上的那一局):绑灰橡宅
+  // 先有一局在玩(已经开着的那一局):绑灰橡宅
   const bound = await request.post(`${BASE}/api/v1/play/session`, { data: { slug: `tpl--${PLAYING}`, output_lang: 'zh' }, timeout: 600_000 })
   expect(bound.ok()).toBeTruthy()
   const before = await (await request.get(`${BASE}/api/v1/play/engine/template`)).json()

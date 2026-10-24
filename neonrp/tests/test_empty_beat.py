@@ -1,4 +1,4 @@
-"""A beat in which nobody said anything is a failed turn, not an empty beat (niko 10-18 on the phone: 「输入后没回复」).
+"""A beat in which nobody said anything is a failed turn, not an empty beat (10-18 on the phone: 「输入后没回复」).
 
 归乡: the host's call took the whole 20 s beat and wrote nothing — an empty planning beat landed with only the player's
 line; her reply was cut to nothing and 「莲妹:」 stood alone in the narration. 香料魔女: the host came back empty in 1.8 s

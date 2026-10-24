@@ -9,6 +9,8 @@ A template is edited only where it is writable: under ``NEONRP_TEMPLATE_WRITE_DI
 Built-in / example templates are read-only — fork first. Every edit goes through ``apply_ops``: all ops are verified
 before anything is written (one refused → nothing lands), then the template is re-linted.
 
+A template can also start from nothing (``blank``): the engine's blank world as its own ``world/``, no characters.
+
 Ops (the mock's creator ops, now against the template on disk):
 
     edit_card     {title?, pitch?, tags?, lang?}
@@ -38,6 +40,8 @@ Ops (the mock's creator ops, now against the template on disk):
     set_cast      {souls: [...]}                     who plays: {sid} world-native · {lib} a link into the character
                                                      library (copied in only when a run is built) · {path} · {pool, pick};
                                                      role npc / companion / player
+    link_soul     {lib, role?}                       add one library character to the cast (set_cast with one more {lib} row;
+                                                     an implicit all-native cast is written out first)
 
 The asset workshop: when ``WORLDLINES_ASSETS_DIR`` is set, every image that lands in a slot is also copied to
 ``$WORLDLINES_ASSETS_DIR/worlds/<template id>/<cls>/<slot>/<inst>.<ext>`` (the production workshop; generated

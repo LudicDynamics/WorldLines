@@ -140,7 +140,7 @@ def test_scaffold_respects_an_explicit_ref(tmp_path, monkeypatch):
 
 
 def test_signed_in_a_new_game_starts_on_worldlines(user_config, monkeypatch):
-    """10-23 niko: signed in to Worldlines, a new game still opened on a key saved in ~/.neonrp (deepseek first in preset
+    """10-23: signed in to Worldlines, a new game still opened on a key saved in ~/.neonrp (deepseek first in preset
     order). Signed in and nothing chosen → the relay; a model the player chose in /settings still wins."""
     user_config({"models": {"deepseek": {"provider": "openai", "api_key": "k"}}})
     monkeypatch.setattr(P, "_preset_key_available", lambda pid: pid == "deepseek")
@@ -166,7 +166,7 @@ def test_a_session_counts_as_the_relays_key(tmp_path, monkeypatch):
 
 
 def test_worldlines_signed_out_is_not_ready_and_the_prompt_says_login(user_config, monkeypatch, capsys):
-    """10-24 niko: a remembered Worldlines model after the session ended dropped the player into 「Paste API key」.
+    """10-24: a remembered Worldlines model after the session ended dropped the player into 「Paste API key」.
     The launcher asks the chooser instead (preset_ready); the explicit choice says /login, not an API-key page."""
     import click
 

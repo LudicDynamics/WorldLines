@@ -105,6 +105,32 @@ def test_template_can_swap_souls_and_overlay_prompts_only(tmp_path):
     (ov / "character").mkdir()
     (ov / "character" / "stats.json").write_text("{}", encoding="utf-8")
     assert "prompt.soul.data@prompts/souls/elena/character/stats.json" in _codes(TP.lint(d))
+    shutil.rmtree(ov / "character")
+    # …but it may carry the character's orchestration patch and routine (10-24: what set_soul_orchestration / set_soul_ambient
+    # write; the engine reads both from the template, so the run's soul folder does not get a copy)
+    (ov / "ambient").mkdir()
+    (ov / "ambient" / "world.json").write_text('{"rows": []}', encoding="utf-8")
+    (ov / "orchestration.json").write_text('{"nodes": [], "edges": []}', encoding="utf-8")
+    codes = _codes(TP.lint(d))
+    assert not [c for c in codes if c.startswith("prompt.soul.data@")], codes
+    run2 = tmp_path / "run2"
+    TP.build(d, run2)
+    assert not (run2 / "souls" / "elena-si-elena0001" / "orchestration.json").exists()
+    assert not (run2 / "souls" / "elena-si-elena0001" / "ambient").exists()
+
+
+def test_lint_says_when_the_recommended_model_will_be_ignored(tmp_path):
+    """10-24: new_run only seeds ``models.play`` when it is provider/model; a bare model name used to be dropped in silence
+    (the two Stoneford templates carried one for weeks without anyone noticing)."""
+    d = _copy(tmp_path)
+    t = _j(d / "template.json")
+    t["models"] = {"play": "deepseek-v4-flash"}
+    (d / "template.json").write_text(json.dumps(t, ensure_ascii=False), encoding="utf-8")
+    assert "meta.models@models.play" in _codes(TP.lint(d))
+    t["models"] = {"play": "deepseek/deepseek-v4-flash"}
+    (d / "template.json").write_text(json.dumps(t, ensure_ascii=False), encoding="utf-8")
+    assert "meta.models@models.play" not in _codes(TP.lint(d))
+
 
 
 @pytest.mark.parametrize("mutate, code", [

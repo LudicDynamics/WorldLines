@@ -128,7 +128,7 @@ def test_a_taken_character_talks_with_the_runs_memory(store, tmp_path):
     from neonrp.core.worldmap import soul_dir_iid
 
     assert player_data.gain(run, soul_dir_iid(sdir), "ending:E01")
-    th = soul_chat.thread("spice-witch", "maestro")  # niko 10-20: severin no longer comes home; maestro does (and is standalone too)
+    th = soul_chat.thread("spice-witch", "maestro")  # 10-20: severin no longer comes home; maestro does (and is standalone too)
     assert th["access"] == "obtained" and th["memory"] == "full"
     assert (soul_chat.snapshot_dir("spice-witch", "maestro") / "long-term-memo" / "run.md").is_file()
     fake = Fake("记得。")

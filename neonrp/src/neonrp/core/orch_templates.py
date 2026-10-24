@@ -1,5 +1,5 @@
 """Orchestration templates — the few shared ways a world runs, which a world names instead of carrying its own
-(docs/planning/TEMPLATE-LAYERS-1019.md, stage A; niko 10-19: templates are few and shared, a world is content that uses
+(10-19, stage A: templates are few and shared, a world is content that uses
 one). A template = one world orchestration (how a turn moves) + its parameters. How the characters present act in the
 world's turn (the characters' orchestration: legacy · S-judge · S-direct · S-free) is a separate axis: the world picks it
 in ``uses.soul``, the template only gives the default. A template carries no play contract and no rules pack — the world

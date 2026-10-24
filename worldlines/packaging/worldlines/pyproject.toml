@@ -10,7 +10,9 @@ authors = [
     {name = "redoctober"},
 ]
 readme = "README.md"
-license = {text = "AGPL-3.0-or-later"}
+# wheel 里的 hub / player / chat 页面是专有的,见 LICENSE-PROPRIETARY.md(和仓库根的同一份,tests/test_license_boundary.py 守着)
+license = "AGPL-3.0-or-later AND LicenseRef-WorldLines-Proprietary"
+license-files = ["LICENSE", "LICENSE-PROPRIETARY.md"]
 requires-python = ">=3.10"
 # 独立 pin：worldlines 依赖一个「选定的」neonrp 版本，不再随发布锁步改写。
 # 要升 neonrp 时手动改此行并提交（配对测试后），再 tag 发 worldlines。
@@ -42,7 +44,7 @@ Repository = "https://github.com/LudicDynamics/WorldLines"
 Issues = "https://github.com/LudicDynamics/WorldLines/issues"
 
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling>=1.27"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
@@ -55,7 +57,7 @@ only-include = ["worldlines_shim"]
 [tool.hatch.build.targets.wheel.force-include]
 "../../ui/dist-local" = "worldlines_shim/spa"
 # 产品自带的模板与玩法合约(10-08):装好就有书架;引擎经 neonrp.core.paths.shell_dir 找到它们
-# 10-17 niko:本地版只内置 templates/shipped.json 列的两个(灰橡宅 · 石津镇);其他官方世界登录账号后获取,不进 wheel。
+# 10-17:本地版只内置 templates/shipped.json 列的两个(灰橡宅 · 石津镇);其他官方世界登录账号后获取,不进 wheel。
 # 改内置名单时这里和 shipped.json 一起改(tests/test_shipped_templates.py 守着)
 "../../templates/shipped.json" = "worldlines_shim/templates/shipped.json"
 "../../templates/pct-house.template" = "worldlines_shim/templates/pct-house.template"

@@ -14650,7 +14650,7 @@ class NeonRPApp(App):
             return False
 
     def _judge_hint(self) -> None:
-        """10-24 niko: with no Jev and no account the talk never settled by itself and the host kept asking. One dim line
+        """10-24: with no Jev and no account the talk never settled by itself and the host kept asking. One dim line
         the first time a planning beat lands in this session: who judges now (the run's own model, a few seconds; or
         nobody: the commit word or @dm), and that /login turns Jev on."""
         try:

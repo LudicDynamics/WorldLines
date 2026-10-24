@@ -1,4 +1,4 @@
-"""音乐库接进 NeonRP(10-15,niko「我们的 neonrp 请接上音乐库」;core/audio.py · worldlines/audio/)。
+"""音乐库接进 NeonRP(10-15「我们的 neonrp 请接上音乐库」;core/audio.py · worldlines/audio/)。
 
 ① 平台池:每个文件都在、哈希对得上、只有 CC0 / CC-BY(魔王魂 / Suno / licensed 一个都不带),CC-BY 的在 CREDITS 里署名
 ② 8 个官方世界都配了主题曲,lint 没有 audio.* 的 block

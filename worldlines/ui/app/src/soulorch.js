@@ -1,4 +1,4 @@
-/* 角色编排台(10-16 niko:和世界编排台一体两面 —— 同一张状态机图,同一个编辑器;只在 Local,Hub 不显示)。
+/* 角色编排台(10-16:和世界编排台一体两面 —— 同一张状态机图,同一个编辑器;只在 Local,Hub 不显示)。
    编排页顶上「世界 / 角色」切换。角色面:左上「角色 ▾」= 三类角色一张表(GET /api/v1/souls/catalog:
    ① 角色库里没 link 任何世界的独立角色 ② 世界里可以单独聊的 standalone ③ 可以带走的 takeable),点哪个就画它的图
    (GET /api/v1/souls/orchestration?ref=);节点 = chat 直聊 · tick 自由行动 · reflect 记忆整理 · in_world 世界里那一拍;

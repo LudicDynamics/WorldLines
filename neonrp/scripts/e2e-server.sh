@@ -20,7 +20,8 @@ done
 mkdir -p "$FAKE_HOME/worldlines-assets"
 
 # 端口防护(worldlines/ui/e2e-ports.sh):端口上已经有别人的服务就不起;引擎只绑这个端口(被占就退出,不悄悄换端口)
-. "$REPO_ROOT/worldlines/ui/e2e-ports.sh"
+PORTS_SH="$REPO_ROOT/worldlines/ui/e2e-ports.sh"; [ -f "$PORTS_SH" ] || PORTS_SH="$REPO_ROOT/../worldlines/ui/e2e-ports.sh"  # dev repo · public repo
+. "$PORTS_SH"
 wl_ports_free "$PORT" || exit 3
 export NEONRP_STRICT_PORT=1
 echo "e2e engine: HOME=$FAKE_HOME port=$PORT"

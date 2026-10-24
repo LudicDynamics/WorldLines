@@ -12,7 +12,7 @@ Templates and characters share one format: a zip with a `pack.json` at its root 
 
 | Package | Holds | Imported into |
 |---|---|---|
-| template | the template folder as on disk (world · plots · prompts · assets) + every library character it links | template → your template store; characters → the library, the template still links them |
+| template | the template folder (world · plots · prompts · assets, without `frontends/`) + every library character it links | template → your template store; characters → the library, the template still links them |
 | soul | one library character | the library |
 
 <!-- section: how -->
@@ -20,14 +20,19 @@ Templates and characters share one format: a zip with a `pack.json` at its root 
 
 **Web**: on the template page, "Export" downloads a `.template.zip`; "Import…" takes a package and switches to it.
 
-**Command line**:
+**Command line**: only Free Zone works can be exported. The built-in Greyoak House and Stoneford are in the Default Zone, so copy one first and export the copy:
 
 ```bash
-neonrp template export pct-house              # → ./pct-house.template.zip
-neonrp template export --soul mira            # → ./mira.soul.zip
-neonrp template import pct-house.template.zip # the template into your store, its characters into the library
-neonrp template import x.zip --id my-copy     # import under another id
+neonrp template fork pct-house my-house --store ~/.worldlines/templates
+neonrp template export ~/.worldlines/templates/my-house.template     # → ./my-house.template.zip
+neonrp template export --soul mira                                   # → ./mira.soul.zip (a library character)
+neonrp template import my-house.template.zip --store ~/.worldlines/templates           # the template into your store, its characters into the library
+neonrp template import my-house.template.zip --id my-copy --store ~/.worldlines/templates   # import under another id
 ```
+
+A plain `neonrp template export pct-house` is refused: Default Zone works can be played, not exported.
+
+A template's `frontends/` folder (the world's own front ends) is left out of the package and stays local.
 
 <!-- section: rules -->
 ## Name clashes and safety

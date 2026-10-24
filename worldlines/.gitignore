@@ -42,7 +42,7 @@ docs/
 __pycache__/
 *.pyc
 
-# Our private orchestration (10-08): copied in from the NeonRP-private repo, never committed here, never exported
+# Our private orchestration (10-08): copied in from the private layer's own repository, never committed here, never exported
 /private/
 # …and its UI tests, synced in by playwright.config.ts to sit next to node_modules
 ui/e2e/private/

@@ -20,6 +20,7 @@ from neonrp.core import billing_stop
 from neonrp.core.llm import Message
 from neonrp.core.llm_errors import BillingError, RetryableError
 from neonrp.core.llm_openai import OpenAIAdapter, _classify_openai_error
+from _paths import PRODUCT
 
 BILL = "https://billing.worldlines.gg/subscribe?product=local&reason=quota"
 
@@ -219,7 +220,7 @@ def test_web_turn_payload_carries_billing():
 def test_web_page_handles_the_billing_payload():
     from pathlib import Path
 
-    js = (Path(__file__).resolve().parents[1] / "worldlines/ui/app/real/engine.js").read_text(encoding="utf-8")
+    js = (PRODUCT / "ui/app/real/engine.js").read_text(encoding="utf-8")
     assert "m.billing" in js and "billingStop(" in js and "billing_url" in js
 
 

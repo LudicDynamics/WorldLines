@@ -1,4 +1,4 @@
-"""Save limits (niko 10-15, PLATFORM-PLAY-RULES-1015 §4; core/save_limits.py): how many runs of one world a player may
+"""Save limits (10-15, PLATFORM-PLAY-RULES-1015 §4; core/save_limits.py): how many runs of one world a player may
 keep — a NEW run over the limit is refused (409 save_limit + this world's runs), carrying on never is; the player may
 give one run up for the new one (``replace``). Numbers: the platform's entitlements.limits > NEONRP_SAVE_LIMITS > the
 packaged table by tier. A local player with their own key who is not signed in has no limit; billing out of reach =

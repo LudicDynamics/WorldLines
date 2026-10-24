@@ -1,4 +1,4 @@
-"""没图时的占位图(niko 10-17:没有角色素材的人显示问号不好看)—— core/fallback_art。
+"""没图时的占位图(10-17:没有角色素材的人显示问号不好看)—— core/fallback_art。
 
 人:按 soul.json / profile.json / NPC 行里已有的 gender / age / 外貌 / 简介(四语)选「男 / 女 × 儿童 / 青年 / 中年 / 老年」,
 推断不出男女 = 中性;物:按名字 / 类别字段选图标,对不上 = 通用图标。词表在 schema/fallback_art.json,接口里给 id,前端只认 id。"""

@@ -1,4 +1,4 @@
-"""A taken character when its author ships a new version (niko 10-20; docs/planning/SOUL-REFRESH-MERGE-1020.md,
+"""A taken character when its author ships a new version (10-20; docs/planning/SOUL-REFRESH-MERGE-1020.md,
 core/soul_update): a diff the player chooses from item by item — nothing follows the author on its own.
 
 The author's version lives in a copy of the template store (the tests edit it as an author would); the player's is the
@@ -18,8 +18,9 @@ import pytest
 from neonrp import template
 from neonrp.core import player_data, rewards, soul_chat, soul_update
 from neonrp.core import soul_update as U
+from _paths import PRODUCT
 
-TEMPLATES = Path(__file__).resolve().parents[1] / "worldlines" / "templates"
+TEMPLATES = PRODUCT / "templates"
 SOUL = "world/souls/chara-si-chara0001"
 
 

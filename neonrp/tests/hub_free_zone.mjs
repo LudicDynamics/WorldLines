@@ -25,6 +25,9 @@ await p.route('**/*', r => {
   return r.fulfill({ contentType: 'text/html', body: page0 })
 })
 const out = { errs, posts }
+await p.goto('http://hub.test/')   // 没带 # 打开:本地版先进自由区
+await p.waitForTimeout(300)
+out.landing = new URL(p.url()).hash
 await p.goto('http://hub.test/#/free/')   // 本地的自由区地址:直达
 await p.waitForTimeout(600)
 out.openHrefs = await p.$$eval('.cards .wcard', a => a.map(x => x.getAttribute('href')))

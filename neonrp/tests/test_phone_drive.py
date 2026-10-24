@@ -194,7 +194,7 @@ def test_a_library_character_linked_into_the_world_carries_its_phone_talk(store,
     assert P.carry(root) == [], "carried once (the library thread's own cursor)"
 
 
-# ── 隔空联系(10-19 niko:玩家不在角色身边,现代靠手机,奇幻靠一种传话的法术或信物)──────────────────────────────────
+# ── 隔空联系(10-19:玩家不在角色身边,现代靠手机,奇幻靠一种传话的法术或信物)──────────────────────────────────
 
 def test_every_phone_prompt_says_you_are_apart_through_the_worlds_medium(store, tmp_path, monkeypatch):
     fake = Fake("嗯。")
@@ -236,7 +236,7 @@ def test_a_reply_that_puts_the_player_beside_her_is_recorded_not_blocked(store):
     assert len((player_data.HOME / player_data.player_id() / "phone_lint.jsonl").read_text(encoding="utf-8").splitlines()) == 1
 
 
-# ── 在线主动消息(10-19 niko:连线的时候 TA 知道你在线;不是 tick,不触发世界执行)────────────────────────────────
+# ── 在线主动消息(10-19:连线的时候 TA 知道你在线;不是 tick,不触发世界执行)────────────────────────────────
 
 def _online_model(monkeypatch, *raws):
     fake = Fake(*raws)
@@ -359,7 +359,7 @@ def test_the_phone_orchestration_is_its_own(store):
     assert g["id"] == "phone" and set(g["nodes"]) >= {"chat", "tick", "act", "online"}
     assert g["params"]["world_exec_daily"] == 6 and g["params"]["cadence_default"] == 60 and g["params"]["owed_max"] == 3
     subs = g["params"]["subscriptions"]
-    assert (subs["free"], subs["story"], subs["supporter"], subs["vivid"]) == (1, 3, 3, 5), "niko 10-21: Voyager follows 5"
+    assert (subs["free"], subs["story"], subs["supporter"], subs["vivid"]) == (1, 3, 3, 5), "10-21: Voyager follows 5"
 
 
 def test_subscribe_one_free_three_on_traveler_only_your_own(store):

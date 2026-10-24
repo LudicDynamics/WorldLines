@@ -6,8 +6,6 @@ description: "spec 就在 agent 工作的文件夹里:每个模板、模板库�
 <!-- section: inside -->
 ## 在文件夹里
 
-> **状态:随 1.0 发布**
-
 Claude Code 读 `CLAUDE.md`,Codex 和多数 agent 读 `AGENTS.md`,它们都读身边的文件。所以 spec 直接放进创作者(和他的 agent)会改的每个文件夹:
 
 | 文件夹 | 带的 spec |
@@ -26,7 +24,7 @@ Claude Code 读 `CLAUDE.md`,Codex 和多数 agent 读 `AGENTS.md`,它们都读�
 - 你自己写的 `AGENTS.md` / `CLAUDE.md`(没有「generated」标记的)永远不覆盖;
 - 开局不复制这些文件,不进存档。
 
-源头:写的 spec 在引擎的 `documents/spec/`;`ops` · `authoring` · `contracts` · `http` 每次从代码生成,不会过时。
+源头:写的 spec 在引擎的 `documents/spec/`(world · soul · template · contract · pack · player);`ops` · `authoring` · `contracts` · `http` 每次从代码生成,不会过时。
 
 <!-- section: tools -->
 ## 给工具和脚本

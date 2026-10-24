@@ -1,4 +1,4 @@
-"""The player's own record across runs (10-15, niko): characters they have gained, endings they have reached,
+"""The player's own record across runs (10-15): characters they have gained, endings they have reached,
 achievements — each an id + when + which world it came from. One file per player, kept with the launcher's things in
 ``~/.worldlines/player-data/<player>.json`` (engine / launcher line: never inside a template or a run folder).
 
@@ -23,7 +23,7 @@ Two switches on a soul (PLATFORM-PLAY-RULES-1015 §3 §5), and the rules that fo
 
 - ``standalone: true`` — the character can be chatted with on its own without being gained first. Talking with it (a
   direct chat, core/light_chat, or it answered the player in a beat of a run) is noted in ``talked`` — it is **not**
-  gained by that (niko 10-15); its chat thread and memory stay as they are
+  gained by that (10-15); its chat thread and memory stay as they are
 - ``takeable`` (default true) + ``take_when`` (default ``companion_at_ending``; or ``ending:<id>``) — when the condition
   holds the player takes the character home with its full memory (``how`` = the condition, ``memory: full``):
   ``companion_at_ending`` = it walks with the player when any ending lands; ``ending:<id>`` = that ending landed
@@ -189,7 +189,7 @@ def take_when_ok(v: Any, endings: set[str] | None = None) -> bool:
 
 def free_zone(root: Path) -> bool:
     """The run was made from a Free-Zone work (``zone: open``): what the author uploaded is all there is — no cards, and
-    nobody comes home from it (niko 10-18)."""
+    nobody comes home from it (10-18)."""
     from neonrp.core.paths import get_data_dir_name
 
     try:
@@ -280,7 +280,7 @@ def standalone_souls(root: Path) -> dict[str, dict[str, Any]]:
 
 
 def talked(root: Path, iid: str) -> bool:
-    """The player talked with a standalone character: noted (not gained — niko 10-15). True = the first time."""
+    """The player talked with a standalone character: noted (not gained — 10-15). True = the first time."""
     s = run_souls(root).get(iid)
     if s is None or not s["standalone"]:
         return False

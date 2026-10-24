@@ -15,9 +15,11 @@ from unittest.mock import patch
 import pytest
 
 from neonrp.template import frontends as FE
+from _paths import PRODUCT
 
 REPO = Path(__file__).resolve().parents[1]
-HAVE_SRC = (REPO / "worldlines" / "examples" / "clients" / "godot" / "project.godot").is_file()
+HAVE_SRC = (PRODUCT / "examples" / "clients" / "godot" / "project.godot").is_file()
+HAVE_CHAT = (PRODUCT / "ui" / "player" / "chat" / "index.html").is_file()   # the phone (ui/player) is not in the open repo
 
 
 def _tpl(tmp_path: Path, monkeypatch, tid: str = "pct-house"):
@@ -26,7 +28,7 @@ def _tpl(tmp_path: Path, monkeypatch, tid: str = "pct-house"):
 
     store = tmp_path / "templates"
     store.mkdir(exist_ok=True)
-    shutil.copytree(REPO / "worldlines" / "templates" / f"{tid}.template", store / f"{tid}.template")
+    shutil.copytree(PRODUCT / "templates" / f"{tid}.template", store / f"{tid}.template")
     monkeypatch.setenv("NEONRP_TEMPLATE_PATH", str(store))
     monkeypatch.setenv("NEONRP_TEMPLATE_WRITE_DIR", str(store))
     return TP.load(store / f"{tid}.template")
@@ -344,6 +346,7 @@ def test_import_refuses_a_big_package(tmp_path, monkeypatch):
         FE.import_zip(t, "big", _zip({"frontend.json": "{}", "big.txt": "x" * 200}))
 
 
+@pytest.mark.skipif(not HAVE_CHAT, reason="forks the builtin phone, whose source (ui/player) is not in the open repo")
 def test_fork_export_import_over_http(server):
     srv, base = server
     made, _ = _call(base, "/api/v1/local/frontends/pct-house/builtin.chat/fork", {"name": "phone", "title": "小手机 · 灰橡宅"})

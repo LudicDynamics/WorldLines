@@ -1,4 +1,4 @@
-"""The replay document — ``worldlines.replay/1`` (niko 10-15/10-18: a finished run the player chooses to share).
+"""The replay document — ``worldlines.replay/1`` (10-15/10-18: a finished run the player chooses to share).
 
 One JSON file, display-only, built from a saved run. It carries what a reader sees and nothing else:
 
@@ -16,7 +16,7 @@ One JSON file, display-only, built from a saved run. It carries what a reader se
       "ending": {"id": str, "title": str, "kind"?: str, "turn"?: int, "image"?: member} | null   # kind from the world's plot
     }
 
-For the player (10-18, niko: a replay is the run played back on the standard front end's stage — speeds, seek, the
+For the player (10-18: a replay is the run played back on the standard front end's stage — speeds, seek, the
 ending's art), each beat also carries ``events`` — the contract beat events (core/beat_events, the names and shapes
 GET /api/v1/play/engine/beats gives the live screen) that show something: plan.beat / resolve.beat (without the planning
 board, its checks and who was asked), dice, state.changed (gained / lost only), party.join / party.leave, stage.changed,

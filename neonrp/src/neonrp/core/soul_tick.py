@@ -1,4 +1,4 @@
-"""A character acting on its own between chats — the foreground tick (niko 10-16: 「有了角色编排就能做角色自由行动(tick):
+"""A character acting on its own between chats — the foreground tick (10-16: 「有了角色编排就能做角色自由行动(tick):
 暂时没有后台,tick 在前台打开时跑」). No server loop: the phone (chat.html) asks while it is open and visible, and once
 when a thread is opened (catching up on the time away: one tick, never one per missed interval).
 

@@ -1,4 +1,4 @@
-"""A taken character when its author ships a new version (niko 10-20; docs/planning/SOUL-REFRESH-MERGE-1020.md): the
+"""A taken character when its author ships a new version (10-20): the
 player sees a diff and chooses, item by item, 「keep mine」 or 「use the author's」. Nothing follows the author on its
 own — not the settings, not the memory; until the player decides, the character stays as it is (the Hub only says
 「the author updated」).
@@ -447,7 +447,7 @@ def _blocks(text: str) -> list[dict[str, Any]]:
 
 
 def entries(text: str) -> list[dict[str, Any]]:
-    """The entries of a text file (niko 10-20): each top-level list item; each ``## `` section's other text as one."""
+    """The entries of a text file (10-20): each top-level list item; each ``## `` section's other text as one."""
     blocks = _blocks(text)
     out: list[dict[str, Any]] = []
     bodies: dict[str, list[str]] = {}

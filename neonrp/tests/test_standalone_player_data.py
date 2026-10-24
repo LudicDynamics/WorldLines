@@ -1,10 +1,10 @@
-"""角色可单独出场 standalone · 玩家自己的记录(10-15,niko)。
+"""角色可单独出场 standalone · 玩家自己的记录(10-15)。
 
 ① soul.json 的 standalone: true = 作者同意这个角色离开世界单独聊 / 单独发布;主角(game/player/profile.json)同样可标。
   模板 meta(/api/v1/local/templates)带 standalone 列表;/api/v1/local/souls 每个角色带 standalone;lint 只认 true / false
 ② 玩家数据 ~/.worldlines/player-data/<玩家>.json:已获得角色 · 已解锁结局 · 成就(id + 时间 + 来源世界);
   GET /api/v1/local/player-data;结局落地写结局;获得角色只有一条路:takeable 的角色满足 take_when(companion_at_ending
-  默认 · ending:<id>)就带走,带完整记忆;standalone 角色聊过只记进 talked,不算获得(niko 10-15,PLATFORM-PLAY-RULES §3 §5)
+  默认 · ending:<id>)就带走,带完整记忆;standalone 角色聊过只记进 talked,不算获得(10-15,PLATFORM-PLAY-RULES §3 §5)
 
 stub,不调模型;wuwu · spice-witch · stoneford-town · neon-rebirth。"""
 from __future__ import annotations
