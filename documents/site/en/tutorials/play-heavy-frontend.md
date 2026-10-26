@@ -20,6 +20,8 @@ This page has two routes:
 <!-- section: a -->
 ## A. Play in the heavy front end from the workbench
 
+First connect a model under "⚙ Settings" at the top right (a Worldlines account or your own key); see [Connect a model](/docs/players/providers).
+
 ### 1. Open the workbench
 
 ```bash
@@ -30,8 +32,6 @@ worldlines        # opens http://127.0.0.1:8787/local in your browser
 This page is the workbench.
 
 ![The workbench](../../images/tutorials/play-a-workbench.en.webp)
-
-The opening beat is written in the template, so it needs no model. To keep talking, connect a model under "⚙ Settings" in the workbench first (see [Connect a model](/docs/players/providers)).
 
 ### 2. Click "Frontend" in the top bar
 

@@ -20,6 +20,8 @@ description: "在本机工作台的「前端」里选一个世界,用重前端�
 <!-- section: a -->
 ## A. 在工作台玩重前端
 
+先在右上角「⚙ 设置」里接好模型(Worldlines 账号或自己的 key),见[接模型](/docs/players/providers)。
+
 ### 1. 打开工作台
 
 ```bash
@@ -30,8 +32,6 @@ worldlines        # 浏览器打开 http://127.0.0.1:8787/local
 打开的就是工作台。
 
 ![工作台](../../images/tutorials/play-a-workbench.zh.webp)
-
-开场那一拍是模板里写好的,不调模型。要接着说话,先在工作台的「⚙ 设置」里接一个模型(见[接模型](/docs/players/providers))。
 
 ### 2. 点顶栏「前端」
 
