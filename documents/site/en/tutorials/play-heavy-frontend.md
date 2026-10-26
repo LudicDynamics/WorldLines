@@ -1,6 +1,6 @@
 ---
 title: "Play in the heavy front end on your computer"
-description: "Pick a world in the local Hub, or download a work from the online Free Zone, and play a run in the heavy front end."
+description: "Pick a world under Frontend in the local workbench and play a run in the heavy front end, or download a work from the Free Zone first."
 ---
 
 <!-- section: what -->
@@ -8,82 +8,72 @@ description: "Pick a world in the local Hub, or download a work from the online 
 
 > **Status: ships with 1.0**
 
-The heavy front end is the screen players play a run in: scene art, portraits, the opening, options, panels. It is what players see on the Hub and on iOS. With `worldlines` installed, it lives at `http://127.0.0.1:8787/player.html`.
+The heavy front end is the screen players play a run in: scene art, portraits, the opening, options, panels. It is what players see on the Hub and on iOS. With `worldlines` installed, it is under "Frontend" in the workbench.
 
 The test bench is a tool for building templates. It is a different screen.
 
 This page has two routes:
 
-- **A** pick an official world in the local Hub and play it in the heavy front end;
-- **B** pick a work in the online Hub's Free Zone, download it, and play it in the heavy front end.
+- **A** pick a world in the workbench and play it in the heavy front end;
+- **B** download a work from the Free Zone, then play it in the heavy front end.
 
 <!-- section: a -->
-## A. Pick an official world in the local Hub, play in the heavy front end
+## A. Play in the heavy front end from the workbench
 
-### 1. Open the local Hub
+### 1. Open the workbench
 
 ```bash
 pip install worldlines
 worldlines        # opens http://127.0.0.1:8787/local in your browser
 ```
 
-This is the workbench. Click "Hub ↗" at the right of the top bar to open the local Hub (`http://127.0.0.1:8787/hub.html`).
+This page is the workbench.
 
-![The workbench's top bar: "Hub ↗" on the right](../../images/tutorials/play-a-wb-topbar.en.webp)
+![The workbench](../../images/tutorials/play-a-workbench.en.webp)
 
 The opening beat is written in the template, so it needs no model. To keep talking, connect a model under "⚙ Settings" in the workbench first (see [Connect a model](/docs/players/providers)).
 
-### 2. Pick an official world
+### 2. Click "Frontend" in the top bar
 
-The local Hub opens on the Free Zone page. The first row, "On this computer", holds the built-in worlds and your own templates; the built-in ones are marked "Official".
+The top bar, left to right: Play overview · Orchestration · World · Characters · Template · Test bench · Frontend. Click "Frontend". If the window is narrow, scroll the top bar sideways to reach it.
 
-![The local Hub: the "On this computer" row](../../images/tutorials/play-a-hub-local.en.webp)
+![The Frontend page](../../images/tutorials/play-a-fe.en.webp)
 
-Click a card to open its page. The work id is at the top left, for example `PCT-HOUSE` (Greyoak House).
+### 3. Pick a world
 
-![The detail page: the work id and "▶ Play in browser"](../../images/tutorials/play-a-hub-detail.en.webp)
+The drop-down at the right of the top bar is the current world. Pick one.
 
-"▶ Play in browser" on the detail page starts a run and opens it in the workbench.
+If the engine has a different world open, a bar at the top says "The engine is running “…”". Click "Start a run of “…”" on its right and confirm. The previous run stays in your saves.
 
-### 3. Open the heavy front end
+### 4. Click "TS frontend"
 
-Open this address:
+The row at the top of the page is Godot · TS frontend · Phone · + New. Click "TS frontend". Next to it, keep "Standard frontend" and "Play" (the defaults).
 
-```text
-http://127.0.0.1:8787/player.html?tpl=pct-house
-```
+Below is the heavy front end, joined to the run open on the engine. The title card comes first.
 
-`tpl` is the work id in lower case. The heavy front end starts a run itself, and `&save=<save>` is added to the address.
+![TS frontend: the title card](../../images/tutorials/play-a-ts-intro.en.webp)
 
-If you already started a run from the detail page, open `http://127.0.0.1:8787/player.html` without `tpl`: the heavy front end joins the run open on the engine.
+### 5. Play
 
-The interface language follows `lang` in the address: `&lang=zh` · `en` · `ja` · `ko`.
+Click "Open". The opening plays a passage at a time: "Tap to continue". The first time, a short guide follows.
 
-### 4. Play
-
-The title card comes first. Click "Open".
-
-![The heavy front end: the title card](../../images/tutorials/play-a-player-intro.en.webp)
-
-The opening plays a passage at a time: "Tap to continue". The first time, a short guide follows.
-
-![The heavy front end: after the opening](../../images/tutorials/play-a-player-play.en.webp)
+![TS frontend: after the opening](../../images/tutorials/play-a-ts-play.en.webp)
 
 - Write what you want to do in the box at the bottom and click "Say".
 - The 1 · 2 · 3 lines above the box are suggestions; click one to fill it in.
 - `@name` talks to someone directly; `/skill` uses a skill (risky ones roll dice).
-- The icons at the top right open the panels: Status, Items, People, Map, Goals, Clues, Log.
+- The bottom row opens the panels: Status, Items, People, Map, Journal. Goals, Clues and Log are inside Journal.
 
-After a turn, the prose continues below and new suggestions appear above the box.
+Each line you say here is a real turn. The prose continues below, and new suggestions appear above the box.
 
-### 5. Saves
+### 6. Saves
 
-Every run saves itself. `save=` in the address is this run: open that address again to continue.
+Every run saves itself. When you start a run of another world, the previous run stays in your saves.
 
-The run also shows under "Saves" when you click the template card on the workbench's Play overview (see [Test a template on the test bench](/docs/tutorials/test-template#saves)).
+On "Play overview", click the template card: the run is listed under "Saves" and can be continued (see [Test a template on the test bench](/docs/tutorials/test-template#saves)).
 
 <!-- section: b -->
-## B. Download a work from the Free Zone, play in the heavy front end
+## B. Download a world from the Free Zone, then play it in the heavy front end
 
 ### 1. Pick a work in the Free Zone
 
@@ -105,27 +95,37 @@ Click it for three steps:
 
 ### 2. Download it to your computer
 
-On the local Hub's Free Zone page, the works from the online Free Zone are listed below the "On this computer" row, with "Free Zone" on the card. Open the work's page and click "⬇ Download to play locally".
+In the workbench, click "Hub ↗" in the top bar to open the local Hub. It opens on the Free Zone page: the works from the online Free Zone are listed below the "On this computer" row, with "Free Zone" on the card. Open the work's page and click "⬇ Download to play locally".
 
 ![The local Hub: a Free Zone work not downloaded yet](../../images/tutorials/play-b-free-detail-remote.en.webp)
 
-When it finishes, the detail page shows "▶ Play in browser", "↓ Download", "⎘ Copy to my workbench" and more. The work is stored in `~/.worldlines/templates/<work id>.template/`.
+When it finishes, the work is stored in `~/.worldlines/templates/<work id>.template/`, and the detail page shows "⎘ Copy to my workbench", "🗑 Delete" and more.
 
 ![The local Hub: after the download](../../images/tutorials/play-b-free-detail-downloaded.en.webp)
 
 Downloading needs no sign-in.
 
-### 3. Play the downloaded work
+### 3. Back to "Frontend" in the workbench → pick this world → "TS frontend"
 
-As in A, step 3, with this work's id as `tpl`:
+Go back to the workbench and reload the page. The work is now in the top bar's drop-down. As in A:
 
-```text
-http://127.0.0.1:8787/player.html?tpl=last-train-3aafaa
-```
+1. Click "Frontend" in the top bar;
+2. Pick this work in the drop-down;
+3. Click "TS frontend";
+4. On the bar, click "Start a run of “…”" and confirm.
+
+![The bar: start a run of this work](../../images/tutorials/play-b-fe-bar.en.webp)
+
+The heavy front end then joins this run. Play as in A, step 5.
+
+![TS frontend: the downloaded work](../../images/tutorials/play-b-fe-play.en.webp)
 
 <!-- section: notes -->
 ## Notes
 
+- Runs started from the workbench are in Chinese for now, so the heavy front end shows Chinese too.
+- After you switch worlds and start a new run, if the heavy front end still shows the previous run, reload the page.
 - The heavy front end talks to the engine on your computer. When `worldlines` is closed, it stops; your saves stay on your computer.
-- Free Zone works are published by their authors directly and moderated afterwards. To flag a problem, click "Report" on the detail page.
-- To change a work, click "⎘ Copy to my workbench" on the detail page and edit it in the workbench (see [Test a template on the test bench](/docs/tutorials/test-template)).
+- The heavy front end also opens on its own at `http://127.0.0.1:8787/player.html`, joined to the run open on the engine.
+- Free Zone works are published by their authors directly and moderated afterwards. To flag a problem, click "Report" on the local Hub's detail page.
+- To change a work, click "⎘ Copy to my workbench" on the local Hub's detail page and edit it in the workbench (see [Test a template on the test bench](/docs/tutorials/test-template)).
