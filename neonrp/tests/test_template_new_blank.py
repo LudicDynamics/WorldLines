@@ -41,6 +41,63 @@ def test_blank_is_writable_lints_clean_and_builds(store, tmp_path):
     assert pt["souls"] == [] and rec["id"] == "fog-port"
 
 
+_OLD_SAMPLE = ("起点镇", "起点", "米拉", "灰雾", "霜狼", "灰鸦", "Origin Town", "gate_north", "北门", "旅行黑麦面包", "短剑",
+               "caravan", "brass_token", "heroine")
+
+
+def _residue(world):
+    """Old sample words / characters / legacy shapes left in a blank world's own files (game/, playthrough, CLAUDE.md)."""
+    import re
+
+    out = []
+    files = [world / "playthrough.json", world / "CLAUDE.md", *sorted((world / "game").rglob("*"))]
+    for f in files:
+        if not f.is_file():
+            continue
+        text = f.read_text(encoding="utf-8")
+        rel = f.relative_to(world).as_posix()
+        out += [f"{rel}: {w}" for w in _OLD_SAMPLE if w in text]
+        out += [f"{rel}: {w}" for w in ("chara", "charb") if re.search(rf"\b{w}\b", text)]
+        if f.suffix == ".json":
+            d = json.loads(text)
+            if isinstance(d, dict) and ("party" in d or isinstance(d.get("nodes"), list)):
+                out.append(f"{rel}: party / nodes")
+    return out
+
+
+@pytest.mark.parametrize("lang,place", [("zh", "第一个地方"), ("en", "First place"), ("ja", "最初の場所"), ("ko", "첫 번째 장소")])
+def test_blank_world_is_clean(store, lang, place):
+    """10-26: a new template's world (and「＋ 新建世界」's) carries no old sample — no characters, no named town, no
+    rumours, no party block, no nodes map — lints with no block and no map warning, its few words in the card's language."""
+    from neonrp.core.map_lint import lint_map
+
+    t = author.blank("fog-port", lang=lang)
+    w = t.dir / "world"
+    assert not (w / "souls").exists() and not (w / "i18n").exists() and _residue(w) == []
+    pt = json.loads((w / "playthrough.json").read_text(encoding="utf-8"))
+    assert pt["souls"] == [] and pt["active_souls"] == []
+    assert json.loads((w / "game" / "meta" / "roster.json").read_text(encoding="utf-8"))["souls"] == []
+    loc = json.loads((w / "game" / "locations" / "T001" / "location.json").read_text(encoding="utf-8"))
+    assert loc["name"] == place
+    lint = TP.lint(t)
+    assert not [p for p in lint["problems"] if p["level"] == "block"], lint["problems"]
+    assert not [p for p in lint["problems"] if str(p.get("code", "")).startswith("map.")], lint["problems"]
+    assert lint_map(w) == []
+    assert author.new_world(t, title="新世界")["backup"]
+    w = TP.load(t.dir).dir / "world"
+    assert _residue(w) == [] and not (w / "souls").exists()
+    assert json.loads((w / "game" / "world" / "world_map.json").read_text(encoding="utf-8"))["name"] == "新世界"
+
+
+def test_scaffolded_blank_world_is_clean(tmp_path):
+    """The same blank world as /init and the studio scaffold it (worlds.scaffold_template_into)."""
+    from neonrp.worlds import scaffold_template_into
+
+    dest = scaffold_template_into("white-blank", tmp_path / "wb", lang="en")
+    assert _residue(dest) == [] and not (dest / "souls").exists()
+    assert json.loads((dest / "game" / "player" / "profile.json").read_text(encoding="utf-8"))["name"] == "Player"
+
+
 def test_blank_refuses_taken_ids_and_free_id_steps_past_them(store):
     author.blank("fog-port")
     with pytest.raises(TP.TemplateError):

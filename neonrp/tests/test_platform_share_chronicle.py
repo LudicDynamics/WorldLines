@@ -364,7 +364,8 @@ def test_login_asks_everything_then_retries_without_sns_share(monkeypatch, tmp_p
     from neonrp._vendor.worldlines_identity.login import IdentityError
 
     assert set(worldlines_auth.FALLBACK_SCOPES) <= LIVE_NEONRP_SCOPES and set(worldlines_auth.PROD_SCOPES) == LIVE_NEONRP_SCOPES
-    assert worldlines_auth.SCOPES == worldlines_auth.FALLBACK_SCOPES + ("data:read", "data:write", "sns:share")  # data:*: the collection (10-18)
+    assert worldlines_auth.SCOPES == worldlines_auth.FALLBACK_SCOPES + ("sns:share",)
+    assert {"data:read", "data:write"} <= set(worldlines_auth.FALLBACK_SCOPES), "the fallback keeps data:* (10-25: 403 on the collection)"
     asked = []
 
     class WL:
@@ -404,5 +405,6 @@ def test_login_asks_everything_then_retries_without_sns_share(monkeypatch, tmp_p
 
     js = hub.read_text(encoding="utf-8")
     base = set(re.findall(r"'([a-z]+:[a-z]+)'", next(x for x in js.splitlines() if "const BASE_SCOPES" in x)))
-    assert base == set(worldlines_auth.FALLBACK_SCOPES) and "[...BASE_SCOPES, 'data:read', 'data:write', 'sns:share']" in js
+    assert base | {"data:read", "data:write"} == set(worldlines_auth.FALLBACK_SCOPES) and "[...BASE_SCOPES, 'data:read', 'data:write', 'sns:share']" in js
+    assert "const FALLBACK_SCOPES = [...BASE_SCOPES, 'data:read', 'data:write'].join(' ')" in js
     assert "err === 'invalid_scope' && p && !p.fallback" in js and "startLogin(p.provider, true, p.back)" in js

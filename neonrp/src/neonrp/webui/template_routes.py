@@ -58,6 +58,13 @@ Local (the template store: NEONRP_TEMPLATE_PATH + worldlines/templates from sour
     GET /api/v1/local/templates/<id>/builder/image?field=&option=   a portrait option's image · ?sid= a companion's portrait
     POST /api/v1/local/templates/<id>/builder/check {fields, companion}   {ok, errors} — the same check the run start does
     POST /api/v1/local/templates/<id>/builder/generate {field, fields, lang}   {text, source: model|example} — a text field the model writes
+    GET  /api/v1/local/templates/<id>/builder/edit?lang=      the workbench's 「捏角色」 switch: {on, kept, writable, fields: [{id, kind,
+                                                label, random?, required}]} in that language (builder.editor)
+    POST /api/v1/local/templates/<id>/builder/edit {on}        turn it on (the sheet set aside, else a generic one) / off (set aside)
+    POST /api/v1/local/templates/<id>/builder/edit {fields: [{id, label?, random?, required?}], lang}   edit the fields
+    POST /api/v1/local/templates/<id>/builder/portrait?ext=.png   raw image body → one more portrait option (assets/player/)
+                                                (the three writes: author.set_builder / edit_builder / add_portrait — built-ins
+                                                are read-only: 403, fork first)
     (start with it: POST /api/v1/play/session {slug: "tpl--<id>", player: {fields, companion}})
 
 Authoring (template/author.py — only templates under NEONRP_TEMPLATE_WRITE_DIR; built-ins are read-only, fork first):
@@ -467,6 +474,10 @@ class TemplateRoutes:
             from neonrp.template import builder as _builder
 
             self._send_json(_builder.view(TP.load(found[tid])))
+        elif sub == "builder/edit":  # the workbench's 「捏角色」 switch (10-25)
+            from neonrp.template import builder as _builder
+
+            self._send_json(_builder.editor(TP.load(found[tid]), (parse_qs(urlparse(self.path).query).get("lang") or [""])[0]))
         elif sub == "builder/image":
             from neonrp.template import builder as _builder
 
@@ -606,6 +617,8 @@ class TemplateRoutes:
             except _builder.BuilderError as e:
                 self._send_json({"ok": False, "errors": e.errors}, status=400)
             return True
+        if route.startswith(_LOCAL + "/") and route.endswith(("/builder/edit", "/builder/portrait")):
+            return self._template_builder_post(route)
         if route.startswith(_LOCAL + "/") and route.endswith("/builder/check"):
             from neonrp import template as TP
             from neonrp.template import builder as _builder
@@ -625,6 +638,12 @@ class TemplateRoutes:
         if route.startswith(_LOCAL + "/") and route.endswith("/creation/assist"):  # say it in one sentence (creation_assist_routes)
             from neonrp.webui import creation_assist_routes
             return creation_assist_routes.post(self, route)
+        if route.startswith(_LOCAL + "/") and route.endswith("/creation/translate"):  # 用 AI 填其他语言 (creation_assist_routes)
+            from neonrp.webui import creation_assist_routes
+            return creation_assist_routes.translate(self, route)
+        if route.startswith(_LOCAL + "/") and route.endswith("/creation/write"):  # AI on every text box (creation_assist_routes)
+            from neonrp.webui import creation_assist_routes
+            return creation_assist_routes.write(self, route)
         if route.startswith(_LOCAL + "/") and route.endswith(("/creation/check", "/creation")):
             return self._template_creation_post(route)
         if route.startswith(_LOCAL + "/") and route.endswith("/graph-lint"):
@@ -785,6 +804,47 @@ class TemplateRoutes:
             d["plots"] = [*(d.get("plots") or []), rel]
             (t.dir / "template.json").write_text(json.dumps(d, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
         self._send_json({"ok": True, "plot": rel, "lint": TP.lint(found[tid])})
+        return True
+
+    def _template_builder_post(self, route: str) -> bool:
+        """The workbench's 「捏角色」 writes (template/author.py): ``…/builder/edit {on}`` · ``{fields, lang}`` ·
+        ``…/builder/portrait?ext=`` (raw image) → the editor view (builder.editor); 403 on a built-in, 400 refused."""
+        from neonrp import template as TP
+        from neonrp.template import author
+        from neonrp.template import builder as _builder
+
+        tid = unquote(route[len(_LOCAL) + 1:].partition("/")[0])
+        found = TP.discover()
+        if tid not in found:
+            self.send_error(404, "no such template")
+            return True
+        t = TP.load(found[tid])
+        if not author.writable(t):
+            self._send_json({"ok": False, "error": author._read_only(t)}, status=403)
+            return True
+        q = parse_qs(urlparse(self.path).query)
+        try:
+            if route.endswith("/builder/portrait"):
+                n = int(self.headers.get("Content-Length") or 0)
+                if n <= 0 or n > TP.MAX_UPLOAD:
+                    self._send_json({"ok": False, "error": "image is empty or larger than 8 MB"}, status=413)
+                    return True
+                t = author.add_portrait(t, self.rfile.read(n), ext=(q.get("ext") or [".png"])[0])
+                lang = (q.get("lang") or [""])[0]
+            else:
+                body = self._read_json_body() or {}
+                lang = str(body.get("lang") or "")
+                if "on" in body:
+                    t = author.set_builder(t, bool(body["on"]))
+                if "fields" in body:
+                    t = author.edit_builder(t, body["fields"], lang=lang)
+        except TP.TemplateError as exc:
+            self._send_json({"ok": False, "error": str(exc)}, status=400)
+            return True
+        except OSError as exc:  # read-only store / disk
+            self._send_json({"ok": False, "error": str(exc)[:300]}, status=502)
+            return True
+        self._send_json({"ok": True, **_builder.editor(t, lang)})
         return True
 
     def _template_creation_quiz(self, route: str) -> bool:

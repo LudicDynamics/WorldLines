@@ -1,7 +1,7 @@
 """创作台「用一句话说」e2e 的假模型(不花额度、不连真模型):OpenAI 兼容 /v1/chat/completions,按作者那句话([say] …)
 和这是第几步(提示词里 [you] 出现几次)回固定的工具调用 —— read_form → propose → done。
 
-    python3 worldlines/ui/app/e2e-create/fake_llm.py --port 8798
+    python3 worldlines/ui/app/e2e-create/fake_llm.py --port 8908
 
 GET /_mock/state = 收到的调用(第几步、那句话)。"""
 from __future__ import annotations
@@ -79,5 +79,5 @@ class H(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--port", type=int, default=8798)
+    ap.add_argument("--port", type=int, default=8908)
     ThreadingHTTPServer(("127.0.0.1", ap.parse_args().port), H).serve_forever()

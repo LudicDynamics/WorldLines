@@ -36,10 +36,13 @@ _LEVEL_ALIAS = {"crit": "critical", "critical_success": "critical", "failure": "
 def outcome_level(t: dict[str, Any]) -> str | None:
     """The tier a checked roll landed on — critical / special / success / fail / fumble — one name for every pack:
     the tool's own ``level`` (pct writes ``crit``; read as ``critical``), else a lone d20's natural 20 / 1 (SRD),
-    else plain success / fail from ``passed``. None for a roll with no target."""
+    else plain success / fail from ``passed``. None for a roll with no target. A ``level`` that says the opposite of
+    ``passed`` (a contest: his own success, the other side won — 10-25) gives way to ``passed``."""
     lv = str(t.get("level") or "").strip().lower()
     lv = _LEVEL_ALIAS.get(lv, lv)
     if lv in LEVELS:
+        if t.get("passed") is not None and (lv in ("critical", "special", "success")) != bool(t.get("passed")):
+            return "success" if t.get("passed") else "fail"
         return lv
     if t.get("vs") is None or t.get("passed") is None:
         return None
@@ -84,9 +87,62 @@ def _dice_line(t: dict[str, Any], lang: str = "zh") -> str | None:
     from neonrp import prompts as _prompts
 
     W = _prompts.strings("beat_display", lang)
-    lv = {"critical": "crit", "special": "success"}.get(outcome_level(t) or "", outcome_level(t) or "")  # one tier name for every pack
-    word = W.get(f"dice_{lv}") if lv in ("crit", "fumble", "success", "fail") else None
-    return f"[{name}: {head}] → {word or W['dice_success' if ok else 'dice_fail']}"
+
+    def said(x: dict[str, Any], passed: bool) -> str:
+        lv = {"critical": "crit", "special": "success"}.get(outcome_level(x) or "", outcome_level(x) or "")  # one tier name for every pack
+        return (W.get(f"dice_{lv}") if lv in ("crit", "fumble", "success", "fail") else None) or W["dice_success" if passed else "dice_fail"]
+    word = said(t, ok)
+    tail = contest_said(t, lang, word)
+    return f"[{name}: {head}] → {tail or word}"
+
+
+def contest_said(t: dict[str, Any], lang: str = "zh", result: str | None = None) -> str | None:
+    """A contest's verdict in plain words (niko 10-25), the result first so a line read as it streams never shows his own
+    success before the loss: 「失败:你掷 59(目标 60)成功,<她>掷 44(目标 55)也成功;同样成功时比谁赢得多,<她>多 11,你多 1 →
+    <她>赢」. ``t`` is the dice event: his side at the top (``own_level`` his own tier, ``passed`` who won), the other side in
+    ``contest`` (``by``: tier / margin / tie / both_fail for a percentile roll, total for a d20 — which rule decided it).
+    None when it is no contest."""
+    c = t.get("contest")
+    if not isinstance(c, dict) or c.get("total") is None or t.get("total") is None:
+        return None
+    from neonrp import prompts as _prompts
+
+    W = _prompts.strings("beat_display", lang)
+    if not W.get("dice_contest_side"):
+        return None
+    ok = bool(t.get("passed"))
+
+    def who(i: Any, name: Any) -> str:
+        return str(W.get("dice_you") or "") if str(i or "") == "player" else str(name or i or "")
+    me, them = who(t.get("who"), t.get("name")), who(c.get("who"), c.get("name"))
+    won = t.get("who") if ok else c.get("who")
+    winner = W["dice_contest_you_win"] if str(won or "") == "player" else W["dice_contest_win"].format(who=me if ok else them)
+    ra, rb = int(t.get("total") or 0), int(c.get("total") or 0)
+    if t.get("under") and c.get("vs") is not None and t.get("vs") is not None:  # percentile: roll under each side's own skill
+        ta, tb = int(t.get("vs") or 0), int(c.get("vs") or 0)
+        la = outcome_level({"level": t.get("own_level") or t.get("level"), "vs": ta}) or ("success" if ra <= ta else "fail")
+        lb = outcome_level({"level": c.get("level"), "vs": tb}) or ("success" if rb <= tb else "fail")
+        if t.get("own_level") is None and la in LEVELS and (la in ("critical", "special", "success")) != (ra <= ta):
+            la = "success" if ra <= ta else "fail"  # an old event: ``level`` was rewritten to who won; his own roll says his tier
+        word = lambda lv: W.get(f"dice_{ {'critical': 'crit'}.get(lv, lv)}") or lv  # noqa: E731
+        pa, pb = la in ("critical", "special", "success"), lb in ("critical", "special", "success")
+        sides = W["dice_contest_sides"].format(
+            a=W["dice_contest_side"].format(who=me, roll=ra, target=ta, also="", word=word(la)),
+            b=W["dice_contest_side"].format(who=them, roll=rb, target=tb, also=W["dice_contest_also"] if pa == pb else "", word=word(lb)))
+        ma, mb = ta - ra, tb - rb
+        by = c.get("by") or ("tier" if la != lb else "both_fail" if not pa else "margin" if ma != mb else "tie")
+        if by == "tier":
+            why = W["dice_contest_by_tier"].format(hi=word(la if ok else lb), lo=word(lb if ok else la))
+        elif by == "margin":
+            why = W["dice_contest_by_margin"].format(w=me if ok else them, mw=ma if ok else mb, l=them if ok else me, ml=mb if ok else ma)
+        else:
+            why = W.get(f"dice_contest_{by}") or W["dice_contest_tie"]
+    else:  # a d20 contest: the one acting against the other's total
+        sides = W["dice_contest_sides"].format(a=W["dice_contest_side_total"].format(who=me, roll=ra),
+                                               b=W["dice_contest_side_total"].format(who=them, roll=rb))
+        why = W["dice_contest_by_total"]
+    res = result or W["dice_success" if ok else "dice_fail"]
+    return W["dice_contest"].format(result=res, sides=sides, why=why, winner=winner)
 
 
 def _state_line(ar: Any, reg: Any) -> str | None:

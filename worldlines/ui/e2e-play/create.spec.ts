@@ -2,7 +2,7 @@
 // → 填(卡面 · 新角色 + 立绘 · 结局 · 线索 · 规则)→ 检查(浏览器里的引擎,play/engine.html)→ 刷新草稿还在 → 存(作品 stoneford-town-mine
 // + 传图 + 发布前检查)→ 试玩(浏览器版 play/?tpl=<作品>&base=<模板>,假模型说一句)→ 回来提交到默认区(协议写在提交页上;六步全部拦在本机,
 // 不发真平台)→ 「我的作品」默认区:审核中 · 撤回。
-//   WL_PLAY_PORT=8796 WL_PLAY_AI_PORT=8797 · 构建时 --ai / --auth / --billing / --platform 指到 http://127.0.0.1:8797 · WL_PLAY_SHOTS=<截图目录>
+//   WL_PLAY_PORT=8906 WL_PLAY_AI_PORT=8907 · 构建时 --ai / --auth / --billing / --platform 指到 http://127.0.0.1:8907 · WL_PLAY_SHOTS=<截图目录>
 //   平台(identity / storage)是 serve.py 里的假平台:浏览器里的引擎在 Service Worker 控制的 iframe 里,WebKit 下 Playwright 拦不到它的请求,
 //   所以不靠 route,构建时 --platform 把页面和引擎都指到本机(10-21 create-art)。任何请求打到 *.worldlines.gg 测试就失败。
 import { test, expect, type Page } from '@playwright/test'

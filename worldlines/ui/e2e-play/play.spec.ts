@@ -1,9 +1,9 @@
 // 「在浏览器里玩」:Hub 详情页 → 浏览器里的引擎开局 → 假模型两回合 → 刷新接着玩 → 导出存档 → 额度用完(不重试)
-// · 没登录用自己的 key · iPhone 显示「请用 app 或电脑浏览器」· 公开版没有的世界标「暂不支持」。
+// · 默认区没登录只给登录(没有自己的 key,niko 10-26;自己的 key 只给自由区作品,见 community.spec)· iPhone 显示「请用 app 或电脑浏览器」· 公开版没有的世界标「暂不支持」。
 import { test, expect, type Page, type BrowserContext } from '@playwright/test'
 import { mkdirSync } from 'node:fs'
 
-const AI = 'http://127.0.0.1:8611'
+const AI = `http://127.0.0.1:${process.env.WL_PLAY_AI_PORT || '8611'}`
 const SHOTS = process.env.WL_PLAY_SHOTS || '../test-results/play-shots'
 mkdirSync(SHOTS, { recursive: true })
 type Call = { auth: string; product: string; origin: string; stream?: boolean; model?: string; jev?: boolean; mode: string }
@@ -11,7 +11,7 @@ type Call = { auth: string; product: string; origin: string; stream?: boolean; m
 const mock = (mode: string, reset = false) => fetch(`${AI}/_mock/mode`, { method: 'POST', body: JSON.stringify({ mode, reset }) })
 const calls = async (): Promise<Call[]> => (await (await fetch(`${AI}/_mock/state`)).json()).calls
 const shot = (page: Page, name: string) => page.screenshot({ path: `${SHOTS}/${test.info().project.name}-${name}.png` })
-const edition = async (): Promise<string> => (await (await fetch('http://127.0.0.1:8610/play/manifest.json')).json()).edition
+const edition = async (): Promise<string> => (await (await fetch(`http://127.0.0.1:${process.env.WL_PLAY_PORT || '8610'}/play/manifest.json`)).json()).edition
 const signIn = (ctx: BrowserContext) => ctx.addInitScript(() => {
   try {
     if (!localStorage.getItem('wl.hub.auth')) localStorage.setItem('wl.hub.auth', JSON.stringify({ access: 'tok-e2e', exp: Date.now() + 3600e3, refresh: 'r-e2e', user: { id: 'u-e2e' } }))
@@ -74,7 +74,7 @@ test('Hub → 浏览器里开局 · 两回合 · 刷新继续 · 导出 · 额�
   for (const c of c1) {   // 浏览器直接带 Worldlines 令牌 + 产品 id 调 ai,跨域(origin = 静态站)
     expect(c.auth).toBe('Bearer tok-e2e')
     expect(c.product).toBe('hub')
-    expect(c.origin).toBe('http://127.0.0.1:8610')
+    expect(c.origin).toBe(`http://127.0.0.1:${process.env.WL_PLAY_PORT || '8610'}`)
   }
   await shot(page, '05-two-turns')
   expect(page.url()).toMatch(/save=tpl-pct-house-/)
@@ -92,7 +92,7 @@ test('Hub → 浏览器里开局 · 两回合 · 刷新继续 · 导出 · 额�
   await shot(page, '07-menu-saves')
   await page.locator('.wlp-modal [data-x]').click()
 
-  // 额度用完:429 quota_exceeded → 弹出领取 / 订阅,这一句只发出去一次模型请求
+  // 额度用完:429 quota_exceeded → 弹出订阅(没有领取),这一句只发出去一次模型请求
   await mock('quota')
   const before = (await calls()).filter(c => !c.jev).length
   await page.fill('#min', '数钟声')
@@ -100,7 +100,7 @@ test('Hub → 浏览器里开局 · 两回合 · 刷新继续 · 导出 · 额�
   const bill = page.locator('.wlp-modal.bill')
   await expect(bill).toBeVisible()
   await expect(bill).toContainText('今天的 Worldlines 额度用完了')
-  await expect(bill.locator('[data-claim]')).toHaveAttribute('href', /#\/me$/)
+  await expect(bill.locator('[data-claim]')).toHaveCount(0)   // 领取只在 claim_required 时出现(用完了领不到)
   await expect(bill.locator('[data-subscribe]')).toHaveAttribute('href', /billing\.worldlines\.gg\/subscribe/)
   await page.waitForFunction(() => { try { return !(0, eval)('E').busy } catch { return true } }, null, { timeout: 240_000 })
   await page.waitForTimeout(1500)
@@ -115,6 +115,8 @@ test('Hub → 浏览器里开局 · 两回合 · 刷新继续 · 导出 · 额�
   await page.fill('#min', '再试一次')
   await page.press('#min', 'Enter')
   await expect(page.locator('.wlp-modal.bill')).toContainText('今天的免费额度还没领')
+  // 「去领取今日额度」= 当场领的按钮(boot.js claim() → billing /v1/claims/hub/daily),不再跳 Hub 的 /me
+  await expect(page.locator('.wlp-modal.bill button[data-claim]')).toHaveText('去领取今日额度')
   await page.waitForFunction(() => { try { return !(0, eval)('E').busy } catch { return true } }, null, { timeout: 240_000 })
   await shot(page, '09-claim-required')
   await mock('ok')
@@ -126,34 +128,21 @@ test('Hub → 浏览器里开局 · 两回合 · 刷新继续 · 导出 · 额�
   await shot(page, '10-hub-continue')
 })
 
-test('没登录:填自己的 key 玩(不走 Worldlines,不调 Jev)', async ({ page }) => {
-  await mock('ok', true)
-  await page.goto('/play/bench.html?tpl=pct-house&lang=zh')
-  await expect(page.getByText('用什么模型来跑?')).toBeVisible()
+test('没登录:默认区只给登录 Worldlines,没有自己的 key', async ({ page, context }) => {
+  // 存过 key 的老用户也一样:默认区不用它,也不删
+  await context.addInitScript(() => { try { localStorage.setItem('wl.play.key', JSON.stringify({ base: 'https://llm.e2e.invalid/v1', key: 'sk-old', model: 'm' })); localStorage.setItem('wl.play.mode', 'key') } catch { /* blocked */ } })
+  await page.goto('/play/bench.html?tpl=pct-house&lang=zh&own=1')
+  await expect(page.getByText('登录后用 Worldlines 额度玩')).toBeVisible()
+  await expect(page.locator('form[data-key]')).toHaveCount(0)
+  expect(await page.evaluate(() => [(window as any).WLPLAY.mode, localStorage.getItem('wl.play.mode'), !!localStorage.getItem('wl.play.key')])).toEqual(['wl', 'key', true])
   await shot(page, '11-gate')
-  await page.fill('form[data-key] input[name=base]', `${AI}/v1`)
-  await page.fill('form[data-key] input[name=key]', 'sk-own-e2e')
-  await page.fill('form[data-key] input[name=model]', 'own-model')
-  await page.locator('form[data-key] button[type=submit]').click()
-  await ready(page)
-  await expect(page.locator('#wlp-badge')).toContainText('自己的 key')
-  await say(page, '我四处看看')
-  const c = await calls()
-  expect(c.length, JSON.stringify(await page.evaluate(async () => { const d = await (window as any).WLPLAY.debug(); return { n: d.n, perf: d.perf.map((r: any) => r.method[0] + ' ' + r.path + ' ' + r.status + (r.turn ? ' t' + r.turn : '')).join(' | ') } }))).toBeGreaterThan(0)
-  expect(c.every(x => x.auth === 'Bearer sk-own-e2e' && x.product === '' && !x.jev && x.model === 'own-model')).toBe(true)
-  // 导出的存档里不带 key
-  await page.locator('#wlp-badge [data-menu]').click()
-  const [dl] = await Promise.all([page.waitForEvent('download'), page.locator('[data-export]').click()])
-  const { readFileSync } = await import('node:fs')
-  expect(readFileSync(await dl.path()).includes(Buffer.from('sk-own-e2e'))).toBe(false)
-  await shot(page, '12-own-key')
 })
 
 test('iPhone 的 UA 不拦:照常进门(选模型)', async ({ browser }) => {
   const ctx = await browser.newContext({ userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1', viewport: { width: 390, height: 844 }, locale: 'zh-CN' })
   const page = await ctx.newPage()
   await page.goto('/play/bench.html?tpl=pct-house&lang=zh')
-  await expect(page.getByText('用什么模型来跑?')).toBeVisible()
+  await expect(page.getByText('登录后用 Worldlines 额度玩')).toBeVisible()
   await shot(page, '13-iphone')
   await ctx.close()
 })

@@ -1,6 +1,6 @@
 """Hub 创作台「真相三问」e2e(truth-quiz 代理 10-18 · PLATFORM-PLAY-RULES-1015 §11):真引擎(进程内,模型换成假的)+ Hub 页面
 (index.html + truthquiz.js + hub.js),一条走完 编辑 → 点生成 → 改 → 检查 → 存,存下来的作品 plots/mine/plot.json 里是改过的三问。
-截图:HUB_TQ_SHOTS=<目录>(默认 tmp)。端口 8797(e2e 端口段,被占就跳过,不打别人的服务)。"""
+截图:HUB_TQ_SHOTS=<目录>(默认 tmp)。端口 8907(e2e 端口段,被占就跳过,不打别人的服务)。"""
 from __future__ import annotations
 
 import json
@@ -19,7 +19,7 @@ from test_creation_truth_quiz import QS, _Model
 
 ROOT = Path(__file__).resolve().parents[1]
 UI, HUB = ROOT / "worldlines" / "ui", ROOT / "worldlines" / "ui" / "app" / "hub"
-PORT = int(os.environ.get("HUB_TQ_PORT", "8797"))
+PORT = int(os.environ.get("HUB_TQ_PORT", "8907"))
 
 
 def _free(port: int) -> bool:

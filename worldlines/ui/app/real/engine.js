@@ -11,7 +11,9 @@ const V3 = (() => {
     const r = await fetch(BASE + path, { credentials: 'include', ...(opt || {}) });
     if (!r.ok) {
       const d = r.status === 409 ? await r.clone().json().catch(() => null) : null;
-      const msg = d && d.error === 'save_limit' ? T('存档已满(这个世界最多 {n} 个):到 Hub 继续一局或删掉一局', { n: d.limit }) : `${r.status} ${path}`;
+      const said = d ? null : await r.clone().json().catch(() => null);   // 引擎写明了原因({message})就显示原因,不只是「400 /path」
+      const msg = d && d.error === 'save_limit' ? T('存档已满(这个世界最多 {n} 个):到 Hub 继续一局或删掉一局', { n: d.limit })
+        : said && typeof said.message === 'string' && said.message ? said.message : `${r.status} ${path}`;
       throw Object.assign(new Error(msg), { status: r.status, body: d });
     }
     return r.json();

@@ -152,6 +152,7 @@ def test_private_off_is_an_honest_preview_of_the_open_engine(tmp_path: Path, mon
     # 10-19: NEONRP_PRIVATE_DIR stays — in a dev checkout it is how the layer is found (no installed neonrp_private);
     # dropping it left the plan plugin loaded but its strings (plan_loop) unreachable once the layer was back on
     monkeypatch.delenv("NEONRP_PRIVATE", raising=False)
+    monkeypatch.setenv("NEONRP_PLAN_LOOP", "1")   # 10-25: the talk beat's node is in a run that has the beat on
     assert "plan" in orchestration.graph(root)["nodes"]
     monkeypatch.setenv("NEONRP_PRIVATE", "off")
     g = orchestration.graph(root)

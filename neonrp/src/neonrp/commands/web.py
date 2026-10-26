@@ -993,17 +993,139 @@ class WebRuntime:
             billing = _billing_payload(str(exc))
             if billing:
                 done["billing"] = billing
+            if self._rescue_restore():  # a crashed line leaves nothing behind (core/turn_rescue)
+                done["restored"] = True
             self.broadcast.publish(done)
         finally:
             self._busy.release()
 
-    def _do_turn(self, text: str) -> Any:
+    # -- a line that was cut or failed (core/turn_rescue, 10-25) -------------
+    def _rescue_restore(self) -> bool:
+        """Back to before the line being played: the background write-down is dropped, the after-turn jobs are waited
+        for, the run's files are put back and the session's messages cut back to before the line. Caller holds the run."""
+        from neonrp.core import turn_rescue as _rescue
+        from neonrp.core import write_down_async as _wda
+
+        if _rescue.line(self.root) is None:
+            return False
+        _wda.cut(self.root, "rescue")
+        s = self._session
+        if s is not None and hasattr(s, "join_deferred_settle"):
+            s.join_deferred_settle(10.0)
+        if not _rescue.restore(self.root):
+            return False
+        if s is not None and isinstance(getattr(s, "messages", None), list):  # its messages as they were before the line (the log on disk is back to that already)
+            del s.messages[getattr(self, "_rescue_msgs", len(s.messages)):]
+            s._persisted_up_to = len(s.messages)
+        return True
+
+    def rescue_state(self) -> dict[str, Any]:
+        from neonrp.core import turn_rescue as _rescue
+
+        return {**_rescue.state(self.root), "running": self._busy.locked()}
+
+    def rescue_wrap(self) -> dict[str, Any]:
+        """The page saw the line stall: the running turn lands what it has written now (core/beat_budget.wrap_up)."""
+        from neonrp.core import beat_budget as _bb
+
+        running = self._busy.locked()
+        return {"ok": True, "running": running, "wrapped": bool(running and _bb.wrap_up(self.root))}
+
+    def rescue_redo(self) -> dict[str, Any] | None:
+        """「重来」: the last line is undone (state, log, records back to before it) → {ok, text: the line}. None = busy."""
+        from neonrp.core import turn_rescue as _rescue
+
+        if not self._busy.acquire(blocking=False):
+            return None
+        try:
+            ln = _rescue.line(self.root)
+            if ln is None or ln.files is None:
+                return {"ok": False, "error": "nothing to redo"}
+            text = ln.text
+            if not self._rescue_restore():
+                return {"ok": False, "error": "restore failed"}
+            _rescue.forget(self.root)
+            self._beat_node = None
+            try:
+                self.broadcast.publish(self.positions())
+            except Exception:  # noqa: BLE001
+                pass
+            return {"ok": True, "text": text}
+        finally:
+            self._busy.release()
+
+    def submit_continue(self) -> bool | None:
+        """「继续生成」 on a worker thread, like a line (its chunks, then turn_done with ``continued``). False = busy,
+        None = nothing to continue."""
+        from neonrp.core import turn_rescue as _rescue
+
+        st = _rescue.state(self.root)
+        if not st.get("continue"):
+            return None
+        if not self._busy.acquire(blocking=False):
+            return False
+        if st.get("resume") == "talk":  # the talk was cut: the line is played on from it (core/turn_rescue.resuming_talk)
+            threading.Thread(target=self._run_resume, args=(st["text"],), daemon=True).start()
+        else:
+            threading.Thread(target=self._run_continue, daemon=True).start()
+        return True
+
+    def _run_resume(self, text: str) -> None:
+        from neonrp.core import turn_rescue as _rescue
+
+        try:
+            with _rescue.resuming_talk(text):
+                self._do_turn(text, resume=True)
+        except Exception as exc:  # noqa: BLE001 — a crashed continuation leaves the cut line as it was
+            logging.getLogger(__name__).warning("resume failed", exc_info=True)
+            st = _rescue.state(self.root)
+            self.broadcast.publish({"kind": "turn_done", "success": False, "continued": True, "resumed": True, "error": str(exc),
+                                    "cut": st["cut"], "rescue": {"redo": st["redo"], "continue": st["continue"]}})
+        finally:
+            self._busy.release()
+
+    def _run_continue(self) -> None:
+        from neonrp.core import turn_rescue as _rescue
+        from neonrp.core import write_down_async as _wda
+
+        bc = self.broadcast
+        try:
+            bc.publish({"kind": "turn_start", "continue": True})
+            _wda.cut(self.root, "rescue")
+            s = self.session()
+            s.join_deferred_settle(10.0)
+            out = _rescue.continue_turn(self.root, on_text=lambda t: bc.publish({"kind": "chunk", "text": t, "beat": "resolve"}),
+                                        messages=s.messages)
+            done: dict[str, Any] = {"kind": "turn_done", "success": bool(out.get("ok")), "continued": True,
+                                    "error": None if out.get("ok") else str(out.get("error") or "")}
+            for k in ("text", "replaced_last", "options", "applied"):
+                if k in out:
+                    done[k] = out[k]
+            if out.get("timeouts"):
+                done["timeouts"] = list(out["timeouts"])
+            st = _rescue.state(self.root)
+            if st["cut"]:
+                done["cut"] = st["cut"]
+            done["rescue"] = {"redo": st["redo"], "continue": st["continue"]}
+            try:
+                bc.publish(self.positions())
+            except Exception:  # noqa: BLE001
+                pass
+            bc.publish(done)
+        except Exception as exc:  # noqa: BLE001 — a crashed continuation leaves the cut line as it was
+            logging.getLogger(__name__).warning("continue failed", exc_info=True)
+            bc.publish({"kind": "turn_done", "success": False, "continued": True, "error": str(exc)})
+        finally:
+            self._busy.release()
+
+    def _do_turn(self, text: str, resume: bool = False) -> Any:
         """Run one turn and publish its lifecycle to the broadcast bus.
 
         Shared by the fire-and-forget local path (submit → _run_turn) and the
         blocking gateway facade (gateway_turn), so both drive the exact same
         engine path and the local UI stays live either way. Caller owns the
-        _busy lock."""
+        _busy lock. ``resume``: the line played on after its talk was cut (core/turn_rescue) — no
+        new snapshot; a failure leaves the cut line as it was."""
         bc = self.broadcast
         bc.publish({"kind": "turn_start", "text": text})
         session = self.session()
@@ -1011,12 +1133,23 @@ class WebRuntime:
         # session bus (_wire_bus); chunks, soul statuses, tools and
         # errors arrive as engine/stream + engine/event messages.
         _k0 = len(read_turn_traces(self.root, session.branch))
+        from neonrp.core import turn_rescue as _rescue
+
+        if not resume:
+            _rescue.capture(self.root, text, branch=session.branch)  # 「重来」 and a failed line go back to here (10-25)
+            self._rescue_msgs = len(getattr(session, "messages", None) or [])
         self._live_beats: list[dict[str, Any]] | None = []
         try:
             result = session.send(text)
         finally:
             live, self._live_beats = self._live_beats or [], None
-        traces = read_turn_traces(self.root, session.branch, last=1)
+        restored = False
+        if not result.success and not getattr(result, "cancelled", False) and not resume:
+            # nothing of a failed line stays (the clock it ticked, a half-written board): the page says 「你的话没有用掉」
+            restored = self._rescue_restore()
+            if restored:
+                _rescue.forget(self.root)
+        traces = [] if restored else read_turn_traces(self.root, session.branch, last=1)
         if traces:
             bc.publish({"kind": "trace", "trace": traces[0]})
         try:  # contract 1.0 beat events (R6): every trace this line produced, as node / beat / dice / tool / state events
@@ -1026,7 +1159,7 @@ class WebRuntime:
             # beat was not announced live (an older path) is caught up here, after the node the live events left
             _sent = sum(1 for e in live if e.get("kind") in ("plan.beat", "resolve.beat"))
             _node = next((e.get("node") for e in reversed(live) if e.get("kind") == "node.enter"), None)
-            _new = read_turn_traces(self.root, session.branch)[_k0:]
+            _new = [] if restored else read_turn_traces(self.root, session.branch)[_k0:]
             _evs, self._beat_node = beat_events.from_traces(_new[_sent:], _node or getattr(self, "_beat_node", None), root=self.root)
             for _name, _data in _evs:
                 bc.publish({"kind": _name, **_data})
@@ -1045,6 +1178,17 @@ class WebRuntime:
             done["billing"] = billing
         if getattr(result, "timeouts", None):  # beats that ran out of time (core/beat_budget): the page may say so
             done["timeouts"] = list(result.timeouts)
+        if restored:
+            done["restored"] = True
+        else:
+            # the world's prose was cut (time, a broken stream, the page's wrap-up): it landed as it is — the page marks it
+            # and offers 「继续生成」 / 「重来」 (core/turn_rescue)
+            rs = _rescue.after_turn(self.root, success=bool(result.success), timeouts=getattr(result, "timeouts", None), resumed=resume)
+            if rs["cut"]:
+                done["cut"] = rs["cut"]
+            done["rescue"] = {"redo": rs["redo"], "continue": rs["continue"]}
+            if resume:
+                done["continued"] = done["resumed"] = True
         bc.publish(done)
         return result
 
@@ -1275,6 +1419,9 @@ class EditRuntime:
 
         self._busy = run_lock.of(world_dir)
         self._session: ConversationSession | None = None
+        # a local CLI agent turn (webui/agent_cli_backend.py) in flight · its session per agent, resumed next turn
+        self._agent_run: Any = None
+        self._agent_sessions: dict[str, str] = {}
 
     def session(self) -> ConversationSession:
         if self._session is None:
@@ -2703,6 +2850,12 @@ def web(
             webbrowser.open(open_url)
         except Exception:
             pass
+    try:  # the console's usage events (core/usage): the local engine is up
+        from neonrp.core import usage as _usage
+
+        _usage.app_open()
+    except Exception:  # noqa: BLE001
+        pass
     try:
         server.serve_forever()
     except KeyboardInterrupt:

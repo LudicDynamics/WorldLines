@@ -55,7 +55,8 @@ EVENTS = ("node.enter", "node.leave", "plan.beat", "resolve.beat", "dice", "tool
           "place.discovered", "achievement.unlocked", "reward.granted", "milestone", "audio.cue")
 _DICE = ("dice", "roll", "referee", "san")
 _DICE_KEYS = ("rolls", "total", "vs", "passed", "under", "reason", "dice", "level", "label", "who",
-              "crit_max", "fumble_min")  # level: crit / success / fail / fumble (pct); the bands say why
+              "crit_max", "fumble_min", "contest", "own_level", "name")  # level: crit / success / fail / fumble (pct); the bands say why;
+# a contest: the other side's numbers (``contest``), ``passed`` / ``level`` = who won, his own tier ``own_level``, his name ``name``
 
 
 def live_dice(ev: dict[str, Any]) -> dict[str, Any] | None:

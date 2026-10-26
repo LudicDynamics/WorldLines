@@ -5,8 +5,8 @@ import { test, expect, type Page } from '@playwright/test'
 import { mkdirSync, readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 
-const BASE = process.env.WL_CA_BASE || 'http://127.0.0.1:8797'
-const AI = process.env.WL_CA_AI || 'http://127.0.0.1:8798'
+const BASE = process.env.WL_CA_BASE || 'http://127.0.0.1:8907'
+const AI = process.env.WL_CA_AI || 'http://127.0.0.1:8908'
 const HOME = process.env.WL_CA_HOME || ''
 const SHOTS = process.env.WL_CA_SHOTS || ''
 if (SHOTS) mkdirSync(SHOTS, { recursive: true })

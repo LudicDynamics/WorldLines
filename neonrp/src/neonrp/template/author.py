@@ -81,9 +81,25 @@ def write_root() -> Path | None:
     return Path(v).expanduser().resolve() if v else None
 
 
+DEV_OFFICIAL_ENV = "NEONRP_DEV_EDIT_OFFICIAL"
+_REPO = Path(__file__).resolve().parents[3]   # the source checkout this engine runs from (site-packages in a release)
+
+
+def dev_official_root() -> Path | None:
+    """10-25: our development engine edits the official worlds in place. ``NEONRP_DEV_EDIT_OFFICIAL=1`` makes the source
+    checkout's own ``worldlines/templates`` writable (only a git checkout — never an installed wheel's copy), so a change
+    lands in a file git sees. Not a write store: new / forked templates still go to ``NEONRP_TEMPLATE_WRITE_DIR``, and
+    official worlds are not removable. Unset (every player's engine) = built-ins stay read-only."""
+    if os.environ.get(DEV_OFFICIAL_ENV, "").strip().lower() not in ("1", "true", "yes", "on"):
+        return None
+    src = _REPO / "worldlines" / "templates"
+    return src.resolve() if (_REPO / ".git").exists() and src.is_dir() else None
+
+
 def writable(t: Template) -> bool:
-    root = write_root()
-    return bool(root and t.dir.resolve().is_relative_to(root))
+    root, dev = write_root(), dev_official_root()
+    d = t.dir.resolve()
+    return bool(root and d.is_relative_to(root)) or bool(dev and d.is_relative_to(dev))
 
 
 
@@ -163,7 +179,7 @@ def _new_dest(new_id: str) -> Path:
 
 # ── new (from nothing) ───────────────────────────────────────────────────────
 
-BLANK_WORLD = "white-blank"   # the engine's blank world (neonrp/templates/): a start town, a player, the agent team
+BLANK_WORLD = "white-blank"   # the engine's blank world (neonrp/templates/): one starting place, a player, the agent team; no characters
 
 
 def free_id(base: str = "") -> str:
@@ -181,21 +197,24 @@ def free_id(base: str = "") -> str:
     return cand
 
 
-def _blank_world_into(wdir: Path, wid: str, title: str) -> None:
-    """The engine's blank world copied to ``wdir`` (must not exist), named ``title``; its two placeholder characters stay
-    behind — a new world's cast comes from the character library."""
+def _blank_world_into(wdir: Path, wid: str, title: str, lang: str = "zh") -> None:
+    """The engine's blank world copied to ``wdir`` (must not exist), named ``title``, its few words in ``lang``. It has
+    no characters — a new world's cast comes from the character library."""
     from neonrp import templates as _tpls
+    from neonrp.worlds import localize_blank_world
 
     src = Path(_tpls.__file__).parent / BLANK_WORLD
     if not src.is_dir():
         raise TemplateError(f"blank world {BLANK_WORLD!r} not found")
-    shutil.copytree(src, wdir, ignore=shutil.ignore_patterns("souls", "__pycache__", ".DS_Store", "*.pyc"))
+    shutil.copytree(src, wdir, ignore=shutil.ignore_patterns("i18n", "__pycache__", ".DS_Store", "*.pyc"))
     pt = _read_json(wdir / "playthrough.json") or {}
     pt["souls"], pt["active_souls"] = [], []
     w = pt.get("world") if isinstance(pt.get("world"), dict) else {}
     pt["world"] = {**w, "wid": wid}
     pt["playthrough_id"] = f"pt-{wid}"
     _write_json(wdir / "playthrough.json", pt)
+    localize_blank_world(wdir, lang)
+    _write_json(wdir / "manifest.json", {"lang": lang or "zh"})
     if title:   # the world's own name (what /init does to a blank world, worlds.create_blank_world)
         gs = _read_json(wdir / "game" / "meta" / "game-start.json")
         if isinstance(gs, dict):
@@ -256,7 +275,7 @@ def blank(new_id: str, *, title: str | None = None, lang: str = "zh", pack: str 
     dest = _new_dest(new_id)
     title = (title or "").strip()[:60]
     try:
-        _blank_world_into(dest / "world", new_id, title)
+        _blank_world_into(dest / "world", new_id, title, lang or "zh")
         d: dict[str, Any] = {
             "schema": SCHEMA, "id": new_id, "version": "0.1",
             "card": {"title": title or new_id, "pitch": "", "lang": lang or "zh", "tags": []},
@@ -299,7 +318,7 @@ def new_world(t: Template | Path | str, *, title: str | None = None) -> dict[str
     stamp = time.strftime("%Y%m%d-%H%M%S")
     tmp = t.dir / f".new-world-{stamp}"
     shutil.rmtree(tmp, ignore_errors=True)
-    _blank_world_into(tmp, t.id, title)
+    _blank_world_into(tmp, t.id, title, str(t.card.get("lang") or "zh"))
     backup = root / ".world-backups" / f"{t.id}-{stamp}"
     d = copy.deepcopy(t.data)
     w = d.get("world") if isinstance(d.get("world"), dict) else ({"path": d["world"]} if isinstance(d.get("world"), str) else {})
@@ -433,7 +452,7 @@ def _one(ed: _Edit, op: dict[str, Any], classes: "_Classes | set[str]") -> dict[
             if k in op:
                 v = str(op[k] or "").strip()
                 if k == "title" and not v:
-                    raise TemplateError("标题不能为空")
+                    raise TemplateError("a label cannot be empty")
                 changed[k] = (card.get(k), v)
                 card[k] = v
         if "tags" in op:
@@ -851,6 +870,169 @@ def apply_ops(t: Template | Path | str, ops: list[dict[str, Any]]) -> dict[str, 
     v3.forget(t)  # the next look reads what was just written (10-21 e2e 编排台: the graph read back within 2 s was the old one)
     t2 = load(t.dir)
     return {"ok": True, "applied": applied, "refused": [], "lint": TP.lint(t2), "ui": v3.ui(t2)}
+
+
+# ── the player builder: the workbench's 「捏角色」 switch (template/builder.py, 10-25) ──
+
+def _writable_t(t: Template | Path | str) -> Template:
+    t = t if isinstance(t, Template) else load(t)
+    if not writable(t):
+        raise TemplateError(_read_only(t))
+    return t
+
+
+def _layer_files(t: Template) -> list[Path]:
+    from neonrp.template import i18n as _i18n
+
+    return [f for lg in _i18n.layers(t) if (d := _i18n.layer_dir(t, lg)) is not None and (f := d / "template.json").is_file()]
+
+
+def _fit(base: Any, over: Any) -> Any:
+    """A layer kept the template's shape after the sheet grew: ``i18n.merge`` lays same-length lists item by item and
+    lets a list of another length replace the template's, so a list of objects is padded with ``{}`` (changes nothing)."""
+    if isinstance(base, dict) and isinstance(over, dict):
+        return {k: _fit(base[k], v) if k in base else v for k, v in over.items()}
+    if isinstance(base, list) and isinstance(over, list) and base and all(isinstance(x, dict) for x in [*base, *over]):
+        over = [*over[:len(base)], *({} for _ in base[len(over):])]
+        return [_fit(b, o) for b, o in zip(base, over)]
+    return over
+
+
+def _save_builder(t: Template, d: dict[str, Any], layers: dict[Path, dict[str, Any]] | None = None) -> Template:
+    """Check the sheet as it would be, then write ``template.json`` (+ the layers touched, fitted to the new sheet)."""
+    from neonrp.template import builder as B
+    from neonrp.template import v3
+
+    trial = copy.copy(t)
+    trial.data = d
+    bad = [f"{w}: {m}" for lv, _c, w, m in B.problems(trial) if lv == "block"]
+    if bad:
+        raise TemplateError("; ".join(bad))
+    b = (d.get("player") or {}).get("builder")
+    for f in _layer_files(t):
+        ld = (layers or {}).get(f) or _read_json(f)
+        lb = (ld.get("player") or {}).get("builder") if isinstance(ld, dict) and isinstance(ld.get("player"), dict) else None
+        if isinstance(b, dict) and isinstance(lb, dict):
+            ld["player"]["builder"] = _fit(b, lb)
+        if f in (layers or {}) or (isinstance(lb, dict) and ld["player"]["builder"] != lb):
+            _write_json(f, ld)
+    _write_json(t.dir / "template.json", d)
+    v3.forget(t)
+    return load(t.dir)
+
+
+def set_builder(t: Template | Path | str, on: bool) -> Template:
+    """Turn the builder on / off. On: the sheet set aside when it was turned off, else the generic one
+    (``builder.default_decl``); a sheet already there stays as it is. Off: the sheet moves to ``player.builder_off`` —
+    each i18n layer's too, or a run in that language would still open a builder made of the layer's texts alone."""
+    from neonrp.template import builder as B
+
+    t = _writable_t(t)
+    d = _read_json(t.dir / "template.json") or {}
+    p = d["player"] = dict(d["player"]) if isinstance(d.get("player"), dict) else {}
+    if bool(on) == isinstance(p.get("builder"), dict):
+        return t
+    src, dst = (B.STASH, "builder") if on else ("builder", B.STASH)
+    if on and not isinstance(p.get(B.STASH), dict):
+        p["builder"] = B.default_decl(t)
+        return _save_builder(t, d)
+    p[dst] = p.pop(src)
+    layers: dict[Path, dict[str, Any]] = {}
+    for f in _layer_files(t):
+        ld = _read_json(f)
+        if isinstance(ld, dict) and isinstance(ld.get("player"), dict) and src in ld["player"]:
+            ld["player"][dst] = ld["player"].pop(src)
+            layers[f] = ld
+    return _save_builder(t, d, layers)
+
+
+def _in_lang(cur: Any, lang: str, src: str, v: str) -> Any:
+    """One language of a text: ``{lang: v}`` merged into a per-language text; a plain text is the template's language."""
+    if isinstance(cur, dict):
+        return {**cur, lang: v}
+    if lang == src or cur in (None, ""):
+        return v if lang == src else {lang: v}
+    return {src: cur, lang: v}
+
+
+def edit_builder(t: Template | Path | str, fields: list[dict[str, Any]], *, lang: str = "") -> Template:
+    """The workbench's field editor: ``[{id, label?, random?, required?}]``. ``label`` / ``random`` are in ``lang``:
+    written into that language's i18n layer when it translates the sheet, else into the template (a label becomes
+    ``{lang: …}``; ``random`` is one list for every language). ``required`` is the template's."""
+    from neonrp.template import builder as B
+    from neonrp.template import i18n as _i18n
+
+    t = _writable_t(t)
+    src = _i18n.source_lang(t)
+    lg = _i18n.norm_lang(lang) or src
+    d = _read_json(t.dir / "template.json") or {}
+    b = (d.get("player") or {}).get("builder") if isinstance(d.get("player"), dict) else None
+    if not isinstance(b, dict):
+        raise TemplateError("the player builder is off: turn it on first")
+    lf = next((f for f in _layer_files(t) if f.parent.name == lg), None) if lg != src else None
+    ld = _read_json(lf) if lf is not None else None
+    lb = (ld.get("player") or {}).get("builder") if isinstance(ld, dict) and isinstance(ld.get("player"), dict) else None
+    lb = lb if isinstance(lb, dict) else None
+    if lb is not None:
+        lb.update(_fit(b, lb))
+    for e in fields if isinstance(fields, list) else []:
+        i = next((n for n, f in enumerate(b.get("fields") or []) if isinstance(f, dict) and str(f.get("id")) == str((e or {}).get("id"))), None)
+        if i is None:
+            raise TemplateError(f"no field {(e or {}).get('id')!r}")
+        f = b["fields"][i]
+        over = lb["fields"][i] if lb is not None and i < len(lb.get("fields") or []) else None
+        if "required" in e:
+            f["required"] = bool(e["required"])
+        if "label" in e:
+            v = str(e.get("label") or "").strip()
+            if not v:
+                raise TemplateError("a label cannot be empty")
+            if over is not None:
+                over["label"] = v
+            else:
+                f["label"] = _in_lang(f.get("label"), lg, src, v)
+        if "random" in e:
+            if f.get("kind") != "text":
+                raise TemplateError(f"{f.get('id')}: only a text field has random values")
+            vals = [str(x).strip()[:B.TEXT_MAX] for x in e.get("random") or [] if str(x).strip()][:50]
+            tgt = over if over is not None else f
+            if vals:
+                tgt["random"] = vals
+            else:
+                tgt.pop("random", None)
+    return _save_builder(t, d, {lf: ld} if lb is not None and lf is not None else None)
+
+
+def add_portrait(t: Template | Path | str, data: bytes, *, ext: str = ".png") -> Template:
+    """An uploaded picture → ``assets/player/face-<n>.<ext>`` and one more option of the sheet's portrait field (the
+    field made when the sheet has none)."""
+    from neonrp.template import MAX_UPLOAD
+    from neonrp.template import builder as B
+
+    t = _writable_t(t)
+    ext = ext.lower() if ext.lower() in B.IMAGE_EXTS else ".png"
+    if not data or len(data) > MAX_UPLOAD:
+        raise TemplateError("image is empty or larger than 8 MB")
+    if not (data[:8] == b"\x89PNG\r\n\x1a\n" or data[:3] == b"\xff\xd8\xff" or (data[:4] == b"RIFF" and data[8:12] == b"WEBP")):
+        raise TemplateError("not a PNG / JPEG / WebP image")
+    d = _read_json(t.dir / "template.json") or {}
+    b = (d.get("player") or {}).get("builder") if isinstance(d.get("player"), dict) else None
+    if not isinstance(b, dict):
+        raise TemplateError("the player builder is off: turn it on first")
+    fs = b.setdefault("fields", [])
+    face = next((f for f in fs if isinstance(f, dict) and f.get("kind") == "portrait"), None)
+    if face is None:
+        ids = {str(f.get("id")) for f in fs if isinstance(f, dict)}
+        face = {"id": next(x for x in ("face", *(f"face{n}" for n in range(2, 99))) if x not in ids), "kind": "portrait",
+                "label": {lg: v["face"] for lg, v in B._by_lang("default_sheet").items()}, "options": []}
+        fs.append(face)
+    have = {str(o.get("id")) for o in face.get("options") or [] if isinstance(o, dict)}
+    pdir = t.dir / B.PORTRAIT_DIR
+    n = next(n for n in range(1, 10_000) if f"face-{n}" not in have and not any((pdir / f"face-{n}{e}").exists() for e in B.IMAGE_EXTS))
+    pdir.mkdir(parents=True, exist_ok=True)
+    (pdir / f"face-{n}{ext}").write_bytes(data)
+    face.setdefault("options", []).append({"id": f"face-{n}", "src": f"{B.PORTRAIT_DIR}/face-{n}{ext}"})
+    return _save_builder(t, d)
 
 
 # ── the asset workshop (worldlines-assets/worlds/<id>) ───────────────────────

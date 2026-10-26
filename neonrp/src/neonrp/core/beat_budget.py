@@ -20,6 +20,10 @@ shares what is left — a beat ends at ``min(its own 20 s, the turn's end − re
 (the planning talk, the characters' turns) keep ``world_reserve_s`` back for it, and the world's prose keeps
 ``settle_s`` back for its state transition, so the turn still lands inside its budget. Code between beats is not timed.
 
+A turn can be told to wrap up now (:func:`wrap_up`, 10-25: the page saw it stall — a phone back from the background, a
+stream that stopped coming): every beat it is in ends at once, the prose written so far is the beat, and its state
+transition still gets ``settle_s`` — the turn lands what it has instead of being given up.
+
 What timed out is recorded (:func:`note`) in the turn's collector (:func:`collect`) and reaches the turn result as
 ``timeouts`` (the frontend can say 「这一拍超时了」; ``turn: true`` when it was the turn's budget that cut the beat).
 The budget lives in context variables; worker threads get it through :func:`carry`. Outside a beat (world creation,
@@ -41,6 +45,7 @@ from __future__ import annotations
 
 import contextvars
 import os
+import threading
 import time
 from contextlib import contextmanager
 from dataclasses import dataclass, field
@@ -78,6 +83,13 @@ class _Beat:
 class _Turn:
     deadline: float
     t0: float = field(default_factory=time.monotonic)
+    key: str = ""  # the run it belongs to (:func:`wrap_up` cuts one run's turn)
+    cut: bool = False  # told to wrap up: no beat after this gets a share of its own
+    beats: list[_Beat] = field(default_factory=list)  # the beats open in it now
+
+
+_LIVE: list[_Turn] = []  # the turns running now, every thread (wrap_up is called from another one)
+_LIVE_LOCK = threading.Lock()
 
 
 _CUR: contextvars.ContextVar[_Beat | None] = contextvars.ContextVar("neonrp_beat", default=None)
@@ -229,14 +241,50 @@ def turn(seconds: float | None = None, *, root: Path | None = None,
     """One turn: its beats share ``seconds`` (default ``turn_timeout_s``; <= 0 = no turn budget, beats keep their own),
     and what timed out is collected (as :func:`collect`)."""
     s = turn_timeout_s(root) if seconds is None else float(seconds)
-    tok = _TURN.set(_Turn(deadline=time.monotonic() + s) if s > 0 else None)
+    t = _Turn(deadline=time.monotonic() + s, key=str(root or "")) if s > 0 else None
+    tok = _TURN.set(t)
     ctok = _CALLS.set([])
+    if t is not None:
+        with _LIVE_LOCK:
+            _LIVE.append(t)
     try:
         with collect(sink) as got:
             yield got
     finally:
+        if t is not None:
+            with _LIVE_LOCK:
+                if t in _LIVE:
+                    _LIVE.remove(t)
         _CALLS.reset(ctok)
         _TURN.reset(tok)
+
+
+def wrap_up(root: Path | None = None, grace: float | None = None) -> bool:
+    """The turn running now on ``root`` (any run when None) ends its beats at once: a stream stops at its next chunk
+    (a stalled one at its stall limit), no call starts, the prose written so far is the beat, and the turn keeps
+    ``grace`` (default ``settle_s``) for the state transition. Called from another thread (the page saw the turn stall).
+    False when no turn with a budget is running."""
+    key = str(root) if root is not None else None
+    with _LIVE_LOCK:
+        turns = [t for t in _LIVE if key is None or t.key == key]
+    now = time.monotonic()
+    g = settle_s(root) if grace is None else float(grace)
+    for t in turns:
+        t.cut = True
+        t.deadline = min(t.deadline, now + max(0.0, g))
+        for b in list(t.beats):
+            b.deadline = min(b.deadline, now)
+            b.by_turn = True
+            if b.sink is not None and "wrap_up" not in b.noted:  # the turn's record says it was wrapped up, and where
+                b.noted.add("wrap_up")
+                b.sink.append({"beat": b.name, "where": "wrap_up", "ms": round((now - b.t0) * 1000), "turn": True})
+    return bool(turns)
+
+
+def wrapped() -> bool:
+    """Was this turn told to wrap up (:func:`wrap_up`)?"""
+    t = _TURN.get()
+    return bool(t is not None and t.cut)
 
 
 def talk_seconds(root: Path | None = None) -> float:
@@ -275,7 +323,7 @@ def floor(seconds: float, where: str = "floor") -> None:
     Extending is recorded with the turn's calls (``extended_ms``: the turn then runs past its budget by that much — not
     a timeout, nothing ran out). No turn budget: nothing changes."""
     t = _TURN.get()
-    if t is None or seconds <= 0:
+    if t is None or seconds <= 0 or t.cut:  # told to wrap up: the beats after this get no share of their own
         return
     want = time.monotonic() + seconds
     if t.deadline < want:
@@ -341,9 +389,16 @@ def beat(name: str, seconds: float | None = None, *, root: Path | None = None,
         deadline, by_turn = outer.deadline, outer.by_turn
     b = _Beat(name=name, deadline=deadline, sink=_SINK.get() if outer is None else outer.sink, by_turn=by_turn)
     tok = _CUR.set(b)
+    if t is not None:
+        with _LIVE_LOCK:
+            t.beats.append(b)
     try:
         yield b
     finally:
+        if t is not None:
+            with _LIVE_LOCK:
+                if b in t.beats:
+                    t.beats.remove(b)
         _CUR.reset(tok)
 
 

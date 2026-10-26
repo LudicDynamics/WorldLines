@@ -47,8 +47,23 @@ def _edge(eid: str, frm: str, to: str, on: dict[str, Any], **kw: Any) -> dict[st
 _DEFAULT: dict[tuple[str, int], dict[str, Any]] = {}
 
 
+def _off_kinds(root: Path) -> tuple[str, ...]:
+    """The node-kind plugins this run switches off (their ``runs(root)`` says False — the planning beat with
+    ``turn.plan_loop`` off, as the single-beat template leaves it)."""
+    return tuple(k for k in _node_kinds.kinds() if _node_kinds.call(k, "runs", root, default=True) is False)
+
+
 def default_graph(root: Path) -> dict[str, Any]:
-    """The graph today's engine runs, generated from the pack (no override): the two beats and the pack's layers."""
+    """The graph today's engine runs, generated from the pack (no override): the two beats and the pack's layers —
+    without the nodes of a plugin this run switches off (:func:`_off_kinds`)."""
+    g = _pack_default(root)
+    gone = {str(n) for k in _off_kinds(root) for n in ((_node_kinds.call(k, "graph", default=None) or {}).get("nodes") or {})}
+    if not gone & set(g.get("nodes") or {}):
+        return g
+    return _prune({**g, "nodes": {k: v for k, v in g["nodes"].items() if k not in gone}})
+
+
+def _pack_default(root: Path) -> dict[str, Any]:
     from neonrp.packs import resolve as resolve_pack
 
     try:
@@ -208,7 +223,7 @@ def graph(root: Path) -> dict[str, Any]:
         pname = str(pk.name)
     except Exception:  # noqa: BLE001
         pk, pname = None, ""
-    key = (str(Path(root).resolve()), pname, mt, _private_stamp(pk), tuple(_node_kinds.kinds()))
+    key = (str(Path(root).resolve()), pname, mt, _private_stamp(pk), tuple(_node_kinds.kinds()), _off_kinds(root))
     if key in _CACHE:
         return {**_CACHE[key], "state": _state_of(_CACHE[key])}
     g = default_graph(root)

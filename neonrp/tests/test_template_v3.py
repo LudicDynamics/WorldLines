@@ -267,6 +267,61 @@ def test_edit_session_from_any_template(tmp_path, monkeypatch):
             server.shutdown()
 
 
+def _shipped_ids():
+    return sorted(p.name[: -len(".template")] for p in PRODUCT_TEMPLATES.glob("*.template") if (p / "template.json").is_file())
+
+
+@pytest.mark.parametrize("tid", _shipped_ids())
+def test_copied_template_opens_before_and_after_new_world(tmp_path, monkeypatch, tid):
+    """10-25: every built-in template, copied (「复制一份来改」), opens as an edit session — and still does after「＋ 新建世界」
+    swaps its world for a blank one (灰橡宅's copy then answered 400: its plots name the old world's rooms and player.san, the
+    plot lint failed the build). The session opens without the plots and says why; a failure is JSON with a readable reason."""
+    import threading
+    import urllib.error
+    import urllib.request
+    from unittest.mock import patch
+
+    from neonrp.commands.web import make_server
+
+    store = tmp_path / "store"
+    monkeypatch.setenv("NEONRP_TEMPLATE_PATH", str(store))
+    monkeypatch.setenv("NEONRP_TEMPLATE_WRITE_DIR", str(store))
+    monkeypatch.setattr(TP, "can_fork", lambda t: True)   # the copy path itself, for the templates the local edition does not offer
+    with (
+        patch("neonrp.worlds.WORLDS_HOME", tmp_path / "lib" / "worlds"),
+        patch("neonrp.worlds.PLAYS_HOME", tmp_path / "lib" / "plays"),
+        patch("neonrp.worlds.STUDIO_HOME", tmp_path / "lib" / "studio"),
+    ):
+        server = make_server(None, "world-agent", "127.0.0.1", 0)
+        threading.Thread(target=server.serve_forever, daemon=True).start()
+        base = f"http://127.0.0.1:{server.server_address[1]}"
+
+        def post(path, body):
+            req = urllib.request.Request(base + path, data=json.dumps(body).encode(), method="POST", headers={"Content-Type": "application/json"})
+            try:
+                with urllib.request.urlopen(req, timeout=180) as r:
+                    return r.status, json.loads(r.read())
+            except urllib.error.HTTPError as e:
+                return e.code, json.loads(e.read())
+        try:
+            mine = f"{tid}-mine"[:40]
+            code, out = post(f"/api/v1/local/templates/{tid}/fork", {"id": mine, "title": "(我的)"})
+            assert code == 200, out
+            code, out = post("/api/v1/create/session", {"template": mine, "name": "我的"})
+            assert code == 200 and not out.get("warnings"), out
+            code, out = post(f"/api/v1/local/templates/{mine}/world/new", {"title": "新世界"})
+            assert code == 200, out
+            code, out = post("/api/v1/create/session", {"template": mine, "name": "新世界"})
+            assert code == 200, out
+            assert ".neonrp/manifest.json" in [f["path"] for f in out["files"]]
+            if tid == "pct-house":   # its plot names the old house's rooms: opened without it, with the reason
+                assert out.get("warnings") and "T001/cellar" in out["warnings"][0]
+            code, out = post("/api/v1/create/session", {"template": "no-such-template", "name": "x"})
+            assert code == 400 and out["error"] == "scaffold_failed" and out["message"]
+        finally:
+            server.shutdown()
+
+
 def test_cli_contract_and_slots():
     from click.testing import CliRunner
 

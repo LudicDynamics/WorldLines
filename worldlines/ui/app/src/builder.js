@@ -29,7 +29,7 @@
   const h = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
   const enc = encodeURIComponent;
   const pick1 = a => a[Math.floor(Math.random() * a.length)];
-  // 头像跟着性别走(10-15:七夜选「女」随机出男性头像):不认字段名,认选项 id 的写法 —— 选择题的选项 id 是 female / male(f / m),
+  // 头像跟着性别走(10-15:选「女」随机出过男性头像):不认字段名,认选项 id 的写法 —— 选择题的选项 id 是 female / male(f / m),
   // 头像选项 id 以 -f / -m 结尾(后面可带数字),两边按这个字母对上;别的(不指定 · 中性头像 -n / -hood)不对。
   // 模板要指定跟哪个字段就在头像字段写 follows: "<选择字段 id>"。
   const sexOf = id => { const x = String(id || '').toLowerCase(); return /^(female|woman|f)$/.test(x) ? 'f' : /^(male|man|m)$/.test(x) ? 'm' : ''; };

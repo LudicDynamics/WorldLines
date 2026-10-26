@@ -213,6 +213,7 @@ class SettingsFlow:
         options.append((f"creation LLM  ({self._create_provider_inline_status()})", "create_provider"))
         options.append((f"{self._t('settings.discord')}  ({get_discord_inline_status()})", "discord"))
         options.append((f"{self._t('settings.image')}  ({self._image_inline_status()})", "image"))
+        options.append((f"{self._t('settings.judge')}  ({self._judge_inline_status()})", "judge"))
         options.append((self._t('settings.config_path'), "show_path"))
         options.append(spacer())
         options.append((self._t('settings.back'), "back"))
@@ -254,6 +255,9 @@ class SettingsFlow:
                 return
             if value == "image":
                 self._open_image_settings()
+                return
+            if value == "judge":
+                self._open_judge_settings()
                 return
             if value.startswith("view::"):
                 self._open_entry_detail(value.split("::", 1)[1])
@@ -976,6 +980,150 @@ class SettingsFlow:
             ChoicePickerScreen(f"Test · {self._t('settings.image')}", options),
             on_selected,
         )
+
+    # ------------------------------------------------------------------
+    # Judge (Jev) — 10-25: mode · own key · judge model preset · test.
+    # Reads / writes through core.judge_settings (the web drawer shares it).
+    # ------------------------------------------------------------------
+    def _judge_inline_status(self) -> str:
+        from neonrp.core import judge_settings
+
+        try:
+            st = judge_settings.read()
+        except Exception:  # noqa: BLE001
+            return "?"
+        return f"{st['mode']} · {st['effective']}"
+
+    def _open_judge_settings(self) -> None:
+        from neonrp.tui.app import ChoicePickerScreen, section, spacer
+        from neonrp.core import judge_settings
+
+        st = judge_settings.read()
+        key_label = st["key_masked"] or self._t("settings.judge.key_unset")
+        if st["key_source"] == "env":
+            key_label += f"  ({self._t('settings.judge.env').format(name=judge_settings.KEY_ENV)})"
+        mode_label = self._t(f"settings.judge.mode.{st['mode']}") if st["mode"] in judge_settings.MODES else st["mode"]
+        if st["mode_source"] == "env":
+            mode_label += f"  ({self._t('settings.judge.env').format(name=judge_settings.MODE_ENV)})"
+        preset_label = st["llm_preset"] or self._t("settings.judge.preset_none")
+        if st["llm_preset_source"] == "env":
+            preset_label += f"  ({self._t('settings.judge.env').format(name=judge_settings.PRESET_ENV)})"
+        now = self._t(f"judge.{st['effective']}")
+        if st.get("pinned_unusable"):
+            now = f"{self._t('judge.pinned.' + st['pinned_unusable'])} → {self._t('judge.actual')}: {now}"
+        if st["effective"] in ("off", "quota", "llm") and not st["signed_in"]:
+            now += f"  ·  {self._t('judge.login')}"
+
+        options: list[tuple[str, str]] = [
+            section(f"── {self._t('settings.judge')} ──"),
+            spacer(),
+            (f"{self._t('settings.judge.now')}:  {now}", "__noop__"),
+            (self._t("settings.judge.hint"), "__noop__"),
+            spacer(),
+            (f"{self._t('settings.judge.mode')}:    {mode_label}", "mode"),
+            (f"{self._t('settings.judge.key')}:  {key_label}", "key"),
+        ]
+        if st["key_source"] == "config":
+            options.append((f"  ✕ {self._t('settings.judge.key_clear')}", "key_clear"))
+        options += [
+            (f"{self._t('settings.judge.preset')}:  {preset_label}", "preset"),
+            spacer(),
+            (f"▶  {self._t('settings.test')}", "test"),
+            spacer(),
+            (self._t("settings.back"), "back"),
+        ]
+
+        def on_selected(value: str | None) -> None:
+            if value is None or value == "back":
+                self.open_root()
+                return
+            if value == "__noop__":
+                self._open_judge_settings()
+                return
+            if value == "mode":
+                self._pick_judge_mode()
+                return
+            if value == "key":
+                self.host._step_prompt_text(
+                    self._t("settings.judge.key_prompt"),
+                    default="",
+                    on_submit=lambda v: self._apply_judge(api_key=v),
+                )
+                return
+            if value == "key_clear":
+                self._apply_judge(clear_key=True)
+                return
+            if value == "preset":
+                self._pick_judge_preset(st["presets"])
+                return
+            if value == "test":
+                self._run_judge_test()
+                return
+
+        self.host.push_screen(ChoicePickerScreen(self._t("settings.judge"), options), on_selected)
+
+    def _pick_judge_mode(self) -> None:
+        from neonrp.tui.app import ChoicePickerScreen, section, spacer
+        from neonrp.core import judge_settings
+
+        options: list[tuple[str, str]] = [section(f"── {self._t('settings.judge.mode')} ──"), spacer()]
+        options += [(self._t(f"settings.judge.mode.{m}"), f"m::{m}") for m in judge_settings.MODES]
+        options += [spacer(), (self._t("settings.back"), "back")]
+
+        def on_selected(value: str | None) -> None:
+            if value is None or value == "back":
+                self._open_judge_settings()
+                return
+            if value.startswith("m::"):
+                self._apply_judge(mode=value.split("::", 1)[1])
+
+        self.host.push_screen(ChoicePickerScreen(self._t("settings.judge.mode"), options), on_selected)
+
+    def _pick_judge_preset(self, presets: list[str]) -> None:
+        from neonrp.tui.app import ChoicePickerScreen, section, spacer
+
+        options: list[tuple[str, str]] = [section(f"── {self._t('settings.judge.preset')} ──"), spacer()]
+        options += [(f"  {pid}", f"p::{pid}") for pid in presets]
+        options += [(self._t("settings.judge.preset_none"), "p::"), spacer(), (self._t("settings.back"), "back")]
+
+        def on_selected(value: str | None) -> None:
+            if value is None or value == "back":
+                self._open_judge_settings()
+                return
+            if value.startswith("p::"):
+                self._apply_judge(llm_preset=value.split("::", 1)[1])
+
+        self.host.push_screen(ChoicePickerScreen(self._t("settings.judge.preset"), options), on_selected)
+
+    def _apply_judge(self, **fields: Any) -> None:
+        from neonrp.core import judge_settings
+
+        if "api_key" in fields and not (fields["api_key"] or "").strip():  # blank = cancelled
+            self._open_judge_settings()
+            return
+        judge_settings.save(**fields)
+        self._open_judge_settings()
+
+    def _run_judge_test(self) -> None:
+        from neonrp.tui.app import ChoicePickerScreen, section, spacer
+        from neonrp.core import judge_settings
+
+        result = judge_settings.probe()
+        status = f"✓ {self._t('settings.test_ok')}" if result.get("ok") else f"✗ {self._t('settings.test_fail')}"
+        detail = f"{result.get('ms', 0)} ms · yes={result.get('yes')}" if result.get("ok") else str(result.get("error", ""))
+        options = [
+            section(f"── test · {self._t('settings.judge')} ──"),
+            spacer(),
+            (f"{status}  ·  {result.get('backend', '?')}", "__noop__"),
+            (detail, "__noop__"),
+            spacer(),
+            (self._t("settings.back"), "back"),
+        ]
+
+        def on_selected(_: str | None) -> None:
+            self._open_judge_settings()
+
+        self.host.push_screen(ChoicePickerScreen(f"Test · {self._t('settings.judge')}", options), on_selected)
 
     def _open_config_path(self) -> None:
         from neonrp.tui.app import ChoicePickerScreen

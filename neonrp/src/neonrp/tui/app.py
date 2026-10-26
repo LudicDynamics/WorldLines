@@ -1090,11 +1090,16 @@ class ConversationView(VerticalScroll):
             if lv:
                 return lv
         word, said = str(outcome or "").strip(), None
-        for loc in ("zh", "en", "ja", "ko"):
-            for lv in LEVELS:
-                if said is None and word == get_message(loc, f"dice.outcome.{lv}"):
-                    said = lv
-        if said in ("critical", "special", "fumble"):
+        # a contest names who won: first (「失败:你掷 59…→ <她>赢」, 10-25 plain words) or, in a line from before, last
+        # (「成功,对 <她> 44/55 成功(…) → 失败」)
+        verdict = "→" in word
+        words = [word.rsplit("→", 1)[-1].strip(), re.split(r"[::,,;;((]", word, maxsplit=1)[0].strip()]
+        for w in words:
+            for loc in ("zh", "en", "ja", "ko"):
+                for lv in LEVELS:
+                    if said is None and w.casefold() == get_message(loc, f"dice.outcome.{lv}").casefold():
+                        said = lv
+        if said in ("critical", "special", "fumble") or (verdict and said):
             return said
         nat = re.match(r"\d+", expr)
         if nat is None:
@@ -5381,6 +5386,13 @@ class WorldLinesLauncherApp(App[None]):
         return n_worlds, n_souls
 
     def on_mount(self) -> None:
+        try:  # the console's usage events (core/usage): the app opened, the world list is in view
+            from neonrp.core import usage as _usage
+
+            _usage.app_open()
+            _usage.lobby_view()
+        except Exception:  # noqa: BLE001
+            pass
         # Default focus: ⚡ resume when there is a save (Enter = in the game),
         # otherwise「新游戏」.
         try:
@@ -9379,6 +9391,15 @@ class NeonRPApp(App):
     def on_mount(self) -> None:
         """Initialize on mount."""
         self.title = f"NeonRP — {self.root.name}"
+        try:  # the console's usage events (core/usage): this world is open to play
+            from neonrp.core import chronicle as _chron
+            from neonrp.core import usage as _usage
+            from neonrp.core.replay_export import count_turns
+
+            _usage.app_open()
+            _usage.world_enter(_chron.world_ref(self.root), resumed=count_turns(self.root) > 0)
+        except Exception:  # noqa: BLE001
+            pass
         self.ui_locale = self._resolve_ui_locale()
         self.query_one("#input-area", InputArea).set_locale(self.ui_locale)
 

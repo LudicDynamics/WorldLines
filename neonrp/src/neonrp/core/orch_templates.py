@@ -19,7 +19,8 @@ A template is a folder ``<id>/orch.json`` (``worldlines.orch-template/1``)::
     soul.variant  the default characters' orchestration (``turn.parallel.souls.default_variant``) when ``uses.soul`` is unset
     params        named choices laid over ``world.engine`` (a world picks one in ``uses.params``)
     aliases       the creation desk's preset ids from before templates (a draft may still carry one), read as this
-                  template with those choices
+                  template with those choices; a key may also be a retired choice of another template
+                  (``two_beat?pace=quick``), so a work that stored it still opens — as this template
 
 Where templates come from (later wins, by id): the engine's ``neonrp/orchestrations/`` · the private layer's
 ``orchestrations/<id>/``. Their words are the ``orch_presets`` string table (``template.<id>``, ``param.<name>``).
@@ -176,8 +177,20 @@ def parse_uses(u: Any) -> dict[str, Any] | None:
     if not isinstance(u, dict) or not str(u.get("template") or "").strip():
         return None
     params = u.get("params") if isinstance(u.get("params"), dict) else {}
-    return {"template": str(u["template"]).strip(), "version": str(u.get("version") or ""), "soul": str(u.get("soul") or ""),
-            "params": {str(k): str(v) for k, v in params.items()}}
+    out = {"template": str(u["template"]).strip(), "version": str(u.get("version") or ""), "soul": str(u.get("soul") or ""),
+           "params": {str(k): str(v) for k, v in params.items()}}
+    moved = _retired(out["template"], out["params"])
+    if moved is not None:
+        out.update(template=moved["id"], version=moved["version"], params=dict(moved["aliases"][moved["key"]]))
+    return out
+
+
+def _retired(tid: str, params: dict[str, str]) -> dict[str, Any] | None:
+    """The template that took over a retired choice (``<id>`` or ``<id>?<param>=<choice>…`` in another template's
+    ``aliases``) with ``key`` = that alias; None when the choice still stands."""
+    key = tid + ("?" + "&".join(f"{k}={v}" for k, v in sorted(params.items())) if params else "")
+    owner = next((t for t in templates() if key in t["aliases"] and t["id"] != tid), None)
+    return {**owner, "key": key} if owner is not None else None
 
 
 def ref(u: dict[str, Any] | None) -> str:
@@ -205,6 +218,9 @@ def from_ref(s: str) -> dict[str, Any] | None:
         k, _, v = part.partition("=")
         if k:
             params[k] = v
+    moved = _retired(tid, params)
+    if moved is not None:
+        tid, params = moved["id"], dict(moved["aliases"][moved["key"]])
     t = get(tid)
     return {"template": tid, "version": str((t or {}).get("version") or ""), "soul": "", "params": params}
 

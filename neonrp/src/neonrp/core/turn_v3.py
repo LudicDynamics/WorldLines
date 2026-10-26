@@ -284,6 +284,39 @@ def drop_restated(prefix: str, cont: str) -> str:
     return "\n".join(lines[k:]).strip("\n")
 
 
+_ENDS = set("。!?！？…\n") | set(".!?")
+_OPEN, _CLOSE = "「『“\"(（", "」』”\")）"
+
+
+def trim_cut(text: str) -> str:
+    """Prose cut by time or a broken stream (10-25 S[20] 「…蹲下摸了摸地面,才把罩」): its last line ends at the last
+    whole sentence outside a quote; a line with none goes. A line already ending a sentence (or a quote) stays."""
+    t = str(text or "").rstrip()
+    if not t:
+        return ""
+    head, _, last = t.rpartition("\n")
+    depth, cut = 0, -1
+    for i, c in enumerate(last):
+        if c in _OPEN and not (c == '"' and depth):
+            depth += 1
+        elif c in _CLOSE and depth:
+            depth -= 1
+            if depth == 0 and (i + 1 == len(last) or last[i - 1] in _ENDS or last[i + 1] in _ENDS):
+                cut = i + 1
+        elif depth == 0 and c in _ENDS:
+            cut = i + 1
+    if cut == len(last) or (cut < 0 and not last.strip()):
+        return t
+    last = last[:cut].rstrip() if cut > 0 else ""
+    return (head.rstrip() + ("\n" + last if last else "")).strip() if head else last
+
+
+def is_timeout_line(text: str) -> bool:
+    """The short line a beat that wrote nothing in time lands with (``beat_timeout``, any language)."""
+    t = str(text or "").strip()
+    return bool(t) and any(t == str(_prompts.strings("turn_v3", lg).get("beat_timeout") or "").strip() for lg in ("zh", "en", "ja", "ko"))
+
+
 def join_continued(prefix: str, cont: str) -> str:
     """prefix + the continuation; a first continued line that restates the prefix's last line and goes on (a stop in
     the middle of 「你摸着砖缝[dice 侦查]」, then 「你摸着砖缝,一块砖松了。」) replaces it — the line is there once (10-17)."""
@@ -1085,14 +1118,26 @@ def solve_turn(
                 reports.append({"iid": who, "name": reg.entries.get(who, None).name if who in reg.entries else who,
                                 "kind": "need", "text": rep.get("text") or rep.get("answer") or rep.get("error") or ""})
             span("parallel", "need", "llm", t0, loop=loops, souls=needs[:2])
+        if narrate and needs and not fixable and out.narration.strip():
+            # the prose up to [ask …] is on screen already: the answer is appended to it, never a rewrite (10-25 S[15]/[37]:
+            # the rewrite stalled, the beat ran out and the whole beat — 300 written characters — became 「这一拍超时了」)
+            prefix = out.prefix or out.narration
+            STREAM["skip"] = {x.strip() for x in prefix.splitlines() if x.strip()}
         refusals = fixable or None
         prev = out
         # a `need` continuation keeps what was already accepted (the prose continues, the diff must too);
         # a fix pass replaces it (the model is re-proposing the offending ops).
         carry = [] if fixable else [{k: v for k, v in o.items() if not k.startswith("_")} for o in vr.accepted if o["op"] != "need"]
+    if narrate and out is not None and (out.narration or "").strip() and _beat.timed_out("world"):
+        out.narration = trim_cut(out.narration)  # cut mid-sentence: what lands (and is written down) ends on a whole one
+    # nothing written in time: the beat lands as nothing — no write-down, no ops (10-25 S[37]: the player was moved into a
+    # new cave the prose never showed); 「继续生成」 writes it and its write-down (core/turn_rescue)
+    _nothing = bool(narrate and out is not None and not (out.narration or "").strip() and _beat.timed_out("world"))
+    if _nothing and vr is not None:
+        vr.accepted = [o for o in vr.accepted if o.get("_by") == "plan"]  # only what the talk already settled (its payments)
     if narrate and out is not None and (out.narration or "").strip():
         _beat.grant(_beat.settle_s(root), "world.settle")  # the prose is the beat; the state transition still gets its call
-    if narrate and out is not None:
+    if narrate and out is not None and not _nothing:
         # ② one clean context: the whole prose + every tool answer → <vars> / <files>; ③ the tools' rulings win; a refusal
         # sends back only ②, the prose does not change
         _tools_txt = "\n".join([f"- {t.get('request')}: {str(t.get('text') or t.get('why') or '')[:200]}" for t in tool_log if not t.get("async")]
@@ -1258,6 +1303,25 @@ def solve_turn(
 
     _final_panels = {k: (v if isinstance(v, dict) else _panels.finish(root, k, v)) for k, v in {**panels_acc, **out.panels}.items()}
     annotated = annotate(out.narration, marks_at, accepted)
+    if narrate and not _sdk.PLAYER_AWAY.get():  # what a continuation of this prose needs, if the page asks for one (core/turn_rescue)
+        from neonrp.core import turn_rescue as _rescue
+        from neonrp.core.adv import narrate_lang_line as _nll
+
+        _extra = "\n\n".join(x for x in (layer_extra, understood.get("block") or "") if x)
+        _reports, _returns = list(reports), list(tool_returns)
+
+        def _resume_block(pfx: str) -> str:
+            reg2 = load_registry(root)  # the world as it is now (the prose so far already landed)
+            pt = render_pack(pack(root, history=None, registry=reg2, budget_chars=_budget))
+            h2 = _mech.get(root, "pack_hints")(root, reg2) or ""
+            b = _user_block(pt + ("\n\n" + h2 if h2 else ""), user_text, _reports, plan_facts, None, None, _returns, lang=lang,
+                            keyword_entries=kw_entries, prefix=pfx, mentions=mentions, extra=_extra)
+            return b + _prompts.text("narrate", narr_lang, root) + "".join("\n\n" + x for x in (_nll(root, narr_lang),) if x)
+
+        _placeholder = str(_T(lang).get("beat_timeout") or "")
+        _rescue.offer(root, turn=turn, narration="" if out.narration == _placeholder else out.narration, shown=out.narration, adapter=adapter,
+                      system=system, block=_resume_block, history=list(_HISTORY_TURNS), lang=lang, narr_lang=narr_lang,
+                      max_ops=max_ops, writers=writers, user_text=user_text)
     return {"understood": {k: v for k, v in understood.items() if k != "block"} if understood else {},
             "narration": out.narration, "annotated": annotated, "ops": out.ops, "options": list(out.options), "cot": out.cot, "tool_returns": tool_log, "panels": _final_panels, "verify": vr.to_dict() if vr else {}, "apply": ar, "loops": loops,
             "usage": usage_total, "spans": spans, "solve": out, "reports": reports,

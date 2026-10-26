@@ -5,7 +5,7 @@ import { mkdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { execFileSync } from 'node:child_process'
 
-const BASE = process.env.WL_FE_BASE || 'http://127.0.0.1:8799'
+const BASE = process.env.WL_FE_BASE || 'http://127.0.0.1:8909'
 const SHOTS = process.env.WL_FE_SHOTS || ''
 if (SHOTS) mkdirSync(SHOTS, { recursive: true })
 const shot = (page: Page, name: string) => (SHOTS ? page.screenshot({ path: join(SHOTS, `${name}.png`) }) : Promise.resolve())

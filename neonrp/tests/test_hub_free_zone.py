@@ -3,11 +3,13 @@
 iOS(window.HUB.openZone === false)整个不拉、不显示。引擎接口全部是假的(tests/hub_free_zone.mjs)。
 
 两个区两个地址(10-16):本地 /hub.html#/ ⇄ #/free/…;线上 / ⇄ /free/(同一份页面 + <base href="../">,tests/hub_free_web.mjs);
-顶上的「默认区 ⇄ 自由区」开关跳到另一个地址,直达 / 刷新落在那一区;线上自由区作品的主按钮 =「在浏览器里玩」(play/?ref=hub/template/<id>);
-默认区(官方世界)不出世界包下载,也不出「在本地玩」(只在浏览器里玩)。"""
+顶上的「默认区 ⇄ 自由区」开关跳到另一个地址,直达 / 刷新落在那一区;线上自由区作品(niko 10-26)主按钮 =「下载到本地玩」(本地是完整体验),
+次按钮 =「在浏览器里玩」(弹窗:额度默认 + 自己的 key,play/?ref=hub/template/<id>);默认区(官方世界)不出世界包下载,也不出「在本地玩」
+(只在浏览器里玩),弹窗里没有自己的 key(只用 Worldlines 额度)。"""
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import subprocess
 from pathlib import Path
@@ -86,7 +88,7 @@ def test_ios_never_pulls_the_free_zone(tmp_path):
     assert "remote-abc123" not in r["defaultCards"]
 
 
-def _web(tmp_path, *, ios=False):
+def _web(tmp_path, *, ios=False, shots=os.environ.get("WL_ZONE_KEY_SHOTS", "")):
     node = shutil.which("node")
     if not node or not (UI / "node_modules" / "playwright").is_dir():
         pytest.skip("node + worldlines/ui/node_modules/playwright needed")
@@ -94,13 +96,15 @@ def _web(tmp_path, *, ios=False):
     w.pop("cover_url")
     api = {
         "/catalog.json": {"templates": [{"id": "official", "title": {"zh": "官方世界"}, "pitch": {"zh": "p"}, "lang": "zh", "tags": {}, "endings": [],
-                                         "cast": [], "zone": "reviewed", "download": {"src": "dl/official.template.zip", "bytes": 1000}}]},
+                                         "cast": [], "zone": "reviewed", "download": {"src": "dl/official.template.zip", "bytes": 1000},
+                                         "browser": {"ok": True, "bytes": 1000}}]},
         "/v1/public/resources": {"resources": [{**w, "status": "published"}]},
         "/v1/public/objects/hub/template/w-free-abc123/download-url": {"files": [{"path": "cover.png", "url": "https://s3.test/cover.png"}]},
     }
     (tmp_path / "web.json").write_text(json.dumps(api, ensure_ascii=False), encoding="utf-8")
     out = subprocess.run([node, str(ROOT / "tests" / "hub_free_web.mjs"), str(HUB / "index.html"), str(HUB / "hub.js"), str(tmp_path / "web.json"),
-                          str(UI / "package.json"), *(["ios"] if ios else [])], capture_output=True, text=True, timeout=180, check=True)
+                          str(UI / "package.json"), *(["ios"] if ios else [])], capture_output=True, text=True, timeout=180, check=True,
+                         env={**os.environ, **({"HUB_SHOTS": shots} if shots else {})})
     return json.loads(out.stdout.strip().splitlines()[-1])
 
 
@@ -115,8 +119,19 @@ def test_two_addresses_on_the_web(tmp_path):
     assert f["hrefs"] == ["free/#/t/w-free-abc123"], "a free work's detail lives under /free/"
     d = r["freeDetail"]
     assert d["url"] == "http://hub.test/free/#/t/w-free-abc123" and d["cover"] == "https://s3.test/cover.png"
-    assert d["ctas"][0][0] == "▶ 在浏览器里玩" and d["ctas"][0][1].startswith("play/?ref=hub%2Ftemplate%2Fw-free-abc123&")
-    assert "▶ 在本地玩" in [c[0] for c in d["ctas"]], "a free work can be taken home"
+    assert [c[0] for c in d["ctas"]][:2] == ["⬇ 下载到本地玩", "▶ 在浏览器里玩"], "free zone: take it home first, the browser second"
+    assert "p" in d["ctas"][0][2].split() and "p" not in d["ctas"][1][2].split(), "download-to-play-locally is the primary button"
+    lo = r["freeLocalSheet"]["text"]
+    assert "本地版是完整体验" in lo and "浏览器版之后再开" not in lo, "the local sheet no longer says the browser is unavailable"
+    ws = r["freeWebSheet"]
+    play = [h for _, h, _ in ws["links"] if h.startswith("play/?")]
+    assert play and all(h.startswith("play/?ref=hub%2Ftemplate%2Fw-free-abc123&") for h in play), play
+    own = [x for x in ws["links"] if x[0] == "用自己的 key(不扣额度)"]
+    assert own and "own=1" in own[0][1] and "p" not in own[0][2].split(), "free zone: own key is offered, credits stay the default"
+    assert "key 只存在这个浏览器里,只发给你填的地址" in ws["text"]
+    os_ = r["officialSheet"]
+    assert "自己的 key" not in os_["text"] and not any("own=1" in h for _, h, _ in os_["links"]), "default zone: credits only, no own key"
+    assert any(h.startswith("play/?tpl=official&") for _, h, _ in os_["links"])
     assert r["back"]["url"] == "http://hub.test/#/" and r["back"]["cards"] == ["official"]
 
 

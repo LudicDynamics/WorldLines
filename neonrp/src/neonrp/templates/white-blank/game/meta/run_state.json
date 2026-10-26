@@ -4,31 +4,14 @@
   "location": {
     "scope": "town",
     "node_id": "T001",
-    "subnode_id": "gate_north",
-    "node": "gate_north",
-    "display": "起点镇·北门"
+    "subnode_id": "start",
+    "node": "start",
+    "display": "第一个地方·起始处"
   },
   "time": {
     "day": 1,
     "clock": "08:00"
   },
-  "last_action": "arrived_at_blank_world",
   "pending": [],
-  "turn_count": 0,
-  "party": {
-    "player": {
-      "pid": "player",
-      "state_path": "game/player",
-      "location": "north-gate",
-      "memory": "amnesia"
-    },
-    "souls": {
-      "chara": {
-        "instance_id": "si-chara0001",
-        "state_file": "souls/chara-si-chara0001/run_state.json",
-        "location": "north-gate",
-        "available_for_interaction": true
-      }
-    }
-  }
+  "turn_count": 0
 }

@@ -19,6 +19,7 @@
   const world = () => (window.WL_WORLD && window.WL_WORLD()) || L.bound || '';   // 当前世界(没选过 = 这一局的)
   const wkey = () => world() || '_';
   const tplT = id => { const t = (L.templates || []).find(x => x.id === id); return t ? ((t.card && t.card.title) || t.id) : (id || ''); };
+  const lang = () => window.WLANG || 'zh';   // 界面语言:列表标题、新建页的字、前端 agent 都跟它
   const api = (p, opt) => V3.j(P + p, opt);
   const post = (p, body) => V3.post(P + p, body);
 
@@ -32,7 +33,7 @@
   /* ---------- 读 ---------- */
   async function loadList(force) {
     const k = wkey(); if (!force && F.loadedFor === k) return; F.loadedFor = k;
-    try { F.list = await api('/' + enc(k)); } catch (e) { F.list = { error: String(e.message || e), frontends: [] }; }
+    try { F.list = await api('/' + enc(k) + '?lang=' + enc(lang())); } catch (e) { F.list = { error: String(e.message || e), frontends: [] }; }
     if (!row(fidOf(F.sel)) && !DESKS.some(d => d[0] === F.sel) && F.sel !== 'new') F.sel = 'builtin.godot';
     rer();
   }
@@ -113,7 +114,7 @@
           <div class="sub" style="font-size:12px">${T('开一个 Godot 窗口,地址 / 令牌 / 世界已经填好(WL_HOST · WL_TOKEN · WL_WORLD);只关这里起的那个进程。')}</div></div>
         <div class="glass deep fxcard"><span class="tag">${T('无界面冒烟')} · tests/smoke.gd</span>
           <div class="sub" style="font-size:12.5px">${T('Godot 的客户端节点连上本机引擎,发一句、收完流式叙事和拍事件。')}<b style="color:var(--crit)">${T('会在引擎上开着的这一局里真走一回合')}</b>${T('(花一次模型调用)。')}</div>
-          <div class="row" style="margin-top:10px;gap:8px"><input class="cell" id="fxline" value="${esc(F.smokeLine || '看看四周')}" style="flex:1"><button class="btn p" data-fxsmoke ${g && g.bin && L.bound && !F.busy.smoke ? '' : 'disabled'}>${F.busy.smoke ? T('跑着……') : T('跑一句(真回合)')}</button></div>
+          <div class="row" style="margin-top:10px;gap:8px"><input class="cell" id="fxline" value="${esc(F.smokeLine || T('看看四周'))}" style="flex:1"><button class="btn p" data-fxsmoke ${g && g.bin && L.bound && !F.busy.smoke ? '' : 'disabled'}>${F.busy.smoke ? T('跑着……') : T('跑一句(真回合)')}</button></div>
           ${!L.bound ? `<div class="sub" style="font-size:12px">${T('引擎上还没开局,先开一局')}</div>` : ''}
           ${sm ? `<div class="fxres ${sm.ok ? 'ok' : 'bad'}"><div class="row"><span class="dot ${sm.ok ? 'ok' : 'bad'}"></span><b>${sm.ok ? T('通过') : T('没通过')}</b><span class="tag" style="margin-left:auto">${T('退出码')} ${esc(sm.code)}</span></div>
             ${[sm.connected, sm.turn, sm.events].filter(Boolean).map(x => `<div class="mono" style="font-size:12px">${esc(x)}</div>`).join('')}<pre class="code fxout">${esc(sm.error || String(sm.output || '').split('\n').filter(x => ![sm.connected, sm.turn, sm.events].includes(x)).join('\n'))}</pre></div>` : ''}</div>
@@ -273,7 +274,7 @@
 
   /* ---------- 动作 ---------- */
   async function smoke() {
-    const id = fidOf(F.sel), line = (($('#fxline') || {}).value || '').trim() || '看看四周'; F.smokeLine = line;
+    const id = fidOf(F.sel), line = (($('#fxline') || {}).value || '').trim() || T('看看四周'); F.smokeLine = line;
     F.busy.smoke = true; F.smoke = null; rer();
     try { F.smoke = { id, ...(await post(`/${enc(wkey())}/${enc(id)}/godot/smoke`, { line })) }; }
     catch (e) { F.smoke = { id, ok: false, code: e.status || '—', error: T('冒烟没跑起来:') + e.message }; }
@@ -290,7 +291,7 @@
   }
   async function create() {
     const n = F.nf; n.name = (($('#fxnname') || {}).value || '').trim(); n.title = (($('#fxntitle') || {}).value || '').trim(); F.msg = '';
-    try { const r = await post(`/${enc(wkey())}/new`, { name: n.name, kind: n.kind, title: n.title }); F.nf = { kind: n.kind, name: '', title: '' }; await loadList(true); F.sel = r.id; F.mode = 'play'; }
+    try { const r = await post(`/${enc(wkey())}/new`, { name: n.name, kind: n.kind, title: n.title, lang: lang() }); F.nf = { kind: n.kind, name: '', title: '' }; await loadList(true); F.sel = r.id; F.mode = 'play'; }
     catch (e) { F.msg = T('没建成:') + (e.status === 400 ? T('名字只能是小写字母 / 数字 / -,而且不能和已有的重名') : e.message); }
     rer();
   }
@@ -317,7 +318,7 @@
     const msg = { t: 'agent', h: '<span class="dots">…</span>' }; list.push(msg); F.busy.agent = true; rer();
     let text = '', calls = [];
     try {
-      const r = await fetch(V3.url(`${P}/${enc(wkey())}/${enc(id)}/agent`), { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ input: x, history: hist }) });
+      const r = await fetch(V3.url(`${P}/${enc(wkey())}/${enc(id)}/agent`), { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ input: x, history: hist, lang: lang() }) });
       if (!r.ok || !r.body) throw new Error((await r.json().catch(() => ({}))).error || 'agent → ' + r.status);
       const rd = r.body.getReader(), dec = new TextDecoder(); let buf = '', ev = '';
       for (;;) { const { done, value } = await rd.read(); if (done) break; buf += dec.decode(value, { stream: true });
@@ -342,7 +343,7 @@
     const name = ((($('#fximpname') || {}).value) || F.impName || '').trim() || String(file.name || '').replace(/\.frontend\.zip$|\.zip$/i, '').toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
     F.imp = null; rer();
     try {
-      const r = await fetch(V3.url(`${P}/${enc(wkey())}/import?name=${enc(name)}&lang=zh`), { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/zip' }, body: file });
+      const r = await fetch(V3.url(`${P}/${enc(wkey())}/import?name=${enc(name)}&lang=${enc(lang())}`), { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/zip' }, body: file });
       const b = await r.json().catch(() => ({}));
       if (!r.ok) { F.imp = { ok: false, error: b.error || r.status, problems: b.problems }; rer(); return; }
       F.imp = { ok: true, id: b.id }; F.impName = ''; await loadList(true); F.sel = b.id; goEdit('files'); F.fsel = null;

@@ -29,6 +29,7 @@ from typing import Any
 logger = logging.getLogger("neonrp.save_limits")
 
 KINDS = ("sandbox", "adventure")
+LIMITED_PLATFORMS = ("emscripten", "ios")  # the browser build (Pyodide) · the iOS app's embedded CPython
 _CACHE: dict[str, tuple[float, dict[str, Any] | None]] = {}
 TTL_S = 60.0
 
@@ -140,7 +141,7 @@ def limit_for(kind: str) -> tuple[str | None, int | None]:
     """(tier, how many runs of one world) for whoever plays on this engine; (None, None) = no limit."""
     from neonrp.core import worldlines_auth
 
-    if sys.platform != "emscripten" and os.environ.get("NEONRP_SAVE_LIMITS_ENFORCE", "").strip() != "1":
+    if sys.platform not in LIMITED_PLATFORMS and os.environ.get("NEONRP_SAVE_LIMITS_ENFORCE", "").strip() != "1":
         return None, None  # the local edition: no limit, signed in or not (10-25)
     tok = worldlines_auth.access_token()
     if not tok or tok == "-":

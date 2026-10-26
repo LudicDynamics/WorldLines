@@ -7,7 +7,7 @@ set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
 REPO="$(cd "$HERE/../../.." && pwd)"
 SITE="${WL_PLAY_SITE:-$(mktemp -d)/site}"
-FAKE=http://127.0.0.1:8611
+FAKE=http://127.0.0.1:${WL_PLAY_AI_PORT:-8611}
 ( cd "$REPO" && uv run python worldlines/ui/app/hub/build_static.py --out "$SITE" --play --bench --player-worktree --no-packages \
     --ai "$FAKE/v1" --auth "$FAKE" --billing "$FAKE" --platform "$FAKE" ${WL_PLAY_PUBLIC_ONLY:+--public-only} )
 cd "$HERE"

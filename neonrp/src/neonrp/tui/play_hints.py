@@ -186,17 +186,20 @@ def dice_detail(ev: dict[str, Any], locale: str) -> Text | None:
     if total is None:
         return None
     label, reason = str(ev.get("label") or ""), str(ev.get("reason") or "")
-    lv = str(ev.get("level") or "")
-    if vs is None or ev.get("passed") is None:
+    lv = str(ev.get("own_level") or ev.get("level") or "")
+    ok = ev.get("passed")
+    if isinstance(ev.get("contest"), dict) and isinstance(total, (int, float)) and isinstance(vs, (int, float)):
+        ok = total <= vs if ev.get("under") else total >= vs  # a contest: why his own roll landed where it did; the row says who won
+    if vs is None or ok is None:
         why = _t(locale, "hint.dice.plain", n=total)
     elif lv == "crit" and isinstance(ev.get("crit_max"), (int, float)):
         why = _t(locale, "hint.dice.crit", n=total, m=ev["crit_max"])
     elif lv == "fumble" and isinstance(ev.get("fumble_min"), (int, float)):
         why = _t(locale, "hint.dice.fumble", n=total, m=ev["fumble_min"])
     elif ev.get("under"):
-        why = _t(locale, "hint.dice.under" if ev.get("passed") else "hint.dice.over", n=total, v=vs)
+        why = _t(locale, "hint.dice.under" if ok else "hint.dice.over", n=total, v=vs)
     else:
-        why = _t(locale, "hint.dice.meet" if ev.get("passed") else "hint.dice.short", n=total, v=vs)
+        why = _t(locale, "hint.dice.meet" if ok else "hint.dice.short", n=total, v=vs)
     t = Text("   ")
     if label:
         t.append(f"{label}  ", style=f"bold {SKILL}")

@@ -298,6 +298,7 @@
     if (!L.card && U.rside === 'card') U.rside = 'player';
     if (JSON.stringify(L.card || null) !== had && S.screen === 'test') render();
   }
+  window.LIVE_loadCard = loadCard;   // 别处开的局(settings.js 的 L.play)开完也要换这张卡
   function cardPanel() { if (!E.busy) loadCard(false); return `<div class="glass box" style="padding:10px">${window.BUILDER ? window.BUILDER.runPanel(L.card) : ''}<div class="sub2">player-card · game/player/card.json</div></div>`; }
   // bench.js 的 renderBench 写死 #pmain:这里给它一个容器
   function renderBenchInto(host) {
@@ -357,7 +358,7 @@
       const cur = await V3.j(EDIT + '/tree').catch(() => null), want = COPIES()[tid];
       if (!(cur && want && cur.world_id === want)) {
         const r = want ? await V3.post('/api/v1/create/session', { world_id: want }).catch(() => null) : null;
-        if (!r) { const t = L.templates.find(x => x.id === tid) || {}; const n = await V3.post('/api/v1/create/session', { template: tid, name: tplTitle(t) }); saveCopy(tid, n.world_id); }
+        if (!r) { const t = L.templates.find(x => x.id === tid) || {}; const n = await V3.post('/api/v1/create/session', { template: tid, name: tplTitle(t) }); saveCopy(tid, n.world_id); if ((n.warnings || []).length && typeof toast === 'function') toast(n.warnings.join('\n')); }
       }
       await loadEdit(false);
     } catch (e) { L.openFail = { tid, msg: String(e.message || e) }; }   // 记下来,不自动重试(之前会一直重发)

@@ -21,6 +21,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import re
 import sys
 import threading
 import time
@@ -52,6 +53,8 @@ def client() -> str:
     """Where this engine runs: ``WORLDLINES_CLIENT`` when the shell says so (the iOS app's embedded engine sets ``app``,
     ios4 10-21), else the browser engine (Pyodide) = web, else local."""
     env = os.environ.get("WORLDLINES_CLIENT", "").strip().lower()
+    if env == "ios":  # the iOS shell's name for itself (funnel 10-25; the X-Worldlines-Client header says ios) — play records still say app
+        return "app"
     if env in CLIENTS:
         return env
     return "web" if sys.platform == "emscripten" else "local"
@@ -136,6 +139,13 @@ def opened(root: Path) -> None:
     _bind_world(root)
     ensure(root)
     emit({"type": "world.open", "world_ref": world_ref(root), "open_id": uuid.uuid4().hex, "client": client()})
+    try:  # the usage event for the console (core/usage) — guests and the signed-out count there too
+        from neonrp.core import usage
+        from neonrp.core.replay_export import count_turns
+
+        usage.world_enter(world_ref(root), resumed=count_turns(Path(root)) > 0)
+    except Exception:  # noqa: BLE001
+        logger.debug("usage world_enter not queued", exc_info=True)
 
 
 def ending(root: Path, ended: dict[str, Any]) -> None:
@@ -179,6 +189,79 @@ def reward(root: Path, *, ref: str, points: int, source: str, score: int | None 
     return "reported"
 
 
+# ── what chronicle accepts (worldlines-platform services/chronicle/src/events.mjs) ──────────────────────────────
+# 10-25: chronicle rejected a play record twice that day ("1 of 1 rejected"). One bad optional field rejects the whole
+# event, so every event is made to fit before it is spooled: ids keep only the characters chronicle takes (the same
+# mapping every time, so a save keeps one id), optional words that do not fit are left out, texts are cut to length,
+# numbers are non-negative integers.
+_ID_BAD = re.compile(r"[^A-Za-z0-9._:@/-]")
+_ID_OK = re.compile(r"^[A-Za-z0-9._:@/-]{1,128}$")
+_WORD_OK = re.compile(r"^[a-z][a-z0-9_-]{0,63}$")
+_LOW_BAD = re.compile(r"[^a-z0-9._:-]")
+_WORLD_REF_OK = re.compile(r"^(?:[a-z0-9][a-z0-9-]{0,31}/[a-z0-9][a-z0-9-]{0,31}/[A-Za-z0-9._-]{1,128}|builtin:[A-Za-z0-9._-]{1,128}"
+                           r"|draft:[a-f0-9]{16,64}|local:[A-Za-z0-9._:/-]{1,128})$")
+_CTRL = re.compile(r"[\x00-\x1f\x7f]")
+
+
+def _id(v: Any, n: int = 128) -> str:
+    return (_ID_BAD.sub("-", str(v)) or "-")[:n]
+
+
+def _text(v: Any, n: int) -> str | None:
+    t = _CTRL.sub(" ", str(v)).strip()[:n]
+    return t or None
+
+
+def _low(v: Any, n: int) -> str:
+    t = _LOW_BAD.sub("-", str(v).lower()).lstrip("._:-")[:n]
+    return t or "x"
+
+
+def _nat(v: Any) -> int | None:
+    try:
+        return max(0, int(v))
+    except (TypeError, ValueError):
+        return None
+
+
+def clean(ev: dict[str, Any]) -> dict[str, Any]:
+    out = dict(ev)
+    if "save_id" in out:
+        out["save_id"] = _id(out["save_id"])
+    if "world_ref" in out and not _WORLD_REF_OK.match(str(out["world_ref"])):
+        ref = str(out["world_ref"])
+        out["world_ref"] = "local:" + (re.sub(r"[^A-Za-z0-9._:/-]", "-", ref.split(":", 1)[-1]) or "-")[:128]
+    if isinstance(out.get("meta"), dict):
+        m = {}
+        for k, v in out["meta"].items():
+            if k in ("template_id", "pack", "template_version") and _ID_OK.match(str(v)) and len(str(v)) <= (64 if k == "template_version" else 128):
+                m[k] = str(v)
+            elif k == "world_title" and (t := _text(v, 200)):
+                m[k] = t
+        out["meta"] = m
+        if not m:
+            out.pop("meta")
+    if out.get("type") == "ending.reached":
+        out["ending_id"] = _id(out.get("ending_id") or "-")
+        if "title" in out:
+            t = _text(out["title"], 200)
+            out.pop("title") if t is None else out.update(title=t)
+        if "kind" in out:
+            k = str(out["kind"]).strip().lower().replace(" ", "_")
+            out.pop("kind") if not _WORD_OK.match(k) else out.update(kind=k)
+    if out.get("type") == "settlement.reward":
+        out["ref"] = _low(out.get("ref") or "settlement", 100)
+        if "source" in out:
+            src = _low(out["source"], 64)
+            out.pop("source") if not src[0].isalpha() else out.update(source=src)
+        out["points"] = _nat(out.get("points")) or 0
+        for k in ("score", "total"):
+            if k in out:
+                n = _nat(out[k])
+                out.pop(k) if n is None else out.update({k: n})
+    return out
+
+
 # ── the spool ────────────────────────────────────────────────────────────────
 
 def emit(ev: dict[str, Any], *, send: bool = True) -> None:
@@ -187,7 +270,7 @@ def emit(ev: dict[str, Any], *, send: bool = True) -> None:
     who = account()
     if who is None:   # not signed in / a guest: chronicle would not take it, and no one else may inherit it
         return
-    rec = {**ev, "occurred_at": ev.get("occurred_at") or _now(), "_uid": who}
+    rec = {**clean(ev), "occurred_at": ev.get("occurred_at") or _now(), "_uid": who}
     with _LOCK:
         SPOOL.parent.mkdir(parents=True, exist_ok=True)
         lines = pending()
@@ -235,7 +318,8 @@ def _post(body: dict[str, Any], token: str) -> tuple[int, dict[str, Any]]:
     from neonrp.core import worldlines_auth
 
     req = urllib.request.Request(f"{BASE.rstrip('/')}/v1/events:batch", data=json.dumps(body).encode("utf-8"), method="POST",
-                                 headers={"Content-Type": "application/json", "Authorization": f"Bearer {token}", **worldlines_auth.headers()})
+                                 headers={"Content-Type": "application/json", "Authorization": f"Bearer {token}", **worldlines_auth.headers(),
+                                          **worldlines_auth.client_header()})
     try:
         with urllib.request.urlopen(req, timeout=15) as r:
             return r.status, json.loads(r.read() or b"{}")
@@ -266,9 +350,14 @@ def flush() -> dict[str, int]:
             if not batch:
                 out["kept"] = len(pending())
                 return out
+            body = {"product": worldlines_auth.PRODUCT, "events": [{k: v for k, v in ev.items() if not k.startswith("_")} for ev in batch]}
             try:
-                status, res = _post({"product": worldlines_auth.PRODUCT,
-                                     "events": [{k: v for k, v in ev.items() if not k.startswith("_")} for ev in batch]}, token)
+                status, res = _post(body, token)
+                if status == 401:  # the access token ran out mid-flush: the same single-flight renewal as the model calls, once
+                    fresh = worldlines_auth.refresh_now(token)
+                    if fresh and account(fresh) == who:
+                        token = fresh
+                        status, res = _post(body, token)
             except Exception as exc:  # noqa: BLE001 — offline: everything stays for the next time
                 logger.debug("chronicle offline: %s", exc)
                 out["kept"] = len(pending())

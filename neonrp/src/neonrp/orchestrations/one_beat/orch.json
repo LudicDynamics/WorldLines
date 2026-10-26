@@ -4,6 +4,6 @@
  "version": "1.0",
  "order": 20,
  "world": {"kind": "one_beat", "nodes": ["resolve"], "engine": {}},
- "aliases": {},
+ "aliases": {"quick_talk": {}, "two_beat?pace=quick": {}},
  "soul": {"variant": "legacy"}
 }

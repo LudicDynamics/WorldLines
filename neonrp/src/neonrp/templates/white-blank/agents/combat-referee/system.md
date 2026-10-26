@@ -141,7 +141,7 @@
   (nose wound,alert) (alert)
         │
   🔥 You (torch + sword)
-  ✨ chara (just finished casting)
+  ✨ Ally (just finished casting)
   🌳 Old Tree
 ```
 

@@ -10,7 +10,7 @@ import { cpSync, existsSync, rmSync } from 'node:fs'
 rmSync('./e2e/private', { recursive: true, force: true })
 if (process.env.WL_PRIVATE_UI !== 'off' && existsSync('../private/ui/e2e')) cpSync('../private/ui/e2e', './e2e/private', { recursive: true })
 
-const PORT = process.env.E2E_PORT || '8799'
+const PORT = process.env.E2E_PORT || '8909'
 const BASE = `http://127.0.0.1:${PORT}`
 
 // 起引擎的脚本住在引擎目录(neonrp/scripts/)。引擎的 scripts/e2e.sh 会

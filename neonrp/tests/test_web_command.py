@@ -737,7 +737,7 @@ def test_meta_capability_discovery(tmp_path: Path) -> None:
 
 def test_white_blank_template_scaffolds_playable(tmp_path: Path) -> None:
     """L0.4: the white template materializes into a playable multi-agent world
-    (manifest + playthrough with 2 blank souls + agents + town map)."""
+    (manifest + playthrough + agents + its one place; 10-26: no characters — the cast comes from the library)."""
     from neonrp.worlds import scaffold_template_into
 
     dest = tmp_path / "wb"
@@ -747,15 +747,12 @@ def test_white_blank_template_scaffolds_playable(tmp_path: Path) -> None:
         ".neonrp/playthrough.json",
         ".neonrp/runtime_contract.json",
         "game/meta/game-start.json",
-        "game/towns/T001/town_map.json",
+        "game/locations/T001/location.json",
         "agents/world-agent/agent.json",
-        "souls/chara-si-chara0001/soul.json",
-        "souls/charb-si-charb0001/soul.md",
     ):
         assert (dest / rel).is_file(), rel
     pt = json.loads((dest / ".neonrp/playthrough.json").read_text(encoding="utf-8"))
-    assert [s["sid"] for s in pt["souls"]] == ["chara", "charb"]
-    assert pt["active_souls"] == ["si-chara0001", "si-charb0001"]
+    assert pt["souls"] == [] and pt["active_souls"] == [] and not (dest / "souls").exists()
     # blankness: no stoneford leakage in the world content
     leaked = []
     for f in dest.rglob("*.json"):
@@ -1838,3 +1835,53 @@ def test_worldlines_web_is_the_player_entry(tmp_path: Path) -> None:
     r2 = CliRunner().invoke(worldlines_cli, ["--help"])
     assert "worldlines web" in r2.output
     assert "[internal]" in (neonrp_web.__doc__ or "")
+
+
+def test_settings_judge_routes(tmp_path: Path, monkeypatch) -> None:
+    """判断器(Jev)设置(10-25):GET settings 带 judge 段(不回 key);PUT judge 写 config;POST judge/test 走当前后端。"""
+    _init_project(tmp_path / "cur")
+    monkeypatch.setenv("HOME", str(tmp_path / "home"))
+    monkeypatch.setattr("neonrp.core.user_config.USER_CONFIG_PATH", tmp_path / "home" / ".neonrp" / "config.json")
+    for k in ("TYPESAFE_API_KEY", "HUB_API_TOKEN", "NEONRP_S1_LLM_PRESET", "WORLDLINES_API_KEY"):
+        monkeypatch.delenv(k, raising=False)
+    monkeypatch.delenv("NEONRP_S1_BACKEND", raising=False)
+    with (
+        patch("neonrp.commands.web.ConversationSession", _BusFakeSession),
+        patch("neonrp.core.worldlines_auth.access_token", return_value=None),
+        patch("neonrp.core.judge_settings.preset_choices", return_value=["deepseek"]),
+    ):
+        server, base = _serve(tmp_path / "cur")
+        try:
+            def put(body: dict) -> dict:
+                req = urllib.request.Request(f"{base}/api/v1/local/settings/judge", data=json.dumps(body).encode(), method="PUT", headers={"Content-Type": "application/json"})
+                with urllib.request.urlopen(req) as r:
+                    return json.loads(r.read())
+
+            out = put({"mode": "off", "api_key": "ts-abcdefghijkl"})
+            assert out["ok"] and out["judge"]["mode"] == "off" and out["judge"]["key_set"] and out["judge"]["key_masked"] == "ts-a…ijkl"
+            assert "ts-abcdefghijkl" not in json.dumps(out)
+            cfg = json.loads((tmp_path / "home" / ".neonrp" / "config.json").read_text())
+            assert cfg["judge"]["mode"] == "off" and cfg["models"]["typesafe"]["api_key"] == "ts-abcdefghijkl"
+
+            with urllib.request.urlopen(f"{base}/api/v1/local/settings") as r:
+                st = json.loads(r.read())
+            assert st["judge"]["mode"] == "off" and st["judge"]["effective"] == "off" and st["judge"]["presets"] == ["deepseek"]
+            assert "ts-abcdefghijkl" not in json.dumps(st)
+
+            out = put({"clear_key": True, "llm_preset": "deepseek", "mode": "auto"})
+            assert not out["judge"]["key_set"] and out["judge"]["llm_preset"] == "deepseek" and out["judge"]["effective"] == "llm"
+
+            req = urllib.request.Request(f"{base}/api/v1/local/settings/judge", data=json.dumps({"mode": "nope"}).encode(), method="PUT", headers={"Content-Type": "application/json"})
+            try:
+                urllib.request.urlopen(req)
+                raise AssertionError("expected 400")
+            except urllib.error.HTTPError as e:
+                assert e.code == 400
+
+            put({"mode": "off"})
+            req = urllib.request.Request(f"{base}/api/v1/local/settings/judge/test", data=b"{}", method="POST", headers={"Content-Type": "application/json"})
+            with urllib.request.urlopen(req) as r:
+                t = json.loads(r.read())
+            assert t["ok"] is False and t["error"] == "off"
+        finally:
+            server.shutdown()

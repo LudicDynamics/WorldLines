@@ -126,12 +126,29 @@ def _hermetic_judge_fallback(monkeypatch):
 
 
 @pytest.fixture(autouse=True)
+def _hermetic_creation_translate(monkeypatch):
+    """The creation desk fills the other languages before 「存」 (creation_translate, 10-25): a desk e2e must not reach the
+    developer's configured model that way. No model by default; a test that wants one patches ``_adapter`` itself."""
+    from neonrp.template import creation_translate as CT
+
+    def _none():
+        raise CT.TranslateError("no_model", "tests: no model")
+
+    monkeypatch.setattr(CT, "_adapter", _none)
+
+
+@pytest.fixture(autouse=True)
 def _hermetic_worldlines_account(monkeypatch, tmp_path_factory):
     """The developer's real Worldlines session (~/.worldlines/identity.json) and PAT never reach a test (10-02: a real
     session flipped the judge backend to the proxy). A test that wants a session writes its own file."""
     monkeypatch.setenv("WORLDLINES_IDENTITY_FILE", str(tmp_path_factory.mktemp("wl-identity") / "identity.json"))
     for k in ("WORLDLINES_API_KEY", "HUB_API_TOKEN"):
         monkeypatch.delenv(k, raising=False)
+    # billing claims (core/wl_claims) and usage events (core/usage) read their base at call time: a test that does not
+    # point them at its own fake reaches a closed local port, never the platform
+    monkeypatch.setenv("WORLDLINES_BILLING_BASE", "http://127.0.0.1:9")
+    monkeypatch.setenv("WORLDLINES_USAGE_BASE", "http://127.0.0.1:9")
+    monkeypatch.setenv("NEONRP_USAGE", "off")   # tests that count usage events turn it on themselves
 
 
 @pytest.fixture(autouse=True)
@@ -167,3 +184,51 @@ def _hermetic_player_data(monkeypatch, tmp_path_factory):
     import neonrp.core.replay_library as _rl  # a run that ends keeps a replay (10-18): never in the developer's library
 
     monkeypatch.setattr(_rl, "HOME", tmp_path_factory.mktemp("replays"))
+
+
+@pytest.fixture(autouse=True)
+def _hermetic_user_dirs(monkeypatch, tmp_path_factory):
+    """Every path constant bound to ``~/.neonrp`` / ``~/.worldlines`` at import time points into this test's own tmp
+    home (10-26): a test never reads the developer's real config (keys, judge mode, presets, UI language) nor writes
+    their worlds, plays or template store. The config readers (user_config · presets · updater · discord_config) share
+    one file, as the real ones do. A constant a module- / class-scoped fixture already moved off the real path is left
+    alone; a test that wants a real path behaviour patches the constant itself."""
+    import importlib
+    from pathlib import Path
+
+    real = Path.home()
+    home = tmp_path_factory.mktemp("user-home")
+    cfg = home / ".neonrp" / "config.json"
+    wl = home / ".worldlines"
+    targets = (
+        ("neonrp.core.user_config", "USER_CONFIG_PATH", cfg),
+        ("neonrp.presets", "_USER_CONFIG_PATH", cfg),
+        ("neonrp.core.updater", "USER_CONFIG_PATH", cfg),
+        ("neonrp.core.updater", "CACHE_PATH", home / ".neonrp" / "update_cache.json"),
+        ("neonrp.core.discord_config", "USER_CONFIG_PATH", cfg),
+        ("neonrp.commands.web", "_LAST_EDIT_SESSION_FILE", home / ".neonrp" / "last_edit_session.json"),
+        ("neonrp.worlds", "WORLDS_HOME", wl / "worlds"),
+        ("neonrp.worlds", "PLAYS_HOME", wl / "plays"),
+        ("neonrp.worlds", "GAME_HOME", wl / "games"),
+        ("neonrp.worlds", "STUDIO_HOME", wl / "studio"),
+        ("neonrp.players", "PLAYERS_HOME", wl / "players"),
+        ("neonrp.core.souls", "PLAYER_HOME", wl / "players"),
+        ("neonrp.core.commit_store", "COMMITS_HOME", wl / "commits"),
+        ("neonrp.core.hub_auth", "HUB_TOKEN_FILE", wl / "hub_token"),
+        ("neonrp.core.thumbs", "HOME", wl / "cache" / "thumbs"),
+    )
+    for mod_name, attr, path in targets:
+        try:
+            mod = importlib.import_module(mod_name)
+        except Exception:  # noqa: BLE001 — an optional module's deps
+            continue
+        cur = getattr(mod, attr, None)
+        if isinstance(cur, Path) and cur.is_relative_to(real / ".neonrp") or isinstance(cur, Path) and cur.is_relative_to(real / ".worldlines"):
+            monkeypatch.setattr(mod, attr, path)
+    # the template store: ensure_template_store() setdefaults these to ~/.worldlines (and mutates os.environ for good);
+    # set here, monkeypatch puts the environment back after the test
+    monkeypatch.setenv("NEONRP_TEMPLATE_WRITE_DIR", str(wl / "templates"))
+    monkeypatch.setenv("NEONRP_TEMPLATE_PATH", str(wl / "templates"))
+    # the UI language no longer comes from the developer's config: one fixed default (zh — what the suite was written
+    # against), not the machine's LANG; a test that wants another sets NEONRP_LOCALE / LANG itself
+    monkeypatch.setenv("NEONRP_LOCALE", "zh")

@@ -4,7 +4,7 @@ import { test, expect, type Page } from '@playwright/test'
 import { mkdirSync } from 'node:fs'
 import { join } from 'node:path'
 
-const BASE = process.env.WL_SOUL_BASE || 'http://127.0.0.1:8796'
+const BASE = process.env.WL_SOUL_BASE || 'http://127.0.0.1:8906'
 const SHOTS = process.env.WL_SOUL_SHOTS || ''
 const PRIVATE = !!process.env.WL_SOUL_PRIVATE
 if (SHOTS) mkdirSync(SHOTS, { recursive: true })

@@ -1,7 +1,7 @@
 // 浏览器版结局分享回放(replay 代理 10-18):浏览器里的引擎打一回合 → POST /api/v1/local/replay/share(引擎同一个接口,
 // 内部 replay_export.pack_replay → replay_share.share_files)→ 平台六步全部拦在本机(auth / storage / sns 都是假的,不发真平台),
 // 看上传的文件里有图、而且是原样的字节(wlweb._body 把图转 base64 过桥,worker.js 解回 Uint8Array)。
-//   WL_PLAY_PORT=8798 WL_PLAY_AI_PORT=8799 · 构建时 --ai / --auth / --billing 指到 http://127.0.0.1:8799
+//   WL_PLAY_PORT=8908 WL_PLAY_AI_PORT=8909 · 构建时 --ai / --auth / --billing 指到 http://127.0.0.1:8909
 import { test, expect, type Route } from '@playwright/test'
 
 const AI = `http://127.0.0.1:${process.env.WL_PLAY_AI_PORT || '8611'}`

@@ -804,3 +804,85 @@ def run_card(run: Path) -> dict[str, Any] | None:
     card["companion_cards"] = cc
     card["portrait"] = any((game / "player" / "assets" / f"portrait{e}").is_file() for e in IMAGE_EXTS)
     return card
+
+
+# ── the workbench's 「捏角色」 switch (10-25) ────────────────────────────────
+# Any world can open with the builder: turned on, a template without a sheet gets a generic one — name, gender and
+# pronouns, a line of looks, a portrait from the template's own ``assets/player/`` — nothing about any one world.
+# Turned off, the sheet is set aside under ``player.builder_off``; turning it back on restores the author's sheet, never
+# the generic one over it. The writes are template/author.py's (``set_builder`` · ``edit_builder`` · ``add_portrait``).
+
+STASH = "builder_off"
+PORTRAIT_DIR = "assets/player"
+
+
+def stash(t: Any) -> dict[str, Any] | None:
+    p = (getattr(t, "data", None) or {}).get("player")
+    s = p.get(STASH) if isinstance(p, dict) else None
+    return s if isinstance(s, dict) else None
+
+
+def portrait_files(t: Any) -> list[str]:
+    """The template's player pictures: ``assets/player/<name>.<png|jpg|webp>``, as template-relative paths."""
+    d = Path(t.dir) / PORTRAIT_DIR
+    return sorted(f"{PORTRAIT_DIR}/{p.name}" for p in d.iterdir() if p.is_file() and p.suffix.lower() in IMAGE_EXTS) if d.is_dir() else []
+
+
+def default_decl(t: Any) -> dict[str, Any]:
+    """The generic sheet. Labels in every language; the values a pick writes in the template's own language."""
+    from neonrp.template import i18n as _i18n
+
+    per = _by_lang("default_sheet")
+    src = per.get(_i18n.source_lang(t)) or per["zh"]
+    txt = lambda k: {lg: v[k] for lg, v in per.items()}  # noqa: E731
+    sex = lambda k, part: {lg: v["genders"][k][part] for lg, v in per.items()}  # noqa: E731
+    fields: list[dict[str, Any]] = [
+        {"id": "name", "kind": "text", "required": True, "max": 24, "label": txt("name"), "to": "player/profile.json:name",
+         "random": list(src["name_random"])},
+        {"id": "gender", "kind": "choice", "required": False, "label": txt("gender"), "hint": txt("gender_hint"),
+         "options": [{"id": k, "label": sex(k, "label"), "desc": sex(k, "desc"),
+                      "grants": {"set": {"player/profile.json:gender": src["genders"][k]["gender"],
+                                         "player/profile.json:pronouns": src["genders"][k]["pronouns"]}}}
+                     for k in ("female", "male", "unset")]},
+        {"id": "look", "kind": "text", "max": 120, "label": txt("look"), "hint": txt("look_hint"), "to": "player/profile.json:appearance"},
+    ]
+    faces = portrait_files(t)
+    if faces:
+        fields.append({"id": "face", "kind": "portrait", "label": txt("face"), "options": [{"id": Path(f).stem, "src": f} for f in faces]})
+    return {"title": txt("title"), "fields": fields}
+
+
+def editor(t: Any, lang: str = "") -> dict[str, Any]:
+    """What the workbench's switch and field editor show (``GET …/builder/edit?lang=``): on / off, whether a sheet is
+    set aside, and each field's label · random names · required — in ``lang`` (its i18n layer laid over, when it has one)."""
+    from neonrp.template import author
+    from neonrp.template import i18n as _i18n
+
+    lg = _i18n.norm_lang(lang) or _i18n.source_lang(t)
+    b = raw(t) if declared(t) else None
+    out: dict[str, Any] = {"template": t.id, "on": b is not None, "kept": stash(t) is not None, "writable": author.writable(t),
+                           "lang": lg, "faces": portrait_files(t)}
+    if b is None:
+        return out
+    lb = _layer_builder(t, lg)
+    seen = _i18n.merge(b, lb) if lb is not None else b
+    out["title"] = _label(seen.get("title"), lg)
+    out["fields"] = [{"id": str(f.get("id")), "kind": f.get("kind"), "label": _label(f.get("label"), lg), "required": bool(f.get("required")),
+                      **({"random": [_label(x, lg) for x in f.get("random") or []]} if f.get("kind") == "text" else {}),
+                      **({"options": len(_opts(f))} if f.get("kind") in ("choice", "multi", "portrait") else {})}
+                     for f in _fields(seen)]
+    out["problems"] = [{"level": lv, "where": w, "msg": m} for lv, _c, w, m in problems(t)]
+    return out
+
+
+def _layer_builder(t: Any, lang: str) -> dict[str, Any] | None:
+    """The ``player.builder`` of the template's ``i18n/<lang>/template.json`` layer, when there is one."""
+    from neonrp.template import i18n as _i18n
+
+    if lang == _i18n.source_lang(t) or (layer := _i18n.layer_dir(t, lang)) is None:
+        return None
+    try:
+        p = json.loads((layer / "template.json").read_text(encoding="utf-8")).get("player")
+    except (OSError, ValueError, AttributeError):
+        return None
+    return p.get("builder") if isinstance(p, dict) and isinstance(p.get("builder"), dict) else None

@@ -214,6 +214,12 @@ table.t th{font:500 10px var(--machine);letter-spacing:.16em;text-transform:uppe
 .m.agent{background:var(--well);border:1px solid var(--line);border-radius:18px 18px 18px 4px;padding:10px 13px}
 .m.agent .call{display:block;font:11.5px var(--machine);color:var(--muted);margin-top:7px;border-top:1px dashed var(--line);padding-top:7px}
 .compose{padding:12px 14px 14px;border-top:1px solid var(--line)}
+.agbar{padding:10px 16px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.agbar select{flex:1;min-width:0;background:rgba(0,0,0,.28);color:var(--ink);border:1px solid var(--line2);border-radius:10px;padding:5px 8px;font:12.5px var(--ui)}
+.agnote{font-size:11.5px;color:var(--muted);line-height:1.45}
+.m.agent .call .agc,.m.agent .call .agf,.m.agent .call .agl,.m.agent .call .agp{display:block;padding:1px 0}
+.m.agent .call .agc.ok{color:var(--pass,#7fd1a0)}.m.agent .call .agc.bad,.m.agent .call .agl.bad{color:var(--fail,#ff8a80)}.m.agent .call .agl.ok{color:var(--pass,#7fd1a0)}
+.m.agent .call .agf b{font-weight:500;color:var(--ink);margin-right:6px}.m.agent .agfin{display:block;margin-top:6px;color:var(--muted);font-size:12px}
 .compose .in,.mcomp .in{display:flex;gap:8px;align-items:center;background:rgba(0,0,0,.28);border:1px solid var(--line2);border-radius:999px;padding:4px 4px 4px 16px}
 .compose input,.mcomp input{flex:1;border:0;background:none;outline:none;padding:8px 0;min-width:0;color:var(--ink)}
 .send{width:36px;height:36px;border-radius:50%;border:0;background:var(--pressed);color:var(--pressed-ink);flex:none}
@@ -295,6 +301,12 @@ table.t th{font:500 10px var(--machine);letter-spacing:.16em;text-transform:uppe
 .tg{width:38px;height:22px;border-radius:999px;border:0;background:var(--line2);position:relative;flex:none}
 .tg::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .2s}
 .tg.on{background:var(--lime)} .tg.on::after{left:19px;background:#1d2a06}
+.pbbox{padding:14px 16px;border-radius:20px} .pbbox .sw{border-bottom:0}
+.pbrows{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.pbrow{display:grid;grid-template-columns:64px minmax(120px,1fr) auto minmax(160px,1.4fr);gap:8px;align-items:center}
+.pbrow textarea.cell{font-size:13px;min-height:32px;field-sizing:content;max-height:30vh}
+.pbreq{display:flex;align-items:center;gap:4px;font-size:12.5px;color:var(--muted);white-space:nowrap}
+@media (max-width:760px){.pbrow{grid-template-columns:1fr auto}.pbrow .tag{grid-column:1 / -1}.pbrow textarea.cell,.pbrow small{grid-column:1 / -1}}
 .packjson{position:absolute;left:0;right:0;bottom:0;max-height:30%;overflow:auto}
 .ctrw{position:absolute;inset:6px 0 0;display:grid;grid-template-columns:300px minmax(0,1fr);gap:20px;min-height:0}
 .ctrpick{display:flex;flex-direction:column;gap:12px;overflow:auto;padding:4px}
@@ -635,7 +647,7 @@ input[type=range]{accent-color:var(--lime)}
   .mk > .mk-right{display:grid;grid-template-columns:1fr 1fr;gap:10px;overflow:visible}
   .mk-right .loc{grid-column:1/-1;height:140px}
   .btabs{overflow-x:auto;flex-wrap:nowrap}
-  .top{gap:10px;padding:0 12px} .ctx .chip:not([data-setopen]){display:none}
+  .top{gap:10px;padding:0 12px} .ctx .chip:not([data-setopen]):not([data-fbopen]){display:none}
 }
 @media (max-width:560px){ .mk > .mk-left,.mk > .mk-right{grid-template-columns:1fr} }
 /* 测试台右栏 = 标准前端(10-15 · src/stdfe.js):右栏放宽到手机宽,整栏给它 */
@@ -649,7 +661,7 @@ input[type=range]{accent-color:var(--lime)}
 .bt .prose p{margin:0 0 .6em} .bt .prose p:last-child{margin:0}
 .mcomp .sugg{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
 .mcomp .sugg .chip{flex:none}
-@media (max-width:1180px){ .top .nav{overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap;min-width:0;flex:1} .top .nav button{flex:none} .ctx .chip:not([data-setopen]):not(.eng){display:none} }
+@media (max-width:1180px){ .top .nav{overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap;min-width:0;flex:1} .top .nav button{flex:none} .ctx .chip:not([data-setopen]):not([data-fbopen]):not(.eng){display:none} }
 /* 顶栏窄屏(10-24:小屏时顶栏的按钮被切掉一半):先收字标只留徽记、按钮变紧;还放不下才横向滚,右边缘淡出提示还有 */
 @media (max-width:1320px){ .top{gap:12px;padding:0 16px} .brand{font-size:0} .brand .wlmark{margin-right:0;width:30px;height:30px}
   .nav button{padding:8px 12px;letter-spacing:.1em} .nav a.navx{padding:8px 10px} }

@@ -101,7 +101,7 @@ def test_init_is_playable_from_the_start(app_view, homes):
     app._cmd_init(["猫岛"])
     src = homes / "worlds" / "猫岛"
     assert (src / ".neonrp").is_dir()
-    assert (src / "souls").is_dir()
+    assert not (src / "souls").exists()   # 10-26: the blank world has no characters — the cast comes from the library
     assert any(src.rglob("game-start.json"))
 
 

@@ -66,7 +66,7 @@ var ending_layer: Control
 
 
 func _ready() -> void:
-	sans = SystemFont.new(); sans.font_names = PackedStringArray(["PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", "Sans-Serif"])
+	sans = SystemFont.new(); sans.font_names = PackedStringArray(["Hiragino Sans GB", "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", "Sans-Serif"])   # Hiragino first: PingFang SC can resolve on macOS yet fail to load, leaving every label blank
 	serif = SystemFont.new(); serif.font_names = PackedStringArray(["Songti SC", "Noto Serif CJK SC", "SimSun", "Serif"])
 	theme = _theme()
 	client = Client.new()

@@ -326,7 +326,8 @@ def test_world_without_places_says_so(tmp_path):
         app, pilot, cm, panel = await _open_map(root)
         try:
             assert panel.graph is not None and not panel.graph.nodes
-            assert "地图" in panel.render().plain or "map" in panel.render().plain.lower()
+            text = panel.render().plain.lower()
+            assert any(w in text for w in ("地图", "map", "地図", "지도")), text   # whatever the shell's LANG
         finally:
             await cm.__aexit__(None, None, None)
 

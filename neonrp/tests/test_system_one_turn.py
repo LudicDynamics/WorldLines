@@ -403,6 +403,7 @@ def test_failed_jev_falls_back_to_an_llm_judge(monkeypatch):
         raise RuntimeError("jev down")
 
     monkeypatch.setenv("NEONRP_S1_BACKEND", "jev")
+    monkeypatch.setenv("TYPESAFE_API_KEY", "test-key-not-real")  # a pinned Jev with no key is not tried at all (10-25)
     monkeypatch.setattr(s1, "_post_jev", _boom)
     s1._CACHE.clear()
     q = {"follow": s1.noul("她会跟着走吗?")}
@@ -422,5 +423,6 @@ def test_fast_judge_available_only_for_jev_proxy_stub(monkeypatch):
         monkeypatch.setenv("NEONRP_S1_BACKEND", b)
         assert s1.fast_judge_available() is want, b
     monkeypatch.setenv("NEONRP_S1_BACKEND", "jev")
+    monkeypatch.setenv("TYPESAFE_API_KEY", "test-key-not-real")
     monkeypatch.setattr(s1, "quota_blocked", lambda: True)
     assert s1.fast_judge_available() is False

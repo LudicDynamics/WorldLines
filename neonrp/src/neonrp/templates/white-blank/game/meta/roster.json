@@ -2,21 +2,9 @@
   "id": "roster",
   "kind": "meta",
   "name": "cast roster",
-  "note": "玩家是人类,不属于任何 soul;chara/charb 是两个待创作的独立角色位。",
   "player": {
     "pid": "player",
     "state_path": "game/player"
   },
-  "souls": [
-    {
-      "sid": "chara",
-      "instance_id": "si-chara0001",
-      "note": "角色A(待创作)"
-    },
-    {
-      "sid": "charb",
-      "instance_id": "si-charb0001",
-      "note": "角色B(待创作)"
-    }
-  ]
+  "souls": []
 }

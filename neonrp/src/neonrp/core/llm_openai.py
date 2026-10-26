@@ -318,6 +318,17 @@ def _classify_openai_error(e: Exception) -> Exception:
 
 
 
+def _retry_after(e: Exception) -> float | None:
+    """A 429's ``Retry-After`` in seconds (capped at 30), or None."""
+    if getattr(e, "status_code", None) != 429:
+        return None
+    try:
+        v = e.response.headers.get("retry-after")  # type: ignore[attr-defined]
+        return min(30.0, max(0.0, float(v))) if v is not None else None
+    except (AttributeError, TypeError, ValueError):
+        return None
+
+
 class StreamStalled(RuntimeError):
     """The provider kept the connection open but stopped producing tokens (10-15)."""
 
@@ -362,6 +373,9 @@ def _closing(stream: Any) -> Any:
             yield chunk
     finally:
         llm_inflight.end(tok)
+        release = getattr(stream, "_wl_slot_release", None)  # the Worldlines slot this stream held (core/wl_slots)
+        if callable(release):
+            release()
         close = getattr(stream, "close", None)
         if callable(close):
             try:
@@ -425,9 +439,24 @@ class OpenAIAdapter:
         if worldlines_auth.is_worldlines(self.base_url) and worldlines_auth.world_header():  # which world (billing: run points)
             kwargs = {**kwargs, "extra_headers": {**(kwargs.get("extra_headers") or {}), **worldlines_auth.world_header()}}
         raw_api = getattr(client.chat.completions, "with_raw_response", None)
-        if raw_api is None or kwargs.get("stream") or not worldlines_auth.is_worldlines(self.base_url):
+        if not worldlines_auth.is_worldlines(self.base_url):
             return client.chat.completions.create(**kwargs)  # only ai.worldlines.gg sends ids worth binding
-        raw = raw_api.create(**kwargs)
+        # the account's open-request limit is shared with System One (core/wl_slots): take a slot; a stream keeps it open
+        from neonrp.core import wl_slots
+
+        _left = beat_budget.remaining()
+        release = wl_slots.acquire("chat", None if _left is None else max(0.0, _left)) or (lambda: None)
+        try:
+            if raw_api is None or kwargs.get("stream"):
+                out = client.chat.completions.create(**kwargs)
+                return wl_slots.hold_until_closed(out, release) if kwargs.get("stream") else out
+            raw = raw_api.create(**kwargs)
+        except BaseException:
+            release()
+            raise
+        finally:
+            if not kwargs.get("stream"):
+                release()
         try:
             rid = raw.headers.get("x-request-id") or raw.headers.get("X-Request-Id")
         except Exception:  # noqa: BLE001
@@ -472,6 +501,22 @@ class OpenAIAdapter:
         self._client = None
         self._wl_token = None
         self._get_client()
+        return True
+
+    def _claim_and_wait(self, err: BillingError) -> bool:
+        """A claimable 402 from ai.worldlines.gg on the account's session: claim, then wait :data:`wl_claims.RESEND_AFTER_S`.
+        False = no resend (not ours to claim, nothing granted, or the beat has no time left for the wait)."""
+        from neonrp.core import wl_claims
+        from neonrp.core import worldlines_auth as _wla
+
+        if self._api_key or not _wla.is_worldlines(self.base_url) or not wl_claims.claimable(err.stop):
+            return False
+        left = beat_budget.remaining()
+        if left is not None and left < wl_claims.RESEND_AFTER_S + beat_budget.MIN_RETRY_S:
+            return False
+        if not wl_claims.recover(err.stop):
+            return False
+        time.sleep(wl_claims.RESEND_AFTER_S)
         return True
 
     def _get_client(self) -> Any:
@@ -543,7 +588,7 @@ class OpenAIAdapter:
                     "X-Title": "WorldLines",
                 }
             if _wla.is_worldlines(self.base_url):
-                client_kwargs["default_headers"] = {**client_kwargs.get("default_headers", {}), **_wla.headers()}
+                client_kwargs["default_headers"] = {**client_kwargs.get("default_headers", {}), **_wla.headers(), **_wla.client_header()}
                 # the SDK would retry a 429 quota_exceeded twice on its own; our ladder (_call_with_retry) retries
                 # what is really transient and stops on a BillingError
             # one retry ladder, ours (10-14): the SDK's own (2 retries per call) under our 3 made a stalled request wait
@@ -658,6 +703,9 @@ class OpenAIAdapter:
                         raise BeatTimeout(f"beat timeout after: {classified}") from e
                     if attempt < self.max_retries:
                         backoff = (2**attempt) + random.uniform(0, 1)
+                        ra = _retry_after(e)  # 429 concurrency_limit / rate limit: wait what the server asked for (≤ 30 s)
+                        if ra is not None:
+                            backoff = max(backoff, ra)
                         if _left is not None:
                             backoff = min(backoff, max(0.0, _left - beat_budget.MIN_RETRY_S) / 2)
                         logger.warning(
@@ -683,6 +731,14 @@ class OpenAIAdapter:
                                 raise AuthError(_wl_signin_message(), status_code=401) from e2
                             raise c2 if c2 is not e2 else e2
                     raise AuthError(_wl_signin_message(), status_code=401) from e
+                elif isinstance(classified, BillingError) and self._claim_and_wait(classified):
+                    # 402 insufficient_credits / claim_required: the client claims the free credits (core/wl_claims),
+                    # waits out ai's 2 s refusal cache and sends the same request once; still refused = the billing stop
+                    try:
+                        return api_call()
+                    except Exception as e2:  # noqa: BLE001
+                        c2 = _classify_openai_error(e2)
+                        raise c2 if c2 is not e2 else e2
                 elif isinstance(classified, (AuthError, BillingError, InvalidResponseError)):
                     raise classified from e
                 else:

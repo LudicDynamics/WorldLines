@@ -1,51 +1,5 @@
 {
   "world_id": "W001",
-  "name": "灰雾北境",
-  "parent_territory": "灰鸦领",
-  "seed": 123456,
-  "foreign_lands": [
-    {
-      "id": "FL001",
-      "name": "霜狼王国",
-      "direction": "north",
-      "description": "断脊山脉以北的寒冷王国，居民高大如熊，常年与兽人部落争斗",
-      "access": "哭泣隘口（仅夏季可通行）",
-      "relation": "neutral",
-      "discovered_via": "米拉的传闻"
-    },
-    {
-      "id": "FL002",
-      "name": "翡翠联盟",
-      "direction": "far_east",
-      "description": "东境精灵废墟更远处的城邦联合体，商人偶尔前来贸易",
-      "access": "穿越东境废墟",
-      "relation": "trade",
-      "discovered_via": "米拉的传闻"
-    },
-    {
-      "id": "FL003",
-      "name": "灰海",
-      "direction": "south",
-      "description": "南方无尽的灰蒙海域，据说航行十天十夜仍是灰雾，有去无回",
-      "access": "unknown",
-      "relation": "unknown",
-      "discovered_via": "米拉的传闻"
-    }
-  ],
-  "nodes": [
-    {
-      "id": "T001",
-      "name": "起点镇",
-      "pos": [
-        0,
-        0
-      ]
-    }
-  ],
-  "routes": [],
-  "time": {
-    "day": 3,
-    "clock": "17:15"
-  },
-  "edges": []
+  "name": "未命名世界",
+  "routes": []
 }

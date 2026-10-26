@@ -2,12 +2,12 @@
 # 前端台 e2e(10-17 · 三个重前端工作台 + 新建):隔离 HOME + 假模型 + 本机引擎(界面连同标准前端 / 小手机构建在临时目录,不动 dist-local),
 # Playwright Chromium 1366×900。Godot 那页的冒烟要本机有 Godot(GODOT= / PATH / /Applications/Godot.app),没有就跳过那一条。
 #   bash worldlines/ui/app/e2e-fe/run.sh
-#   WL_FE_SHOTS=<目录> 截图(默认 docs/playrecords/frontends-1017/)· WL_FE_PORT(默认 8799)· WL_FE_AI_PORT(默认 8643)
+#   WL_FE_SHOTS=<目录> 截图(默认 docs/playrecords/frontends-1017/)· WL_FE_PORT(默认 8909)· WL_FE_AI_PORT(默认 8643)
 #   WL_FE_SERVE=1 只把引擎起好、不跑用例(手动看:打印地址,Ctrl-C 收)
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
 REPO="$(cd "$HERE/../../../.." && pwd)"
-PORT="${WL_FE_PORT:-8799}"
+PORT="${WL_FE_PORT:-8909}"
 AI_PORT="${WL_FE_AI_PORT:-8643}"
 TMP="$(mktemp -d "${TMPDIR:-/tmp}/wl-fe-e2e.XXXXXX")"
 cleanup() { kill "${SRV:-}" "${MOCK:-}" 2>/dev/null || true; wait 2>/dev/null || true; rm -rf "$TMP"; }

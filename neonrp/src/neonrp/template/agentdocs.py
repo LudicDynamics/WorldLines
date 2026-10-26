@@ -88,6 +88,10 @@ neonrp template build . /tmp/try-{t.id}   # a run you can open
 
 
 def _store_body(root: Path) -> str:
+    from neonrp import spec
+
+    d = spec.skill_dir("world-creation")
+    where = f" Its folder (SKILL.md, references/, examples/): `{d}`." if d else ""
     return f"""{MARK}
 # WorldLines template store
 
@@ -95,6 +99,8 @@ Each `<id>.template/` here is one template (a world + its cast + a play pack + a
 has its own `AGENTS.md` and `spec/` — open the template you are working on and read those first.
 
 - New template: copy one (`neonrp template fork <id> <new-id>`), never edit the built-ins in place.
+- A whole template from a written world spec: follow the `world-creation` skill — `neonrp spec skill world-creation`
+  prints it.{where}
 - Bring one in / take one out: `neonrp template import <zip>` · `neonrp template export <id>`.
 - Specs for everything: `spec/` in this folder (template · world · soul · contract · authoring).
 """

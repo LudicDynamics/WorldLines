@@ -18,6 +18,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import sys
 import threading
 import time
 from pathlib import Path
@@ -66,8 +67,130 @@ def _not_sent(err: BaseException) -> bool:
 
 def post(url: str, body: dict[str, Any], headers: dict[str, str], *, sleep: Any = time.sleep, send: Any = None) -> tuple[int, Any]:
     """The identity client's ``post`` hook (``login`` / ``create_token_manager`` / ``logout``): timeout + the retry rule above.
-    Raises OSError when it stays unreachable (the client turns that into ``IdentityError(0, "unreachable")``)."""
-    send = send or (lambda u, b, h: _wl_login()._default_post(u, b, h, timeout=POST_TIMEOUT))
+    Raises OSError when it stays unreachable (the client turns that into ``IdentityError(0, "unreachable")``).
+    A refresh goes through :func:`_refresh_locked` (one refresh at a time across every process on this machine)."""
+    send = send or _send
+    headers = {**headers, **native_client_header()}
+    if url.rstrip("/").endswith("/v1/token/refresh"):
+        return _refresh_locked(url, body, headers, lambda u, b, h: _post_retrying(u, b, h, sleep=sleep, send=send))
+    return _post_retrying(url, body, headers, sleep=sleep, send=send)
+
+
+def _send(url: str, body: dict[str, Any], headers: dict[str, str]) -> tuple[int, Any]:
+    return _wl_login()._default_post(url, body, headers, timeout=POST_TIMEOUT)
+
+
+# 10-25: the engine, the Launcher, the desktop app and the local Hub are separate processes sharing one session file; each
+# had its own single-flight, so two of them refreshed with the same rotating refresh token at once → identity saw a
+# replay and revoked the session (13:25:24, a long run cut off). Every refresh now takes a lock file next to the session
+# (``identity.json.lock``), reads the file again under it, and when another process already rotated the token, answers
+# with what that process saved instead of sending the old refresh token a second time. The new session is written
+# before the lock is let go, so whoever comes next reads it.
+REFRESH_LOCK_WAIT_S = 20.0
+_refresh_rlock = threading.RLock()
+_held: dict[str, Any] = {"n": 0, "lock": None}
+
+
+class _FileLock:
+    """An exclusive lock on ``path`` between processes (``flock``; ``msvcrt`` on Windows; a thread lock where neither
+    exists — the browser engine has one process). Raises OSError when it is not had within ``wait`` seconds."""
+
+    def __init__(self, path: Path, wait: float) -> None:
+        self.path, self.wait, self.fd = path, wait, None
+
+    def __enter__(self) -> "_FileLock":
+        try:
+            import fcntl
+
+            lock = lambda fd: fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)  # noqa: E731
+        except ImportError:
+            try:
+                import msvcrt
+
+                lock = lambda fd: msvcrt.locking(fd, msvcrt.LK_NBLCK, 1)  # type: ignore[attr-defined]  # noqa: E731
+            except ImportError:
+                return self
+        try:
+            self.path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+            self.fd = os.open(str(self.path), os.O_RDWR | os.O_CREAT, 0o600)
+        except OSError:
+            self.fd = None
+            if sys.platform == "emscripten":
+                return self
+            raise
+        deadline = time.monotonic() + self.wait
+        while True:
+            try:
+                lock(self.fd)
+                return self
+            except OSError:
+                if time.monotonic() > deadline:
+                    os.close(self.fd)
+                    self.fd = None
+                    raise OSError("session refresh lock busy") from None
+                time.sleep(0.05)
+
+    def __exit__(self, *exc: Any) -> None:
+        if self.fd is not None:
+            os.close(self.fd)  # closing lets go of flock / msvcrt alike
+            self.fd = None
+
+
+def _read_session() -> dict[str, Any] | None:
+    try:
+        s = json.loads(store_path().read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    return s if isinstance(s, dict) and s.get("refresh_token") else None
+
+
+class _SessionLock:
+    """The session lock: re-entrant in this process (refresh_now holds it around its own refresh), the lock file across
+    processes on the first entry."""
+
+    def __enter__(self) -> None:
+        _refresh_rlock.acquire()
+        try:
+            if _held["n"] == 0:
+                path = store_path()
+                _held["lock"] = _FileLock(path.with_name(path.name + ".lock"), REFRESH_LOCK_WAIT_S).__enter__()
+            _held["n"] += 1
+        except BaseException:
+            _refresh_rlock.release()
+            raise
+
+    def __exit__(self, *exc: Any) -> None:
+        try:
+            _held["n"] -= 1
+            if _held["n"] == 0 and _held["lock"] is not None:
+                _held["lock"].__exit__()
+                _held["lock"] = None
+        finally:
+            _refresh_rlock.release()
+
+
+def _refresh_locked(url: str, body: dict[str, Any], headers: dict[str, str], send: Any) -> tuple[int, Any]:
+    path = store_path()
+    with _SessionLock():
+        cur = _read_session()
+        sent = str((body or {}).get("refresh_token") or "")
+        if cur and sent and cur["refresh_token"] != sent:  # someone rotated it meanwhile: never send the old one again
+            left = float(cur.get("expires_at") or 0) - time.time()
+            if cur.get("access_token") and left > 60:
+                return 200, {"access_token": cur["access_token"], "refresh_token": cur["refresh_token"], "expires_in": left,
+                             "session_id": cur.get("session_id"), "user": cur.get("user")}
+            body = {**body, "refresh_token": cur["refresh_token"]}  # theirs is about to expire too: renew from theirs
+        st, data = send(url, body, headers)
+        if 200 <= st < 300 and isinstance(data, dict) and data.get("access_token") and data.get("refresh_token"):
+            try:
+                m = _wl_login()
+                m.FileTokenStore(str(path)).save({**m.session_from_tokens(data), "user": data.get("user") or (cur or {}).get("user")})
+            except Exception:  # noqa: BLE001 — the token manager saves it right after; this write only closes the window
+                pass
+        return st, data
+
+
+def _post_retrying(url: str, body: dict[str, Any], headers: dict[str, str], *, sleep: Any, send: Any) -> tuple[int, Any]:
     idem = url.rstrip("/").endswith(_IDEMPOTENT)
     polling = (body or {}).get("grant_type") == "urn:ietf:params:oauth:grant-type:device_code"
     for i, wait in enumerate((*RETRY_WAITS, None)):
@@ -141,23 +264,36 @@ def session_expired() -> bool:
 
 
 def refresh_now(stale: str | None = None) -> str | None:
-    """After a 401 from ai.worldlines.gg: renew the session once and hand back the new access token (None = it cannot be
-    renewed: sign in again). ``stale`` = the token that was refused — if the session already moved on (another caller
-    refreshed meanwhile), the current token is returned without a second refresh."""
+    """After a 401 from the platform: renew the session once and hand back the new access token (None = it cannot be
+    renewed: sign in again). ``stale`` = the token that was refused — if the session already moved on (another caller,
+    thread or process, refreshed meanwhile), the current token is returned without a second refresh. The check and the
+    refresh both run under the session lock, so N callers refused at once make one refresh."""
     if os.environ.get("WORLDLINES_API_KEY", "").strip():
         return None  # a PAT is not renewed here
-    mgr = _manager()
-    if mgr is None:
-        return None
     try:
-        cur = mgr.access_token()
-        if cur and stale and cur != stale:
-            return str(cur)
-        tok = mgr.access_token(force=True)
-        return str(tok) if tok else None
-    except Exception as err:  # noqa: BLE001 — a refused / unreachable refresh: not signed in any more (or for now)
-        _note_refusal(err)
+        with _SessionLock():
+            cur = _read_session()
+            if not cur:
+                return None
+            if stale and cur.get("access_token") and cur["access_token"] != stale and float(cur.get("expires_at") or 0) > time.time() + 60:
+                return str(cur["access_token"])
+            st, data = post(f"{ISSUER.rstrip('/')}/v1/token/refresh", {"refresh_token": cur["refresh_token"]}, {})
+    except OSError:  # unreachable, or the lock stayed busy: not now (the session is still there for the next try)
         return None
+    if 200 <= st < 300 and isinstance(data, dict) and data.get("access_token"):
+        try:
+            m = _wl_login()
+            m.FileTokenStore(str(store_path())).save({**m.session_from_tokens(data), "user": data.get("user") or cur.get("user")})
+        except Exception:  # noqa: BLE001 — written under the lock already (_refresh_locked); this covers a replaced post hook
+            pass
+        return str(data["access_token"])
+    if 400 <= st < 500:  # identity refused: the session is over (what the token manager does on a 4xx)
+        try:
+            store_path().unlink()
+        except OSError:
+            pass
+        _lost[str(store_path())] = time.time()
+    return None
 
 
 def _stored_access() -> str | None:
@@ -188,8 +324,55 @@ def access_token() -> str | None:
     return _stored_access()
 
 
+def device_id() -> str:
+    """This install's random device id (X-Worldlines-Device on claims: billing caps free claims per device), kept next
+    to the session file. Random, never derived from the machine or the account."""
+    p = store_path().with_name("device")
+    try:
+        d = p.read_text(encoding="utf-8").strip()
+        if re.fullmatch(r"[A-Za-z0-9_-]{16,64}", d):
+            return d
+    except OSError:
+        pass
+    import base64
+    import secrets
+
+    d = base64.urlsafe_b64encode(secrets.token_bytes(18)).decode("ascii").rstrip("=")
+    try:
+        p.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+        p.write_text(d, encoding="utf-8")
+    except OSError:
+        pass
+    return d
+
+
+# X-Worldlines-Client (10-25 usage-data contract §1): which client sent a platform request — ``local`` (this engine on a
+# desktop), ``web`` (the browser engine), ``ios`` (the iOS app's embedded engine; its shell still sets the old ``app``).
+# Native code sends it on every platform request; in a browser only chronicle and ai let it through their CORS preflight,
+# so :func:`headers` leaves it out there and those two add :func:`client_header` themselves.
+_CLIENT_OK = re.compile(r"^[a-z0-9-]{1,32}$")
+
+
+def client_name() -> str:
+    env = os.environ.get("WORLDLINES_CLIENT", "").strip().lower()
+    if env == "app":
+        return "ios"
+    if env and _CLIENT_OK.match(env):
+        return env
+    return "web" if sys.platform == "emscripten" else "local"
+
+
+def client_header() -> dict[str, str]:
+    return {"X-Worldlines-Client": client_name()}
+
+
+def native_client_header() -> dict[str, str]:
+    """The client header where it is safe on every service (not inside a browser)."""
+    return {} if sys.platform == "emscripten" else client_header()
+
+
 def headers() -> dict[str, str]:
-    return {"X-Worldlines-Product": PRODUCT}
+    return {"X-Worldlines-Product": PRODUCT, **native_client_header()}
 
 
 # X-Worldlines-World (2026-10-21): which world the model calls are for — the bound run's template id (ai records it on
@@ -262,8 +445,10 @@ CLIENT_ID = os.environ.get("WORLDLINES_CLIENT_ID", "neonrp")  # the app register
 # PROD_SCOPES = what live identity allows today (worldlines-platform main, migrations 0004 / 0006).
 PROD_SCOPES = ("profile:read", "api:use", "resources:read", "resources:write", "storage:read", "storage:write", "chronicle:read",
                "chronicle:write", "data:read", "data:write")
-FALLBACK_SCOPES = ("profile:read", "api:use", "resources:write", "storage:write", "chronicle:write")
-SCOPES = FALLBACK_SCOPES + ("data:read", "data:write", "sns:share")  # data:*: the collection on the account (core/collection_sync, 10-18)
+# data:*: the collection on the account (core/collection_sync, 10-18). The fallback drops only sns:share: a token without
+# data:read is refused the collection (403 insufficient_scope, 10-25) and a refresh never adds a scope.
+FALLBACK_SCOPES = ("profile:read", "api:use", "resources:write", "storage:write", "chronicle:write", "data:read", "data:write")
+SCOPES = FALLBACK_SCOPES + ("sns:share",)
 
 
 def connect(provider: str = "google", *, open_browser: bool = True, on_url: Any = None, on_code: Any = None,
@@ -300,6 +485,9 @@ def connect(provider: str = "google", *, open_browser: bool = True, on_url: Any 
                                **({"post": post} if _takes_post(_wl.local_login) else {}))
     session = _wl.session_from_tokens(tokens) if "expires_in" in (tokens or {}) else dict(tokens or {})
     _wl.FileTokenStore(str(store_path())).save(session)
+    from neonrp.core import wl_claims
+
+    wl_claims.after_sign_in()  # the newcomer's credits are claimed by the client, not granted by the server (10-25)
     return status()
 
 
@@ -324,6 +512,12 @@ def disconnect(*, background: bool = False) -> None:
     """Sign out: revoke the session at identity, then drop the session file. ``background=True`` (the Hub's / the iOS app's
     「退出」, 10-17): the file goes first and the revoke runs on its own thread — signing out never waits on the network
     (a revoke that never arrives leaves a session that expires by itself)."""
+    try:  # usage events: signing out starts a new session (contract §3)
+        from neonrp.core import usage
+
+        usage.new_session()
+    except Exception:  # noqa: BLE001
+        pass
     if background:
         _wl = _wl_login()
         s = _wl.FileTokenStore(str(store_path())).load()

@@ -273,14 +273,31 @@ def stream_chat(adapter: Any, messages: list[Any], on_text: Callable[[str], None
             state["error"] = str(e)
     from neonrp.core import beat_budget
 
+    def kept(part: str) -> tuple[str, bool]:
+        # what streamed before it broke is the reply (10-25 niko: 中途已经生成的内容不扔): kept, marked, the rest of
+        # its last line shown
+        if state is not None:
+            state["truncated"] = True
+            state.pop("error", None)
+        beat_budget.note("stream.cut", chars=len(part))
+        _log(state, t0, first, part, stream=True, truncated=True, think_ms=_ms(t0, think))
+        rest = f._take("", final=True) if (f.line and not f.done) else ""
+        if rest:
+            on_text(rest)
+        return part.strip(), True
+
+    partial = ""
     if raised and not (full.strip() and beat_budget.expired(beat_budget.MIN_RETRY_S)):
-        full = ""  # a stream that broke with time left: one whole plain call, as before
+        partial, full = full, ""  # a stream that broke with time left: one whole plain call, as before (its part kept)
     if full.strip() and cut:
         # cut after some text (10-19: the beat's time ran out mid-reply): that part is the reply — kept, marked
         if state is not None:
             state["truncated"] = True
             state.pop("error", None)
+        beat_budget.note("stream.cut", chars=len(full))
     if not full.strip() and beat_budget.expired(beat_budget.MIN_RETRY_S):
+        if partial.strip():  # no time for the plain call: the part that came is the reply
+            return kept(partial)
         # the beat is over (core/beat_budget): no second, whole plain call after a stalled stream — the caller's
         # fallback for an empty reply runs (10-14: a stall + the plain call was the 60 s + 30 s beat)
         beat_budget.note("stream.fallback")
@@ -289,6 +306,8 @@ def stream_chat(adapter: Any, messages: list[Any], on_text: Callable[[str], None
     if not full.strip():
         res = adapter.chat(messages)
         full = (getattr(getattr(res, "message", None), "content", None) or "").strip()
+        if not full and partial.strip():  # the plain call gave nothing either: what streamed is kept
+            return kept(partial)
         _note_error(state, res, full)
         _log(state, t0, first, full, stream=True, fallback=True, think_ms=_ms(t0, think))
         if not f.shown:

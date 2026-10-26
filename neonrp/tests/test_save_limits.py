@@ -104,6 +104,14 @@ def test_local_edition_has_no_limit_even_signed_in(monkeypatch) -> None:
     assert SL.limit_for("sandbox") == (None, None)
 
 
+@pytest.mark.parametrize("plat", ["emscripten", "ios"])
+def test_browser_build_and_ios_app_are_limited(monkeypatch, plat) -> None:
+    monkeypatch.delenv("NEONRP_SAVE_LIMITS_ENFORCE", raising=False)
+    monkeypatch.setattr(SL.sys, "platform", plat)
+    signed(monkeypatch, "free")
+    assert SL.limit_for("sandbox") == ("free", 1)
+
+
 def test_own_key_not_signed_in_has_no_limit(monkeypatch) -> None:
     monkeypatch.setattr("neonrp.core.worldlines_auth.access_token", lambda: None)
     assert SL.limit_for("sandbox") == (None, None)

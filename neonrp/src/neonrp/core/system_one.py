@@ -98,18 +98,22 @@ class Answer:
 # ── key / backend selection ─────────────────────────────────────────────
 
 
+def _user_cfg() -> dict[str, Any]:
+    """The user config, through the one resolver every reader uses (``core.user_config``; tests point it at a tmp dir)."""
+    from neonrp.core import user_config
+
+    cfg = user_config.load_user_config()
+    return cfg if isinstance(cfg, dict) else {}
+
+
 def api_key() -> str | None:
     key = os.environ.get("TYPESAFE_API_KEY", "").strip()
     if key:
         return key
-    try:
-        cfg = json.loads((Path.home() / ".neonrp" / "config.json").read_text(encoding="utf-8"))
-        models = cfg.get("models") or {}
-        ts = models.get("typesafe") if isinstance(models, dict) else None
-        if isinstance(ts, dict) and isinstance(ts.get("api_key"), str) and ts["api_key"].strip():
-            return ts["api_key"].strip()
-    except (OSError, ValueError):
-        pass
+    models = _user_cfg().get("models") or {}
+    ts = models.get("typesafe") if isinstance(models, dict) else None
+    if isinstance(ts, dict) and isinstance(ts.get("api_key"), str) and ts["api_key"].strip():
+        return ts["api_key"].strip()
     return None
 
 
@@ -132,13 +136,9 @@ def proxy_token() -> str | None:
     wl = worldlines_auth.access_token()  # a PAT (WORLDLINES_API_KEY) or the connect session
     if wl:
         return wl
-    try:
-        cfg = json.loads((Path.home() / ".neonrp" / "config.json").read_text(encoding="utf-8"))
-        hub = cfg.get("hub") or {}
-        if isinstance(hub, dict) and isinstance(hub.get("api_token"), str) and hub["api_token"].strip():
-            return hub["api_token"].strip()
-    except (OSError, ValueError):
-        pass
+    hub = _user_cfg().get("hub") or {}
+    if isinstance(hub, dict) and isinstance(hub.get("api_token"), str) and hub["api_token"].strip():
+        return hub["api_token"].strip()
     return None
 
 
@@ -153,13 +153,36 @@ def llm_judge_preset() -> str | None:
     raw = os.environ.get("NEONRP_S1_LLM_PRESET", "").strip()
     if raw:
         return raw
-    try:
-        cfg = json.loads((Path.home() / ".neonrp" / "config.json").read_text(encoding="utf-8"))
-        j = (cfg.get("models") or {}).get("judge") if isinstance(cfg.get("models"), dict) else None
-        if isinstance(j, dict) and isinstance(j.get("preset"), str) and j["preset"].strip():
-            return j["preset"].strip()
-    except (OSError, ValueError):
-        pass
+    cfg = _user_cfg()
+    j = cfg["models"].get("judge") if isinstance(cfg.get("models"), dict) else None
+    if isinstance(j, dict) and isinstance(j.get("preset"), str) and j["preset"].strip():
+        return j["preset"].strip()
+    return None
+
+
+def config_mode() -> str | None:
+    """``judge.mode`` in the user config (the settings page's pick, 10-25): jev · proxy · llm · off, or None
+    for auto / unset. ``NEONRP_S1_BACKEND`` still wins (see :func:`backend_name`)."""
+    j = _user_cfg().get("judge")
+    m = str(j.get("mode") or "").strip().lower() if isinstance(j, dict) else ""
+    return m if m in ("jev", "proxy", "llm", "off") else None
+
+
+def _pinned() -> str | None:
+    raw = os.environ.get("NEONRP_S1_BACKEND", "").strip().lower()
+    if raw in ("jev", "proxy", "llm", "stub", "off"):
+        return raw
+    return config_mode()
+
+
+def pinned_unusable() -> str | None:
+    """Why the pinned backend (``NEONRP_S1_BACKEND`` / ``judge.mode``) cannot answer: ``no_key`` (Jev without a key) ·
+    ``signed_out`` (the proxy without a Worldlines session) · None (usable, or nothing pinned)."""
+    pinned = _pinned()
+    if pinned == "jev" and not api_key():
+        return "no_key"
+    if pinned == "proxy" and not proxy_token():
+        return "signed_out"
     return None
 
 
@@ -168,11 +191,16 @@ def backend_name() -> str:
 
     Priority when unset: own key → proxy token → off. ``off`` must always be a
     complete engine (every Jev site has a deterministic fallback) — the local
-    no-Jev build is this mode, not a different code path.
+    no-Jev build is this mode, not a different code path. ``NEONRP_S1_BACKEND``
+    pins it; else the settings page's ``judge.mode`` (:func:`config_mode`). A pin that cannot answer
+    (:func:`pinned_unusable`) is not tried: the LLM judge when one is set, else ``off``.
     """
-    raw = os.environ.get("NEONRP_S1_BACKEND", "").strip().lower()
-    if raw in ("jev", "proxy", "llm", "stub", "off"):
-        return raw
+    pinned = _pinned()
+    if pinned:
+        if not pinned_unusable():
+            return pinned
+        # pinned to Jev with no key / the proxy signed out: no doomed call — the path a failed Jev call takes
+        return "llm" if LLM_ADAPTER_FACTORY is not None or fallback_judge_preset() else "off"
     if api_key():
         return "jev"
     if proxy_token():
@@ -265,10 +293,7 @@ def fallback_judge_preset() -> str | None:
     p = llm_judge_preset()
     if p:
         return p
-    try:
-        models = json.loads((Path.home() / ".neonrp" / "config.json").read_text(encoding="utf-8")).get("models") or {}
-    except (OSError, ValueError):
-        models = {}
+    models = _user_cfg().get("models") or {}
     for cand in (x.strip() for x in os.environ.get("NEONRP_S1_FALLBACK_PRESETS", "deepseek").split(",")):
         if cand and isinstance(models, dict) and cand in models:
             return cand
@@ -343,8 +368,19 @@ def _post_jev(state: Any, questions: dict[str, Q], *, model: str, timeout: float
 
     hdrs = {"Authorization": f"Bearer {key}", "Content-Type": "application/json"}
     if worldlines_auth.is_worldlines(url):
-        hdrs.update({**worldlines_auth.headers(), **worldlines_auth.world_header()})
+        hdrs.update({**worldlines_auth.headers(), **worldlines_auth.client_header(), **worldlines_auth.world_header()})
     req = urllib.request.Request(url, data=body, headers=hdrs, method="POST")
+    release = None
+    if worldlines_auth.is_worldlines(url):
+        # one of the account's open-request slots, shared with chat (core/wl_slots): System One waits in line for at most
+        # one of them, no longer than its own timeout — then this question takes the no-Jev path instead of a 429
+        from neonrp.core import wl_slots
+
+        t_wait = time.monotonic()
+        release = wl_slots.acquire("s1", timeout)
+        if release is None:
+            raise SlotBusy("no free Worldlines slot")
+        timeout = max(0.5, timeout - (time.monotonic() - t_wait))
     try:
         with urllib.request.urlopen(req, timeout=timeout) as resp:  # noqa: S310
             request_ids.add(resp.headers.get("x-request-id"), kind="systemone", model=model)
@@ -365,14 +401,34 @@ def _post_jev(state: Any, questions: dict[str, Q], *, model: str, timeout: float
             raise QuotaExceeded(body) from None
         from neonrp.core import billing_stop
 
-        if billing_stop.remember(billing_stop.from_body(exc.code, raw)):  # the wallet is empty / today's claim pending: same no-Jev path
-            raise QuotaExceeded(body) from None
+        stop = billing_stop.remember(billing_stop.from_body(exc.code, raw))
+        if stop:  # the wallet is empty / today's claim pending: same no-Jev path (after one claim + resend, _ask_one)
+            raise QuotaExceeded(body, stop=stop) from None
         raise urllib.error.HTTPError(exc.url, exc.code, f"{exc.reason}: {body}", exc.hdrs, None) from None
+    finally:
+        if release is not None:
+            release()
+
+
+class SlotBusy(RuntimeError):
+    """Every Worldlines slot stayed taken (core/wl_slots) for this question's whole timeout."""
+
+
+def _retry_after(exc: Any, default: float) -> float:
+    try:
+        v = exc.headers.get("Retry-After") if exc.headers else None
+        return min(10.0, max(0.0, float(v))) if v is not None else default
+    except (AttributeError, TypeError, ValueError):
+        return default
 
 
 class QuotaExceeded(RuntimeError):
     """429 quota_exceeded, kind=systemone — the account's Jev allowance is used up — or a wallet refusal (402
     insufficient_credits / claim_required, core/billing_stop.py); callers take the no-Jev path."""
+
+    def __init__(self, *args: Any, stop: Any = None) -> None:
+        super().__init__(*args)
+        self.stop = stop
 
 
 def quota_blocked() -> bool:
@@ -534,7 +590,21 @@ def _ask_one(
             _LAST_CALL.update({**rec, "ms": ms, "ok": True, "cached": False, "usage": usage, "model": data.get("model", model)})
             _log(log_dir, {**rec, "ms": ms, "ok": True, "usage": usage, "answers": _brief_answers(answers)})
             return answers
-        except QuotaExceeded:
+        except QuotaExceeded as qe:
+            from neonrp.core import wl_claims
+
+            if attempt == 0 and backend == "proxy" and wl_claims.claimable(qe.stop) and wl_claims.recover(qe.stop):
+                # 10-25: a new account's first Jev call is 402 claim_required — claim, wait out ai's 2 s refusal cache,
+                # ask once more when the beat has the time; otherwise only a short pause before the next question tries
+                _left = beat_budget.remaining()
+                if _left is None or _left > wl_claims.RESEND_AFTER_S + timeout:
+                    attempt += 1
+                    time.sleep(wl_claims.RESEND_AFTER_S)
+                    continue
+                _QUOTA["until"] = time.monotonic() + wl_claims.RESEND_AFTER_S
+                _LAST_CALL.clear()
+                _LAST_CALL.update({**rec, "ms": round((time.monotonic() - t0) * 1000, 1), "ok": False, "error": "claimed", "fallback": "quota"})
+                return None
             _QUOTA["until"] = time.monotonic() + QUOTA_COOLDOWN_S
             ms = round((time.monotonic() - t0) * 1000, 1)
             _LAST_CALL.clear()
@@ -545,9 +615,12 @@ def _ask_one(
         except urllib.error.HTTPError as exc:
             status = exc.code
             if status in (429, 529) and attempt < retries:
-                attempt += 1
-                time.sleep(0.5 * attempt)
-                continue
+                wait = _retry_after(exc, 0.5 * (attempt + 1))  # 429 concurrency_limit: as long as the server asks
+                _left = beat_budget.remaining()
+                if _left is None or _left > wait + 0.5:
+                    attempt += 1
+                    time.sleep(wait)
+                    continue
             err = f"http {status}: {str(getattr(exc, 'reason', ''))[:200]}"
         except Exception as exc:  # noqa: BLE001 — never let a judgment break a turn
             err = str(exc)[:200]

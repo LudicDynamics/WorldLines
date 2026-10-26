@@ -10,8 +10,9 @@ from test_engine_v3 import _install
 from neonrp.core import node_kinds, orchestration
 
 
-def test_two_beats_declared_by_the_plan_plugin(tmp_path: Path):
+def test_two_beats_declared_by_the_plan_plugin(tmp_path: Path, monkeypatch):
     root = _install(tmp_path)
+    monkeypatch.setenv("NEONRP_PLAN_LOOP", "1")   # 10-25: a run with the talk beat off has no plan node, so declares no beats
     bk = orchestration.beat_kinds(root)
     assert bk["start"] == "plan" and set(bk["kinds"]) >= {"plan", "resolve"}
     assert bk["kinds"]["plan"]["tone"] == "plan" and bk["kinds"]["resolve"]["divider_from"]["plan"]
@@ -25,10 +26,11 @@ def test_no_plugin_no_declaration(tmp_path: Path, monkeypatch):
     assert orchestration.beat_kinds(root) == {"kinds": {}}
 
 
-def test_the_run_can_override_a_beat(tmp_path: Path):
+def test_the_run_can_override_a_beat(tmp_path: Path, monkeypatch):
     from neonrp.core.paths import get_data_dir_name
 
     root = _install(tmp_path)
+    monkeypatch.setenv("NEONRP_PLAN_LOOP", "1")
     f = root / get_data_dir_name(root) / "meta" / "template.json"
     rec = json.loads(f.read_text(encoding="utf-8")) if f.exists() else {}
     rec["ui"] = {**(rec.get("ui") or {}), "beats": {"kinds": {"plan": {"label": "说话拍"}}}}

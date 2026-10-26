@@ -142,3 +142,13 @@ def mcp_restart(server_name: str, as_json: bool):
             else:
                 click.echo(f"Error: {exc}", err=True)
             raise SystemExit(1)
+
+
+@mcp.command("serve-create")
+@click.option("--root", "root_dir", required=True, help="The template / world / soul folder the agent may edit.")
+def mcp_serve_create(root_dir: str):
+    """Serve one folder to a local agent (Claude Code / Codex) over stdio MCP: list / read / write its files, lint,
+    specs; for a template also asset slots and a scratch build. Creation only — no model, no key, no play."""
+    from neonrp import create_mcp
+
+    create_mcp.server(create_mcp.open_root(root_dir)).run()

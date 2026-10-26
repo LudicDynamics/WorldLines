@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # 创作台「用一句话说」e2e(10-18):隔离 HOME + 假模型(fake_llm.py)+ 本机引擎(界面构建在临时目录,不动 dist-local),Playwright Chromium。
 #   bash worldlines/ui/app/e2e-create/run.sh
-#   WL_CA_SHOTS=<目录> 截图(默认 docs/playrecords/create-agent-1018/)· WL_CA_PORT(默认 8797)· WL_CA_AI_PORT(默认 8798)
+#   WL_CA_SHOTS=<目录> 截图(默认 docs/playrecords/create-agent-1018/)· WL_CA_PORT(默认 8907)· WL_CA_AI_PORT(默认 8908)
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
 REPO="$(cd "$HERE/../../../.." && pwd)"
-PORT="${WL_CA_PORT:-8797}"
-AI_PORT="${WL_CA_AI_PORT:-8798}"
+PORT="${WL_CA_PORT:-8907}"
+AI_PORT="${WL_CA_AI_PORT:-8908}"
 TMP="$(mktemp -d "${TMPDIR:-/tmp}/wl-ca-e2e.XXXXXX")"
 cleanup() { kill "${SRV:-}" "${MOCK:-}" 2>/dev/null || true; wait 2>/dev/null || true; rm -rf "$TMP"; }
 trap cleanup EXIT

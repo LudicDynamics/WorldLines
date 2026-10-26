@@ -45,6 +45,23 @@ def spec_dir() -> Path | None:
     return None
 
 
+# Skills for coding agents (Claude Code / Codex) that ship with the engine. The source of truth is the workbench folder
+# (worldlines/workbench/.claude/skills/<name>, the open repo's root .claude/skills/<name>); the wheel carries a copy under
+# neonrp/_skills/<name> (hatch_build.py). Shipping them does not install them into any agent.
+SKILLS = ("world-creation",)
+
+
+def skill_dir(name: str) -> Path | None:
+    """The folder of a shipped skill (SKILL.md + references/ …): source checkout · open repo · wheel."""
+    if name not in SKILLS:
+        return None
+    for d in (PKG.parents[1] / "worldlines" / "workbench" / ".claude" / "skills" / name,
+              PKG.parents[2] / ".claude" / "skills" / name, PKG / "_skills" / name):
+        if (d / "SKILL.md").is_file():
+            return d
+    return None
+
+
 def names() -> list[dict[str, Any]]:
     d = spec_dir()
     out = []

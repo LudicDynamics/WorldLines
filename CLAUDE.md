@@ -15,6 +15,7 @@
 | 一个角色,放进已有世界 | 一个 soul 文件夹 | `documents/spec/soul.zh.md` |
 | 一个世界(地方、城镇、NPC、开场) | 一个 world 文件夹 | `documents/spec/world.zh.md` |
 | 能直接开局、能发布的一整套 | 一个 `<id>.template/` 文件夹(绑定世界 + 角色 + 玩法包 + 卡面 + 剧情) | `documents/spec/template.zh.md` |
+| 手里有一份世界设定稿,要整套造出来 | 一个 `<id>.template/`,按设定稿逐段写 | skill `world-creation` |
 | 酒馆格式的角色卡 / 世界书 | SillyTavern V2/V3 卡片 | skill `character-card-authoring` / `world-card-authoring` |
 | 一种玩法要给玩家的体验(入口、出口、结局、发布门槛) | 一份玩法合约,或在模板里选一份官方合约 | `documents/spec/contract.zh.md` |
 | 了解玩法包(`rpg` / `pct` / `werewolf` / `monopoly`)的规则、状态和操作 | 只读,不写;在模板的 `pack` 里选用 | `documents/spec/pack.zh.md` |
@@ -58,6 +59,37 @@ cd /tmp/try-<id> && neonrp tui --play          # 试玩:没玩过的局会自动
 
 lint 有 block 就先修再试玩;把每条 block 的原文和你的修法告诉用户。没装引擎:`uv tool install worldlines`(会带上 `neonrp`)。
 
+### 有 `neonrp-create` MCP 就优先用它
+
+工具列表里有 `mcp__neonrp-create__*`(Codex 里是 `neonrp-create` 这个 MCP 服务器)时,**改文件和检查都走它**,不用 Bash / 自带的写文件:
+它只能碰一个文件夹(模板、世界或角色),写 JSON 前先校验能不能解析,不碰 `.neonrp/` `.git/`,不调模型、不拿 key。
+
+| 工具 | 代替 |
+|---|---|
+| `list_files` · `read_file` · `write_file` | 浏览 / 读 / 写这个文件夹里的文本文件(图片走素材槽) |
+| `lint` | `neonrp template lint`(模板)/ `neonrp validate`(世界)/ 角色文件能不能解析;每次改完跑一次,block 全修掉 |
+| `spec_list` · `spec_read` | `neonrp spec <name>`:写之前先读规格,不编字段 |
+| `slots` · `build_preview` | 只有模板有:`neonrp template slots` / 组装一局看结果(不调模型,用完就删) |
+
+挂法(`--root` 指向要改的那个文件夹;一次只给一个):
+
+```jsonc
+// Claude Code:仓库根的 .mcp.json(第一次用会问是否信任),或 claude mcp add -s project neonrp-create -- neonrp mcp serve-create --root my/my-town.template
+{ "mcpServers": { "neonrp-create": { "command": "neonrp", "args": ["mcp", "serve-create", "--root", "my/my-town.template"] } } }
+```
+
+```toml
+# Codex:~/.codex/config.toml,或 codex mcp add neonrp-create -- neonrp mcp serve-create --root <绝对路径>
+[mcp_servers.neonrp-create]
+command = "neonrp"
+args = ["mcp", "serve-create", "--root", "/绝对路径/my/my-town.template"]
+```
+
+MCP 只约束它自己的工具。想让 agent 只能经它读写:Claude Code 加 `--tools "" --allowedTools "mcp__neonrp-create__*"`(不给任何内置工具);
+Codex 的 `--sandbox read-only` 仍能读整盘,改用只读这个文件夹的权限档:
+`-c 'permissions.nc.filesystem={":minimal"="read","/绝对路径/my/my-town.template"="read"}' -c 'default_permissions="nc"'`(不要再加 `--sandbox`)。
+试玩(`neonrp tui --play`)仍然在终端里跑,MCP 不开局。
+
 ## 游玩是怎么走的(写设定时要考虑)
 
 一回合怎么走,由模板 `uses` 点名的编排决定。两个内置模板都用两拍:
@@ -75,6 +107,7 @@ PyPI 上的 `worldlines` / `neonrp` 包带完整的两拍编排;从本仓源码�
 
 | skill | 用途 |
 |---|---|
+| `world-creation` | 把一份世界设定稿(world spec)造成能玩的模板:逐个文件写,作者在本机网页工作台看进度 |
 | `template-authoring` | 新建 / 修改一个模板(template.json、world-overlay、剧情、素材槽) |
 | `soul-authoring` | 新建一个角色文件夹 |
 | `entity-authoring` | 在世界的 `game/` 里加 / 改实体(地点、NPC、物品、任务) |

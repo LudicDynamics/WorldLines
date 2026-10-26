@@ -154,6 +154,9 @@ def cli(ctx):
     """NeonRP CLI entry point."""
     from neonrp.core.config import load_dotenv
 
+    if ctx.invoked_subcommand == "mcp" and "serve-create" in sys.argv[1:]:
+        # a stdio MCP server an agent starts in its own cwd: no .env into the env, no .neonrp/logs left in that folder
+        return
     load_dotenv(Path.cwd())
     _setup_logging(Path.cwd())
 
@@ -173,6 +176,9 @@ def cli(ctx):
         # Same launch-time update banner the `worldlines` entry has — it only
         # ever ran there, so TUI users never saw a new engine.
         _launch_time_update_check()
+        from neonrp.core.paths import ensure_template_store
+
+        ensure_template_store()  # the launcher lists the player's own templates (~/.worldlines/templates), as `worldlines` does
         worldlines_tui()
 
 

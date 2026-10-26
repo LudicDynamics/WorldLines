@@ -8,6 +8,9 @@ A plugin is any object with the hooks below (all optional except ``kind``); it i
 
     kind: str                                         "plan" …
     active(root, user_text) -> bool                   this node takes the turn now (its world stands still meanwhile)
+    runs(root) -> bool                                this run has the plugin's nodes at all (an engine switch it reads is on);
+                                                      False = its nodes are left out of the run's default graph, so the
+                                                      orchestration bench draws what the run plays (absent = True)
     take_turn(session, *, user_text, trace, run_id, on_chunk) -> dict | ConversationTurnResult | None
         a ConversationTurnResult ends the turn here (the node replied, nothing landed);
         a dict is the context the plain turn below carries (facts / head lines / trace record);

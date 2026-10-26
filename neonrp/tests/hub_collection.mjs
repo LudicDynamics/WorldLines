@@ -85,7 +85,7 @@ async function open(lang, { data = 'ok', signed = true, width = 1280 } = {}) {
   await p.goto('https://hub.test/#/me')
   await p.waitForSelector('[data-coll-sync-state]', { timeout: 15000 })
   out.relogin = { state: await p.$eval('[data-coll-sync-state]', x => x.dataset.collSyncState), text: await p.$eval('[data-coll-sync-state]', x => x.textContent),
-    hscroll: await p.evaluate(() => document.documentElement.scrollWidth - innerWidth) }
+    signin: !!(await p.$('[data-coll-sync-state] [data-signin]')), hscroll: await p.evaluate(() => document.documentElement.scrollWidth - innerWidth) }
   await (await p.$('.mebox.coll')).screenshot({ path: `${shots}/web-collection-relogin-zh-phone.png` })
   await ctx.close()
 }

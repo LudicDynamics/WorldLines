@@ -54,6 +54,12 @@ try {
   }, want, { timeout: 120000 }).catch(() => {})
   out.fromWork = await p.$eval('#cf-orch [data-orch-opt][aria-checked=true]', x => x.dataset.orchOpt)
   out.fromWorkParam = await p.$eval('#cf-orch [data-orch-param][aria-checked=true]', x => x.dataset.orchParam + '=' + x.dataset.orchChoice).catch(() => null)
+  // 旧草稿里还存着拿掉的快商量(10-25):页面按引擎给的 aliases 选中一句一拍
+  await p.evaluate(t => { const k = `wl.hub.cf.${t}`, d = JSON.parse(localStorage.getItem(k)); d.orch = 'two_beat?pace=quick'; delete d.work; localStorage.setItem(k, JSON.stringify(d)) }, tid)
+  await p.reload()
+  await p.waitForSelector('#cf-orch [data-orch-svg]', { timeout: 300000 })
+  out.oldDraft = await p.$eval('#cf-orch [data-orch-opt][aria-checked=true]', x => x.dataset.orchOpt)
+  out.oldDraftNodes = await p.$$eval('#cf-orch [data-orch-node]', xs => xs.map(x => x.dataset.orchNode))
 } catch (e) {
   out.errs.push(String(e && e.stack || e))
 }

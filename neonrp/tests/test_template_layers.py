@@ -151,11 +151,18 @@ def test_new_loading_matches_the_old(official, tid):
     base = json.loads(f.read_text(encoding="utf-8"))["worlds"][tid]
     new = snapshot(t)
     want = SWITCHED.get(_mode(), {}).get(tid, {})
+    talk = _dig(new, ["engine", "turn", "plan_loop"]) == "on"
     for path, (old, now) in want.items():   # the switched worlds: exactly these settings changed, nothing else
         keys = path.strip(".").split(".")
         assert _dig(base, keys) == old and _dig(new, keys) == now, (tid, path, _dig(base, keys), _dig(new, keys))
         _drop(base, keys)
         _drop(new, keys)
+    if PRIVATE and not talk:
+        # 10-25: a run with the talk beat off draws the single beat — the old record still has the talk node and its edges
+        g = base["graph"]
+        g["nodes"].pop("plan", None)
+        g["edges"] = [e for e in g["edges"] if "plan" not in (e["from"], e["to"])]
+        g["start"] = "resolve" if g["start"] == "plan" else g["start"]
     assert _diff(base, new) == [], tid
 
 
@@ -234,7 +241,7 @@ def test_the_open_templates_and_the_fallback(monkeypatch):
 
 
 @pytest.mark.skipif(not PRIVATE, reason="needs the private layer (the two-beat template)")
-def test_the_two_beat_template_and_its_quick_pace():
+def test_the_two_beat_template_and_its_retired_quick_pace():
     from neonrp.core import orch_templates as OT
 
     t = OT.get("two_beat")
@@ -243,7 +250,8 @@ def test_the_two_beat_template_and_its_quick_pace():
     souls = lambda u: OT.layer(u, contract=False)["turn"]["parallel"]["souls"]["default_variant"]  # noqa: E731
     assert souls({"template": "two_beat"}) == "legacy" and souls({"template": "two_beat", "soul": "S-judge"}) == "S-judge", \
         "the characters' orchestration is the world's own axis (uses.soul), the template only gives the default"
+    # 10-25: the quick pace is gone — a work that stored it plays the single beat (no talk beat at all)
     quick = OT.layer({"template": "two_beat", "params": {"pace": "quick"}}, contract=False)["turn"]
-    assert (quick["plan_loop_max_rounds"], quick["plan_loop_nudge_at"], quick["plan_loop_talk_limit"]) == (2, 2, 6)
+    assert quick.get("plan_loop") != "on" and not any(k.startswith("plan_loop_") for k in quick), quick
     assert OT.layer(None, contract=True) == {"turn": {"plan_loop": "on"}}, "an old package with a contract: the two beats, no characters' part"
-    assert OT.ref(OT.from_ref("two_beat?pace=normal")) == "two_beat", "a parameter at its default is not written"
+    assert t["params"] == {}, "no pace any more"

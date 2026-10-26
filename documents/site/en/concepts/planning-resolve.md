@@ -63,7 +63,7 @@ What was agreed in the talk is the input of the resolve. The resolve beat has no
 
 **A long talk is not cut off.** After a few rounds the host nudges — recaps what was agreed, suggests acting — but does not force it.
 
-**Quick talk:** the orchestration "Talk first, then act" has a pace parameter. With "Quick talk" (`two_beat?pace=quick`) the host answers at most twice per line, starts wrapping up at round 2, and moves on after 6 lines of talk. For worlds that want characters to talk back without slowing the pace.
+**No talk:** pick the orchestration "One line, one beat" (`one_beat`). Every line the player says is resolved at once, with no talk beat. A work that stored `two_beat?pace=quick` also opens as "One line, one beat".
 
 <!-- section: resolve -->
 ## The resolve beat

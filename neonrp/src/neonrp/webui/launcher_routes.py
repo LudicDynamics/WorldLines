@@ -148,6 +148,46 @@ class LauncherRoutes:
                 return True
             self._send_json({"ok": True, "create_provider": preset_id or None})
             return True
+        # PUT /api/v1/local/settings/create-agent {agent: "engine"|"claude-code"|"codex"} — 工作台创作 agent(只本机)
+        if self.path == "/api/v1/local/settings/create-agent":
+            from neonrp.presets import set_create_agent
+            from neonrp.webui import agent_cli_backend as ACB
+
+            agent = str((self._read_json_body() or {}).get("agent") or ACB.ENGINE).strip()
+            if agent != ACB.ENGINE and not ACB.available(agent):
+                self._send_json({"ok": False, "error": "agent_unavailable", "agent": agent}, status=400)
+                return True
+            set_create_agent(agent)
+            self._send_json({"ok": True, "selected": agent})
+            return True
+        # PUT /api/v1/local/settings/judge {mode?, api_key?, clear_key?, llm_preset?, clear_preset?}
+        # — 判断器(Jev):写 ~/.neonrp/config.json 的 judge.mode / models.typesafe.api_key / models.judge.preset
+        # (TUI settings「判断器」同一套 core.judge_settings);回 read() 的结果,key 不回传。
+        if self.path == "/api/v1/local/settings/judge":
+            body = self._read_json_body() or {}
+            from neonrp.core import judge_settings
+
+            fields: dict[str, Any] = {}
+            if "mode" in body:
+                fields["mode"] = str(body.get("mode") or "auto")
+            if body.get("clear_key"):
+                fields["clear_key"] = True
+            elif str(body.get("api_key") or "").strip():
+                fields["api_key"] = str(body["api_key"]).strip()
+            if body.get("clear_preset"):
+                fields["clear_preset"] = True
+            elif "llm_preset" in body:
+                fields["llm_preset"] = str(body.get("llm_preset") or "")
+            try:
+                out = judge_settings.save(**fields)
+            except ValueError as exc:
+                self._send_json({"ok": False, "error": str(exc)[:120]}, status=400)
+                return True
+            except Exception as exc:  # noqa: BLE001
+                self.send_error(400, str(exc)[:120])
+                return True
+            self._send_json({"ok": True, "judge": out})
+            return True
         # PUT /api/v1/local/settings/image {backend?, comfyui_url?, ...}
         # — 图像生成后端(TUI settings「图像」;写 ~/.neonrp/config.json.image)。
         if self.path == "/api/v1/local/settings/image":
@@ -577,13 +617,27 @@ class LauncherRoutes:
                 return True
             data = self.rfile.read(n) if n else b"{}"
         url = f"{worldlines_auth.API_BASE.rstrip('/')}/{u.path[len(pre):].rstrip('/')}" + (f"?{u.query}" if u.query else "")
-        req = urllib.request.Request(url, data=data, method=method, headers={
-            "Authorization": f"Bearer {tok}", "Content-Type": "application/json", **worldlines_auth.headers()})
+
+        def send() -> tuple[int, bytes]:
+            req = urllib.request.Request(url, data=data, method=method, headers={
+                "Authorization": f"Bearer {tok}", "Content-Type": "application/json", **worldlines_auth.headers()})
+            try:
+                with urllib.request.urlopen(req, timeout=180) as r:   # a picture takes 20–60 s
+                    return r.status, r.read()
+            except urllib.error.HTTPError as e:
+                return e.code, e.read() or b"{}"
+
         try:
-            with urllib.request.urlopen(req, timeout=180) as r:   # a picture takes 20–60 s
-                status, raw = r.status, r.read()
-        except urllib.error.HTTPError as e:
-            status, raw = e.code, e.read() or b"{}"
+            status, raw = send()
+            if status == 402:   # 10-25: claim the free credits (core/wl_claims), wait out ai's 2 s refusal cache, send once more
+                import time as _time
+
+                from neonrp.core import billing_stop, wl_claims
+
+                stop = billing_stop.from_body(402, raw)
+                if stop is not None and wl_claims.recover(stop):
+                    _time.sleep(wl_claims.RESEND_AFTER_S)
+                    status, raw = send()
         except (urllib.error.URLError, OSError) as e:
             self._send_json({"error": {"code": "unreachable", "message": str(e)[:200]}}, status=502)
             return True
@@ -649,6 +703,36 @@ class LauncherRoutes:
 
             st, body = run_points.claim(path.split("/")[-2], self.headers.get("X-Worldlines-Device"))
             self._send_json(body, status=st or 502)
+            return True
+        if path == "/api/v1/local/usage":  # usage events (core/usage, 10-25): the page says a lobby is in view · the switch
+            from neonrp.core import usage
+
+            origin = self.headers.get("Origin") or ""
+            if method != "GET" and origin and not origin.startswith(("http://localhost", "http://127.0.0.1")):
+                self._send_json({"ok": False, "error": "forbidden_origin"}, status=403)
+                return True
+            if method == "POST":
+                b = self._read_json_body() or {}
+                if isinstance(b.get("usage_data"), bool):   # 设置里的「发送使用数据」
+                    usage.set_enabled(b["usage_data"])
+                elif b.get("name") == "lobby_view":   # the only event a page may ask for; the engine counts the rest itself
+                    usage.lobby_view()
+                else:
+                    self._send_json({"ok": False, "error": "unknown_event"}, status=400)
+                    return True
+            self._send_json({"ok": True, "usage_data": usage.enabled()})
+            return True
+        if path == "/api/v1/local/feedback" and method == "POST":  # the local page's 「反馈」(core/feedback_send, 10-25)
+            from neonrp.core import feedback_send
+
+            origin = self.headers.get("Origin") or ""
+            if origin and not origin.startswith(("http://localhost", "http://127.0.0.1")):   # sent with the player's account: our pages only
+                self._send_json({"ok": False, "error": "forbidden_origin"}, status=403)
+                return True
+            b = self._read_json_body() or {}
+            st, out = feedback_send.send(feedback_send.build(b.get("text"), template_id=b.get("template_id"), save_id=b.get("save_id"),
+                                                             page=b.get("page"), errors=b.get("errors"), locale=b.get("locale")))
+            self._send_json(out, status=200 if out["ok"] else (st if 400 <= st < 600 else 502))
             return True
         if not path.startswith("/api/v1/local/hub/"):
             return False
@@ -895,6 +979,17 @@ class LauncherRoutes:
                 f = (d / str(rec["image"])).resolve() if rec and rec.get("image") else None
                 self._send_file(f if f is not None and f.is_file() and f.is_relative_to(d) else None, cache="private, max-age=300")
                 return True
+            # GET /api/v1/local/create-agents — 工作台的创作 agent:引擎自己的 / 本机 Claude Code / 本机 Codex(找得到 CLI 才可选)
+            if self.path == "/api/v1/local/create-agents":
+                from neonrp.presets import get_create_agent
+                from neonrp.webui import agent_cli_backend as ACB
+
+                agents = ACB.detect()
+                sel = get_create_agent() or ACB.ENGINE
+                if not any(a["id"] == sel and a["available"] for a in agents):
+                    sel = ACB.ENGINE   # 选过的 CLI 卸了:回到引擎
+                self._send_json({"selected": sel, "agents": agents})
+                return True
             if self.path == "/api/v1/local/settings":
                 from neonrp.presets import get_create_provider, list_presets
 
@@ -924,11 +1019,20 @@ class LauncherRoutes:
                     }
                 except Exception:  # noqa: BLE001 — image config is optional
                     pass
+                # 判断器(Jev)— TUI 设置「判断器」的 web 版(10-25);key 只回 key_set / 尾号,不回原文
+                judge: dict[str, Any] = {}
+                try:
+                    from neonrp.core import judge_settings
+
+                    judge = judge_settings.read()
+                except Exception:  # noqa: BLE001 — optional
+                    pass
                 self._send_json(
                     {
                         "presets": list_presets(),
                         "create_provider": create_provider,
                         "image": image,
+                        "judge": judge,
                     }
                 )
                 return True
@@ -1122,6 +1226,15 @@ class LauncherRoutes:
             final.parent.mkdir(parents=True, exist_ok=True)
             final.write_bytes(data)
             self._send_json({"ok": True})
+            return True
+        # POST /api/v1/local/settings/judge/test — 问当前判断器一道是非题(TUI settings「判断器 › 测试」)
+        if self.path == "/api/v1/local/settings/judge/test":
+            from neonrp.core import judge_settings
+
+            try:
+                self._send_json(judge_settings.probe())
+            except Exception as exc:  # noqa: BLE001
+                self._send_json({"ok": False, "error": str(exc)[:120]})
             return True
         if self.path == "/api/v1/local/settings/test":
             body = self._read_json_body() or {}

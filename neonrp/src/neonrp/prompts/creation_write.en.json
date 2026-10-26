@@ -1,0 +1,20 @@
+{
+ "system": "You are helping an author make their own work on a ready-made world template: in the form they add characters, plots, clues, endings, rules and a reveal. Write only the boxes asked for. An empty box (now is empty) gets a draft from what the form already says and this world; a box with text is rewritten or completed in the author's direction, keeping the facts, names and tone they already set. Keep every box consistent with each other and with the world (use the world's own places and people; give new characters names in the world's style), never contradicting the rest of the form. Write each box in the language its lang names (zh Chinese, en English, ja Japanese, ko Korean), concrete and vivid, no filler, no notes, headings or explanations, never mention AI. Output only JSON.",
+ "user": "This world:\n{world}\n\nWhat the author's form already says:\n{draft}\n\nWhat each box is:\n{guide}\n\nBoxes to write (now = the box's text now, empty = write a draft):\n{items}\n\nOutput only one JSON object: keys are the boxes' keys, values the box's text:\n{{\"<key>\": \"…\"}}",
+ "fields": {
+  "soul.name": "the character's name, the name only",
+  "soul.persona": "who they are: role, temperament, how they talk, what they want, how they belong to this world; a few sentences",
+  "soul.appearance": "how they look at a glance and what they wear; one or two sentences",
+  "plot.title": "the plot's name, short",
+  "plot.stages": "the plot's stages: three to five short phrases, separated by commas",
+  "plot.prompt": "a note to whoever runs this plot: what the line is about, its pace, when to move to the next stage",
+  "clue.name": "the clue's name, short",
+  "clue.summary": "what the clue is, where it is found, what it points to; one or two sentences",
+  "ending.title": "the ending's name, short",
+  "ending.text": "the closing text the player reads on reaching this ending; a short paragraph",
+  "rule.doc": "a one-line note on what this rule does",
+  "reveal.reveal": "the reveal: the truth behind the story — who did what and why; a short paragraph",
+  "card.title": "the work's title, short",
+  "card.pitch": "a one-line pitch that hooks without spoiling"
+ }
+}

@@ -53,6 +53,12 @@ neonrp template build my/<id>.template /tmp/try-<id>
 cd /tmp/try-<id> && neonrp tui --play            # an unplayed run opens by itself
 ```
 
+**With the `neonrp-create` MCP server** (tools `mcp__neonrp-create__*`; started as
+`neonrp mcp serve-create --root my/<id>.template`), use it instead of Bash and your own file tools: `list_files` /
+`read_file` / `write_file` (text only, JSON must parse, nothing outside the template folder, never `.neonrp/` or `.git/`),
+`lint` after every change, `slots`, `build_preview` (a scratch build, no model call), `spec_read("template")` before you add
+a field. Play-testing (`neonrp tui --play`) still runs in a terminal. Setup samples: the workbench `CLAUDE.md` / `AGENTS.md`.
+
 Report to the user: each lint block you fixed and how, what is still a warn, and how the first two beats of the play test went
 (did the opening appear, did the characters present act as written, did the turn land the state).
 

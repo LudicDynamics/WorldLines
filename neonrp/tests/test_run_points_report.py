@@ -101,5 +101,7 @@ def test_the_ios_shell_says_it_is_the_app(monkeypatch):
     assert chronicle.client() == "local"
     monkeypatch.setenv("WORLDLINES_CLIENT", "app")   # the iOS app's embedded engine (wl_host, ios4 10-21)
     assert chronicle.client() == "app"
-    monkeypatch.setenv("WORLDLINES_CLIENT", "ios")   # not one of chronicle's: ignored, never a rejected event
+    monkeypatch.setenv("WORLDLINES_CLIENT", "ios")   # the iOS shell's newer name (funnel 10-25): play records still say app
+    assert chronicle.client() == "app"
+    monkeypatch.setenv("WORLDLINES_CLIENT", "tv")    # not one of chronicle's: ignored, never a rejected event
     assert chronicle.client() == "local"

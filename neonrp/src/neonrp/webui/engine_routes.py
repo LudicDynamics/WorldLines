@@ -43,6 +43,8 @@ def _turn_input(body: Any) -> str:
     return str((body or {}).get("input") or "").strip() if isinstance(body, dict) else ""
 
 
+_RESCUE = "/api/v1/play/engine/rescue"  # a cut / stalled line: 继续生成 · 重来 (core/turn_rescue, 10-25)
+
 class EngineRoutes(ModeRoutes, SchemaRoutes, MapRoutes, TemplateRoutes, CommitRoutes, ApprovalRoutes, SceneArtRoutes, FrontendRoutes):
     """引擎契约面的 handler mixin(与 BaseHTTPRequestHandler 合体使用)。"""
 
@@ -208,6 +210,12 @@ class EngineRoutes(ModeRoutes, SchemaRoutes, MapRoutes, TemplateRoutes, CommitRo
                     else:
                         self._send_json(trace)
                 return True
+        if self.path.split("?", 1)[0] == _RESCUE:  # what the last line may still do: 继续生成 / 重来 (core/turn_rescue)
+            if rt is None:
+                self.send_error(409, "no play session")
+                return True
+            self._send_json(rt.rescue_state())
+            return True
         if self._map_route_get(rt):
             return True
         if self._schema_route_get(rt):
@@ -614,6 +622,34 @@ class EngineRoutes(ModeRoutes, SchemaRoutes, MapRoutes, TemplateRoutes, CommitRo
             self._send_json(dry_run.run(rt.root, str(body["input"]), beat=beat, overrides=body.get("overrides") or None,
                                         provider=getattr(rt, "provider", None)))
             return True
+        if self.path == _RESCUE:
+            # 10-25 a line that was cut or stalled (core/turn_rescue): {action: wrap | continue | redo}
+            #   wrap      the running turn lands what it has written now → {ok, running, wrapped}
+            #   continue  the cut prose goes on from where it stopped: 202, then its chunks and turn_done (continued)
+            #   redo      back to before the line → {ok, text}; 409 while a turn runs
+            if rt is None:
+                self.send_error(409, "no play session")
+                return True
+            action = str((self._read_json_body() or {}).get("action") or "")
+            if action == "wrap":
+                self._send_json(rt.rescue_wrap())
+            elif action == "redo":
+                out = rt.rescue_redo()
+                if out is None:
+                    self._send_json({"error": "busy", "reason": "turn_running"}, status=409)
+                else:
+                    self._send_json(out, status=200 if out.get("ok") else 409)
+            elif action == "continue":
+                started = rt.submit_continue()
+                if started is None:
+                    self._send_json({"error": "nothing to continue"}, status=409)
+                elif not started:
+                    self._send_json({"error": "busy", "reason": "turn_running"}, status=409)
+                else:
+                    self._send_json({"ok": True}, status=202)
+            else:
+                self.send_error(400, "action is wrap | continue | redo")
+            return True
         if self.path.startswith(self._API_PREFIX):
             self._post_api(rt)
             return True
@@ -700,6 +736,7 @@ class EngineRoutes(ModeRoutes, SchemaRoutes, MapRoutes, TemplateRoutes, CommitRo
                 })
                 return
             world_id = str(body.get("world_id") or "").strip()
+            warnings: list[str] = []
             if world_id:
                 from neonrp.worlds import get_owned_world_dir
 
@@ -719,6 +756,8 @@ class EngineRoutes(ModeRoutes, SchemaRoutes, MapRoutes, TemplateRoutes, CommitRo
                 slug = web._new_world_slug(human_name)
                 target = WORLDS_HOME / slug
                 try:
+                    import shutil
+
                     from neonrp import template as TP
 
                     hit = TP.discover().get(template)
@@ -730,17 +769,26 @@ class EngineRoutes(ModeRoutes, SchemaRoutes, MapRoutes, TemplateRoutes, CommitRo
                         from neonrp.core.storage import atomic_write_json, ensure_dirs
                         from neonrp.worlds import seed_run_model
 
-                        TP.build(TP.load(hit), target)
+                        t = TP.load(hit)
+                        try:
+                            TP.build(t, target)
+                        except Exception as exc:  # noqa: BLE001
+                            # 10-25: plots name the world's places — after「新建世界」(author.new_world) a copied template's
+                            # plots point at the old world and fail lint; the world is still editable, so open it without them
+                            if not t.plots:
+                                raise
+                            shutil.rmtree(target, ignore_errors=True)
+                            TP.build(t, target, install_plots=False)
+                            warnings.append(f"剧情没装进这个世界(它引用的地点/变量在当前世界里没有,去剧情里改):{exc}"[:600])
                         ensure_dirs(target)
                         atomic_write_json(get_manifest_path(target), Manifest().model_dump())
                         seed_run_model(target, None)
                     else:
                         scaffold_template_into(template, target)
                 except Exception as exc:  # noqa: BLE001 — clean HTTP error
-                    import shutil
-
                     shutil.rmtree(target, ignore_errors=True)
-                    self.send_error(400, f"scaffold failed: {exc}"[:120])
+                    # JSON, not send_error: a multi-line reason (plot lint) broke the status line and the page only showed「400」
+                    self._send_json({"ok": False, "error": "scaffold_failed", "message": f"这个世界建不起来:{exc}"[:600]}, status=400)
                     return
                 # 人类可读名写进 game-start(read_local_world_name 的显示名
                 # SoT)—— 中文名 slug 化后目录只剩 world-<ts>,不写的话
@@ -761,6 +809,7 @@ class EngineRoutes(ModeRoutes, SchemaRoutes, MapRoutes, TemplateRoutes, CommitRo
                     "world_id": ert.world_id,
                     "template": template,
                     "files": ert.tree(),
+                    **({"warnings": warnings} if warnings else {}),
                 }
             )
             return
@@ -830,7 +879,24 @@ class EngineRoutes(ModeRoutes, SchemaRoutes, MapRoutes, TemplateRoutes, CommitRo
             if not text:
                 self.send_error(400)
                 return
+            from neonrp.presets import get_create_agent
+            from neonrp.webui import agent_cli_backend as ACB
+
+            agent = str(body.get("agent") or get_create_agent() or ACB.ENGINE)
+            if agent in ACB.AGENTS:
+                if not ACB.available(agent):
+                    self._send_json({"ok": False, "error": "agent_unavailable", "agent": agent}, status=400)
+                    return
+                self._api_create_message_cli(ert, agent, text)
+                return
             self._api_create_message(ert, text)
+            return
+        # POST message/stop — 中止正在跑的本机 agent(Claude Code / Codex 子进程)
+        if self.path == f"{self._CREATE_PREFIX}/session/{web.EditRuntime.SID}/message/stop":
+            run = getattr(ert, "_agent_run", None)
+            if run is not None:
+                run.cancel()
+            self._send_json({"ok": True, "stopped": run is not None})
             return
         if self.path == f"{self._CREATE_PREFIX}/session/{web.EditRuntime.SID}/playtest":
             from neonrp.worlds import instantiate_run
@@ -933,6 +999,71 @@ class EngineRoutes(ModeRoutes, SchemaRoutes, MapRoutes, TemplateRoutes, CommitRo
         except (BrokenPipeError, ConnectionResetError, OSError):
             pass  # client left; the edit finishes server-side
         # NOTE: no unregister needed — the queue is per-request local.
+
+    def _api_create_message_cli(self, ert: "EditRuntime", agent: str, text: str) -> None:
+        """One edit turn by a local CLI agent (webui/agent_cli_backend.py) as SSE: agent · chunk · tool_use · tool_result ·
+        file → files · lint → done. The CLI's session id is kept on the EditRuntime so the next turn resumes it."""
+        from neonrp import create_mcp
+        from neonrp.webui import agent_cli_backend as ACB
+
+        if not ert._busy.acquire(blocking=False):
+            self.send_response(409)
+            self._cors_headers()
+            self.end_headers()
+            return
+        root = ert.world_dir.resolve()
+        q: "queue.Queue[tuple[str, Any]]" = queue.Queue()
+        sessions = ert._agent_sessions
+        run = ACB.AgentRun(agent, root, text, kind=create_mcp.kind_of(root) or "world", resume=sessions.get(agent),
+                           emit=lambda n, d: q.put((n, d)))
+        ert._agent_run = run
+        out: list[dict[str, Any]] = []
+
+        def _run() -> None:
+            try:
+                r = run.run()
+                if r.get("session_id"):
+                    sessions[agent] = r["session_id"]
+                try:
+                    lr = create_mcp.lint(root)
+                    q.put(("lint", {"kind": lr["kind"], "ok": lr["ok"], "counts": lr["counts"],
+                                    "problems": [p for p in lr["problems"] if p["level"] == "block"][:8]}))
+                except Exception as exc:  # noqa: BLE001 — lint is a report, not the turn
+                    q.put(("lint", {"ok": None, "error": str(exc)[:200]}))
+                out.append(r)
+            except Exception as exc:  # noqa: BLE001 — surface on the stream
+                out.append({"success": False, "error": f"agent crashed: {exc}"[:300]})
+            finally:
+                ert._agent_run = None
+                ert._busy.release()
+                q.put(("__end__", None))
+
+        threading.Thread(target=_run, daemon=True).start()
+        self.send_response(200)
+        self.send_header("Content-Type", "text/event-stream; charset=utf-8")
+        self.send_header("Cache-Control", "no-cache")
+        self._cors_headers()
+        self.end_headers()
+        try:
+            while True:
+                try:
+                    name, data = q.get(timeout=15)
+                except queue.Empty:
+                    self.wfile.write(b": keepalive\n\n")
+                    self.wfile.flush()
+                    continue
+                if name == "__end__":
+                    break
+                self.wfile.write(f"event: {name}\ndata: {json.dumps(data, ensure_ascii=False, default=str)}\n\n".encode())
+                self.wfile.flush()
+            r = out[0] if out else {}
+            done = {"session_id": web.EditRuntime.SID, "world_id": ert.world_id, "agent": agent,
+                    "success": bool(r.get("success")), "assistant_message": r.get("assistant_message") or "",
+                    "error": r.get("error"), "cancelled": bool(r.get("cancelled")), "timed_out": bool(r.get("timed_out"))}
+            self.wfile.write(f"event: done\ndata: {json.dumps(done, ensure_ascii=False)}\n\n".encode())
+            self.wfile.flush()
+        except (BrokenPipeError, ConnectionResetError, OSError):
+            run.cancel()   # the page left: a CLI agent does not keep writing unattended
 
     def _post_api(self, rt: "WebRuntime | None") -> None:
         sid = web.WebRuntime._LOCAL_SID

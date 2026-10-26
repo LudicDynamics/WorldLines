@@ -2,7 +2,7 @@
 name = "worldlines"
 # 独立版本线（2026-09 两仓彻底分开）：本值由 WorldLines 仓 release.yml 依 tag 号
 # 覆写（sed）。worldlines 版本 = 壳仓自己的 tag，不再与 neonrp 同号。
-version = "1.0.5"
+version = "1.0.6"
 description = "Worldlines launcher — a world simulation built on the neonrp agentic engine"
 authors = [
     {name = "Ludic Dynamics", email = "info@worldlines.gg"},
@@ -17,7 +17,7 @@ requires-python = ">=3.10"
 # 独立 pin：worldlines 依赖一个「选定的」neonrp 版本，不再随发布锁步改写。
 # 要升 neonrp 时手动改此行并提交（配对测试后），再 tag 发 worldlines。
 dependencies = [
-    "neonrp[discord]==1.0.5",
+    "neonrp[discord]==1.0.6",
 ]
 
 # Passthrough extras — discord.py already arrives transitively via

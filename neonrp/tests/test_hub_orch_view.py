@@ -1,7 +1,7 @@
 """Hub 创作台「编排模板」只读执行图 e2e(orch-preview 10-18 · 10-19 阶段 A 改成选模板):真引擎(进程内)+ Hub 的 index.html + orchview.js。
 网页版:图 = build_static 出的 orch/<id>.json(这里用同一个函数 core/orch_presets.views 生成);本地版:引擎路由。
 选模板 → 图跟着换 → 两拍的参数(快商量)在卡下面选 → 节点拖不动、没有能改的控件 → 点节点看步骤 → 缩放;手机宽 390 不横向溢出;只有本地版有「到编排台编辑」。
-截图:HUB_OV_SHOTS=<目录>(默认 tmp)。端口 8798(e2e 端口段,被占就跳过)。"""
+截图:HUB_OV_SHOTS=<目录>(默认 tmp)。端口 8908(e2e 端口段,被占就跳过)。"""
 from __future__ import annotations
 
 import json
@@ -20,7 +20,7 @@ from neonrp.core import node_kinds, orch_presets as O
 
 ROOT = Path(__file__).resolve().parents[1]
 UI, HUB = ROOT / "worldlines" / "ui", ROOT / "worldlines" / "ui" / "app" / "hub"
-PORT = int(os.environ.get("HUB_OV_PORT", "8798"))
+PORT = int(os.environ.get("HUB_OV_PORT", "8908"))
 MOUNT = """<style>header.top{position:static}</style><script>
 const q = new URLSearchParams(location.search); let cur = ''
 document.getElementById('app').innerHTML = '<div id="cf-orch"></div>'
@@ -76,14 +76,7 @@ def test_pick_a_template_and_read_its_graph(tmp_path, monkeypatch):
     r = json.loads(res.stdout.strip().splitlines()[-1])
     assert r["errs"] == [], r
     assert r["opts"] == ["two_beat", "one_beat"] and r["checked"] == "two_beat", "the world's own template is picked"
-    assert r["chips"] == ["pace=normal*", "pace=quick"], "the two beats' pace is a parameter under its card"
-    assert r["chosenQuick"] == "two_beat?pace=quick" and r["quickChecked"] == "quick"
-    # 10-23: the two paces read differently — each has its own graph, the planning node lists the settings it changes
-    assert r["refNormal"] == "two_beat" and r["refQuick"] == "two_beat?pace=quick"
-    assert r["setsNormal"] and [x[0] for x in r["setsNormal"]] == [x[0] for x in r["setsQuick"]]
-    differ = [q for n, q in zip(r["setsNormal"], r["setsQuick"]) if n[1] != q[1]]
-    assert differ and all(q[2] for q in differ) and not any(n[2] for n in r["setsNormal"]), (r["setsNormal"], r["setsQuick"])
-    assert r["detailSets"] and any(x[2] for x in r["detailSets"]), "the node's detail lists them too, the changed ones marked"
+    assert r["chips"] == [], "10-25: no pace under the two beats (the quick pace is gone — the Resolve alone is the single beat)"
     assert r["nodesDefault"][:2] == ["plan", "resolve"] and "combat" in r["nodesDefault"]
     assert r["after"] == "one_beat" and "plan" not in r["nodesOneBeat"] and r["chosen"] == "one_beat", "picking a template redraws the graph"
     assert r["chipsOneBeat"] == 0, "the single beat has no parameter"
@@ -97,7 +90,7 @@ def test_pick_a_template_and_read_its_graph(tmp_path, monkeypatch):
 
 @pytest.mark.skipif(node_kinds.get("plan") is None, reason="needs the private layer (the two-beat template)")
 def test_the_desk_stores_the_picked_template(tmp_path, monkeypatch):
-    """The real Hub desk (hub.js mounts orchview.js): pick 「两拍」 with its quick pace → addition.orchestration → check →
+    """The real Hub desk (hub.js mounts orchview.js): pick 「一句一拍」 over the world's two beats → addition.orchestration → check →
     save → the work's template.json ``uses`` names it and the work plays as it; the draft remembers the pick after a reload."""
     node = shutil.which("node")
     if not node or not (UI / "node_modules" / "playwright").is_dir():
@@ -131,7 +124,7 @@ def test_the_desk_stores_the_picked_template(tmp_path, monkeypatch):
         threading.Thread(target=server.serve_forever, daemon=True).start()
         try:
             res = subprocess.run([node, str(ROOT / "tests" / "hub_orch_desk.mjs"), f"http://127.0.0.1:{PORT}", str(tmp_path / "page.html"),
-                                  "stoneford-town", "two_beat?pace=quick", str(UI / "package.json"), str(shots)], capture_output=True, text=True, timeout=900,
+                                  "stoneford-town", "one_beat", str(UI / "package.json"), str(shots)], capture_output=True, text=True, timeout=900,
                                  env={**os.environ, "PLAYWRIGHT_BROWSERS_PATH": browsers})
         finally:
             server.shutdown()
@@ -140,16 +133,17 @@ def test_the_desk_stores_the_picked_template(tmp_path, monkeypatch):
     r = json.loads(res.stdout.strip().splitlines()[-1])
     assert r["errs"] == [], r
     assert r["before"] is None, "the world's own template is not written"
-    assert r["after"] == "two_beat?pace=quick" and r["graph"] == "two_beat" and r["overflow"] <= 0
+    assert r["after"] == "one_beat" and r["graph"] == "one_beat" and r["overflow"] <= 0
     assert r["check"]["status"] == 200 and r["check"]["body"].get("ok") is True, r["check"]
     assert r["save"]["status"] == 200 and r["save"]["body"].get("ok") is True, r["save"]
     w = TP.load(TP.discover()[r["save"]["body"]["id"]])
-    assert w.data["uses"] == {"template": "two_beat", "version": "1.0", "soul": "S-judge", "params": {"pace": "quick"}}
+    assert w.data["uses"] == {"template": "one_beat", "version": "1.0", "soul": "S-judge"}
     assert "plan_loop" not in (w.pack.get("engine") or {}).get("turn", {}), "the world's single-beat switch is not carried over"
-    assert O.default_for(w) == "two_beat?pace=quick"
-    assert r["reloaded"] == "two_beat" and r["reloadedParam"] == "pace=quick", "the draft remembers the pick"
-    assert r["save"]["body"]["orchestration"] == "two_beat?pace=quick", "the work route says which template the work plays as"
+    assert O.default_for(w) == "one_beat"
+    assert r["reloaded"] == "one_beat" and r["reloadedParam"] is None, "the draft remembers the pick"
+    assert r["save"]["body"]["orchestration"] == "one_beat", "the work route says which template the work plays as"
     assert r["rowPickers"] == 0, "no orchestration picker on a character's row (10-19)"
     assert not (w.dir / "prompts" / "souls").exists()
     assert r["askedWork"], "the desk asked the engine about the work"
-    assert r["fromWork"] == "two_beat" and r["fromWorkParam"] == "pace=quick", f"{r.get('draft')}: a draft without the pick asks the engine about the work"
+    assert r["fromWork"] == "one_beat" and r["fromWorkParam"] is None, f"{r.get('draft')}: a draft without the pick asks the engine about the work"
+    assert r["oldDraft"] == "one_beat" and "plan" not in r["oldDraftNodes"], "a draft holding the retired quick pace shows the single beat"

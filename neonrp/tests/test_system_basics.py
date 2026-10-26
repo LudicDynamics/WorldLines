@@ -208,10 +208,9 @@ def test_07_reads_the_ui_uses(web):
     sc = call("/api/v1/play/schema")
     assert any(v["name"] == "player.gold" for v in sc["variables"]) and sc["actions"]
     g = call("/api/v1/play/engine/graph")
-    from neonrp.core import node_kinds
-
-    # the planning beat is the private layer's (10-10): on the open engine the graph is the plain turn
-    assert ({"plan", "resolve"} if node_kinds.get("plan") is not None else {"resolve"}) <= set(g["graph"]["nodes"])
+    # test_01 turned the talk beat off, and the graph is what the run plays (10-25): the plain turn, no talk node —
+    # the same as the open engine, where the planning beat (the private layer's, 10-10) is not there at all
+    assert "resolve" in g["graph"]["nodes"] and "plan" not in g["graph"]["nodes"]
     lint = call("/api/v1/local/templates/stoneford-elena/lint")
     assert "problems" in lint and "counts" in lint
     assert isinstance(call("/api/v1/play/engine/contract"), dict)

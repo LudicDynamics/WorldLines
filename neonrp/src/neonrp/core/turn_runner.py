@@ -675,8 +675,11 @@ def v3_resolve(self: Any, c: TurnCtx) -> None:
 
                 from neonrp.core.output_lang import prompt_lang as _pl_aw
 
+                from neonrp.core.turn_v3 import is_timeout_line as _tol
+
                 _reg_aw = _lr_aw(self.root)
-                _away_lines = _bd4.away_lines(_reg_aw, getattr(self, "_away_turns", None) or [], _pl_aw(self.root))
+                # a beat that wrote nothing in time: no lines from elsewhere hung on its short notice (10-25)
+                _away_lines = [] if _tol(_narr) else _bd4.away_lines(_reg_aw, getattr(self, "_away_turns", None) or [], _pl_aw(self.root))
                 if _away_lines:  # the whole lines, ahead of the cut prose line: the TUI folds them (10-08)
                     from neonrp.core import topics as _tp_aw
 

@@ -458,6 +458,7 @@ def test_system_one_backend_priority_and_proxy_endpoint(monkeypatch, tmp_path):
     monkeypatch.delenv("TYPESAFE_API_KEY", raising=False)
     monkeypatch.delenv("HUB_API_TOKEN", raising=False)
     monkeypatch.setattr(Path, "home", lambda: tmp_path)  # no ~/.neonrp/config.json
+    monkeypatch.setattr("neonrp.core.user_config.USER_CONFIG_PATH", tmp_path / ".neonrp" / "config.json")
     assert s1.backend_name() == "off", "local build without any key = off, and off is a complete engine"
     monkeypatch.setenv("HUB_API_TOKEN", "sess-abc")
     assert s1.backend_name() == "proxy" and s1.endpoint() == (s1.PROXY_URL_DEFAULT, "sess-abc")
@@ -567,6 +568,7 @@ def test_llm_judge_backend_answers_same_shape(monkeypatch, tmp_path):
     assert "判断器" in seen["sys"] and "艾琳娜" in seen["user"] and s1.last_call()["backend"] == "llm"
     # auto chain: no keys but a judge preset configured ⇒ llm (isolate from ~/.neonrp/config.json)
     monkeypatch.setattr(Path, "home", lambda: tmp_path)
+    monkeypatch.setattr("neonrp.core.user_config.USER_CONFIG_PATH", tmp_path / ".neonrp" / "config.json")
     monkeypatch.delenv("NEONRP_S1_BACKEND", raising=False)
     monkeypatch.delenv("TYPESAFE_API_KEY", raising=False)
     monkeypatch.delenv("HUB_API_TOKEN", raising=False)
@@ -3913,7 +3915,8 @@ def test_agreed_checks_show_as_dice_lines_the_tui_highlights(tmp_path):
         {"a": {"who": elena.id, "roll": 13, "mod": 2, "total": 15}, "dc": 12, "attr": "CHA", "why": "压药价", "result": "success"},
         {"a": {"who": "player", "roll": 5, "mod": 2, "total": 7}, "b": {"who": elena.id, "roll": 11, "mod": 0, "total": 11},
          "attr": "DEX", "why": "挤过去", "result": "fail"}])
-    assert lines == [f"[{elena.name} CHA(压药价): 13+2=15 >= 12] → 成功", f"[{reg.entries['player'].name if 'player' in reg.entries else '玩家'} DEX 对 {elena.name}(挤过去): 5+2=7 < 11] → 失败"]
+    assert lines == [f"[{elena.name} CHA(压药价): 13+2=15 >= 12] → 成功", f"[{reg.entries['player'].name if 'player' in reg.entries else '玩家'} DEX 对 {elena.name}(挤过去): 5+2=7 < 11] → 失败"
+                     f":你掷出 7,{elena.name}掷出 11;发起方不低于对方就赢 → {elena.name}赢"]  # a contest says whose total and the rule (10-25)
     assert all(ConversationView._DICE_LINE_RE.match(x) for x in lines)
 
 

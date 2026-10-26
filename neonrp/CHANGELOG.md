@@ -3,6 +3,22 @@
 `neonrp` (engine and terminal launcher) and `worldlines` (local web UI) share version numbers from 1.0.3.
 Full notes for each version are on [GitHub Releases](https://github.com/LudicDynamics/WorldLines/releases).
 
+## 1.0.6 (2026-10-26)
+
+- Create with a coding agent on your computer. `neonrp mcp serve-create` serves the creation tools over MCP; the workbench can use Claude Code or Codex as its creation backend. The agent reads and writes only the template folder, and writes that look like keys are refused.
+- The world-creation skill ships with the engine. `neonrp spec skill` prints where it is. New tutorial in four languages: create with Codex or Claude Code.
+- Creation desk: AI writes or rewrites each text field, or fills the empty ones. Your own text is changed only after you confirm.
+- When a turn is cut off by a timeout or a dropped stream, the text written so far is kept. Continue, redo, or rewrite the line.
+- Contested rolls say who won first, then both rolls and the rule that decided it. The web dice show both dice.
+- Workbench, Template page: turn character creation on or off for any world, and edit its fields. Bundled worlds are read-only; copy one to change it.
+- Judge settings page in the terminal UI and the local web UI.
+- The blank world has no sample characters or places.
+- A new world made from a copied template opens again.
+- The terminal launcher lists your own templates.
+- CG captions stay readable on colourful art.
+- Online play in the browser: Default Zone worlds use Worldlines credits; your own key works on Free Zone works.
+- Usage data: a setting to turn it off (`NEONRP_USAGE=off` also turns it off).
+
 ## 1.0.5 (2026-10-25)
 
 - The workbench interface is in Chinese, English, Japanese and Korean. Switching in Settings changes the interface at once; the narration language applies from the next run. The workbench and the local Hub share one language setting.

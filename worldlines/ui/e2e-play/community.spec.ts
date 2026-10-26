@@ -1,7 +1,7 @@
 // 网页 Hub 发现页的社区作品(web-create 10-18 · 平台 4cb013e):identity 公开列表(默认区 · 通过审核的那一版 · 不要 mature)
 // → 官方世界和社区作品分两块,社区作品标作者;列表读不到官方世界照常;游客点进去只有封面 + 介绍 +「登录后在浏览器里玩」,
 // 直接开浏览器版 = 先登录;登录后浏览器版带令牌拿默认区的包,装成这个作品,假模型打一回合。平台全部拦在本机。
-//   WL_PLAY_PORT=8798 WL_PLAY_AI_PORT=8799 · 构建时 --ai / --auth / --billing 指到 http://127.0.0.1:8799 · WL_PLAY_SHOTS=<截图目录>
+//   WL_PLAY_PORT=8908 WL_PLAY_AI_PORT=8909 · 构建时 --ai / --auth / --billing 指到 http://127.0.0.1:8909 · WL_PLAY_SHOTS=<截图目录>
 import { test, expect, type Page, type Route, type BrowserContext } from '@playwright/test'
 import { execFileSync } from 'node:child_process'
 import { mkdirSync, readFileSync, mkdtempSync } from 'node:fs'
@@ -17,6 +17,7 @@ mkdirSync(SHOTS, { recursive: true })
 const shot = (page: Page, name: string) => page.screenshot({ path: `${SHOTS}/${name}.png`, fullPage: true })
 const mock = (mode: string, reset = false) => fetch(`${AI}/_mock/mode`, { method: 'POST', body: JSON.stringify({ mode, reset }) })
 const WID = 'stoneford-town-mine-c0ffee'
+const FID = 'stoneford-town-mine-f4ee00'   // 自由区作品(同一份包,?ref= 不带 zone)
 const PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==', 'base64')
 
 // 一份真的作品包:创作台存出来的作品(石津镇 + 一段 plots/mine)用引擎自己的打包(export_template + 内置世界)
@@ -60,6 +61,10 @@ async function platform(ctx: BrowserContext, opts: { pkg?: Buffer, failList?: bo
       seen.dl.push(`${u.search} ${auth ? 'auth' : 'anon'}`)
       if (!auth) return json(r, { limited: 'zone', files: [{ path: 'cover.png', url: 'https://storage.worldlines.gg/_cover' }] })
       return json(r, { revision: 1, published_revision: 1, files: [{ path: 'package.zip', url: 'https://storage.worldlines.gg/_pkg' }, { path: 'cover.png', url: 'https://storage.worldlines.gg/_cover' }] })
+    }
+    if (u.pathname === `/v1/public/objects/hub/template/${FID}/download-url`) {   // 自由区作品:公开下载地址,不要令牌
+      seen.dl.push(`free ${req.headers()['authorization'] ? 'auth' : 'anon'}`)
+      return json(r, { files: [{ path: 'package.zip', url: 'https://storage.worldlines.gg/_pkg' }, { path: 'cover.png', url: 'https://storage.worldlines.gg/_cover' }] })
     }
     if (u.pathname === '/_pkg' && opts.pkg) return r.fulfill({ status: 200, headers: { ...cors, 'content-type': 'application/zip' }, body: opts.pkg })
     return json(r, {}, 404)
@@ -142,4 +147,42 @@ test('发现页的社区作品:分区 · 作者 · 列表挂了官方照常 · �
   expect(said.ok, String(said.err)).toBe(true)
   await shot(u, '05-play-community-work')
   await user.close()
+})
+
+// 自己的 key 只给自由区作品(niko 10-26):没登录、拿不到游客令牌 → 门上额度在前、自己的 key 在后(写明只发给填的地址);
+// 填了 key → 包走公开下载地址(不带令牌),模型调用全带这把 key,不带 Worldlines 产品头;同一个浏览器回到默认区作品 = 还是额度、key 不删
+test('自由区作品:额度默认,也能用自己的 key;默认区不用这把 key', async ({ browser }) => {
+  test.setTimeout(900_000)
+  await mock('ok', true)
+  const pkg = makePackage()
+  const seen = { list: [] as string[], dl: [] as string[] }
+  const ctx = await browser.newContext({ locale: 'zh-CN', viewport: { width: 1360, height: 860 } })
+  await platform(ctx, { pkg }, seen)
+  const p = await ctx.newPage()
+  await p.goto(`/play/bench.html?${new URLSearchParams({ ref: `hub/template/${FID}`, lang: 'zh', title: '雾夜猎人' })}`)
+  await expect(p.getByText('用什么模型来跑?')).toBeVisible({ timeout: 120_000 })
+  await expect(p.getByText('只发给你填的地址')).toBeVisible()
+  await shot(p, '06-free-gate')
+  await p.fill('form[data-key] input[name=base]', `${AI}/v1`)
+  await p.fill('form[data-key] input[name=key]', 'sk-own-e2e')
+  await p.fill('form[data-key] input[name=model]', 'own-model')
+  await p.locator('form[data-key] button[type=submit]').click()
+  await p.waitForFunction(() => (window as any).WLPLAY && (window as any).WLPLAY.ready, null, { timeout: 360_000 })
+  expect(await p.evaluate(() => [(window as any).WLPLAY.tpl, (window as any).WLPLAY.mode, !!(window as any).WLPLAY.engine.modelSheet])).toEqual([FID, 'key', true])
+  expect(seen.dl).toEqual(['free anon'])
+  await p.waitForSelector('#min', { timeout: 180_000 })
+  await p.waitForFunction(() => { try { const E = (0, eval)('E'); return !E.busy && E.s && E.s.feed.length > 0 } catch { return false } }, null, { timeout: 240_000 })
+  const said = await p.evaluate(async () => { const r = await (window as any).WLPLAY.engine.sayAndWait('我往雾里走'); return { ok: r && r.success, err: r && r.error } })
+  expect(said.ok, String(said.err)).toBe(true)
+  const calls = (await (await fetch(`${AI}/_mock/state`)).json()).calls.filter((c: any) => !c.jev)
+  expect(calls.length).toBeGreaterThan(0)
+  expect(calls.every((c: any) => c.auth === 'Bearer sk-own-e2e' && c.product === '' && c.model === 'own-model')).toBe(true)
+  await shot(p, '07-free-own-key')
+  // 同一个浏览器(存着 key 模式)打开官方世界:默认区只用额度,门上没有 key,存的 key 还在
+  await p.goto('/play/bench.html?tpl=stoneford-town&lang=zh')
+  await expect(p.getByText('登录后用 Worldlines 额度玩')).toBeVisible({ timeout: 120_000 })
+  await expect(p.locator('form[data-key]')).toHaveCount(0)
+  expect(await p.evaluate(() => [localStorage.getItem('wl.play.mode'), !!localStorage.getItem('wl.play.key')])).toEqual(['key', true])
+  await shot(p, '08-default-after-key')
+  await ctx.close()
 })

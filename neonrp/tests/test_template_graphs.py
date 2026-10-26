@@ -12,7 +12,7 @@ import pytest
 from test_engine_v3 import _install
 
 from neonrp import template as TP
-from neonrp.core import orchestration as O
+from neonrp.core import node_kinds, orchestration as O
 from neonrp.template import v3
 
 TEMPLATES = sorted(TP.discover())
@@ -22,7 +22,9 @@ TEMPLATES = sorted(TP.discover())
 def test_each_template_graph_builds_and_runs(ref):
     r = v3.graph_of(ref)
     g = r["graph"]
-    assert g["schema"] == O.SCHEMA and {"plan", "resolve"} <= set(g["nodes"])
+    # 10-25: the graph is what the run plays — the two beats' worlds have the talk node, a single-beat world (狼人村) not
+    plays_two = TP.load(TP.discover()[ref]).data.get("uses", {}).get("template") == "two_beat" and node_kinds.get("plan") is not None
+    assert g["schema"] == O.SCHEMA and "resolve" in g["nodes"] and ("plan" in g["nodes"]) == plays_two
     assert not [x for x in g["lint"] if x["code"] in ("orch.edge_unrunnable", "orch.node_no_impl", "orch.phase_var")]
 
 
@@ -38,8 +40,9 @@ def _codes(root):
     return [(x["code"], x["msg"]) for x in O.graph(root)["lint"]]
 
 
-def test_dead_edges_and_nodes_warn_runnable_ones_do_not(tmp_path):
+def test_dead_edges_and_nodes_warn_runnable_ones_do_not(tmp_path, monkeypatch):
     root = _install(tmp_path)
+    monkeypatch.setenv("NEONRP_PLAN_LOOP", "1")   # the talk node is in the graph (off, edges from it are left out with it)
     p = O.override_path(root)
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(json.dumps({"add": [

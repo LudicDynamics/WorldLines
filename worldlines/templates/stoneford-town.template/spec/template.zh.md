@@ -99,9 +99,9 @@ spec/  AGENTS.md  CLAUDE.md
 - 两个内置模板都写 `"uses": {"template": "two_beat", "version": "1.0", "soul": "S-judge"}`。
 - 从 PyPI 装的包含完整的两拍编排;从开源仓源码装的引擎只有一拍。引擎没有模板点名的编排时,退回第一个开源编排(`one_beat`),`uses.soul` 照旧——世界照样能玩,只是一回合走一拍。
 - `uses.soul` 是另一条轴:在场角色怎么出手(`legacy` · `S-judge` · `S-direct` · `S-free`);不写 = 编排模板的默认。
-- `uses.params` 选编排模板给的参数,例如两拍的 `pace: normal | quick`(quick = 商量拍更快收束)。参数选错 → lint `uses.param`(warn)。
+- `uses.params` 选编排模板给的参数(现有的官方编排模板都没有参数)。参数选错 → lint `uses.param`(warn)。旧作品存的 `two_beat` + `pace: quick` 按 `one_beat` 打开。
 - 编排模板的设置在运行时叠加(见 8.2 的 `orchestration` 层),**不复制进存档**。
-- Hub 网页和 iOS 的创作台只能从几个编排选项里挑(如 `two_beat`、`two_beat?pace=quick`),看到的是只读图;能改图的只有本机的编排台,改动存成模板的 `orchestration`(见 3.1)。
+- Hub 网页和 iOS 的创作台只能从几个编排选项里挑(如 `two_beat`、`one_beat`),看到的是只读图;能改图的只有本机的编排台,改动存成模板的 `orchestration`(见 3.1)。
 
 **清算拍里写状态的方式**(两种编排都一样):
 
@@ -369,6 +369,11 @@ publishable — 0 block, 4 warn
 HTTP:`GET /api/v1/local/templates/<id>/builder`(声明 + 解析好的 companion 候选;图只给有无,不给路径)·
 `GET …/builder/image?field=&option=` / `?sid=` · `POST …/builder/check {fields, companion}` → `{ok, errors}` · `POST …/builder/generate {field, fields, lang}` → `{text, source}` ·
 `GET /api/v1/play/engine/player-card`(这一局的卡;`live` = 从 `to` 读回的当前值,玩的过程中会变)。lint:`player.builder`(block)。
+
+开关(工作台 Template 页):`GET …/builder/edit?lang=` → `{on, kept, writable, fields: [{id, kind, label, random?, required}]}`,按这个语言给 ·
+`POST …/builder/edit {on: true}` = 恢复之前收起的设置,没有就给一份通用的(名字 · 性别和代词 · 外貌 · `assets/player/` 里的头像);已经有的不动 ·
+`{on: false}` = 设置收进 `player.builder_off`(各 `i18n/<lang>/` 层的一起收)· `{fields: [{id, label?, random?, required?}], lang}` = 改字段;这个语言有自己的层时 `label` / `random` 写进那一层 ·
+`POST …/builder/portrait?ext=`(图片原文)= 加一个头像选项。只写可写模板库里的模板;内置的 → 403,先复制。代码:`template/author.py` `set_builder` · `edit_builder` · `add_portrait`。
 
 ---
 

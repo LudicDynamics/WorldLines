@@ -93,7 +93,7 @@ def scan_for_secrets(source: Path) -> list[SecretHit]:
         if not _would_ship(rel):
             continue
         rel_s = rel.as_posix()
-        if _CREDENTIAL_FILES.search(rel_s):
+        if is_credential_file(rel_s):
             hits.append(SecretHit(rel_s, "credential-file", 0))
             continue
         if p.suffix.lower() not in _TEXT_SUFFIXES:
@@ -104,17 +104,29 @@ def scan_for_secrets(source: Path) -> list[SecretHit]:
             text = p.read_text(encoding="utf-8")
         except (OSError, UnicodeDecodeError):
             continue
-        for lineno, line in enumerate(text.splitlines(), 1):
-            for kind, pat in _KEY_PATTERNS:
-                m = pat.search(line)
-                if not m:
-                    continue
-                value = m.group(m.lastindex or 0)
-                if kind == "key-field" and _PLACEHOLDER.match(value):
-                    continue
-                hits.append(SecretHit(rel_s, kind, lineno))
-                break
+        hits.extend(SecretHit(rel_s, kind, lineno) for kind, lineno in secrets_in_text(text))
     return hits
+
+
+def secrets_in_text(text: str) -> list[tuple[str, int]]:
+    """(kind, line) for every line of ``text`` holding a key-shaped string — the publish scan's rules, also used by
+    the creation MCP's write_file (create_mcp.py) so an agent cannot write a key into a template."""
+    out: list[tuple[str, int]] = []
+    for lineno, line in enumerate(text.splitlines(), 1):
+        for kind, pat in _KEY_PATTERNS:
+            m = pat.search(line)
+            if not m:
+                continue
+            value = m.group(m.lastindex or 0)
+            if kind == "key-field" and _PLACEHOLDER.match(value):
+                continue
+            out.append((kind, lineno))
+            break
+    return out
+
+
+def is_credential_file(rel: str) -> bool:
+    return bool(_CREDENTIAL_FILES.search(rel))
 
 
 # ── hub.json: title / description per language ─────────────────────────
@@ -294,7 +306,7 @@ def adapter_for_preset(preset_id: str | None = None) -> Any:
     user's creation provider (what build mode already uses)."""
     from neonrp.core.config import _parse_config, resolve_provider
     from neonrp.core.llm import get_adapter, get_adapter_from_config
-    from neonrp.presets import build_config_dict, get_create_provider, resolve_creation_provider
+    from neonrp.presets import build_config_dict, get_create_provider, resolve_creation_preset_id, resolve_creation_provider
 
     pid = preset_id or get_create_provider()
     if pid:
@@ -304,6 +316,12 @@ def adapter_for_preset(preset_id: str | None = None) -> Any:
         except Exception:
             if preset_id:
                 raise
+    auto = resolve_creation_preset_id()   # any provider with a key (10-26: anthropic / gemini too)
+    if auto and auto != pid:
+        try:
+            return get_adapter_from_config(resolve_provider(_parse_config(build_config_dict(auto))))
+        except Exception:  # noqa: BLE001 — fall through to the OpenAI-compatible scan
+            pass
     resolved = resolve_creation_provider()
     if not resolved:
         raise RuntimeError("no model configured — pick one in settings (/auth) first")

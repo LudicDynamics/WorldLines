@@ -1,11 +1,8 @@
 {
   "id": "current",
   "kind": "timeline",
-  "name": "世界时间线",
+  "name": "时间线",
   "day": 1,
-  "period": "morning",
   "clock": "08:00",
-  "weather": "晴",
-  "fog_pressure": "",
   "active_threads": []
 }

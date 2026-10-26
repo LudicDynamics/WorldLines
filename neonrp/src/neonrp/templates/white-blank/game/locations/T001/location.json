@@ -1,0 +1,15 @@
+{
+  "id": "T001",
+  "type": "town",
+  "kind": "location",
+  "name": "第一个地方",
+  "pos": [
+    50,
+    50
+  ],
+  "isolated": true,
+  "state": {
+    "discovered": true
+  },
+  "connections": []
+}

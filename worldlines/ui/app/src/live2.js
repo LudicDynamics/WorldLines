@@ -18,11 +18,12 @@
   window.LIVE_openTpl = id => { S.screen = 'tpl'; loadTpl(id); window.WL_setWorld && window.WL_setWorld(id, { quiet: true }); render(); };
   window.TPL_load = id => loadTpl(id);   // 当前世界换了(live.js syncWorld)   // 剧情图上「去生成 CG」跳过来
   async function loadTpl(id) {
-    T.id = id; T.detail = T.ui = T.lint = T.slots = null; if (S.screen === 'tpl') renderTpl();
+    T.id = id; T.detail = T.ui = T.lint = T.slots = T.pb = null; if (S.screen === 'tpl') renderTpl();
     const b = `/api/v1/local/templates/${encodeURIComponent(id)}`;
     // 各自回来就各自画(lint 要几秒,不让它挡住整页)
     const put = (k, path) => V3.j(path).catch(() => null).then(v => { if (T.id !== id) return; T[k] = v; if (S.screen === 'tpl') renderTpl(); });
-    await Promise.all([put('detail', b), put('slots', b + '/assets'), put('ui', b + '/ui'), put('lint', b + '/lint')]);
+    T.pbd = {};
+    await Promise.all([put('detail', b), put('slots', b + '/assets'), put('ui', b + '/ui'), put('lint', b + '/lint'), put('pb', `${b}/builder/edit?lang=${window.WLANG || 'zh'}`)]);
   }
   const blk = () => (T.lint && T.lint.counts && T.lint.counts.block) || 0;
   renderTpl = function () {
@@ -71,12 +72,42 @@
       ${brick('slot', null, `<div class="meta"><span><i>05</i>${TT('后台单位')}</span><span>mixins</span></div><div class="t">${TT('世界自己在走')}</div>
         ${avail.map(k => `<div class="sw"><span><b>${({ economy: TT('经济'), factions: TT('势力') })[k] || k}</b><br><small style="color:var(--muted)">${k}</small></span><button class="tg ${mixins.includes(k) ? 'on' : ''}" data-tmix="${k}" ${u.writable ? '' : `disabled title="${TT('内置模板只读:先复制一份')}"`} aria-label="${k}"></button></div>`).join('') || `<div class="sub">${TT('这个玩法包没有可选的后台单位')}</div>`}`)}
     </div>
+    ${pbBox()}
     <div class="tag" style="margin:18px 0 8px">${TT('素材槽 · {have} / {all} 已填 · 发布必需 {need}', { have: slots.filter(s => s.have).length, all: slots.length, need: slots.filter(s => s.need).length })}</div>
     <div class="slotgrid">${slots.map(s => `<div class="glass slotc ${s.need && !s.have ? 'need' : ''} ${s.stale ? 'stale' : ''}">
         <div class="si">${s.have ? `<img src="${slotImg(s)}" alt="" loading="lazy">` : `<span>${s.need ? TT('发布必需') : TT('可选')}</span>`}</div>
         <div class="sb"><b>${esc(s.label || s.name)}</b><small class="mono">${esc(s.slot)}</small>${s.stale ? `<small style="color:var(--crit)">${TT('输入变了,要重生成')}</small>` : ''}
         <div class="row" style="gap:4px;margin-top:6px"><button class="chip" data-tgen="${esc(s.slot)}" ${T.busy === s.slot ? 'disabled' : ''}>${T.busy === s.slot ? TT('生成中…') : s.have ? TT('重生成') : TT('生成')}</button><label class="chip" style="cursor:pointer">${TT('上传')}<input type="file" accept="image/png,image/jpeg,image/webp" data-tup="${esc(s.slot)}" hidden></label></div></div></div>`).join('')}</div>
     <details class="setmore" style="margin-top:14px"><summary>template.json</summary><pre class="code glass deep">${esc(JSON.stringify(d, null, 2))}</pre></details>`;
+  }
+  // 捏角色(10-25):打开 = 开局前先进捏人页(引擎 template/builder.py,捏人页 src/builder.js)。世界原来写好的捏人设置不动;
+  //   没有的给一份通用的(名字 · 性别和代词 · 外貌 · 头像);关掉时引擎把设置收起来(player.builder_off),再打开就恢复。
+  //   这里只改每个字段的标题 · 随机项 · 必填,用的是界面语言;内置模板只读,先复制
+  const KIND_N = { text: TT('文字'), choice: TT('单选'), multi: TT('多选'), points: TT('点数'), portrait: TT('头像') };
+  function pbBox() {
+    const v = T.pb; if (!v) return '';
+    const ro = !v.writable, d = T.pbd || {}, dirty = Object.keys(d).length > 0;
+    const val = (f, k) => (d[f.id] && k in d[f.id] ? d[f.id][k] : f[k]);
+    const rows = (v.fields || []).map(f => `<div class="pbrow"><span class="tag">${esc(KIND_N[f.kind] || f.kind)}</span>
+        <input class="cell" data-pbl="${esc(f.id)}" value="${esc(val(f, 'label'))}" aria-label="${esc(TT('标题'))}" ${ro ? 'disabled' : ''}>
+        <label class="pbreq"><input type="checkbox" data-pbq="${esc(f.id)}" ${val(f, 'required') ? 'checked' : ''} ${ro ? 'disabled' : ''}>${TT('必填')}</label>
+        ${f.kind === 'text' ? `<textarea class="cell" data-pbr="${esc(f.id)}" rows="1" placeholder="${esc(TT('随机项,一行一个'))}" ${ro ? 'disabled' : ''}>${esc((val(f, 'random') || []).join('\n'))}</textarea>` : `<small class="sub">${f.options != null ? TT('{n} 个选项', { n: f.options }) : ''}</small>`}</div>`).join('');
+    const probs = (v.problems || []).filter(p => p.level === 'block');
+    return `<div class="tag" style="margin:18px 0 8px">${TT('捏角色')}</div><div class="glass pbbox">
+      <div class="sw"><span><b>${TT('开局前捏角色')}</b><br><small style="color:var(--muted)">${v.on ? TT('开局时先进捏人页,捏好再开场') : v.kept ? TT('关着 · 之前的设置还留着,打开就恢复') : TT('打开后给一份通用的:名字、性别和代词、外貌、头像')}</small></span>
+        <button class="tg ${v.on ? 'on' : ''}" data-tpb ${ro ? `disabled title="${TT('内置模板只读:先复制一份')}"` : ''} aria-pressed="${v.on}" aria-label="${TT('开局前捏角色')}"></button></div>
+      ${ro ? `<div class="sub" style="margin-top:8px">${T.ui && T.ui.forkable === false ? TT('官方世界 · 只能玩,不能复制') : `${TT('内置模板只读:先复制一份')} <button class="chip" data-tfork>${TT('复制一份来改')}</button>`}</div>` : ''}
+      ${v.on ? `<div class="pbrows">${rows}</div>
+        <div class="row" style="gap:6px;margin-top:10px;flex-wrap:wrap">${ro ? '' : `<label class="chip" style="cursor:pointer">${TT('上传头像')}<input type="file" accept="image/png,image/jpeg,image/webp" data-pbface hidden></label>
+          <button class="btn ${dirty ? 'p' : ''}" data-pbsave ${dirty ? '' : 'disabled'}>${dirty ? TT('保存') : TT('已保存')}</button>`}
+          <small class="sub">${TT('标题和随机项按界面语言({l})保存', { l: esc(v.lang || '') })}</small></div>
+        ${probs.length ? `<div class="setmsg warn" style="margin-top:10px">${probs.map(p => esc(`${p.where}: ${p.msg}`)).join('<br>')}</div>` : ''}` : ''}</div>`;
+  }
+  async function pbSend(path, body, raw) {
+    try { const r = await send('POST', `/api/v1/local/templates/${encodeURIComponent(T.id)}/${path}`, body, raw); T.pb = r; T.pbd = {}; T.msg = '';
+      const ts = await V3.j('/api/v1/local/templates').catch(() => null); if (ts) L.templates = ts.templates || L.templates; }
+    catch (err) { T.msg = TT('没改成:') + err.message; }
+    renderTpl();
   }
   function liveCtr() {
     const ref = T.detail.play_contract || '', id = ref.split('@')[0], c = CONTRACTS[id];
@@ -107,9 +138,25 @@
     const q = s => e.target.closest(s); let t;
     if (q('[data-tplay]')) { L.play({ slug: `tpl--${T.id}` }); return; }
     if (q('[data-tfork]')) { const nid = (T.id + '-mine').slice(0, 40); try { const r = await send('POST', `/api/v1/local/templates/${encodeURIComponent(T.id)}/fork`, { id: nid, title: title(T.detail) + '(我的)' }); T.msg = TT('复制好了:') + (r.id || nid); const ts = await V3.j('/api/v1/local/templates'); L.templates = ts.templates || L.templates; loadTpl(r.id || nid); window.WL_setWorld && window.WL_setWorld(r.id || nid); } catch (err) { T.msg = TT('复制失败:') + err.message; renderTpl(); } return; }
+    if (q('[data-tpb]')) { pbSend('builder/edit', { on: !(T.pb && T.pb.on), lang: window.WLANG || 'zh' }); return; }
+    if (q('[data-pbsave]')) { pbSend('builder/edit', { lang: window.WLANG || 'zh', fields: Object.entries(T.pbd || {}).map(([id, x]) => ({ id, ...x })) }); return; }
     if ((t = q('[data-tmix]'))) { const k = t.dataset.tmix, cur = (T.ui.mixins || []), next = cur.includes(k) ? cur.filter(x => x !== k) : [...cur, k];
       try { await send('POST', `/api/v1/local/templates/${encodeURIComponent(T.id)}/ops`, { ops: [{ op: 'set_mixins', mixins: next }] }); T.msg = ''; } catch (err) { T.msg = TT('没改成:') + err.message; } loadTpl(T.id); return; }
     if ((t = q('[data-tgen]'))) { T.busy = t.dataset.tgen; renderTpl(); try { await send('POST', `/api/v1/local/templates/${encodeURIComponent(T.id)}/assets/generate`, { slot: T.busy }); T.msg = TT('生成好了'); T.stamp = Date.now(); } catch (err) { T.msg = TT('生成失败:') + err.message; } T.busy = ''; loadTpl(T.id); }
+  });
+  // 捏角色的字段编辑:先记草稿,点「保存」才写(没存的按钮亮着)
+  const pbEdit = (id, k, v) => { T.pbd = T.pbd || {}; T.pbd[id] = { ...(T.pbd[id] || {}), [k]: v }; const b = $('[data-pbsave]'); if (b) { b.disabled = false; b.classList.add('p'); b.textContent = TT('保存'); } };
+  document.addEventListener('input', e => {
+    if (S.screen !== 'tpl' || !e.target.dataset) return;
+    const ds = e.target.dataset;
+    if (ds.pbl) pbEdit(ds.pbl, 'label', e.target.value);
+    else if (ds.pbr) pbEdit(ds.pbr, 'random', e.target.value.split('\n').map(x => x.trim()).filter(Boolean));
+  });
+  document.addEventListener('change', e => {
+    if (S.screen !== 'tpl' || !e.target.dataset) return;
+    if (e.target.dataset.pbq) pbEdit(e.target.dataset.pbq, 'required', e.target.checked);
+    const f = e.target.matches && e.target.matches('[data-pbface]') && e.target.files[0];
+    if (f) pbSend(`builder/portrait?ext=${encodeURIComponent('.' + (f.name.split('.').pop() || 'png').toLowerCase())}&lang=${encodeURIComponent(window.WLANG || 'zh')}`, null, f);
   });
   document.addEventListener('change', async e => {
     const inp = e.target.closest && e.target.closest('[data-tup]'); if (!inp || !inp.files[0]) return;
@@ -212,23 +259,79 @@
     render();
   });
   // 创作 agent:有编辑副本就走引擎的创作会话(流式);没有就提示先另存
+  // 10-26(C2):创作后端可选「本机 Claude Code / Codex」—— 引擎起 CLI 子进程,它只能经 neonrp-create MCP 改这个世界的文件;
+  // 进度 = 流式文字 + 每次工具调用(✓ / ✗)+ 改了哪些文件 + 改完的 lint;跑着时可以中止。没装 CLI 的选项灰掉。
+  const AG = { list: null, sel: 'engine', run: false };
+  const AGL = { engine: TT('引擎(创作模型)'), 'claude-code': TT('本机 Claude Code'), codex: TT('本机 Codex') };
+  const agOf = id => (AG.list || []).find(a => a.id === id) || {};
+  async function loadAgents() {
+    const d = await V3.j('/api/v1/local/create-agents').catch(() => null);
+    if (d) { AG.list = d.agents || []; AG.sel = d.selected || 'engine'; }
+    if (S.screen === 'duo' && S.rtab === 'agent') renderDuo();
+  }
+  window.LIVE_loadAgents = loadAgents;
+  const agNote = () => {
+    if (!AG.list) return '';
+    const miss = AG.list.filter(a => a.id !== 'engine' && !a.available).map(a => a.bin);
+    // 如实写清它能碰什么(10-26):Claude Code 不给任何内置工具;Codex 的命令只读这个文件夹(不含 .neonrp)、不写
+    if (AG.sel === 'claude-code') return `<div class="agnote">${esc(TT('用你自己登录的 {a}(额度算它的)。它没有任何内置工具:只能经 neonrp-create 读写这个世界的文件,不能跑命令、读不到别处的文件;改完引擎跑一次 lint。', { a: agOf(AG.sel).label || AG.sel }))}</div>`;
+    if (AG.sel !== 'engine') return `<div class="agnote">${esc(TT('用你自己登录的 {a}(额度算它的)。改文件只经 neonrp-create;它自己的命令只能读这个世界的文件夹(不含 .neonrp),不能写、读不到别处;改完引擎跑一次 lint。', { a: agOf(AG.sel).label || AG.sel }))}</div>`;
+    return miss.length ? `<div class="agnote">${esc(TT('本机没找到 {b} 命令:装好、在终端里登录一次,再回来刷新这一页就能选。', { b: miss.join(' / ') }))}</div>` : '';
+  };
+  const _pane = agentPane;
+  agentPane = function () {
+    if (!AG.list) loadAgents();
+    const opts = (AG.list || [{ id: 'engine', available: true }]).map(a => `<option value="${esc(a.id)}" ${a.id === AG.sel ? 'selected' : ''} ${a.available ? '' : 'disabled'}>${esc(AGL[a.id] || a.id)}${a.available ? (a.version ? ' · ' + esc((String(a.version).match(/\d+(\.\d+)+/) || [a.version])[0]) : '') : ' · ' + TT('没装')}</option>`).join('');
+    return `<div class="agbar" data-agbar><div class="row" style="gap:8px"><span class="tag">${TT('创作后端')}</span><select id="agSel" ${AG.run ? 'disabled' : ''}>${opts}</select>
+      ${AG.run ? `<button class="btn" data-agstop>${TT('中止')}</button>` : ''}</div>${agNote()}</div>` + _pane();
+  };
+  document.addEventListener('change', async e => {
+    if (e.target.id !== 'agSel') return;
+    const v = e.target.value;
+    try { await send('PUT', '/api/v1/local/settings/create-agent', { agent: v }); AG.sel = v; }
+    catch (err) { S.wagent.push({ t: 'agent', h: TT('没换成:') + esc(err.message) }); }
+    renderDuo();
+  });
+  document.addEventListener('click', e => {
+    if (!e.target.closest('[data-agstop]')) return;
+    fetch(V3.url(EDIT + '/message/stop'), { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: '{}' }).catch(() => null);
+  });
+  const lintLine = l => !l ? '' : l.ok == null ? `<span class="agl">lint · ${esc(l.error || '?')}</span>`
+    : `<span class="agl ${l.ok ? 'ok' : 'bad'}">lint · ${l.ok ? TT('没有 block') : TT('{n} 个 block', { n: l.counts.block })}${l.counts && l.counts.warn ? ' · ' + TT('{n} 个提醒', { n: l.counts.warn }) : ''}</span>${(l.problems || []).slice(0, 3).map(p => `<span class="agp">${esc(p.where || '')} ${esc(p.message || '')}</span>`).join('')}`;
   agentDo = async function (x) {
     S.wagent.push({ t: 'me', h: esc(x) });
     if (!(window.MAPHOOK && window.MAPHOOK.edit)) { S.wagent.push({ t: 'agent', h: TT('这个世界还在打开,等地图出来再跟我说。') }); renderDuo(); return; }
-    const msg = { t: 'agent', h: '<span class="dots">…</span>' }; S.wagent.push(msg); renderDuo();
-    let text = '', calls = [];
+    if (AG.run) { S.wagent.push({ t: 'agent', h: TT('上一条还在跑,等它完或者先中止。') }); renderDuo(); return; }
+    const cli = AG.sel !== 'engine';
+    const msg = { t: 'agent', h: '<span class="dots">…</span>' }; S.wagent.push(msg); AG.run = true; renderDuo();
+    let text = '', calls = [], files = [], lint = null, who = cli ? AGL[AG.sel] : '', fin = null;
+    const paint = () => {
+      const steps = cli ? calls.slice(-8).map(c => `<span class="agc ${c.ok === false ? 'bad' : c.ok ? 'ok' : ''}">${c.ok === false ? '✗' : c.ok ? '✓' : '…'} ${esc(c.name)} ${esc(c.path || '')}</span>`).join('') : '';
+      msg.h = `${who ? `<span class="tag">${esc(who)}</span> ` : ''}${esc(text) || (fin ? '' : '<span class="dots">…</span>')}${fin ? `<span class="agfin">${esc(fin)}</span>` : ''}`
+        + (cli ? `<span class="call" data-agprog>${steps}${files.length ? `<span class="agf">${TT('改了的文件')}:${files.map(f => `<b>${esc(f)}</b>`).join(' ')}</span>` : ''}${lintLine(lint)}</span>`
+          : (calls.length ? `<span class="call">${esc(calls.slice(-6).map(c => `${c.name} ${c.path || ''}`).join(' · '))}</span>` : ''));
+      renderDuo();
+    };
     try {
       const r = await fetch(V3.url(EDIT + '/message'), { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ input: x }) });
-      if (!r.ok || !r.body) throw new Error('message → ' + r.status);
+      if (!r.ok || !r.body) { const j = await r.json().catch(() => ({})); throw new Error(j.error === 'agent_unavailable' ? TT('本机找不到这个 agent 的命令') : 'message → ' + r.status); }
       const rd = r.body.getReader(), dec = new TextDecoder(); let buf = '', ev = '';
       for (;;) { const { done, value } = await rd.read(); if (done) break; buf += dec.decode(value, { stream: true });
         let nl; while ((nl = buf.indexOf('\n')) >= 0) { const line = buf.slice(0, nl).replace(/\r$/, ''); buf = buf.slice(nl + 1);
           if (line.startsWith('event: ')) ev = line.slice(7);
           else if (line.startsWith('data: ') && ev) { let d = {}; try { d = JSON.parse(line.slice(6)); } catch { /* skip */ }
-            if (ev === 'chunk') text += d.text || ''; else if (ev === 'tool_use') calls.push(`${d.name} ${d.path || ''}`); else if (ev === 'done') text = d.assistant_message || text; else if (ev === 'error') text += '\n' + TT('出错:') + (d.error || '');
-            msg.h = `${esc(text) || '<span class="dots">…</span>'}${calls.length ? `<span class="call">${esc(calls.slice(-6).join(' · '))}</span>` : ''}`; renderDuo(); ev = ''; } } }
+            if (ev === 'chunk') text += (text && cli ? '\n' : '') + (d.text || '');
+            else if (ev === 'agent') who = d.label || who;
+            else if (ev === 'tool_use') calls.push({ name: d.name, path: d.path });
+            else if (ev === 'tool_result') { const c = [...calls].reverse().find(k => k.name === d.name && k.path === d.path && k.ok == null); if (c) c.ok = d.ok !== false; }
+            else if (ev === 'file') { if (!files.includes(d.path)) files.push(d.path); }
+            else if (ev === 'files') files = [...new Set([...files, ...(d.added || []), ...(d.changed || [])])];
+            else if (ev === 'lint') lint = d;
+            else if (ev === 'done') { if (!cli) text = d.assistant_message || text; fin = d.cancelled ? TT('已中止') : d.timed_out ? TT('超时,停了') : d.error ? TT('出错:') + d.error : ''; }
+            else if (ev === 'error') text += '\n' + TT('出错:') + (d.error || '');
+            paint(); ev = ''; } } }
     } catch (err) { msg.h = TT('没连上创作会话:') + esc(err.message); }
-    renderDuo(); if (window.LIVE_buildMap) window.LIVE_buildMap();
+    AG.run = false; renderDuo(); if (window.LIVE_buildMap) window.LIVE_buildMap();
   };
   S.wagent = [{ t: 'agent', h: TT('我是创作 agent,改的是你正在编辑的这个世界的文件(按 documents/spec/world 和 soul)。直接说要改什么。') + '<span class="call">edit-local/message</span>' }];
   const _duo = renderDuo;

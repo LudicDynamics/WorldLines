@@ -1,6 +1,6 @@
 [project]
 name = "neonrp"
-version = "1.0.5"
+version = "1.0.6"
 description = "Agentic engine for AI role-playing — agents as a game"
 authors = [
     {name = "Ludic Dynamics", email = "info@worldlines.gg"},
@@ -107,6 +107,8 @@ exclude = [
 
 # 10-23:发 PyPI 的 wheel 带私有层(NEONRP_BUNDLE_PRIVATE=<neonrp_private 目录>);不设 = 只有开源引擎(hatch_build.py)
 [tool.hatch.build.targets.wheel.hooks.custom]
+# 10-26:同一个 hook 把给 coding agent 的 skill(worldlines/workbench/.claude/skills/<name>,正本)带进 sdist(_skills/)和 wheel(neonrp/_skills/)
+[tool.hatch.build.targets.sdist.hooks.custom]
 
 [tool.ruff]
 line-length = 120

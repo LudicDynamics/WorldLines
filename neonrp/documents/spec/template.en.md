@@ -99,9 +99,9 @@ A template does not write out how a turn runs. It names an **orchestration templ
 - Both built-in templates write `"uses": {"template": "two_beat", "version": "1.0", "soul": "S-judge"}`.
 - The PyPI package includes the full two-beat orchestration; an engine built from the open-source repo has the single beat only. When the engine lacks the orchestration a template names, it falls back to the first open one (`one_beat`) and keeps `uses.soul` — the world still plays, one beat per turn.
 - `uses.soul` is a separate axis: how the characters present act (`legacy` · `S-judge` · `S-direct` · `S-free`); left out = the orchestration template's default.
-- `uses.params` picks the orchestration template's parameters, e.g. the two beats' `pace: normal | quick` (quick = the Planning beat wraps up sooner). A choice the template does not have → lint `uses.param` (warn).
+- `uses.params` picks the orchestration template's parameters (none of the official orchestration templates has any now). A choice the template does not have → lint `uses.param` (warn). An older work that stored `two_beat` with `pace: quick` opens as `one_beat`.
 - The orchestration template's settings are laid on at run time (the `orchestration` layer in 8.2), **never copied into the save**.
-- The web Hub and iOS creation desks only pick from a few orchestration choices (e.g. `two_beat`, `two_beat?pace=quick`) and show a read-only graph; only the local orchestration bench edits the graph, and the edit is stored as the template's `orchestration` (see 3.1).
+- The web Hub and iOS creation desks only pick from a few orchestration choices (e.g. `two_beat`, `one_beat`) and show a read-only graph; only the local orchestration bench edits the graph, and the edit is stored as the template's `orchestration` (see 3.1).
 
 **How the Resolve beat writes state** (the same in both):
 
@@ -372,6 +372,11 @@ A draft: `{"fields": {"<id>": value}, "companion": "<sid>" | [sid…]}`; `text` 
 HTTP: `GET /api/v1/local/templates/<id>/builder` (declaration + resolved companion candidates; images as flags, never paths) ·
 `GET …/builder/image?field=&option=` / `?sid=` · `POST …/builder/check {fields, companion}` → `{ok, errors}` · `POST …/builder/generate {field, fields, lang}` → `{text, source}` ·
 `GET /api/v1/play/engine/player-card` (the run's card; `live` = current values read back from `to`, they change in play). Lint: `player.builder` (block).
+
+Turning it on and off (the workbench's Template page): `GET …/builder/edit?lang=` → `{on, kept, writable, fields: [{id, kind, label, random?, required}]}` in that language ·
+`POST …/builder/edit {on: true}` = the sheet that was set aside, else a generic one (name · gender and pronouns · appearance · a portrait from `assets/player/`); a sheet already there is kept ·
+`{on: false}` = the sheet moves to `player.builder_off` (each `i18n/<lang>/` layer's too) · `{fields: [{id, label?, random?, required?}], lang}` = edit; `label` / `random` go into that language's layer when it has one ·
+`POST …/builder/portrait?ext=` (raw image) = one more portrait option. Only a template in the write store; a built-in → 403, fork first. Code: `template/author.py` `set_builder` · `edit_builder` · `add_portrait`.
 
 ---
 

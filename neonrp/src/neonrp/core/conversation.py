@@ -1679,14 +1679,16 @@ class ConversationSession:
         except Exception:
             pass
 
-        user_msg = Message(role="user", content=user_text)
-        self.messages.append(user_msg)
-
-        # Persist user message immediately
         run_id = f"{self.agent_id}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:8]}"
         self._last_run_id = run_id
-        append_message(self.root, self.branch, user_msg, run_id=run_id)
-        self._persisted_up_to = len(self.messages)
+        from neonrp.core import turn_rescue as _rescue_r
+
+        if _rescue_r.resuming() is None:  # a line played on after its talk was cut (「继续生成」) is already in the log
+            user_msg = Message(role="user", content=user_text)
+            self.messages.append(user_msg)
+            # Persist user message immediately
+            append_message(self.root, self.branch, user_msg, run_id=run_id)
+            self._persisted_up_to = len(self.messages)
 
         # Incremental persist callback -- saves each message to disk as it arrives
         def _persist_message(msg: Message) -> None:
@@ -1798,7 +1800,7 @@ class ConversationSession:
         # None ⇒ inner check fails ⇒ untouched orchestrator path.
         # Soul-team wrapper is a PLAY-mode construct: build/creation turns
         # must stay solo world-agent — a template with bound soul slots (e.g.
-        # white-blank's chara/charb) would otherwise drag empty souls into a
+        # empty character slots) would otherwise drag empty souls into a
         # parallel deliberation on every studio edit(创作聊天里
         # 冒出「在场灵魂(并行)」,白烧 LLM 且输出噪音)。
         if self.mode == "play" and router_execution_mode in (ROUTER_MODE_MULTI_AGENT, "orchestrator"):

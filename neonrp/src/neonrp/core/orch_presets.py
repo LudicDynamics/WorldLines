@@ -5,7 +5,8 @@ local orchestration bench stays the only editor).
 A world's choices are the orchestration templates (core/orch_templates, 10-19 stage A: a template = one world
 orchestration + the orchestration its characters' beat uses; the desk picks a template, the work names it in
 ``template.json`` ``uses``). A choice travels as one string, :func:`orch_templates.ref` — ``<template id>`` or
-``<template id>?<param>=<choice>`` (the two beats' quick pace is such a parameter, no longer a preset of its own).
+``<template id>?<param>=<choice>`` (10-25: no official template has a parameter now; the retired quick pace
+``two_beat?pace=quick`` reads as ``one_beat``).
 
 A character's presets (``subject: soul``) are data (``worldlines.orchestration-presets/1``) from the engine's
 ``core/orch_presets.json`` and the private layer's ``orchestrations/presets.json`` (later wins, by id).
@@ -160,8 +161,11 @@ def _params(tb: dict[str, dict[str, Any]], p: dict[str, Any]) -> list[dict[str, 
 
 
 def options(t: Any) -> dict[str, Any]:
-    """The creation form's orchestration part: ``{default, options: [{id, title, summary, params?}]}`` (texts by
-    language); ``default`` is a ref (a template id, with a parameter choice when the world picked one)."""
+    """The creation form's orchestration part: ``{default, options: [{id, title, summary, params?}], aliases}`` (texts by
+    language); ``default`` is a ref (a template id, with a parameter choice when the world picked one); ``aliases`` =
+    an old choice a draft may still hold → the ref it now reads as (``two_beat?pace=quick`` → ``one_beat``)."""
+    from neonrp.core import orch_templates as OT
+
     tb = _tables()
     out = []
     for p in presets():
@@ -169,7 +173,8 @@ def options(t: Any) -> dict[str, Any]:
              "summary": _word(tb, f"template.{p['id']}", "summary")}
         ps = _params(tb, p)
         out.append({**o, "params": ps} if ps else o)
-    return {"default": default_for(t), "options": out}
+    old = {k: OT.ref(OT.from_ref(k)) for r in OT.templates() for k in r["aliases"]}
+    return {"default": default_for(t), "options": out, "aliases": {k: v for k, v in sorted(old.items()) if v != k}}
 
 
 # ── the read-only view ───────────────────────────────────────────────────────

@@ -195,7 +195,7 @@ def test_relay_client_turns_off_the_sdk_own_429_retries(monkeypatch):
 def test_open_page_uses_the_vendored_open_billing():
     opened, printed = [], []
     billing_stop.remember(billing_stop.BillingStop("insufficient_credits", "chat", BILL))
-    url = billing_stop.open_page(next_url="http://127.0.0.1:8796/", open_browser=opened.append, on_url=printed.append, headless=False)
+    url = billing_stop.open_page(next_url="http://127.0.0.1:8906/", open_browser=opened.append, on_url=printed.append, headless=False)
     assert url and url.startswith(BILL) and "next=" in url
     assert opened == [url] and printed == [url]
     assert billing_stop.open_page(on_url=printed.append, headless=True) and len(opened) == 1  # headless: printed only
@@ -331,9 +331,11 @@ def test_product_header_is_hub(monkeypatch):
     from neonrp.core import worldlines_auth as wa
 
     monkeypatch.delenv("WORLDLINES_PRODUCT", raising=False)
+    monkeypatch.delenv("WORLDLINES_CLIENT", raising=False)
     wa = importlib.reload(wa)
     try:
-        assert wa.PRODUCT == "hub" and wa.headers() == {"X-Worldlines-Product": "hub"}
+        # funnel 10-25: native requests also say which client sent them (X-Worldlines-Client: local on a desktop)
+        assert wa.PRODUCT == "hub" and wa.headers() == {"X-Worldlines-Product": "hub", "X-Worldlines-Client": "local"}
     finally:
         importlib.reload(wa)
 
@@ -356,7 +358,9 @@ def test_jev_proxy_call_sends_product_hub(monkeypatch):
         sent.update({k.lower(): v for k, v in req.header_items()})
         return Resp(b'{"answers": {}}')
 
+    monkeypatch.delenv("WORLDLINES_CLIENT", raising=False)
     monkeypatch.setattr(s1, "endpoint", lambda: ("https://ai.worldlines.gg/v1/systemone", "tok"))
     monkeypatch.setattr(s1.urllib.request, "urlopen", capture)
     s1._post_jev({"t": 1}, {"q": s1.noul("ok?")}, model="jev-latest", timeout=1)
-    assert sent["x-worldlines-product"] == "hub" and "local" not in sent.values()
+    # the product is never LivingCanvas's `local` alias; `local` is only the client name (funnel 10-25)
+    assert sent["x-worldlines-product"] == "hub" and sent["x-worldlines-client"] == "local"

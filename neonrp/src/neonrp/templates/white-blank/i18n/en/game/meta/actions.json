@@ -1,0 +1,19 @@
+{
+  "_doc": "The play actions this world registers. Each becomes a / command; typing it is the player saying its prompt; {args} is replaced by the words after the command. Names use letters, digits and hyphens and must not clash with built-in commands.",
+  "actions": [
+    {
+      "help": "Walk to a place",
+      "args_hint": "<place>",
+      "prompt": "I head to {args}."
+    },
+    {
+      "help": "Talk to someone here",
+      "args_hint": "<who> [what]",
+      "prompt": "I go up to {args} and speak."
+    },
+    {
+      "help": "Look around and see what is here",
+      "prompt": "I look around carefully, taking in the people and things here."
+    }
+  ]
+}

@@ -4,6 +4,7 @@
     neonrp spec <name> [--lang zh|en]    print one (world · soul · template · contract · ops · authoring · contracts · http)
     neonrp spec ops --pack pct           one play pack's op space
     neonrp spec --llms                   the llms.txt index
+    neonrp spec skill [NAME]             the skills shipped for coding agents: where each folder is, or print one's SKILL.md
     neonrp spec sync [DIR ...]           put AGENTS.md / CLAUDE.md / spec/ into every template, the store and the library
                                          (or just the template folders given) — that is where Claude / Codex read them
 """
@@ -34,6 +35,17 @@ def spec_cmd(name: str | None, extra: tuple[str, ...], lang: str, pack: str | No
         dirs = [Path(d).expanduser() for d in extra] if extra else None
         for where, files in agentdocs.sync(templates=dirs).items():
             click.echo(f"{where}: {len(files)} updated" if files else f"{where}: up to date")
+        return
+    if name == "skill":
+        if not extra:
+            for s in spec.SKILLS:
+                d = spec.skill_dir(s)
+                click.echo(f"{s:16s} {d if d else '(not installed with this engine)'}")
+            return
+        d = spec.skill_dir(extra[0])
+        if d is None:
+            raise click.ClickException(f"no skill {extra[0]!r} (have: {', '.join(spec.SKILLS)})")
+        click.echo((d / "SKILL.md").read_text(encoding="utf-8"))
         return
     if not name:
         for n in spec.names():

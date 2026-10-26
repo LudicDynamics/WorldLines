@@ -2314,6 +2314,13 @@ def after_landed(root: Path, reg: Registry, res: ApplyResult, held: dict[str, An
         res.joined, res.left = _holdings.party(root, reg, held)
     except Exception as exc:  # noqa: BLE001
         logger.warning("holdings diff failed: %s", exc, exc_info=True)
+    try:  # the console's usage events (core/usage): this turn of this visit, with where the player stands
+        from neonrp.core import chronicle as _chron
+        from neonrp.core import usage as _usage
+
+        _usage.turn(_chron.world_ref(root), getattr(res, "turn", None), getattr(reg, "player_location", None))
+    except Exception:  # noqa: BLE001
+        logger.debug("usage turn not queued", exc_info=True)
     try:  # whoever shares a place with the player has met them, and was last seen there (core/people, 10-15)
         from neonrp.core import people as _people
 
@@ -2324,8 +2331,10 @@ def after_landed(root: Path, reg: Registry, res: ApplyResult, held: dict[str, An
             _pd.after_ending(root, reg, res.ended)
             try:  # and chronicle's record of it (achievement attachments point at it; spooled, sent in the background)
                 from neonrp.core import chronicle as _chron
+                from neonrp.core import usage as _usage
 
                 _chron.ending(root, res.ended)
+                _usage.ending(_chron.world_ref(root), str(res.ended.get("id")))
             except Exception:  # noqa: BLE001
                 logger.debug("chronicle ending not spooled", exc_info=True)
         _new = _people.mark_seen(root, reg, before=held, narration=narration)  # what was in view or named stays known

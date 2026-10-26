@@ -447,14 +447,19 @@ _USER_CONFIG_PATH = Path.home() / ".neonrp" / "config.json"
 # User config helpers
 # ---------------------------------------------------------------------------
 
+# ``models.*`` keys that are not chat-model entries: the judge's own key and its preset pick (core/judge_settings,
+# read by core/system_one) — never a model to play with, so never listed, tested or offered as a preset.
+_NON_MODEL_KEYS = frozenset({"typesafe", "judge"})
+
+
 def _load_user_config_models() -> dict[str, dict[str, Any]]:
-    """Read the ``models`` section from ~/.neonrp/config.json."""
+    """Read the ``models`` section from ~/.neonrp/config.json (chat-model entries only)."""
     try:
         if not _USER_CONFIG_PATH.exists():
             return {}
         data = json.loads(_USER_CONFIG_PATH.read_text(encoding="utf-8"))
         raw = data.get("models", {})
-        return {k: v for k, v in raw.items() if isinstance(v, dict)} if isinstance(raw, dict) else {}
+        return {k: v for k, v in raw.items() if isinstance(v, dict) and k not in _NON_MODEL_KEYS} if isinstance(raw, dict) else {}
     except Exception:
         return {}
 
@@ -503,6 +508,32 @@ def set_create_provider(preset_id: str | None) -> None:
         _USER_CONFIG_PATH.write_text(
             json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8"
         )
+    except Exception:
+        pass
+
+
+def get_create_agent() -> str | None:
+    """The local workbench's creation agent: None = the engine's own build session (with the creation provider above),
+    or a local CLI ("claude-code" / "codex", webui/agent_cli_backend.py). Top-level ``create_agent`` in the user config."""
+    try:
+        if not _USER_CONFIG_PATH.exists():
+            return None
+        val = json.loads(_USER_CONFIG_PATH.read_text(encoding="utf-8")).get("create_agent")
+        return str(val) if val else None
+    except Exception:
+        return None
+
+
+def set_create_agent(agent_id: str | None) -> None:
+    """Persist (or clear) the workbench creation agent; "engine" clears it."""
+    try:
+        data = json.loads(_USER_CONFIG_PATH.read_text(encoding="utf-8")) if _USER_CONFIG_PATH.exists() else {}
+        if agent_id and agent_id != "engine":
+            data["create_agent"] = agent_id
+        else:
+            data.pop("create_agent", None)
+        _USER_CONFIG_PATH.parent.mkdir(parents=True, exist_ok=True)
+        _USER_CONFIG_PATH.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
     except Exception:
         pass
 
@@ -564,6 +595,34 @@ def resolve_creation_provider() -> tuple[str, str, str | None] | None:
         if cfg is not None:
             return cfg
 
+    return None
+
+
+def _preset_usable(preset_id: str) -> bool:
+    """A built-in with its key (or Worldlines while signed in), or a user-config model with a key — any provider."""
+    if preset_id in PRESETS:
+        return _preset_key_available(preset_id)
+    entry = _load_user_config_models().get(preset_id)
+    return bool(entry) and str(entry.get("provider", "stub")) != "stub" and _user_model_key_available(entry)
+
+
+def resolve_creation_preset_id() -> str | None:
+    """Which preset creation runs on, any provider (anthropic / gemini … too, not only OpenAI-compatible):
+    the explicit ``create_provider`` when it is usable, else the first usable one — preference order first, then the rest.
+    The auto-pick never lands on Worldlines (that spends the account's credits; pick it explicitly)."""
+    chosen = get_create_provider()
+    if chosen and _preset_usable(chosen):
+        return chosen
+    user = _load_user_config_models()
+    candidates: list[str] = list(_CREATE_AUTO_PREFERENCE)
+    for pid in (*PRESETS.keys(), *user.keys()):
+        if pid not in candidates:
+            candidates.append(pid)
+    for pid in candidates:
+        if pid in ("stub", "worldlines", "web") or (pid in user and _is_embedding_model(pid, user[pid])):
+            continue
+        if _preset_usable(pid):
+            return pid
     return None
 
 

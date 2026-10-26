@@ -47,6 +47,7 @@ def test_the_web_reads_the_account_collection_page_by_page(r):
 
 def test_an_old_session_is_asked_to_sign_in_again(r):
     assert r["relogin"]["state"] == "relogin" and "重新登录" in r["relogin"]["text"] and r["relogin"]["hscroll"] == 0
+    assert r["relogin"]["signin"], "403 insufficient_scope: a sign-in button right there (a refresh never adds the scope)"
 
 
 def test_signed_out_never_asks_data(r):

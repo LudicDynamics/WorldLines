@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # 角色编排台 + 世界编排台 e2e(10-16 · 10-17 orchbench.spec):隔离 HOME + 假模型 + 本机引擎(界面构建在临时目录,不动 dist-local),Playwright Chromium 1366×900。
 #   bash worldlines/ui/app/e2e-soul/run.sh
-#   WL_SOUL_SHOTS=<目录> 截图放这里(默认 docs/playrecords/soulorch-1016/)· WL_SOUL_PORT(默认 8796)· WL_SOUL_AI_PORT(默认 8629)
+#   WL_SOUL_SHOTS=<目录> 截图放这里(默认 docs/playrecords/soulorch-1016/)· WL_SOUL_PORT(默认 8906)· WL_SOUL_AI_PORT(默认 8629)
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
 REPO="$(cd "$HERE/../../../.." && pwd)"
-PORT="${WL_SOUL_PORT:-8796}"
+PORT="${WL_SOUL_PORT:-8906}"
 AI_PORT="${WL_SOUL_AI_PORT:-8629}"
 TMP="$(mktemp -d "${TMPDIR:-/tmp}/wl-soul-e2e.XXXXXX")"
 cleanup() { kill "${SRV:-}" "${MOCK:-}" 2>/dev/null || true; wait 2>/dev/null || true; rm -rf "$TMP"; }

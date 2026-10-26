@@ -22,7 +22,7 @@ const fixImg = (t) => t.replace(/(["'`(])img\//g, `$1${ASSET}`)
 const PRIV_UI = join(here, '..', '..', 'private', 'ui')
 const privUi = process.env.WL_PRIVATE_UI === 'off' || !existsSync(PRIV_UI) ? []
   : readdirSync(PRIV_UI).filter((f) => f.endsWith('.js')).sort().map((f) => `../../private/ui/${f}`)
-const SRC = ['src/beats.js', ...privUi, 'src/app.js', 'src/map.js', 'src/builder.js', 'src/live.js', 'src/settings.js', 'src/publish.js', 'src/live2.js', 'src/orch.js', 'src/soulorch.js', 'src/plot.js', 'src/duo.js', 'src/fe.js', ...(existsSync(join(here, 'src', 'stdfe.js')) ? ['src/stdfe.js'] : []), 'src/frontends.js']   // stdfe.js = 嵌标准前端,不开源(导出里没有)· frontends.js = 前端台(10-17,真文件夹 / 真预览,排最后:接管 renderFe)
+const SRC = ['src/beats.js', ...privUi, 'src/app.js', 'src/map.js', 'src/builder.js', 'src/live.js', 'src/settings.js', 'src/feedback.js', 'src/usage.js', 'src/publish.js', 'src/live2.js', 'src/orch.js', 'src/soulorch.js', 'src/plot.js', 'src/duo.js', 'src/fe.js', ...(existsSync(join(here, 'src', 'stdfe.js')) ? ['src/stdfe.js'] : []), 'src/frontends.js']   // stdfe.js = 嵌标准前端,不开源(导出里没有)· frontends.js = 前端台(10-17,真文件夹 / 真预览,排最后:接管 renderFe)
 
 // 界面语言(10-25):词典(i18n-en / ja / ko)+ T() / WLANG,排在所有脚本最前;页面里的字都经 T() 取
 const I18N = ['real/i18n-en.js', 'real/i18n-ja.js', 'real/i18n-ko.js', 'real/i18n.js']

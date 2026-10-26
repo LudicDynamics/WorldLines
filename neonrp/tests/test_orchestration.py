@@ -10,7 +10,7 @@ from click.testing import CliRunner
 from test_engine_v3 import _install
 from test_template_packs import _werewolf
 
-from neonrp.core import modes, orchestration, sdk
+from neonrp.core import modes, node_kinds, orchestration, sdk
 from neonrp.core.registry import load_registry
 from _paths import PRODUCT_TEMPLATES
 
@@ -27,8 +27,13 @@ def _ids(g: dict) -> set[str]:
 
 # ── O1: read / generate / print ──────────────────────────────────────────────
 
-def test_the_default_graph_is_todays_behaviour(tmp_path):
+def test_the_default_graph_is_todays_behaviour(tmp_path, monkeypatch):
     root = _install(tmp_path)
+    monkeypatch.delenv("NEONRP_PLAN_LOOP", raising=False)
+    off = orchestration.graph(root)
+    if "plan" in node_kinds.kinds():   # 10-25: turn.plan_loop off = the run plays the single beat, and its graph says so
+        assert off["start"] == "resolve" and "plan" not in off["nodes"] and not any("plan" in (e["from"], e["to"]) for e in off["edges"])
+    monkeypatch.setenv("NEONRP_PLAN_LOOP", "1")
     g = orchestration.graph(root)
     assert g["schema"] == "worldlines.orchestration/1" and g["start"] == "plan"
     assert {"plan", "resolve", "combat", "dungeon", "referee"} <= set(g["nodes"])
@@ -45,6 +50,7 @@ def _plan_world(tmp_path, monkeypatch, *, settled_says=0.95):
     from neonrp.core import plan_loop
 
     root = _install(tmp_path)
+    monkeypatch.setenv("NEONRP_PLAN_LOOP", "1")   # the talk beat is in this run (off, its node and edges leave the graph)
     monkeypatch.setattr(plan_loop, "_host", lambda root_, system, user: "<lines>\n好,就这么办。\n</lines>\n<board>\n玩家: 去杂货铺买药\n</board>\nnext: wait")
     asked = []
     monkeypatch.setattr(plan_loop, "settled", lambda *a, **k: (asked.append(1), settled_says)[1])

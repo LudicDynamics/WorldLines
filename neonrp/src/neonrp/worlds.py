@@ -311,6 +311,42 @@ def register_owned_world(source_dir: Path, world_id: str | None = None) -> Path:
 BLANK_WORLD_TEMPLATE = "white-blank"
 
 
+def _ui_lang() -> str:
+    try:
+        from neonrp.core.user_config import get_user_locale
+
+        v = get_user_locale()
+    except Exception:  # noqa: BLE001
+        v = ""
+    return "" if v == "auto" else v
+
+
+def localize_blank_world(root: Path, lang: str) -> None:
+    """The blank world's few words (world / place / player names, the default actions) in ``lang``. Its files are
+    written in zh; ``white-blank/i18n/<lang>/game/…`` holds the same strings in en / ja / ko, laid over the world's
+    ``game/`` files key by key (template/i18n.merge). The opening (game-start ``startup``) is four-language in place
+    and picked in the run's language. zh, or a language without a layer: nothing to do."""
+    from neonrp.core.output_lang import normalize_prompt_lang
+    from neonrp.core.paths import get_game_dir
+    from neonrp.template.i18n import merge
+
+    layer = Path(__file__).resolve().parent / "templates" / BLANK_WORLD_TEMPLATE / "i18n" / normalize_prompt_lang(lang) / "game"
+    if not layer.is_dir():
+        return
+    try:
+        game = get_game_dir(root)
+    except Exception:  # noqa: BLE001
+        game = root / "game"
+    for f in sorted(layer.rglob("*.json")):
+        dest = game / f.relative_to(layer)
+        try:
+            base = json.loads(dest.read_text(encoding="utf-8"))
+            over = json.loads(f.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        dest.write_text(json.dumps(merge(base, over), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
 def create_blank_world(
     name: str, *, premise: str = "", template: str = BLANK_WORLD_TEMPLATE, model_ref: str | None = None
 ) -> Path:
@@ -462,7 +498,8 @@ def seed_run_model(run_dir: Path, model_ref: str | None = None) -> str | None:
     return ref
 
 
-def scaffold_template_into(template_name: str, dest: Path, *, model_ref: str | None = None) -> Path:
+def scaffold_template_into(template_name: str, dest: Path, *, model_ref: str | None = None,
+                           lang: str | None = None) -> Path:
     """Materialize a packaged template into ``dest`` as a playable world.
 
     Template entities + agents + runtime contract + support files +
@@ -470,7 +507,7 @@ def scaffold_template_into(template_name: str, dest: Path, *, model_ref: str | N
     a default-preset config seeded. Shared by the web launcher's builtin
     "new run" path and the creation flow's white-template scaffold
     (docs/WEBUI-UNIFICATION.md L0.4) — the same sequence cli.py runs
-    interactively.
+    interactively. ``lang`` = the language of the blank world's words (:func:`localize_blank_world`).
     """
     import json as _json
 
@@ -531,6 +568,8 @@ def scaffold_template_into(template_name: str, dest: Path, *, model_ref: str | N
     copy_souls_and_playthrough_from_template(
         run_dir, template_name=template_name, force=True
     )
+    if template_name == BLANK_WORLD_TEMPLATE:   # its words in one language: ``lang``, else the UI's, else zh
+        localize_blank_world(run_dir, lang or _ui_lang())
     create_rule_samples(run_dir)
     create_skill_samples(run_dir)
     return run_dir

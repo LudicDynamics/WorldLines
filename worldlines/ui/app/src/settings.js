@@ -8,7 +8,7 @@
   const SET = window.SETTINGS = { open: false, data: null, saves: [], busy: '', msg: '', keyFor: null, testRes: {} };
 
   /* ---------- 数据 ---------- */
-  async function loadSettings() { SET.data = await V3.j('/api/v1/local/settings').catch(() => null); }
+  async function loadSettings() { SET.data = await V3.j('/api/v1/local/settings').catch(() => null); SET.usage = ((await V3.j('/api/v1/local/usage').catch(() => null)) || {}).usage_data; }
   async function loadSaves() { const d = await V3.j('/api/v1/play/saves').catch(() => ({ saves: [] })); SET.saves = d.saves || []; L.slug = (SET.saves.find(s => s.in_memory) || {}).session_id || L.slug; }
   const anyModel = () => !!(SET.data && SET.data.presets.some(p => p.available));
   const send = (method, path, body) => fetch(V3.url(path), { method, credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined }).then(async r => { const j = await r.json().catch(() => ({})); if (!r.ok) throw new Error(j.error || `${r.status}`); return j; });
@@ -17,11 +17,16 @@
   L.play = async function ({ slug, preset }) {
     L.binding = true; S.screen = 'test'; render();
     try {
-      await V3.post('/api/v1/play/session', { slug, preset: preset || undefined, output_lang: lang() }); E.relisten && E.relisten();
+      // 新开一个模板:声明了捏角色(player.builder)就先进捏人页(src/builder.js);取消 = 不开局
+      const tid = !preset && String(slug || '').startsWith('tpl--') ? slug.slice(5) : '';
+      if (tid && window.BUILDER) await window.BUILDER.start(tid, lang(), { cancel: true });
+      else await V3.post('/api/v1/play/session', { slug, preset: preset || undefined, output_lang: lang() });
+      E.relisten && E.relisten();
       await E.load(); L.bound = (V3.template && V3.template.id) || L.bound; L.tpl = L.bound; L.mapPicked = false;
       await loadSaves();
+      if (window.LIVE_loadCard) await window.LIVE_loadCard(true);
       if (window.LIVE_buildMap) window.LIVE_buildMap();
-    } catch (e) { L.err = T('开局失败:') + (e.message || e); }
+    } catch (e) { if (!(e && e.cancelled)) L.err = T('开局失败:') + (e.message || e); }
     L.binding = false; render();
   };
 
@@ -44,11 +49,31 @@
       <details class="setmore"><summary>${T('加一个 OpenAI 兼容的端点(本地模型 / 自建)')}</summary>
         <div class="setgrid"><input class="cell" id="cmId" placeholder="${T('名字(英文,例 my-local)')}"><input class="cell" id="cmUrl" placeholder="${T('base_url,例 http://127.0.0.1:11434/v1')}"><input class="cell" id="cmModel" placeholder="${T('模型名')}"><input class="cell" id="cmKey" type="password" placeholder="${T('key(可空)')}"></div>
         <button class="btn" data-setcustom style="margin-top:8px">${T('加')}</button></details>
+      ${judgeBox(d.judge)}
       <div class="tag" style="margin-top:20px">${T('生图')}</div>
       <div class="seg" style="margin:8px 0 10px">${[['comfyui', 'ComfyUI'], ['openai', 'OpenAI'], ['none', T('不生图')]].map(([k, l]) => `<button class="${(img.backend || 'none') === k ? 'on' : ''}" data-setimg="${k}">${l}</button>`).join('')}</div>
       ${img.backend === 'comfyui' ? `<div class="setgrid"><input class="cell" id="imgUrl" value="${esc(img.comfyui_url || '')}" placeholder="${T('ComfyUI 地址')}"><input class="cell" id="imgCkpt" value="${esc(img.comfyui_ckpt || '')}" placeholder="checkpoint"></div><button class="btn" data-setimgsave style="margin-top:8px">${T('存')}</button>`
         : img.backend === 'openai' ? `<div class="setgrid"><input class="cell" id="imgKey" type="password" placeholder="${img.openai_key_set ? T('已存(留空不改)') : 'OpenAI key'}"><input class="cell" id="imgModel" value="${esc(img.openai_model || '')}" placeholder="${T('模型')}"></div><button class="btn" data-setimgsave style="margin-top:8px">${T('存')}</button>` : ''}
+      <div class="tag" style="margin-top:20px">${T('发送使用数据')}</div>
+      <div class="sub" style="margin:6px 0">${T('用于改进 NeonRP 和排查问题,发往 chronicle.worldlines.gg(我们自己的服务);登录时与你的账号关联。只有打开 NeonRP、进入世界列表、进入 / 离开世界、回合数、结局、版本和界面语言;不含聊天和世界里的任何文字。关掉后不再发送,没发出去的也一起删掉。')}</div>
+      <div class="seg" style="margin:8px 0 10px">${[[true, T('开')], [false, T('关')]].map(([v, l]) => `<button class="${(SET.usage !== false) === v ? 'on' : ''}" data-setusage="${v ? 1 : 0}">${l}</button>`).join('')}</div>
       ${SET.msg ? `<div class="setmsg">${esc(SET.msg)}</div>` : ''}`;
+  }
+  /* ---------- 判断器(Jev)(10-25):模式 · 自带 key · 判断用模型 · 测 ---------- */
+  const JUDGE_MODES = [['auto', T('自动')], ['jev', 'Jev key'], ['proxy', T('账号')], ['llm', T('模型')], ['off', T('关')]];
+  const JUDGE_NOW = { jev: T('自带 key 的 Jev'), proxy: T('账号的 Jev'), llm: T('由模型判(慢几秒)'), off: T('没有判断器,按规则'), quota: T('Jev 额度用完,暂时按规则'), stub: T('测试判断器') };
+  const JUDGE_PINNED = { no_key: T('固定用 Jev key,但没有可用的 key'), signed_out: T('固定用账号的 Jev,但没登录 Worldlines') };
+  function judgeBox(j) {
+    if (!j) return '';
+    const t = SET.judgeRes;
+    const envNote = src => src === 'env' ? `<small> · ${T('由环境变量决定,这里改不了')}</small>` : '';
+    return `<div class="tag" style="margin-top:20px">${T('判断器(Jev)')}</div>
+      <div class="sub" style="margin:6px 0">${T('一秒内判这一轮谈没谈妥、谁走去了哪。Jev 随 Worldlines 账号或自带 key;没有 Jev 时由模型判(慢几秒),或按规则。')}</div>
+      <div class="sub"><b>${T('现在:')}</b> ${JUDGE_PINNED[j.pinned_unusable] ? JUDGE_PINNED[j.pinned_unusable] + ' → ' + T('实际:') + ' ' : ''}${JUDGE_NOW[j.effective] || JUDGE_NOW.off}${j.effective !== 'jev' && j.effective !== 'proxy' && !j.signed_in ? ' · ' + T('登录 Worldlines 就有 Jev') : ''}${t ? ` · ${t.ok ? T('通 {ms}ms', { ms: t.ms || '' }) : T('不通:') + esc(String(t.error || '').slice(0, 160))}` : ''}</div>
+      <div class="seg" style="margin:8px 0 10px">${JUDGE_MODES.map(([k, l]) => `<button class="${j.mode === k ? 'on' : ''}" data-setjmode="${k}" ${j.mode_source === 'env' ? 'disabled' : ''}>${l}</button>`).join('')}</div>${envNote(j.mode_source)}
+      <div class="setgrid"><input class="cell" id="jKey" type="password" placeholder="${j.key_set ? T('Jev key 已存 {tail}(留空不改)', { tail: j.key_masked || '' }) : T('粘贴 Jev key(只存在这台机器上)')}" autocomplete="off" ${j.key_source === 'env' ? 'disabled' : ''}>
+        <select class="cell" id="jPreset" ${j.llm_preset_source === 'env' ? 'disabled' : ''}><option value="" ${j.llm_preset ? '' : 'selected'}>${T('判断用模型:不指定')}</option>${(j.presets || []).map(id => `<option value="${esc(id)}" ${id === j.llm_preset ? 'selected' : ''}>${T('判断用模型:')} ${esc(id)}</option>`).join('')}</select></div>${envNote(j.key_source)}
+      <div class="row" style="gap:4px;margin-top:8px"><button class="btn" data-setjsave>${T('存')}</button>${j.key_source === 'config' ? `<button class="chip rust" data-setjclear>${T('删掉已存的 Jev key')}</button>` : ''}<button class="chip" data-setjtest style="margin-left:auto">${SET.busy === 'jtest' ? T('测试中……') : T('测')}</button></div>`;
   }
   function renderDrawer() {
     let el = $('#setdrawer');
@@ -104,6 +129,12 @@
     if ((t = q('[data-setcreate]'))) { await send('PUT', '/api/v1/local/settings/create-provider', { preset_id: t.dataset.setcreate }).catch(err => (SET.msg = err.message)); await loadSettings(); render(); return; }
     if (q('[data-setcustom]')) { const v = id => ($('#' + id) || {}).value || ''; if (!v('cmId') || !v('cmUrl') || !v('cmModel')) { SET.msg = T('名字、base_url、模型名都要填'); render(); return; }
       try { await send('PUT', '/api/v1/local/settings/custom-model', { id: v('cmId').trim(), base_url: v('cmUrl').trim(), model: v('cmModel').trim(), api_key: v('cmKey').trim() || undefined }); SET.msg = T('加好了'); await loadSettings(); } catch (err) { SET.msg = T('没加上:') + err.message; } render(); return; }
+    if ((t = q('[data-setjmode]'))) { try { await send('PUT', '/api/v1/local/settings/judge', { mode: t.dataset.setjmode }); SET.judgeRes = null; } catch (err) { SET.msg = err.message; } await loadSettings(); render(); return; }
+    if (q('[data-setjsave]')) { const v = id => ($('#' + id) || {}).value; const patch = {}; if (v('jKey')) patch.api_key = v('jKey'); if (v('jPreset') !== undefined) patch.llm_preset = v('jPreset');
+      try { await send('PUT', '/api/v1/local/settings/judge', patch); SET.msg = T('存好了'); SET.judgeRes = null; await loadSettings(); } catch (err) { SET.msg = T('没存上:') + err.message; } render(); return; }
+    if (q('[data-setjclear]')) { try { await send('PUT', '/api/v1/local/settings/judge', { clear_key: true }); SET.judgeRes = null; await loadSettings(); } catch (err) { SET.msg = err.message; } render(); return; }
+    if (q('[data-setjtest]')) { SET.busy = 'jtest'; render(); try { SET.judgeRes = await send('POST', '/api/v1/local/settings/judge/test', {}); } catch (err) { SET.judgeRes = { ok: false, error: err.message }; } SET.busy = ''; render(); return; }
+    if ((t = q('[data-setusage]'))) { try { SET.usage = (await send('POST', '/api/v1/local/usage', { usage_data: t.dataset.setusage === '1' })).usage_data; } catch (err) { SET.msg = err.message; } render(); return; }   // 发送使用数据(core/usage)
     if ((t = q('[data-setimg]'))) { await send('PUT', '/api/v1/local/settings/image', { backend: t.dataset.setimg }).catch(err => (SET.msg = err.message)); await loadSettings(); render(); return; }
     if (q('[data-setimgsave]')) { const v = id => ($('#' + id) || {}).value; const patch = {}; if (v('imgUrl') !== undefined) patch.comfyui_url = v('imgUrl'); if (v('imgCkpt') !== undefined) patch.comfyui_ckpt = v('imgCkpt'); if (v('imgKey')) patch.openai_key = v('imgKey'); if (v('imgModel') !== undefined) patch.openai_model = v('imgModel');
       try { const r = await send('PUT', '/api/v1/local/settings/image', patch); SET.msg = r.configured ? T('存好了') : T('存了,但还不完整'); await loadSettings(); } catch (err) { SET.msg = err.message; } render(); return; }

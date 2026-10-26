@@ -1,7 +1,6 @@
 # Subagent Contracts (Read/Write Boundaries)
 
-`game/player/*` remains a compatibility projection for the heroine, not the only
-character truth source.
+`game/player/*` is the player's state (a human, not a soul). Characters live in `souls/`.
 
 Each subagent MUST:
 - Only read the allowed file globs

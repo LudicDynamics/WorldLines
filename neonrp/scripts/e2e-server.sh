@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # E2E 引擎(docs/WEBUI-UNIFICATION.md T2.5):隔离 HOME 起 neonrp web,
 # 测试怎么折腾都碰不到真实的 ~/.worldlines / ~/.neonrp。
-# Playwright 的 webServer 调这个;端口 8799,退出时临时 HOME 自清。
+# Playwright 的 webServer 调这个;端口 8909,退出时临时 HOME 自清。
 set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-PORT="${E2E_PORT:-8799}"
+PORT="${E2E_PORT:-8909}"
 
 # 兜底:上次被直接 kill -9 的(trap 跑不了)留下的临时 HOME,超过 3 小时的清掉(一次 e2e 十分钟上下)
 find /tmp -maxdepth 1 -name 'neonrp-e2e-home.*' -type d -mmin +180 -exec rm -rf {} + 2>/dev/null || true
